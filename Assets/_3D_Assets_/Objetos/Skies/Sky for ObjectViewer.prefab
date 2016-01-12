@@ -1,0 +1,288 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &147190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 494460}
+  - 114: {fileID: 11479834}
+  - 114: {fileID: 11444992}
+  m_Layer: 0
+  m_Name: Sky for ObjectViewer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &150482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 476436}
+  - 114: {fileID: 11451444}
+  m_Layer: 0
+  m_Name: house_living
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &174874
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 474866}
+  - 108: {fileID: 10869298}
+  m_Layer: 0
+  m_Name: house_living Directional light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &193252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 483618}
+  - 114: {fileID: 11484380}
+  m_Layer: 0
+  m_Name: Sky Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &474866
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 174874}
+  m_LocalRotation: {x: .173860371, y: -.770631909, z: .162277356, w: .591240287}
+  m_LocalPosition: {x: -.308269739, y: .294035077, z: .328045964}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476436}
+  m_RootOrder: 0
+--- !u!4 &476436
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 474866}
+  m_Father: {fileID: 494460}
+  m_RootOrder: 1
+--- !u!4 &483618
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 494460}
+  m_RootOrder: 0
+--- !u!4 &494460
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147190}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 483618}
+  - {fileID: 476436}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!108 &10869298
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 174874}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_NormalBias: .400000006
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  m_Lightmapping: 4
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11444992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b921ade84bb4a8c8f99c5ec3c5f54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11451444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c992e8fbb96f7b3498a28a9e664f95df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specularCube: {fileID: 8900000, guid: ee9070beca079a2439586ca8d9029507, type: 3}
+  skyboxCube: {fileID: 0}
+  IsProbe: 0
+  dimensions:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: .5, y: .5, z: .5}
+  masterIntensity: 1
+  skyIntensity: 1
+  specIntensity: 1
+  diffIntensity: 1
+  camExposure: 1
+  specIntensityLM: 1
+  diffIntensityLM: 1
+  hdrSky: 1
+  hdrSpec: 0
+  linearSpace: 0
+  autoDetectColorSpace: 1
+  hasDimensions: 0
+  SH:
+    c:
+    - 1.53118134
+    - 1.54535091
+    - 1.44884908
+    - .208523631
+    - .210992962
+    - .183732033
+    - -.365657747
+    - -.364124298
+    - -.369908214
+    - -.0767341852
+    - -.0817088634
+    - -.0567212813
+    - -.0108288219
+    - -.010364932
+    - -.00684586866
+    - -.0221604258
+    - -.0224253628
+    - -.0232173689
+    - .0316818766
+    - .0325164534
+    - .0280041434
+    - -.0988314599
+    - -.098575294
+    - -.0990744084
+    - -.0421977155
+    - -.0432851128
+    - -.0331077725
+    cBuffer:
+    - {x: .431938261, y: .435935408, z: .408712745, w: 0}
+    - {x: .101885162, y: .103091687, z: .0897719264, w: 0}
+    - {x: -.178661287, y: -.177912042, z: -.180738077, w: 0}
+    - {x: -.0374925137, y: -.0399231538, z: -.0277141593, w: 0}
+    - {x: -.0118310135, y: -.0113241905, z: -.00747944368, w: 0}
+    - {x: -.0242113397, y: -.0245007966, z: -.0253661014, w: 0}
+    - {x: .00999219716, y: .010255415, z: .00883227121, w: 0}
+    - {x: -.107978165, y: -.107698292, z: -.108243592, w: 0}
+    - {x: -.0230515245, y: -.0236455426, z: -.018085923, w: 0}
+  CustomSH: {fileID: 0}
+  _blackCube: {fileID: 0}
+  _SkyboxMaterial: {fileID: 0}
+--- !u!114 &11479834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b921ade84bb4a8c8f99c5ec3c5f54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11484380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80761b669fcde24da55cd3a471c8c2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearSpace: 1
+  _BlendingSupport: 0
+  _ProjectionSupport: 0
+  GameAutoApply: 0
+  EditorAutoApply: 0
+  AutoMaterial: 0
+  IgnoredLayerMask: 0
+  _IgnoredLayers: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _IgnoredLayerCount: 0
+  _GlobalSky: {fileID: 11451444}
+  GlobalBlender:
+    CurrentSky: {fileID: 11451444}
+    PreviousSky: {fileID: 11451444}
+    blendTime: .25
+  LocalBlendTime: .25
+  GlobalBlendTime: .25
+  _ShowSkybox: 1
+  ProbeCamera: {fileID: 0}
+  SkiesToProbe: []
+  ProbeExponent: 512
+  ProbeExposures: {x: 1, y: 1, z: 1, w: 1}
+  ProbeWithCubeRT: 1
+  ProbeOnlyStatic: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 147190}
+  m_IsPrefabParent: 1

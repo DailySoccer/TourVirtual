@@ -1,0 +1,150 @@
+{
+	"rooms": [
+		{ 
+			"id": "AVATAR",
+			"name": "Avatar Select",
+			"scene": "AvatarSelect",
+			"gui": "AVATAR",
+			"player_visible": false,
+			"max_players": 1,
+			"doors": {
+				"AVATAR": "ROOM1"
+			},
+			"bundles": {
+				"SCENE": "scene/avatar_select"
+			}
+		},
+		{ 
+			"id": "ROOM1",
+			"name": "Sala Mejor Club del Mundo",
+			"scene": "MejorClubMundo_00",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM2",
+				"PUERTA2": "ROOM2"
+			},
+			"bundles": {
+				"SCENE": "scene/mejor_club_mundo",
+				"PANEL1": "trofeos/copa_espana",
+				"VITRINA_00": "mejorclubmundo/vitrina_00",
+				"VITRINA_01": "mejorclubmundo/vitrina_00",
+				"VITRINA_02": "mejorclubmundo/vitrina_00",
+				"VITRINA_03": "mejorclubmundo/vitrina_00",
+				"VITRINA_04": "mejorclubmundo/vitrina_00",
+				"VITRINA_05": "mejorclubmundo/vitrina_00",
+				"VITRINA_06": "mejorclubmundo/vitrina_00",
+				"VITRINA_07": "mejorclubmundo/vitrina_00",
+				"VITRINA_08": "mejorclubmundo/vitrina_00",
+				"VITRINA_09": "mejorclubmundo/vitrina_00"
+			},
+			"contents": {
+				"PANEL1": "FootBallNews",
+				"PANEL2": "FootBallNews",
+				"PANEL3": "BasketNews",
+				"PANEL4": "FootBallVideos",
+				"PANEL5": "BasketVideos",
+				"PANEL6": "FootBallNews",
+				"PANEL7": "FootBallNews",
+				"PANEL8": "FootBallNews",
+				"PANEL9": "FootBallNews",
+				"PANEL10": "FootBallNews"
+			}
+		},
+		{ 
+			"id": "ROOM2",
+			"name": "Sala Sensaciones",
+			"scene": "salaSensaciones",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM1",
+				"PUERTA2": "ESTADIO"
+			},
+			"bundles": {
+				"SCENE": "scene/sala_sensaciones",
+			},
+			"contents": {
+			}
+		},
+		{ 
+			"id": "ROOM3",
+			"name": "Sala Baloncesto",
+			"scene": "salaBasket",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM2",
+				"PUERTA2": "ROOM4"
+			},
+			"bundles": {
+				"SCENE": "scene/sala_basket",
+			},
+			"contents": {
+			}
+		},
+		{ 
+			"id": "ROOM4",
+			"name": "Sala Reyes de Europa",
+			"scene": "salaReyesEuropa",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM3",
+				"PUERTA2": "ROOM5"
+			},
+			"bundles": {
+				"SCENE": "scene/sala_reyes_europa",
+			},
+			"contents": {
+			}
+		},
+		{ 
+			"id": "ROOM5",
+			"name": "Vestuarios",
+			"scene": "Vestuarios",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM4",
+				"PUERTA2": "ESTADIO"
+			},
+			"bundles": {
+				"SCENE": "scene/vestuarios",
+			},
+			"contents": {
+			}
+		},
+		{ 
+			"id": "ESTADIO",
+			"name": "Estadio Santiago Bernabéu",
+			"scene": "Bernabeu_1",
+			"gui": "GAME",
+			"max_players": 16,
+			"doors": {
+				"PUERTA1": "ROOM2",
+			},
+			"bundles": {
+				"SCENE": "scene/estadio_bernabeu"
+			}
+		}
+	],
+	"assets": [
+		{ "id": "scene/avatar_select",			"version": 0 },
+		{ "id": "scene/mejor_club_mundo",   	"version": 0 },
+		{ "id": "scene/estadio_bernabeu",		"version": 0 },
+		
+		{ "id": "mejorclubmundo/vitrina_00",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_01",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_02",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_03",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_04",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_05",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_06",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_07",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_08",	"version": 0 },
+		{ "id": "mejorclubmundo/vitrina_09",	"version": 0 }
+	]
+}
+
+

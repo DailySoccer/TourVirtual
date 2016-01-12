@@ -1,0 +1,20 @@
+{
+	"rooms": [
+		{ 
+			"id": "ROOM1",
+			"scene": "Level1",
+			"doors": {
+				"PUERTA1": "ROOM2",
+				"PUERTA2": "ROOM2"
+			}
+		},
+		{ 
+			"id": "ROOM2",
+			"scene": "Level2",
+			"doors": {
+				"PUERTA1": "ROOM1",
+				"PUERTA2": "ROOM1"
+			}
+		}
+	]
+}
