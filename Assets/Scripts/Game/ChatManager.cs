@@ -116,22 +116,20 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
 	public void OnConnected() {
 		Debug.Log ("OnConnected");
-        // chatClient.Subscribe( new string[] { "channelA", "channelB" } );
-        ChatClient.SetOnlineStatus(ChatUserStatus.Online);
+		// chatClient.Subscribe( new string[] { "channelA", "channelB" } );
+		ChatClient.SetOnlineStatus(ChatUserStatus.Online);
 
 		ChatClient.Subscribe( new string[] { CHANNEL_GLOBAL }, 0 );
 	}
 	
 	public void OnDisconnected() {
 		Debug.Log ("OnDisconnected");
-
         if (!PhotonHandler.AppQuits)
             ChatClient.Connect(ChatAppId, "1.0", UserName, null);
-            // ChatClient.Unsubscribe( new string[] { CHANNEL_GLOBAL } );
-        }
-
-
-    public void OnChatStateChange(ChatState state) {
+		// ChatClient.Unsubscribe( new string[] { CHANNEL_GLOBAL } );
+	}
+	
+	public void OnChatStateChange(ChatState state) {
 		Debug.Log ("OnChatStateChange: " + state.ToString());
 	}
 	

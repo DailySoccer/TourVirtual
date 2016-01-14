@@ -40,17 +40,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assetRecipes:
-  - {fileID: 134000, guid: 4387e028b1db24a81bd0ed644f80e08a, type: 2}
+  - {fileID: 189534, guid: 4387e028b1db24a81bd0ed644f80e08a, type: 2}
   - {fileID: 155386, guid: 08351500a34444decb6f83736b43d2e4, type: 2}
-  - {fileID: 153260, guid: a02921e9290ecf948826ad3979cef979, type: 2}
-  - {fileID: 121226, guid: d73feed9225aeaa47a801ff1d0b908d7, type: 2}
+  - {fileID: 147810, guid: 6cfc022b5a27ed141aa994f9abafe365, type: 2}
+  - {fileID: 153526, guid: 0357a5ffb4636234483bd2b2bf8e4b03, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: assetRecipes.Array.data[0]
+      value: 
+      objectReference: {fileID: 189534, guid: 4387e028b1db24a81bd0ed644f80e08a, type: 2}
+    - target: {fileID: 0}
+      propertyPath: assetRecipes.Array.data[2]
+      value: 
+      objectReference: {fileID: 147810, guid: 6cfc022b5a27ed141aa994f9abafe365, type: 2}
+    - target: {fileID: 0}
+      propertyPath: assetRecipes.Array.data[3]
+      value: 
+      objectReference: {fileID: 153526, guid: 0357a5ffb4636234483bd2b2bf8e4b03, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 137898}
