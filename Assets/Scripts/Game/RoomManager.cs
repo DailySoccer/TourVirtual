@@ -511,6 +511,9 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 	
 	string _doorToEnter;
+	public string GetEntranceDoor() {
+		return _doorToEnter;
+	}
 
 	bool _loadingRoom = false;
 	
