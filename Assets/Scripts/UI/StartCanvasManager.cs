@@ -32,10 +32,10 @@ public class StartCanvasManager : CanvasManager {
 					if (RoomManager.Instance != null) {
 						_initialized = true;
 
-						if (startSound != null) {
-							startSound.Play();
-						}
-						StartCoroutine(RoomManager.Instance.Connect());
+						if (startSound != null) startSound.Play();
+
+                        // Inicia la conexion con el servidor PUN.
+						StartCoroutine( RoomManager.Instance.Connect() );
 					}
 				}
 			}

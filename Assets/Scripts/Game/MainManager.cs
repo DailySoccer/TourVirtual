@@ -118,10 +118,8 @@ public class MainManager : Photon.PunBehaviour {
 		Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
 		Screen.orientation = ScreenOrientation.AutoRotation;
 
-//		PhotonNetwork.logLevel = PhotonLogLevel.Full;
-
-//		PhotonNetwork.autoJoinLobby = true;
-
+		PhotonNetwork.logLevel = PhotonLogLevel.Full;
+		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.offlineMode = OfflineMode;
 		// PhotonNetwork.autoCleanUpPlayerObjects = true;
 
@@ -168,10 +166,11 @@ public class MainManager : Photon.PunBehaviour {
 
 		StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
-		
-		// firstLaunchReward = new VirtualItemReward("first-launch", "Give Money at first launch", MuffinRushAssets.MUFFIN_CURRENCY_ITEM_ID, 4000);
-		SoomlaStore.Initialize(new TourStoreAssets());
+		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;        
+
+        // firstLaunchReward = new VirtualItemReward("first-launch", "Give Money at first launch", MuffinRushAssets.MUFFIN_CURRENCY_ITEM_ID, 4000);
+
+        SoomlaStore.Initialize(new TourStoreAssets());
 	}
 
 	public void onSoomlaStoreInitialized() {
@@ -233,16 +232,11 @@ public class MainManager : Photon.PunBehaviour {
 		if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
             yield return StartCoroutine(DLCManager.Instance.LoadVersion());
-            Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> a descargar los ficheros");
-
-            Debug.Log ("CacheResources...");
 			yield return StartCoroutine(DLCManager.Instance.CacheResources());
 		}
 
 		Debug.Log ("Connect...");
-
 		PhotonNetwork.offlineMode = OfflineMode;
-
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
 		if (!PhotonNetwork.connected)
 			PhotonNetwork.ConnectUsingSettings("v0.1"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
@@ -250,7 +244,6 @@ public class MainManager : Photon.PunBehaviour {
 		if (ChatManager.Instance != null && !OfflineMode) {
 			yield return StartCoroutine(ChatManager.Instance.Connect());
 		}
-
 		/*
 		if (RoomManager.Instance != null) {
 			StartCoroutine(RoomManager.Instance.Connect());

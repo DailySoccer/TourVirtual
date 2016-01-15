@@ -160,14 +160,16 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public IEnumerator Connect() {
-		RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);
+        RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);
 		if (roomLoaded != null) {
+            // Shortcut 
 			ToRoom (roomLoaded);
 		}
 		else if (!string.IsNullOrEmpty(RoomStart)) {
 			string roomKey = GetRoomKey(RoomStart);
 			if (RoomDefinitions.ContainsKey(roomKey)) {
 				_doorToEnter = GetDoorKey (RoomStart);
+                // Entrada logica del juego. En principio deberia ir a seleccion de avatar.
 				ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
 			}
 		}
@@ -212,7 +214,8 @@ public class RoomManager : Photon.PunBehaviour {
 
 	public void ToRoom(RoomDefinition roomDefinition) {
 		if (!_loadingRoom) {
-			StartCoroutine(LoadRoom(roomDefinition));
+            Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ToRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            StartCoroutine(LoadRoom(roomDefinition));
 		}
 	}
 
@@ -231,11 +234,12 @@ public class RoomManager : Photon.PunBehaviour {
 		
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room == null) {
-                // Dewberiamos de pasar por el lobby.
-				JoinToRoom();
+                // Abre la primera pantalla.
+//                JoinToRoom( Room.Id + "#" + PhotonNetwork.playerName );
 			}
 			else {
-				PhotonNetwork.LeaveRoom();
+                // Sale de la habitacion actual.
+                PhotonNetwork.LeaveRoom();
 			}
 		}
 		
@@ -255,6 +259,7 @@ public class RoomManager : Photon.PunBehaviour {
 			Debug.Log("Scene loaded... " + Room.SceneName);
 		}
 		
+        
 		yield return StartCoroutine(EnterPlayer(roomOld, player));
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
@@ -329,7 +334,6 @@ public class RoomManager : Photon.PunBehaviour {
 
 		if (portal == null) {
 			Debug.Log ("Enter: " + Room.Id + " Door: Default");
-
 			if (player != null) {
 				// Colocar al player en un lugar de la escena
 				player.Avatar.transform.position = Vector3.zero;
@@ -348,27 +352,10 @@ public class RoomManager : Photon.PunBehaviour {
 			// Hacerlo visible o no...
 			player.gameObject.SetActive(Room.PlayerVisible);
 		}
-
 		yield return null;
-		
 		if (OnChange != null) OnChange();
 		if (OnSceneReady != null) OnSceneReady();
 	}
-
-	/*
-	public void OnGUI()	{
-		if (!MainManager.Instance.InternetConnection) {
-			return;
-		}
-
-		if (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id))) {
-			GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
-			centeredStyle.alignment = TextAnchor.MiddleCenter;
-			centeredStyle.fontSize = 30;
-			GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Loading...", centeredStyle);
-		}
-	}
-	*/
 
 	private Portal FindPortalInScene(string portalId) {
 		Portal ret = null;
@@ -390,22 +377,14 @@ public class RoomManager : Photon.PunBehaviour {
 		return portalesObj.Length > 0 ? portalesObj[0].GetComponent<Portal>() : null;
 	}
 
-	private void JoinToRoom() {
-		if (Room != null) {
-			if (Room.MaxPlayers == 1) { // Esto es para la creacion de avatar (es la que tiene maximo de 1 usuario).
-				PhotonNetwork.CreateRoom(Room.Id + "#" + PhotonNetwork.playerName, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
-			}
-			else {
-
-
-				PhotonNetwork.JoinOrCreateRoom(Room.Id, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
-			}
-		}
+	private void JoinToRoom(string roomid ) {
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JoinToRoom is " + roomid + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {
-		Debug.Log("OnConnectedToMaster");
-		JoinToRoom();
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnConnectedToMaster <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		//JoinToRoom();
 	}
 
 	public override void OnConnectedToPhoton() {
@@ -426,19 +405,25 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
-		Debug.Log("OnLeftRoom");
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnLeftRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
 	public override void OnJoinedLobby() {
-		Debug.Log("OnJoinedLobby");
-        JoinToRoom();
-	}
+		Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnJoinedLobby <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    }
 
     public override void OnReceivedRoomListUpdate() {
-        Debug.Log("OnReceivedRoomListUpdate");
-        foreach (var room in PhotonNetwork.GetRoomList()) {
-            Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + room.name + " max " + room.maxPlayers );
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnReceivedRoomListUpdate <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+        if (Room != null) {
+            foreach (var room in PhotonNetwork.GetRoomList()) {
+                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + room.name + "  players " + room.playerCount + "/" + room.maxPlayers );
+            }
+            // CACA: Seleccionar sala donde entrar.
+            string id = Room.Id;
+            if (Room.MaxPlayers == 1) id += "#" + PhotonNetwork.playerName;            
+            JoinToRoom(id);
         }
     }
 
@@ -518,6 +503,5 @@ public class RoomManager : Photon.PunBehaviour {
 	
 	const string TAG_DEFAULT = "Default";
 	const string TAG_PLAYER = "Player";
-	
 	const string KEY_ROOMS = "rooms";
 }
