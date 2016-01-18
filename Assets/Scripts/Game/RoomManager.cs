@@ -213,10 +213,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void ToRoom(RoomDefinition roomDefinition) {
-		if (!_loadingRoom) {
-            Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ToRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            StartCoroutine(LoadRoom(roomDefinition));
-		}
+		if (!_loadingRoom) StartCoroutine(LoadRoom(roomDefinition));
 	}
 
 	IEnumerator LoadRoom(RoomDefinition roomDefinition) {
@@ -235,9 +232,9 @@ public class RoomManager : Photon.PunBehaviour {
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room == null) {
                 // Abre la primera pantalla.
-//                JoinToRoom( Room.Id + "#" + PhotonNetwork.playerName );
-			}
-			else {
+                JoinToRoom(Room.Id + "#" + PhotonNetwork.playerName);
+            }
+            else {
                 // Sale de la habitacion actual.
                 PhotonNetwork.LeaveRoom();
 			}
@@ -409,22 +406,35 @@ public class RoomManager : Photon.PunBehaviour {
 		if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
+    bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
-		Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnJoinedLobby <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        bJustOneTime = false;
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnJoinedLobby <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     public override void OnReceivedRoomListUpdate() {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnReceivedRoomListUpdate <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        if (bJustOneTime) return;
+        bJustOneTime = true;
+        if (Room != null) JoinToRoom(GetRoomIdById(Room.Id));
+    }
 
-        if (Room != null) {
-            foreach (var room in PhotonNetwork.GetRoomList()) {
-                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + room.name + "  players " + room.playerCount + "/" + room.maxPlayers );
+    string GetRoomIdById(string id, bool forceNew=false) {
+        var rooms = PhotonNetwork.GetRoomList();
+        if (!forceNew) {
+            foreach (var room in rooms) {
+                if (room.name.Contains(id)) // Encuentro una sala para esta ID con sitio, pues entro!
+                    if (room.playerCount < room.maxPlayers - 2)
+                        return room.name;
             }
-            // CACA: Seleccionar sala donde entrar.
-            string id = Room.Id;
-            if (Room.MaxPlayers == 1) id += "#" + PhotonNetwork.playerName;            
-            JoinToRoom(id);
         }
+        // Si no hay sala o no hay hueco... Creo un id nuevo
+        do {
+            string newid = id + "#" + Random.Range(0, int.MaxValue);
+            foreach (var room in rooms) // Compruebo que la mala suerte saque un id igual.
+                if (room.name == newid)
+                    continue;
+            return newid;
+        } while (true);
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
@@ -445,7 +455,10 @@ public class RoomManager : Photon.PunBehaviour {
 
 	public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
 		Debug.LogWarning("OnPhotonJoinRoomFailed");
-	}
+        // Si hay un error de conexion a la sala, se crea una nueva.
+        GetRoomIdById(Room.Id, true);
+
+    }
 	
 	public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
 		Debug.LogWarning("OnFailedToConnectToPhoton");
