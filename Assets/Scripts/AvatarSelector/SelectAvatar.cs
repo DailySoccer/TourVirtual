@@ -4,8 +4,23 @@ using System.Collections;
 public class SelectAvatar : MonoBehaviour {
 
 	public AvatarsLibraryPrefabs library;
-	//public UMADynamicAvatar avatarLoaderPrefab;	
-	public int shownModel = 0;
+    public GameObject prefabMale;
+    public GameObject prefabFemale;
+    public Material baseMaterial;
+
+    public GameObject testHead;
+    public GameObject testBody;
+    public GameObject testLegs;
+    public GameObject testFeet;
+
+
+    public Texture2D textureSkin;
+    public Texture2D textureBody;
+    public Texture2D textureLegs;
+    public Texture2D textureShoes;
+
+    //public UMADynamicAvatar avatarLoaderPrefab;	
+    public int shownModel = 0;
 
 	private GameObject lastInstance = null;
 	
@@ -17,7 +32,7 @@ public class SelectAvatar : MonoBehaviour {
 			shownModel = 0;
 		}
 		
-		LoadModel();
+		StartCoroutine( LoadModel() );
 	}
 	
 	public void OnPreviousButton() {
@@ -26,15 +41,14 @@ public class SelectAvatar : MonoBehaviour {
 		if (shownModel < 0) {
 			shownModel = library.assetRecipes.Count -1;
 		}
-		
-		LoadModel();
+
+        StartCoroutine( LoadModel() );
 	}
 
 	public void OnSelectButton() {
-		GameObject newInstance = Instantiate(library.GetRecipe(shownModel));
-		/*newInstance.umaRecipe = library.GetRecipe(shownModel);
-		newInstance.loadOnStart = true;
-		*/
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>  OnSelectButton ");
+
+        GameObject newInstance = Instantiate(prefabMale);// library.GetRecipe(shownModel));
 
 		Player thePlayer = Player.Instance;
 		if (thePlayer != null) {
@@ -52,31 +66,60 @@ public class SelectAvatar : MonoBehaviour {
 		}
 	}
 	
-	public void LoadModel() {
+	IEnumerator LoadModel() {
 		if (lastInstance != null) {
 			Destroy(lastInstance);
 		}
-		
-		lastInstance = Instantiate(library.GetRecipe(shownModel));
+
+        lastInstance = Instantiate(prefabMale);
 		lastInstance.layer = LayerMask.NameToLayer( "Player" );
 		lastInstance.transform.position = Vector3.zero;
-
-		lastInstance.GetComponent<Rigidbody>().isKinematic = true;
-
-
-
+        lastInstance.GetComponent<Rigidbody>().isKinematic = true;
         lastInstance.GetComponent<SynchNet>().enabled = false;
-        //lastInstance.GetComponent<PhotonTransformView>().enabled = false;
-        //lastInstance.GetComponent<PhotonAnimatorView>().enabled = false;
 
-        //lastInstance.AddComponent<AudioListener>();
+        Assign(testHead, lastInstance.transform.FindChild("Body"), baseMaterial);
+        Assign(testBody, lastInstance.transform.FindChild("Tops"), baseMaterial);
+        Assign(testLegs, lastInstance.transform.FindChild("Bottoms"), baseMaterial);
+        Assign(testFeet, lastInstance.transform.FindChild("Shoes"), baseMaterial);
+
+        Debug.LogError("<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>");
+
+        RenderTexture rt = RenderTexture.GetTemporary(1024, 1024);
+
+        yield return null;
+//        Graphics.Blit(textureSkin, rt);
+        RenderTexture.active = rt;
+        Graphics.DrawTexture(new Rect(0, 0, 512, 512), textureSkin);
+
+        Texture2D dst = new Texture2D(1024, 1024);
+        dst.ReadPixels(new Rect(0, 0, 1024, 1024), 0, 0);
+        dst.Apply();
+
+        RenderTexture.active = null;
+
+        RenderTexture.ReleaseTemporary(rt);
+
+        baseMaterial.mainTexture = dst;
+
+
     }
+
+    void Assign(GameObject prefab, Transform parent, Material mat) {
+        var tmpMesh = prefab.GetComponent<SkinnedMeshRenderer>().sharedMesh;
+        parent.GetComponent<SkinnedMeshRenderer>().sharedMesh = tmpMesh;
+        Material[] mats = parent.GetComponent<SkinnedMeshRenderer>().sharedMaterials;
+        for( int i=0;i< mats.Length; ++i)
+            mats[i] = mat;
+        parent.GetComponent<SkinnedMeshRenderer>().sharedMaterials = mats;
+        
+
+    }
+
 
     void Awake() {
 	}
 
 	void OnEnable() {
-		//library = GameObject.Find("AvatarsLibraryPrefabs").GetComponent<AvatarsLibraryPrefabs>();
-		LoadModel();
+        StartCoroutine(LoadModel() );
 	}
 }
