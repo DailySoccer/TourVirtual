@@ -7,6 +7,8 @@ public class SelectAvatar : MonoBehaviour {
     public GameObject prefabMale;
     public GameObject prefabFemale;
     public Material baseMaterial;
+    public Texture2D textureNumbers;
+    public float textureSize = 512;
 
     public GameObject testHead;
     public GameObject testBody;
@@ -18,6 +20,7 @@ public class SelectAvatar : MonoBehaviour {
     public Texture2D textureBody;
     public Texture2D textureLegs;
     public Texture2D textureShoes;
+    public Texture2D textureHair;
 
     //public UMADynamicAvatar avatarLoaderPrefab;	
     public int shownModel = 0;
@@ -77,22 +80,28 @@ public class SelectAvatar : MonoBehaviour {
         lastInstance.GetComponent<Rigidbody>().isKinematic = true;
         lastInstance.GetComponent<SynchNet>().enabled = false;
 
-        Assign(testHead, lastInstance.transform.FindChild("Body"), baseMaterial);
-        Assign(testBody, lastInstance.transform.FindChild("Tops"), baseMaterial);
-        Assign(testLegs, lastInstance.transform.FindChild("Bottoms"), baseMaterial);
-        Assign(testFeet, lastInstance.transform.FindChild("Shoes"), baseMaterial);
+        Assign(testHead, lastInstance.transform.FindChild("Cabeza"), baseMaterial);
+        Assign(testBody, lastInstance.transform.FindChild("Torso"), baseMaterial);
+        Assign(testLegs, lastInstance.transform.FindChild("Piernas"), baseMaterial);
+        Assign(testFeet, lastInstance.transform.FindChild("Pies"), baseMaterial);
 
-        Debug.LogError("<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>");
 
-        RenderTexture rt = RenderTexture.GetTemporary(1024, 1024);
+        RenderTexture rt = RenderTexture.GetTemporary((int)textureSize, (int)textureSize);
 
         yield return null;
-//        Graphics.Blit(textureSkin, rt);
-        RenderTexture.active = rt;
-        Graphics.DrawTexture(new Rect(0, 0, 512, 512), textureSkin);
 
-        Texture2D dst = new Texture2D(1024, 1024);
-        dst.ReadPixels(new Rect(0, 0, 1024, 1024), 0, 0);
+        RenderTexture.active = rt;
+        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
+
+        Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), textureSkin);
+        Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), textureBody);
+        Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), textureLegs);
+        Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), textureShoes);
+        Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), textureHair);
+
+        Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
+        dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
         dst.Apply();
 
         RenderTexture.active = null;
@@ -100,19 +109,40 @@ public class SelectAvatar : MonoBehaviour {
         RenderTexture.ReleaseTemporary(rt);
 
         baseMaterial.mainTexture = dst;
+        GL.PopMatrix();
+
+        lastInstance.SetActive(true);
+
+        RenderTexture.active = null; // Restore
 
 
     }
 
-    void Assign(GameObject prefab, Transform parent, Material mat) {
-        var tmpMesh = prefab.GetComponent<SkinnedMeshRenderer>().sharedMesh;
-        parent.GetComponent<SkinnedMeshRenderer>().sharedMesh = tmpMesh;
-        Material[] mats = parent.GetComponent<SkinnedMeshRenderer>().sharedMaterials;
+    void Assign(GameObject prefab, Transform target, Material mat) {
+        var smrOrg = prefab.GetComponent<SkinnedMeshRenderer>();
+        var smrDst = target.GetComponent<SkinnedMeshRenderer>();
+
+        Transform[] bones = smrOrg.bones;
+        for (int i = 0; i < bones.Length; ++i)
+            bones[i] = SearchHierarchyForBone(target.parent, bones[i].name);
+        smrDst.bones = bones;
+
+        smrDst.sharedMesh = smrOrg.sharedMesh;
+        Material[] mats = smrDst.sharedMaterials;
         for( int i=0;i< mats.Length; ++i)
             mats[i] = mat;
-        parent.GetComponent<SkinnedMeshRenderer>().sharedMaterials = mats;
-        
+        smrDst.sharedMaterials = mats;
+    }
 
+    public Transform SearchHierarchyForBone(Transform current, string name) {
+        if (current.name == name)
+            return current;
+        for (int i = 0; i < current.childCount; ++i) {
+            Transform found = SearchHierarchyForBone( current.GetChild(i), name );
+            if (found != null)
+                return found;
+        }
+        return null;
     }
 
 

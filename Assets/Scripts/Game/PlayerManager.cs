@@ -58,17 +58,14 @@ public class PlayerManager : Photon.PunBehaviour {
 		GameObject thePlayer = null;
 
 		if (np.isLocal && Player.Instance != null) {
-			Debug.Log("Instantiate Player");
+			Debug.LogError("Instantiate Player");
 
 			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
-			//thePlayer.transform.position = transform.position;
-			//thePlayer.transform.rotation = transform.rotation;
 			thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
 			thePlayer.layer = LayerMask.NameToLayer( "Player" );
-			// DebugInfo();
 		}
 		else {
-			Debug.Log("SpawnOnNetwork: SelectedModel: " + SelectedModel);
+			Debug.LogError("SpawnOnNetwork: SelectedModel: " + SelectedModel);
 
 			GameObject prefab = Library.GetRecipe(selectedModel) ?? playerPrefab;
 			thePlayer = Instantiate(prefab, pos, rot) as GameObject;
