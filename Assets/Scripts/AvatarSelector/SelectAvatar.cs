@@ -44,32 +44,27 @@ public class SelectAvatar : MonoBehaviour {
 	}
 
 	public void OnSelectButton() {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>  OnSelectButton ");
+        PlayerManager.Instance.SelectedModel = "man#cabeza1#pelo1#torso1#piernas1#pies1";
+        StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+            Player thePlayer = Player.Instance;
+            if (thePlayer != null)
+            {
+                thePlayer.Avatar = instance;
+            }
 
-        GameObject newInstance = null;// Instantiate(prefabMale);// library.GetRecipe(shownModel));
+            RoomManager roomManager = RoomManager.Instance;
+            if (roomManager != null)
+            {
+                roomManager.ToRoom("AVATAR");
+            }
 
-		Player thePlayer = Player.Instance;
-		if (thePlayer != null) {
-			thePlayer.Avatar = newInstance;
-		}
-
-		PlayerManager playerManager = PlayerManager.Instance;
-		if (playerManager != null) {
-			playerManager.SelectedModel = shownModel;
-		}
-
-		RoomManager roomManager = RoomManager.Instance;
-		if (roomManager != null) {
-			roomManager.ToRoom ("AVATAR");
-		}
+        }));
 	}
 	
 	IEnumerator LoadModel() {
 		if (lastInstance != null) Destroy(lastInstance);
-        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar( "cabeza1", "pelo1", "torso1", "piernas1", "pies1", (instance)=>{ lastInstance = instance; } ) );
+        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar("man#cabeza1#pelo1#torso1#piernas1#pies1",(instance)=>{ lastInstance = instance; } ) );
     }
-
-
 
     void Awake() {
 	}

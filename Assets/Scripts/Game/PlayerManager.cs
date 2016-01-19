@@ -12,7 +12,7 @@ public class PlayerManager : Photon.PunBehaviour {
 		}
 	}
 
-	public int SelectedModel = -1;
+	public string SelectedModel = string.Empty;
 
     public GameObject prefabMale;
     public GameObject prefabFemale;
@@ -44,14 +44,12 @@ public class PlayerManager : Photon.PunBehaviour {
 
 		// Manually allocate PhotonViewID
 		_viewId = PhotonNetwork.AllocateViewID();
-
 		/*
 		if (viewIdOld != -1 && _viewId != viewIdOld) {
 			Debug.Log ("PhotonNetwork.UnAllocateViewID: " + viewIdOld);
 			PhotonNetwork.UnAllocateViewID(viewIdOld);
 		}
 		*/
-
 		Transform playerTransform;
 		if (Player.Instance != null) {
 			playerTransform = Player.Instance.Avatar.transform;
@@ -63,18 +61,24 @@ public class PlayerManager : Photon.PunBehaviour {
 	}
 
 	[PunRPC]
-	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, int selectedModel) {
+	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel) {
 		GameObject thePlayer = null;
 
 		if (np.isLocal && Player.Instance != null) {
 			Debug.Log("Instantiate Player");
-
 			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
 			thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
 			thePlayer.layer = LayerMask.NameToLayer( "Player" );
 		}
 		else {
-			Debug.Log("SpawnOnNetwork: SelectedModel: " + SelectedModel);
+            Debug.Log("SpawnOnNetwork: SelectedModel: " + selectedModel);
+            StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
+                thePlayer = instance;
+                if (thePlayer.GetComponent<Locomotion>() != null)
+                    thePlayer.GetComponent<Locomotion>().enabled = false;
+                thePlayer.tag = "AvatarNet";
+                thePlayer.layer = LayerMask.NameToLayer("Net");
+            }));
             /*
 			GameObject prefab = Library.GetRecipe(selectedModel) ?? playerPrefab;
 			thePlayer = Instantiate(prefab, pos, rot) as GameObject;
@@ -96,8 +100,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public IEnumerator CacheClothes()
     {
-        yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) =>
-        {
+        yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
             headsList = json["heads"] as ArrayList;
             clothsList = json["cloths"] as ArrayList;
@@ -106,26 +109,23 @@ public class PlayerManager : Photon.PunBehaviour {
     }
 
     public delegate void callback(GameObject instance);
-    public IEnumerator CreateAvatar(string cabeza, string pelo, string torso, string piernas, string pies, callback callback)
-    {
-        Hashtable headDesc = GetDescriptor(headsList, cabeza);
-        Hashtable bodyDesc = GetDescriptor(clothsList, torso);
-        Hashtable legsDesc = GetDescriptor(clothsList, piernas);
-        Hashtable feetDesc = GetDescriptor(clothsList, pies);
-        Hashtable hairDesc = GetDescriptor(headsList, pelo);
+    public IEnumerator CreateAvatar(string model, callback callback=null) {
+        string[] section = model.Split('#');
+        Hashtable headDesc = GetDescriptor(headsList, section[1]);
+        Hashtable bodyDesc = GetDescriptor(clothsList, section[3]);
+        Hashtable legsDesc = GetDescriptor(clothsList, section[4]);
+        Hashtable feetDesc = GetDescriptor(clothsList, section[5]);
+        Hashtable hairDesc = GetDescriptor(headsList, section[2]);
 
         GameObject lastInstance = Instantiate(prefabMale);
-
 
         lastInstance.layer = LayerMask.NameToLayer("Player");
         lastInstance.transform.position = Vector3.zero;
         lastInstance.GetComponent<Rigidbody>().isKinematic = true;
         lastInstance.GetComponent<SynchNet>().enabled = false;
 
-        yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) =>
-        {
+        yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
-
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
             Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
             Assign(bundle.LoadAsset<GameObject>(legsDesc["mesh"] as string), lastInstance.transform.FindChild("Piernas"), mat);
@@ -148,14 +148,10 @@ public class PlayerManager : Photon.PunBehaviour {
             dst.Apply();
 
             RenderTexture.active = null;
-
             RenderTexture.ReleaseTemporary(rt);
-
             mat.mainTexture = dst;
             GL.PopMatrix();
-
             lastInstance.SetActive(true);
-
             RenderTexture.active = null; // Restore
 
             if (callback != null) callback(lastInstance);
@@ -169,7 +165,6 @@ public class PlayerManager : Photon.PunBehaviour {
         return null;
     }
 
-
     void Assign(GameObject prefab, Transform target, Material mat)
     {
         var smrOrg = prefab.GetComponent<SkinnedMeshRenderer>();
@@ -180,27 +175,24 @@ public class PlayerManager : Photon.PunBehaviour {
             bones[i] = SearchHierarchyForBone(target.parent, bones[i].name);
         smrDst.bones = bones;
 
-        smrDst.sharedMesh = smrOrg.sharedMesh;
+        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
         Material[] mats = smrDst.sharedMaterials;
         for (int i = 0; i < mats.Length; ++i)
             mats[i] = mat;
         smrDst.sharedMaterials = mats;
     }
 
-    Transform SearchHierarchyForBone(Transform current, string name)
-    {
+
+    Transform SearchHierarchyForBone(Transform current, string name) {
         if (current.name == name)
             return current;
-        for (int i = 0; i < current.childCount; ++i)
-        {
+        for (int i = 0; i < current.childCount; ++i) {
             Transform found = SearchHierarchyForBone(current.GetChild(i), name);
             if (found != null)
                 return found;
         }
         return null;
     }
-
-
 
     void DebugInfo() {
 		Debug.Log ("countOfPlayers: " + PhotonNetwork.countOfPlayers);
