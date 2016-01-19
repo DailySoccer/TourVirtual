@@ -1,0 +1,1 @@
+azcopy /S /Source:C:\Proyectos\TourVirtual\Assets\WebPlayerTemplates\AssetBundles /Dest:https://rmdevcdntour.blob.core.windows.net/virtualtour-assets /DestKey:ny9Y1A00tVmvtsh5QYU/GcNa61biWAYiRqFCb+haflN1AfMdVUooaUhIZiabLdC6iuu4e2fqKs8mh60J08SCUQ==
