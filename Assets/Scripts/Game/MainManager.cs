@@ -232,10 +232,15 @@ public class MainManager : Photon.PunBehaviour {
 		if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
             yield return StartCoroutine(DLCManager.Instance.LoadVersion());
-			yield return StartCoroutine(DLCManager.Instance.CacheResources());
-		}
+			yield return StartCoroutine(DLCManager.Instance.CacheResources());            
+            
+        }
+        if (PlayerManager.Instance != null)
+        {
+            yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
+        }
 
-		Debug.Log ("Connect...");
+        Debug.Log ("Connect...");
 		PhotonNetwork.offlineMode = OfflineMode;
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
 		if (!PhotonNetwork.connected)
@@ -253,12 +258,8 @@ public class MainManager : Photon.PunBehaviour {
 
 	public IEnumerator CheckForInternetConnection()	{
 		while (!InternetConnection && !OfflineMode) {
-//			WWW www = new WWW("http://google.com");
-//			yield return www;
 			InternetConnection = Application.internetReachability != NetworkReachability.NotReachable;//string.IsNullOrEmpty(www.error);
-
 			if (InternetConnection) {
-				Debug.Log ("InternetConnection: OK");
 				if (OnInternetConnection != null) OnInternetConnection();
 			}
 			else {

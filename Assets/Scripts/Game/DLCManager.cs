@@ -56,7 +56,7 @@ public class DLCManager : MonoBehaviour {
 	void Awake () {
 		//LoadDefinitions ();
 #if UNITY_EDITOR
-        //        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
+                AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
 //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
 #endif  
     }
@@ -105,17 +105,17 @@ public class DLCManager : MonoBehaviour {
 
 
     public IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
-		if (!AssetDefinitions.ContainsKey(keyResource)) {
+        if (!AssetDefinitions.ContainsKey(keyResource)) {
 			yield break;
 		}
 
 		if (AssetResources.ContainsKey(keyResource)) {
 			if (callback != null) callback(AssetResources[keyResource]);
-			yield break;
+            yield break;
 		}
 
-		// Wait for the Caching system to be ready
-		while (!Caching.ready)
+        // Wait for the Caching system to be ready
+        while (!Caching.ready)
 			yield return null;
 
 		AssetDefinition definition = AssetDefinitions[keyResource];
