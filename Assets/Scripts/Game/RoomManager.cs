@@ -108,8 +108,9 @@ public class RoomDefinition {
 }
 
 public class RoomManager : Photon.PunBehaviour {
+    public string AvatarDefinition = "man#cabeza1#pelo1#torso1#piernas1#pies1";
 
-	public delegate void ChangeEvent();
+    public delegate void ChangeEvent();
 	public event ChangeEvent OnChange;
 	public event ChangeEvent OnSceneChange;
 	public event ChangeEvent OnSceneReady;
@@ -165,13 +166,36 @@ public class RoomManager : Photon.PunBehaviour {
             // Shortcut 
 			ToRoom (roomLoaded);
 		}
-		else if (!string.IsNullOrEmpty(RoomStart)) {
-			string roomKey = GetRoomKey(RoomStart);
-			if (RoomDefinitions.ContainsKey(roomKey)) {
-				_doorToEnter = GetDoorKey (RoomStart);
-                // Entrada logica del juego. En principio deberia ir a seleccion de avatar.
-				ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
-			}
+		else {
+            if (!string.IsNullOrEmpty(RoomStart))
+            {
+                string roomKey = GetRoomKey(RoomStart);
+                if (RoomDefinitions.ContainsKey(roomKey)) {
+
+                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
+
+                    if (!string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel)) {
+                        // Sin pasar por seleccion de avatar.
+                        RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
+                        RoomStart = rd.Door(roomKey);
+                        roomKey = GetRoomKey(RoomStart);
+                        _doorToEnter = GetDoorKey(RoomStart);
+
+                        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+                            Player thePlayer = Player.Instance;
+                            instance.layer = LayerMask.NameToLayer("Player");
+                            if (thePlayer != null) {
+                                thePlayer.Avatar = instance;
+                            }
+                            ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
+                        }));
+                    }
+                    else {
+                        _doorToEnter = GetDoorKey(RoomStart);
+                        ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
+                    }
+                }
+            }
 		}
 		yield return null;
 	}

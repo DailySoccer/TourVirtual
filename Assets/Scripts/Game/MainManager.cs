@@ -123,12 +123,6 @@ public class MainManager : Photon.PunBehaviour {
 		PhotonNetwork.offlineMode = OfflineMode;
 		// PhotonNetwork.autoCleanUpPlayerObjects = true;
 
-		/*
-		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
-		if (!PhotonNetwork.connected)
-			PhotonNetwork.ConnectUsingSettings("v0.1"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
-		*/
-
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 		Debug.Log("PlayerName: " + PhotonNetwork.playerName);
@@ -204,10 +198,8 @@ public class MainManager : Photon.PunBehaviour {
 	
 	void HandleOnUserLogin () {
 		Debug.Log ("UserName: " + UserAPI.Instance.UserName);
-
 		// TODO: Temporalmente no obtendremos el nombre del usuario de Azure para no tener que obligar a registrarse en su servicio
 		// PhotonNetwork.playerName = UserAPI.Instance.UserName;
-
 		StartCoroutine(Connect ());
 	}
 

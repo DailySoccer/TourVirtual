@@ -46,6 +46,7 @@ public class SelectAvatar : MonoBehaviour {
 	public void OnSelectButton() {
         PlayerManager.Instance.SelectedModel = "man#cabeza1#pelo1#torso1#piernas1#pies1";
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+            instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
             if (thePlayer != null)
             {
@@ -63,7 +64,12 @@ public class SelectAvatar : MonoBehaviour {
 	
 	IEnumerator LoadModel() {
 		if (lastInstance != null) Destroy(lastInstance);
-        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar("man#cabeza1#pelo1#torso1#piernas1#pies1",(instance)=>{ lastInstance = instance; } ) );
+        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar("man#cabeza1#pelo1#torso1#piernas1#pies1",(instance)=>{
+            lastInstance = instance;
+            instance.GetComponent<Rigidbody>().isKinematic = true;
+            instance.GetComponent<SynchNet>().enabled = false;
+
+        }) );
     }
 
     void Awake() {

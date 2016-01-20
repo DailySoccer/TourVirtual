@@ -78,6 +78,9 @@ public class PlayerManager : Photon.PunBehaviour {
                     thePlayer.GetComponent<Locomotion>().enabled = false;
                 thePlayer.tag = "AvatarNet";
                 thePlayer.layer = LayerMask.NameToLayer("Net");
+
+                var csc = thePlayer.GetComponent<ContentSelectorCaster>();
+                if(csc!=null) csc.enabled = false;
             }));
             /*
 			GameObject prefab = Library.GetRecipe(selectedModel) ?? playerPrefab;
@@ -119,11 +122,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
         GameObject lastInstance = Instantiate(prefabMale);
 
-        lastInstance.layer = LayerMask.NameToLayer("Player");
         lastInstance.transform.position = Vector3.zero;
-        lastInstance.GetComponent<Rigidbody>().isKinematic = true;
-        lastInstance.GetComponent<SynchNet>().enabled = false;
-
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);

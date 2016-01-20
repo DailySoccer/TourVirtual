@@ -56,7 +56,7 @@ public class DLCManager : MonoBehaviour {
 	void Awake () {
 		//LoadDefinitions ();
 #if UNITY_EDITOR
-//        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
+        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
 //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
 #endif  
     }
@@ -153,8 +153,7 @@ public class DLCManager : MonoBehaviour {
 			AssetDefinition definition = AssetDefinitions[key];
 
 			// Ignoramos las versiones 0...
-			if (definition.Version > 0)
-            {
+			if (definition.Version > 0){
                 Debug.Log("DLCManager: Loading... " + (BaseUrl + definition.Id) + " " + definition.Version);
 
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
