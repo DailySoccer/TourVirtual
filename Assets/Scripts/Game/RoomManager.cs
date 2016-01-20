@@ -399,7 +399,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JoinToRoom is " + roomid + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JoinToRoom is " + roomid + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
@@ -426,7 +426,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnLeftRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnLeftRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
