@@ -31,6 +31,21 @@ public class ContentModels : MonoBehaviour {
 		}
 	}
 
+    void OnSelect()
+    {
+        ContentSelected = this;
+    }
+
+    void OnDeselect()
+    {
+        if (ContentSelected == this)
+        {
+            ContentSelected = null;
+        }
+    }
+
+//    gameObject.SendMessage("ApplyDamage", 5.0F);
+/*
 	void OnTriggerEnter(Collider other) {
 		if (other.tag != Player.TAG_UMA_AVATAR)
 			return;
@@ -50,4 +65,5 @@ public class ContentModels : MonoBehaviour {
 			ContentSelected = null;
 		}
 	}
+    */
 }

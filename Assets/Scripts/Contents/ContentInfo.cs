@@ -22,8 +22,21 @@ public class ContentInfo : MonoBehaviour {
 	
 	void Update () {
 	}
-	
-	void OnTriggerEnter(Collider other) {
+
+    void OnSelect()
+    {
+        ContentSelected = this;
+    }
+
+    void OnDeselect()
+    {
+        if (ContentSelected == this)
+        {
+            ContentSelected = null;
+        }
+    }
+    /*
+    void OnTriggerEnter(Collider other) {
 		if (other.tag != Player.TAG_UMA_AVATAR)
 			return;
 		
@@ -42,7 +55,7 @@ public class ContentInfo : MonoBehaviour {
 			ContentSelected = null;
 		}
 	}
-	
+	*/
 	GameObject _instance;
 }
 

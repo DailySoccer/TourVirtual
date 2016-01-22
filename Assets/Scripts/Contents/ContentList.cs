@@ -45,7 +45,21 @@ public class ContentList : MonoBehaviour {
 		CompactContents = ContentManager.Instance.GetCompactContentsByType(contentType);
 	}
 
-	void OnTriggerEnter(Collider other) {
+    void OnSelect()
+    {
+        ContentManager.Instance.ContentNear = this;
+    }
+
+    void OnDeselect()
+    {
+        if (ContentManager.Instance.ContentNear == this)
+        {
+            ContentManager.Instance.ContentNear = null;
+        }
+    }
+
+/*
+    void OnTriggerEnter(Collider other) {
 		if (other.tag != Player.TAG_UMA_AVATAR)
 			return;
 
@@ -64,4 +78,5 @@ public class ContentList : MonoBehaviour {
 			ContentManager.Instance.ContentNear = null;
 		}
 	}
+    */
 }

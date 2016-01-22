@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ContentSelector : MonoBehaviour
-{
-    public GameObject Marker;
-
+public class ContentSelector : MonoBehaviour {
     void Start() {
         OnDeselect();
     }
 
     public void OnSelect() {
-        if(Marker!=null) Marker.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void OnDeselect() {
-        if (Marker != null) Marker.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
