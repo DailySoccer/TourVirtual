@@ -4,24 +4,24 @@ using System.Collections.Generic;
 
 public class AssetDefinition {
 	public string Id;
-	public int Version;
+    public int Version;
 
 	public AssetDefinition(string id, int version) {
 		Id = id;
 		Version = version;
-		// Debug.Log (string.Format("AssetDefinition: Id: {0} Version: {1}", Id, Version));
-	}
+        // Debug.Log (string.Format("AssetDefinition: Id: {0} Version: {1}", Id, Version));
+    }
 	
 	static public AssetDefinition LoadFromJSON(Hashtable jsonMap) {
 		AssetDefinition assetDefinition = new AssetDefinition(
 			jsonMap[KEY_ID] as string,
 			System.Convert.ToInt32(jsonMap[KEY_VERSION])
-			);
+            );
 		return assetDefinition;
 	}
 	
 	const string KEY_ID = "id";
-	const string KEY_VERSION = "version";
+    const string KEY_VERSION = "version";
 }
 
 public class DLCManager : MonoBehaviour {
@@ -65,7 +65,9 @@ public class DLCManager : MonoBehaviour {
 	}
 	
 	void Update () {
-	}
+        if (current != null)
+            LoadingBar.Instance.SetValue(current.progress, currentName );
+    }
 
 	public void ClearResources() {
 		foreach(string key in AssetResources.Keys) {
@@ -102,8 +104,6 @@ public class DLCManager : MonoBehaviour {
                 LoadDefinitions();
         }
     }
-
-
     public IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
 			yield break;
@@ -143,10 +143,13 @@ public class DLCManager : MonoBehaviour {
 			} // memory is freed from the web stream (www.Dispose() gets called implicitly)
 		}
 	}
-	
-	public IEnumerator CacheResources() {
-		// Wait for the Caching system to be ready
-		while (!Caching.ready)
+
+    WWW current;
+    string currentName;
+
+    public IEnumerator CacheResources() {
+        // Wait for the Caching system to be ready
+        while (!Caching.ready)
 			yield return null;
 
 		foreach(string key in AssetDefinitions.Keys) {
@@ -155,22 +158,25 @@ public class DLCManager : MonoBehaviour {
 			// Ignoramos las versiones 0...
 			if (definition.Version > 0){
                 Debug.Log("DLCManager: Loading... " + (BaseUrl + definition.Id) + " " + definition.Version);
-
+                currentName = definition.Id;
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
-                using (WWW www = WWW.LoadFromCacheOrDownload ( BaseUrl + definition.Id, definition.Version)) {
-					yield return www;
-                    if (string.IsNullOrEmpty(www.error)) {
-						AssetBundle bundle = www.assetBundle;
+                using (current = WWW.LoadFromCacheOrDownload ( BaseUrl + definition.Id, definition.Version)) {
+					yield return current;
+                    if (string.IsNullOrEmpty(current.error)) {
+						AssetBundle bundle = current.assetBundle;
 						bundle.Unload(false);
 					}
 					else {
-						Debug.LogWarning("WWW download had an error:" + www.error);
+						Debug.LogWarning("WWW download had an error:" + current.error);
 						// throw new Exception("WWW download had an error:" + www.error);
 					}
 				} // memory is freed from the web stream (www.Dispose() gets called implicitly)
 			}
 		}
-	}
+        LoadingBar.Instance.Hide();
+        current = null;
+
+    }
 	
 	private void LoadDefinitions() {
 #if UNITY_ANDROID
