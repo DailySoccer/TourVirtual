@@ -39,9 +39,9 @@ public class Authentication : MonoBehaviour {
 	public string AccessToken;
 	public string RefreshToken;
 
-	void Start () {
+	void Awake () {
 		MainManager.Instance.OnInternetConnection += HandleOnInternetConnection;
-	}
+    }
 
 	void HandleOnInternetConnection () {
 		if (!string.IsNullOrEmpty(AccessToken)) {

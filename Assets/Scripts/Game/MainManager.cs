@@ -152,7 +152,8 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	void OnApplicationPause(bool pauseStatus) {
-		Application.Quit();
+// Ver como evitar este tema.
+//		Application.Quit();
 	}
 
 	void InitializeStore() {
