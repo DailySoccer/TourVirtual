@@ -159,10 +159,7 @@ namespace Football
                     ballRigidbody.angularVelocity = Vector3.zero;
                 }
                 else {
-                    if (shotBall.mode == ShotBall.Mode.Shot && ballRigidbody != null && (ballRigidbody.velocity.sqrMagnitude < 0.1f || ballRigidbody.position.x < -53f))
-                        shotBall.mode = ShotBall.Mode.Out;
-
-                    if (shotBall.mode > ShotBall.Mode.Shot ) {
+                    if (shotBall!=null && shotBall.mode > ShotBall.Mode.Shot ) {
                         if (shotBall.mode != ShotBall.Mode.Goal)
                             OnResetStreak();
                         OnChargeBall();
