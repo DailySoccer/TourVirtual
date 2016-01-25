@@ -1,46 +1,346 @@
 {
     "heads": [
         {
-            "id": "cabeza1",
-            "name": "caucasico",
-            "mesh": "HCabeza001",
-            "texture": "hombre_01"
+            "id": "HCabeza01",
+            "mesh": "HCabezaAfro01",
+            "textures": ["hombre_01"]
         },
         {
-            "id": "pelo1",
-            "name": "moreno",
-            "mesh": "HPelo001",
-            "texture":  "pelo_01"
-        }
+            "id": "HCabeza02",
+            "mesh": "HCabezaAfro02",
+            "textures":["hombre_01","pelo_02"] 
+        },
+        {
+            "id": "HCabeza03",
+            "mesh": "HCabezaAfro03",
+            "textures":["hombre_01","pelo_afro"] 
+        },
+        {
+            "id": "HCabeza04",
+            "mesh": "HCabezaAfro04",
+            "textures":["hombre_01","pelo_afro"] 
+        },
+        {
+            "id": "HCabeza05",
+            "mesh": "HCabezaCaucasico01",
+            "textures": ["hombre_02"]
+        },
+        {
+            "id": "HCabeza06",
+            "mesh": "HCabezaCaucasico02",
+            "textures":["hombre_02","pelo_castano"] 
+        },
+        {
+            "id": "HCabeza07",
+            "mesh": "HCabezaCaucasico03",
+            "textures":["hombre_02","pelo_rubio"] 
+        },
+        {
+            "id": "HCabeza08",
+            "mesh": "HCabezaCaucasico04",
+            "textures":["hombre_02","pelo_moreno"] 
+        },
+        {
+            "id": "HCabeza09",
+            "mesh": "HCabezaChino01",
+            "textures": ["hombre_03"]
+        },
+        {
+            "id": "HCabeza10",
+            "mesh": "HCabezaChino02",
+            "textures":["hombre_03","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza11",
+            "mesh": "HCabezaChino03",
+            "textures":["hombre_03","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza12",
+            "mesh": "HCabezaChino04",
+            "textures":["hombre_03","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza13",
+            "mesh": "HCabezaJapones01",
+            "textures": ["hombre_04"]
+        },
+        {
+            "id": "HCabeza14",
+            "mesh": "HCabezaJapones02",
+            "textures":["hombre_04","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza15",
+            "mesh": "HCabezaJapones03",
+            "textures":["hombre_04","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza16",
+            "mesh": "HCabezaJapones04",
+            "textures":["hombre_04","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza17",
+            "mesh": "HCabezaLatino01",
+            "textures": ["hombre_03"]
+        },
+        {
+            "id": "HCabeza18",
+            "mesh": "HCabezaLatino02",
+            "textures":["hombre_03","pelo_moreno"]
+        },
+        {
+            "id": "HCabeza19",
+            "mesh": "HCabezaLatino03",
+            "textures":["hombre_03","pelo_castano"]
+        },
+        {
+            "id": "HCabeza20",
+            "mesh": "HCabezaLatino04",
+            "textures":["hombre_03","pelo_moreno"]
+        },
     ],
     "cloths": [
         {
-            "id": "torso1",
-            "name": "camiseta1",
-            "mesh": "HTorso001",
+            "id": "HTorso01",
+            "mesh": "HTorso01",
             "texture":  "camiseta_01"
         },
         {
-            "id": "piernas1",
-            "name": "Pantalon largo",
-            "mesh": "HPiernas002",
+            "id": "HTorso02",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_02"
+        },
+        {
+            "id": "HTorso03",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_03"
+        },
+        {
+            "id": "HTorso04",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_04"
+        },
+        {
+            "id": "HTorso05",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_05"
+        },
+        {
+            "id": "HTorso06",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_06"
+        },
+        {
+            "id": "HTorso07",
+            "mesh": "HTorso01",
+            "texture":  "camiseta_07"
+        },
+        {
+            "id": "HTorso08",
+            "mesh": "HTorso01",
+            "texture":  "sudadera_01"
+        },
+        {
+            "id": "HTorso09",
+            "mesh": "HTorso01",
+            "texture":  "sudadera_02"
+        },
+        {
+            "id": "HTorso10",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_01"
+        },
+        {
+            "id": "HTorso11",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_02"
+        },
+        {
+            "id": "HTorso12",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_03"
+        },
+        {
+            "id": "HTorso13",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_04"
+        },
+        {
+            "id": "HTorso14",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_05"
+        },
+        {
+            "id": "HTorso15",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_06"
+        },
+        {
+            "id": "HTorso16",
+            "mesh": "HTorso02",
+            "texture":  "camiseta_07"
+        },
+        {
+            "id": "HTorso17",
+            "mesh": "HTorso02",
+            "texture":  "sudadera_01"
+        },
+        {
+            "id": "HTorso18",
+            "mesh": "HTorso02",
+            "texture":  "sudadera_02"
+        },
+        {
+            "id": "HTorso19",
+            "mesh": "HTorso03",
+            "texture":  "sudadera_01"
+        },
+        {
+            "id": "HTorso20",
+            "mesh": "HTorso03",
+            "texture":  "sudadera_02"
+        },
+        {
+            "id": "HTorso21",
+            "mesh": "HTorso04",
+            "texture":  "chandal_01"
+        },
+        {
+            "id": "HTorso22",
+            "mesh": "HTorso04",
+            "texture":  "chandal_02"
+        },
+        {
+            "id": "HPiernas01",
+            "mesh": "HPiernas01",
             "texture":  "hombre_pantalon_01"
         },
         {
-            "id": "pies1",
-            "name": "deportivas",
-            "mesh": "HPies001",
+            "id": "HPiernas02",
+            "mesh": "HPiernas01",
+            "texture":  "hombre_pantalon_02"
+        },
+        {
+            "id": "HPiernas03",
+            "mesh": "HPiernas02",
+            "texture":  "pantalon_deportivo_01"
+        },
+        {
+            "id": "HPiernas04",
+            "mesh": "HPiernas02",
+            "texture":  "pantalon_deportivo_02"
+        },
+        {
+            "id": "HPiernas05",
+            "mesh": "HPiernas02",
+            "texture":  "pantalon_deportivo_03"
+        },
+        {
+            "id": "HPiernas06",
+            "mesh": "HPiernas02",
+            "texture":  "pantalon_deportivo_04"
+        },
+        {
+            "id": "HPiernas07",
+            "mesh": "HPiernas03",
+            "texture":  "hombre_pantalon_01"
+        },
+        {
+            "id": "HPiernas08",
+            "mesh": "HPiernas03",
+            "texture":  "hombre_pantalon_02"
+        },
+        {
+            "id": "HPiernas09",
+            "mesh": "HPiernas04",
+            "texture":  "hombre_pantalon_chandal_01"
+        },
+        {
+            "id": "HPiernas10",
+            "mesh": "HPiernas04",
+            "texture":  "hombre_pantalon_chandal_02"
+        },
+        {
+            "id": "HPiernas11",
+            "mesh": "HPiernas04",
+            "texture":  "hombre_pantalon_chandal_03"
+        },
+        {
+            "id": "HPiernas12",
+            "mesh": "HPiernas04",
+            "texture":  "hombre_pantalon_chandal_04"
+        },
+        {
+            "id": "HPies01",
+            "mesh": "HPies01",
+            "texture":  "hombre_zapatillas_01"
+        },
+        {
+            "id": "HPies02",
+            "mesh": "HPies01",
+            "texture":  "hombre_zapatillas_02"
+        },
+        {
+            "id": "HPies03",
+            "mesh": "HPies01",
+            "texture":  "hombre_zapatillas_03"
+        },
+        {
+            "id": "HPies04",
+            "mesh": "HPies01",
+            "texture":  "hombre_zapatillas_04"
+        },
+        {
+            "id": "HPies05",
+            "mesh": "HPies01",
+            "texture":  "deportivas_01"
+        },
+        {
+            "id": "HPies06",
+            "mesh": "HPies01",
+            "texture":  "deportivas_02"
+        },
+        {
+            "id": "HPies07",
+            "mesh": "HPies01",
             "texture":  "deportivas_03"
-        }
+        },
+        {
+            "id": "HPies08",
+            "mesh": "HPies01",
+            "texture":  "deportivas_04"
+        },
     ],
     "packs": [
         {
             "id": "pack1",
             "name": "pack 1",
-            "torso": "torso1",
-            "piernas": "piernas1",
-            "pies": "pies1"
-        } 
+            "torso": "HTorso21",
+            "piernas": "HPiernas09",
+            "pies": "HPies07"
+        },
+        {
+            "id": "pack2",
+            "name": "pack 1",
+            "torso": "HTorso22",
+            "piernas": "HPiernas10",
+            "pies": "HPies08"       },
+        {
+            "id": "pack2",
+            "name": "pack 1",
+            "torso": "HTorso10",
+            "piernas": "HPiernas11",
+            "pies": "HPies05"
+        },
+        {
+            "id": "pack2",
+            "name": "pack 1",
+            "torso": "HTorso11",
+            "piernas": "HPiernas12",
+            "pies": "HPies06"
+        },
 
     ]
 }
