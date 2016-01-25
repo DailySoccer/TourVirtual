@@ -12,6 +12,7 @@ GameObject:
   - 135: {fileID: 13579192}
   - 23: {fileID: 2375138}
   - 54: {fileID: 5491350}
+  - 114: {fileID: 11493456}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 115058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.79999995, z: 0}
-  m_LocalScale: {x: .400000006, y: .400000006, z: .400000006}
+  m_LocalScale: {x: .219999999, y: .219999999, z: .219999999}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,13 +78,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &11493456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637fb9ca34a1ed7418d9700fd4233661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13579192
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115058}
-  m_Material: {fileID: 13400000, guid: 4b715889cb5824f03ad63a7b70a2f1de, type: 2}
+  m_Material: {fileID: 13400000, guid: 5df8c5bb4f552ee44ab5037d1ac9ff53, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -95,7 +107,28 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Radius
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: .219999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: .219999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: .219999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 5df8c5bb4f552ee44ab5037d1ac9ff53,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 115058}

@@ -44,33 +44,33 @@ public class SelectAvatar : MonoBehaviour {
 	}
 
 	public void OnSelectButton() {
-        PlayerManager.Instance.SelectedModel = "man#cabeza1#pelo1#torso1#piernas1#pies1";
+        PlayerManager.Instance.SelectedModel = "man#HCabeza03#HTorso01#HPiernas05#HPies07";
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
-            if (thePlayer != null)
-            {
+            if (thePlayer != null){
                 thePlayer.Avatar = instance;
             }
 
             RoomManager roomManager = RoomManager.Instance;
-            if (roomManager != null)
-            {
+            if (roomManager != null) {
                 roomManager.ToRoom("AVATAR");
             }
-
         }));
 	}
 	
 	IEnumerator LoadModel() {
 		if (lastInstance != null) Destroy(lastInstance);
-        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar("man#cabeza1#pelo1#torso1#piernas1#pies1",(instance)=>{
+        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar("man#HCabeza03#HTorso01#HPiernas05#HPies07", (instance)=>{
             lastInstance = instance;
+            PlayerManager.Instance.RenderModel(lastInstance);
             instance.GetComponent<Rigidbody>().isKinematic = true;
             instance.GetComponent<SynchNet>().enabled = false;
-
         }) );
+        
     }
+
+
 
     void Awake() {
 	}

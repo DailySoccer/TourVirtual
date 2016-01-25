@@ -67,7 +67,7 @@ public class PlayerManager : Photon.PunBehaviour {
 		if (np.isLocal && Player.Instance != null) {
 			Debug.Log("Instantiate Player");
 			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
-			thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
+			//thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
 			thePlayer.layer = LayerMask.NameToLayer( "Player" );
 		}
 		else {
@@ -98,6 +98,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
 		// Set the PhotonView
 		PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
+        Debug.LogError(">>>> nViews.Length " + nViews.Length);
 		nViews[0].viewID = id;
 	}
 
@@ -115,10 +116,9 @@ public class PlayerManager : Photon.PunBehaviour {
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
         Hashtable headDesc = GetDescriptor(headsList, section[1]);
-        Hashtable bodyDesc = GetDescriptor(clothsList, section[3]);
-        Hashtable legsDesc = GetDescriptor(clothsList, section[4]);
-        Hashtable feetDesc = GetDescriptor(clothsList, section[5]);
-        Hashtable hairDesc = GetDescriptor(headsList, section[2]);
+        Hashtable bodyDesc = GetDescriptor(clothsList, section[2]);
+        Hashtable legsDesc = GetDescriptor(clothsList, section[3]);
+        Hashtable feetDesc = GetDescriptor(clothsList, section[4]);
 
         GameObject lastInstance = Instantiate(prefabMale);
 
@@ -136,11 +136,13 @@ public class PlayerManager : Photon.PunBehaviour {
             GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
             GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
 
-            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headDesc["texture"] as string));
+            ArrayList headTextures = headDesc["textures"] as ArrayList;
+            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headTextures[0] as string));
             Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string));
-            Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(hairDesc["texture"] as string));
+            if (headTextures.Count > 1)
+                Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(headTextures[1] as string));
 
             Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
             dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
@@ -156,6 +158,68 @@ public class PlayerManager : Photon.PunBehaviour {
             if (callback != null) callback(lastInstance);
         }));
     }
+
+    public byte[] RenderModel(GameObject avatar)
+    {
+        int w = 320;
+        int h = 620;
+        RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
+        int oldLayer = avatar.layer;
+
+        SetLayerRecursively(avatar, 31);
+        var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
+        camera.cullingMask = (1 << 31);
+        camera.transform.position = new Vector3(0, 0.9f, 2);
+        camera.transform.rotation = Quaternion.Euler(0, 180, 0);
+        camera.targetTexture = rt;
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = new Color(0, 0, 0, 0);
+        camera.Render();
+
+        RenderTexture.active = rt;
+        Texture2D tex = new Texture2D(w, h, TextureFormat.ARGB32, false);
+
+        // Read screen contents into the texture
+        tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+        tex.Apply();
+
+        byte[] bytes = tex.EncodeToPNG();
+        //        System.IO.File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
+        Destroy(tex);
+
+        RenderTexture.active = null;
+        RenderTexture.ReleaseTemporary(rt);
+        Destroy(camera);
+        SetLayerRecursively(avatar, oldLayer);
+
+        /*
+        // Create a Web Form
+        WWWForm form = new WWWForm();
+        form.AddField("frameCount", Time.frameCount.ToString());
+        form.AddBinaryData("fileUpload", bytes);
+
+        // Upload to a cgi script
+        WWW w = new WWW("http://localhost/cgi-bin/env.cgi?post", form);
+        yield return w;
+        if (w.error != null)
+            print(w.error);
+        else
+            print("Finished Uploading Screenshot");
+        */
+
+        return bytes;
+
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+            SetLayerRecursively(child.gameObject, newLayer);
+    }
+
+
+
 
     Hashtable GetDescriptor(ArrayList list, string id) {
         foreach (Hashtable ele in list)

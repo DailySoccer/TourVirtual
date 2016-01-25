@@ -108,7 +108,7 @@ public class RoomDefinition {
 }
 
 public class RoomManager : Photon.PunBehaviour {
-    public string AvatarDefinition = "man#cabeza1#pelo1#torso1#piernas1#pies1";
+    public string AvatarDefinition = "man#HCabeza03#HTorso01#HPiernas05#HPies07";
 
     public delegate void ChangeEvent();
 	public event ChangeEvent OnChange;
