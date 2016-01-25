@@ -38,6 +38,7 @@ namespace Football
 
         GameObject objBall;
         Rigidbody ballRigidbody;
+        ShotBall shotBall;
         float startTime;
 
         Vector2 touchPos;
@@ -59,14 +60,12 @@ namespace Football
         ShotState state = ShotState.Charging;
 
         // Use this for initialization
-        void Start()
-        {
+        void Start() {
             touchPos.x = -1.0f;
             // changePosition();
         }
 
-        public void reset()
-        {
+        public void reset() {
             round = 0;
             streak = 0;
             score = 0;
@@ -91,25 +90,20 @@ namespace Football
         void OnResetStreak()
         {
             streak = 0;
-
         }
 
         public void changePosition()
         {
-
+            /*
             float rad = -Random.Range(minRad, maxRad);
             float ang = Random.Range(minAngle, maxAngle) * Mathf.Deg2Rad;
 
             float cos = Mathf.Cos(ang);
             float sin = Mathf.Sin(ang);
-            // float tx = x cos - y sin  
-            // float tx = x sin + y cos  
             transform.position = new Vector3(-sin * rad, 1.85f, cos * rad);
             transform.LookAt(new Vector3(0, 1.85f, 0));
-
-
+            */
         }
-
 
         // Update is called once per frame
         void Update()
@@ -167,8 +161,7 @@ namespace Football
                     ballRigidbody.angularVelocity = Vector3.zero;
                 }
                 else {
-                    if (ballRigidbody != null && ballRigidbody.velocity.y < 0 && ballRigidbody.position.y < 1.8f)
-                    {
+                    if (ballRigidbody != null && shotBall.isShoted && (ballRigidbody.velocity.sqrMagnitude < 0.1f || ballRigidbody.position.x < -53f)) {
                         if (ballRigidbody.name != "goal")
                             OnResetStreak();
                         OnChargeBall();
@@ -182,7 +175,7 @@ namespace Football
             if (objBall == null)
             {
                 objBall = (GameObject)Instantiate(ballPrefab);
-                objBall.AddComponent<ShotBall>();
+                shotBall = objBall.AddComponent<ShotBall>();
                 ballRigidbody = objBall.GetComponent<Rigidbody>();
 
                 Vector3 shotPos = shotPoint.transform.localPosition;
@@ -281,7 +274,7 @@ namespace Football
             ballRigidbody.AddTorque(-shotPoint.transform.right * torque);
             ballRigidbody.transform.parent = transform;
 
-            ballRigidbody.gameObject.GetComponent<Ball>().effect = 0.3f ;
+            ballRigidbody.gameObject.GetComponent<ShotBall>().effect = 0;// -0.3f ;
 
 
             round++;

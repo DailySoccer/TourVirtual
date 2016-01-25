@@ -12,7 +12,6 @@ GameObject:
   - 135: {fileID: 13579192}
   - 23: {fileID: 2375138}
   - 54: {fileID: 5491350}
-  - 114: {fileID: 11493456}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -42,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: c8823f8cca0564dca8c1ae72b9234f21, type: 2}
+  - {fileID: 2100000, guid: 5dcf187daf537664497f247a0f6a1e2a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -71,24 +70,13 @@ Rigidbody:
   m_GameObject: {fileID: 115058}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: .400000006
   m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &11493456
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 637fb9ca34a1ed7418d9700fd4233661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &13579192
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -129,6 +117,22 @@ Prefab:
       value: 
       objectReference: {fileID: 13400000, guid: 5df8c5bb4f552ee44ab5037d1ac9ff53,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: ddd1daebc8af60943b28059d7e85ed3d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dcf187daf537664497f247a0f6a1e2a, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Drag
+      value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 115058}
