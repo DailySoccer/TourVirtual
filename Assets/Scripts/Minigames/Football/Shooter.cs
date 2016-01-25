@@ -9,6 +9,7 @@ namespace Football
         public Camera cameraForShooter;
         public GameObject ballPrefab;
         public Transform shotPoint;
+        public Keeper keeper;
 
         public float targetZ = 12.0f;           //screen point z to world point
         public float shotPowerMin = 3.0f;       //minimum shot power
@@ -77,9 +78,8 @@ namespace Football
         {
             score++;
             streak++;
-
-            if (objBall != null)
-            {
+            keeper.Level(score);
+            if (objBall != null) {
                 Destroy(objBall);
                 objBall = null;
             }
@@ -153,16 +153,17 @@ namespace Football
 
         void FixedUpdate()
         {
-            if (gameState == GameState.Playing)
-            {
-                if (state != ShotState.Charging && state != ShotState.Waiting)
-                {
+            if (gameState == GameState.Playing) {
+                if (state != ShotState.Charging && state != ShotState.Waiting) {
                     ballRigidbody.velocity = Vector3.zero;
                     ballRigidbody.angularVelocity = Vector3.zero;
                 }
                 else {
-                    if (ballRigidbody != null && shotBall.isShoted && (ballRigidbody.velocity.sqrMagnitude < 0.1f || ballRigidbody.position.x < -53f)) {
-                        if (ballRigidbody.name != "goal")
+                    if (shotBall.mode == ShotBall.Mode.Shot && ballRigidbody != null && (ballRigidbody.velocity.sqrMagnitude < 0.1f || ballRigidbody.position.x < -53f))
+                        shotBall.mode = ShotBall.Mode.Out;
+
+                    if (shotBall.mode > ShotBall.Mode.Shot ) {
+                        if (shotBall.mode != ShotBall.Mode.Goal)
                             OnResetStreak();
                         OnChargeBall();
                     }
@@ -170,11 +171,10 @@ namespace Football
             }
         }
 
-        void ChargeBall()
-        {
-            if (objBall == null)
-            {
+        void ChargeBall() {
+            if (objBall == null) {
                 objBall = (GameObject)Instantiate(ballPrefab);
+                objBall.name = "Ball";
                 shotBall = objBall.AddComponent<ShotBall>();
                 ballRigidbody = objBall.GetComponent<Rigidbody>();
 
@@ -275,7 +275,6 @@ namespace Football
             ballRigidbody.transform.parent = transform;
 
             ballRigidbody.gameObject.GetComponent<ShotBall>().effect = 0;// -0.3f ;
-
 
             round++;
 

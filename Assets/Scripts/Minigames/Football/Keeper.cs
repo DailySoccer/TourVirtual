@@ -7,25 +7,31 @@ namespace Football
     {
         float vel = 0;
         void Start() {
-            Setup(2);
+            Level(0);
         }
 
-        public void Setup(int level) {
-            switch(level) {
+        public void Level(int level) {
+            switch (Mathf.FloorToInt(level))
+            {
                 case 0:
+                case 1:
                     gameObject.SetActive(false);
                     break;
 
-                case 1:
+                case 2:
+                case 3:
+                case 4:
                     gameObject.SetActive(true);
                     transform.position = new Vector3(-51.9f, 0.9f, Random.Range(-3f, 3f));
                     vel = 0;
                     break;
-
-                case 2:
+                case 5:
                     gameObject.SetActive(true);
-                    transform.position = new Vector3(-51.9f, 0.9f, Random.Range(-3f, 3f));
                     vel = Random.value >= 0.5f ? -2 : 2;
+                    break;
+
+                default:
+                    vel *= 1.4f;
                     break;
             }
         }
