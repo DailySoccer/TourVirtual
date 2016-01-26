@@ -142,11 +142,16 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 	}
 
-	static public RoomManager Instance {
+
+    static RoomManager _instance;
+    static public RoomManager Instance {
 		get {
-			GameObject roomManagerObj = GameObject.FindGameObjectWithTag("RoomManager");
-			return roomManagerObj != null ? roomManagerObj.GetComponent<RoomManager>() : null;
-		}
+            if (_instance == null){
+                GameObject roomManagerObj = GameObject.FindGameObjectWithTag("RoomManager");                
+                _instance = roomManagerObj != null ? roomManagerObj.GetComponent<RoomManager>() : null;
+            }
+            return _instance;
+        }
 	}
 
 	void Start () {
@@ -375,7 +380,8 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 		yield return null;
 		if (OnChange != null) OnChange();
-		if (OnSceneReady != null) OnSceneReady();
+
+        if (OnSceneReady != null) OnSceneReady();
 	}
 
 	private Portal FindPortalInScene(string portalId) {

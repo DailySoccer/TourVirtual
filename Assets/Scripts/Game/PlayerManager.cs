@@ -98,8 +98,8 @@ public class PlayerManager : Photon.PunBehaviour {
 
 		// Set the PhotonView
 		PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
-        Debug.LogError(">>>> nViews.Length " + nViews.Length);
-		nViews[0].viewID = id;
+        if(nViews.Length>1)        
+    		nViews[0].viewID = id;
 	}
 
     public IEnumerator CacheClothes()

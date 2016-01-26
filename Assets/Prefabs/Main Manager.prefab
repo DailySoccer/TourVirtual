@@ -80,6 +80,7 @@ GameObject:
   - 114: {fileID: 11442326}
   - 114: {fileID: 11435754}
   - 114: {fileID: 11434724}
+  - 114: {fileID: 11491556}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: MainManager
@@ -650,6 +651,17 @@ MonoBehaviour:
   _soundEnabled: 0
   _unreadedChatMessages: 0
   OfflineMode: 0
+--- !u!114 &11491556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ee99d06b1de834488b0c07e2eef4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21289380
 SpriteRenderer:
   m_ObjectHideFlags: 1
