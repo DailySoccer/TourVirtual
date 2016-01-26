@@ -94,15 +94,13 @@ namespace Football
 
         public void changePosition()
         {
-            /*
-            float rad = -Random.Range(minRad, maxRad);
+            float rad = 10.6f;
             float ang = Random.Range(minAngle, maxAngle) * Mathf.Deg2Rad;
 
             float cos = Mathf.Cos(ang);
             float sin = Mathf.Sin(ang);
-            transform.position = new Vector3(-sin * rad, 1.85f, cos * rad);
-            transform.LookAt(new Vector3(0, 1.85f, 0));
-            */
+            transform.position = new Vector3(cos * rad, 0, sin * rad) + new Vector3(-52.0f, 0, 0);
+            transform.LookAt(new Vector3(-52.0f, 0, 0));
         }
 
         // Update is called once per frame
@@ -176,13 +174,13 @@ namespace Football
                 ballRigidbody = objBall.GetComponent<Rigidbody>();
 
                 Vector3 shotPos = shotPoint.transform.localPosition;
-                shotPos.x += offsetZShotPoint;
+                shotPos.z -= offsetZShotPoint;
                 objBall.transform.position = shotPoint.transform.TransformPoint(shotPos);
                 objBall.transform.eulerAngles = shotPoint.transform.eulerAngles;
                 objBall.transform.parent = transform;
 
                 ballRigidbody.velocity = Vector3.zero;
-                ballRigidbody.AddForce(shotPoint.transform.TransformDirection(new Vector3(-powerToRoll, 0.0f, 0.0f)), ForceMode.Impulse);
+                ballRigidbody.AddForce(shotPoint.transform.TransformDirection(new Vector3(0.0f, 0.0f, powerToRoll)), ForceMode.Impulse);
             }
 
             float dis = Vector3.Distance(shotPoint.transform.position, objBall.transform.position);

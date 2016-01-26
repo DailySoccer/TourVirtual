@@ -20,7 +20,7 @@ namespace Football
 #endif
         void OnTriggerEnter(Collider other) {
             ShotBall sb = other.GetComponent<ShotBall>();
-            if (sb != null) {
+            if (sb != null && sb.mode == ShotBall.Mode.Shot) {
                 sb.mode = ShotBall.Mode.Goal;
                 OnGoal();
             }
