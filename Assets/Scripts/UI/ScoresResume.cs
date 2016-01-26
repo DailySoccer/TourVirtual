@@ -14,9 +14,9 @@ public class ScoresResume : MonoBehaviour {
 	}
 
 	void OnEnable() {
-		penaltyScore.text = 'Not recolected yet';
-		BasketScore.text = 'Not recolected yet';
-		HiddenObjectasScore.text = 'Not recolected yet';
+		penaltyScore.text = "Not recolected yet";
+		BasketScore.text = "Not recolected yet";
+		HiddenObjectasScore.text = "Not recolected yet";
 	}
 	
 	// Update is called once per frame

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CanvasManager : MonoBehaviour {
 
+	public GameObject CommonBackground;
+
 	public UIScreen currentGUIScreen;
 	public GUIPopUpScreen currentGUIPopUpScreen;
 
