@@ -3,10 +3,8 @@ using System.Collections;
 
 namespace Football
 {
-    public class ShotBall : MonoBehaviour
-    {
-        public enum Mode
-        {
+    public class ShotBall : MonoBehaviour {
+        public enum Mode {
             Wait,
             Shot,
             Goal,
@@ -23,6 +21,7 @@ namespace Football
         public void ChangeActive() {
             isActive = true;
         }
+
         void Start() {
             rb = GetComponent<Rigidbody>();
         }
