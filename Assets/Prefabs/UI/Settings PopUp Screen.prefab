@@ -891,7 +891,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22469130}
-  - 114: {fileID: 11421424}
+  - 114: {fileID: 11498684}
   m_Layer: 5
   m_Name: LoadingBar
   m_TagString: Untagged
@@ -1565,20 +1565,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: PACKS
---- !u!114 &11421424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 894eca28b8c164b9f8507799edd060ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillBar: {fileID: 11482728}
-  description: {fileID: 0}
-  Current: .819999993
 --- !u!114 &11421818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2705,7 +2691,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: .819999993
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
 --- !u!114 &11486348
@@ -2870,6 +2856,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11498684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4369ada5de9d0400f87adac760317157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillBar: {fileID: 11482728}
+  Current: 0
 --- !u!114 &11499042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3477,7 +3476,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4500, y: 23}
+  m_AnchoredPosition: {x: -4500, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22422254
