@@ -12,7 +12,8 @@ public class RoomDefinition {
 	public string Gui;
 	public bool PlayerVisible = true;
 	public byte MaxPlayers = 16;
-	public Hashtable Doors;
+    public bool HiddenObjects = false;
+    public Hashtable Doors;
 	public Hashtable Bundles;
 	public Hashtable Contents;
 
@@ -87,10 +88,14 @@ public class RoomDefinition {
 		if (jsonMap.ContainsKey(KEY_GUI)) {
 			roomDefinition.Gui = jsonMap[KEY_GUI] as string;
 		}
-		if (jsonMap.ContainsKey(KEY_MAX_PLAYERS)) {
-			roomDefinition.MaxPlayers = System.Convert.ToByte(jsonMap[KEY_MAX_PLAYERS]);
-		}
-		if (jsonMap.ContainsKey(KEY_PLAYER_VISIBLE)) {
+        if (jsonMap.ContainsKey(KEY_MAX_PLAYERS)) {
+            roomDefinition.MaxPlayers = System.Convert.ToByte(jsonMap[KEY_MAX_PLAYERS]);
+        }
+        if (jsonMap.ContainsKey(KEY_HIDDEN_OBJECTS))
+        {
+            roomDefinition.HiddenObjects = System.Convert.ToBoolean(jsonMap[KEY_HIDDEN_OBJECTS]);
+        }
+        if (jsonMap.ContainsKey(KEY_PLAYER_VISIBLE)) {
 			roomDefinition.PlayerVisible = System.Convert.ToBoolean(jsonMap[KEY_PLAYER_VISIBLE]);
 		}
 		return roomDefinition;
@@ -102,7 +107,8 @@ public class RoomDefinition {
 	const string KEY_GUI = "gui";
 	const string KEY_PLAYER_VISIBLE = "player_visible";
 	const string KEY_MAX_PLAYERS = "max_players";
-	const string KEY_DOORS = "doors";
+    const string KEY_HIDDEN_OBJECTS = "hidden_objects";
+    const string KEY_DOORS = "doors";
 	const string KEY_BUNDLES = "bundles";
 	const string KEY_CONTENTS = "contents";
 }
@@ -142,7 +148,6 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 	}
 
-
     static RoomManager _instance;
     static public RoomManager Instance {
 		get {
@@ -156,14 +161,17 @@ public class RoomManager : Photon.PunBehaviour {
 
 	void Start () {
 		LoadRooms();
-		
-		/*
+
+
+        HiddenObjects.HiddenObjects.Instance.Play();
+
+        /*
 		// Los gameObjects del escenario "inicial" permanecerán
 		foreach(GameObject obj in GetRootObjects()) {
 			DontDestroyOnLoad(obj);
 		}
 		*/
-	}
+    }
 
 	public IEnumerator Connect() {
         RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);

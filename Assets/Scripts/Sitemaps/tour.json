@@ -6,7 +6,7 @@
 			"scene": "AvatarSelect",
 			"gui": "AVATAR",
 			"player_visible": false,
-			"max_players": 1,
+            "max_players": 1,
 			"doors": {
 				"AVATAR": "ROOM4"
 			},
@@ -19,7 +19,8 @@
 			"name": "Estadio Santiago Bernabéu",
 			"scene": "Bernabeu_1",
 			"gui": "GAME",
-			"max_players": 16,
+            "max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "AVATAR",
 				"PUERTA2": "ROOM1",
@@ -35,7 +36,8 @@
 			"name": "Sala Mejor Club del Mundo",
 			"scene": "MejorClubMundo_00",
 			"gui": "GAME",
-			"max_players": 16,
+            "max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM2",
 				"PUERTA2": "ESTADIO"
@@ -72,7 +74,8 @@
 			"name": "Sala Sensaciones",
 			"scene": "salaSensaciones",
 			"gui": "GAME",
-			"max_players": 16,
+            "max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM1",
 				"PUERTA2": "ROOM3"
@@ -88,7 +91,8 @@
 			"name": "Sala Baloncesto",
 			"scene": "salaBasket",
 			"gui": "GAME",
-			"max_players": 16,
+            "max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM2",
 				"PUERTA2": "ROOM4"
@@ -104,7 +108,8 @@
 			"name": "Sala Reyes de Europa",
 			"scene": "salaReyesEuropa",
 			"gui": "GAME",
-			"max_players": 16,
+            "max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM3",
 				"PUERTA2": "ROOM5"
@@ -121,6 +126,7 @@
 			"scene": "salaTuEresRealMadrid",
 			"gui": "GAME",
 			"max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM4",
 				"PUERTA2": "ROOM6"
@@ -137,6 +143,7 @@
 			"scene": "Vestuarios",
 			"gui": "GAME",
 			"max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM5",
 				"PUERTA2": "ESTADIO"
@@ -153,6 +160,7 @@
 			"scene": "salaPrensa",
 			"gui": "GAME",
 			"max_players": 16,
+            "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ESTADIO#PUERTA3",
 				"PUERTA2": "ESTADIO#PUERTA1"
