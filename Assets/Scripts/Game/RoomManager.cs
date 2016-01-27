@@ -162,8 +162,8 @@ public class RoomManager : Photon.PunBehaviour {
 	void Start () {
 		LoadRooms();
 
-
-        HiddenObjects.HiddenObjects.Instance.Play();
+        // Prueba de HiddenObjects
+        // HiddenObjects.HiddenObjects.Instance.Play();
 
         /*
 		// Los gameObjects del escenario "inicial" permanecerán
@@ -173,7 +173,7 @@ public class RoomManager : Photon.PunBehaviour {
 		*/
     }
 
-	public IEnumerator Connect() {
+    public IEnumerator Connect() {
         RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);
 		if (roomLoaded != null) {
             // Shortcut 
