@@ -163,7 +163,7 @@ public class RoomManager : Photon.PunBehaviour {
 		LoadRooms();
 
         // Prueba de HiddenObjects
-        // HiddenObjects.HiddenObjects.Instance.Play();
+        //HiddenObjects.HiddenObjects.Instance.Play();
 
         /*
 		// Los gameObjects del escenario "inicial" permanecerán

@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HiddenObjects
-{
+namespace HiddenObjects { 
     public class HiddenObjects : MonoBehaviour {
-
         public int objectByRoom = 2;
         public int numHiddenObjects = 10;
+        public float maxTime = 20;
+        float startTime;
+        float endTime;
         public GameObject prefab;
         List<HiddenObjectPosition> ListOfHiddenObjects;
+
+        public float RemaingTime { get { return endTime - startTime; } }
 
         public class HiddenObjectPosition {
             public string roomid;
@@ -30,6 +33,17 @@ namespace HiddenObjects
         void Start() {
             enabled = false;
             RoomManager.Instance.OnSceneReady += OnSceneReady;
+        }
+
+        void OnSuccess() {
+            Stop();
+        }
+
+        void OnFail() {
+            var obj = GameObject.Find("Tesoros");
+            if(obj!=null)
+                Destroy(obj);
+            Stop();
         }
 
         public void Play() {
@@ -54,7 +68,9 @@ namespace HiddenObjects
                 usefullRooms.RemoveAt(idx);
             }
             ListOfHiddenObjects = finalList;
-            
+            startTime = Time.realtimeSinceStartup;
+            endTime = startTime + maxTime;
+
         }
 
         public void Stop() {
@@ -82,9 +98,13 @@ namespace HiddenObjects
             }
         }
 
-        void Update()
-        {
-            if(Input.GetMouseButtonDown(0)) {
+        void Update() {
+            if( Time.realtimeSinceStartup > endTime) {
+                OnFail();
+                return;
+            }
+            maxTime -= Time.deltaTime;
+            if (Input.GetMouseButtonDown(0)) {
                 Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Physics.RaycastAll(mouse,float.MaxValue, (1 << 14) );
                 if (hits.Length > 0) {
@@ -105,6 +125,7 @@ namespace HiddenObjects
                     break;
                 }
             }
+            if (ListOfHiddenObjects.Count == 0) OnSuccess();
         }
 
         IEnumerator Pickup(Transform t) {
