@@ -66,6 +66,15 @@ namespace Basket
             // changePosition();
         }
 
+        void OnExit()
+        {
+            RoomManager roomManager = RoomManager.Instance;
+            if (roomManager != null)
+            {
+                roomManager.ToRoom("EXIT");
+            }
+        }
+
         public void reset()
         {
             round = 0;
@@ -156,6 +165,11 @@ namespace Basket
                     }
                     break;
             }
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnExit();
+#endif
+
         }
 
         void FixedUpdate()

@@ -8,7 +8,7 @@
 			"player_visible": false,
             "max_players": 1,
 			"doors": {
-				"AVATAR": "ROOM4"
+				"AVATAR": "ESTADIO"
 			},
 			"bundles": {
 				"SCENE": "scene/avatar_select"
@@ -154,21 +154,47 @@
 			"contents": {
 			}
 		},
-		{ 
-			"id": "ROOM7",
-			"name": "Prensa",
-			"scene": "salaPrensa",
-			"gui": "GAME",
-			"max_players": 16,
-            "hidden_objects":  true,
+        {
+            "id": "ROOM7",
+            "name": "Prensa",
+            "scene": "salaPrensa",
+            "gui": "GAME",
+            "max_players": 16,
+            "hidden_objects": true,
+            "doors": {
+                "PUERTA1": "ESTADIO#PUERTA3",
+                "PUERTA2": "ESTADIO#PUERTA1"
+            },
+            "bundles": {
+                "SCENE": "scene/sala_prensa",
+            },
+            "contents": {
+            }
+        },
+        { 
+			"id": "MINIBASKET",
+			"name": "Basket Minigame",
+			"scene": "BasketballCourt",			
+			"player_visible": false,
+            "max_players": 1,
 			"doors": {
-				"PUERTA1": "ESTADIO#PUERTA3",
-				"PUERTA2": "ESTADIO#PUERTA1"
+				"EXIT": "ROOM3"
 			},
 			"bundles": {
-				"SCENE": "scene/sala_prensa",
+				"SCENE": "scene/minibasket"
+			}
+		},
+        { 
+			"id": "MINIFOOTBALL",
+			"name": "Football Minigame",
+			"scene": "FootballCourt",			
+			"player_visible": false,
+            "max_players": 1,
+			"doors": {
+				"EXIT": "ROOM6"
 			},
-			"contents": {
+			"bundles": {
+				"SCENE": "scene/minifutbol"
 			}
 		}
 	],

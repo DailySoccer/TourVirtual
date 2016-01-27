@@ -66,6 +66,13 @@ namespace Football
             // changePosition();
         }
 
+        void OnExit() {
+            RoomManager roomManager = RoomManager.Instance;
+            if (roomManager != null) {
+                roomManager.ToRoom("EXIT");
+            }
+        }
+
         public void reset() {
             round = 0;
             streak = 0;
@@ -147,6 +154,10 @@ namespace Football
                     }
                     break;
             }
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnExit();
+#endif
         }
 
         void FixedUpdate()
