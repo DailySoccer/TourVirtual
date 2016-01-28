@@ -917,10 +917,8 @@ MeshRenderer:
   - {fileID: 2100000, guid: 526cbdda51f64c04282600cde08ad8d1, type: 2}
   - {fileID: 2100000, guid: b20b10548ee72fa4aac04d8d8d2130ec, type: 2}
   - {fileID: 2100000, guid: 3b0935b4cdd453640b18ecac740b7e51, type: 2}
-  - {fileID: 2100000, guid: 30eb33b710ae98441826e0c69c5e493f, type: 2}
   - {fileID: 2100000, guid: 26eea3ea86177ae499875971a485e8a6, type: 2}
   - {fileID: 2100000, guid: a909fcda387ac064ab22c9b7b4e16137, type: 2}
-  - {fileID: 2100000, guid: d27e6f3cb42a5a94686f6070927ae93b, type: 2}
   - {fileID: 2100000, guid: d27e6f3cb42a5a94686f6070927ae93b, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
@@ -5484,7 +5482,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 2358676, guid: 1d1babff78860be408f8985ea62d0c5b, type: 2}
       propertyPath: m_Materials.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 448900, guid: 1d1babff78860be408f8985ea62d0c5b, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5534,6 +5532,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2358676, guid: 1d1babff78860be408f8985ea62d0c5b, type: 2}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 51496857c51611e4881cbf7f75612597, type: 2}
     m_RemovedComponents:
     - {fileID: 11444056, guid: 1d1babff78860be408f8985ea62d0c5b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1d1babff78860be408f8985ea62d0c5b, type: 2}
