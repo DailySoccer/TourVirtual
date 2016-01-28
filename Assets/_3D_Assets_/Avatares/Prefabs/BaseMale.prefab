@@ -875,7 +875,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189534}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8f20058d3353b5d4f8745aec241ebf2a, type: 3}
+  m_Avatar: {fileID: 9000000, guid: bdaea43c7907c944ca2b84234adc637f, type: 3}
   m_Controller: {fileID: 9100000, guid: d09b025323e4742de9be4aee56fe46d6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -1056,7 +1056,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: a727caadc5cc9fe4389847ed29fc0726, type: 3}
+  m_Mesh: {fileID: 0}
   m_Bones:
   - {fileID: 450876}
   - {fileID: 466776}
@@ -1108,7 +1108,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300006, guid: a727caadc5cc9fe4389847ed29fc0726, type: 3}
+  m_Mesh: {fileID: 4300022, guid: bdaea43c7907c944ca2b84234adc637f, type: 3}
   m_Bones:
   - {fileID: 423528}
   - {fileID: 424448}
@@ -1187,7 +1187,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Avatar
       value: 
-      objectReference: {fileID: 9000000, guid: 8f20058d3353b5d4f8745aec241ebf2a, type: 3}
+      objectReference: {fileID: 9000000, guid: bdaea43c7907c944ca2b84234adc637f, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300020, guid: bdaea43c7907c944ca2b84234adc637f, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 189534}
