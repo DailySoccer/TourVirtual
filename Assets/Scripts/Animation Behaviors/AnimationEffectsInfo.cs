@@ -11,8 +11,7 @@ public class AnimationEffectsInfo : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		var piv = (transform as RectTransform).pivot;
-		initialPivot = new Vector2(piv.x, piv.y);
+		initialPivot = (transform as RectTransform).pivot;
 	}
 	
 	// Update is called once per frame
