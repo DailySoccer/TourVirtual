@@ -110,6 +110,10 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
+	public void DeepLinking(string url){
+		Debug.LogError("++++++++++++++++ URL: " + url);
+	}
+
 	void Awake() {
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
@@ -126,7 +130,6 @@ public class MainManager : Photon.PunBehaviour {
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 		Debug.Log("PlayerName: " + PhotonNetwork.playerName);
-
 		// Cargamos las Setting Options
 		MusicEnabled = true; // TODO: Cargar desde archivo de configuracion
 		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
