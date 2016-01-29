@@ -110,11 +110,32 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-	public void DeepLinking(string url){
-		Debug.LogError("++++++++++++++++ URL: " + url);
+    string DeepLinkingURL;
+    public void DeepLinking(string url){
+        DeepLinkingURL = url;
 	}
 
-	void Awake() {
+    public string GetDeepLinkingURL() {
+#if UNITY_ANDROID
+        try {
+            using (AndroidJavaClass jclass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                AndroidJavaObject activity = jclass.GetStatic<AndroidJavaObject>("currentActivity");
+                AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
+                AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
+                DeepLinkingURL = uri.Call<string>("toString");
+            }
+        }
+        catch (System.Exception ex) {
+            Debug.LogWarning(ex.Message);
+            DeepLinkingURL=null;
+        }
+#endif
+
+        return DeepLinkingURL;
+    }
+
+    void Awake() {
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
