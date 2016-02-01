@@ -4,6 +4,11 @@ using SmartLocalization;
 using Soomla;
 using Soomla.Store;
 
+public enum TourVirtualBuildMode {
+	Debug,
+	Release
+}
+
 public class MainManager : Photon.PunBehaviour {
 
 	static public MainManager Instance {
@@ -87,6 +92,8 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	public bool OfflineMode = false;
+
+	public TourVirtualBuildMode BuildMode;
 
 	public bool Ready {
 		get {

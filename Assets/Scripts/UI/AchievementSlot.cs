@@ -2,11 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ClothSlot : MonoBehaviour {
+public class AchievementSlot : MonoBehaviour {
 
-	public Text ClothName;
+	public Text AchievementName;
 	public Image Picture;
-	public Text Price;
 
 	// Use this for initialization
 	void Start () {
@@ -19,14 +18,12 @@ public class ClothSlot : MonoBehaviour {
 	}
 
 	public void Reset() {
-		ClothName.text = "";
-		Price.text = "";
+		AchievementName.text = "";
 	}
 
 	public void SetupSlot(string productName, Sprite ProductPicture, string ProductPrice) {
-		ClothName.text = productName;
+		AchievementName.text = productName;
 		Picture.sprite = ProductPicture;
-		Price.text = ProductPrice;
 	}
 
 }
