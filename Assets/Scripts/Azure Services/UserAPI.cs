@@ -30,19 +30,22 @@ public class UserAPI : AzureAPI {
             if (jsonMap.ContainsKey("Alias"))           UserName = jsonMap["Alias"] as string;
             if (jsonMap.ContainsKey("ContactEmail"))    ContactEmail = jsonMap["ContactEmail"] as string;
         }
+        yield return StartCoroutine(GetUserVirtaulGoods());
 	}
 
-
-    public IEnumerator GetAvatarProfile()
-    {
+    public IEnumerator GetAvatarProfile() {
         HTTP.Request request = RequestGet("api/v1/fan/me/ProfileAvatar");
         yield return StartCoroutine( RequestSend(request) );
         object json = JSON.JsonDecode(request.response.Text);
         if (json is Hashtable) {
-            Debug.LogError("GetAvatarProfile OK");
+            Debug.LogError("GetAvatarProfile OK"); 
             Hashtable jsonMap = json as Hashtable;
-            //            if (jsonMap.ContainsKey("IdUser")) IdUser = jsonMap["IdUser"] as string;
-            //            if (jsonMap.ContainsKey("PictureUrl")) IdUser = jsonMap["PictureUrl"] as string;
+
+            string IdUser = "";
+            string PictureUrl = "";
+
+            if (jsonMap.ContainsKey("IdUser")) IdUser = jsonMap["IdUser"] as string;
+            if (jsonMap.ContainsKey("PictureUrl")) PictureUrl = jsonMap["PictureUrl"] as string;
 
             if (jsonMap.ContainsKey("PhysicalProperties")) {
                 ArrayList PhysicalProperties = jsonMap["PhysicalProperties"] as ArrayList;
@@ -69,6 +72,23 @@ public class UserAPI : AzureAPI {
         }
     }
 
+    IEnumerator GetUserVirtaulGoods() {
+        HTTP.Request request = RequestGet("api/v1/fan/me/VirtualGoods?type=CLOTHES");
+        yield return StartCoroutine(RequestSend(request));
+        object json = JSON.JsonDecode(request.response.Text);
+        Debug.LogError("GetVirtualGoods " + request.response.Text);
+        if (json is Hashtable) {
+        }
+    }
+
+    IEnumerator GetVirtualGoods() {
+        HTTP.Request request = RequestGet("api/v1/virtualgoods?idType=CLOTHES&ct=1");
+        yield return StartCoroutine(RequestSend(request));
+        object json = JSON.JsonDecode(request.response.Text);
+        Debug.LogError("GetVirtualGoods " + request.response.Text);
+        if (json is Hashtable) {
+        }
+    }
 
     void HandleOnAccessToken ()	{
         StartCoroutine( RequestInfo() );
@@ -77,6 +97,7 @@ public class UserAPI : AzureAPI {
     IEnumerator RequestInfo() {
         yield return StartCoroutine(GetUserProfile());
         yield return StartCoroutine(GetAvatarProfile());
+        yield return StartCoroutine(GetVirtualGoods());
         if (OnUserLogin != null) OnUserLogin();
     }
 }
