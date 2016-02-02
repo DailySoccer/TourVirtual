@@ -10,17 +10,12 @@ public class Authentication : MonoBehaviour {
 	public delegate void AccessTokenEvent();
 	public event AccessTokenEvent OnAccessToken;
 
-	static public Authentication Instance {
-		get {
-			GameObject authenticationObj = GameObject.FindGameObjectWithTag("AzureServices");
-			return authenticationObj != null ? authenticationObj.GetComponent<Authentication>() : null;
-		}
-	}
+	static public Authentication Instance { get; private set; }
 
 	public static string WebApiBaseAddress {
 		get {
-			return "https://rex-dev-euwe-web-api.azurewebsites.net/";
-		}
+            return "https://eu-rm-dev-web-api.azurewebsites.net/";
+        }
 	}
 
 	public bool IsOk {
@@ -40,7 +35,9 @@ public class Authentication : MonoBehaviour {
 	public string RefreshToken;
 
 	void Awake () {
-		MainManager.Instance.OnInternetConnection += HandleOnInternetConnection;
+        Instance = this;
+
+        MainManager.Instance.OnInternetConnection += HandleOnInternetConnection;
     }
 
 	void HandleOnInternetConnection () {
@@ -50,10 +47,10 @@ public class Authentication : MonoBehaviour {
 
 		Debug.Log ("Authentication...");
 
-		#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		if (Application.platform == RuntimePlatform.Android) {
-			#if MICROSOFT_SDK
+#if MICROSOFT_SDK
 
 			/*
 			 * Problemas con isDebugBuild y la comparación de cadenas
@@ -80,10 +77,10 @@ public class Authentication : MonoBehaviour {
 
 			return;
 
-			#endif
+#endif
 		}
 
-		#if USE_ADAL
+#if USE_ADAL
 		using (var actClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {
 			_activityContext = actClass.GetStatic<AndroidJavaObject>("currentActivity");
 			
@@ -103,27 +100,27 @@ public class Authentication : MonoBehaviour {
 			Debug.Log ("authenticationContext...");
 		}
 
-		#else
+#else
 		_webView = GetComponent<UniWebView>();
 		if (_webView != null) {
 			_webView.OnLoadComplete += HandleOnLoadComplete;
 			_webView.OnLoadBegin += HandleOnLoadBegin;
 			_webView.OnReceivedMessage += HandleOnReceivedMessage;
 		}
-		#endif
+#endif
 		
-		#endif
+#endif
 
-		// Si tenemos un RefreshToken, intentamos usarlo para obtener el AccessToken
-		if (!string.IsNullOrEmpty(RefreshToken)) {
+        // Si tenemos un RefreshToken, intentamos usarlo para obtener el AccessToken
+        if (!string.IsNullOrEmpty(RefreshToken)) {
 			StartCoroutine(GetAccessTokenFromRefreshToken());
 		}
 		else {
-			OnSignUp();
+			OnSignIn();
 		}
 	}
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 	private void HandleOnLoadComplete (UniWebView webView, bool success, string errorMessage) {
 		Debug.Log ("OnLoadComplete");
 		// _webView.Show ();
@@ -148,10 +145,9 @@ public class Authentication : MonoBehaviour {
 	}
 #endif
 
-	void Update () {
+    void Update () {
 	}
 
-	/*
 	void OnGUI() {
 #if USE_ADAL
 		if (_authContext == null)
@@ -167,7 +163,7 @@ public class Authentication : MonoBehaviour {
 				OnSignIn();
 			}
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 			if (_code != null && GUI.Button(new Rect(300, Screen.height - 150, 150, 80),"Token")) {
 				StartCoroutine(GetAccessToken());
 			}
@@ -182,10 +178,10 @@ public class Authentication : MonoBehaviour {
 #endif
 		}
 	}
-	*/
 
-#if UNITY_ANDROID
-	public class AuthenticationCallback : AndroidJavaProxy
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public class AuthenticationCallback : AndroidJavaProxy
 	{
 		public AuthenticationCallback() : base("com.microsoft.aad.adal.AuthenticationCallback") {}
 
@@ -207,7 +203,7 @@ public class Authentication : MonoBehaviour {
 
 #endif
 
-	public void JavaAccessToken(string accessToken) { 
+    public void JavaAccessToken(string accessToken) { 
 		AccessToken = accessToken;
 		Debug.Log ("AccessToken: " + AccessToken);
 		
@@ -237,7 +233,7 @@ public class Authentication : MonoBehaviour {
 		string url = string.Format("{0}/oauth2/authorize{1}&{2}", authority, parameters, extraParameters);
 		Debug.Log ("REGISTER: " + url);
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 #if USE_ADAL
 		// JAVA: public void acquireToken(Activity activity, String resource, String clientId, String redirectUri, String loginHint, String extraQueryParameters, AuthenticationCallback<AuthenticationResult> callback) 
@@ -259,7 +255,7 @@ public class Authentication : MonoBehaviour {
 		string url = string.Format("{0}/oauth2/authorize{1}&{2}", authority, parameters, extraParameters);
 		Debug.Log ("LOGIN: " + url);
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 #if USE_ADAL
 		// JAVA: public void acquireToken(Activity activity, String resource, String clientId, String redirectUri, String loginHint, String extraQueryParameters, AuthenticationCallback<AuthenticationResult> callback) 
@@ -270,15 +266,15 @@ public class Authentication : MonoBehaviour {
 #endif
 
 #else // NOT ANDROID
-		Application.OpenURL(url);
+        Application.OpenURL(url);
 #endif
 	}
 
 	private IEnumerator WaitAccessToken() {
-		#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 		
 		if (Application.platform == RuntimePlatform.Android) {
-			#if MICROSOFT_SDK
+#if MICROSOFT_SDK
 
 			Debug.Log ("WaitAccessToken...");
 
@@ -294,12 +290,12 @@ public class Authentication : MonoBehaviour {
 				OnAccessToken();
 			}
 
-			#endif
+#endif
 		}
 		
-		#endif
+#endif
 
-		yield return null;
+        yield return null;
 	}
 	
 	public void OnToken() {
@@ -390,12 +386,12 @@ public class Authentication : MonoBehaviour {
 	}
 
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 	UniWebView _webView;
 	AndroidJavaObject _activityContext;
 	AndroidJavaObject _authContext;
 #else
-	private string _urlCode = "";
+    private string _urlCode = "";
 #endif
 
 	private string _code;
