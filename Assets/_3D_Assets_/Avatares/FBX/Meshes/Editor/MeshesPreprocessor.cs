@@ -19,19 +19,11 @@ class MeshesPreprocessor : AssetPostprocessor
                     var smr = child.GetComponent<SkinnedMeshRenderer>();
                     if (smr != null) {
                         var ppath = newPath + "/" + go.name + ".prefab";
-                        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(ppath);
-                        if (prefab != null)
-                        {
-                            Debug.LogError(">>>> REPLACE");
-                            PrefabUtility.ReplacePrefab(child.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
-                        }
-                        else {
-                            Debug.LogError(">>>> CREATE");
-                            PrefabUtility.CreatePrefab(ppath, child.gameObject, ReplacePrefabOptions.Default);
-                        }
+                        AssetDatabase.DeleteAsset(ppath);
+                        PrefabUtility.CreatePrefab(ppath, child.gameObject, ReplacePrefabOptions.Default);
+                        AssetImporter.GetAtPath(ppath).assetBundleName = "avatars";
+
                     }
-
-
                 }
                 
             }
