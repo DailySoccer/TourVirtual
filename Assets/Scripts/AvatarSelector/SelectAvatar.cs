@@ -2,32 +2,46 @@ using UnityEngine;
 using System.Collections;
 
 public class SelectAvatar : MonoBehaviour {
-	public AvatarsLibraryPrefabs library;
-
-    public GameObject testHead;
-    public GameObject testBody;
-    public GameObject testLegs;
-    public GameObject testFeet;
-
-    //public UMADynamicAvatar avatarLoaderPrefab;	
     public int shownModel = 0;
     public int maxModel = 10;
+
+    public ButtonCheckable MaleButton;
+    public ButtonCheckable FemaleButton;
 
     private GameObject lastInstance = null;
 	
 	public void OnNextButton() {
 		shownModel++;
         if (shownModel >= maxModel) shownModel = 0;
-		StartCoroutine( LoadModel() );
+        UpdateAvatarDesciptor();
+        StartCoroutine( LoadModel() );
 	}
 	
 	public void OnPreviousButton() {
 		shownModel--;
         if (shownModel < 0) shownModel = maxModel - 1;
+        UpdateAvatarDesciptor();
         StartCoroutine( LoadModel() );
 	}
 
-	public void OnSelectButton() {
+    public void OnSelectGender(string gender) {
+        switch (gender) {
+            case "Man":
+                MaleButton.IsTabActive = true;
+                FemaleButton.IsTabActive = false;
+                break;
+            case "Woman":
+                MaleButton.IsTabActive = false;
+                FemaleButton.IsTabActive = true;
+                break;
+        }
+        UserAPI.AvatarDesciptor.Sex = gender;
+        UpdateAvatarDesciptor();
+        StartCoroutine(LoadModel());
+    }
+
+
+    public void OnSelectButton() {
         // Guarda el avatar en el servidor.
         if (UserAPI.Instance != null) {
             UserAPI.Instance.UpdateAvatar();
@@ -62,8 +76,9 @@ public class SelectAvatar : MonoBehaviour {
     }
 
     void OnEnable() {
-        UserAPI.AvatarDesciptor.Sex = "Woman";
-        UpdateAvatarDesciptor();
-        StartCoroutine(LoadModel() );
-	}
+
+        maxModel = (PlayerManager.Instance.Heads["Man"] as ArrayList).Count;
+        OnSelectGender("Man");
+ 	}
+
 }
