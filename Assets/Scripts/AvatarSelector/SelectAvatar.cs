@@ -10,15 +10,18 @@ public class SelectAvatar : MonoBehaviour {
     public GameObject testLegs;
     public GameObject testFeet;
 
-
     public Texture2D textureSkin;
     public Texture2D textureBody;
     public Texture2D textureLegs;
     public Texture2D textureShoes;
     public Texture2D textureHair;
 
-    //public UMADynamicAvatar avatarLoaderPrefab;	
+	//public UMADynamicAvatar avatarLoaderPrefab;	
     public int shownModel = 0;
+
+
+	public GenderSelector SelectorGender;
+
 
 	private GameObject lastInstance = null;
 	
@@ -69,6 +72,10 @@ public class SelectAvatar : MonoBehaviour {
         }) );
         
     }
+
+	public void OnSelectGender (GameObject sender) {
+		SelectorGender.SelectGender (sender);
+	}
 
 
 

@@ -12,8 +12,12 @@ public class CanvasRootController : MonoBehaviour {
 		}
 	}
 
+	public GameObject CommonBackground;
 	public GameObject fadeCanvas;
+
 	public List<GameObject> canvasLayers = new List<GameObject>();
+
+
 	private string _currentScreen;
 	private RoomManager _roomManager;
 
@@ -35,6 +39,7 @@ public class CanvasRootController : MonoBehaviour {
 		foreach(GameObject go in canvasLayers) {
 			go.SetActive(false);
 		}
+		CommonBackground.SetActive(false);
 	}
 
 	public IEnumerator FadeOut (int waitSeconds) {
@@ -91,6 +96,7 @@ public class CanvasRootController : MonoBehaviour {
 		switch(_roomManager.Room.Gui) {
 		case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
 			//canvas =(GameObject) (from element in canvasLayers where element.name.ToLower() == "avatar canvas" select element);
+			CommonBackground.SetActive(true);
 			canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
 			/*canvas.SetActive(false);
 			canvasLayers[0].SetActive(true);*/
