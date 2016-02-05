@@ -89,10 +89,8 @@ public class ContentImageController : MonoBehaviour {
 
 	public IEnumerator ShowContents() {
 		gameObject.SetActive(true);
-
 		// TODO: FAKE
 		Title.text = "Don Alfredo Di Stéfano";
-
 		yield return StartCoroutine(CurrentContent.LoadContents());
 
 		Index = 0;

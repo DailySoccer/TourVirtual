@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 [RequireComponent (typeof(Scrollbar))]
 public class ScrollbarVisibility : MonoBehaviour {
 

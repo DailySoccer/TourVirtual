@@ -131,7 +131,6 @@ public class PlayerManager : Photon.PunBehaviour {
 
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
-			Debug.LogError(headDesc["mesh"] as string);
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
             Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
             Assign(bundle.LoadAsset<GameObject>(legsDesc["mesh"] as string), lastInstance.transform.FindChild("Piernas"), mat);
