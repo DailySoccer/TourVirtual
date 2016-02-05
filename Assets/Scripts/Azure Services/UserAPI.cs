@@ -1,103 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserAPI : AzureAPI {
+public class UserAPI
+{
+    // Recibos de compras en tiendas.
+    // POST api/v1/purchases
+    // Como consulto el perfil de otros usuarios?
+    public string UserID { get; set; }
+    public string Nick { get; set; }
+    public static AvatarAPI AvatarDesciptor;
 
-	public delegate void UserLogin();
-	public event UserLogin OnUserLogin;
+    public static UserAPI Instance { get; private set; }
 
-	static public UserAPI Instance { get; private set; }	
-	public bool IsOk { get { return !string.IsNullOrEmpty(UserName); } }
+    public delegate void UserLogin();
+    public event UserLogin OnUserLogin;
 
-	public string IdUser;
-	public string UserName;
-	public string ContactEmail;
+    public UserAPI() {
+        Instance = this;
+    }
 
-    void Awake() { Instance = this; }
-
-	new void Start () {
-		base.Start ();
-		GetComponent<Authentication>().OnAccessToken += HandleOnAccessToken;
-	}
-
-	public IEnumerator GetUserProfile() {
-		HTTP.Request request = RequestGet("api/v1/fan/me");
-		yield return StartCoroutine(RequestSend(request));
-		object json = JSON.JsonDecode(request.response.Text);
-        if (json is Hashtable) {
-            Hashtable jsonMap = json as Hashtable;
-            if (jsonMap.ContainsKey("IdUser"))          IdUser = jsonMap["IdUser"] as string;
-            if (jsonMap.ContainsKey("Alias"))           UserName = jsonMap["Alias"] as string;
-            if (jsonMap.ContainsKey("ContactEmail"))    ContactEmail = jsonMap["ContactEmail"] as string;
-        }
-        yield return StartCoroutine(GetUserVirtaulGoods());
-	}
-
-    public IEnumerator GetAvatarProfile() {
-        HTTP.Request request = RequestGet("api/v1/fan/me/ProfileAvatar");
-        yield return StartCoroutine( RequestSend(request) );
-        object json = JSON.JsonDecode(request.response.Text);
-        if (json is Hashtable) {
-            Debug.LogError("GetAvatarProfile OK"); 
-            Hashtable jsonMap = json as Hashtable;
-
-            string IdUser = "";
-            string PictureUrl = "";
-
-            if (jsonMap.ContainsKey("IdUser")) IdUser = jsonMap["IdUser"] as string;
-            if (jsonMap.ContainsKey("PictureUrl")) PictureUrl = jsonMap["PictureUrl"] as string;
-
-            if (jsonMap.ContainsKey("PhysicalProperties")) {
-                ArrayList PhysicalProperties = jsonMap["PhysicalProperties"] as ArrayList;
-                foreach(Hashtable entry in PhysicalProperties) {
-                    if (entry.ContainsKey("Type")) IdUser = jsonMap["Type"] as string;
-                    if (entry.ContainsKey("Version")) IdUser = jsonMap["Version"] as string;
-                    if (entry.ContainsKey("Data")) IdUser = jsonMap["Data"] as string;
-
+    public void Request()
+    {
+        Authentication.AzureServices.RequestGet("api/v1/fan/me", (res) => {
+            Hashtable hs = JSON.JsonDecode(res) as Hashtable;
+            UserID = hs["IdUser"] as string;
+            Nick = hs["Alias"] as string;
+            Authentication.AzureServices.RequestGet( "api/v1/fan/me/ProfileAvatar", (res2) => {
+                Debug.LogError(">>>> " + res2);
+                if (string.IsNullOrEmpty(res2) || res2=="null") {
+                    // Es la primera vez que entra el usuario!!!
+                    PlayerManager.Instance.SelectedModel = "";
                 }
-            }
-            if (jsonMap.ContainsKey("Accesories")) {
-                ArrayList Accesories = jsonMap["Accesories"] as ArrayList;
-                foreach (Hashtable entry in Accesories) {
-                    if (entry.ContainsKey("IdVirtualGood")) IdUser = jsonMap["IdVirtualGood"] as string;
-                    if (entry.ContainsKey("Type")) IdUser = jsonMap["Type"] as string;
-                    if (entry.ContainsKey("Version")) IdUser = jsonMap["Version"] as string;
-                    if (entry.ContainsKey("Data")) IdUser = jsonMap["Data"] as string;
+                else {
+                    Hashtable avatar = JSON.JsonDecode(res2) as Hashtable;
+                    if (avatar.Contains("PhysicalProperties")) {
+                        AvatarDesciptor.SetProperties( avatar["PhysicalProperties"] as ArrayList );
+                        PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
+                        PlayerManager.Instance.SelectedModel = "";
+                    }
                 }
-            }
-        }
-        else {
-        // Crear AvatarProfile por defecto.
-            Debug.LogError("GetAvatarProfile ERROR");
-        }
+                if (OnUserLogin != null) OnUserLogin();
+            });
+        });
     }
 
-    IEnumerator GetUserVirtaulGoods() {
-        HTTP.Request request = RequestGet("api/v1/fan/me/VirtualGoods?type=CLOTHES");
-        yield return StartCoroutine(RequestSend(request));
-        object json = JSON.JsonDecode(request.response.Text);
-        Debug.LogError("GetVirtualGoods " + request.response.Text);
-        if (json is Hashtable) {
-        }
+
+    public void UpdateAvatar() {
+        Authentication.AzureServices.RequestPost( "api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
+            Debug.LogError("UpdateAvatar " + res);
+            }, null);
     }
 
-    IEnumerator GetVirtualGoods() {
-        HTTP.Request request = RequestGet("api/v1/virtualgoods?idType=CLOTHES&ct=1");
-        yield return StartCoroutine(RequestSend(request));
-        object json = JSON.JsonDecode(request.response.Text);
-        Debug.LogError("GetVirtualGoods " + request.response.Text);
-        if (json is Hashtable) {
-        }
+    public void SendAvatar(byte[] bytes) {
+        Authentication.AzureServices.RequestPut("api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
+            Debug.LogError("SendAvatar " + res);
+        });
     }
 
-    void HandleOnAccessToken ()	{
-        StartCoroutine( RequestInfo() );
-	}
-
-    IEnumerator RequestInfo() {
-        yield return StartCoroutine(GetUserProfile());
-        yield return StartCoroutine(GetAvatarProfile());
-        yield return StartCoroutine(GetVirtualGoods());
-        if (OnUserLogin != null) OnUserLogin();
-    }
 }

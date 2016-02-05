@@ -1,3 +1,5 @@
+/*
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -29,9 +31,10 @@ public class MenuManager : MonoBehaviour {
 	void Start () {
 		GameObject azureServices = GameObject.FindGameObjectWithTag("AzureServices");
 		_authentication = azureServices.GetComponent<Authentication>();
+
+
 		_user = azureServices.GetComponent<UserAPI>();
 		_contents = GetComponent<ContentList>();
-
 		_authentication.OnAccessToken += HandleAccessToken;
 		_user.OnUserLogin += HandleOnUserLogin;
 
@@ -83,3 +86,4 @@ public class MenuManager : MonoBehaviour {
 	UserAPI _user;
 	ContentList _contents;
 }
+*/

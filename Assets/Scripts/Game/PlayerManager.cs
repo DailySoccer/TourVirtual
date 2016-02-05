@@ -20,8 +20,11 @@ public class PlayerManager : Photon.PunBehaviour {
     public Texture2D textureNumbers;
     public float textureSize = 512;
 
-    ArrayList headsList;
-    ArrayList clothsList;
+    public Hashtable Heads;
+    public Hashtable Bodies;
+    public Hashtable Legs;
+    public Hashtable Feet;
+
     ArrayList packsList;
 
 
@@ -106,8 +109,11 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
-            headsList = json["heads"] as ArrayList;
-            clothsList = json["cloths"] as ArrayList;
+            Heads = json["Heads"] as Hashtable;
+            Bodies = json["Bodies"] as Hashtable;
+            Legs = json["Legs"] as Hashtable;
+            Feet = json["Feet"] as Hashtable;
+
             packsList = json["packs"] as ArrayList;
         }));
     }
@@ -115,14 +121,14 @@ public class PlayerManager : Photon.PunBehaviour {
     public delegate void callback(GameObject instance);
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
-        Hashtable headDesc = GetDescriptor(headsList, section[1]);
-        Hashtable bodyDesc = GetDescriptor(clothsList, section[2]);
-        Hashtable legsDesc = GetDescriptor(clothsList, section[3]);
-        Hashtable feetDesc = GetDescriptor(clothsList, section[4]);
+        Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[1]);
+        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, section[2]);
+        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, section[3]);
+        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, section[4]);
 
-        GameObject lastInstance = Instantiate(prefabMale);
-
+        GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
         lastInstance.transform.position = Vector3.zero;
+
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
 			Debug.LogError(headDesc["mesh"] as string);
@@ -160,10 +166,7 @@ public class PlayerManager : Photon.PunBehaviour {
         }));
     }
 
-    public byte[] RenderModel(GameObject avatar)
-    {
-        int w = 320;
-        int h = 620;
+    public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
         int oldLayer = avatar.layer;
 
@@ -183,30 +186,13 @@ public class PlayerManager : Photon.PunBehaviour {
         // Read screen contents into the texture
         tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
         tex.Apply();
-
         byte[] bytes = tex.EncodeToPNG();
-        //        System.IO.File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
         Destroy(tex);
 
         RenderTexture.active = null;
         RenderTexture.ReleaseTemporary(rt);
         Destroy(camera);
         SetLayerRecursively(avatar, oldLayer);
-
-        /*
-        // Create a Web Form
-        WWWForm form = new WWWForm();
-        form.AddField("frameCount", Time.frameCount.ToString());
-        form.AddBinaryData("fileUpload", bytes);
-
-        // Upload to a cgi script
-        WWW w = new WWW("http://localhost/cgi-bin/env.cgi?post", form);
-        yield return w;
-        if (w.error != null)
-            print(w.error);
-        else
-            print("Finished Uploading Screenshot");
-        */
 
         return bytes;
 
@@ -240,7 +226,7 @@ public class PlayerManager : Photon.PunBehaviour {
         smrDst.bones = bones;
 
         smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
-        Material[] mats = smrDst.sharedMaterials;
+        Material[] mats = new Material[2];// smrDst.sharedMaterials;
         for (int i = 0; i < mats.Length; ++i)
             mats[i] = mat;
         smrDst.sharedMaterials = mats;

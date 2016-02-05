@@ -114,8 +114,6 @@ public class RoomDefinition {
 }
 
 public class RoomManager : Photon.PunBehaviour {
-    public string AvatarDefinition = "man#HCabeza03#HTorso01#HPiernas05#HPies07";
-
     public delegate void ChangeEvent();
 	public event ChangeEvent OnChange;
 	public event ChangeEvent OnSceneChange;
@@ -185,7 +183,7 @@ public class RoomManager : Photon.PunBehaviour {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
 
-                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
+//                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
 
                     if (!string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel)) {
                         // Sin pasar por seleccion de avatar.

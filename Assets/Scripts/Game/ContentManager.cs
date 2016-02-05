@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ContentManager : AzureAPI {
-
+public class ContentManager: MonoBehaviour
+{
 	public GameObject Model3DView;
 
 	static public ContentManager Instance {
@@ -23,8 +23,8 @@ public class ContentManager : AzureAPI {
 
 	public Dictionary<string, List<CompactContent>> CompactContents = new Dictionary<string, List<CompactContent>>();
 
-	new void Start () {
-		base.Start ();
+	void Start () {
+//		base.Start ();
 		if (RoomManager.Instance != null) {
 			RoomManager.Instance.OnSceneReady += HandleOnSceneReady;
 		}
@@ -47,10 +47,10 @@ public class ContentManager : AzureAPI {
 	}
 
 	public IEnumerator GetContentItem(string contentId) {
-		HTTP.Request request = RequestGet(string.Format (URL_GET_CONTENT_ITEM, contentId));
-		yield return StartCoroutine(RequestSend(request));
-		
-		// object json = JSON.JsonDecode(request.response.Text);
+
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
+            Debug.LogError("GetContentItem " + res);
+        });
 	}
 
 	public List<CompactContent> GetCompactContentsByKey(string contentKey) {
@@ -59,14 +59,14 @@ public class ContentManager : AzureAPI {
 	}
 
 	public List<CompactContent> GetCompactContentsByType(string contentType) {
-		string key = GetContentTypeWithLanguage(MainLanguage, contentType);
+		string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 		return CompactContents.ContainsKey(key) ? CompactContents[key] : new List<CompactContent>();
 	}
 
 	public IEnumerator LoadContentsByKey(string contentKey) {
-		if (AuthorizationValid) {
+		if (Authentication.Instance.IsOk) {
 			string contentType = RoomManager.Instance.Room.Content(contentKey);
-			string key = GetContentTypeWithLanguage(MainLanguage, contentType);
+			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 			if (!CompactContents.ContainsKey(key)) {
 				yield return StartCoroutine(LoadContents(contentType));
 			}
@@ -74,8 +74,8 @@ public class ContentManager : AzureAPI {
 	}
 
 	public IEnumerator LoadContentsByType(string contentType) {
-		if (AuthorizationValid) {
-			string key = GetContentTypeWithLanguage(MainLanguage, contentType);
+		if (Authentication.Instance.IsOk) {
+			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 			if (!CompactContents.ContainsKey(key)) {
 				yield return StartCoroutine(LoadContents(contentType));
 			}
@@ -112,33 +112,28 @@ public class ContentManager : AzureAPI {
 	}
 
 	private IEnumerator LoadContents(string contentType) {
-		int page = 0;
+        int page = 0;
 		int pageCount = 1;
 
-		string language = MainLanguage;
+		string language = Authentication.AzureServices.MainLanguage;
 		List<CompactContent> contents = new List<CompactContent>();
 		while (page < pageCount) {
 			page++;
 			Debug.Log ("GetListContentType: Page: " + page);
-			
-			HTTP.Request request = RequestGet(string.Format (URL_LIST_CONTENT_BY_TYPE, contentType, language, page));
-			yield return StartCoroutine(RequestSend(request));
-			
-			object json = JSON.JsonDecode(request.response.Text);
-			if (json is Hashtable) {
-				Hashtable jsonMap = json as Hashtable;
-				
-				ArrayList results = jsonMap[KEY_RESULTS] as ArrayList;
-				foreach(object result in results) {
-					CompactContent compactContent = CompactContent.LoadFromJSON(result);
-					contents.Add(compactContent);
-					
-					// StartCoroutine(GetContentItem(compactContent.IdContent));
-				}
-				
-				page = (int) jsonMap[KEY_CURRENT_PAGE];
-				pageCount = (int) jsonMap[KEY_PAGE_COUNT];
-			}
+            yield return Authentication.AzureServices.AwaitRequestGet(string.Format(URL_LIST_CONTENT_BY_TYPE, contentType, language, page), (res) => {
+                object json = JSON.JsonDecode(res);
+                if (json is Hashtable) {
+                    Hashtable jsonMap = json as Hashtable;
+                    ArrayList results = jsonMap[KEY_RESULTS] as ArrayList;
+                    foreach (object result in results) {
+                        CompactContent compactContent = CompactContent.LoadFromJSON(result);
+                        contents.Add(compactContent);
+                        // StartCoroutine(GetContentItem(compactContent.IdContent));
+                    }
+                    page = (int)jsonMap[KEY_CURRENT_PAGE];
+                    pageCount = (int)jsonMap[KEY_PAGE_COUNT];
+                }
+            });
 		}
 
 		string key = GetContentTypeWithLanguage(language, contentType);
