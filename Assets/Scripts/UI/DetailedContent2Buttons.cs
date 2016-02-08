@@ -18,9 +18,13 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	public GameObject BuyButton;
 	public GameObject ShareButton;
 
-	public DetailedContent2ButtonsLayout CurrentLayout;
+	[SerializeField]
+	private DetailedContent2ButtonsLayout _CurrentLayout;
 
-	private DetailedContent2ButtonsLayout LastLayout;
+	public DetailedContent2ButtonsLayout CurrentLayout {
+		get{ return _CurrentLayout;}
+		set{ _CurrentLayout = value;}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -30,28 +34,25 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if (LastLayout != CurrentLayout) {
-			switch (CurrentLayout) {
-			case DetailedContent2ButtonsLayout.BUYITEM:
-				CancelButton.SetActive(true);
-				BuyButton.SetActive(true);
-				GotoShopButton.SetActive(false);
-				ShareButton.SetActive(false);
-				break;
-			case DetailedContent2ButtonsLayout.GOTOSHOP:
-				CancelButton.SetActive(true);
-				BuyButton.SetActive(false);
-				GotoShopButton.SetActive(true);
-				ShareButton.SetActive(false);
-				break;
-			case DetailedContent2ButtonsLayout.SHARE:
-				CancelButton.SetActive(false);
-				BuyButton.SetActive(false);
-				GotoShopButton.SetActive(false);
-				ShareButton.SetActive(true);
-				break;
-			}
-			LastLayout = CurrentLayout;
+		switch (_CurrentLayout) {
+		case DetailedContent2ButtonsLayout.BUYITEM:
+			CancelButton.SetActive(true);
+			BuyButton.SetActive(true);
+			GotoShopButton.SetActive(false);
+			ShareButton.SetActive(false);
+			break;
+		case DetailedContent2ButtonsLayout.GOTOSHOP:
+			CancelButton.SetActive(true);
+			BuyButton.SetActive(false);
+			GotoShopButton.SetActive(true);
+			ShareButton.SetActive(false);
+			break;
+		case DetailedContent2ButtonsLayout.SHARE:
+			CancelButton.SetActive(false);
+			BuyButton.SetActive(false);
+			GotoShopButton.SetActive(false);
+			ShareButton.SetActive(true);
+			break;
 		}
 	}
 }
