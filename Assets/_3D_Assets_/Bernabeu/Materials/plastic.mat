@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: plastic
-  m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 6d2df4552ddc6d947bcd506224ba9670, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -80,6 +80,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _SpecTex
         second:
           m_Texture: {fileID: 0}
@@ -113,7 +120,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .588
+        second: .347000003
       data:
         first:
           name: _BumpScale
@@ -137,7 +144,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0
+        second: .667999983
       data:
         first:
           name: _SpecInt
@@ -154,8 +161,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0, g: .373732507, b: .985294104, a: 1}
+        second: {r: .0457396172, g: .109845228, b: .345588207, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0, g: 0, b: 0, a: 1}
