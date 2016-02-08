@@ -81,7 +81,7 @@
 				"PUERTA2": "ROOM3"
 			},
 			"bundles": {
-				"SCENE": "scene/sala_sensaciones",
+				"SCENE": "scene/sala_sensaciones"
 			},
 			"contents": {
 			}
@@ -98,7 +98,7 @@
 				"PUERTA2": "ROOM4"
 			},
 			"bundles": {
-				"SCENE": "scene/sala_basket",
+				"SCENE": "scene/sala_basket"
 			},
 			"contents": {
 			}
@@ -115,7 +115,7 @@
 				"PUERTA2": "ROOM5"
 			},
 			"bundles": {
-				"SCENE": "scene/sala_reyes_europa",
+				"SCENE": "scene/sala_reyes_europa"
 			},
 			"contents": {
 			}
@@ -132,7 +132,7 @@
 				"PUERTA2": "ROOM6"
 			},
 			"bundles": {
-				"SCENE": "scene/sala_tu_eres_real_madrid",
+				"SCENE": "scene/sala_tu_eres_real_madrid"
 			},
 			"contents": {
 			}
@@ -149,7 +149,7 @@
 				"PUERTA2": "ESTADIO"
 			},
 			"bundles": {
-				"SCENE": "scene/vestuarios",
+				"SCENE": "scene/vestuarios"
 			},
 			"contents": {
 			}
@@ -166,7 +166,7 @@
                 "PUERTA2": "ESTADIO#PUERTA1"
             },
             "bundles": {
-                "SCENE": "scene/sala_prensa",
+                "SCENE": "scene/sala_prensa"
             },
             "contents": {
             }
@@ -174,7 +174,8 @@
         { 
 			"id": "MINIBASKET",
 			"name": "Basket Minigame",
-			"scene": "BasketballCourt",			
+            "scene": "BasketballCourt",
+            "gui": "MINIGAMES",
 			"player_visible": false,
             "max_players": 1,
 			"doors": {
@@ -187,7 +188,8 @@
         { 
 			"id": "MINIFOOTBALL",
 			"name": "Football Minigame",
-			"scene": "FootballCourt",			
+            "scene": "FootballCourt",
+            "gui": "MINIGAMES",
 			"player_visible": false,
             "max_players": 1,
 			"doors": {

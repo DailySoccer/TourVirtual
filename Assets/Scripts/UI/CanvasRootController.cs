@@ -94,23 +94,25 @@ public class CanvasRootController : MonoBehaviour {
 
 		//GameObject canvas;
 		switch(_roomManager.Room.Gui) {
-		case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
-			//canvas =(GameObject) (from element in canvasLayers where element.name.ToLower() == "avatar canvas" select element);
-			CommonBackground.SetActive(true);
-			canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
-			/*canvas.SetActive(false);
-			canvasLayers[0].SetActive(true);*/
-			Debug.Log("Canvas Activado: Avatar selector Scene");
-			break;
-		case RoomDefinition.GUI_GAME: // Game Scene
-			//canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
-			canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas").SetActive(true);
-			/*canvas.SetActive(false);
-			canvasLayers[1].SetActive(true);*/
-			Debug.Log("Canvas Activado: Game selector Scene");
-			break;
-		}
+            case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
+                CommonBackground.SetActive(true);
+                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
+                /*canvas.SetActive(false);
+                canvasLayers[0].SetActive(true);*/
+                break;
+            case RoomDefinition.GUI_GAME: // Game Scene
+                                          //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
+                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas").SetActive(true);
+                /*canvas.SetActive(false);
+                canvasLayers[1].SetActive(true);*/
+                break;
+            case RoomDefinition.GUI_MINIGAMES: // Game Scene
+                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas").SetActive(true);
+                /*canvas.SetActive(false);
+                canvasLayers[1].SetActive(true);*/
+                break;
+        }
 
-		Debug.Log("Security cargo else level: " + Application.loadedLevelName);
+        Debug.Log("Security cargo else level: " + Application.loadedLevelName);
 	}
 }

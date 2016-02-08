@@ -6,8 +6,9 @@ using Photon;
 public class RoomDefinition {
 	public const string GUI_AVATAR = "AVATAR";
 	public const string GUI_GAME = "GAME";
+    public const string GUI_MINIGAMES = "MINIGAMES";
 
-	public string Id;
+    public string Id;
 	public string SceneName;
 	public string Gui;
 	public bool PlayerVisible = true;
@@ -145,7 +146,7 @@ public class RoomManager : Photon.PunBehaviour {
 			}
 		}
 	}
-
+        
     static RoomManager _instance;
     static public RoomManager Instance {
 		get {
@@ -178,20 +179,16 @@ public class RoomManager : Photon.PunBehaviour {
 			ToRoom (roomLoaded);
 		}
 		else {
-            if (!string.IsNullOrEmpty(RoomStart))
-            {
+            if ( !string.IsNullOrEmpty(RoomStart) ) {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
-
 //                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
-
-                    if (!string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel)) {
+                    if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
                         // Sin pasar por seleccion de avatar.
                         RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
                         RoomStart = rd.Door(roomKey);
                         roomKey = GetRoomKey(RoomStart);
                         _doorToEnter = GetDoorKey(RoomStart);
-
                         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
                             Player thePlayer = Player.Instance;
                             instance.layer = LayerMask.NameToLayer("Player");
@@ -299,7 +296,9 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	void Update () {
-		UpdatePointOfInterest();
+        if(Input.GetKeyDown(KeyCode.A)) RoomManager.Instance.GotoRoom("MINIBASKET");
+
+        UpdatePointOfInterest();
 	}
 
 	private void UpdatePointOfInterest() {
