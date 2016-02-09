@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class Authentication : MonoBehaviour {    
+public class Authentication : MonoBehaviour {
+    public static string IDClient = "";
     public static AzureInterfaz AzureServices;
 	static public Authentication Instance {
 		get {
@@ -20,15 +21,20 @@ public class Authentication : MonoBehaviour {
     void Start()
     {
 #if UNITY_EDITOR
+        IDClient = "a9ae3ecc-765e-45f3-96dd-e367a936dda9";
         AzureServices = new EditorAzureInterfaz(this);
 #else
 #if UNITY_ANDROID
+        IDClient = "a9ae3ecc-765e-45f3-96dd-e367a936dda9";
         AzureServices = new AndroidAzureInterfaz(this);
+        
 #else
 #if UNITY_IOS
+        IDClient = "e2e022fc-63c8-4c8b-ad05-c5f819f0d341";
         AzureServices = new IOSAzureInterfaz(this);
 #else
 #if UNITY_WSA
+        IDClient = "9af28d79-4559-4009-b97b-d857e2932615";
         // AzureServices = new WP8AzureInterfaz(); // Es instanciado desde el lado de WP
 #endif
 #endif

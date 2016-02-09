@@ -74,7 +74,8 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestPost(url, JSON.JsonDecode(json) as Hashtable, ok, error));
     }
 
-    public void RequestPost(string url, Hashtable json, RequestEvent ok = null, RequestEvent error = null) {
+    public void RequestPost(string url, Hashtable json, RequestEvent ok = null, RequestEvent error = null)
+    {
         component.StartCoroutine(_RequestPost(url, json, ok, error));
     }
 
@@ -85,6 +86,19 @@ public class AzureInterfaz {
         while (!request.isDone) { yield return null; }
         if (ok != null) ok(request.response.Text);
     }
+
+    public void RequestPostString(string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestPostString(url, value, ok, error));
+    }
+
+    public IEnumerator _RequestPostString(string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        HTTP.Request request = new HTTP.Request("post", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), value);
+        AddAuthorization(request);
+        request.Send();
+        while (!request.isDone) { yield return null; }
+        if (ok != null) ok(request.response.Text);
+    }
+
     public void RequestPut(string url, byte[] array, RequestEvent ok = null, RequestEvent error = null)
     {
         component.StartCoroutine(_RequestPut(url, array, ok, error));

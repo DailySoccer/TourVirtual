@@ -96,12 +96,21 @@ namespace HTTP
 
         }
 
+        public Request(string method, string uri, string data)
+        {
+            this.method = method;
+            this.uri = new Uri(uri);
+            this.byteStream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+            this.AddHeader("Content-Type", "application/json");
+        }
+
+
         public Request( string method, string uri, Hashtable data )
         {
             this.method = method;
             this.uri = new Uri( uri );
             this.byteStream = new MemoryStream(Encoding.UTF8.GetBytes( JSON.JsonEncode( data ) ));
-            this.AddHeader( "Content-Type", "application/json" );
+//            this.AddHeader( "Content-Type", "application/json" );
         }
         
         public void AddHeader (string name, string value)

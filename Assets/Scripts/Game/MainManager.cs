@@ -166,7 +166,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	void Start() {
-		if (UserAPI.Instance != null) {
+        if (UserAPI.Instance != null) {
 
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
