@@ -9,6 +9,7 @@ public class UserAPI
     public string UserID { get; set; }
     public string Nick { get; set; }
     public static AvatarAPI AvatarDesciptor;
+    public static VirtualGoodsAPI VirtualGoodsDesciptor;
 
     public static UserAPI Instance { get; private set; }
 
@@ -19,8 +20,7 @@ public class UserAPI
         Instance = this;
     }
 
-    public void Request()
-    {
+    public void Request() {
         Authentication.AzureServices.RequestGet("api/v1/fan/me", (res) => {
             Hashtable hs = JSON.JsonDecode(res) as Hashtable;
             UserID = hs["IdUser"] as string;
@@ -44,6 +44,7 @@ public class UserAPI
                 SetScore(MiniGame.FreeKicks, 100);
             });
         });
+        VirtualGoodsDesciptor.Request();
     }
 
     public void UpdateAvatar() {
