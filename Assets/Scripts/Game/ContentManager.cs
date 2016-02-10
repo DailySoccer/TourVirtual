@@ -47,7 +47,6 @@ public class ContentManager: MonoBehaviour
 	}
 
 	public IEnumerator GetContentItem(string contentId) {
-
         yield return Authentication.AzureServices.AwaitableRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
             Debug.LogError("GetContentItem " + res);
         });

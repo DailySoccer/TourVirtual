@@ -9,6 +9,7 @@ public class UserAPI
     public string UserID { get; set; }
     public string Nick { get; set; }
     public int Points { get; set; }
+    public int Level { get; set; }
 
     public static AvatarAPI AvatarDesciptor;
     public static VirtualGoodsAPI VirtualGoodsDesciptor =  new VirtualGoodsAPI();
@@ -49,19 +50,19 @@ public class UserAPI
         });
 
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
-        Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-            Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
-            Points = (int)gamificationstatus["Points"];
-        });
-
+            Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
+                Debug.LogError(">>>>> GamificationStatus " + res);
+                Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
+                Points = (int)gamificationstatus["Points"];
+                Level = int.Parse( gamificationstatus["Level"] as string);
+            });
         if (OnUserLogin != null) OnUserLogin();
-
         GetGlobalRanking();
         SetScore(MiniGame.FreeKicks, 100);
     }
 
     public void UpdateAvatar() {
-        Authentication.AzureServices.RequestPost("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
+        Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
             Debug.LogError("UpdateAvatar " + res);
         }, null);
     }
@@ -73,11 +74,27 @@ public class UserAPI
     }
 
 
+    /*
+    [{"Alias":"Perico","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/06c22acd-0bd7-4d3f-b002-1df33f968f2e_thumbnail.png?v=1362051505","Position":1,"GamingScore":7231,"IsCurrentUser":false},{"Alias":"Jesus1","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/134f18c4-24ae-428e-8192-7a1b493aab57_thumbnail.png?v=271519312","Position":2,"GamingScore":7081,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":3,"GamingScore":6531,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":4,"GamingScore":5900,"IsCurrentUser":false},{"Alias":"rodolfo","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/32cbc30a-7ac1-4fa2-8ced-3fe4f45e424d_thumbnail.png?v=-227497956","Position":5,"GamingScore":4731,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":6,"GamingScore":4691,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":7,"GamingScore":4541,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":8,"GamingScore":4251,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":9,"GamingScore":3921,"IsCurrentUser":false},{"Alias":"paco22","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/e9f64231-2a9c-44b7-a35d-b138b5725c23_thumbnail.png?v=1699964935","Position":10,"GamingScore":3751,"IsCurrentUser":false},{"Alias":null,"AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":1999997,"GamingScore":0,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":1999998,"GamingScore":0,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":1999999,"GamingScore":0,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":2000000,"GamingScore":0,"IsCurrentUser":false},{"Alias":null,"AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/","Position":2000001,"GamingScore":0,"IsCurrentUser":false},{"Alias":"Gunder","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":2000002,"GamingScore":0,"IsCurrentUser":true},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":2000003,"GamingScore":0,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":2000004,"GamingScore":0,"IsCurrentUser":false},{"Alias":"32eacc5508824bf7aa67d048974895a7","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/","Position":2000005,"GamingScore":0,"IsCurrentUser":false},{"Alias":"","AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/default.png","Position":2000006,"GamingScore":0,"IsCurrentUser":false},{"Alias":null,"AvatarUrl":"https://az726872.vo.msecnd.net/global-avatar/","Position":2000007,"GamingScore":0,"IsCurrentUser":false}]
+
+        */
+
+
     public void GetGlobalRanking() {
         //     api/v1/fan/me/Rankings/{idClient} -> XP en GamingScore
-        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/me/Rankings/idClient={1}",
+        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/me/Rankings/{1}/{2}",
+            Authentication.AzureServices.MainLanguage, Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
+                Debug.LogError("GetMyRanking " + res);
+                if (res != "null")
+                {
+                    Hashtable globalRanking = JSON.JsonDecode(res) as Hashtable;
+                    Debug.LogError("GetGlobalRanking " + globalRanking["GamingScore"]);
+                }
+            });
+
+        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/me/Rankings/{1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-//                Debug.LogError("GetGlobalRanking " + res);
+                Debug.LogError("GetGlobalRanking " + res);
             });
     }
 

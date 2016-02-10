@@ -226,7 +226,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 	
 	void HandleOnUserLogin () {
-		Debug.LogError ("UserName: " + UserAPI.Instance.Nick + " Points "+ UserAPI.Instance.Points);
+		Debug.LogError (UserAPI.Instance.UserID + " UserName: " + UserAPI.Instance.Nick + " Points "+ UserAPI.Instance.Points + " Level "+ UserAPI.Instance.Level );
 		// TODO: Temporalmente no obtendremos el nombre del usuario de Azure para no tener que obligar a registrarse en su servicio
 		// PhotonNetwork.playerName = UserAPI.Instance.UserName;
 		StartCoroutine(Connect ());

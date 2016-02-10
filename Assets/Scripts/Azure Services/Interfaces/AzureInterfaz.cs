@@ -77,10 +77,10 @@ public class AzureInterfaz {
     }
 
     public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {
-        component.StartCoroutine(_RequestPost(url, JSON.JsonDecode(json), ok, error));
+        RequestPostJSON(url, JSON.JsonDecode(json), ok, error);
     }
 
-    public void RequestPost(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
+    public void RequestPostJSON(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
         component.StartCoroutine(_RequestPost(url, json, ok, error));
     }
 
