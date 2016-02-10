@@ -8,8 +8,10 @@ public class UserAPI
     // Como consulto el perfil de otros usuarios?
     public string UserID { get; set; }
     public string Nick { get; set; }
+    public int Points { get; set; }
+
     public static AvatarAPI AvatarDesciptor;
-    public static VirtualGoodsAPI VirtualGoodsDesciptor;
+    public static VirtualGoodsAPI VirtualGoodsDesciptor =  new VirtualGoodsAPI();
 
     public static UserAPI Instance { get; private set; }
 
@@ -20,31 +22,40 @@ public class UserAPI
         Instance = this;
     }
 
-    public void Request() {
-        Authentication.AzureServices.RequestGet("api/v1/fan/me", (res) => {
+    public IEnumerator Request() {
+        yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
+        
+        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Hashtable hs = JSON.JsonDecode(res) as Hashtable;
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
-            Authentication.AzureServices.RequestGet("api/v1/fan/me/ProfileAvatar", (res2) => {
-                if (string.IsNullOrEmpty(res2) || res2 == "null") {
-                    // Es la primera vez que entra el usuario!!!
+        });
+
+        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
+            if (string.IsNullOrEmpty(res) || res == "null") {
+                // Es la primera vez que entra el usuario!!!
+                PlayerManager.Instance.SelectedModel = "";
+            }
+            else {
+                Hashtable avatar = JSON.JsonDecode(res) as Hashtable;
+                if (avatar.Contains("PhysicalProperties")) {
+                    AvatarDesciptor.SetProperties(avatar["PhysicalProperties"] as ArrayList);
+                    PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                     PlayerManager.Instance.SelectedModel = "";
                 }
-                else {
-                    Hashtable avatar = JSON.JsonDecode(res2) as Hashtable;
-                    if (avatar.Contains("PhysicalProperties")) {
-                        AvatarDesciptor.SetProperties(avatar["PhysicalProperties"] as ArrayList);
-                        PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
-                        PlayerManager.Instance.SelectedModel = "";
-                    }
-                }
-                if (OnUserLogin != null) OnUserLogin();
-                GetGamificationStatus();
-                GetGlobalRanking();
-                SetScore(MiniGame.FreeKicks, 100);
-            });
+            }
         });
-        VirtualGoodsDesciptor.Request();
+
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
+        Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
+            Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
+            Points = (int)gamificationstatus["Points"];
+        });
+
+        if (OnUserLogin != null) OnUserLogin();
+
+        GetGlobalRanking();
+        SetScore(MiniGame.FreeKicks, 100);
     }
 
     public void UpdateAvatar() {
@@ -60,22 +71,12 @@ public class UserAPI
     }
 
 
-    public void GetGlobalRanking()
-    {
+    public void GetGlobalRanking() {
         //     api/v1/fan/me/Rankings/{idClient} -> XP en GamingScore
         Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/me/Rankings/idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-                Debug.LogError("GetGlobalRanking " + res);
+//                Debug.LogError("GetGlobalRanking " + res);
             });
-    }
-
-
-    public void GetGamificationStatus()
-    {
-        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}", 
-            Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-            Debug.LogError("GetGamificationStatus " + res);
-        });
     }
 
     public enum MiniGame{
@@ -92,14 +93,14 @@ public class UserAPI
 
     public void SetScore(MiniGame game, int score) {
         Authentication.AzureServices.RequestPostString(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
-            Debug.LogError("SetScore " + res);
+//            Debug.LogError("SetScore " + res);
             GetRanking(game);
         });
     }
 
     public void GetRanking(MiniGame game){
         Authentication.AzureServices.RequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
-            Debug.LogError("GetRanking " + res);
+//            Debug.LogError("GetRanking " + res);
         });
     }
 

@@ -162,7 +162,6 @@ public class MainManager : Photon.PunBehaviour {
 		MusicEnabled = true; // TODO: Cargar desde archivo de configuracion
 		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
 		CurrentLanguage = LanguageManagerInstance.CurrentlyLoadedCulture.languageCode; // TODO: Cargar desde archivo de configuracion
-		Debug.Log ("Language: " + LanguageManagerInstance.CurrentlyLoadedCulture.languageCode);
 	}
 
 	void Start() {
@@ -227,7 +226,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 	
 	void HandleOnUserLogin () {
-		Debug.LogError ("UserName: " + UserAPI.Instance.Nick);
+		Debug.LogError ("UserName: " + UserAPI.Instance.Nick + " Points "+ UserAPI.Instance.Points);
 		// TODO: Temporalmente no obtendremos el nombre del usuario de Azure para no tener que obligar a registrarse en su servicio
 		// PhotonNetwork.playerName = UserAPI.Instance.UserName;
 		StartCoroutine(Connect ());

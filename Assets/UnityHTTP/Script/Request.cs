@@ -105,12 +105,12 @@ namespace HTTP
         }
 
 
-        public Request( string method, string uri, Hashtable data )
-        {
+        public Request( string method, string uri, object data ) {
             this.method = method;
             this.uri = new Uri( uri );
-            this.byteStream = new MemoryStream(Encoding.UTF8.GetBytes( JSON.JsonEncode( data ) ));
-//            this.AddHeader( "Content-Type", "application/json" );
+            string json = JSON.JsonEncode(data);
+            this.byteStream = new MemoryStream(Encoding.UTF8.GetBytes( json  ));
+            this.AddHeader( "Content-Type", "application/json" );
         }
         
         public void AddHeader (string name, string value)

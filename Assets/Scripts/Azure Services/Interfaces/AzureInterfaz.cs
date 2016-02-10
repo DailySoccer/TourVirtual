@@ -57,9 +57,15 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestGet(url, ok, error));
     }
 
-    public IEnumerator AwaitRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
+    
+    public IEnumerator AwaitableRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
     {
         yield return component.StartCoroutine(_RequestGet(url, ok, error));
+    }
+
+    public Coroutine AwaitRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
+    {
+        return component.StartCoroutine(_RequestGet(url, ok, error));
     }
 
     public IEnumerator _RequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
@@ -71,16 +77,15 @@ public class AzureInterfaz {
     }
 
     public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {
-        component.StartCoroutine(_RequestPost(url, JSON.JsonDecode(json) as Hashtable, ok, error));
+        component.StartCoroutine(_RequestPost(url, JSON.JsonDecode(json), ok, error));
     }
 
-    public void RequestPost(string url, Hashtable json, RequestEvent ok = null, RequestEvent error = null)
-    {
+    public void RequestPost(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
         component.StartCoroutine(_RequestPost(url, json, ok, error));
     }
 
-    public IEnumerator _RequestPost(string url, Hashtable json, RequestEvent ok = null, RequestEvent error = null) {
-        HTTP.Request request = new HTTP.Request("post", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json);
+    public IEnumerator _RequestPost(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
+        HTTP.Request request = new HTTP.Request("post", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json as object);
         AddAuthorization(request);
         request.Send();
         while (!request.isDone) { yield return null; }

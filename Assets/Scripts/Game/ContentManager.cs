@@ -48,7 +48,7 @@ public class ContentManager: MonoBehaviour
 
 	public IEnumerator GetContentItem(string contentId) {
 
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
+        yield return Authentication.AzureServices.AwaitableRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
             Debug.LogError("GetContentItem " + res);
         });
 	}
@@ -120,7 +120,7 @@ public class ContentManager: MonoBehaviour
 		while (page < pageCount) {
 			page++;
 			Debug.Log ("GetListContentType: Page: " + page);
-            yield return Authentication.AzureServices.AwaitRequestGet(string.Format(URL_LIST_CONTENT_BY_TYPE, contentType, language, page), (res) => {
+            yield return Authentication.AzureServices.AwaitableRequestGet(string.Format(URL_LIST_CONTENT_BY_TYPE, contentType, language, page), (res) => {
                 object json = JSON.JsonDecode(res);
                 if (json is Hashtable) {
                     Hashtable jsonMap = json as Hashtable;

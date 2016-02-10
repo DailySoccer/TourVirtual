@@ -41,7 +41,9 @@ public class Authentication : MonoBehaviour {
 #endif
 #endif
         AzureServices.Init("Development", "7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
-        AzureServices.OnAccessToken = () => { UserAPI.Instance.Request();};
+        AzureServices.OnAccessToken = () => {
+            StartCoroutine( UserAPI.Instance.Request() );
+        };
         AzureServices.SignIn();
     }
 
