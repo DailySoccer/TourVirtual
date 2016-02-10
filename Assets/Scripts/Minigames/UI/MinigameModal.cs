@@ -12,8 +12,10 @@ public class MinigameModal : MonoBehaviour {
 	public Sprite BasketBg;
 	public Image backgroundBase;
 
-    MinigameModalType _CurrentMinigameStyle;
-    public MinigameModalType CurrentMinigameStyle {
+    public MinigameModalType CurrentMinigameStyle;
+	private MinigameModalType _LastMinigameStyle;
+    /*
+	private MinigameModalType _CurrentMinigameStyle {
         get { return _CurrentMinigameStyle; }
         set {
             if(_CurrentMinigameStyle != value) {
@@ -28,7 +30,7 @@ public class MinigameModal : MonoBehaviour {
                 }
             }
         }
-    }
+    }*/
 
 	// Use this for initialization
 	void Start () {	
@@ -36,5 +38,16 @@ public class MinigameModal : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (CurrentMinigameStyle != _LastMinigameStyle) {
+			switch (CurrentMinigameStyle) {
+			case MinigameModalType.FootbalShots:
+				backgroundBase.sprite = FootballBg;
+				break;
+			case MinigameModalType.BasketShots:
+				backgroundBase.sprite = BasketBg;
+				break;
+			}
+			_LastMinigameStyle = CurrentMinigameStyle;
+		}
 	}
 }
