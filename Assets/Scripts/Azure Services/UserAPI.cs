@@ -12,6 +12,7 @@ public class UserAPI
 
     public static AvatarAPI AvatarDesciptor;
     public static VirtualGoodsAPI VirtualGoodsDesciptor =  new VirtualGoodsAPI();
+    public static AchievementsAPI Achievements =  new AchievementsAPI();
 
     public static UserAPI Instance { get; private set; }
 
@@ -24,7 +25,8 @@ public class UserAPI
 
     public IEnumerator Request() {
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
-        
+        yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
+
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Hashtable hs = JSON.JsonDecode(res) as Hashtable;
             UserID = hs["IdUser"] as string;

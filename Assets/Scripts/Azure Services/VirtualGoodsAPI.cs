@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class VirtualGoodsAPI { 
-    public struct VirtualGood {
+    public class VirtualGood {
         public string GUID;
         public string Description;
         public string Image;
