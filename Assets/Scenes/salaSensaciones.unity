@@ -68,8 +68,7 @@ LightmapSettings:
     m_TextureCompression: 0
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
-  m_LightmapSnapshot: {fileID: 112000000, guid: 21b6bb0698131d349a3ae98fb2a1122c,
-    type: 2}
+  m_LightmapSnapshot: {fileID: 0}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
 NavMeshSettings:
@@ -1068,6 +1067,10 @@ Prefab:
       propertyPath: ContentKey
       value: CONTENT0202
       objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
   m_IsPrefabParent: 0
@@ -1137,6 +1140,10 @@ Prefab:
     - target: {fileID: 11441502, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
       propertyPath: ContentKey
       value: CONTENT0205
+      objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
@@ -1436,6 +1443,10 @@ Prefab:
       propertyPath: m_Name
       value: Cubo_resaltado
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -1586,6 +1597,10 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: .940248251
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -1648,9 +1663,40 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &432927977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 432927978}
+  m_Layer: 0
+  m_Name: Tesoro_02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &432927978
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 432927977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.6700001, y: 1, z: -7.36999989}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 586358665}
+  m_RootOrder: 1
 --- !u!1001 &438192631
 Prefab:
   m_ObjectHideFlags: 0
@@ -1845,6 +1891,10 @@ Prefab:
     - target: {fileID: 11441502, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
       propertyPath: ContentKey
       value: CONTENT0206
+      objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
@@ -2292,6 +2342,10 @@ Prefab:
       propertyPath: m_Name
       value: Cubo_resaltado
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -2310,7 +2364,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &581064459
 Transform:
@@ -2357,6 +2411,65 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 581064458}
   m_Mesh: {fileID: 4300000, guid: 1689b303c64b7db4e9e5bbf61ba19ac2, type: 3}
+--- !u!1 &586358664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 586358665}
+  m_Layer: 0
+  m_Name: TESOROS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &586358665
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 586358664}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1500881118}
+  - {fileID: 432927978}
+  - {fileID: 1833622598}
+  - {fileID: 1081628409}
+  - {fileID: 595107922}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+--- !u!1 &595107921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 595107922}
+  m_Layer: 0
+  m_Name: Tesoro_05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &595107922
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 595107921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.7299995, y: 1, z: -5.03999996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 586358665}
+  m_RootOrder: 4
 --- !u!1001 &598694141
 Prefab:
   m_ObjectHideFlags: 0
@@ -2520,6 +2633,10 @@ Prefab:
       propertyPath: ContentKey
       value: CONTENT0203
       objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
   m_IsPrefabParent: 0
@@ -2614,6 +2731,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -2667,6 +2788,10 @@ Prefab:
     - target: {fileID: 400000, guid: 9e49657f6e1e5a54eab8dd0d5f73b2a6, type: 3}
       propertyPath: m_LocalScale.z
       value: 4.49507189
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9e49657f6e1e5a54eab8dd0d5f73b2a6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e49657f6e1e5a54eab8dd0d5f73b2a6, type: 3}
@@ -3186,6 +3311,10 @@ Prefab:
       propertyPath: m_Name
       value: Cubo_resaltado
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -3204,7 +3333,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &816222556
 Transform:
@@ -3330,7 +3459,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &833327234
 Transform:
@@ -4087,6 +4216,33 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dcf94b140e99d08408745dc2c04ae7d2, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1081628408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1081628409}
+  m_Layer: 0
+  m_Name: Tesoro_04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1081628409
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1081628408}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -26.1100006, y: 1, z: -3.66000009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 586358665}
+  m_RootOrder: 3
 --- !u!1001 &1127371527
 Prefab:
   m_ObjectHideFlags: 0
@@ -4331,6 +4487,10 @@ Prefab:
     - target: {fileID: 11441502, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
       propertyPath: ContentKey
       value: CONTENT0201
+      objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
@@ -4821,6 +4981,33 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 448150, guid: c670fbec17e4097499ff102d8b040108, type: 2}
   m_PrefabInternal: {fileID: 1459947456}
+--- !u!1 &1500881117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1500881118}
+  m_Layer: 0
+  m_Name: Tesoro_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1500881118
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1500881117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.41400003, y: 1, z: -12.2580004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 586358665}
+  m_RootOrder: 0
 --- !u!1001 &1506167590
 Prefab:
   m_ObjectHideFlags: 0
@@ -5303,6 +5490,10 @@ Prefab:
       propertyPath: m_Name
       value: Cubo_resaltado
       objectReference: {fileID: 0}
+    - target: {fileID: 164398, guid: d9b16797724b6494397794504de25c95, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9b16797724b6494397794504de25c95, type: 2}
   m_IsPrefabParent: 0
@@ -5717,6 +5908,14 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .0829021931
       objectReference: {fileID: 0}
+    - target: {fileID: 148924, guid: 44c60d3ddf7ad2145bb43696306386d6, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 195844, guid: 44c60d3ddf7ad2145bb43696306386d6, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44c60d3ddf7ad2145bb43696306386d6, type: 2}
   m_IsPrefabParent: 0
@@ -5893,6 +6092,33 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 471296, guid: 40188de81230f0a4eb83300bf81fb2e9, type: 2}
   m_PrefabInternal: {fileID: 391867441}
+--- !u!1 &1833622597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1833622598}
+  m_Layer: 0
+  m_Name: Tesoro_03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1833622598
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1833622597}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.36000013, y: 1, z: -2.83999991}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 586358665}
+  m_RootOrder: 2
 --- !u!1001 &1835635223
 Prefab:
   m_ObjectHideFlags: 0
@@ -6150,6 +6376,10 @@ Prefab:
       propertyPath: ContentKey
       value: CONTENT0207
       objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
   m_IsPrefabParent: 0
@@ -6402,6 +6632,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .675449014
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cc291527f936acb48ab4914bf107ffae, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc291527f936acb48ab4914bf107ffae, type: 3}
   m_IsPrefabParent: 0
@@ -6545,6 +6779,10 @@ Prefab:
     - target: {fileID: 11441502, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
       propertyPath: ContentKey
       value: CONTENT0204
+      objectReference: {fileID: 0}
+    - target: {fileID: 113700, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b91c571cec2f142edbe1f1fafca50c6a, type: 2}
