@@ -10,16 +10,16 @@ public class TopBarEnergy : MonoBehaviour {
 	public int MaxEnergy = 10;
 
 	void Awake() {
-		Debug.LogError("===> { \n TODO: Necesito la experiencia del 'Fan Level' actual \n  Hay que definirla (quien lo tenga que definir) \n } <==");
+		Debug.LogError("===> { \n TODO: Necesito la 'Energía' que tiene el usuario \n  Hay que definir como se gasta (quien lo tenga que definir) \n } <==");
 	}
 	
 	void Update () {
 		if (FillBar != null)
 			//TODO: cuando tenga la energía actual quitar el deltaTime y poner el currentEnergy.
-			FillBar.fillAmount = Time.deltaTime;// / (float) MaxEnergy;
+			FillBar.fillAmount = Time.deltaTime * 10;// / (float) MaxEnergy;
 
 		if (CurrentEnergy != null && UserAPI.Instance != null)
-			CurrentEnergy.text  = string.Format("{0}/{1}", "<color=#ade332>" + Mathf.Clamp (Time.deltaTime, 0f, 1f) + "</color>", MaxEnergy);
+			CurrentEnergy.text  = string.Format("{0}/{1}", "<color=#ade332>" + (int)(Mathf.Clamp (Time.deltaTime, 0f, 1f)*100) + "</color>", MaxEnergy);
 
 	}
 
