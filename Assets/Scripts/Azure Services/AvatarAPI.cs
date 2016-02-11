@@ -42,7 +42,7 @@ public struct AvatarAPI {
             string type = part["Type"] as string;
             string data = part["Data"] as string;
             switch (type) {
-                case "Sex": Head = data; break;
+                case "Sex": Sex = data; break;
                 case "Head": Head = data; break;
                 case "Body": Body = data; break;
                 case "Legs": Legs = data; break;

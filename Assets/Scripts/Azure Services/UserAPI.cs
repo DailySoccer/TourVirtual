@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserAPI
-{
-    // Recibos de compras en tiendas.
-    // POST api/v1/purchases
-    // Como consulto el perfil de otros usuarios?
-    public string UserID { get; set; }
-    public string Nick { get; set; }
-    public int Points { get; set; }
-    public int Level { get; set; }
+
+// TODO:    No funciona el ranking global personal.
+//          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
+//          Que pasa con la energia? Otra tarea nueva para mi?
+//          La enumeracion de contenidos no funciona.
+//          Recibos de compras en tiendas.
+//          POST api/v1/purchases
+
+public class UserAPI {
+    public string   UserID { get; private set; }
+    public string   Nick { get; private set; }
+    public int      Points { get; set; }
+    public int      Level { get; set; }
+    public int      Exp { get; set; }
+
+    // Fakes
+    public int      Energy { get; set; }
+    public float    NextLevel { get; set; }
 
     public static AvatarAPI AvatarDesciptor;
-    public static VirtualGoodsAPI VirtualGoodsDesciptor =  new VirtualGoodsAPI();
-    public static AchievementsAPI Achievements =  new AchievementsAPI();
-
+    public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
+    public static AchievementsAPI Achievements { get; private set; }
+    public static ContentAPI Contents { get; private set; }
     public static UserAPI Instance { get; private set; }
 
     public delegate void UserLogin();
@@ -22,11 +31,15 @@ public class UserAPI
 
     public UserAPI() {
         Instance = this;
+        Contents = new ContentAPI();
+        Achievements = new AchievementsAPI();
+        VirtualGoodsDesciptor = new VirtualGoodsAPI();
     }
 
     public IEnumerator Request() {
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
+        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest() );
 
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Hashtable hs = JSON.JsonDecode(res) as Hashtable;
@@ -81,13 +94,14 @@ public class UserAPI
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
 //                Debug.LogError("GetGlobalRanking " + res);
         });
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
+            Debug.LogError("GetGlobalRanking\n" + res);
             if (res != "null")
             {
                 Hashtable globalRanking = JSON.JsonDecode(res) as Hashtable;
                 if (globalRanking != null)
                 {
-                    Debug.LogError("GetGlobalRanking " + globalRanking["GamingScore"]);
+                    Exp = int.Parse(globalRanking["GamingScore"] as string);
                 }
             }
         });

@@ -109,6 +109,7 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
+            Debug.LogError(">>> CacheClothes");
             Heads = json["Heads"] as Hashtable;
             Bodies = json["Bodies"] as Hashtable;
             Legs = json["Legs"] as Hashtable;

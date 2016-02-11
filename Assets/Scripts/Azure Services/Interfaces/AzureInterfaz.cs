@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class AzureInterfaz { 
+public class AzureInterfaz {
     protected MonoBehaviour component;
     public AzureInterfaz(MonoBehaviour component) {
         this.component = component;
@@ -17,13 +17,13 @@ public class AzureInterfaz {
 
 
     public string AccessToken { get; protected set; }
-    public string RefreshToken{ get; protected set; }
+    public string RefreshToken { get; protected set; }
 
     public string MainLanguage {
-        get{
+        get {
             string language = DEFAULT_LANGUAGE;
-            if (MainManager.Instance != null){
-                switch (MainManager.Instance.CurrentLanguage){
+            if (MainManager.Instance != null) {
+                switch (MainManager.Instance.CurrentLanguage) {
                     case "es": language = SPANISH_LANGUAGE; break;
                     case "en": language = ENGLISH_LANGUAGE; break;
                 }
@@ -32,7 +32,7 @@ public class AzureInterfaz {
         }
     }
 
-    public virtual void Init(string environment, string clientId, string sessionId = ""){}
+    public virtual void Init(string environment, string clientId, string sessionId = "") { }
     // LogIn
     public virtual void SignIn() { }
     public virtual void SignUp() { }
@@ -41,9 +41,9 @@ public class AzureInterfaz {
     // 
     public virtual void GetProfile() { }
 
-    public virtual IEnumerator GetAccessToken(string _code){ yield return null; }
+    public virtual IEnumerator GetAccessToken(string _code) { yield return null; }
 
-    
+
     public static string WebApiBaseAddress {
         get {
             return "https://eu-rm-dev-web-api.azurewebsites.net/";
@@ -57,7 +57,7 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestGet(url, ok, error));
     }
 
-    
+
     public IEnumerator AwaitableRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
     {
         yield return component.StartCoroutine(_RequestGet(url, ok, error));
@@ -72,8 +72,12 @@ public class AzureInterfaz {
         HTTP.Request request = new HTTP.Request("get", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
         AddAuthorization(request);
         request.Send();
-        while (!request.isDone){ yield return null; }
-        if (ok != null) ok(request.response.Text);
+        while (!request.isDone) { yield return null; }
+        if (request.response.status != 200) {
+            Debug.LogError("ERROR(" + request.response.status + ") >>>  " + request.response.Text);
+        }else{        
+            if (ok != null) ok(request.response.Text);
+        }
     }
 
     public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {
