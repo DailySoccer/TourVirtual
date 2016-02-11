@@ -9,6 +9,10 @@ using System.Collections;
 //          POST api/v1/purchases
 
 public class UserAPI {
+
+    public bool Online = false;
+
+
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
     public int      Points      { get; set; }
@@ -24,8 +28,10 @@ public class UserAPI {
     public static ContentAPI Contents { get; private set; }
     public static UserAPI Instance { get; private set; }
 
+
     public delegate void UserLogin();
     public event UserLogin OnUserLogin;
+
 
     public UserAPI() {
         Instance = this;
@@ -55,6 +61,7 @@ public class UserAPI {
                 if (avatar.Contains("PhysicalProperties")) {
                     AvatarDesciptor.SetProperties(avatar["PhysicalProperties"] as ArrayList);
                     PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
+                    PlayerManager.Instance.SelectedModel = "";
                 }
             }
         });
@@ -93,13 +100,12 @@ public class UserAPI {
 //                Debug.LogError("GetGlobalRanking " + res);
         });
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
-            Debug.LogError("GetGlobalRanking\n" + res);
             if (res != "null")
             {
                 Hashtable globalRanking = JSON.JsonDecode(res) as Hashtable;
                 if (globalRanking != null)
                 {
-                    Exp = int.Parse(globalRanking["GamingScore"] as string);
+                    Exp = (int)globalRanking["GamingScore"];
                 }
             }
         });

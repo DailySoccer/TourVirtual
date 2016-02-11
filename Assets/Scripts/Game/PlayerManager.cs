@@ -109,7 +109,6 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
-            Debug.LogError(">>> CacheClothes");
             Heads = json["Heads"] as Hashtable;
             Bodies = json["Bodies"] as Hashtable;
             Legs = json["Legs"] as Hashtable;
@@ -122,6 +121,7 @@ public class PlayerManager : Photon.PunBehaviour {
     public delegate void callback(GameObject instance);
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
+
         Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[1]);
         Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, section[2]);
         Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, section[3]);

@@ -52,7 +52,8 @@ public class Authentication : MonoBehaviour {
 
     private string _urlCode = "";
     void OnGUI() {
-        if (string.IsNullOrEmpty(AzureServices.AccessToken) ) {
+        if (string.IsNullOrEmpty(AzureServices.AccessToken) && UserAPI.Instance.Online )
+        {
             if (GUI.Button(new Rect(0, Screen.height - 150, 150, 80), "Register"))
                 AzureServices.SignUp();
             if (GUI.Button(new Rect(150, Screen.height - 150, 150, 80), "Login"))
