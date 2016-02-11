@@ -6,11 +6,8 @@ using System.Collections;
 public class Contenidos : MonoBehaviour {
 
 	public Sprite VideoIcon;
-	public Sprite VideoPlaceholder;
 	public Sprite PictureIcon;
-	public Sprite PicturePlaceHolder;
 	public Sprite AudioIcon;
-	public Sprite AudioPlaceHolder;
 	public Sprite Model3DIcon;
 	//public Sprite Model3DPlaceholder;
 
@@ -18,32 +15,42 @@ public class Contenidos : MonoBehaviour {
 	public GameObject FullScreenButton;
 	public Image IconForContentTypeObject;
 
-	public PurchasedContentType CurrentType;
+	public ContentType CurrentType;
+    Coroutine lastCoroutine;
+    // Use this for initialization
+    void Start () {
+        lastCoroutine = StartCoroutine(DownloadImage("https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e_thumbnail.jpg"));
+    }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    IEnumerator DownloadImage(string url){
+        WWW www = new WWW(url);
+        yield return www;
+        Texture2D txt = www.texture;
+        if (txt != null)
+        {
+            Sprite spr = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f));
+            ImageSampleContent.sprite = spr;
+        }
+        else
+            Debug.LogError(">>>> ERROR AL DESCARGAR LA TEXTURA");
+    }
+
+    // Update is called once per frame
+    void Update () {
 		switch (CurrentType) {
-		case PurchasedContentType.VIDEO:
+		case ContentType.VIDEO:
 			IconForContentTypeObject.sprite = VideoIcon;
-			ImageSampleContent.sprite = VideoPlaceholder;
 			FullScreenButton.SetActive(false);
 			break;
-		case PurchasedContentType.PICTURE:
+		case ContentType.PICTURE:
 			IconForContentTypeObject.sprite = PictureIcon;
-			ImageSampleContent.sprite = PicturePlaceHolder;
 			FullScreenButton.SetActive(true);
 			break;
-		case PurchasedContentType.AUDIO:
+		case ContentType.AUDIO:
 			IconForContentTypeObject.sprite = AudioIcon;
-			ImageSampleContent.sprite = AudioPlaceHolder;
 			FullScreenButton.SetActive(false);
 			break;
-		case PurchasedContentType.MODEL3D:
+		case ContentType.MODEL3D:
 			IconForContentTypeObject.sprite = Model3DIcon;
 			ImageSampleContent.sprite = null;
 			FullScreenButton.SetActive(true);

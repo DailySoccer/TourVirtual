@@ -8,12 +8,7 @@ public class GUIContentScreen : UIScreen {
 
 	public Button NextButton;
 	public Button PrevButton;
-	public ContentCubemapController ContentCubeMapUI;
-	public ContentImageController ContentImageUI;
-	public ContentModel3DController ContentModel3DUI;
-	public ContentVideoController ContentVideoUI;
-	public ContentInfoController ContentInfoUI;
-	public ContentInfoController ContentInfoUICompra;
+	public Contenidos Contentenidos;
 
 	public override void Awake () {
 		base.Awake ();
@@ -38,11 +33,6 @@ public class GUIContentScreen : UIScreen {
 	}
 
 	public void HideScreen(UIScreen uiScreen) {
-		if (ContentModel3DUI.gameObject.activeInHierarchy) {
-			CloseModel3D();
-			return;
-		}
-
 		if (GameCanvasManager != null) {
 			GameCanvasManager.HideScreenWithAnim(uiScreen);
 		}
@@ -51,106 +41,44 @@ public class GUIContentScreen : UIScreen {
 	void OpenContent() {
 		NextButton.gameObject.SetActive(false);
 		PrevButton.gameObject.SetActive(false);
-		
-		if (ContentManager.Instance.ContentNear != null) {
-			StartCoroutine(ContentImageUI.ShowContents());
-		}
-		else if (ContentCubeMap.ContentSelected != null) {
-			StartCoroutine(ContentCubeMapUI.ShowContents());
-		}
-		else if (ContentInfo.ContentSelected != null) {
-			_background.enabled = false;
-			StartCoroutine(ContentInfo.ContentSelected.Money ? ContentInfoUICompra.ShowContents() : ContentInfoUI.ShowContents());
-		}
-		else if (ContentModels.ContentSelected != null) {
-			_background.enabled = false;
-			StartCoroutine(ContentModel3DUI.ShowContents());
-		}
-		else if (ContentVideo.ContentSelected != null) {
-			_background.enabled = false;
-			StartCoroutine(ContentVideoUI.ShowContents());
-		}
 
+        if (ContentManager.Instance.ContentNear != null) {
+            Debug.LogError("!!! "+ ContentManager.Instance.ContentNear.ContentKey);
+//            StartCoroutine( Contentenidos.ShowContents() );
+		}
 		UpdateButtons ();
 	}
 
 	void CloseContent() {
 		if (ContentManager.Instance.ContentNear != null) {
-			StartCoroutine(ContentImageUI.HideContents());
+//			StartCoroutine(Contentenidos.HideContents());
 		}
-		
-		if (ContentCubeMap.ContentSelected != null) {
-			StartCoroutine(ContentCubeMapUI.HideContents());
-		}
-		
-		if (ContentInfo.ContentSelected != null) {
-			_background.enabled = true;
-			StartCoroutine(ContentInfo.ContentSelected.Money ? ContentInfoUICompra.HideContents() : ContentInfoUI.HideContents());
-		}
-
-		if (ContentModels.ContentSelected != null) {
-			_background.enabled = true;
-			StartCoroutine(ContentModel3DUI.HideContents());
-		}
-
-		if (ContentVideo.ContentSelected != null) {
-			_background.enabled = true;
-			StartCoroutine(ContentVideoUI.HideContents());
-		}
-	}
-
-	public void ShowContent3D() {
-		if (ContentInfo.ContentSelected != null) {
-			StartCoroutine(ContentInfoUI.HideContents());
-		}
-
-		if (ContentModels.ContentSelected != null) {
-			_background.enabled = false;
-			StartCoroutine(ContentModel3DUI.ShowContents());
-		}
-	}
-
-	void CloseModel3D() {
-		StartCoroutine(ContentModel3DUI.HideContents());
-		StartCoroutine(ContentInfoUI.ShowContents());
 	}
 
 	public void BuyContent() {
 	}
 
 	public void PrevContent() {
-		if (ContentImageUI.gameObject.activeSelf) {
-			ContentImageUI.Prev();
+		if (Contentenidos.gameObject.activeSelf) {
+//            Contentenidos.Prev();
 		}
 
-		if (ContentModel3DUI.gameObject.activeSelf) {
-			ContentModel3DUI.Prev();
-		}
 
 		UpdateButtons();
 	}
 
 	public void NextContent() {
-		if (ContentImageUI.gameObject.activeSelf) {
-			ContentImageUI.Next();
-		}
-
-		if (ContentModel3DUI.gameObject.activeSelf) {
-			ContentModel3DUI.Next();
+		if (Contentenidos.gameObject.activeSelf) {
+//            Contentenidos.Next();
 		}
 
 		UpdateButtons();
 	}
 	
 	void UpdateButtons() {
-		if (ContentImageUI.gameObject.activeSelf) {
-			PrevButton.gameObject.SetActive(!ContentImageUI.Empty && !ContentImageUI.IsFirst);
-			NextButton.gameObject.SetActive(!ContentImageUI.Empty && !ContentImageUI.IsLast);
-		}
-
-		if (ContentModel3DUI.gameObject.activeSelf) {
-			PrevButton.gameObject.SetActive(!ContentModel3DUI.Empty && !ContentModel3DUI.IsFirst);
-			NextButton.gameObject.SetActive(!ContentModel3DUI.Empty && !ContentModel3DUI.IsLast);
+		if (Contentenidos.gameObject.activeSelf) {
+//			PrevButton.gameObject.SetActive(!Contentenidos.Empty && !Contentenidos.IsFirst);
+//			NextButton.gameObject.SetActive(!Contentenidos.Empty && !Contentenidos.IsLast);
 		}
 	}
 

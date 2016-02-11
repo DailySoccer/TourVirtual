@@ -31,21 +31,21 @@ public class ContentSelectorCaster : MonoBehaviour {
                 if (cs!= oldContent) {
                     if (oldContent != null) {
                         oldContent.SendMessage("OnDeselect");
-                        if (oldContent.transform.childCount == 1)
-                            oldContent.transform.GetChild(0).gameObject.SendMessage("OnDeselect");
+                        for (int i = 0; i < oldContent.transform.childCount; ++i)
+                            oldContent.transform.GetChild(i).gameObject.SetActive(false);
                     }
                     oldContent = cs;
                     oldContent.SendMessage("OnSelect");
-                    if (oldContent.transform.childCount == 1)
-                        oldContent.transform.GetChild(0).gameObject.SendMessage("OnSelect");
+                    for (int i = 0; i < oldContent.transform.childCount; ++i)
+                        oldContent.transform.GetChild(i).gameObject.SetActive(true);
 
                 }
             }
             else {
                 if (oldContent != null) {
                     oldContent.SendMessage("OnDeselect");
-                    if (oldContent.transform.childCount == 1)
-                        oldContent.transform.GetChild(0).gameObject.SendMessage("OnDeselect");
+                    for (int i = 0; i < oldContent.transform.childCount; ++i)
+                        oldContent.transform.GetChild(i).gameObject.SetActive(false);
                     oldContent = null;
                 }
             }

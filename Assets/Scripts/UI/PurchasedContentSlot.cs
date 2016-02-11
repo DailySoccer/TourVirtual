@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections;
 
-public enum PurchasedContentType {
+public enum ContentType {
 	VIDEO,
 	PICTURE,
 	AUDIO,
@@ -13,16 +13,16 @@ public enum PurchasedContentType {
 [ExecuteInEditMode]
 public class PurchasedContentSlot : MonoBehaviour {
 
-	public PurchasedContentType CurrentType;
+	public ContentType CurrentType;
 
-	public Sprite VideoIcon;
-	public Sprite PictureIcon;
-	public Sprite Audioicon;
-	public Sprite Model3DIcon;
+	public Sprite   VideoIcon;
+	public Sprite   PictureIcon;
+	public Sprite   Audioicon;
+	public Sprite   Model3DIcon;
 
-	public Image ItemPictureObject;
-	public Image IconForContentTypeObject;
-	public Text DesprictionText;
+	public Image    ItemPictureObject;
+	public Image    IconForContentTypeObject;
+	public Text     DesprictionText;
 
 	// Use this for initialization
 	void Start () {
@@ -31,26 +31,25 @@ public class PurchasedContentSlot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		switch (CurrentType) {
-		case PurchasedContentType.VIDEO:
-			IconForContentTypeObject.sprite = VideoIcon;
-			break;
-		case PurchasedContentType.PICTURE:
-			IconForContentTypeObject.sprite = PictureIcon;
-			break;
-		case PurchasedContentType.AUDIO:
-			IconForContentTypeObject.sprite = Audioicon;
-			break;
-		case PurchasedContentType.MODEL3D:
-			IconForContentTypeObject.sprite = Model3DIcon;
-			break;
+		    case ContentType.VIDEO:
+			    IconForContentTypeObject.sprite = VideoIcon;
+			    break;
+		    case ContentType.PICTURE:
+			    IconForContentTypeObject.sprite = PictureIcon;
+			    break;
+		    case ContentType.AUDIO:
+			    IconForContentTypeObject.sprite = Audioicon;
+			    break;
+		    case ContentType.MODEL3D:
+			    IconForContentTypeObject.sprite = Model3DIcon;
+			    break;
 		}
 	}
 
 	public void Reset() {
 		ItemPictureObject.sprite = null;
 		DesprictionText.text = "";
-		CurrentType = PurchasedContentType.VIDEO;
+		CurrentType = ContentType.VIDEO;
 	}
 }

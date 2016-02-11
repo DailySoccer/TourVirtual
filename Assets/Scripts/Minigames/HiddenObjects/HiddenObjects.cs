@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// Este objeto esta asociado al GameObject MainManager
+
 namespace HiddenObjects { 
     public class HiddenObjects : MonoBehaviour {
-        public int objectByRoom = 2;
+        public int objectByRoom = 5;
         public int numHiddenObjects = 10;
         public float maxTime = 20;
         float startTime;
