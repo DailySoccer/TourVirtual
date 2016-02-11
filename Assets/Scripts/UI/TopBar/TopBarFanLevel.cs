@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[ExecuteInEditMode]
 public class TopBarFanLevel : MonoBehaviour {
 
 	public Image FillBar;

@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class TopBarEnergy : MonoBehaviour {
 
 	public Image FillBar;
