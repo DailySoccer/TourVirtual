@@ -5,20 +5,18 @@ using System.Collections;
 // TODO:    No funciona el ranking global personal.
 //          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
 //          Que pasa con la energia? Otra tarea nueva para mi?
-//          La enumeracion de contenidos no funciona.
 //          Recibos de compras en tiendas.
 //          POST api/v1/purchases
 
 public class UserAPI {
-    public string   UserID { get; private set; }
-    public string   Nick { get; private set; }
-    public int      Points { get; set; }
-    public int      Level { get; set; }
-    public int      Exp { get; set; }
-
+    public string   UserID      { get; private set; }
+    public string   Nick        { get; private set; }
+    public int      Points      { get; set; }
+    public int      Level       { get; set; }
+    public int      Exp         { get; set; }
     // Fakes
-    public int      Energy { get; set; }
-    public float    NextLevel { get; set; }
+    public int      Energy      { get; set; }
+    public float    NextLevel   { get; set; }
 
     public static AvatarAPI AvatarDesciptor;
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
