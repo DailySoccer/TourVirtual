@@ -80,8 +80,9 @@ public class MovementController : MonoBehaviour {
         Player.Instance.cameraRotation = rotCamera.x;
         Player.Instance.cameraPitch = rotCamera.y;
 
-        PlayerTransform.rotation = 
-            Quaternion.Slerp(PlayerTransform.rotation, Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0), facing);
+        if(Camera.main!=null)
+            PlayerTransform.rotation = 
+                Quaternion.Slerp(PlayerTransform.rotation, Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0), facing);
     }
 
 

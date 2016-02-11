@@ -39,6 +39,7 @@ public class GUIContentScreen : UIScreen {
 	}
 
 	void OpenContent() {
+        Camera.main.enabled = false;
 		NextButton.gameObject.SetActive(false);
 		PrevButton.gameObject.SetActive(false);
 
@@ -50,7 +51,8 @@ public class GUIContentScreen : UIScreen {
 	}
 
 	void CloseContent() {
-		if (ContentManager.Instance.ContentNear != null) {
+        Camera.main.enabled = true;
+        if (ContentManager.Instance.ContentNear != null) {
 //			StartCoroutine(Contentenidos.HideContents());
 		}
 	}
