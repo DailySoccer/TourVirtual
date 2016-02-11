@@ -1,14 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &134616
+--- !u!1 &135804
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 420016}
-  - 137: {fileID: 13727094}
+  - 4: {fileID: 463034}
+  - 137: {fileID: 13748640}
   m_Layer: 0
   m_Name: MTorso03
   m_TagString: Untagged
@@ -16,24 +16,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &420016
+--- !u!4 &463034
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134616}
+  m_GameObject: {fileID: 135804}
   m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: -1.17453146e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!137 &13727094
+--- !u!137 &13748640
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134616}
+  m_GameObject: {fileID: 135804}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -58,27 +58,27 @@ SkinnedMeshRenderer:
   m_UpdateWhenOffscreen: 0
   m_Mesh: {fileID: 4300000, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   m_Bones:
+  - {fileID: 400026, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400048, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400036, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
-  - {fileID: 400026, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400024, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400000, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400046, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400016, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
+  - {fileID: 400006, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400022, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400042, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400004, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400044, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
-  - {fileID: 400006, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400010, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
+  - {fileID: 400012, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400030, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   - {fileID: 400032, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
-  - {fileID: 400012, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 400004, guid: 7b4cc3c2bd96d6f4fad6d1f432711b39, type: 3}
   m_AABB:
-    m_Center: {x: .00423455238, y: .200657994, z: .120558038}
-    m_Extent: {x: .530585408, y: .29645434, z: .258865595}
+    m_Center: {x: -.000768572092, y: .196589559, z: .120012969}
+    m_Extent: {x: .52940762, y: .295663387, z: .263035387}
   m_DirtyAABB: 0
 --- !u!1001 &100100000
 Prefab:
@@ -89,5 +89,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 134616}
+  m_RootGameObject: {fileID: 135804}
   m_IsPrefabParent: 1

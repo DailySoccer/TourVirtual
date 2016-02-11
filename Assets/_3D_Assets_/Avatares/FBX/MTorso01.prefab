@@ -1,14 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &182024
+--- !u!1 &125402
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 464512}
-  - 137: {fileID: 13780690}
+  - 4: {fileID: 480000}
+  - 137: {fileID: 13722586}
   m_Layer: 0
   m_Name: MTorso01
   m_TagString: Untagged
@@ -16,28 +16,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &464512
+--- !u!4 &480000
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 182024}
+  m_GameObject: {fileID: 125402}
   m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.51440358, y: 2.51440358, z: 2.51440358}
+  m_LocalPosition: {x: .000225067139, y: 0, z: 1.6894677e-16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!137 &13780690
+--- !u!137 &13722586
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 182024}
+  m_GameObject: {fileID: 125402}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
@@ -55,29 +56,29 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300002, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   m_Bones:
+  - {fileID: 400036, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400026, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400048, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400000, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400024, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400046, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400044, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400004, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400022, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400042, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400016, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400006, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400010, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400044, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400004, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400000, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400024, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400022, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400036, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400026, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400030, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
-  - {fileID: 400042, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400012, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
+  - {fileID: 400030, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   - {fileID: 400032, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 400004, guid: 2032c490a9d984249a453e02a14c412c, type: 3}
   m_AABB:
-    m_Center: {x: -6.64591789e-06, y: .290058553, z: .00101009756}
-    m_Extent: {x: .787854791, y: .333390117, z: .153382748}
+    m_Center: {x: .00513154268, y: .210455149, z: .128104806}
+    m_Extent: {x: .515028536, y: .28681162, z: .257305503}
   m_DirtyAABB: 0
 --- !u!1001 &100100000
 Prefab:
@@ -88,5 +89,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 182024}
+  m_RootGameObject: {fileID: 125402}
   m_IsPrefabParent: 1
