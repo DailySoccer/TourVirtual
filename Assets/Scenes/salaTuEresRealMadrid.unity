@@ -138,6 +138,33 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 415338, guid: 5751bfbc617f1e24c9d9ca3edd4a7a00, type: 2}
   m_PrefabInternal: {fileID: 36885602}
+--- !u!1 &71573393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 71573394}
+  m_Layer: 0
+  m_Name: Tesoro_02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &71573394
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 71573393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.5699997, y: 1, z: -.910000026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 797844914}
+  m_RootOrder: 1
 --- !u!1 &154639016
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,11 +303,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158930651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.3000002, y: 1.37345099, z: -4.51000023}
+  m_LocalPosition: {x: -35.2200012, y: 1.37345099, z: -7.11999989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 685117549}
+  m_RootOrder: 8
 --- !u!1001 &213808913
 Prefab:
   m_ObjectHideFlags: 0
@@ -406,8 +433,8 @@ Transform:
   m_LocalPosition: {x: -1.12899995, y: 1.50800002, z: -3.17000008}
   m_LocalScale: {x: 3.17632914, y: 3.03452539, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 1869296684}
+  m_RootOrder: 11
 --- !u!1001 &416940301
 Prefab:
   m_ObjectHideFlags: 0
@@ -612,8 +639,35 @@ Transform:
   m_LocalPosition: {x: -10.3979998, y: 1.398, z: -7.78900003}
   m_LocalScale: {x: 3.94831514, y: 2.75207448, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_Father: {fileID: 1869296684}
+  m_RootOrder: 14
+--- !u!1 &506150697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 506150698}
+  m_Layer: 0
+  m_Name: Tesoro_04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &506150698
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 506150697}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -35.1399994, y: 1, z: -2.3499999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 797844914}
+  m_RootOrder: 3
 --- !u!1 &549030232
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,8 +818,70 @@ Transform:
   - {fileID: 1362820173}
   - {fileID: 1711617277}
   - {fileID: 36885603}
+  - {fileID: 158930653}
+  - {fileID: 1087302787}
+  - {fileID: 847549946}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 3
+--- !u!1 &797844913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 797844914}
+  m_Layer: 0
+  m_Name: TESOROS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &797844914
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797844913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 815393760}
+  - {fileID: 71573394}
+  - {fileID: 1603691689}
+  - {fileID: 506150698}
+  - {fileID: 1137818184}
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+--- !u!1 &815393759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 815393760}
+  m_Layer: 0
+  m_Name: Tesoro_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &815393760
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 815393759}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.6700001, y: 1, z: -3.52999997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 797844914}
+  m_RootOrder: 0
 --- !u!1 &847549944
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,11 +937,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 847549944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.9200001, y: 1.51999998, z: -7.83599997}
+  m_LocalPosition: {x: -50.8400002, y: 1.51999998, z: -10.4460001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_Father: {fileID: 685117549}
+  m_RootOrder: 10
 --- !u!1001 &1029039624
 Prefab:
   m_ObjectHideFlags: 0
@@ -1045,11 +1161,38 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1087302785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.26000023, y: 1.83000004, z: -6.36000013}
+  m_LocalPosition: {x: -26.1800003, y: 1.83000004, z: -8.97000027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 685117549}
+  m_RootOrder: 9
+--- !u!1 &1137818183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1137818184}
+  m_Layer: 0
+  m_Name: Tesoro_05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1137818184
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1137818183}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -36.4399986, y: 1, z: -3.16000009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 797844914}
+  m_RootOrder: 4
 --- !u!1001 &1195002132
 Prefab:
   m_ObjectHideFlags: 0
@@ -1087,7 +1230,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 475444, guid: efb085c6adaaa4ce69706d84a02264d2, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efb085c6adaaa4ce69706d84a02264d2, type: 2}
@@ -1183,7 +1326,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 487496, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 487496, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_LocalScale.x
@@ -1261,7 +1404,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 487496, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 487496, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_LocalScale.x
@@ -1379,7 +1522,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
 --- !u!1001 &1362820172
 Prefab:
   m_ObjectHideFlags: 0
@@ -1493,7 +1636,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1869296684}
     m_Modifications:
     - target: {fileID: 400000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1525,7 +1668,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_Materials.Array.data[3]
@@ -1541,11 +1684,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_LocalScale.y
-      value: .900000036
+      value: .900000095
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_LocalScale.z
-      value: .900000036
+      value: .900000095
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1566,6 +1709,37 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &1581595825 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 162377a1e90fecd4291c2062bbd80d23, type: 3}
+  m_PrefabInternal: {fileID: 1581595824}
+--- !u!1 &1603691688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1603691689}
+  m_Layer: 0
+  m_Name: Tesoro_03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603691689
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1603691688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -29.3400002, y: 1, z: -2.31999993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 797844914}
+  m_RootOrder: 2
 --- !u!1001 &1616136301
 Prefab:
   m_ObjectHideFlags: 0
@@ -1857,8 +2031,14 @@ Transform:
   - {fileID: 416940302}
   - {fileID: 154639017}
   - {fileID: 1940782806}
+  - {fileID: 1914483684}
+  - {fileID: 2098806484}
+  - {fileID: 329002762}
+  - {fileID: 1581595825}
+  - {fileID: 1946478677}
+  - {fileID: 441980654}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
 --- !u!1 &1914483680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,8 +2110,8 @@ Transform:
   m_LocalPosition: {x: -1.13900006, y: 1.48399997, z: -7.81899977}
   m_LocalScale: {x: 3.03573275, y: 2.92554045, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Father: {fileID: 1869296684}
+  m_RootOrder: 9
 --- !u!1001 &1940782805
 Prefab:
   m_ObjectHideFlags: 0
@@ -2074,8 +2254,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1869296684}
+  m_RootOrder: 13
 --- !u!1 &2098806480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,5 +2327,5 @@ Transform:
   m_LocalPosition: {x: -1.13699996, y: 2.97300005, z: -5.47100019}
   m_LocalScale: {x: 3.02467251, y: 4.67019749, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 1869296684}
+  m_RootOrder: 10
