@@ -26,8 +26,7 @@ public class Contenidos : MonoBehaviour {
         WWW www = new WWW(url);
         yield return www;
         Texture2D txt = www.texture;
-        if (txt != null)
-        {
+        if (txt != null) {
             Sprite spr = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f));
             ImageSampleContent.sprite = spr;
         }
