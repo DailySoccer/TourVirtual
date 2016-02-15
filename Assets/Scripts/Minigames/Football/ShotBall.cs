@@ -28,7 +28,10 @@ namespace Football
 
         void FixedUpdate() {
             if (mode != Mode.Wait && _effect != 0)
+            {
                 rb.AddForce(Vector3.forward * _effect, ForceMode.Impulse);
+                _effect *= 0.97f;
+            }
                 
             if (mode == Mode.Shot && (rb.velocity.sqrMagnitude < 0.1f || rb.position.x < -53f) )
                 mode = ShotBall.Mode.Out;

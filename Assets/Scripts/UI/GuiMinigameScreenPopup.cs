@@ -40,10 +40,13 @@ public class GuiMinigameScreenPopup : GUIPopUpScreen {
 
     public void PlayGame()
     {
+                
         Tutorial.SetActive(false);
         StartScreen.SetActive(false);
         EndScreen.SetActive(false);
         InGameScreen.SetActive(true);
+        // 
+        GameObject.Find("Shooter").SendMessage("OnRetry");
     }
 
     public void EndGame()

@@ -29,9 +29,14 @@ namespace Football
         public float maxAngle = 45.0f;
 
         public float gameTime = 30.0f;
+        float currentTime = 0;
         public int round = 0;
         public int streak = 0;
         public int score = 0;
+        public int record = 0;
+
+        public GuiMinigameScreenPopup endMenu;
+        public GuiMinigameScreen minigameScreen;
 
         // for demo
         public float shotPower { get; private set; }        //shot power (initial velocity)
@@ -43,6 +48,10 @@ namespace Football
         float startTime;
 
         Vector2 touchPos;
+        Vector2 touchIni;
+        Vector2 touchMin;
+        Vector2 touchMax;
+        Vector2 touchEnd;
         enum GameState
         {
             WaitStart,
@@ -63,6 +72,7 @@ namespace Football
         // Use this for initialization
         void Start() {
             touchPos.x = -1.0f;
+            Reset();
             // changePosition();
         }
 
@@ -73,12 +83,21 @@ namespace Football
             }
         }
 
-        public void reset() {
+        public void Reset() {
+            transform.position = new Vector3(-41.4f, 0, 0);
+            currentTime = gameTime;
             round = 0;
             streak = 0;
             score = 0;
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
+        }
+
+        public void OnRetry()
+        {
+            Debug.LogError("OnRetry");
+            Reset();
+            Play();
         }
 
         public void OnScore()
@@ -92,6 +111,7 @@ namespace Football
             }
             state = ShotState.Charging;
             changePosition();
+            UpdateBoard();
         }
 
         void OnResetStreak()
@@ -110,21 +130,22 @@ namespace Football
             transform.LookAt(new Vector3(-52.0f, 0, 0));
         }
 
+        public void Play()
+        {
+            if (gameState == GameState.WaitStart)
+                gameState = GameState.Playing;
+        }
+
         // Update is called once per frame
         void Update()
         {
             switch (gameState)
             {
-                case GameState.WaitStart:
-                    {
-                        if (Input.GetMouseButtonUp(0)) gameState = GameState.Playing;
-                    }
-                    break;
                 case GameState.Playing:
                     {
-                        gameTime -= Time.deltaTime;
-                        if (gameTime < 0)
-                        {
+                        currentTime -= Time.deltaTime;
+                        UpdateBoard();
+                        if (currentTime < 0){
                             OnFinishGame();
                         }
                         else {
@@ -219,6 +240,9 @@ namespace Football
             else {
                 if (touchPos.x != Input.mousePosition.x || touchPos.y != Input.mousePosition.y)
                 {
+                    touchIni = touchPos;
+                    touchMin = touchPos;
+                    touchMax = touchPos;
                     touchPos.x = -1.0f;
                     startTime = Time.time;
                     state = ShotState.DirectionAndPower;
@@ -226,17 +250,19 @@ namespace Football
             }
         }
 
-        void CheckShot()
-        {
+        void CheckShot() {
             float elapseTime = Time.time - startTime;
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (objBall != null)
-                {
+            if (Input.GetMouseButtonUp(0)) {
+                touchEnd = Input.mousePosition;
+                if (objBall != null) {
                     ShootBall(elapseTime);
                 }
                 state = ShotState.Waiting;
                 objBall = null;
+            }
+            else {
+                if (Input.mousePosition.x < touchMin.x) touchMin.x = Input.mousePosition.x;
+                if (Input.mousePosition.x > touchMax.x) touchMax.x = Input.mousePosition.x;
             }
         }
 
@@ -245,14 +271,11 @@ namespace Football
             state = ShotState.Charging;
         }
 
-        void ShootBall(float elapseTime)
-        {
-            if (elapseTime < shotTimeMin)
-            {
+        void ShootBall(float elapseTime) {
+            if (elapseTime < shotTimeMin) {
                 shotPower = shotPowerMax;
             }
-            else if (shotTimeMax < elapseTime)
-            {
+            else if (shotTimeMax < elapseTime) {
                 shotPower = shotPowerMin;
             }
             else {
@@ -262,8 +285,21 @@ namespace Football
                 float rate = (ep100 - tmin100) / (tmax100 - tmin100);
                 shotPower = shotPowerMax - ((shotPowerMax - shotPowerMin) * rate);
             }
-
             Vector3 screenPoint = Input.mousePosition;
+            /*
+            float difl = touchMax.x - touchIni.x;
+            float difh = touchMin.x - touchIni.x;
+            if (touchEnd.x < touchIni.x) {
+                screenPoint = touchMin;
+                ballRigidbody.gameObject.GetComponent<ShotBall>().effect = -difh / 1000.0f;
+            }
+            else {
+                screenPoint = touchMax;
+                ballRigidbody.gameObject.GetComponent<ShotBall>().effect = -difl / 1000.0f;
+            }
+            */
+            ballRigidbody.gameObject.GetComponent<ShotBall>().effect = 0;
+
             screenPoint.z = targetZ;
             Vector3 worldPoint = cameraForShooter.ScreenToWorldPoint(screenPoint);
 
@@ -275,7 +311,7 @@ namespace Football
             ballRigidbody.AddTorque(-shotPoint.transform.right * torque);
             ballRigidbody.transform.parent = transform;
 
-            ballRigidbody.gameObject.GetComponent<ShotBall>().effect = 0;// -0.3f ;
+            ballRigidbody.transform.parent = null;
 
             round++;
 
@@ -284,11 +320,24 @@ namespace Football
 
         void OnFinishGame()
         {
-            gameTime = 0;
+            Debug.LogError("OnFinishGame");
+            currentTime = 0;
             gameState = GameState.Finished;
             Destroy(objBall);
             state = ShotState.Waiting;
             objBall = null;
+            UpdateBoard();
+
+            minigameScreen.OnHide();
+            endMenu.EndGame();
+
+        }
+
+        void UpdateBoard()
+        {
+            minigameScreen.Time(currentTime / gameTime);
+            minigameScreen.Score(score);
+            minigameScreen.Record(record);
         }
 
         void OnGUI()
@@ -299,5 +348,11 @@ namespace Football
             GUILayout.Label("Score " + score);
             GUILayout.Label("Streak " + streak);
         }
+
+        public void OnExitGame()
+        {
+            Debug.LogError("OnExitGame");
+        }
+
     }
 }

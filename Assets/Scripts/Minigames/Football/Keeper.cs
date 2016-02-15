@@ -22,7 +22,7 @@ namespace Football
                 case 3:
                 case 4:
                     gameObject.SetActive(true);
-                    transform.position = new Vector3(-51.9f, 0.9f, Random.Range(-3f, 3f));
+                    transform.position = new Vector3(-51.9f, 0.0f, Random.Range(-3f, 3f));
                     vel = 0;
                     break;
                 case 5:
