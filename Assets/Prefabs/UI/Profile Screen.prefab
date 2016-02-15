@@ -28,7 +28,7 @@ GameObject:
   - 222: {fileID: 22299918}
   - 114: {fileID: 11427066}
   m_Layer: 5
-  m_Name: Text
+  m_Name: AchivementCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -825,7 +825,7 @@ GameObject:
   - 222: {fileID: 22212456}
   - 114: {fileID: 11491366}
   m_Layer: 5
-  m_Name: 'Texto: Ver'
+  m_Name: PacksCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +890,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22472652}
-  - 114: {fileID: 11404200}
   m_Layer: 5
   m_Name: ScoresResume
   m_TagString: Untagged
@@ -1012,9 +1011,9 @@ GameObject:
   - 114: {fileID: 11474028}
   - 95: {fileID: 9554514}
   - 225: {fileID: 22578416}
-  - 114: {fileID: 11405022}
   - 114: {fileID: 11422044}
   - 114: {fileID: 11475696}
+  - 114: {fileID: 11433858}
   m_Layer: 5
   m_Name: Profile Screen
   m_TagString: Untagged
@@ -1149,31 +1148,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11404200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 190344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a36d14c2f504ced88b32025361357f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  penaltyScore: {fileID: 11449250}
-  BasketScore: {fileID: 11436954}
-  HiddenObjectasScore: {fileID: 11433094}
---- !u!114 &11405022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199784}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11405820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1722,6 +1696,24 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9999
+--- !u!114 &11433858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a36d14c2f504ced88b32025361357f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penaltiesScore: {fileID: 11449250}
+  BasketScore: {fileID: 11436954}
+  HiddenObjectsScore: {fileID: 11433094}
+  PacksCount: {fileID: 11491366}
+  MaxPacksCount: 64
+  AchivementCount: {fileID: 11427066}
+  MaxAchivementCount: 25
 --- !u!114 &11434446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2383,7 +2375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: .392156869}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
@@ -2432,7 +2424,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: HideScreenWithAnim
+        m_MethodName: ShowMainGameScreen
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

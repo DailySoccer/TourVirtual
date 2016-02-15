@@ -10,7 +10,7 @@ public enum SelectorPosition {
 	LEFT
 }
 
-public class GuiMapScreen : GUIPopUpScreen {
+public class GuiMapScreen : UIScreen {
 	public GameObject Selector;
 	RectTransform selectorRT;
 

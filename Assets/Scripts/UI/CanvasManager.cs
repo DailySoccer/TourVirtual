@@ -100,8 +100,18 @@ public class CanvasManager : MonoBehaviour {
 	public void ShowProfileScreen(UIScreen TheProfileScreen) {
 
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
-
+		
+		//Activamos los elementos necesarios de esta pantalla
+		
+		ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
+		
+		SecondPlaneCanvas.SetActive (true);			
+		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
 		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
+
+			UIScreensCamera.SetActive (true);			
+			MainCamera.SetActive (false);			
+			ShowScreen(TheProfileScreen);
 
 			//Seteamos el Avatar que se muestra en estapantalla
 			ProfilePlayerInstance = instance;
@@ -114,19 +124,18 @@ public class CanvasManager : MonoBehaviour {
 			ProfilePlayerInstance.GetComponent<SynchNet>().enabled = false;
 			ProfilePlayerInstance.transform.position = new Vector3(0.06f, 9998.82f, 0f);
 
-			//Activamos los elementos necesarios de esta pantalla
-
-			ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
-
-			SecondPlaneCanvas.SetActive (true);			
-			SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
-			UIScreensCamera.SetActive (true);			
-			MainCamera.SetActive (false);			
-			ShowScreen(TheProfileScreen);
 		}) );
 	}
 
 	public void ShowMainGameScreen(UIScreen TheMainGameScreen) {
+		HideAllSecondPlaneScreens ();
+
+		SecondPlaneCanvas.SetActive (false);			
+		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(MainCamera.GetComponent<Camera>());
+		UIScreensCamera.SetActive (false);			
+		MainCamera.SetActive (true);			
+
+		
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
 
 		ShowScreen (TheMainGameScreen);
