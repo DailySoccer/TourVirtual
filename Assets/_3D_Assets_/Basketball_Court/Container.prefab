@@ -582,6 +582,7 @@ GameObject:
   - 4: {fileID: 440372}
   - 135: {fileID: 13546800}
   - 114: {fileID: 11473058}
+  - 114: {fileID: 11475234}
   m_Layer: 0
   m_Name: GoalArea
   m_TagString: Untagged
@@ -1640,6 +1641,7 @@ GameObject:
   - 4: {fileID: 473320}
   - 33: {fileID: 3376044}
   - 23: {fileID: 2374048}
+  - 65: {fileID: 6596154}
   m_Layer: 0
   m_Name: Cristal
   m_TagString: Untagged
@@ -2964,6 +2966,7 @@ GameObject:
   - 4: {fileID: 498718}
   - 33: {fileID: 3317682}
   - 23: {fileID: 2303204}
+  - 65: {fileID: 6571768}
   m_Layer: 0
   m_Name: Canasta
   m_TagString: Untagged
@@ -13223,6 +13226,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.39999998, y: 1, z: .00999999978}
   m_Center: {x: .100000001, y: 1, z: 2}
+--- !u!65 &6571768
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165382}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.61587119, y: 1.65999997, z: 5.61036158}
+  m_Center: {x: 1.49011589e-06, y: 4.01999998, z: 2.80075765}
 --- !u!65 &6587164
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -13259,6 +13274,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .00999999978, y: 1, z: 1.60000002}
   m_Center: {x: -.800000012, y: 2.20000005, z: 1.10000002}
+--- !u!65 &6596154
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 138202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.54072213, y: 5.58793602e-07, z: 1.45221245}
+  m_Center: {x: .00112235534, y: .0364373028, z: 4.84104824}
 --- !u!95 &9539470
 Animator:
   serializedVersion: 3
@@ -13705,6 +13732,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   psStar: {fileID: 19861572}
   shooter: {fileID: 0}
+--- !u!114 &11475234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a922ea457bcdbb54297471bfe00c2c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13546800
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -13716,7 +13754,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: .100000001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -.209999993, z: 0}
 --- !u!198 &19861572
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -33,8 +33,8 @@ public class MinigameModal : MonoBehaviour {
     }*/
 
 	// Use this for initialization
-	void Start () {	
-	}
+	void Start () {
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,4 +50,15 @@ public class MinigameModal : MonoBehaviour {
 			_LastMinigameStyle = CurrentMinigameStyle;
 		}
 	}
+
+    public void OnShow()
+    {
+        gameObject.SetActive(true);
+    }
+
+
+    public void OnHide(GameObject go) {
+        go.SetActive(false);
+    }
+
 }

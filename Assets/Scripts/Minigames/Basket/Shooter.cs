@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace Basket
@@ -9,12 +10,11 @@ namespace Basket
         public Camera cameraForShooter;
         public GameObject ballPrefab;
         public Transform shotPoint;
-        public Transform hoopTransform;
 
-        public float targetZ = 12.0f;           //screen point z to world point
-        public float shotPowerMin = 3.0f;       //minimum shot power
-        public float shotPowerMax = 12.0f;      //maximum shot power
-        public float offsetY = 100.0f;          //offset Y for trajectory
+        public float targetZ = 6.0f;            //screen point z to world point
+        public float shotPowerMin = 6.0f;       //minimum shot power
+        public float shotPowerMax = 8.0f;       //maximum shot power
+        public float offsetY = 40.0f;           //offset Y for trajectory
         public float shotTimeMin = 0.2f;        //minimum time till to release finger
         public float shotTimeMax = 0.55f;       //maximum time till to release finger
         public float torque = 30.0f;            //torque (backspin)
@@ -29,12 +29,16 @@ namespace Basket
         public float maxAngle = 45.0f;
 
         public float gameTime = 30.0f;
+        float currentTime;
         public int round = 0;
         public int streak = 0;
         public int score = 0;
+        public int record = 0;
+
+        public GuiMinigameScreen minigameScreen;
 
         // for demo
-        public float shotPower { get; private set; }        //shot power (initial velocity)
+        public float shotPower { get; private set; } //shot power (initial velocity)
         public Vector3 direction { get; private set; }  //shot direction (normalized)
 
         GameObject objBall;
@@ -63,6 +67,7 @@ namespace Basket
         void Start()
         {
             touchPos.x = -1.0f;
+            reset();
             // changePosition();
         }
 
@@ -77,6 +82,7 @@ namespace Basket
 
         public void reset()
         {
+            currentTime = gameTime;
             round = 0;
             streak = 0;
             score = 0;
@@ -88,14 +94,16 @@ namespace Basket
         {
             score++;
             streak++;
+            if (score > record) record = score;
 
             if (objBall != null)
             {
                 Destroy(objBall);
                 objBall = null;
             }
-            state = ShotState.Charging;
             changePosition();
+            UpdateBoard();
+            state = ShotState.Charging;
         }
 
         void OnResetStreak()
@@ -120,41 +128,31 @@ namespace Basket
 
         }
 
+        public void Play() {
+            if(gameState == GameState.WaitStart)
+                gameState = GameState.Playing;
+        }
 
         // Update is called once per frame
-        void Update()
-        {
-            switch (gameState)
-            {
-                case GameState.WaitStart:
-                    {
-                        if (Input.GetMouseButtonUp(0))
-                        {
-                            gameState = GameState.Playing;
-                        }
-                    }
-                    break;
+        void Update() {
+            switch (gameState) {
                 case GameState.Playing:
                     {
-                        gameTime -= Time.deltaTime;
-                        if (gameTime < 0)
+                        currentTime -= Time.deltaTime;
+                        UpdateBoard();
+                        if (currentTime < 0)
                         {
                             OnFinishGame();
                         }
                         else {
-                            if (state == ShotState.Charging)
-                            {
+                            if (state == ShotState.Charging) {
                                 ChargeBall();
                                 CheckTrigger();
-
                             }
-                            else if (state == ShotState.Ready)
-                            {
+                            else if (state == ShotState.Ready) {
                                 CheckTrigger();
-
                             }
-                            else if (state == ShotState.DirectionAndPower)
-                            {
+                            else if (state == ShotState.DirectionAndPower) {
                                 CheckShot();
                             }
                         }
@@ -303,17 +301,26 @@ namespace Basket
 
         void OnFinishGame()
         {
-            gameTime = 0;
+            currentTime = 0;
             gameState = GameState.Finished;
             Destroy(objBall);
             state = ShotState.Waiting;
             objBall = null;
+            UpdateBoard();
+        }
+
+        void UpdateBoard()
+        {
+            minigameScreen.Time(currentTime / gameTime);
+            minigameScreen.Score(score);
+            minigameScreen.Record(record);
         }
 
         void OnGUI()
         {
+
             GUILayout.Label("State " + gameState);
-            GUILayout.Label("Time " + Mathf.CeilToInt(gameTime));
+            GUILayout.Label("Time " + Mathf.CeilToInt(currentTime));
             GUILayout.Label("Round " + round);
             GUILayout.Label("Score " + score);
             GUILayout.Label("Streak " + streak);

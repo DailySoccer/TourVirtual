@@ -117,10 +117,7 @@ namespace Football
             {
                 case GameState.WaitStart:
                     {
-                        if (Input.GetMouseButtonUp(0))
-                        {
-                            gameState = GameState.Playing;
-                        }
+//                        if (Input.GetMouseButtonUp(0)) gameState = GameState.Playing;
                     }
                     break;
                 case GameState.Playing:
