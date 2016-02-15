@@ -3,6 +3,12 @@ using System.Collections;
 
 public class AsociateWithMainCamera : MonoBehaviour {
 
+	private Camera _camera;
+
+	public void SetCameraToAssociate(Camera cam) {
+		_camera = cam;
+	}
+
 	// Use this for initialization
 	void Start () {
 	
@@ -10,8 +16,6 @@ public class AsociateWithMainCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Camera.main) {
-			GetComponent<Canvas>().worldCamera = Camera.main;
-		}
+		GetComponent<Canvas>().worldCamera = _camera;
 	}
 }

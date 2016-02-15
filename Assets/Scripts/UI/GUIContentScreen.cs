@@ -31,13 +31,13 @@ public class GUIContentScreen : UIScreen {
 			}
 		}
 	}
-
+	/*
 	public void HideScreen(UIScreen uiScreen) {
 		if (GameCanvasManager != null) {
 			GameCanvasManager.HideScreenWithAnim(uiScreen);
 		}
 	}
-
+	*/
 	void OpenContent() {
         Camera.main.enabled = false;
 		NextButton.gameObject.SetActive(false);

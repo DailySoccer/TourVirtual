@@ -3,13 +3,19 @@ using System.Collections;
 
 public class CanvasManager : MonoBehaviour {
 
-	public GameObject CommonBackground;
 
+	public GameObject MainCamera;
+	public GameObject UIScreensCamera;
+	public GameObject SecondPlaneCanvas;
+	public GameObject PlayerClone;
+	
 	public UIScreen currentGUIScreen;
 	public GUIPopUpScreen currentGUIPopUpScreen;
 
 	private UIScreen _newScreen;
-	
+	private GameObject ProfilePlayerInstance;
+
+	/*
 	public void ShowScreenWithAnim(UIScreen guiScreen) {
 
 		_newScreen = guiScreen;
@@ -28,12 +34,13 @@ public class CanvasManager : MonoBehaviour {
 		StartCoroutine(HideScreenWithAnimCoroutine());
 	}
 
+
 	IEnumerator ShowScreenWithAnimCoroutine() {
 		
 		/*Animator animator = Camera.main.GetComponent<Animator>();
 		
 		animator.SetBool("Bloom", true);
-		*/
+		* /
 		ShowScreen(_newScreen);
 
 		yield return null;
@@ -42,7 +49,7 @@ public class CanvasManager : MonoBehaviour {
 	IEnumerator HideScreenWithAnimCoroutine() {
 		/*
 		Animator animator = Camera.main.GetComponent<Animator>();
-		*/
+		* /
 		//UIScreen oldScreen = currentGUIScreen;
 		
 		ShowScreen(_newScreen);
@@ -50,13 +57,87 @@ public class CanvasManager : MonoBehaviour {
 		while (!oldScreen.InCloseState) {
 			yield return new WaitForEndOfFrame();
 		}
-		*/
+		* /
 		//animator.SetBool("Bloom", false);
 		
 		yield return null;
 	}
-	
+	*/
+
+
+	/// <summary>
+	/// Intercambia pantallas.	/// 
+	/// Sutituye a ShowScreen
+	/// </summary>
+	/// <param name="guiScreen">GUI screen.</param>
+	public void ChangeScreen(UIScreen guiScreen) {
+		if (UIScreensCamera.GetActive()) {
+			SecondPlaneCanvas.SetActive (false);
+			UIScreensCamera.SetActive (false);
+			MainCamera.SetActive (true);
+		}
+		ShowScreen(guiScreen);
+	}
+
+	void HideAllSecondPlaneScreens() {
+		foreach(Transform t in SecondPlaneCanvas.transform) {
+			t.gameObject.SetActive(false);
+		}
+	}
+
+	void ShowSecondPlaneScreens(params string[] names) {
+		HideAllSecondPlaneScreens ();
+
+		foreach(Transform t in SecondPlaneCanvas.transform) {
+			for(int i = 0; i < names.Length; ++i){
+				if (t.name == names[i]) {
+					t.gameObject.SetActive(true);
+				}
+			}
+		}		
+	}
+
+	public void ShowProfileScreen(UIScreen TheProfileScreen) {
+
+		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
+
+		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
+
+			//Seteamos el Avatar que se muestra en estapantalla
+			ProfilePlayerInstance = instance;
+			ProfilePlayerInstance.layer = 5;
+			foreach(Transform t in ProfilePlayerInstance.transform) {
+				t.gameObject.layer = 5;
+			}
+			ProfilePlayerInstance.name = "UI Player Clone for Profile";
+			ProfilePlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
+			ProfilePlayerInstance.GetComponent<SynchNet>().enabled = false;
+			ProfilePlayerInstance.transform.position = new Vector3(0.06f, 9998.82f, 0f);
+
+			//Activamos los elementos necesarios de esta pantalla
+
+			ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
+
+			SecondPlaneCanvas.SetActive (true);			
+			SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
+			UIScreensCamera.SetActive (true);			
+			MainCamera.SetActive (false);			
+			ShowScreen(TheProfileScreen);
+		}) );
+	}
+
+	public void ShowMainGameScreen(UIScreen TheMainGameScreen) {
+		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
+
+		ShowScreen (TheMainGameScreen);
+	}
+
+	/// <summary>
+	/// (Deprecated) Shows the screen.
+	/// </summary>
+	/// <param name="guiScreen">GUI screen.</param>
 	public void ShowScreen(UIScreen guiScreen) {
+		Debug.LogError ("GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
 		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
 			currentGUIScreen.CloseWindow();
 			currentGUIScreen.IsOpen = false;

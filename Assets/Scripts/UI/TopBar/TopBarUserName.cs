@@ -8,7 +8,7 @@ public class TopBarUserName : MonoBehaviour {
 	public Image Flag;
 	public AvatarPicture ProfilePicture;
 	
-	void Awake () {
+	void Update () {
 		if (UserAPI.Instance != null) 
 			UserName.text = UserAPI.Instance.Nick;
 

@@ -12,8 +12,10 @@ public class CanvasRootController : MonoBehaviour {
 		}
 	}
 
-	public GameObject CommonBackground;
-	public GameObject fadeCanvas;
+	public Camera UIScreensCamera;
+
+	public GameObject SecondPlaneCanvas;
+	public GameObject LoadingCanvas;
 
 	public List<GameObject> canvasLayers = new List<GameObject>();
 
@@ -23,7 +25,7 @@ public class CanvasRootController : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake() {
-		fadeCanvas.SetActive(false);
+		LoadingCanvas.SetActive(false);
 		HideCanvasLayers();
 
 		_roomManager = RoomManager.Instance;
@@ -39,19 +41,16 @@ public class CanvasRootController : MonoBehaviour {
 		foreach(GameObject go in canvasLayers) {
 			go.SetActive(false);
 		}
-		CommonBackground.SetActive(false);
+		SecondPlaneCanvas.SetActive(false);
 	}
 
 	public IEnumerator FadeOut (int waitSeconds) {
-		//Debug.LogWarning("FadeOut BEGIN");
+		LoadingCanvas.SetActive(true);
 
-		// fadeCanvas.GetComponentInChildren<CanvasGroup>().alpha = 0;
-		fadeCanvas.SetActive(true);
-
-		Animator animator = fadeCanvas.GetComponentInChildren<Animator>();
+		Animator animator = LoadingCanvas.GetComponentInChildren<Animator>();
 		animator.speed = (waitSeconds > 0) ? 1.0f / (float)waitSeconds : 0;
 
-		UIScreen screen = fadeCanvas.GetComponentInChildren<UIScreen>();
+		UIScreen screen = LoadingCanvas.GetComponentInChildren<UIScreen>();
 		screen.IsOpen = true;
 
 		while (!screen.InOpenState) {
@@ -59,34 +58,35 @@ public class CanvasRootController : MonoBehaviour {
 		}
 
 		yield return new WaitForSeconds(waitSeconds);
-		//Debug.LogWarning("FadeOut END");
 	}
 
 	public IEnumerator FadeIn (int waitSeconds) {
-		//Debug.LogWarning("FadeIn BEGIN");
+		LoadingCanvas.SetActive(true);
 
-		// fadeCanvas.GetComponentInChildren<CanvasGroup>().alpha = 1;
-		fadeCanvas.SetActive(true);
-
-		Animator animator = fadeCanvas.GetComponentInChildren<Animator>();
+		Animator animator = LoadingCanvas.GetComponentInChildren<Animator>();
 		animator.speed = (waitSeconds > 0) ? 1.0f / (float)waitSeconds : 0;
 
-		UIScreen screen = fadeCanvas.GetComponentInChildren<UIScreen>();
+		UIScreen screen = LoadingCanvas.GetComponentInChildren<UIScreen>();
 		screen.IsOpen = false;
 
 		while (!screen.InCloseState) {
 			yield return null;
 		}
 
-		// yield return new WaitForSeconds(waitSeconds);
-
-		fadeCanvas.SetActive(false);
-		//Debug.LogWarning("FadeIn END");
+		LoadingCanvas.SetActive(false);
 	}
 
 	void OnLevelChange() {
+		HideAllSecondPlaneScreens();
 		HideCanvasLayers();
 	}
+
+	void HideAllSecondPlaneScreens() {
+		foreach(Transform t in SecondPlaneCanvas.transform) {
+			t.gameObject.SetActive(false);
+		}
+	}
+
 
 	void OnLevelReady() {
 
@@ -95,21 +95,23 @@ public class CanvasRootController : MonoBehaviour {
 		//GameObject canvas;
 		switch(_roomManager.Room.Gui) {
             case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
-                CommonBackground.SetActive(true);
-                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
-                /*canvas.SetActive(false);
-                canvasLayers[0].SetActive(true);*/
+				SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(Camera.main);    
+				SecondPlaneCanvas.SetActive(true);				
+                
+				canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
+				foreach(Transform t in SecondPlaneCanvas.transform) {
+				if (t.name == "Avatar Selector Screen Plano2" || t.name == "Video Bg")
+						t.gameObject.SetActive(true);
+				}
                 break;
-            case RoomDefinition.GUI_GAME: // Game Scene
+            
+			case RoomDefinition.GUI_GAME: // Game Scene
                                           //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
                 canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas").SetActive(true);
-                /*canvas.SetActive(false);
-                canvasLayers[1].SetActive(true);*/
                 break;
+
             case RoomDefinition.GUI_MINIGAMES: // Game Scene
                 canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas").SetActive(true);
-                /*canvas.SetActive(false);
-                canvasLayers[1].SetActive(true);*/
                 break;
         }
 
