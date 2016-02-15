@@ -24,12 +24,12 @@ public class GuiMinigameScreen : GUIPopUpScreen {
 
     public void Record(int value)
     {
-
+        TxtRecord.text = "Record: "+value.ToString();
     }
 
     public void Score(int value)
     {
-
+        TxtScore.text = value.ToString();
     }
 
     public void Time(float normTime)
@@ -37,14 +37,11 @@ public class GuiMinigameScreen : GUIPopUpScreen {
         timer.TimeLeft = normTime;
     }
 
-    public void OnShow()
-    {
+    public void OnShow() {
         gameObject.SetActive(true);
     }
 
-
-    public void OnHide()
-    {
+    public void OnHide() {
         gameObject.SetActive(false);
     }
 

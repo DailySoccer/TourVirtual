@@ -142,7 +142,6 @@ public class AzureInterfaz {
         string scheme = "Bearer";
         string authorization = string.Format("{0} {1}", scheme, AccessToken);
         request.AddHeader("Authorization", authorization);
-        Debug.Log("Authorization: " + authorization);
     }
 
     private const string SPANISH_LANGUAGE = "es-es";

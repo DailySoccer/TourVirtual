@@ -35,6 +35,7 @@ namespace Basket
         public int score = 0;
         public int record = 0;
 
+        public GuiMinigameScreenPopup endMenu;
         public GuiMinigameScreen minigameScreen;
 
         // for demo
@@ -67,7 +68,7 @@ namespace Basket
         void Start()
         {
             touchPos.x = -1.0f;
-            reset();
+            Reset();
             // changePosition();
         }
 
@@ -80,14 +81,21 @@ namespace Basket
             }
         }
 
-        public void reset()
+        public void Reset()
         {
+            transform.position = new Vector3(0, 1.85f, -4.69f);
             currentTime = gameTime;
             round = 0;
             streak = 0;
             score = 0;
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
+        }
+
+        public void OnRetry()
+        {
+            Reset();
+            Play();
         }
 
         public void OnScore()
@@ -307,6 +315,9 @@ namespace Basket
             state = ShotState.Waiting;
             objBall = null;
             UpdateBoard();
+
+            minigameScreen.OnHide();
+            endMenu.EndGame();
         }
 
         void UpdateBoard()
@@ -316,14 +327,10 @@ namespace Basket
             minigameScreen.Record(record);
         }
 
-        void OnGUI()
-        {
 
-            GUILayout.Label("State " + gameState);
-            GUILayout.Label("Time " + Mathf.CeilToInt(currentTime));
-            GUILayout.Label("Round " + round);
-            GUILayout.Label("Score " + score);
-            GUILayout.Label("Streak " + streak);
+        public void OnExitGame()
+        {
+            Debug.LogError("OnExitGame");
         }
     }
 }

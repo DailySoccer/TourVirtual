@@ -9,14 +9,13 @@ GameObject:
   m_Component:
   - 224: {fileID: 22477868}
   - 222: {fileID: 22256704}
-  - 114: {fileID: 11481518}
   m_Layer: 5
   m_Name: Modal Football Shots Final
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &110670
 GameObject:
   m_ObjectHideFlags: 1
@@ -220,7 +219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &138850
 GameObject:
   m_ObjectHideFlags: 1
@@ -405,7 +404,6 @@ GameObject:
   m_Component:
   - 224: {fileID: 22464256}
   - 222: {fileID: 22204602}
-  - 114: {fileID: 11498022}
   m_Layer: 5
   m_Name: Modal Football Shots Inicial
   m_TagString: Untagged
@@ -520,7 +518,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11405054}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11401268
@@ -562,30 +571,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 11484940}
+        m_MethodName: PlayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11498022}
-        m_MethodName: OnHide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: OnShow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -740,7 +738,40 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11487302}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnRetry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: OnHide
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 103410}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: OnShow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11436378
@@ -866,7 +897,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11492008}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11453698
@@ -1166,21 +1208,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11481518
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 103410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a125db9248c4288a109beb0a542cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FootballBg: {fileID: 21300000, guid: 014117693645348c7b189ec3301f9e0b, type: 3}
-  BasketBg: {fileID: 21300000, guid: 5985a2b5ef5844a88b8c25fa2b8b41c9, type: 3}
-  backgroundBase: {fileID: 11486334}
-  CurrentMinigameStyle: 1
 --- !u!114 &11483536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1210,6 +1237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2bb4209556f7cd468ed5d66dcea6fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tutorial: {fileID: 134394}
+  StartScreen: {fileID: 180700}
+  EndScreen: {fileID: 103410}
+  InGameScreen: {fileID: 0}
 --- !u!114 &11486334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1384,24 +1415,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11401362}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11498022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a125db9248c4288a109beb0a542cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FootballBg: {fileID: 21300000, guid: 014117693645348c7b189ec3301f9e0b, type: 3}
-  BasketBg: {fileID: 21300000, guid: 5985a2b5ef5844a88b8c25fa2b8b41c9, type: 3}
-  backgroundBase: {fileID: 11414152}
-  CurrentMinigameStyle: 1
 --- !u!222 &22204602
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1639,7 +1666,7 @@ RectTransform:
   m_Children:
   - {fileID: 22493806}
   m_Father: {fileID: 22464256}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
   m_AnchoredPosition: {x: 0, y: 16}
@@ -1675,7 +1702,7 @@ RectTransform:
   - {fileID: 22472202}
   - {fileID: 22405090}
   m_Father: {fileID: 22464256}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1694,7 +1721,7 @@ RectTransform:
   - {fileID: 22472038}
   - {fileID: 22423312}
   m_Father: {fileID: 22477868}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1782,10 +1809,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22477868}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8, y: 23}
+  m_AnchoredPosition: {x: -7, y: 23}
   m_SizeDelta: {x: 93, y: 82}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &22449228
@@ -1800,7 +1827,7 @@ RectTransform:
   m_Children:
   - {fileID: 22407314}
   m_Father: {fileID: 22477868}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
   m_AnchoredPosition: {x: 121, y: 18}
@@ -1818,7 +1845,7 @@ RectTransform:
   m_Children:
   - {fileID: 22400970}
   m_Father: {fileID: 22477868}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
   m_AnchoredPosition: {x: -155.749969, y: 18}
@@ -1834,10 +1861,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 22471568}
   - {fileID: 22417766}
   - {fileID: 22497494}
   - {fileID: 22415956}
+  - {fileID: 22471568}
   m_Father: {fileID: 22487414}
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
@@ -1891,7 +1918,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22464256}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 8, y: 23}
@@ -1978,10 +2005,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 22445208}
   - {fileID: 22417844}
   - {fileID: 22463536}
   - {fileID: 22449228}
+  - {fileID: 22445208}
   m_Father: {fileID: 22487414}
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
@@ -2055,7 +2082,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22464256}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -38}

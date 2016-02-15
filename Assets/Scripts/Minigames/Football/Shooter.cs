@@ -117,7 +117,7 @@ namespace Football
             {
                 case GameState.WaitStart:
                     {
-//                        if (Input.GetMouseButtonUp(0)) gameState = GameState.Playing;
+                        if (Input.GetMouseButtonUp(0)) gameState = GameState.Playing;
                     }
                     break;
                 case GameState.Playing:
@@ -193,9 +193,7 @@ namespace Football
 
             float dis = Vector3.Distance(shotPoint.transform.position, objBall.transform.position);
             if (dis <= 0.1f)
-            {
                 state = ShotState.Ready;
-            }
         }
 
         void CheckTrigger()

@@ -10,7 +10,7 @@ using System.Collections;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
 
 
     public string   UserID      { get; private set; }
@@ -78,6 +78,15 @@ public class UserAPI {
 
         yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking() );
 
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoot));
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
+
+
+        SetScore(MiniGame.FreeShoot, 100);
+        SetScore(MiniGame.FreeKicks, 100);
+        SetScore(MiniGame.HiddenObjects, 100);
+
         if (OnUserLogin != null) OnUserLogin();
         SetScore(MiniGame.FreeKicks, 100);
     }
@@ -130,9 +139,9 @@ public class UserAPI {
         });
     }
 
-    public void GetRanking(MiniGame game){
-        Authentication.AzureServices.RequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
-//            Debug.LogError("GetRanking " + res);
+    public IEnumerator GetRanking(MiniGame game){
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
+            Debug.LogError("GetRanking " + res);
         });
     }
 
