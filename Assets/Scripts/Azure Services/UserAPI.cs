@@ -10,7 +10,7 @@ using System.Collections;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
 
 
     public string   UserID      { get; private set; }
@@ -51,19 +51,15 @@ public class UserAPI {
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });
-
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
+            Debug.LogError(">>> " + res);
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
             }
             else {
-                Hashtable avatar = JSON.JsonDecode(res) as Hashtable;
-                if (avatar.Contains("PhysicalProperties")) {
-                    AvatarDesciptor.SetProperties(avatar["PhysicalProperties"] as ArrayList);
-                    PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
-                    PlayerManager.Instance.SelectedModel = "";
-                }
+                AvatarDesciptor.Parse(JSON.JsonDecode(res) as Hashtable);
+                PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
             }
         });
 
@@ -83,13 +79,11 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
 
+        if (OnUserLogin != null) OnUserLogin();
 
         SetScore(MiniGame.FreeShoot, 100);
         SetScore(MiniGame.FreeKicks, 100);
         SetScore(MiniGame.HiddenObjects, 100);
-
-        if (OnUserLogin != null) OnUserLogin();
-        SetScore(MiniGame.FreeKicks, 100);
     }
 
     public void UpdateAvatar() {

@@ -2,29 +2,38 @@
 using System.Collections;
 
 public struct AvatarAPI {
-    public enum Property { Sex, Hair, Head, Body, Legs, Feet, Compliment };
+    public enum Property { Sex, Hair, Hat, Head, Body, Legs, Feet, Compliment };
 
     public string Sex;
     public string Hair;
+    public string Hat;
     public string Head;
     public string Body;
     public string Legs;
     public string Feet;
     public string Compliment;
 
-    public Hashtable GetProperty(Property prop) {
-        Hashtable ht = new Hashtable();        
+    public Hashtable GetProperty(Property prop)
+    {
+        Hashtable ht = new Hashtable();
         ht.Add("Type", prop.ToString());
         ht.Add("Version", "1");
-        switch (prop){
+        switch (prop)
+        {
             case Property.Sex: ht.Add("Data", Sex); break;
             case Property.Hair: ht.Add("Data", Hair); break;
             case Property.Head: ht.Add("Data", Head); break;
-            case Property.Body: ht.Add("Data", Body); break;
-            case Property.Legs: ht.Add("Data", Legs); break;
-            case Property.Feet: ht.Add("Data", Feet); break;
-            case Property.Compliment: ht.Add("Data", Compliment); break;
+        }
+        return ht;
+    }
 
+    public Hashtable GetVirtualGood(string id) {
+        Hashtable ht = new Hashtable();
+        VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByID(id);
+        if (vg != null) {
+            ht.Add("IdVirtualGood", vg.GUID);
+            ht.Add("Type", "Unknow");
+            ht.Add("Version", "1");
         }
         return ht;
     }
@@ -35,12 +44,19 @@ public struct AvatarAPI {
         array.Add(GetProperty(Property.Sex));
         array.Add(GetProperty(Property.Hair));
         array.Add(GetProperty(Property.Head));
-        array.Add(GetProperty(Property.Body));
-        array.Add(GetProperty(Property.Legs));
-        array.Add(GetProperty(Property.Feet));
-        array.Add(GetProperty(Property.Compliment));
         avatar.Add("PhysicalProperties", array);
-    return avatar;
+        // No se si con esto descarto todos los VG puestos.
+        ArrayList array2 = new ArrayList();
+
+        Body = "HPiernas01";
+
+        if (!string.IsNullOrEmpty(Hat)) array2.Add(GetVirtualGood(Hat));
+        if (!string.IsNullOrEmpty(Body)) array2.Add(GetVirtualGood(Body));
+        if (!string.IsNullOrEmpty(Legs)) array2.Add(GetVirtualGood(Legs));
+        if (!string.IsNullOrEmpty(Feet)) array2.Add(GetVirtualGood(Feet));
+        if (!string.IsNullOrEmpty(Compliment)) array2.Add(GetVirtualGood(Compliment));
+        avatar.Add("Accesories", array2);
+        return avatar;
     }
 
     public void SetProperties(ArrayList desc) {
@@ -52,13 +68,27 @@ public struct AvatarAPI {
                 case "Sex": Sex = data; break;
                 case "Hair": Hair = data; break;
                 case "Head": Head = data; break;
-                case "Body": Body = data; break;
-                case "Legs": Legs = data; break;
-                case "Feet": Feet = data; break;
-                case "Compliment": Feet = data; break;
             }
         }
     }
 
-    public override string ToString() { return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Sex, Hair, Head,Body,Legs, Feet, Compliment); }
+    public void Parse(Hashtable avatar) {
+        // Propiedades fisicas. Sexo, Pelo, Cabeza.
+        if (avatar.Contains("PhysicalProperties"))
+            SetProperties( avatar["PhysicalProperties"] as ArrayList );
+        // Otras propiedades.
+        if (avatar.Contains("Accesories")) {
+            foreach( Hashtable tmp in avatar["Accesories"] as ArrayList) {
+                VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
+                if (vg != null)
+                {
+                    if (vg.IdSubType.Contains("TORSO")) Body = vg.InternalID;
+                    else if (vg.IdSubType.Contains("LEG")) Legs = vg.InternalID;
+                    else if (vg.IdSubType.Contains("SHOE")) Feet = vg.InternalID;
+                    else if (vg.IdSubType.Contains("COMPLIMENT")) Compliment = vg.InternalID;
+                }
+            }
+        }
+    }
+    public override string ToString() { return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Sex, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, Body,Legs, Feet, Compliment); }
 }

@@ -23,6 +23,22 @@ public class VirtualGoodsAPI {
 
     public Hashtable VirtualGoods;
 
+    public VirtualGood GetByGUID(string guid)
+    {
+        if (VirtualGoods.ContainsKey(guid))
+            return VirtualGoods[guid] as VirtualGood;
+        return null;
+    }
+
+    public VirtualGood GetByID(string id)
+    {
+        foreach (DictionaryEntry pair in VirtualGoods) {
+            if ((pair.Value as VirtualGood).InternalID == id)
+                return pair.Value as VirtualGood;
+        }
+        return null;
+    }
+
     string auxData = @"{
             ""CurrentPage"":1, 
             ""PageSize"":10,
@@ -74,7 +90,6 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
-                    Debug.LogError(">>> " + res);
                     Hashtable virtualgoods = JSON.JsonDecode(res) as Hashtable;
                     if (virtualgoods != null) {
                         ArrayList results = virtualgoods["Results"] as ArrayList;
@@ -130,19 +145,26 @@ public class VirtualGoodsAPI {
             });
         }
         //  Buy("1bf6687b-bdf3-4906-83d7-118018f71b37");
+        Buy("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
     }
-
     public void Buy(string guid, bool multiple = false) {
         if (VirtualGoods.ContainsKey(guid)) {
             VirtualGood vg = (VirtualGood)VirtualGoods[guid];
-            if ((vg.count < 0 || multiple) && vg.Price < UserAPI.Instance.Points){
+            if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){
                 // No lo tengo y tengo la pasta.
                 ArrayList ar = new ArrayList();
                 ar.Add(guid.ToString());
                 Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
-                    Debug.LogError(">>>> " + res);
+                    Debug.LogError("Buy VirtualGood >>>> " + res);
                     UserAPI.Instance.Points -= (int)vg.Price;
                 });
+            }
+            else
+            {
+                if( vg.Price > UserAPI.Instance.Points)
+                {
+                    Debug.LogError("NO hay dinero para comprar >>>> " + guid);
+                }
             }
         }
     }

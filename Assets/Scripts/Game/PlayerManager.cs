@@ -128,12 +128,14 @@ public class PlayerManager : Photon.PunBehaviour {
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
 
+        Debug.LogError(">>>> " + model);
+
         Hashtable hairDesc = GetDescriptor(Hairs[section[0]] as ArrayList, section[1]);
         Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[2]);
-        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, section[3]);
-        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, section[4]);
-        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, section[5]);
-        
+        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string);
+        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, !string.IsNullOrEmpty(section[4]) ? section[4] : ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string);
+        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, !string.IsNullOrEmpty(section[5]) ? section[5] : ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string);
+
         Hashtable compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as ArrayList, section[6]);
 
         GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
