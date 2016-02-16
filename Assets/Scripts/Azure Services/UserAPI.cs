@@ -60,6 +60,7 @@ public class UserAPI {
             else {
                 AvatarDesciptor.Parse(JSON.JsonDecode(res) as Hashtable);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
+                VirtualGoodsDesciptor.FilterBySex();
             }
         });
 

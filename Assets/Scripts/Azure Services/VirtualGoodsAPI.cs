@@ -117,7 +117,6 @@ public class VirtualGoodsAPI {
         }
 
         needRequest = true;
-
         string service = "api/v1/fan/me/VirtualGoods?type=AVATARVG";
         string url = string.Format("{0}&language={1}", service, Authentication.AzureServices.MainLanguage);
         while (needRequest) {
@@ -134,20 +133,40 @@ public class VirtualGoodsAPI {
                             }
                         }
                         needRequest = false;
-                        if (myvirtualgoods.ContainsKey("HasMoreResults"))
-                        {
+                        if (myvirtualgoods.ContainsKey("HasMoreResults")) {
                             needRequest = (bool)myvirtualgoods["HasMoreResults"];
                             url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, myvirtualgoods["ContinuationToken"] as string);
-
                         }
                     }
                 }
             });
         }
         //  Buy("1bf6687b-bdf3-4906-83d7-118018f71b37");
-        Buy("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
+        BuyByGUID("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
     }
-    public void Buy(string guid, bool multiple = false) {
+
+    public void FilterBySex( )
+    {
+        Hashtable tmp = new Hashtable();
+        foreach(DictionaryEntry pair in VirtualGoods) {
+            if (UserAPI.AvatarDesciptor.Sex == "Male") {
+                if ((pair.Value as VirtualGood).IdSubType[0] == 'H')
+                    tmp.Add(pair.Key, pair.Value);
+            }
+            else {
+                if ((pair.Value as VirtualGood).IdSubType[0] == 'M')
+                    tmp.Add(pair.Key, pair.Value);
+            }
+        }
+        VirtualGoods = tmp;
+    }
+
+
+    public void BuyByID(string id, bool multiple = false) {
+        BuyByGUID(GetByID(id).GUID, multiple);
+    }
+
+    public void BuyByGUID(string guid, bool multiple = false) {
         if (VirtualGoods.ContainsKey(guid)) {
             VirtualGood vg = (VirtualGood)VirtualGoods[guid];
             if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){

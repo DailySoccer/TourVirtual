@@ -50,6 +50,7 @@ public class SelectAvatar : MonoBehaviour {
         }
 
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+            UserAPI.VirtualGoodsDesciptor.FilterBySex();
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
             if (thePlayer != null) thePlayer.Avatar = instance;
