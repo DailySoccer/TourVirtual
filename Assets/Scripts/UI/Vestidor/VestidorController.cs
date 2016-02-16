@@ -8,24 +8,24 @@ public enum ProductType {
 	Pack
 }
 
-public class PersonalizeAvatarTabs : MonoBehaviour {
+public class VestidorController : MonoBehaviour {
 
 	public GameObject ClothSlot;
 
 	public GameObject TShirtsListWrapperParent;
-	public ClothesTab TShirtsTab;
+	public VestidorTab TShirtsTab;
 	private Transform TShirtsList;
 
 	public GameObject ComplementsListWrapperParent;
-	public ClothesTab ComplementsTab;
+	public VestidorTab ComplementsTab;
 	private Transform ComplementsList;
 
 	public GameObject ShoesListWrapperParent;
-	public ClothesTab ShoesTab;
+	public VestidorTab ShoesTab;
 	private Transform ShoesList;
 
 	public GameObject PacksListWrapperParent;
-	public ClothesTab PacksTab;
+	public VestidorTab PacksTab;
 	private Transform PacksList;
 
 	// Use this for initialization

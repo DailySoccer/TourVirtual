@@ -4,6 +4,7 @@ using System.Collections;
 public class AsociateWithMainCamera : MonoBehaviour {
 
 	private Camera _camera;
+	public Camera CameraByDefault;
 
 	public void SetCameraToAssociate(Camera cam) {
 		_camera = cam;
@@ -11,7 +12,9 @@ public class AsociateWithMainCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		if (CameraByDefault) {
+			_camera = CameraByDefault;
+		}
 	}
 	
 	// Update is called once per frame

@@ -15,56 +15,6 @@ public class CanvasManager : MonoBehaviour {
 	private UIScreen _newScreen;
 	private GameObject ProfilePlayerInstance;
 
-	/*
-	public void ShowScreenWithAnim(UIScreen guiScreen) {
-
-		_newScreen = guiScreen;
-		//currentGUIScreen = guiScreen;
-		
-		Debug.Log("====================================== SHOW!!");
-		StartCoroutine(ShowScreenWithAnimCoroutine());
-	}
-
-	public void HideScreenWithAnim(UIScreen guiScreen) {
-
-		_newScreen = guiScreen;
-		//currentGUIScreen = guiScreen;
-		
-		Debug.Log("====================================== HIDE!!");
-		StartCoroutine(HideScreenWithAnimCoroutine());
-	}
-
-
-	IEnumerator ShowScreenWithAnimCoroutine() {
-		
-		/*Animator animator = Camera.main.GetComponent<Animator>();
-		
-		animator.SetBool("Bloom", true);
-		* /
-		ShowScreen(_newScreen);
-
-		yield return null;
-	}
-	
-	IEnumerator HideScreenWithAnimCoroutine() {
-		/*
-		Animator animator = Camera.main.GetComponent<Animator>();
-		* /
-		//UIScreen oldScreen = currentGUIScreen;
-		
-		ShowScreen(_newScreen);
-		/*
-		while (!oldScreen.InCloseState) {
-			yield return new WaitForEndOfFrame();
-		}
-		* /
-		//animator.SetBool("Bloom", false);
-		
-		yield return null;
-	}
-	*/
-
-
 	/// <summary>
 	/// Intercambia pantallas.	/// 
 	/// Sutituye a ShowScreen
@@ -186,7 +136,55 @@ public class CanvasManager : MonoBehaviour {
 		currentGUIPopUpScreen = null;
 	}
 
+
 	/*
+	public void ShowScreenWithAnim(UIScreen guiScreen) {
+
+		_newScreen = guiScreen;
+		//currentGUIScreen = guiScreen;
+		
+		Debug.Log("====================================== SHOW!!");
+		StartCoroutine(ShowScreenWithAnimCoroutine());
+	}
+
+	public void HideScreenWithAnim(UIScreen guiScreen) {
+
+		_newScreen = guiScreen;
+		//currentGUIScreen = guiScreen;
+		
+		Debug.Log("====================================== HIDE!!");
+		StartCoroutine(HideScreenWithAnimCoroutine());
+	}
+
+
+	IEnumerator ShowScreenWithAnimCoroutine() {
+		
+		/*Animator animator = Camera.main.GetComponent<Animator>();
+		
+		animator.SetBool("Bloom", true);
+		* /
+		ShowScreen(_newScreen);
+
+		yield return null;
+	}
+	
+	IEnumerator HideScreenWithAnimCoroutine() {
+		/*
+		Animator animator = Camera.main.GetComponent<Animator>();
+		* /
+		//UIScreen oldScreen = currentGUIScreen;
+		
+		ShowScreen(_newScreen);
+		/*
+		while (!oldScreen.InCloseState) {
+			yield return new WaitForEndOfFrame();
+		}
+		* /
+		//animator.SetBool("Bloom", false);
+		
+		yield return null;
+	}
+	
 	private void ShowScreenByName(string menuName) 
 	{
 		if (currentGUIScreen == null || currentGUIScreen.name != menuName)

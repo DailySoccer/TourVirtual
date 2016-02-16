@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 [ExecuteInEditMode]
-public class ClothesTab : MonoBehaviour {
+public class VestidorTab : MonoBehaviour {
 
 	public bool IsTabActive;
 	public Image Image;
