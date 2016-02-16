@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 // TODO:    No funciona el ranking global personal.
 //          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
 //          Que pasa con la energia? Otra tarea nueva para mi?
 //          Recibos de compras en tiendas.
 //          POST api/v1/purchases
+//          Leer correctamente los virtualgoods de un avatar
 
 public class UserAPI {
 
@@ -38,6 +38,7 @@ public class UserAPI {
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
+        if (!Online) VirtualGoodsDesciptor.FAKE();
     }
 
     public IEnumerator Request() {
