@@ -17,13 +17,17 @@ public class PlayerManager : Photon.PunBehaviour {
     public GameObject prefabMale;
     public GameObject prefabFemale;
     public Material baseMaterial;
+    public Material baseCompliment;
     public Texture2D textureNumbers;
     public float textureSize = 512;
 
+    public Hashtable Hairs;
     public Hashtable Heads;
     public Hashtable Bodies;
     public Hashtable Legs;
     public Hashtable Feet;
+    public Hashtable Compliments;
+    public Hashtable Selector;
 
     ArrayList packsList;
 
@@ -109,11 +113,13 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
-            Heads = json["Heads"] as Hashtable;
-            Bodies = json["Bodies"] as Hashtable;
-            Legs = json["Legs"] as Hashtable;
+            Heads   = json["Heads"] as Hashtable;
+            Hairs   = json["Hairs"] as Hashtable;
+            Bodies  = json["Bodies"] as Hashtable;
+            Legs    = json["Legs"] as Hashtable;
             Feet = json["Feet"] as Hashtable;
-
+            Compliments = json["Compliments"] as Hashtable;
+            Selector = json["Selector"] as Hashtable;
             packsList = json["packs"] as ArrayList;
         }));
     }
@@ -122,34 +128,48 @@ public class PlayerManager : Photon.PunBehaviour {
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
 
-        Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[1]);
-        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, section[2]);
-        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, section[3]);
-        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, section[4]);
+        Hashtable hairDesc = GetDescriptor(Hairs[section[0]] as ArrayList, section[1]);
+        Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[2]);
+        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, section[3]);
+        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, section[4]);
+        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, section[5]);
+        
+        Hashtable compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as ArrayList, section[6]);
 
         GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
         lastInstance.transform.position = Vector3.zero;
 
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
+            
+            
+            if (hairDesc["mesh"]!=null) Assign(bundle.LoadAsset<GameObject>(hairDesc["mesh"] as string), lastInstance.transform.FindChild("Pelo"), mat);
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
             Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
             Assign(bundle.LoadAsset<GameObject>(legsDesc["mesh"] as string), lastInstance.transform.FindChild("Piernas"), mat);
             Assign(bundle.LoadAsset<GameObject>(feetDesc["mesh"] as string), lastInstance.transform.FindChild("Pies"), mat);
+            // Material para el complemento.
+            if (compimentsDesc != null) {
+                Material matCmp = Instantiate(baseCompliment);
+                matCmp.mainTexture = bundle.LoadAsset<Texture2D>(compimentsDesc["texture"] as string);
+                Assign(bundle.LoadAsset<GameObject>(compimentsDesc["mesh"] as string), lastInstance.transform.FindChild("Complemento"), matCmp);
+            }
 
             RenderTexture rt = RenderTexture.GetTemporary((int)textureSize, (int)textureSize);
-
             RenderTexture.active = rt;
             GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
             GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
 
-            ArrayList headTextures = headDesc["textures"] as ArrayList;
-            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headTextures[0] as string));
+            ArrayList hairTextures = hairDesc["textures"] as ArrayList;
+            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string));
-            if (headTextures.Count > 1)
-                Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(headTextures[1] as string));
+            if (hairTextures!=null) {
+                Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(hairTextures[0] as string));
+                if (hairTextures.Count > 1)
+                    Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(hairTextures[1] as string));
+            }
 
             Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
             dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
@@ -204,9 +224,6 @@ public class PlayerManager : Photon.PunBehaviour {
         foreach (Transform child in obj.transform)
             SetLayerRecursively(child.gameObject, newLayer);
     }
-
-
-
 
     Hashtable GetDescriptor(ArrayList list, string id) {
         foreach (Hashtable ele in list)

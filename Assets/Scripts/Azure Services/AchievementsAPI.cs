@@ -28,8 +28,12 @@ public class AchievementsAPI{
     }
     public Hashtable Achievements;
 
+    public int TotalAchievements;
+    public int EarnedAchievements;
+
     public IEnumerator AwaitRequest()
     {
+        TotalAchievements = 0;
         Achievements = new Hashtable();
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/achievements?achievementConfigurationType=VIRTUALTOUR&idClient={0}&language={1}", Authentication.IDClient, Authentication.AzureServices.MainLanguage), (res) =>
         {
@@ -48,6 +52,7 @@ public class AchievementsAPI{
                     string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
                     Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl, rule);
                     Achievements.Add(guid + "|" + level, tmp);
+                    TotalAchievements++;
                 }
             }
         });
@@ -56,9 +61,9 @@ public class AchievementsAPI{
         yield return Authentication.Instance.StartCoroutine(AwaitAchievementEarned(false));
     }
 
-    public IEnumerator AwaitAchievementEarned(bool refresh =true)
-    {
+    public IEnumerator AwaitAchievementEarned(bool refresh =true) {
         bool needRequest = true;
+        EarnedAchievements = 0;
         //        string service = "api/v1/fan/me/Achievements?type=VIRTUALTOUR"
         string service = "api/v1/fan/me/Achievements?";
         string url = string.Format("{0}?language={1}", service, Authentication.AzureServices.MainLanguage);
@@ -79,6 +84,7 @@ public class AchievementsAPI{
                             {
                                 Achievement myvg = (Achievement)Achievements[aux];
                                 myvg.earned = true;
+                                EarnedAchievements++;
                                 if (refresh) {
                                     Debug.LogError(">>>>>>>>>> RETO RECIEN GANADO " + aux);
                                 }

@@ -36,6 +36,7 @@ public class SelectAvatar : MonoBehaviour {
                 break;
         }
         UserAPI.AvatarDesciptor.Sex = gender;
+        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Sex] as ArrayList).Count;
         UpdateAvatarDesciptor();
         StartCoroutine(LoadModel());
     }
@@ -68,10 +69,16 @@ public class SelectAvatar : MonoBehaviour {
     }
 
     void UpdateAvatarDesciptor() {
-        UserAPI.AvatarDesciptor.Head = ((PlayerManager.Instance.Heads[UserAPI.AvatarDesciptor.Sex] as ArrayList)[shownModel] as Hashtable)["id"] as string;
-        UserAPI.AvatarDesciptor.Body = ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Sex] as ArrayList)[10] as Hashtable)["id"] as string;
+        // Pillar los descriptores de cara y pelo de algun sitio
+        Hashtable headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Sex] as ArrayList)[shownModel] as Hashtable;
+        UserAPI.AvatarDesciptor.Hair = headesc["Hair"] as string;
+        UserAPI.AvatarDesciptor.Head = headesc["Head"] as string;
+        UserAPI.AvatarDesciptor.Body = ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
         UserAPI.AvatarDesciptor.Legs = ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
         UserAPI.AvatarDesciptor.Feet = ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
+        UserAPI.AvatarDesciptor.Compliment = ((PlayerManager.Instance.Compliments[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
+
+        Debug.LogError(">>>>> " + UserAPI.AvatarDesciptor.ToString());
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
     }
 

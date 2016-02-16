@@ -21,6 +21,38 @@ public class VirtualGoodsAPI {
 
     public Hashtable VirtualGoods;
 
+    /*
+        {
+            "CurrentPage":1,
+            "PageSize":10,
+            "PageCount":1,
+            "TotalItems":6,
+            "Results":
+            [
+                {
+                    "IdVirtualGood":"bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3",
+                    "Description":[{"Locale":"en-us","Description":"MCabeza01"}],
+                    "PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3.png",
+                    "ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3_thumbnail.png",
+                    "Url":[{"Locale":"en-us","Description":"TESTPACK1"}], // <- Vinculo con el pack de contenido.
+                    "ValueInPoints":0,
+                    "Price":[],
+                    "Enabled":true,
+                    "MinAge":0,
+                    "ExpirationInDays":0,
+                    "CanBeGiven":false,
+                    "CanBeUsed":false,
+                    "IdType":"AVATARVG",
+                    "Highlight":false,
+                    "HighLightInCategory":false,
+                    "IdSubType":null,
+                    "CanBeUsedInAvatar":true
+                }
+            ]
+            ,"HasMoreResults":false
+        }
+    */
+
     public IEnumerator AwaitRequest(){
         VirtualGoods = new Hashtable();
         bool needRequest = true;
@@ -29,6 +61,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
+                    Debug.LogError(">>> " + res);
                     Hashtable virtualgoods = JSON.JsonDecode(res) as Hashtable;
                     if (virtualgoods != null) {
                         ArrayList results = virtualgoods["Results"] as ArrayList;
