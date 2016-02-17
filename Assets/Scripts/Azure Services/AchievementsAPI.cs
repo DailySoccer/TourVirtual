@@ -11,10 +11,9 @@ public class AchievementsAPI{
         public string Description;
         public int Level;
         public string Image;
-        public string Rule;
         public int Points;
         public bool earned;
-        public Achievement(string _GUID, string _Name, string _IName, string _Description, int _Level, int _Points, string _Image, string _Rule) {
+        public Achievement(string _GUID, string _Name, string _IName, string _Description, int _Level, int _Points, string _Image ) {
             GUID = _GUID;
             Name = _Name;
             IName = _IName;
@@ -22,7 +21,6 @@ public class AchievementsAPI{
             Level = _Level;
             Points = _Points;
             Image = _Image;
-            Rule = _Rule;
             earned = false;
         }
     }
@@ -49,8 +47,8 @@ public class AchievementsAPI{
                     int level = (int)ele["Level"];
                     string description = ((ele["LevelName"] as ArrayList)[0] as Hashtable)["Description"] as string;
                     string imageUrl = ele["ImageUrl "] as string;
-                    string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
-                    Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl, rule);
+                    // string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
+                    Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl);
                     Achievements.Add(guid + "|" + level, tmp);
                     TotalAchievements++;
                 }
@@ -104,16 +102,16 @@ public class AchievementsAPI{
             });
         }
         //EarnByGUID( "dd2f0fdf-5d8d-4a0b-b376-c9d59349eb72", 1 );
+        SedAction("VIRTUALTOUR_ACTION1");
+        
     }
 
-    public void EarnByGUID(string guid, int level) {
-        string aux = guid + "|" + level;
-        if (Achievements.ContainsKey(aux)) {
-            Achievement vg = (Achievement)Achievements[aux];
-            string pet = string.Format("{{\"ActionId\":\"{0}\", \"ClientId\":\"{1}\"}}", vg.Rule, Authentication.IDClient);
-            Authentication.AzureServices.RequestPost("api/v1/useractions", pet, (res) => {
-                Debug.LogError(">>>>>>>>>> " + res);
-            });
-        }
+    public void SedAction(string guid ) {
+        Hashtable hs = new Hashtable();
+        hs.Add("ActionId", guid );
+        hs.Add("ClientId", Authentication.IDClient);
+        Authentication.AzureServices.RequestPostJSON( "api/v1/useractions", hs, (res) => {
+            Debug.LogError(">>>>>>>>>> " + res);
+        });
     }
 }

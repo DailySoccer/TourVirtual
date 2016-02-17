@@ -35,8 +35,8 @@ public class SelectAvatar : MonoBehaviour {
                 FemaleButton.IsTabActive = true;
                 break;
         }
-        UserAPI.AvatarDesciptor.Sex = gender;
-        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Sex] as ArrayList).Count;
+        UserAPI.AvatarDesciptor.Gender = gender;
+        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as ArrayList).Count;
         UpdateAvatarDesciptor();
         StartCoroutine(LoadModel());
     }
@@ -47,6 +47,9 @@ public class SelectAvatar : MonoBehaviour {
         if (UserAPI.Instance != null) {
             UserAPI.Instance.UpdateAvatar();
             UserAPI.Instance.SendAvatar( PlayerManager.Instance.RenderModel(lastInstance) );
+            UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
+            // Prueba de escritura de nick.
+
         }
 
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
@@ -71,7 +74,7 @@ public class SelectAvatar : MonoBehaviour {
 
     void UpdateAvatarDesciptor() {
         // Pillar los descriptores de cara y pelo de algun sitio
-        Hashtable headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Sex] as ArrayList)[shownModel] as Hashtable;
+        Hashtable headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as ArrayList)[shownModel] as Hashtable;
         UserAPI.AvatarDesciptor.Hair = headesc["Hair"] as string;
         UserAPI.AvatarDesciptor.Head = headesc["Head"] as string;
         UserAPI.AvatarDesciptor.Body = "";

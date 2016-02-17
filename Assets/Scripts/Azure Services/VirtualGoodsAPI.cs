@@ -10,7 +10,7 @@ public class VirtualGoodsAPI {
         public string InternalID;
         public float Price;
         public int count;
-        public VirtualGood(string _GUID, string _IdSubType, string _Description, float _Price, string _Image, string _InternalID) {
+        public VirtualGood(string _GUID, string _InternalID, string _IdSubType, string _Description, float _Price, string _Image) {
             GUID = _GUID;
             IdSubType = _IdSubType;
             Description = _Description;
@@ -33,8 +33,8 @@ public class VirtualGoodsAPI {
     public VirtualGood GetByID(string id)
     {
         foreach (DictionaryEntry pair in VirtualGoods) {
-            if ((pair.Value as VirtualGood).InternalID == id)
-                return pair.Value as VirtualGood;
+            VirtualGood v = pair.Value as VirtualGood;            
+            if (v.InternalID == id) return v;
         }
         return null;
     }
@@ -74,7 +74,7 @@ public class VirtualGoodsAPI {
                     string desc = ((vg["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
                     string IID = ((vg["Url"] as ArrayList)[0] as Hashtable)["Description"] as string;
                     float value = vg.ContainsKey("Price") ? (float)(((vg["Price"] as ArrayList)[0] as Hashtable)["Price"]) : 0.0f;
-                    VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string, IID);
+                    VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string);
                     VirtualGoods.Add(guid, tmp);
                 }
             }
@@ -94,13 +94,14 @@ public class VirtualGoodsAPI {
                     if (virtualgoods != null) {
                         ArrayList results = virtualgoods["Results"] as ArrayList;
                         foreach (Hashtable vg in results) {
-                            if ((bool)vg["CanBeUsedInAvatar"]) {
+//                            if ((bool)vg["CanBeUsedInAvatar"])
+                            {
                                 string guid = vg["IdVirtualGood"] as string;
                                 string subtype = vg["IdSubType"] as string;                                
                                 string desc = ((vg["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
                                 string IID = ((vg["Url"] as ArrayList)[0] as Hashtable)["Description"] as string;
                                 float value = vg.ContainsKey("Price") ? (float)(((vg["Price"] as ArrayList)[0] as Hashtable)["Price"]):0.0f;
-                                VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string, IID );
+                                VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string );
                                 VirtualGoods.Add(guid, tmp);
                             }
                         }
@@ -142,14 +143,14 @@ public class VirtualGoodsAPI {
             });
         }
         //  Buy("1bf6687b-bdf3-4906-83d7-118018f71b37");
-        BuyByGUID("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
+        // BuyByGUID("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
     }
 
     public void FilterBySex( )
     {
         Hashtable tmp = new Hashtable();
         foreach(DictionaryEntry pair in VirtualGoods) {
-            if (UserAPI.AvatarDesciptor.Sex == "Male") {
+            if (UserAPI.AvatarDesciptor.Gender == "Male") {
                 if ((pair.Value as VirtualGood).IdSubType[0] == 'H')
                     tmp.Add(pair.Key, pair.Value);
             }

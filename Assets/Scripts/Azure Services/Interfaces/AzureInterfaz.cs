@@ -52,93 +52,86 @@ public class AzureInterfaz {
 
     public static string URL_USER_PROFILE = "api/v1/fan/me";
 
-    public void RequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        component.StartCoroutine(_RequestGet(url, ok, error));
+    public void RequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_Request("get", url, ok, error));
     }
 
-
-    public IEnumerator AwaitableRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        yield return component.StartCoroutine(_RequestGet(url, ok, error));
+    public IEnumerator AwaitableRequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
+        yield return component.StartCoroutine(_Request("get", url, ok, error));
     }
 
-    public Coroutine AwaitRequestGet(string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        return component.StartCoroutine(_RequestGet(url, ok, error));
+    public Coroutine AwaitRequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
+        return component.StartCoroutine(_Request("get",url, ok, error));
     }
 
-    public IEnumerator _RequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
-        HTTP.Request request = new HTTP.Request("get", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
-        AddAuthorization(request);
-        request.Send();
-        while (!request.isDone) { yield return null; }
+    public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {
+        RequestPostJSON(url, json, ok, error);
+    }
+
+    public void RequestPostJSON(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestJSON("post", url, json, ok, error));
+    }
+
+    public void RequestPostString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestString("post", url, value, ok, error));
+    }
+
+    public void Request(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestByteArray( mode,  url, array, ok, error));
+    }
+
+    public void RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestJSON(mode, url, json, ok, error));
+    }
+
+    public void RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        component.StartCoroutine(_RequestString(mode, url, value, ok, error));
+    }
+
+    void checkResult(RequestEvent ok, RequestEvent error, HTTP.Request request) {
         if (request.response.status != 200) {
-            Debug.LogError("ERROR(" + request.response.status + ") >>>  " + request.response.Text);
-        }else{        
+            if (error != null) error(request.response.status.ToString());
+            Debug.LogError("ERROR(" + request.response.status + " : " + request.uri + ") >>>  " + request.response.Text);
+        }
+        else {
             if (ok != null) ok(request.response.Text);
         }
     }
 
-    public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {
-        RequestPostJSON(url, JSON.JsonDecode(json), ok, error);
-    }
-
-    public void RequestPostJSON(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
-        component.StartCoroutine(_RequestPost(url, json, ok, error));
-    }
-
-    public IEnumerator _RequestPost(string url, object json, RequestEvent ok = null, RequestEvent error = null) {
-        HTTP.Request request = new HTTP.Request("post", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json as object);
+    public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null) {
+        HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
         AddAuthorization(request);
         request.Send();
         while (!request.isDone) { yield return null; }
-        if (ok != null) ok(request.response.Text);
+        checkResult(ok, error, request);
     }
 
-    public void RequestPostString(string url, string value, RequestEvent ok = null, RequestEvent error = null) {
-        component.StartCoroutine(_RequestPostString(url, value, ok, error));
-    }
-
-    public IEnumerator _RequestPostString(string url, string value, RequestEvent ok = null, RequestEvent error = null) {
-        HTTP.Request request = new HTTP.Request("post", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), value);
+    public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), value);
         AddAuthorization(request);
         request.Send();
         while (!request.isDone) { yield return null; }
-        if (ok != null) ok(request.response.Text);
+        checkResult(ok, error, request);
     }
 
-    public void RequestPut(string url, byte[] array, RequestEvent ok = null, RequestEvent error = null)
+    public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
     {
-        component.StartCoroutine(_RequestPut(url, array, ok, error));
-    }
-
-    public IEnumerator _RequestPut(string url, byte[] array, RequestEvent ok = null, RequestEvent error = null)
-    {
-        HTTP.Request request = new HTTP.Request("put", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), array);
+        HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json as object);
         AddAuthorization(request);
         request.Send();
         while (!request.isDone) { yield return null; }
-        if (ok != null) ok(request.response.Text);
+        checkResult(ok, error, request);
     }
 
-    public void RequestDelete(string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        component.StartCoroutine(_RequestDelete(url, ok, error));
-    }
-
-    public IEnumerator _RequestDelete(string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        HTTP.Request request = new HTTP.Request("delete", string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
+    public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
+        HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), array);
         AddAuthorization(request);
         request.Send();
         while (!request.isDone) { yield return null; }
-        if (ok != null) ok(request.response.Text);
+        checkResult(ok, error, request);
     }
 
-
-    protected void AddAuthorization(HTTP.Request request)
-    {
+    protected void AddAuthorization(HTTP.Request request) {
         string scheme = "Bearer";
         string authorization = string.Format("{0} {1}", scheme, AccessToken);
         request.AddHeader("Authorization", authorization);
@@ -147,6 +140,4 @@ public class AzureInterfaz {
     private const string SPANISH_LANGUAGE = "es-es";
     private const string ENGLISH_LANGUAGE = "en-us";
     private const string DEFAULT_LANGUAGE = SPANISH_LANGUAGE;
-
-
 }

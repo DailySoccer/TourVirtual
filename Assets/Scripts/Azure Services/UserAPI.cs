@@ -10,7 +10,7 @@ using System.Collections;
 
 public class UserAPI {
 
-    public bool Online = true;
+    public bool Online = false;
 
 
     public string   UserID      { get; private set; }
@@ -51,8 +51,8 @@ public class UserAPI {
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });
+
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
-            Debug.LogError(">>> " + res);
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
@@ -70,31 +70,50 @@ public class UserAPI {
                     Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
                     Points = (int)gamificationstatus["Points"];
                     Level = int.Parse(gamificationstatus["Level"] as string);
+                    // No se porque no devuelve la XP.
                 }
                 catch { }
             });
 
         yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking() );
-
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoot));
+        if (OnUserLogin != null) OnUserLogin();
+        /*
+        // Pruebas de rankings de minijuegos
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
 
-        if (OnUserLogin != null) OnUserLogin();
-
-        SetScore(MiniGame.FreeShoot, 100);
-        SetScore(MiniGame.FreeKicks, 100);
-        SetScore(MiniGame.HiddenObjects, 100);
+        // Escritura de puntos.
+        SetScore(MiniGame.FreeShoots, 300);
+        SetScore(MiniGame.FreeKicks, 300);
+        SetScore(MiniGame.HiddenObjects, 300);
+        */
     }
 
-    public void UpdateAvatar() {
+    public void UpdateAvatar()
+    {
         Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
             Debug.LogError("UpdateAvatar " + res);
         }, null);
     }
 
+    public void UpdateNick(string nick) {
+        if (!Online) return;
+        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/CheckAlias?alias={0}", nick), (res) => {
+            Hashtable hs = new Hashtable();
+            hs.Add("Alias", nick);
+            Authentication.AzureServices.RequestJSON( "put", "api/v1/fan/me/updatealias", hs, (res2) =>
+            {
+                Debug.LogError("UpdateNick " + res2);
+            });
+        }, (err)=>
+        {
+            Debug.LogError("Nick en uso");
+        });
+    }
+
     public void SendAvatar(byte[] bytes) {
-        Authentication.AzureServices.RequestPut("api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
+        Authentication.AzureServices.Request("put", "api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
             Debug.LogError("SendAvatar " + res);
         });
     }
@@ -102,11 +121,12 @@ public class UserAPI {
 
     public IEnumerator AwaitGlobalRanking() {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
-//                Debug.LogError("GetGlobalRanking " + res);
+
+
         });
+
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
-            if (res != "null")
-            {
+            if (res != "null") {
                 Hashtable globalRanking = JSON.JsonDecode(res) as Hashtable;
                 if (globalRanking != null)
                 {
@@ -118,7 +138,7 @@ public class UserAPI {
 
     public enum MiniGame{
         FreeKicks,
-        FreeShoot,
+        FreeShoots,
         HiddenObjects
     };
 
@@ -129,9 +149,8 @@ public class UserAPI {
     };
 
     public void SetScore(MiniGame game, int score) {
-        Authentication.AzureServices.RequestPostString(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
-//            Debug.LogError("SetScore " + res);
-            GetRanking(game);
+        Authentication.AzureServices.RequestString("post", string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
+            Debug.LogError("SetScore " + res);
         });
     }
 
@@ -140,5 +159,4 @@ public class UserAPI {
             Debug.LogError("GetRanking " + res);
         });
     }
-
 }

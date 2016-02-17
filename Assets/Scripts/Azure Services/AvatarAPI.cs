@@ -2,9 +2,9 @@
 using System.Collections;
 
 public struct AvatarAPI {
-    public enum Property { Sex, Hair, Hat, Head, Body, Legs, Feet, Compliment };
+    public enum Property { Gender, Hair, Hat, Head, Body, Legs, Feet, Compliment };
 
-    public string Sex;
+    public string Gender;
     public string Hair;
     public string Hat;
     public string Head;
@@ -20,7 +20,7 @@ public struct AvatarAPI {
         ht.Add("Version", "1");
         switch (prop)
         {
-            case Property.Sex: ht.Add("Data", Sex); break;
+            case Property.Gender: ht.Add("Data", Gender); break;
             case Property.Hair: ht.Add("Data", Hair); break;
             case Property.Head: ht.Add("Data", Head); break;
         }
@@ -41,15 +41,12 @@ public struct AvatarAPI {
     public Hashtable GetProperties() {
         Hashtable avatar = new Hashtable();
         ArrayList array = new ArrayList();
-        array.Add(GetProperty(Property.Sex));
+        array.Add(GetProperty(Property.Gender));
         array.Add(GetProperty(Property.Hair));
         array.Add(GetProperty(Property.Head));
         avatar.Add("PhysicalProperties", array);
         // No se si con esto descarto todos los VG puestos.
         ArrayList array2 = new ArrayList();
-
-        Body = "HPiernas01";
-
         if (!string.IsNullOrEmpty(Hat)) array2.Add(GetVirtualGood(Hat));
         if (!string.IsNullOrEmpty(Body)) array2.Add(GetVirtualGood(Body));
         if (!string.IsNullOrEmpty(Legs)) array2.Add(GetVirtualGood(Legs));
@@ -65,7 +62,7 @@ public struct AvatarAPI {
             string type = part["Type"] as string;
             string data = part["Data"] as string;
             switch (type) {
-                case "Sex": Sex = data; break;
+                case "Gender": Gender = data; break;
                 case "Hair": Hair = data; break;
                 case "Head": Head = data; break;
             }
@@ -77,7 +74,7 @@ public struct AvatarAPI {
         if (avatar.Contains("PhysicalProperties"))
             SetProperties( avatar["PhysicalProperties"] as ArrayList );
         // Otras propiedades.
-        if (avatar.Contains("Accesories")) {
+        if (avatar.Contains("Accesories") && avatar["Accesories"]!=null) {
             foreach( Hashtable tmp in avatar["Accesories"] as ArrayList) {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
                 if (vg != null)
@@ -90,5 +87,5 @@ public struct AvatarAPI {
             }
         }
     }
-    public override string ToString() { return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Sex, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, Body,Legs, Feet, Compliment); }
+    public override string ToString() { return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, Body,Legs, Feet, Compliment); }
 }
