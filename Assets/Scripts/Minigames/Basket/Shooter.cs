@@ -83,6 +83,7 @@ namespace Basket
 
         public void Reset()
         {
+            transform.rotation = Quaternion.identity;
             transform.position = new Vector3(0, 1.85f, -4.69f);
             currentTime = gameTime;
             round = 0;

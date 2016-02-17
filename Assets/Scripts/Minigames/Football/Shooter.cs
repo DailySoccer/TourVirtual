@@ -85,6 +85,7 @@ namespace Football
 
         public void Reset() {
             transform.position = new Vector3(-41.4f, 0, 0);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
             currentTime = gameTime;
             round = 0;
             streak = 0;
