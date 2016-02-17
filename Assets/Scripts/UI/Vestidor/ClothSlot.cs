@@ -10,7 +10,6 @@ public class ClothSlot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Reset ();
 	}
 	
 	// Update is called once per frame
@@ -23,10 +22,26 @@ public class ClothSlot : MonoBehaviour {
 		Price.text = "";
 	}
 
-	public void SetupSlot(string productName, Sprite ProductPicture, string ProductPrice) {
+	public void SetupSlot(string productName, string ImageUrl, string ProductPrice) {
+		Debug.Log ("[ClothSlot]: Cargar Sprite de: " + ImageUrl);
+		StartCoroutine( LoadSprite (ImageUrl) );
+
 		ClothName.text = productName;
-		Picture.sprite = ProductPicture;
+
 		Price.text = ProductPrice;
+	}
+
+	public Material defaultMaterial; //prefab material set already
+
+	IEnumerator LoadSprite( string url)
+	{
+		WWW www = new WWW(url);
+		yield return www; 
+
+		Debug.LogWarning ("[ClothSlot]: (antes de crear sprite) Picture.sprite: " + Picture.sprite);
+		Picture.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+		Debug.LogWarning ("[ClothSlot]: (despues crear sprite) Picture.sprite: " + Picture.sprite);
+		yield return true;
 	}
 
 }
