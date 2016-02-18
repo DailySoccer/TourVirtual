@@ -25,11 +25,11 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
     private static AndroidJavaClass _class;
 
-    public override void Init(string environment, string clientId, string sessionId = "")
+	public override void Init(string environment, string clientId, string signin, string signup)
     {
         this.clientId = clientId;
         Debug.LogError("Paso 1");
-        DigitalPlatformClient.Init(environment, clientId);
+		DigitalPlatformClient.Init(environment, clientId, signin, signup);
 
         /*
         ApplicationContext.Init(environment, clientId);

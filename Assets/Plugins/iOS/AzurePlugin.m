@@ -21,9 +21,8 @@ static NSString* CreateNSString(const char* string)
 }
 
 
-void _AzureInit(char* enviroment, char* idclient){
-    //    [[MDPClientHandler sharedInstance] initWithEnviroment:Enviroment_Development idClient:@"7c0557e9-8e0b-4045-b2d6-ccb074cd6606"];
-    [[MDPClientHandler sharedInstance] initWithEnviroment:CreateNSString(enviroment) idClient:CreateNSString(idclient)];
+void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSignIn, char* extraQueryParametersSignUp){
+    [[MDPClientHandler sharedInstance] initWithEnvironment:CreateNSString(enviroment) idClient:CreateNSString(idclient) debugMode:true extraQueryParametersSignIn:CreateNSString(extraQueryParametersSignIn) extraQueryParametersSignUp:CreateNSString(extraQueryParametersSignUp)];
     
     
 }
@@ -32,8 +31,13 @@ void _AzureSignUp()
 {
     
     // Start Auth Process
-    [[MDPAuthHandler sharedInstance] tokenWithCompletionBlock:^(NSString *token, NSError *error) {
-        NSLog(@"\n\n%@\n\n", token );
+    [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
+        if(error){
+            UnitySendMessage("Azure Services", "OnToken", "Error");
+        }else{
+            UnitySendMessage("Azure Services", "OnToken", [token UTF8String]);
+        }
+
     }];
     
     [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
@@ -45,8 +49,13 @@ void _AzureSignUp()
 void _AzureSignIn()
 {
     // Start Auth Process
-    [[MDPAuthHandler sharedInstance] tokenWithCompletionBlock:^(NSString *token, NSError *error) {
-        NSLog(@"\n\n%@\n\n", token );
+    [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
+        if(error){
+            UnitySendMessage("Azure Services", "OnToken", "Error");
+        }else{
+            UnitySendMessage("Azure Services", "OnToken", [token UTF8String]);
+        }
+
     }];
     
     [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {

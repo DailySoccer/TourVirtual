@@ -7,7 +7,7 @@ public class EditorAzureInterfaz : AzureInterfaz
     {
     }
 
-    public override void Init(string environment, string clientId, string sessionId = "")
+	public override void Init(string environment, string clientId, string signin, string signup)
     {
         this.clientId = clientId;
     }

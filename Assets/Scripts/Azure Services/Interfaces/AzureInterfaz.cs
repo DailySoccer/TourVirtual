@@ -16,7 +16,7 @@ public class AzureInterfaz {
     protected string clientId;
 
 
-    public string AccessToken { get; protected set; }
+    public string AccessToken { get; set; }
     public string RefreshToken { get; protected set; }
 
     public string MainLanguage {
@@ -32,7 +32,7 @@ public class AzureInterfaz {
         }
     }
 
-    public virtual void Init(string environment, string clientId, string sessionId = "") { }
+    public virtual void Init(string environment, string clientId, string signin, string signup) { }
     // LogIn
     public virtual void SignIn() { }
     public virtual void SignUp() { }

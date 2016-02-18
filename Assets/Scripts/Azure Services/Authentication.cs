@@ -14,6 +14,15 @@ public class Authentication : MonoBehaviour {
 
     public bool AuthorizationValid { get { return Authentication.Instance != null && Authentication.Instance.IsOk; } }
 
+	public void OnToken(string token){
+		Debug.LogError ("OnToken " + token);
+		if (token != "Error") {
+			AzureServices.AccessToken = token;
+			if(OnAccessToken!=null) OnAccessToken();
+		}
+	
+	}
+
     void Awake() {
         UserAPI ua = new UserAPI();
     }
@@ -41,7 +50,7 @@ public class Authentication : MonoBehaviour {
 #endif
 #endif
         if (!UserAPI.Instance.Online) return;
-        AzureServices.Init("Development", "7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
+		AzureServices.Init ("development", IDClient, "B2C_1_SignIn_TourVirtual", "B2C_1_SignUp_TourVirtual");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };

@@ -7,7 +7,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
     MonoBehaviour component;
 
 	[DllImport ("__Internal")]
-	private static extern void _AzureInit(string environment, string clientId);
+	private static extern void _AzureInit(string environment, string clientId, string signin, string signup);
 	[DllImport ("__Internal")]
 	private static extern void _AzureSignUp();
 	[DllImport ("__Internal")]
@@ -17,9 +17,9 @@ public class IOSAzureInterfaz : AzureInterfaz {
 
 	public IOSAzureInterfaz(MonoBehaviour component)  : base(component){ }
 
-    public override void Init(string environment, string clientId, string sessionId = "")
+	public override void Init(string environment, string clientId, string signin, string signup)
     {
-		_AzureInit(environment, clientId);
+		_AzureInit(environment, clientId, signin, signup);
     }
 
     // LogIn
@@ -37,7 +37,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
     {
 		_AzureSignOut();
     }
-
+	
     public override bool IsLoggedUser()
     {
         return false;
