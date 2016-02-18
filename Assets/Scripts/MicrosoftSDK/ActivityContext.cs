@@ -8,6 +8,13 @@ public class ActivityContext {
 		get {
 			if (_currentActivity == null) {
 				_currentActivity = JavaClass.GetStatic<AndroidJavaObject>("currentActivity");
+                if (_currentActivity != null)
+                {
+                    Debug.Log("MicrosoftSDK::currentActivity");
+                }
+                else {
+                    Debug.LogError("ERROR MicrosoftSDK::currentActivity");
+                }
 			}
 			return _currentActivity;
 		}
@@ -20,6 +27,10 @@ public class ActivityContext {
 				if (_class != null) {
 					Debug.Log ("MicrosoftSDK::ActivityContext class");
 				}
+                else
+                {
+                    Debug.LogError("ERROR MicrosoftSDK::ActivityContext class");
+                }
 			}
 			return _class;
 		}

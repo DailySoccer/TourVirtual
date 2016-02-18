@@ -43,15 +43,11 @@ public class AzureInterfaz {
 
     public virtual IEnumerator GetAccessToken(string _code) { yield return null; }
 
-
     public static string WebApiBaseAddress {
         get {
             return "https://eu-rm-dev-web-api.azurewebsites.net/";
         }
     }
-
-    public static string URL_USER_PROFILE = "api/v1/fan/me";
-
     public void RequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
         component.StartCoroutine(_Request("get", url, ok, error));
     }

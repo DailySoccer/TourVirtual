@@ -24,7 +24,10 @@ public class NetworkHandler {
 				_class = new AndroidJavaClass("com.microsoft.mdp.sdk.network.NetworkHandler");
 				if (_class != null) {
 					Debug.Log ("MicrosoftSDK::NetworkHandler class");
-				}
+                }
+                else{
+                    Debug.LogError("ERROR MicrosoftSDK::NetworkHandler class");
+                }
 			}
 			return _class;
 		}

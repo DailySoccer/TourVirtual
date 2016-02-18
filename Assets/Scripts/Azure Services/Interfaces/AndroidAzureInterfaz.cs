@@ -17,6 +17,8 @@ public class AndroidAzureInterfaz : AzureInterfaz {
                 {
                     Debug.Log("MicrosoftSDK::DigitalPlatformClient class");
                 }
+                else
+                    Debug.LogError("ERROR MicrosoftSDK::DigitalPlatformClient class");
             }
             return _class;
         }
@@ -26,16 +28,21 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     public override void Init(string environment, string clientId, string sessionId = "")
     {
         this.clientId = clientId;
-        //        DigitalPlatformClient.Init(environment, clientId);
+        Debug.LogError("Paso 1");
+        DigitalPlatformClient.Init(environment, clientId);
 
-
+        /*
         ApplicationContext.Init(environment, clientId);
+        Debug.LogError("Paso 2");
         DBContext.InitDb();
+        Debug.LogError("Paso 3");
         // NetworkHandler.getInstance(ctx);
         NetworkHandler networkHandler = NetworkHandler.Instance;
+        Debug.LogError("Paso 4");
         // context.setAuthHandler(new AuthHandler(ctx));
         DigitalPlatformClient.Instance.AuthHandler = AuthHandler.Instance;
-
+        Debug.LogError("Paso 5");
+        */
     }
 
     // LogIn

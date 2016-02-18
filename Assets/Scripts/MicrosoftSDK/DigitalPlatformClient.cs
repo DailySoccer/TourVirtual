@@ -98,7 +98,11 @@ public class DigitalPlatformClient {
 				_class = new AndroidJavaClass("com.microsoft.mdp.sdk.DigitalPlatformClient");
 				if (_class != null) {
 					Debug.Log ("MicrosoftSDK::DigitalPlatformClient class");
-				}
+                }
+                else
+                {
+                    Debug.LogError("ERROR MicrosoftSDK::DigitalPlatformClient class");
+                }
 			}
 			return _class;
 		}

@@ -19,17 +19,20 @@ public class AuthHandler {
 	}
 
 	public AuthHandler() {
-		// new AuthHandler(Context ctx)
-		_object = new AndroidJavaObject("com.microsoft.mdp.sdk.auth.AuthHandler", ActivityContext.CurrentActivity);
+        // new AuthHandler(Context ctx)
+
+        _object = new AndroidJavaObject("com.microsoft.mdp.sdk.auth.AuthHandler", ActivityContext.CurrentActivity);
 		if (_object != null) {
 			Debug.Log ("MicrosoftSDK::AuthHandler new");
-		}
+        }
 
-		_authContext = _object.Get<AndroidJavaObject>("authContext");
-	}
+        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AuthHandler 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        _authContext = _object.Get<AndroidJavaObject>("authContext");
+        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AuthHandler 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
 
-	public AuthHandler(AndroidJavaObject authHandler) {
-		_object = authHandler;
+    public AuthHandler(AndroidJavaObject authHandler) {
+        _object = authHandler;
 		_authContext = _object.Get<AndroidJavaObject>("authContext");
 	}
 

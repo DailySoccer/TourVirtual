@@ -15,7 +15,11 @@ public class DBContext {
 				_class = new AndroidJavaClass("com.microsoft.mdp.sdk.persistence.DBContext");
 				if (_class != null) {
 					Debug.Log ("MicrosoftSDK::DBContext class");
-				}
+                }
+                else
+                {
+                    Debug.LogError("ERROR MicrosoftSDK::DBContext class");
+                }
 			}
 			return _class;
 		}

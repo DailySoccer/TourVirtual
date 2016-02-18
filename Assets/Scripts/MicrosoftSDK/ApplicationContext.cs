@@ -76,8 +76,13 @@ public class ApplicationContext {
 				if (_class != null) {
 					Debug.Log ("MicrosoftSDK::ApplicationContext class");
 				}
-			}
-			return _class;
+                else
+                {
+                    Debug.LogError("ERROR MicrosoftSDK::ApplicationContext class");
+                }
+
+            }
+            return _class;
 		}
 	}
 
