@@ -42,7 +42,7 @@ public class AzureInterfaz {
     public virtual void GetProfile() { }
 
     public virtual IEnumerator GetAccessToken(string _code) { yield return null; }
-
+    
     public static string WebApiBaseAddress {
         get {
             return "https://eu-rm-dev-web-api.azurewebsites.net/";

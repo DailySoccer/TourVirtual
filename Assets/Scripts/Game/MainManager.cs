@@ -173,7 +173,7 @@ public class MainManager : Photon.PunBehaviour {
 			StartCoroutine(Connect ());
 		}
 #if UNITY_ANDROID || UNITY_IOS
-        InitializeStore();
+//        InitializeStore();
 #endif
 
 	}

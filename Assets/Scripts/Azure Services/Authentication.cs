@@ -18,7 +18,7 @@ public class Authentication : MonoBehaviour {
 		Debug.LogError ("OnToken " + token);
 		if (token != "Error") {
 			AzureServices.AccessToken = token;
-			if(OnAccessToken!=null) OnAccessToken();
+			if(AzureServices.OnAccessToken !=null) AzureServices.OnAccessToken();
 		}
 	
 	}
@@ -30,27 +30,27 @@ public class Authentication : MonoBehaviour {
     void Start()
     {
 #if UNITY_EDITOR
-        IDClient = "a9ae3ecc-765e-45f3-96dd-e367a936dda9";
+        IDClient = "41f64a6e-edf8-4d7d-86cf-6146cc69f978";
         AzureServices = new EditorAzureInterfaz(this);
 #else
 #if UNITY_ANDROID
-        IDClient = "a9ae3ecc-765e-45f3-96dd-e367a936dda9";
+        IDClient = "41f64a6e-edf8-4d7d-86cf-6146cc69f978";        
         AzureServices = new AndroidAzureInterfaz(this);
         
 #else
 #if UNITY_IOS
-        IDClient = "e2e022fc-63c8-4c8b-ad05-c5f819f0d341";
+        IDClient = "17525b4e-8a03-4950-a5cd-dcdc6004aaaf";
         AzureServices = new IOSAzureInterfaz(this);
 #else
 #if UNITY_WSA
-        IDClient = "9af28d79-4559-4009-b97b-d857e2932615";
+        IDClient = "c0c95635-cdfc-447b-bdab-d4a833fc52ca";
         // AzureServices = new WP8AzureInterfaz(); // Es instanciado desde el lado de WP
 #endif
 #endif
 #endif
 #endif
         if (!UserAPI.Instance.Online) return;
-		AzureServices.Init ("development", IDClient, "B2C_1_SignIn_TourVirtual", "B2C_1_SignUp_TourVirtual");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
+        AzureServices.Init ("development", IDClient, "p=B2C_1_SignIn_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
