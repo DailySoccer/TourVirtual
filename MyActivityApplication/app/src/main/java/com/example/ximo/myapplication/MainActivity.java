@@ -9,7 +9,8 @@ import android.view.MenuItem;
 import com.microsoft.mdp.sdk.*;
 import com.microsoft.mdp.sdk.auth.*;
 import com.microsoft.mdp.sdk.base.*;
-import com.microsoft.mdp.sdk.service.*;
+import com.microsoft.mdp.sdk.service.ApplicationContext;
+import java.util.logging.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,9 +18,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        DigitalPlatformClient.init(this, DigitalPlatformClient.DEVELOPMENT, "2ab3fdfb-228f-451d-81b2-bdc4e0cc3115");
-        login();
+        Logger.getLogger(getClass().getName()).log( Level.INFO, "Mensaje informativo..." );
+//        DigitalPlatformClient.init(this, DigitalPlatformClient.DEVELOPMENT, "a9ae3ecc-765e-45f3-96dd-e367a936dda9");
+//        login();
     }
 
     @Override
@@ -45,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login() {
-        AuthListener listener = new AuthListener() {
+        AuthListenerToken token = new AuthListenerToken(){
             @Override
-            public void onResponse(String s) {
-                System.out.println("onResponse: " + s);
-            }
+            public void onResponse(String var1){
 
+            }
             @Override
-            public void onError(DigitalPlatformClientException e) {
-                System.out.println("onError: " + e.getMessage());
+            public void onError(DigitalPlatformClientException var1){
+
             }
         };
-        DigitalPlatformClient.getInstance().getAuthHandler().login(this, listener, false);
+
+        DigitalPlatformClient.getInstance().getAuthHandler().login(this, token, false);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {

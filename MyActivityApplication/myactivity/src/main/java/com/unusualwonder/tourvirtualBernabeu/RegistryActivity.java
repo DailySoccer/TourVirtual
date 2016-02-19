@@ -7,14 +7,16 @@ import android.os.Bundle;
 import com.microsoft.mdp.sdk.*;
 import com.microsoft.mdp.sdk.auth.AuthHandler;
 import com.microsoft.mdp.sdk.auth.AuthListener;
+import com.microsoft.mdp.sdk.auth.AuthListenerToken;
 import com.microsoft.mdp.sdk.base.DigitalPlatformClientException;
 import com.unity3d.player.UnityPlayer;
 
-public class RegistryActivity extends Activity implements AuthListener {
+public class RegistryActivity extends Activity implements AuthListenerToken {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("CACA RegistryActivity:: onResponse: ");
         if (DigitalPlatformClient.getInstance().getAuthHandler() != null) {
             // Se realiza "login" temporalmente hasta que se pueda seleccionar entre "register" y "login"
             // DigitalPlatformClient.getInstance().getAuthHandler().login(this, this, true);
@@ -23,7 +25,7 @@ public class RegistryActivity extends Activity implements AuthListener {
     }
 
     public void onResponse(String token) {
-        System.out.println("RegistryActivity:: onResponse: " + token);
+        System.out.println("CACA RegistryActivity:: onResponse: " + token);
 
         Intent intent = new Intent();
         intent.putExtra("accessToken", token);
