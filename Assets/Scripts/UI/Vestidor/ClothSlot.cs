@@ -4,17 +4,17 @@ using System.Collections;
 
 public class ClothSlot : MonoBehaviour {
 
+	VestidorCanvasController VestidorControllerInstance;
+
 	public Text ClothName;
 	public Image Picture;
 	public Text Price;
+	VirtualGoodsAPI.VirtualGood virtualGood;
 
 	// Use this for initialization
 	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		GameObject vcc = GameObject.FindGameObjectWithTag ("VestidorController");
+		VestidorControllerInstance = vcc.GetComponent<VestidorCanvasController> ();
 	}
 
 	public void Reset() {
@@ -22,26 +22,28 @@ public class ClothSlot : MonoBehaviour {
 		Price.text = "";
 	}
 
-	public void SetupSlot(string productName, string ImageUrl, string ProductPrice) {
-		Debug.Log ("[ClothSlot]: Cargar Sprite de: " + ImageUrl);
-		StartCoroutine( LoadSprite (ImageUrl) );
+	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
+		virtualGood = item;
 
-		ClothName.text = productName;
+		ClothName.text = item.Description;
+		
+		Price.text = item.Price.ToString();
 
-		Price.text = ProductPrice;
+		StartCoroutine( LoadSprite (item.Image) );
 	}
 
-	public Material defaultMaterial; //prefab material set already
+	public void Slot_ClickHandle() {
+		VestidorControllerInstance.TryToDressPlayer (this);
+	}
+
 
 	IEnumerator LoadSprite( string url)
 	{
 		WWW www = new WWW(url);
 		yield return www; 
 
-		Debug.LogWarning ("[ClothSlot]: (antes de crear sprite) Picture.sprite: " + Picture.sprite);
 		Picture.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
-		Debug.LogWarning ("[ClothSlot]: (despues crear sprite) Picture.sprite: " + Picture.sprite);
-		yield return true;
+		//yield return true;
 	}
 
 }

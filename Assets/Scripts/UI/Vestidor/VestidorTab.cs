@@ -14,7 +14,7 @@ public class VestidorTab : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Image.sprite = IsTabActive ? SpriteOn : SpriteOff;
-		texto.color = IsTabActive ? new Color(0.082f, 0.109f, 0.168f) : new Color(1.0f,1.0f,1.0f);
+		texto.color = IsTabActive ? new Color(0.082f, 0.109f, 0.168f) : new Color(1.0f,1.0f,1.0f); 
 	}
 
 }

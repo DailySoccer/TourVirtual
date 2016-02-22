@@ -8,7 +8,6 @@ public enum DetailedContent2ButtonsLayout {
 	SHARE
 }
 
-[ExecuteInEditMode]
 public class DetailedContent2Buttons : MonoBehaviour {
 
 	public Text TheName;

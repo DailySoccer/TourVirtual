@@ -96,7 +96,7 @@ public class CanvasManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="guiScreen">GUI screen.</param>
 	public void ShowScreen(UIScreen guiScreen) {
-		Debug.LogError ("GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
+		Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
 		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
 			currentGUIScreen.CloseWindow();
 			currentGUIScreen.IsOpen = false;
@@ -109,7 +109,7 @@ public class CanvasManager : MonoBehaviour {
 			currentGUIScreen.IsOpen = true;
 		}
 		else {
-			Debug.Log("La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
+			Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class CanvasManager : MonoBehaviour {
 			currentGUIPopUpScreen.IsOpen = true;
 		}
 		else {
-			Debug.Log("La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
+			Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
 	}
 	

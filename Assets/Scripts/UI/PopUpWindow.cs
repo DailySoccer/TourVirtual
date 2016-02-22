@@ -13,7 +13,6 @@ public enum PopUpLayout {
 	THIRDS_PROFILE_CONTENT
 }
 
-[ExecuteInEditMode]
 public class PopUpWindow : MonoBehaviour {
 	
 	public GameObject CloseButton;
@@ -40,18 +39,22 @@ public class PopUpWindow : MonoBehaviour {
 	void OnEnable () {
 		StandardTitle.SetActive(true);
 		_CurrentStandardTitleText = StandardTitle.GetComponent<Text> ();
+		if (ThirdsProfileTitle != null) {
+			ThirdsProfileTitle.SetActive (true);
+		} else {
+			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
+		}
 
-		ThirdsProfileTitle.SetActive(true);
-		_CurrentThirdsProfileTitleText = ThirdsProfileTitle.GetComponentsInChildren<Text>().Where(t => t.name == "User Other Name").First();
+		if (_CurrentThirdsProfileTitleText != null)
+			_CurrentThirdsProfileTitleText = ThirdsProfileTitle.GetComponentsInChildren<Text>().Where(t => t.name == "User Other Name").First();
 
 		SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
+
+		ResetWindow();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		ResetWindow();
-
 		switch (CurrentState) {
 		case PopUpLayout.PURCHASED_GRID_CONTENT:
 			PurchasedPackGridContent.SetActive(true);
@@ -99,23 +102,34 @@ public class PopUpWindow : MonoBehaviour {
 			ThirdsProfileContent.SetActive(true);
 			break;
 
-		}	
+		}
 	}
 
 	public void ResetWindow() {
 		_CurrentStandardTitleText.text = "";
 		StandardTitle.SetActive(false);
-		_CurrentThirdsProfileTitleText.text = "";
-		ThirdsProfileTitle.SetActive (false);
-		CloseButton.SetActive (true);
-		SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 
-		PurchasedPackGridContent.SetActive(false);
-		PurchasedPackListContent.SetActive(false);
-		AchievementGridContent.SetActive(false);
+		if (_CurrentThirdsProfileTitleText != null)
+			_CurrentThirdsProfileTitleText.text = "";
+
+		if (ThirdsProfileTitle != null)
+			ThirdsProfileTitle.SetActive (false);
+
+		if (ThirdsProfileContent != null)
+			ThirdsProfileContent.SetActive(false);
+
+		if (PurchasedPackGridContent != null)
+			PurchasedPackGridContent.SetActive(false);
+
+		if (PurchasedPackListContent!= null)
+			PurchasedPackListContent.SetActive(false);
+
+		if (PurchasedPackListContent!= null)
+			PurchasedPackListContent.SetActive(false);
+
+		//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 		SingleContent.SetActive(false);
-		ThirdsProfileContent.SetActive(false);
 
-
+		CloseButton.SetActive (true);
 	}
 }

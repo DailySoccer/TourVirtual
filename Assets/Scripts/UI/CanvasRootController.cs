@@ -99,8 +99,9 @@ public class CanvasRootController : MonoBehaviour {
 				SecondPlaneCanvas.SetActive(true);				
                 
 				canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
+
 				foreach(Transform t in SecondPlaneCanvas.transform) {
-				if (t.name == "Avatar Selector Screen Plano2" || t.name == "Video Bg")
+					if (t.name == "Avatar Selector Screen Plano2" || t.name == "Video Bg")
 						t.gameObject.SetActive(true);
 				}
                 break;
