@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: FIFAworldPlayer
-  m_Shader: {fileID: 4800000, guid: 443b56ce87253b747bde18cfac9ea1f6, type: 3}
-  m_ShaderKeywords: _NORMALMAP
+  m_Name: FIFA_World_player_LOD0
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 9128993a847ee2e43adbe3e9a470a8f4, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 34463f34585e1df4fa37f22ab828c2c4, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -78,27 +78,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 9128993a847ee2e43adbe3e9a470a8f4, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _OccTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -114,10 +93,6 @@ Material:
         second: .5
       data:
         first:
-          name: _Shininess
-        second: 5
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -127,7 +102,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .957000017
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -151,19 +126,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: .907999992
-      data:
-        first:
-          name: _SpecInt
-        second: 3
-      data:
-        first:
-          name: _Fresnel
-        second: .462000012
-      data:
-        first:
-          name: _OccStrength
-        second: 1
+        second: 0
     m_Colors:
       data:
         first:
@@ -172,8 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .20588237, g: .15938136, b: .00756919989, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .632352948, g: .59310323, b: .464965403, a: 1}
+        second: {r: .588235319, g: .588235319, b: .588235319, a: 1}
