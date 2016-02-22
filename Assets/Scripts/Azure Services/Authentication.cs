@@ -54,7 +54,7 @@ public class Authentication : MonoBehaviour {
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
-        AzureServices.SignIn();
+        //AzureServices.SignIn();
     }
 
     void Update() { }

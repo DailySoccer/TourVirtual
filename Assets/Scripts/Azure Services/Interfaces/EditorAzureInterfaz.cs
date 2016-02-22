@@ -7,8 +7,14 @@ public class EditorAzureInterfaz : AzureInterfaz
     {
     }
 
-	public override void Init(string environment, string clientId, string signin, string signup)
+    string signin;
+    string signup;
+
+
+    public override void Init(string environment, string clientId, string signin, string signup)
     {
+        this.signin = signin;
+        this.signup = signup;
         this.clientId = clientId;
     }
 
@@ -18,16 +24,14 @@ public class EditorAzureInterfaz : AzureInterfaz
         string parameters = string.Format("?response_type=code&client_id={0}&redirect_uri={1}&resource={2}", clientId, redirectUri, webApiResourceId);
         string extraParameters = "p=B2C_1_SignIn&nonce=defaultNonce&scope=openid";
         string url = string.Format("{0}/oauth2/authorize{1}&{2}", authority, parameters, extraParameters);
-        Debug.Log("LOGIN: " + url);
         Application.OpenURL(url);
     }
 
     public override void SignUp()
     {
         string parameters = string.Format("?response_type=code&client_id={0}&redirect_uri={1}&resource={2}", clientId, redirectUri, webApiResourceId);
-        string extraParameters = "p=B2C_1_SignIn&nonce=defaultNonce&scope=openid";
+        string extraParameters = "p=B2C_1_SignUp&nonce=defaultNonce&scope=openid";
         string url = string.Format("{0}/oauth2/authorize{1}&{2}", authority, parameters, extraParameters);
-        Debug.Log("LOGIN: " + url);
         Application.OpenURL(url);
     }
 

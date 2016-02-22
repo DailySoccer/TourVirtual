@@ -47,6 +47,18 @@ public class ContentAPI
             return Contents[guid] as Content;
         return null;
     }
+
+    public void CheckContent(VirtualGoodsAPI.VirtualGood vg) {
+        if (string.IsNullOrEmpty(vg.InternalID)) return;
+
+        Content cnt = GetContentByID(vg.InternalID);
+        if (cnt != null) {
+            if (vg.count > 0) {
+                Debug.LogError(">>>> Desbloqueado " + vg.InternalID);
+                cnt.owned = true;
+            }
+        }
+    }
     /*
     {
         	"CurrentPage": 1,

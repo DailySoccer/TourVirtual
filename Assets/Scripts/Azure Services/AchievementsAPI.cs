@@ -37,6 +37,7 @@ public class AchievementsAPI{
         {
             if (res != "null")
             {
+                Debug.LogError(">>> Achievements " + res);
                 ArrayList results = JSON.JsonDecode(res) as ArrayList;
                 foreach (Hashtable ele in results)
                 {
@@ -62,13 +63,14 @@ public class AchievementsAPI{
     public IEnumerator AwaitAchievementEarned(bool refresh =true) {
         bool needRequest = true;
         EarnedAchievements = 0;
-        //        string service = "api/v1/fan/me/Achievements?type=VIRTUALTOUR"
+//        string service = "api/v1/fan/me/Achievements?type=VIRTUALTOUR?";
         string service = "api/v1/fan/me/Achievements?";
         string url = string.Format("{0}?language={1}", service, Authentication.AzureServices.MainLanguage);
         while (needRequest) {            
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null")
                 {
+                    Debug.LogError(">>> MY achievements " + res);
                     Hashtable myachievements = JSON.JsonDecode(res) as Hashtable;
                     if (myachievements != null)
                     {
@@ -101,8 +103,6 @@ public class AchievementsAPI{
                     needRequest=false;
             });
         }
-        //EarnByGUID( "dd2f0fdf-5d8d-4a0b-b376-c9d59349eb72", 1 );
-        SedAction("VIRTUALTOUR_ACTION1");
         
     }
 

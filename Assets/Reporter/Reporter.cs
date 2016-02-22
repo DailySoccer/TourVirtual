@@ -1813,9 +1813,13 @@ public class Reporter : MonoBehaviour {
 	{
 		fpsText = fps.ToString("0.000");
 		gcTotalMemory = (((float)System.GC.GetTotalMemory(false))/1024/1024) ;
-		//addSample();
-		if( string.IsNullOrEmpty( scenes[ Application.loadedLevel ] ))
-			scenes[ Application.loadedLevel ] = Application.loadedLevelName ;
+        //addSample();
+        try
+        {
+            if (string.IsNullOrEmpty(scenes[Application.loadedLevel]))
+                scenes[Application.loadedLevel] = Application.loadedLevelName;
+        }
+        catch { }
 
 		float elapsed = Time.realtimeSinceStartup - lastUpdate ;
 		fps = 1f / elapsed ;

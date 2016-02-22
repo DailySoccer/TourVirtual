@@ -90,6 +90,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
+                    Debug.LogError(">>> virtualgoods " + res);
                     Hashtable virtualgoods = JSON.JsonDecode(res) as Hashtable;
                     if (virtualgoods != null) {
                         ArrayList results = virtualgoods["Results"] as ArrayList;
@@ -123,6 +124,8 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null"){
+                    Debug.LogError(">>> MY virtualgoods " + res);
+
                     Hashtable myvirtualgoods = JSON.JsonDecode(res) as Hashtable;
                     if (myvirtualgoods != null){
                         ArrayList myresults = myvirtualgoods["Results"] as ArrayList;
@@ -143,7 +146,6 @@ public class VirtualGoodsAPI {
             });
         }
         //  Buy("1bf6687b-bdf3-4906-83d7-118018f71b37");
-        // BuyByGUID("1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a");
     }
 
     public void FilterBySex( )
@@ -176,13 +178,16 @@ public class VirtualGoodsAPI {
                 ar.Add(guid.ToString());
                 Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
                     Debug.LogError("Buy VirtualGood >>>> " + res);
+                    vg.count++;
                     UserAPI.Instance.Points -= (int)vg.Price;
+                    UserAPI.Contents.CheckContent(vg);
                 });
             }
-            else
-            {
-                if( vg.Price > UserAPI.Instance.Points)
-                {
+            else {
+                if(vg.count > 0 || !multiple) {
+                    Debug.LogError("Ya tienes este VG y no es multiple >>>> " + guid);
+                }else
+                if ( vg.Price >= UserAPI.Instance.Points) {
                     Debug.LogError("NO hay dinero para comprar >>>> " + guid);
                 }
             }
