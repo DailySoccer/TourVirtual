@@ -50,6 +50,11 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 
     }
 
+    public override void AskForToken()
+    {
+        activity.Call("GetToken");
+    }
+
 }
 
 #endif

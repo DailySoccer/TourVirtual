@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.microsoft.mdp.sdk.auth.AuthHandler;
 import com.microsoft.mdp.sdk.auth.AuthListenerToken;
 
-public class RegistryActivity extends Activity implements AuthListenerToken {
+public class LoginActivity extends Activity implements AuthListenerToken {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
