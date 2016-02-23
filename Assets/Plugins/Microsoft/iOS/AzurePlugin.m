@@ -38,13 +38,15 @@ void _AzureSignUp()
 {
     
     // Start Auth Process
+    
+    //    [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
     [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
         if(error){
             UnitySendMessage("Azure Services", "OnToken", "Error");
         }else{
             UnitySendMessage("Azure Services", "OnToken", [token UTF8String]);
         }
-
+        
     }];
     
     [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
@@ -62,7 +64,7 @@ void _AzureSignIn()
         }else{
             UnitySendMessage("Azure Services", "OnToken", [token UTF8String]);
         }
-
+        
     }];
     
     [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
@@ -73,6 +75,12 @@ void _AzureSignIn()
 void _AzureSignOut()
 {
     
+}
+
+void _AzureGetToken(){
+    [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock: ^ void (NSError *error){
+        UnitySendMessage("Azure Services", "OnToken", "Error");
+    } ];
 }
 
 char* _helloWorldString()

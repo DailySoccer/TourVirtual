@@ -23,6 +23,14 @@ public class Authentication : MonoBehaviour {
 	
 	}
 
+
+	public void OnTokenReceibe(string token){
+		Debug.LogError ("OnTokenReceibe " + token);
+		if (token != "Error") {
+			AzureServices.AccessToken = token;
+		}
+	}
+
     void Awake() {
         UserAPI ua = new UserAPI();
     }

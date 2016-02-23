@@ -105,12 +105,6 @@ public class EditorAzureInterfaz : AzureInterfaz
                 Debug.Log("AccessToken: " + AccessToken);
                 if (OnAccessToken != null) OnAccessToken();
             }
-
-            if (jsonMap.ContainsKey(KEY_REFRESH_TOKEN))
-            {
-                RefreshToken = jsonMap[KEY_REFRESH_TOKEN] as string;
-                Debug.Log("RefreshToken: " + RefreshToken);
-            }
         }
     }
 

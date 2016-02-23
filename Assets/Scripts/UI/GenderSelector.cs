@@ -29,7 +29,6 @@ public class GenderSelector : MonoBehaviour {
 			DeselectAll ();
 			Buttons.Find (b => b.gameObject.name == ObjectToCheck.name).IsTabActive = true;
 			CurrentGender = ObjectToCheck.name;
-			Debug.Log ("SelectGender:" + ObjectToCheck.name);
 		}
 	}
 

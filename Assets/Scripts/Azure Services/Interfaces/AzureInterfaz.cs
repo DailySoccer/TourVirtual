@@ -12,12 +12,12 @@ public class AzureInterfaz {
 
     public delegate void AccessTokenEvent();
     public AccessTokenEvent OnAccessToken { get; set; }
+	public bool waitingForToken=false;
 
     protected string clientId;
 
-
-    public string AccessToken { get; set; }
-    public string RefreshToken { get; protected set; }
+	string _AccessToken;
+	public string AccessToken { get{ return _AccessToken; } set { _AccessToken = value; waitingForToken=false; } }
 
     public string MainLanguage {
         get {
@@ -37,12 +37,18 @@ public class AzureInterfaz {
     public virtual void SignIn() { }
     public virtual void SignUp() { }
     public virtual void SignOut() { }
+	public virtual void AskForToken() { }
     public virtual bool IsLoggedUser() { return false; }
     // 
     public virtual void GetProfile() { }
+	public virtual IEnumerator GetAccessToken(string _code) { yield return null; }
 
-    public virtual IEnumerator GetAccessToken(string _code) { yield return null; }
-    
+	public IEnumerator AskForAccessToken() { 
+		waitingForToken = true;
+		AskForToken ();
+		while(waitingForToken) yield return null;
+	}
+
     public static string WebApiBaseAddress {
         get {
             return "https://eu-rm-dev-web-api.azurewebsites.net/";
@@ -96,7 +102,7 @@ public class AzureInterfaz {
 
     public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null) {
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
-        AddAuthorization(request);
+		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
@@ -104,7 +110,7 @@ public class AzureInterfaz {
 
     public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), value);
-        AddAuthorization(request);
+		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
@@ -113,7 +119,7 @@ public class AzureInterfaz {
     public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
     {
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json as object);
-        AddAuthorization(request);
+		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
@@ -121,15 +127,17 @@ public class AzureInterfaz {
 
     public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), array);
-        AddAuthorization(request);
+		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
     }
 
-    protected void AddAuthorization(HTTP.Request request) {
-        string scheme = "Bearer";
-        string authorization = string.Format("{0} {1}", scheme, AccessToken);
+    protected IEnumerator AddAuthorization(HTTP.Request request) {
+		yield return component.StartCoroutine( AskForAccessToken () );
+		// pido el token a la liberia
+		string scheme = "Bearer";        
+		string authorization = string.Format("{0} {1}", scheme, AccessToken);
         request.AddHeader("Authorization", authorization);
     }
 

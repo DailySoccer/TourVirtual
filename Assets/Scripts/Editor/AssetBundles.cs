@@ -109,20 +109,14 @@ public class CreateAssetBundles {
 
 			StringBuilder text = new StringBuilder();
 
-			text.Append(@"{
-	" + "\"assets\"" + @": [");
-
-			text.Append ("\n");
-
+			text.Append("{\n" + "\"assets\"" + ":\n [\n");
 			List<string> assets = new List<string>();
 			foreach(KeyValuePair<string, string> entry in manifestHashes) {
 				assets.Add (string.Format("{{ \"id\": \"{0}\",\t\t\"hash\": \"\",\t\t\"version\": 0,\t\t\"date\": \"\" }}", entry.Key));
 			}
 			text.Append (string.Join (",\n", assets.ToArray()));
 
-			text.Append (@"
-	]
-}");
+			text.Append ("\n]\n}");
 
 			sitemapText = text.ToString();
 		}

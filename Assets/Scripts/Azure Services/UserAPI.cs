@@ -10,7 +10,7 @@ using System.Collections;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
