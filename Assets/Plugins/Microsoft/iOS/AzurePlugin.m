@@ -1,3 +1,10 @@
+
+
+
+// [[MDPClientHandler sharedInstance] initWithEnvironment (con los clientIds adecuados y las políticas de SignIn y SignUp que te pasé)
+// [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock
+// [[MDPAuthHandler sharedInstance] getToken
+
 @import MDPClient;
 
 char* cStringCopy(const char* string)
