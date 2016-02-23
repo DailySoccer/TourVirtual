@@ -36,10 +36,22 @@ void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSign
 
 void _AzureSignUp()
 {
+    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
+        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignUp];
+    };
+    /*
+     [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock:^ void (NSError *error){
+     if(error){
+     UnitySendMessage("Azure Services", "OnToken", "Error");
+     }else{
+     UnitySendMessage("Azure Services", "OnToken", "Ok");
+     }
+     
+     
+     }];
+     */
     
     // Start Auth Process
-    
-    //    [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
     [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
         if(error){
             UnitySendMessage("Azure Services", "OnToken", "Error");
@@ -49,14 +61,25 @@ void _AzureSignUp()
         
     }];
     
-    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
-        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignUp];
-    };
     
 }
 
 void _AzureSignIn()
 {
+    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
+        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignIn];
+    };
+    /*
+     [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock:^ void (NSError *error){
+     if(error){
+     UnitySendMessage("Azure Services", "OnToken", "Error");
+     }else{
+     UnitySendMessage("Azure Services", "OnToken", "Ok");
+     }
+     
+     }];
+     */
+    
     // Start Auth Process
     [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
         if(error){
@@ -67,9 +90,6 @@ void _AzureSignIn()
         
     }];
     
-    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
-        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignIn];
-    };
 }
 
 void _AzureSignOut()
@@ -78,9 +98,15 @@ void _AzureSignOut()
 }
 
 void _AzureGetToken(){
-    [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock: ^ void (NSError *error){
-        UnitySendMessage("Azure Services", "OnToken", "Error");
-    } ];
+    
+    [[MDPAuthHandler sharedInstance] tokenSilentShowingUIIfNeededWithCompletionBlock:^(NSString *token, NSError *error) {
+        if(error){
+            UnitySendMessage("Azure Services", "OnTokenReceibe", "Error");
+        }else{
+            UnitySendMessage("Azure Services", "OnTokenReceibe", [token UTF8String]);
+        }
+        
+    }];
 }
 
 char* _helloWorldString()
