@@ -10,16 +10,7 @@ public class VestidorCanvasController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
-
-			//Seteamos el Avatar que se muestra en estapantalla
-			PlayerInstance = instance;
-			PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
-			PlayerInstance.GetComponent<SynchNet>().enabled = false;
-			PlayerInstance.transform.localScale = Vector3.one * 10;
-			
-		}) );
+		ShowVestidor ();
 	}
 	
 	// Update is called once per frame
@@ -57,23 +48,70 @@ public class VestidorCanvasController : MonoBehaviour {
 		}
 	}
 
-
 	//////////////////// Control de ventanas Modales//////////////////// 
+	public GUIScreen VestidorScreen;
+	public GUIScreen GoodiesShopScreen;
+	private GUIScreen currentGUIScreen;
 
 	public GUIPopUpScreen ModalPopUpScreen;
-
 	private PopUpWindow popUpWindow;
 	private DetailedContent2Buttons modalDetail;
+
+	private bool currentPopUpState;
 
 	public void TogglePopUpScreen() {
 
 		if (ModalPopUpScreen != null) {
-			bool currentPopUpState = !ModalPopUpScreen.IsOpen;
+			currentPopUpState = !ModalPopUpScreen.IsOpen;
 			ModalPopUpScreen.IsOpen = currentPopUpState;
 			ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = currentPopUpState;
 		}
 		else {
 			Debug.LogError("[VestidorCanvas]: La ModalPopUpScreen es null. Quizás no se ha establecido en el inspector.");
+		}
+	}
+
+	public void ShowVestidor() {
+		if (currentPopUpState)
+			TogglePopUpScreen();
+
+		if (PlayerInstance == null)
+			StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+				//Seteamos el Avatar que se muestra en estapantalla
+				PlayerInstance = instance;
+				PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
+				PlayerInstance.GetComponent<SynchNet>().enabled = false;
+				PlayerInstance.transform.localScale = Vector3.one * 10;				
+			}) );
+
+		ShowScreen(VestidorScreen);	
+	}
+
+	public void ShowGoodiesShop() {
+		if (PlayerInstance != null)
+			Destroy (PlayerInstance);
+
+		if (currentPopUpState)
+			TogglePopUpScreen();
+
+		ShowScreen(GoodiesShopScreen);
+	}
+
+	private void ShowScreen(GUIScreen guiScreen) {
+		Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
+		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
+			currentGUIScreen.CloseWindow();
+			currentGUIScreen.IsOpen = false;
+		}
+		
+		currentGUIScreen = guiScreen;
+		
+		if (currentGUIScreen != null) {
+			currentGUIScreen.OpenWindow();
+			currentGUIScreen.IsOpen = true;
+		}
+		else {
+			Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
 	}
 }

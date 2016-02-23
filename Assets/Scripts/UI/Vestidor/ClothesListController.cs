@@ -9,7 +9,7 @@ public enum ProductType {
 	Pack
 }
 
-public class VestidorController : MonoBehaviour {
+public class ClothesListController : MonoBehaviour {
 
 	public GameObject Slot;
 
