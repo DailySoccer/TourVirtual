@@ -15,6 +15,11 @@ public class CanvasManager : MonoBehaviour {
 	private UIScreen _newScreen;
 	private GameObject ProfilePlayerInstance;
 
+
+
+	public UIScreen ScreenMainGame;
+	public UIScreen ScreenProfile;
+
 	/// <summary>
 	/// Intercambia pantallas.	/// 
 	/// Sutituye a ShowScreen
@@ -47,7 +52,21 @@ public class CanvasManager : MonoBehaviour {
 		}		
 	}
 
-	public void ShowProfileScreen(UIScreen TheProfileScreen) {
+	public void ShowMainGameScreen() {
+		HideAllSecondPlaneScreens ();
+		
+		SecondPlaneCanvas.SetActive (false);			
+		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(MainCamera.GetComponent<Camera>());
+		UIScreensCamera.SetActive (false);			
+		MainCamera.SetActive (true);			
+		
+		
+		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
+		
+		ShowScreen (ScreenMainGame);
+	}
+
+	public void ShowProfileScreen() {
 
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
 		
@@ -61,7 +80,7 @@ public class CanvasManager : MonoBehaviour {
 
 			UIScreensCamera.SetActive (true);			
 			MainCamera.SetActive (false);			
-			ShowScreen(TheProfileScreen);
+			ShowScreen(ScreenProfile);
 
 			//Seteamos el Avatar que se muestra en estapantalla
 			ProfilePlayerInstance = instance;
@@ -77,19 +96,11 @@ public class CanvasManager : MonoBehaviour {
 		}) );
 	}
 
-	public void ShowMainGameScreen(UIScreen TheMainGameScreen) {
-		HideAllSecondPlaneScreens ();
-
-		SecondPlaneCanvas.SetActive (false);			
-		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(MainCamera.GetComponent<Camera>());
-		UIScreensCamera.SetActive (false);			
-		MainCamera.SetActive (true);			
-
-		
-		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
-
-		ShowScreen (TheMainGameScreen);
+	public void ShowVestidorScreen() {	
+		RoomManager.Instance.GotoRoom ("VESTIDOR");
+		ShowMainGameScreen ();
 	}
+
 
 	/// <summary>
 	/// (Deprecated) Shows the screen.

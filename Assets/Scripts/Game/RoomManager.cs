@@ -146,6 +146,9 @@ public class RoomManager : Photon.PunBehaviour {
 			}
 		}
 	}
+
+	private string IdLastVisitedRoom;
+	private string IdLastDoorOfVisitedRoom;
         
     static RoomManager _instance;
     static public RoomManager Instance {
@@ -207,9 +210,20 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 		yield return null;
 	}
+		
+	public void GotoPreviousRoom() {
+		if (IdLastDoorOfVisitedRoom != string.Empty)
+			GotoRoomAtDoor (IdLastVisitedRoom + "#" + IdLastDoorOfVisitedRoom);
+		else
+			ToRoom (RoomDefinitions[IdLastVisitedRoom] as RoomDefinition);
+	}
 
 	public void GotoRoomAtDoor(string roomGoto) {
+		IdLastVisitedRoom = RoomManager.Instance.Room.Id;
+		IdLastDoorOfVisitedRoom = GetEntranceDoor();
+
 		string roomKey = GetRoomKey(roomGoto);
+
 		if (RoomDefinitions.ContainsKey(roomKey)) {
 			_doorToEnter = GetDoorKey (roomGoto);
 			ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
@@ -217,9 +231,13 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void GotoRoom(string roomKey) {
+		IdLastVisitedRoom = RoomManager.Instance.Room.Id;
+		IdLastDoorOfVisitedRoom = "";
+
 		if (RoomDefinitions.ContainsKey(roomKey)) {
 			ToRoom (RoomDefinitions[roomKey] as RoomDefinition);
 		}
+
 	}
 
 	public void ToRoom(string exitKey) {

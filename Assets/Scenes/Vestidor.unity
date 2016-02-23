@@ -97,7 +97,7 @@ GameObject:
   - 4: {fileID: 299521165}
   - 108: {fileID: 299521164}
   m_Layer: 0
-  m_Name: Point light
+  m_Name: '[VESTIDOR] Point light'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ GameObject:
   - 4: {fileID: 491908294}
   - 108: {fileID: 491908293}
   m_Layer: 0
-  m_Name: Spotlight
+  m_Name: '[VESTIDOR] Spotlight'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,6 +214,14 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 422214, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -416,7 +424,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22453908, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 74.4216309
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22437338, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
       propertyPath: m_AnchorMin.y
@@ -542,9 +550,80 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 514324133}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 514324134}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 514324133}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485828, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AcceptChangesAndBackToRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412432, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 22453908, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 59.0172119
+      objectReference: {fileID: 0}
+    - target: {fileID: 140310, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+      propertyPath: m_Name
+      value: '[VESTIDOR] Canvas Controller'
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11454922, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &514324133 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11456876, guid: 2da6cddfcde16449aadb00c1a910c8ee,
+    type: 2}
+  m_PrefabInternal: {fileID: 514324132}
+  m_Script: {fileID: 11500000, guid: 3b573f947b518445f9f14f8cfde49bc6, type: 3}
+--- !u!1 &514324134 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 140310, guid: 2da6cddfcde16449aadb00c1a910c8ee, type: 2}
+  m_PrefabInternal: {fileID: 514324132}
 --- !u!1 &953018703
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +634,7 @@ GameObject:
   - 4: {fileID: 953018705}
   - 108: {fileID: 953018704}
   m_Layer: 0
-  m_Name: Point light
+  m_Name: '[VESTIDOR] Point light'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -617,7 +696,7 @@ GameObject:
   - 114: {fileID: 1546387970}
   - 114: {fileID: 1546387969}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: '[VESTIDOR] EventSystem'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -692,7 +771,7 @@ GameObject:
   - 124: {fileID: 1693202338}
   - 81: {fileID: 1693202337}
   m_Layer: 0
-  m_Name: Vestidor Camera
+  m_Name: '[VESTIDOR] Camera'
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

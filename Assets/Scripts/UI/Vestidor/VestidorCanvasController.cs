@@ -57,14 +57,14 @@ public class VestidorCanvasController : MonoBehaviour {
 	private PopUpWindow popUpWindow;
 	private DetailedContent2Buttons modalDetail;
 
-	private bool currentPopUpState;
+	private bool isCurrentPopUpOpen;
 
 	public void TogglePopUpScreen() {
 
 		if (ModalPopUpScreen != null) {
-			currentPopUpState = !ModalPopUpScreen.IsOpen;
-			ModalPopUpScreen.IsOpen = currentPopUpState;
-			ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = currentPopUpState;
+			isCurrentPopUpOpen = !ModalPopUpScreen.IsOpen;
+			ModalPopUpScreen.IsOpen = isCurrentPopUpOpen;
+			ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = isCurrentPopUpOpen;
 		}
 		else {
 			Debug.LogError("[VestidorCanvas]: La ModalPopUpScreen es null. Quizás no se ha establecido en el inspector.");
@@ -72,7 +72,7 @@ public class VestidorCanvasController : MonoBehaviour {
 	}
 
 	public void ShowVestidor() {
-		if (currentPopUpState)
+		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
 
 		if (PlayerInstance == null)
@@ -91,7 +91,7 @@ public class VestidorCanvasController : MonoBehaviour {
 		if (PlayerInstance != null)
 			Destroy (PlayerInstance);
 
-		if (currentPopUpState)
+		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
 
 		ShowScreen(GoodiesShopScreen);
@@ -113,5 +113,26 @@ public class VestidorCanvasController : MonoBehaviour {
 		else {
 			Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
+	}
+
+	void HideAllScreens() {
+		if (PlayerInstance != null)
+			Destroy (PlayerInstance);
+		
+		if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
+		
+		ShowScreen(null);
+	}
+
+	public void AcceptChangesAndBackToRoom() {
+		Debug.Log ("[VestidorCanvas]: Guardo la nueva vestimenta y vuelvo al tour");
+		HideAllScreens ();
+		BackToRoom ();
+	}
+
+	public void BackToRoom() {
+		HideAllScreens ();
+		RoomManager.Instance.GotoPreviousRoom ();
 	}
 }
