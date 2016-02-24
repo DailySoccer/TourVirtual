@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Assets: {fileID: 4900000, guid: 813ce02953c244b1cb27c5a5e05022db, type: 3}
-  AssetsUrl: https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets
+  AssetsUrl: https://rmdevcdntour.blob.core.windows.net/virtualtour-assets
 --- !u!114 &11474940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -651,6 +651,7 @@ MonoBehaviour:
   _soundEnabled: 0
   _unreadedChatMessages: 0
   OfflineMode: 0
+  BuildMode: 0
 --- !u!114 &11491556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,7 +665,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectByRoom: 2
   numHiddenObjects: 10
-  prefab: {fileID: 0}
+  maxTime: 20
+  prefab: {fileID: 194858, guid: d84537b2d0af0ff4e9196ee95d2eff98, type: 2}
 --- !u!212 &21289380
 SpriteRenderer:
   m_ObjectHideFlags: 1
