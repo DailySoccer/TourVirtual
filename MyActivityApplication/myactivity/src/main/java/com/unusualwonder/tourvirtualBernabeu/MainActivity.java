@@ -42,10 +42,10 @@ public class MainActivity extends UnityPlayerActivity {
         if( enviroment.equals("development") ) env= DigitalPlatformClient.DEVELOPMENT;
         else env=DigitalPlatformClient.PRODUCTION;
         DigitalPlatformClient.init(this, env, idUser, signin, signup);
-        //DigitalPlatformClient.getInstance().getAuthHandler().initialAccess();
     }
 
     public void Login(boolean mode) {
+        /*
         AuthListenerToken token = new AuthListenerToken() {
             @Override
             public void onResponse(String var1) {
@@ -57,18 +57,29 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         DigitalPlatformClient.getInstance().getAuthHandler().login(this, token, mode);
+        */
+        AuthListener listener = new AuthListener(){
+            @Override
+            public void onResponse() {
+                UnityPlayer.UnitySendMessage("Azure Services", "OnToken", "Ok");
+            }
+            @Override
+            public void onError(DigitalPlatformClientException error){
+                UnityPlayer.UnitySendMessage("Azure Services", "OnToken", "Error");
+            }
+        };
+        DigitalPlatformClient.getInstance().getAuthHandler().loginInitial(this, listener, false);
     }
-
 
     public void GetToken(){
         AuthListenerToken token = new AuthListenerToken() {
             @Override
             public void onResponse(String var1) {
-                UnityPlayer.UnitySendMessage("Azure Services", "OnTokenReceibe", var1);
+                UnityPlayer.UnitySendMessage("Azure Services", "OnTokenReceive", var1);
             }
             @Override
             public void onError(DigitalPlatformClientException var1) {
-                UnityPlayer.UnitySendMessage("Azure Services", "OnTokenReceibe", "Error");
+                UnityPlayer.UnitySendMessage("Azure Services", "OnTokenReceive", "Error");
             }
         };
         DigitalPlatformClient.getInstance().getAuthHandler().getToken(token);
