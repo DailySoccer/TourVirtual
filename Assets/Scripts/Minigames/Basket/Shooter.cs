@@ -331,7 +331,7 @@ namespace Basket
 
         public void OnExitGame()
         {
-            Debug.LogError("OnExitGame");
+            RoomManager.Instance.GotoRoom("ROOM3#PUERTA3");
         }
     }
 }

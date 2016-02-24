@@ -12,14 +12,13 @@ public class ContentSelectorCaster : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (transform.position != lastPosition || transform.rotation != lastRotation)
-        {
+        if (transform.position != lastPosition || transform.rotation != lastRotation) {
             lastPosition = transform.position;
             lastRotation = transform.rotation;
             // Mirar si estoy en la layer de player.
             Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
             var hits = Physics.RaycastAll(transform.position + Vector3.up, transform.forward, maxDistance, contentLayer);
-            GameObject child;
+
             if (hits.Length != 0) {
                 RaycastHit best = hits[0];
                 for(int i=1;i<hits.Length;++i) {

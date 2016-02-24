@@ -70,7 +70,7 @@ public class GUIGameScreen : GUIScreen {
                     );
             }
         }
-
+        /*
         bool activateShop = NeedShopButton;
         if (_shopContentButton != null &&
             _shopContentButton.activeSelf != activateShop)
@@ -88,14 +88,14 @@ public class GUIGameScreen : GUIScreen {
                     );
             }
         }
-
+        */
         bool activatePlay = NeedPlayButton;
         if (_playContentButton != null &&
             _playContentButton.activeSelf != activatePlay)
         {
-            _playContentButton.SetActive(activateShop);
+            _playContentButton.SetActive(activatePlay);
 
-            if (activateShop)
+            if (activatePlay)
             {
                 _playContentButton.transform.localPosition = Vector3.zero;
                 _playContentTween = Go.from(
@@ -109,27 +109,21 @@ public class GUIGameScreen : GUIScreen {
 	
 	bool NeedViewButton {
 		get {
-			return 	ContentManager.Instance.ContentNear != null || 
-					ContentCubeMap.ContentSelected != null		||
-					ContentModels.ContentSelected != null 		||
-					ContentVideo.ContentSelected != null		||
-					(ContentInfo.ContentSelected != null && !ContentInfo.ContentSelected.Money);
+            return ContentManager.Instance.ContentNear && !ContentManager.Instance.ContentNear.ContentKey.Contains("JUEGO");
 		}
 	}
 
-        bool NeedShopButton {
-            get {
-                return ContentInfo.ContentSelected != null && ContentInfo.ContentSelected.Money;
-            }
+    bool NeedShopButton {
+        get {
+            return ContentInfo.ContentSelected != null && ContentInfo.ContentSelected.Money;
         }
+    }
 
-        bool NeedPlayButton {
-            get {
-                return false;
-            }
+    bool NeedPlayButton {
+        get {
+            return ContentManager.Instance.ContentNear && ContentManager.Instance.ContentNear.ContentKey.Contains("JUEGO") && !HiddenObjects.HiddenObjects.Instance.enabled;
         }
-
-        
+    }
 
     GameObject _viewContentButton;
 	GameObject _shopContentButton;

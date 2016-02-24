@@ -314,8 +314,6 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	void Update () {
-        if(Input.GetKeyDown(KeyCode.A)) RoomManager.Instance.GotoRoom("MINIBASKET");
-
         UpdatePointOfInterest();
 	}
 

@@ -352,7 +352,7 @@ namespace Football
 
         public void OnExitGame()
         {
-            Debug.LogError("OnExitGame");
+            RoomManager.Instance.GotoRoom("ESTADIO#PUERTA5");
         }
 
     }

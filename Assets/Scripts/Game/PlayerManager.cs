@@ -76,8 +76,13 @@ public class PlayerManager : Photon.PunBehaviour {
 			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
 			//thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
 			thePlayer.layer = LayerMask.NameToLayer( "Player" );
-		}
-		else {
+
+            PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
+            if (nViews.Length > 1)
+                nViews[0].viewID = id;
+
+        }
+        else {
             Debug.Log("SpawnOnNetwork: SelectedModel: " + selectedModel);
             StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
                 thePlayer = instance;
@@ -85,6 +90,9 @@ public class PlayerManager : Photon.PunBehaviour {
                     thePlayer.GetComponent<Locomotion>().enabled = false;
                 thePlayer.tag = "AvatarNet";
                 thePlayer.layer = LayerMask.NameToLayer("Net");
+                PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
+                if (nViews.Length > 1)
+                    nViews[0].viewID = id;
 
                 var csc = thePlayer.GetComponent<ContentSelectorCaster>();
                 if(csc!=null) csc.enabled = false;
@@ -104,9 +112,6 @@ public class PlayerManager : Photon.PunBehaviour {
 		}
 
 		// Set the PhotonView
-		PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
-        if(nViews.Length>1)        
-    		nViews[0].viewID = id;
 	}
 
     public IEnumerator CacheClothes()

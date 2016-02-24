@@ -46,10 +46,11 @@ namespace HiddenObjects {
             if(obj!=null)
                 Destroy(obj);
             Stop();
-        }
+        }        
 
         public void Play() {
             if (enabled) return;
+            Debug.LogError(">>>> HiddenObjects.Play()");
 
             enabled = true;
             // Crear una lista de objetos.
@@ -73,6 +74,8 @@ namespace HiddenObjects {
             startTime = Time.realtimeSinceStartup;
             endTime = startTime + maxTime;
 
+            OnSceneReady();
+
         }
 
         public void Stop() {
@@ -81,7 +84,7 @@ namespace HiddenObjects {
 
         public void OnSceneReady() {
             if (enabled) {
-                GameObject tesoros = GameObject.Find("Tesoros");
+                GameObject tesoros = GameObject.Find("TESOROS");
                 if (tesoros != null) {
                     foreach (var obj in ListOfHiddenObjects) {
                         if(obj.roomid == RoomManager.Instance.Room.Id) {
