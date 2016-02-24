@@ -37,7 +37,9 @@ public class AzureInterfaz {
     public virtual void SignIn() { }
     public virtual void SignUp() { }
     public virtual void SignOut() { }
-	public virtual void AskForToken() { }
+	public virtual void AskForToken() {
+        waitingForToken = false;
+    }
     public virtual bool IsLoggedUser() { return false; }
     // 
     public virtual void GetProfile() { }

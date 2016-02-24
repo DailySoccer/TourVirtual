@@ -117,7 +117,6 @@ public class VirtualGoodsAPI {
                 }
             });
         }
-
         needRequest = true;
         string service = "api/v1/fan/me/VirtualGoods?type=AVATARVG";
         string url = string.Format("{0}&language={1}", service, Authentication.AzureServices.MainLanguage);

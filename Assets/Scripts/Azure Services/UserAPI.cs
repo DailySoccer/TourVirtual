@@ -10,7 +10,7 @@ using System.Collections;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
@@ -29,6 +29,7 @@ public class UserAPI {
 
 
     public delegate void UserLogin();
+    public delegate void callback();
     public event UserLogin OnUserLogin;
 
 
@@ -41,6 +42,7 @@ public class UserAPI {
     }
 
     public IEnumerator Request() {
+        Debug.LogError(">>>>> Request");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest() );
@@ -114,25 +116,20 @@ public class UserAPI {
         }, null);
     }
 
-    public void UpdateNick(string nick) {
+    public void UpdateNick(string nick, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/CheckAlias?alias={0}", nick), (res) => {
-            if (res == "true")
-            {
-                Debug.LogError("CheckAlias " + res);
+            if (res == "true") {
                 Hashtable hs = new Hashtable();
                 hs.Add("Alias", nick);
                 Authentication.AzureServices.RequestJSON("put", "api/v1/fan/me/updatealias", hs, (res2) => {
                    Debug.LogError("UpdateNick " + res2);
                 });
             }
-            else
-            {
-                Debug.LogError("Nick en uso");
+            else {
+                if (onerror != null) onerror();
             }
-
-        }, (err)=>
-        {
+        }, (err)=> {
             Debug.LogError("Nick en uso");
         });
     }
@@ -174,7 +171,7 @@ public class UserAPI {
         });
     }
 
-    public enum MiniGame{
+    public enum MiniGame {
         FreeKicks,
         FreeShoots,
         HiddenObjects
@@ -186,21 +183,26 @@ public class UserAPI {
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
 
+    int[] HighScore = new int[3] { 1000, 2000, 3000 };
+
+    public int GetScore(MiniGame game){
+        return HighScore[(int)game];
+    }
+
     public void SetScore(MiniGame game, int score) {
         Authentication.AzureServices.RequestString("post", string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
-            Debug.LogError("SetScore " + res);
+            if (score > HighScore[(int)game])
+                HighScore[(int)game] = score;
         });
     }
 
-    public IEnumerator GetMaxScore(MiniGame game)
-    {
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/MaxScore/{0}", MiniGameID[(int)game]), (res) =>
-        {
-            Debug.LogError("MaxScore " + res);
+    public IEnumerator GetMaxScore(MiniGame game) {
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/MaxScore/{0}", MiniGameID[(int)game]), (res) => {
+            HighScore[(int)game] = 100;
         });
     }
 
-    public IEnumerator GetRanking(MiniGame game){
+    public IEnumerator GetRanking(MiniGame game) {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
             Debug.LogError("GetRanking " + res);
         });
