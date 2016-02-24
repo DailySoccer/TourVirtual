@@ -185,6 +185,17 @@ public class UserAPI {
 
     int[] HighScore = new int[3] { 1000, 2000, 3000 };
 
+    public struct ScoreEntry {
+        public string Nick;
+        public int Score;
+        public ScoreEntry(string nick, int score) {
+            Nick = nick;
+            Score = score;
+        }
+    };
+
+    ScoreEntry[][] HighScores = new ScoreEntry[3][];
+
     public int GetScore(MiniGame game){
         return HighScore[(int)game];
     }
@@ -204,7 +215,18 @@ public class UserAPI {
 
     public IEnumerator GetRanking(MiniGame game) {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
-            Debug.LogError("GetRanking " + res);
+            /*
+            if (res != "null")
+            {
+                int cnt = 0;
+                ArrayList scores = JSON.JsonDecode(res) as ArrayList;
+                HighScores[(int)game] = new ScoreEntry[scores.Count];
+                foreach (Hashtable entry in scores)
+                {
+                    HighScores[(int)game][cnt] = new ScoreEntry(entry["Alias"] as string, (int)entry["Score"]);
+                }
+            }
+            */
         });
     }
 }
