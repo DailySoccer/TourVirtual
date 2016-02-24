@@ -133,8 +133,6 @@ public class PlayerManager : Photon.PunBehaviour {
     public IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
 
-        Debug.LogError(">>>> model " + model);
-
         Hashtable hairDesc = GetDescriptor(Hairs[section[0]] as ArrayList, section[1]);
         Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[2]);
         Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Gender] as ArrayList)[0] as Hashtable)["id"] as string);
