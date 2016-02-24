@@ -104,7 +104,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void SendMessage(string channelName, string text) {
-		Debug.Log (string.Format("SendMessage[{0}]: {1}", channelName, text));
+//		Debug.Log (string.Format("SendMessage[{0}]: {1}", channelName, text));
 
 		if (IsPublicChannel(channelName)) {
 			ChatClient.PublishMessage(channelName, text);
@@ -115,7 +115,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void OnConnected() {
-		Debug.Log ("OnConnected");
+//		Debug.Log ("OnConnected");
 		// chatClient.Subscribe( new string[] { "channelA", "channelB" } );
 		ChatClient.SetOnlineStatus(ChatUserStatus.Online);
 
@@ -123,18 +123,18 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnDisconnected() {
-		Debug.Log ("OnDisconnected");
+//		Debug.Log ("OnDisconnected");
         if (!PhotonHandler.AppQuits)
             ChatClient.Connect(ChatAppId, "1.0", UserName, null);
 		// ChatClient.Unsubscribe( new string[] { CHANNEL_GLOBAL } );
 	}
 	
 	public void OnChatStateChange(ChatState state) {
-		Debug.Log ("OnChatStateChange: " + state.ToString());
+//		Debug.Log ("OnChatStateChange: " + state.ToString());
 	}
 	
 	public void OnSubscribed(string[] channels, bool[] results)	{
-		Debug.Log ("OnSubscribed");
+//		Debug.Log ("OnSubscribed");
 
 		/*
 		foreach (string channel in channels) {
@@ -144,11 +144,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnUnsubscribed(string[] channels) {
-		Debug.Log ("OnUnsubscribed");
+//		Debug.Log ("OnUnsubscribed");
 	}
 
 	public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
+//		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -164,7 +164,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnPrivateMessage(string sender, object message, string channelName) {
-		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
+//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -185,11 +185,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnStatusUpdate(string user, int status, bool gotMessage, object message) {
-		Debug.Log ("OnStatusUpdate");
+//		Debug.Log ("OnStatusUpdate");
 	}
 
 	public override void OnJoinedRoom() {
-		Debug.Log ("OnJoinedRoom");
+//		Debug.Log ("OnJoinedRoom");
 
 		_roomChannel = PhotonNetwork.room.name;
 

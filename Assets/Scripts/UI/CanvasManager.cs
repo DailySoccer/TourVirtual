@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CanvasManager : MonoBehaviour {
 
-
 	public GameObject MainCamera;
 	public GameObject UIScreensCamera;
 	public GameObject SecondPlaneCanvas;
@@ -19,6 +18,7 @@ public class CanvasManager : MonoBehaviour {
 
 	public UIScreen ScreenMainGame;
 	public UIScreen ScreenProfile;
+	public UIScreen ScreenMap;
 
 	/// <summary>
 	/// Intercambia pantallas.	/// 
@@ -72,14 +72,16 @@ public class CanvasManager : MonoBehaviour {
 		
 		//Activamos los elementos necesarios de esta pantalla
 		
-		ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
+		//ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
 		
-		SecondPlaneCanvas.SetActive (true);			
-		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
+		//SecondPlaneCanvas.SetActive (true);			
+		//SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
 		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
 
-			UIScreensCamera.SetActive (true);			
-			MainCamera.SetActive (false);			
+			//UIScreensCamera.SetActive (true);			
+			//MainCamera.SetActive (false);		
+
+			ActiveSecondPlaneGUI ();	
 			ShowScreen(ScreenProfile);
 
 			//Seteamos el Avatar que se muestra en estapantalla
@@ -96,18 +98,34 @@ public class CanvasManager : MonoBehaviour {
 		}) );
 	}
 
+	public void ShowMapScreen() {		
+		if (ProfilePlayerInstance != null) 
+			Destroy(ProfilePlayerInstance);
+		
+		ActiveSecondPlaneGUI ();			
+		ShowScreen(ScreenMap);
+	}
+
 	public void ShowVestidorScreen() {	
 		RoomManager.Instance.GotoRoom ("VESTIDOR");
 		ShowMainGameScreen ();
 	}
 
+	private void ActiveSecondPlaneGUI() {
+		ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");		
+		SecondPlaneCanvas.SetActive (true);			
+		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
+		
+		UIScreensCamera.SetActive (true);			
+		MainCamera.SetActive (false);	
+	}
 
 	/// <summary>
 	/// (Deprecated) Shows the screen.
 	/// </summary>
 	/// <param name="guiScreen">GUI screen.</param>
 	public void ShowScreen(UIScreen guiScreen) {
-		Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
+		//Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
 		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
 			currentGUIScreen.CloseWindow();
 			currentGUIScreen.IsOpen = false;
