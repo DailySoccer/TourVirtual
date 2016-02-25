@@ -184,8 +184,10 @@ public class VirtualGoodsAPI {
             }
             else {
                 if(vg.count > 0 || !multiple) {
-                    Debug.LogError("Ya tienes este VG y no es multiple >>>> " + guid);
-                }else
+                    Debug.LogError("Ya tienes este VG y no es multiple >>>> " + guid + " count " + vg.count);
+                    Debug.LogError("VG PRICE >>>> " + vg.Price + " USER POINTS " +  UserAPI.Instance.Points );
+                }
+                else
                 if ( vg.Price >= UserAPI.Instance.Points) {
                     Debug.LogError("NO hay dinero para comprar >>>> " + guid);
                 }

@@ -92,6 +92,8 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestString(mode, url, value, ok, error));
     }
 
+
+#if !UNITY_WSA
     void checkResult(RequestEvent ok, RequestEvent error, HTTP.Request request) {
         if (request.response.status != 200) {
             if (error != null) error(request.response.status.ToString());
@@ -143,6 +145,34 @@ public class AzureInterfaz {
         request.AddHeader("Authorization", authorization);
     }
 
+    protected IEnumerator AddAuthorization(HTTP.Request request)
+    {
+        yield return component.StartCoroutine(AskForAccessToken());
+    }
+#else
+
+    public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null)
+    {
+        yield return null;
+    }
+
+    public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null)
+    {
+        yield return null;
+    }
+
+    public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
+    {
+        yield return null;
+    }
+
+    public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null)
+    {
+        yield return null;
+    }
+
+
+#endif
     private const string SPANISH_LANGUAGE = "es-es";
     private const string ENGLISH_LANGUAGE = "en-us";
     private const string DEFAULT_LANGUAGE = SPANISH_LANGUAGE;

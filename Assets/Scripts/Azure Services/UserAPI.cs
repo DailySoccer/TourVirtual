@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#define CASO1
+using UnityEngine;
 using System.Collections;
 
 // TODO:    No funciona el ranking global personal.
@@ -14,19 +15,37 @@ public class UserAPI {
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
-    public int      Points      { get; set; }
-    public int      Level       { get; set; }
-    public int      Exp         { get; set; }
+    public int      Points      { get; set; } // Tokens
+    public int      Level       { get; set; } // Nivel de usuario
+    public int      Exp         { get; set; } // Exp. total.
     // Fakes
-    public int      Energy      { get; set; }
-    public float    NextLevel   { get; set; }
+    public int      Energy      { get; set; } // Energia minijuegos. FAKE!!!
+    public float    NextLevel   { get; set; } // Progreso de nivel 0 a 1.
+    // Tools
+    public int GetScore(MiniGame game) {
+        return HighScore[(int)game];
+    }
+
+    public ScoreEntry[] GetHighScore(MiniGame game) {
+        return HighScores[(int)game];
+    }
+
+    public int GetAchievements(out int max)
+    {
+        max = Achievements.TotalAchievements;
+        return Achievements.EarnedAchievements;
+    }
+
+    public int ContentPack(out int max) {
+        max = Contents.TotalContents;
+        return Contents.GetOwned();
+    }
 
     public static AvatarAPI AvatarDesciptor;
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
     public static AchievementsAPI Achievements { get; private set; }
     public static ContentAPI Contents { get; private set; }
     public static UserAPI Instance { get; private set; }
-
 
     public delegate void UserLogin();
     public delegate void callback();
@@ -42,7 +61,6 @@ public class UserAPI {
     }
 
     public IEnumerator Request() {
-        Debug.LogError(">>>>> Request");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest() );
@@ -66,7 +84,18 @@ public class UserAPI {
             }
         });
 
-
+        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
+            Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
+            try
+            {
+                Debug.LogError(">>>> GamificationStatus " + res);
+                Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
+                Points = (int)gamificationstatus["Points"];
+                Level = int.Parse(gamificationstatus["Level"] as string);
+                    // No se porque no devuelve la XP.
+                }
+            catch { }
+        });
 
 #if CASO1
         VirtualGoodsDesciptor.BuyByGUID("4d229050-fd95-4492-bcff-2ceecf8115b8");
@@ -74,18 +103,7 @@ public class UserAPI {
         UpdateNick("Gunderwulde2");
 #else
 #if CASO2
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
-            Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-                try
-                {
-                    Debug.LogError(">>>> GamificationStatus " + res);
-                    Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
-                    Points = (int)gamificationstatus["Points"];
-                    Level = int.Parse(gamificationstatus["Level"] as string);
-                    // No se porque no devuelve la XP.
-                }
-                catch { }
-            });
+ 
 
         yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
 
@@ -196,9 +214,6 @@ public class UserAPI {
 
     ScoreEntry[][] HighScores = new ScoreEntry[3][];
 
-    public int GetScore(MiniGame game){
-        return HighScore[(int)game];
-    }
 
     public void SetScore(MiniGame game, int score) {
         Authentication.AzureServices.RequestString("post", string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {

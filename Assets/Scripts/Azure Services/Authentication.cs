@@ -25,7 +25,9 @@ public class Authentication : MonoBehaviour {
 
 
 	public void OnTokenReceive(string token){
-		Debug.LogError ("OnTokenReceive " + token);
+#if !UNITY_ANDROID
+        Debug.LogError ("OnTokenReceive " + token);
+#endif
 		if (token != "Error") {
 			AzureServices.AccessToken = token;
 		}

@@ -33,6 +33,16 @@ public class ContentAPI
     public Hashtable Contents;
     public int TotalContents;
 
+
+    public int GetOwned()
+    {
+        int owend = 0;
+        foreach (DictionaryEntry pair in Contents)
+            if ((pair.Value as Content).owned)
+                owend++;
+        return owend;
+    }
+
     public Content GetContentByID(string id){
         foreach (DictionaryEntry pair in Contents){
             Content v = pair.Value as Content;
