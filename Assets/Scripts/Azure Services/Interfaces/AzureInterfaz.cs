@@ -144,11 +144,6 @@ public class AzureInterfaz {
 		string authorization = string.Format("{0} {1}", scheme, AccessToken);
         request.AddHeader("Authorization", authorization);
     }
-
-    protected IEnumerator AddAuthorization(HTTP.Request request)
-    {
-        yield return component.StartCoroutine(AskForAccessToken());
-    }
 #else
 
     public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null)
