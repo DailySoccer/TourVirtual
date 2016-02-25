@@ -12,11 +12,9 @@ public class TopBarFanLevel : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (FillBar != null)
-            //TODO: cuando tenga el level actual quitar el deltaTime y poner el currentLevelExp.
-            FillBar.gameObject.SetActive(false);
-
-		if (CurrentFanLevel != null && UserAPI.Instance != null)
+		if (CurrentFanLevel != null && UserAPI.Instance != null) {
 			CurrentFanLevel.text = UserAPI.Instance.Level.ToString ();
+			FillBar.fillAmount = UserAPI.Instance.NextLevel;
+		}
 	}
 }

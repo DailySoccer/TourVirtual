@@ -138,7 +138,7 @@ public class CanvasManager : MonoBehaviour {
 			currentGUIScreen.IsOpen = true;
 		}
 		else {
-			Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
+			Debug.LogError("[CanvasManager in " + name +"]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
 	}
 	

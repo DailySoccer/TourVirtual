@@ -38,90 +38,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622336433b6354cb587b98af52e5e811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11422342
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5aa07855bbcc4ada8cb34ffa05add7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _entranceDirectionFrom: 2
-  _speed: -1
-  _easeType: 0
-  _delay: 0
---- !u!114 &11425574
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5aa07855bbcc4ada8cb34ffa05add7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _entranceDirectionFrom: 0
-  _speed: 1
-  _easeType: 0
-  _delay: 0
---- !u!114 &11430940
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa2b8667c1de4bcaa608c47512d500c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: -10000
-  easeType: 0
---- !u!114 &11456582
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa2b8667c1de4bcaa608c47512d500c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: -1
-  easeType: 0
---- !u!114 &11464950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5aa07855bbcc4ada8cb34ffa05add7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _entranceDirectionFrom: 3
-  _speed: 1
-  _easeType: 0
-  _delay: 0
---- !u!114 &11470394
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa2b8667c1de4bcaa608c47512d500c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  easeType: 0
 --- !u!114 &11471884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -219,8 +135,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 110124264}
   m_StateMachineBehaviours:
-  - {fileID: 11464950}
-  - {fileID: 11470394}
+  - {fileID: 0}
+  - {fileID: 0}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -245,8 +161,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 110197400}
   m_StateMachineBehaviours:
-  - {fileID: 11422342}
-  - {fileID: 11456582}
+  - {fileID: 0}
+  - {fileID: 0}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -271,8 +187,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 110197316}
   m_StateMachineBehaviours:
-  - {fileID: 11425574}
-  - {fileID: 11430940}
+  - {fileID: 0}
+  - {fileID: 0}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
