@@ -36,6 +36,9 @@ public class ContentAPI
 
     public int GetOwned()
     {
+		if (Contents == null)
+			return -1;
+
         int owend = 0;
         foreach (DictionaryEntry pair in Contents)
             if ((pair.Value as Content).owned)

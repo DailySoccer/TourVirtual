@@ -19,7 +19,7 @@ public class ProfileScreenController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-//		Debug.LogError("===> { ProfileScreen/ScoresResume:\n TODO: Necesito info de PACKS y ACHIEVEMENTS del usuario \n } <==");
+		//Debug.LogError("===> { ProfileScreen/ScoresResume:\n TODO: Necesito info de PACKS y ACHIEVEMENTS del usuario \n } <==");
 	}
 
 	void Update() {

@@ -9,7 +9,8 @@ public class VestidorCanvasController : MonoBehaviour {
 	private GameObject PlayerInstance;
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
+		EnableTopMenu(true);
 		ShowVestidor ();
 	}
 	
@@ -17,6 +18,10 @@ public class VestidorCanvasController : MonoBehaviour {
 	void Update () {	
 		if (PlayerInstance != null)
 			PlayerInstance.transform.position = PlayerPosition.position;
+	}
+
+	void EnableTopMenu(bool val) {
+		TopMenu.SetActive (val);
 	}
 
 	public void TryToDressPlayer(ClothSlot prenda) {
@@ -37,12 +42,12 @@ public class VestidorCanvasController : MonoBehaviour {
 
 			if (EnoughMoney) {
 				Debug.Log ("[VestidorCanvas]: Tengo suficiente dinero para comprarlo");
-				popUpWindow.CurrentState = PopUpLayout.SINGLE_CONTENT_BUY_ITEM;
+				popUpWindow.SetState( PopUpLayout.SINGLE_CONTENT_BUY_ITEM);
 				modalDetail.BuyButton.GetComponentInChildren<Text>().text = prenda.Price.text;
 			}
 			else {
 				Debug.Log ("[VestidorCanvas]: No tengo suficiente dinero para Comprarlo");
-				popUpWindow.CurrentState = PopUpLayout.SINGLE_CONTENT_GOTO_SHOP;
+				popUpWindow.SetState (PopUpLayout.SINGLE_CONTENT_GOTO_SHOP);
 			}
 			TogglePopUpScreen(); 
 		}
@@ -56,6 +61,9 @@ public class VestidorCanvasController : MonoBehaviour {
 	public GUIPopUpScreen ModalPopUpScreen;
 	private PopUpWindow popUpWindow;
 	private DetailedContent2Buttons modalDetail;
+
+	public GameObject TopMenu;
+
 
 	private bool isCurrentPopUpOpen;
 
@@ -123,6 +131,7 @@ public class VestidorCanvasController : MonoBehaviour {
 			TogglePopUpScreen();
 		
 		ShowScreen(null);
+		EnableTopMenu (false);
 	}
 
 	public void AcceptChangesAndBackToRoom() {
