@@ -11,6 +11,10 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen currentGUIScreen;
 	public GUIPopUpScreen currentGUIPopUpScreen;
 
+	public GUIPopUpScreen ModalScreen;
+	public ModalLayout currentModalLayout;
+
+
 	private UIScreen _newScreen;
 	private GameObject ProfilePlayerInstance;
 
@@ -140,6 +144,53 @@ public class CanvasManager : MonoBehaviour {
 		else {
 			Debug.LogError("[CanvasManager in " + name +"]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
+	}
+
+	public void ShowModalScreen(int newModalLayout) {
+
+		if (ModalScreen == null) {
+			Debug.LogError("[CanvasManager]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
+			return;
+		}
+
+		ModalScreen.IsOpen = true;
+		ModalScreen.GetComponent<CanvasGroup>().interactable = true;
+
+		PopUpWindow modalPopUpWindow = ModalScreen.GetComponent<PopUpWindow> ();
+
+		// Configuramos el layout de la modal
+		if (currentModalLayout != (ModalLayout)newModalLayout) {
+
+			modalPopUpWindow.SetState((ModalLayout)newModalLayout);
+
+			/*
+			switch((ModalLayout)newModalLayout) {
+			case ModalLayout.PURCHASED_GRID_CONTENT:
+				modalPopUpWindow.SetupPurchasedGridContent();
+				break;
+			case ModalLayout.PURCHASED_LIST_CONTENT:
+				modalPopUpWindow.SetupPurchasedListContent();
+				break;
+			case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
+				modalPopUpWindow.SetupAchievementGridContent();
+				break;
+			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
+				modalPopUpWindow.SetupSingleContentBuyContent();
+				break;
+			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
+				modalPopUpWindow.SetupSingleContentGoToShop();
+				break;
+			case ModalLayout.SINGLE_CONTENT_SARE:
+				modalPopUpWindow.SetupSingleContentToShare();
+				break;
+			case ModalLayout.THIRDS_PROFILE_CONTENT:
+				modalPopUpWindow.SetupThirdProfileContent();
+				break;
+			}
+			*/
+			currentModalLayout = (ModalLayout)newModalLayout;
+		}
+	
 	}
 	
 	public void ShowPopUpScreen(GUIPopUpScreen guiPopUpScreen) {

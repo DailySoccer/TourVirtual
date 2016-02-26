@@ -116,7 +116,7 @@ GameObject:
   - 222: {fileID: 22251422}
   - 114: {fileID: 11461702}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Achievement Count Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,7 +198,7 @@ GameObject:
   - 224: {fileID: 22423060}
   - 114: {fileID: 11445110}
   m_Layer: 5
-  m_Name: Single Content
+  m_Name: 3,4,5 - Single Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,7 @@ GameObject:
   - 222: {fileID: 22285830}
   - 114: {fileID: 11481278}
   m_Layer: 5
-  m_Name: 'Texto: Ver'
+  m_Name: Packs Count Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,7 +234,7 @@ GameObject:
   - 114: {fileID: 11406112}
   - 114: {fileID: 11414252}
   m_Layer: 5
-  m_Name: Purchased Pack List Content
+  m_Name: 1 - Purchased Pack List Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,7 +376,7 @@ GameObject:
   - 114: {fileID: 11479210}
   - 114: {fileID: 11436250}
   m_Layer: 5
-  m_Name: Purchased Pack Grid Content
+  m_Name: 0 - Purchased Pack Grid Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22459744}
-  - 114: {fileID: 11482340}
   m_Layer: 5
   m_Name: ScoresResume
   m_TagString: Untagged
@@ -888,8 +887,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22468608}
+  - 114: {fileID: 11441390}
   m_Layer: 5
-  m_Name: Thirds Profile Content
+  m_Name: 6 - Thirds Profile Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1185,7 +1185,7 @@ GameObject:
   - 114: {fileID: 11425894}
   - 114: {fileID: 11424338}
   m_Layer: 5
-  m_Name: Achievement Grid Content
+  m_Name: 2 - Achievement Grid Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2514,7 +2514,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11415366}
   m_HandleRect: {fileID: 22447912}
   m_Direction: 3
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2918,6 +2918,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: VER
+--- !u!114 &11441390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765efe366bb8c4965a6433a546ccb399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penaltiesScore: {fileID: 11493106}
+  BasketScore: {fileID: 11460330}
+  HiddenObjectsScore: {fileID: 11418324}
+  PacksCountText: {fileID: 11481278}
+  AchivementCountText: {fileID: 11461702}
 --- !u!114 &11442370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3257,7 +3273,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 107660}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
   m_Name: 
@@ -3775,22 +3791,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11482340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 130202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a36d14c2f504ced88b32025361357f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  penaltiesScore: {fileID: 0}
-  BasketScore: {fileID: 11460330}
-  HiddenObjectsScore: {fileID: 0}
-  PacksCountText: {fileID: 0}
-  AchivementCountText: {fileID: 0}
 --- !u!114 &11482880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4060,6 +4060,12 @@ MonoBehaviour:
   AchievementGridContent: {fileID: 179288}
   SingleContent: {fileID: 111952}
   ThirdsProfileContent: {fileID: 162450}
+  PurchasedItemGridSlot: {fileID: 105148, guid: b85ca12bf7dfd47a8a8cdbb4c2c3c5a8,
+    type: 2}
+  PurchasedContenidoVerticalListSlot: {fileID: 192538, guid: 328c8d8ddf5a74742892fe28ddccabe1,
+    type: 2}
+  AchievementSlot: {fileID: 164602, guid: 0e6325377db8645e09e3b06e53c9edba, type: 2}
+  ProfileScreenController: {fileID: 162450}
 --- !u!114 &11497906
 MonoBehaviour:
   m_ObjectHideFlags: 1

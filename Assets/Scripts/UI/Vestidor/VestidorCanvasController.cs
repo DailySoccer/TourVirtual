@@ -42,12 +42,12 @@ public class VestidorCanvasController : MonoBehaviour {
 
 			if (EnoughMoney) {
 				Debug.Log ("[VestidorCanvas]: Tengo suficiente dinero para comprarlo");
-				popUpWindow.SetState( PopUpLayout.SINGLE_CONTENT_BUY_ITEM);
+				popUpWindow.SetState( ModalLayout.SINGLE_CONTENT_BUY_ITEM);
 				modalDetail.BuyButton.GetComponentInChildren<Text>().text = prenda.Price.text;
 			}
 			else {
 				Debug.Log ("[VestidorCanvas]: No tengo suficiente dinero para Comprarlo");
-				popUpWindow.SetState (PopUpLayout.SINGLE_CONTENT_GOTO_SHOP);
+				popUpWindow.SetState (ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
 			}
 			TogglePopUpScreen(); 
 		}

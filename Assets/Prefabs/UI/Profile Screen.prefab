@@ -214,7 +214,7 @@ GameObject:
   - 114: {fileID: 11465228}
   - 114: {fileID: 11458700}
   m_Layer: 5
-  m_Name: Button Edit Profile
+  m_Name: Button Edit Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,7 +644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &172582
 GameObject:
   m_ObjectHideFlags: 1
@@ -1567,7 +1567,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11411396}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: ShowModalScreen
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11433094
@@ -1610,10 +1621,8 @@ MonoBehaviour:
   penaltiesScore: {fileID: 11449250}
   BasketScore: {fileID: 11436954}
   HiddenObjectsScore: {fileID: 11433094}
-  PacksCount: {fileID: 11491366}
-  MaxPacksCount: 64
-  AchivementCount: {fileID: 11427066}
-  MaxAchivementCount: 25
+  PacksCountText: {fileID: 11491366}
+  AchivementCountText: {fileID: 11427066}
 --- !u!114 &11434446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1826,7 +1835,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11413792}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: ShowModalScreen
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11442176
