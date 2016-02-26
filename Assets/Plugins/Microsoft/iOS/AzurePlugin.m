@@ -63,6 +63,11 @@ void _AzureSignIn()
 void _AzureSignOut()
 {
     
+    [[MDPAuthHandler sharedInstance] cleanUpKeychain];
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
 }
 
 void _AzureGetToken(){

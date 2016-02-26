@@ -16,7 +16,6 @@ public class Authentication : MonoBehaviour {
     public bool AuthorizationValid { get { return Authentication.Instance != null && Authentication.Instance.IsOk; } }
 
 	public void OnToken(string token){
-		Debug.LogError ("OnToken " + token);
 		if (token != "Error") {
 			AzureServices.AccessToken = token;
 			if(AzureServices.OnAccessToken !=null) AzureServices.OnAccessToken();
@@ -26,9 +25,6 @@ public class Authentication : MonoBehaviour {
 
 
 	public void OnTokenReceive(string token){
-#if !UNITY_ANDROID
-        Debug.LogError ("OnTokenReceive " + token);
-#endif
 		if (token != "Error") {
 			AzureServices.AccessToken = token;
 		}
@@ -113,8 +109,8 @@ public class Authentication : MonoBehaviour {
     void OnGUI() {
         if (string.IsNullOrEmpty(AzureServices.AccessToken) && UserAPI.Instance.Online )
         {
-            if (GUI.Button(new Rect(0, Screen.height - 150, 150, 80), "Register"))
-                AzureServices.SignUp();
+            if (GUI.Button(new Rect(0, Screen.height - 150, 150, 80), "Signout"))
+                AzureServices.SignOut();
             if (GUI.Button(new Rect(150, Screen.height - 150, 150, 80), "Login"))
                 AzureServices.SignIn();
 
