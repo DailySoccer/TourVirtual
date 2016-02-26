@@ -95,7 +95,9 @@ public class DLCManager : MonoBehaviour {
                         if (asset is Hashtable)
                         {
                             AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset as Hashtable);
-                            AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
+                            // CACA: esto es para que solo cachee estos ficheros
+                            if (assetDefinition.Id == "scene/avatar_select" || assetDefinition.Id == "scene/avatars")
+                                AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                         }
                     }
                 }
