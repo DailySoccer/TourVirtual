@@ -64,13 +64,14 @@ public class Authentication : MonoBehaviour {
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
-        //AzureServices.SignIn();
+        AzureServices.SignIn();
     }
 
     void Update() { }
 
 
     private string _urlCode = "";
+#if UNITY_EDITOR
     void OnGUI() {
         if (string.IsNullOrEmpty(AzureServices.AccessToken) && UserAPI.Instance.Online )
         {
@@ -78,18 +79,18 @@ public class Authentication : MonoBehaviour {
                 AzureServices.SignUp();
             if (GUI.Button(new Rect(150, Screen.height - 150, 150, 80), "Login"))
                 AzureServices.SignIn();
-#if UNITY_EDITOR
+
             if (GUI.Button(new Rect(320, Screen.height - 150, 150, 25), "Token ")) {
                 StartCoroutine(AzureServices.GetAccessToken(_urlCode) );
             }
             GUI.Label(new Rect(320, Screen.height - 125, 300, 25), "URL Response: http://localhost/?code=XXX");
             _urlCode = GUI.TextField(new Rect(320, Screen.height - 100, 300, 25), _urlCode);
-#endif
         }
     }
+#endif
 
 #if UNITY_ANDROID
-	AndroidJavaObject _activityContext;
+    AndroidJavaObject _activityContext;
 	AndroidJavaObject _authContext;
 #endif
 }
