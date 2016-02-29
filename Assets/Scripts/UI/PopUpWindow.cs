@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections;
 
 public enum ModalLayout {
+	BLANK,
 	PURCHASED_GRID_CONTENT,
 	PURCHASED_LIST_CONTENT,
 	ACHIEVEMENTS_GRID_CONTENT,
@@ -65,6 +66,8 @@ public class PopUpWindow : MonoBehaviour {
 		ResetWindow ();
 
 		switch (newPopUpLayout) {
+		case ModalLayout.BLANK:
+			break;
 		case ModalLayout.PURCHASED_GRID_CONTENT:
 			PurchasedPackGridContent.SetActive(true);
 			StandardTitle.SetActive (true);

@@ -7,22 +7,19 @@ public class CanvasManager : MonoBehaviour {
 	public GameObject UIScreensCamera;
 	public GameObject SecondPlaneCanvas;
 	public GameObject PlayerClone;
-	
-	public UIScreen currentGUIScreen;
-	public GUIPopUpScreen currentGUIPopUpScreen;
 
 	public GUIPopUpScreen ModalScreen;
 	public ModalLayout currentModalLayout;
 
-
 	private UIScreen _newScreen;
 	private GameObject ProfilePlayerInstance;
-
-
 
 	public UIScreen ScreenMainGame;
 	public UIScreen ScreenProfile;
 	public UIScreen ScreenMap;
+
+	public UIScreen currentGUIScreen;
+	public GUIPopUpScreen currentGUIPopUpScreen;
 
 	/// <summary>
 	/// Intercambia pantallas.	/// 
@@ -149,7 +146,7 @@ public class CanvasManager : MonoBehaviour {
 	public void ShowModalScreen(int newModalLayout) {
 
 		if (ModalScreen == null) {
-			Debug.LogError("[CanvasManager]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
+			Debug.LogError("[CanvasManager in " + name + "]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
 			return;
 		}
 
@@ -158,39 +155,41 @@ public class CanvasManager : MonoBehaviour {
 
 		PopUpWindow modalPopUpWindow = ModalScreen.GetComponent<PopUpWindow> ();
 
-		// Configuramos el layout de la modal
-		if (currentModalLayout != (ModalLayout)newModalLayout) {
+		modalPopUpWindow.SetState((ModalLayout)newModalLayout);
 
-			modalPopUpWindow.SetState((ModalLayout)newModalLayout);
-
-			/*
-			switch((ModalLayout)newModalLayout) {
-			case ModalLayout.PURCHASED_GRID_CONTENT:
-				modalPopUpWindow.SetupPurchasedGridContent();
-				break;
-			case ModalLayout.PURCHASED_LIST_CONTENT:
-				modalPopUpWindow.SetupPurchasedListContent();
-				break;
-			case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
-				modalPopUpWindow.SetupAchievementGridContent();
-				break;
-			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
-				modalPopUpWindow.SetupSingleContentBuyContent();
-				break;
-			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
-				modalPopUpWindow.SetupSingleContentGoToShop();
-				break;
-			case ModalLayout.SINGLE_CONTENT_SARE:
-				modalPopUpWindow.SetupSingleContentToShare();
-				break;
-			case ModalLayout.THIRDS_PROFILE_CONTENT:
-				modalPopUpWindow.SetupThirdProfileContent();
-				break;
-			}
-			*/
-			currentModalLayout = (ModalLayout)newModalLayout;
+		/*
+		switch((ModalLayout)newModalLayout) {
+		case ModalLayout.PURCHASED_GRID_CONTENT:
+			modalPopUpWindow.SetupPurchasedGridContent();
+			break;
+		case ModalLayout.PURCHASED_LIST_CONTENT:
+			modalPopUpWindow.SetupPurchasedListContent();
+			break;
+		case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
+			modalPopUpWindow.SetupAchievementGridContent();
+			break;
+		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
+			modalPopUpWindow.SetupSingleContentBuyContent();
+			break;
+		case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
+			modalPopUpWindow.SetupSingleContentGoToShop();
+			break;
+		case ModalLayout.SINGLE_CONTENT_SARE:
+			modalPopUpWindow.SetupSingleContentToShare();
+			break;
+		case ModalLayout.THIRDS_PROFILE_CONTENT:
+			modalPopUpWindow.SetupThirdProfileContent();
+			break;
 		}
-	
+		*/
+	}
+
+	public void HideModalScreen() {
+		//if (ModalScreen != null) {
+		ModalScreen.IsOpen = false;
+		ModalScreen.GetComponent<CanvasGroup> ().interactable = false;
+		ModalScreen.GetComponent<PopUpWindow>().SetState(ModalLayout.BLANK);
+		//}
 	}
 	
 	public void ShowPopUpScreen(GUIPopUpScreen guiPopUpScreen) {
