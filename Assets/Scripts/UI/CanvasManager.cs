@@ -17,6 +17,7 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen ScreenMainGame;
 	public UIScreen ScreenProfile;
 	public UIScreen ScreenMap;
+	public UIScreen ScreenGoodiesShoop;
 
 	public UIScreen currentGUIScreen;
 	public GUIPopUpScreen currentGUIPopUpScreen;
@@ -105,6 +106,14 @@ public class CanvasManager : MonoBehaviour {
 		
 		ActiveSecondPlaneGUI ();			
 		ShowScreen(ScreenMap);
+	}
+
+	public void ShowGoodiesShopScreen() {		
+		if (ProfilePlayerInstance != null) 
+			Destroy(ProfilePlayerInstance);
+		
+		ActiveSecondPlaneGUI ();			
+		ShowScreen(ScreenGoodiesShoop);
 	}
 
 	public void ShowVestidorScreen() {	

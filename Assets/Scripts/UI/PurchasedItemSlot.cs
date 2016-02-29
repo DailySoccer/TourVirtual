@@ -23,7 +23,7 @@ public class PurchasedItemSlot : MonoBehaviour {
 		Price.text = "";
 	}
 
-	public void SetupSlot(string productName, Sprite ProductPicture, string ProductPrice) {
+	public void SetupSlot(PopUpWindow parentController, string productName, Sprite ProductPicture, string ProductPrice) {
 		ItemName.text = productName;
 		Picture.sprite = ProductPicture;
 		Price.text = ProductPrice;

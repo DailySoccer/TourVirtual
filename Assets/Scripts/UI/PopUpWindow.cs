@@ -24,15 +24,20 @@ public class PopUpWindow : MonoBehaviour {
 
 	//Contenidos
 	public GameObject PurchasedPackGridContent;
-	public GameObject PurchasedPackListContent;
-	public GameObject AchievementGridContent;
-	public GameObject SingleContent;
-	public GameObject ThirdsProfileContent;
-
-	// Contenidos de las listas
+	public GameObject PurchasedPackGridContentList;
 	public GameObject PurchasedItemGridSlot;
+
+	public GameObject PurchasedPackListContent;
+	public GameObject PurchasedPackListContentList;
 	public GameObject PurchasedContenidoVerticalListSlot;
+
+	public GameObject AchievementGridContent;
+	public GameObject AchievementGridContentList;
 	public GameObject AchievementSlot;
+
+	public GameObject SingleContent;
+
+	public GameObject ThirdsProfileContent;
 	public GameObject ProfileScreenController;
 	
 	private Text _CurrentStandardTitleText;
@@ -150,5 +155,31 @@ public class PopUpWindow : MonoBehaviour {
 		SingleContent.SetActive(false);
 
 		CloseButton.SetActive (true);
+	}
+
+	public void SetupPurchasedGridContent() {
+		// TODO: rellenar el contenido de cada lista
+		GameObject item = Instantiate (PurchasedItemGridSlot);
+		item.transform.SetParent(PurchasedPackGridContentList.transform);
+		item.GetComponent<PurchasedItemSlot> ().SetupSlot (this, "", null, "");
+
+	}
+	public void SetupPurchasedListContent() {
+		
+	}
+	public void SetupAchievementGridContent() {
+		
+	}
+	public void SetupSingleContentBuyContent() {
+		
+	}
+	public void SetupSingleContentGoToShop() {
+		
+	}
+	public void SetupSingleContentToShare() {
+		
+	}
+	public void SetupThirdProfileContent() {
+		
 	}
 }
