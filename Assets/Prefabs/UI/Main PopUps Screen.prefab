@@ -253,7 +253,7 @@ GameObject:
   - 114: {fileID: 11421518}
   - 114: {fileID: 11477546}
   m_Layer: 5
-  m_Name: Vertical List
+  m_Name: PurchasedPackListContentList
   m_TagString: PacksList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -980,7 +980,7 @@ GameObject:
   - 114: {fileID: 11451428}
   - 114: {fileID: 11452570}
   m_Layer: 5
-  m_Name: Grid List
+  m_Name: PurchasedPackGridContentList
   m_TagString: PacksList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1392,7 +1392,7 @@ GameObject:
   - 114: {fileID: 11404222}
   - 114: {fileID: 11421672}
   m_Layer: 5
-  m_Name: Grid List
+  m_Name: AchievementGridContentList
   m_TagString: PacksList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4067,15 +4067,18 @@ MonoBehaviour:
   StandardTitle: {fileID: 186426}
   ThirdsProfileTitle: {fileID: 109054}
   PurchasedPackGridContent: {fileID: 127182}
-  PurchasedPackListContent: {fileID: 114906}
-  AchievementGridContent: {fileID: 179288}
-  SingleContent: {fileID: 111952}
-  ThirdsProfileContent: {fileID: 162450}
+  PurchasedPackGridContentList: {fileID: 166832}
   PurchasedItemGridSlot: {fileID: 105148, guid: b85ca12bf7dfd47a8a8cdbb4c2c3c5a8,
     type: 2}
+  PurchasedPackListContent: {fileID: 114906}
+  PurchasedPackListContentList: {fileID: 114950}
   PurchasedContenidoVerticalListSlot: {fileID: 192538, guid: 328c8d8ddf5a74742892fe28ddccabe1,
     type: 2}
+  AchievementGridContent: {fileID: 179288}
+  AchievementGridContentList: {fileID: 193096}
   AchievementSlot: {fileID: 164602, guid: 0e6325377db8645e09e3b06e53c9edba, type: 2}
+  SingleContent: {fileID: 111952}
+  ThirdsProfileContent: {fileID: 162450}
   ProfileScreenController: {fileID: 162450}
 --- !u!114 &11497906
 MonoBehaviour:
