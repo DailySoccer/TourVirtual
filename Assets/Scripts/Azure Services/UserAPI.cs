@@ -57,7 +57,16 @@ public class UserAPI {
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
-        if (!Online) VirtualGoodsDesciptor.FAKE();
+        if (!Online)
+        {
+            VirtualGoodsDesciptor.FAKE();
+            Achievements.FAKE();
+            Contents.FAKE();
+            // Gamificación.
+            Points = 10;
+            Level = 2;
+
+        }
     }
 
     public IEnumerator Request() {
@@ -83,6 +92,22 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
             }
         });
+        /*
+        {
+            "IdUser":"03edad5e-f581-4aed-b217-cc117e3556b4",
+            "Points":0,
+            "GamingScore":500,
+            "CheckIns":0,
+            "Challenges":0,
+            "Friends":0,
+            "Groups":0,
+            "VirtualGoods":2,
+            "Achievements":2,
+            "Reputation":0,
+            "Level":"2",
+            "LevelNumber":0
+        }
+        */
 
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {

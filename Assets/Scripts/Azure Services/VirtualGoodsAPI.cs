@@ -57,6 +57,22 @@ public class VirtualGoodsAPI {
         ""HasMoreResults"":false 
         }";
 
+    string auxData2 = @"{
+        ""ContinuationToken"":null,
+        ""ContinuationTokenB64"":null,
+        ""Results"":[
+            {
+                ""IdUser"":""03edad5e-f581-4aed-b217-cc117e3556b4"",
+                ""IdVirtualGood"":""4d229050-fd95-4492-bcff-2ceecf8115b8"",
+                ""AdquisitionDate"":""2016-02-26T12:25:00.481Z"",
+                ""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/4d229050-fd95-4492-bcff-2ceecf8115b8.png"",
+                ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/4d229050-fd95-4492-bcff-2ceecf8115b8_thumbnail.png"",
+                ""Description"":[{""Locale"":""en-us"",""Description"":""Content Test Pack  1""}],
+                ""Url"":[{""Locale"":""en-us"",""Description"":""TESTPACK1""}],
+                ""IdVirtualGoodType"":""AVATARVG""
+            }
+        ],""HasMoreResults"":false}
+    }";
 
     public void FAKE()
     {
@@ -78,8 +94,25 @@ public class VirtualGoodsAPI {
                     VirtualGoods.Add(guid, tmp);
                 }
             }
-            // Vemos si tiene que seguir paginando.
         }
+        // Mis virtual goods.
+        Hashtable myvirtualgoods = JSON.JsonDecode(auxData2) as Hashtable;
+        if (myvirtualgoods != null)
+        {
+            ArrayList myresults = myvirtualgoods["Results"] as ArrayList;
+            foreach (Hashtable vg in myresults)
+            {
+                string guid = vg["IdVirtualGood"] as string;
+                if (VirtualGoods.ContainsKey(guid))
+                {
+                    VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
+                    myvg.count++;
+                }
+            }
+        }
+
+
+
     }
 
     public IEnumerator AwaitRequest(){
