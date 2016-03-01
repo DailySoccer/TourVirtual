@@ -35,7 +35,8 @@ namespace Football
         public int score = 0;
         public int record = 0;
 
-        public GuiMinigameScreenPopup endMenu;
+        //public GuiMinigameScreenPopup endMenu;
+		public MinigameCanvasController minigameCanvasController;
         public GuiMinigameScreen minigameScreen;
 
         // for demo
@@ -329,9 +330,10 @@ namespace Football
             objBall = null;
             UpdateBoard();
 
-            minigameScreen.OnHide();
-            endMenu.EndGame();
+			//TODO: llamar al canvas controller de esta escena para que muestre la ventana del final.
+            //minigameScreen.OnHide();
 
+			minigameCanvasController.ShowEndScreen();
         }
 
         void UpdateBoard()

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GuiMinigameScreen : GUIPopUpScreen {
+public class GuiMinigameScreen : GUIScreen {
 
     public Text TxtScore;
     public Text TxtRecord;
@@ -15,7 +15,8 @@ public class GuiMinigameScreen : GUIPopUpScreen {
 
 	public override void Start() {
         base.Start();
-        OnHide();
+		//TODO: llamar al canvas controller de esta escena para que muestre la ventana del final.
+        //OnHide();
     }
 
 	public override void Update () {
@@ -24,7 +25,7 @@ public class GuiMinigameScreen : GUIPopUpScreen {
 
     public void Record(int value)
     {
-        TxtRecord.text = "Record: "+value.ToString();
+        TxtRecord.text = "Record: " + value.ToString();
     }
 
     public void Score(int value)
@@ -37,6 +38,7 @@ public class GuiMinigameScreen : GUIPopUpScreen {
         timer.TimeLeft = normTime;
     }
 
+	/*
     public void OnShow() {
         gameObject.SetActive(true);
     }
@@ -44,5 +46,5 @@ public class GuiMinigameScreen : GUIPopUpScreen {
     public void OnHide() {
         gameObject.SetActive(false);
     }
-
+	*/
 }

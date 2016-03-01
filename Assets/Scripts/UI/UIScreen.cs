@@ -14,7 +14,7 @@ public class UIScreen : MonoBehaviour {
 	}
 
 	protected Animator _animator;
-	protected Animator Animator {
+	public Animator Animator {
 		get {
 			if (_animator == null) {
 				_animator = GetComponent<Animator>();
