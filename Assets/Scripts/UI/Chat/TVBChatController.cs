@@ -386,8 +386,10 @@ public class TVBChatController : MonoBehaviour {
 	}
 	
 	void SerializeAndSaveChats() {
-		Hashtable data = new Hashtable(_friendChats);
-		string friend_chats = JSON.JsonEncode(data);
+		Hashtable data = new Hashtable();
+        foreach (var pair in _friendChats)
+            data.Add(pair.Key, pair.Value);
+        string friend_chats = JSON.JsonEncode(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
 	}
