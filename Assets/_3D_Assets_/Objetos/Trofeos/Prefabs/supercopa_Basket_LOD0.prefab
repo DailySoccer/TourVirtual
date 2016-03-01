@@ -1,46 +1,45 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &151590
+--- !u!1 &148376
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 439314}
-  - 33: {fileID: 3364482}
-  - 23: {fileID: 2302688}
-  m_Layer: 11
-  m_Name: laliga1955_LOD0
+  - 4: {fileID: 405244}
+  - 33: {fileID: 3333376}
+  - 23: {fileID: 2356164}
+  m_Layer: 0
+  m_Name: supercopa_Basket_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &439314
+--- !u!4 &405244
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151590}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 148376}
+  m_LocalRotation: {x: -.353553325, y: .612372458, z: .612372577, w: .353553265}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2302688
+--- !u!23 &2356164
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151590}
+  m_GameObject: {fileID: 148376}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: a689a9d8e8475bf44b12c38f9809f253, type: 2}
-  - {fileID: 2100000, guid: 8a0e975e64df6504a8c99655b1e7452e, type: 2}
+  - {fileID: 2100000, guid: 9859cd9fef059ee4d932788791ced5d6, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -54,13 +53,13 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3364482
+--- !u!33 &3333376
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151590}
-  m_Mesh: {fileID: 4300050, guid: a7caedb089dcef34f8439b82f8bba24c, type: 3}
+  m_GameObject: {fileID: 148376}
+  m_Mesh: {fileID: 4300000, guid: d637aae9c9dd95a4184ec05ecc78db8d, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -70,5 +69,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 151590}
+  m_RootGameObject: {fileID: 148376}
   m_IsPrefabParent: 1

@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 477504}
   - 33: {fileID: 3385162}
   - 23: {fileID: 2361578}
-  - 95: {fileID: 9503678}
   m_Layer: 0
   m_Name: oldBall02_LOD0
   m_TagString: Untagged
@@ -25,8 +24,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163318}
   m_LocalRotation: {x: .136343986, y: .693837523, z: -.693837285, w: .13634409}
-  m_LocalPosition: {x: -39.8009987, y: 1.87699997, z: -2.0710001}
-  m_LocalScale: {x: 6.19821501, y: 6.1982069, z: 6.19820786}
+  m_LocalPosition: {x: 0, y: -0, z: -.0970000029}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,23 +60,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163318}
   m_Mesh: {fileID: 4300000, guid: 078548cff1ada344780acc73230a09a2, type: 3}
---- !u!95 &9503678
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163318}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 078548cff1ada344780acc73230a09a2, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

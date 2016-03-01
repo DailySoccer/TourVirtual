@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: old_ball_10_diffuse_map
-  m_Shader: {fileID: 4800000, guid: f5d3452da497a7e4089eea6e57fe4901, type: 3}
+  m_Name: peanaBasket
+  m_Shader: {fileID: 4800000, guid: 05623b9c7970ab748848f2dacd0bfe31, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: f29d0850e7906794180296fdf74fdfb2, type: 3}
+          m_Texture: {fileID: 2800000, guid: 7de44e28310f85a47884e7998b30f60f, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 6a76f08272e34ed47b1bd2340b01e34a, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -78,6 +78,13 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -91,6 +98,10 @@ Material:
         first:
           name: _Cutoff
         second: .5
+      data:
+        first:
+          name: _Shininess
+        second: 7
       data:
         first:
           name: _Parallax
@@ -127,6 +138,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _SpecInt
+        second: 3
+      data:
+        first:
+          name: _Fresnel
+        second: .565999985
     m_Colors:
       data:
         first:
@@ -135,4 +154,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .588, g: .588, b: .588, a: 1}
+        second: {r: .485294104, g: .485294104, b: .485294104, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .125, g: .116658218, b: .112132356, a: 1}
