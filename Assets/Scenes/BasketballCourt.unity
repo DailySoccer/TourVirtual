@@ -11571,6 +11571,73 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 453971104}
+    - target: {fileID: 11480808, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Color.a
+      value: .392156869
+      objectReference: {fileID: 0}
+    - target: {fileID: 11413936, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11413936, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11413936, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11418868, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: MinigameType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11454260, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: MinigameType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11426366, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: MinigameType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11497438, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5985a2b5ef5844a88b8c25fa2b8b41c9,
+        type: 3}
+    - target: {fileID: 11490538, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5985a2b5ef5844a88b8c25fa2b8b41c9,
+        type: 3}
+    - target: {fileID: 11404794, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Text
+      value: "Demuestra tu habilidad con los tiros libres.\nUtiliza tu dedo para lanzar
+        el bal\xF3n y conquista el ranking mundial."
+      objectReference: {fileID: 0}
+    - target: {fileID: 11404794, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 22414992, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 22414992, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -160
+      objectReference: {fileID: 0}
+    - target: {fileID: 22434022, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 22434022, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_Pivot.y
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 22434022, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 1000.00006
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
   m_IsPrefabParent: 0
@@ -12534,38 +12601,6 @@ Transform:
   - {fileID: 1354067615}
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &1659870624 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 118548, guid: 9e6ecc114c1264c2fbaf7e4fc385b855, type: 2}
-  m_PrefabInternal: {fileID: 1564169423}
---- !u!114 &1659870627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1659870624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &1659870628
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1659870624}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e5f6c47c857aa41e3ad51436427e9a3b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1661042773
 GameObject:
   m_ObjectHideFlags: 0

@@ -343,14 +343,14 @@ namespace Football
             minigameScreen.Record(record);
         }
 
-        void OnGUI()
+       /* void OnGUI()
         {
             GUILayout.Label("State " + gameState);
             GUILayout.Label("Time " + Mathf.CeilToInt(gameTime));
             GUILayout.Label("Round " + round);
             GUILayout.Label("Score " + score);
             GUILayout.Label("Streak " + streak);
-        }
+        }*/
 
         public void OnExitGame()
         {
