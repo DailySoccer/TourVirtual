@@ -25,7 +25,7 @@ public class PopUpWindow : MonoBehaviour {
 	//Contenidos
 	public GameObject PurchasedPackGridContent;
 	public GameObject PurchasedPackGridContentList;
-	public GameObject PurchasedItemGridSlot;
+	public GameObject PurchasedPackItemGridSlot;
 
 	public GameObject PurchasedPackListContent;
 	public GameObject PurchasedPackListContentList;
@@ -158,12 +158,23 @@ public class PopUpWindow : MonoBehaviour {
 	}
 
 	public void SetupPurchasedGridContent() {
-		// TODO: rellenar el contenido de cada lista
-		GameObject item = Instantiate (PurchasedItemGridSlot);
-		item.transform.SetParent(PurchasedPackGridContentList.transform);
-		item.GetComponent<PurchasedItemSlot> ().SetupSlot (this, "", null, "");
 
+		foreach (DictionaryEntry c in UserAPI.Contents.Contents) {	
+			ContentAPI.Content con = (c.Value as ContentAPI.Content);
+			// TODO: rellenar el contenido de cada lista
+			GameObject item = Instantiate (PurchasedPackItemGridSlot);
+			item.transform.SetParent(PurchasedPackGridContentList.transform);
+			item.GetComponent<PurchasedItemSlot> ().SetupSlot (this, con.Title, con.ThumbURL);
+			item.transform.localScale = Vector3.one;
+
+			item.name = con.Description;
+		}
 	}
+
+	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
+		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+	}
+
 	public void SetupPurchasedListContent() {
 		
 	}

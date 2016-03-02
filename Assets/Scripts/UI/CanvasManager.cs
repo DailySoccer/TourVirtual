@@ -166,31 +166,33 @@ public class CanvasManager : MonoBehaviour {
 
 		modalPopUpWindow.SetState((ModalLayout)newModalLayout);
 
-		/*
+
 		switch((ModalLayout)newModalLayout) {
-		case ModalLayout.PURCHASED_GRID_CONTENT:
-			modalPopUpWindow.SetupPurchasedGridContent();
-			break;
-		case ModalLayout.PURCHASED_LIST_CONTENT:
-			modalPopUpWindow.SetupPurchasedListContent();
-			break;
-		case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
-			modalPopUpWindow.SetupAchievementGridContent();
-			break;
-		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
-			modalPopUpWindow.SetupSingleContentBuyContent();
-			break;
-		case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
-			modalPopUpWindow.SetupSingleContentGoToShop();
-			break;
-		case ModalLayout.SINGLE_CONTENT_SARE:
-			modalPopUpWindow.SetupSingleContentToShare();
-			break;
-		case ModalLayout.THIRDS_PROFILE_CONTENT:
-			modalPopUpWindow.SetupThirdProfileContent();
-			break;
+			case ModalLayout.PURCHASED_GRID_CONTENT:
+				modalPopUpWindow.SetupPurchasedGridContent();
+				break;
+			/*
+			case ModalLayout.PURCHASED_LIST_CONTENT:
+				modalPopUpWindow.SetupPurchasedListContent();
+				break;
+			case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
+				modalPopUpWindow.SetupAchievementGridContent();
+				break;
+			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
+				modalPopUpWindow.SetupSingleContentBuyContent();
+				break;
+			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
+				modalPopUpWindow.SetupSingleContentGoToShop();
+				break;
+			case ModalLayout.SINGLE_CONTENT_SARE:
+				modalPopUpWindow.SetupSingleContentToShare();
+				break;
+			case ModalLayout.THIRDS_PROFILE_CONTENT:
+				modalPopUpWindow.SetupThirdProfileContent();
+				break;
+			 */
 		}
-		*/
+
 	}
 
 	public void HideModalScreen() {

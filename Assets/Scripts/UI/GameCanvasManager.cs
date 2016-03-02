@@ -27,6 +27,7 @@ public class GameCanvasManager : CanvasManager
 			}
 			break;
 		}
+
 		// Get Sound Settings
 		GameObject toggleSounds = GameObject.Find ("Sounds");
 		if (toggleSounds != null) {

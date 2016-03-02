@@ -36,7 +36,6 @@ public class ClothSlot : MonoBehaviour {
 		VestidorControllerInstance.TryToDressPlayer (this);
 	}
 
-
 	IEnumerator LoadSprite( string url)
 	{
 		WWW www = new WWW(url);
