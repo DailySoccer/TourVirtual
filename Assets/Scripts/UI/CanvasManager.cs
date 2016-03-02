@@ -168,16 +168,18 @@ public class CanvasManager : MonoBehaviour {
 
 
 		switch((ModalLayout)newModalLayout) {
-			case ModalLayout.PURCHASED_GRID_CONTENT:
+		case ModalLayout.PURCHASED_PACKS_GRID:
 				modalPopUpWindow.SetupPurchasedGridContent();
 				break;
 			/*
 			case ModalLayout.PURCHASED_LIST_CONTENT:
 				modalPopUpWindow.SetupPurchasedListContent();
 				break;
-			case ModalLayout.ACHIEVEMENTS_GRID_CONTENT:
+			*/
+			case ModalLayout.ACHIEVEMENTS_GRID:
 				modalPopUpWindow.SetupAchievementGridContent();
 				break;
+			/*
 			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 				modalPopUpWindow.SetupSingleContentBuyContent();
 				break;

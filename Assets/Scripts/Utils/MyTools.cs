@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text;
+using System;
 
 public class MyTools{
     public static string AsciiToString(byte[] bytes) {
@@ -28,4 +29,13 @@ public class MyTools{
         return retval;
 #endif
     }
+
+	public static IEnumerator LoadSpriteFromURL( string url, Sprite source)
+	{
+		WWW www = new WWW(url);
+		yield return www; 
+		
+		source = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+		//yield return true;
+	}
 }

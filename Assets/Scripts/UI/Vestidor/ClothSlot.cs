@@ -29,20 +29,10 @@ public class ClothSlot : MonoBehaviour {
 		
 		Price.text = item.Price.ToString();
 
-		StartCoroutine( LoadSprite (item.Image) );
+		StartCoroutine( MyTools.LoadSpriteFromURL (item.Image, Picture.sprite) );
 	}
 
 	public void Slot_ClickHandle() {
 		VestidorControllerInstance.TryToDressPlayer (this);
 	}
-
-	IEnumerator LoadSprite( string url)
-	{
-		WWW www = new WWW(url);
-		yield return www; 
-
-		Picture.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
-		//yield return true;
-	}
-
 }

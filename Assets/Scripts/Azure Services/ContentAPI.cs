@@ -104,6 +104,9 @@ public class ContentAPI
 
     public void FAKE()
     {
+		TotalContents = 0;
+		Contents = new Dictionary<string, Content> ();
+
         Dictionary<string,object> contents = BestHTTP.JSON.Json.Decode(auxData) as Dictionary<string, object>;
         if (contents != null)
         {
@@ -130,10 +133,10 @@ public class ContentAPI
     }
 
     public IEnumerator AwaitRequest() {
-        Contents = new Dictionary<string, Content>();
+		TotalContents = 0;
+		Contents = new Dictionary<string, Content>();
         bool needRequest = true;
-        int page = 1;
-        TotalContents = 0;
+        int page = 1;        
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {

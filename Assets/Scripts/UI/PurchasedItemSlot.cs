@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PurchasedItemSlot : MonoBehaviour {
 
-	public Text ItemName;
+	public Text PurchasedPackName;
 	public Image Picture;
 
 	PopUpWindow theParentController;
@@ -18,25 +18,18 @@ public class PurchasedItemSlot : MonoBehaviour {
 	}
 
 	public void Reset() {
-		ItemName.text = "";
+		PurchasedPackName.text = "";
+		Picture.sprite = null;
 	}
 
-	public void SetupSlot(PopUpWindow parentController, string productName, string ProductPicture) {
-		StartCoroutine( LoadSprite (ProductPicture) );
-		ItemName.text = productName;
+	public void SetupSlot(PopUpWindow parentController, string productName, string pictureUrl) {
+		StartCoroutine(MyTools.LoadSpriteFromURL(pictureUrl, Picture.sprite));
+		PurchasedPackName.text = productName;
 		theParentController = parentController;
 	}
 
 	public void PurchasedItemSlot_ClickHandle() {
 		theParentController.PurchasedItemSlot_Click(this);
 	}
-	
-	IEnumerator LoadSprite( string url)
-	{
-		WWW www = new WWW(url);
-		yield return www; 
-		
-		Picture.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
-		//yield return true;
-	}
+
 }
