@@ -77,6 +77,8 @@ public class AchievementsAPI{
 
     public void FAKE()
     {
+        TotalAchievements = 0;
+        Achievements = new Dictionary<string, Achievement>();
         List<object> results = BestHTTP.JSON.Json.Decode(auxData) as List<object>;
         foreach (Dictionary<string,object> ele in results)
         {

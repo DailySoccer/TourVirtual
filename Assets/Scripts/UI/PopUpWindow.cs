@@ -159,7 +159,7 @@ public class PopUpWindow : MonoBehaviour {
 
 	public void SetupPurchasedGridContent() {
 
-		foreach (DictionaryEntry c in UserAPI.Contents.Contents) {	
+		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content con = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
 			GameObject item = Instantiate (PurchasedPackItemGridSlot);
