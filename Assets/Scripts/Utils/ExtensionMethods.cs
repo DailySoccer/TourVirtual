@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public static class ExtensionMethods
 {
-	public static Hashtable toHashTable(this ChatMessage cht) {
-		Hashtable h = new Hashtable();
+	public static Dictionary<string, object> toHashTable(this ChatMessage cht) {
+        Dictionary<string, object> h = new Dictionary<string, object>();
 		h.Add("sender",cht.Sender);
 		h.Add("text", cht.Text);
 		h.Add("readed", cht.Readed);
@@ -13,7 +12,7 @@ public static class ExtensionMethods
 		return h;
 	}
 
-	public static ChatMessage toChatMessage(this Hashtable h) {
+	public static ChatMessage toChatMessage(this Dictionary<string,object> h) {
 		return new ChatMessage((string)h["sender"], (string)h["text"], (bool)h["readed"]);
 	}
 

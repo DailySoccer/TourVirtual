@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public struct AvatarAPI {
     public enum Property { Gender, Hair, Hat, Head, Body, Legs, Feet, Compliment };
@@ -56,9 +57,8 @@ public struct AvatarAPI {
         return avatar;
     }
 
-    public void SetProperties(ArrayList desc) {
-        foreach (var ele in desc) {
-            Hashtable part = ele as Hashtable;
+    public void SetProperties(List<object> desc) {
+        foreach (Dictionary<string,object> part in desc) {
             string type = part["Type"] as string;
             string data = part["Data"] as string;
             switch (type) {
@@ -69,13 +69,13 @@ public struct AvatarAPI {
         }
     }
 
-    public void Parse(Hashtable avatar) {
+    public void Parse(Dictionary<string, object> avatar) {
         // Propiedades fisicas. Sexo, Pelo, Cabeza.
-        if (avatar.Contains("PhysicalProperties"))
-            SetProperties( avatar["PhysicalProperties"] as ArrayList );
+        if (avatar.ContainsKey("PhysicalProperties"))
+            SetProperties( avatar["PhysicalProperties"] as List<object> );
         // Otras propiedades.
-        if (avatar.Contains("Accesories") && avatar["Accesories"]!=null) {
-            foreach( Hashtable tmp in avatar["Accesories"] as ArrayList) {
+        if (avatar.ContainsKey("Accesories") && avatar["Accesories"]!=null) {
+            foreach( Hashtable tmp in avatar["Accesories"] as List<object>) {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
                 if (vg != null)
                 {

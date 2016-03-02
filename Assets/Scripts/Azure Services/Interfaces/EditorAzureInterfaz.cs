@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EditorAzureInterfaz : AzureInterfaz
 {
@@ -72,9 +73,11 @@ public class EditorAzureInterfaz : AzureInterfaz
         WWW www = new WWW(url, form);
         yield return www;
         if (string.IsNullOrEmpty(www.error))
+        {
             ProcessTokenResponse(www.text);
+        }
         else {
-            Debug.Log("ERROR!!! ProcessTokenResponse");
+            Debug.LogError("ERROR!!! ProcessTokenResponse");
         } // ERROR!!!
     }
 
@@ -96,13 +99,11 @@ public class EditorAzureInterfaz : AzureInterfaz
 
 
     public void ProcessTokenResponse(string text) {
-        Debug.Log("Response: " + text);
-        object json = JSON.JsonDecode(text);
-        if (json is Hashtable) {
-            Hashtable jsonMap = json as Hashtable;
-            if (jsonMap.ContainsKey(KEY_ACCESS_TOKEN)) {
-                AccessToken = jsonMap[KEY_ACCESS_TOKEN] as string;
-                Debug.Log("AccessToken: " + AccessToken);
+        object json = BestHTTP.JSON.Json.Decode(text);
+        if (json is Dictionary<string,object>) {
+            Dictionary<string, object> jsonDic = json as Dictionary<string, object>;
+            if (jsonDic.ContainsKey(KEY_ACCESS_TOKEN)) {
+                AccessToken = jsonDic[KEY_ACCESS_TOKEN] as string;
                 if (OnAccessToken != null) OnAccessToken();
             }
         }

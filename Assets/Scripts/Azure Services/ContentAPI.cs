@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ContentAPI
 {
@@ -30,7 +31,7 @@ public class ContentAPI
         }
     }
 
-    public Hashtable Contents;
+    public Dictionary<string, Content> Contents;
     public int TotalContents;
 
 
@@ -40,24 +41,23 @@ public class ContentAPI
 			return -1;
 
         int owend = 0;
-        foreach (DictionaryEntry pair in Contents)
-            if ((pair.Value as Content).owned)
+        foreach (var pair in Contents)
+            if (pair.Value.owned)
                 owend++;
         return owend;
     }
 
     public Content GetContentByID(string id){
-        foreach (DictionaryEntry pair in Contents){
-            Content v = pair.Value as Content;
-            if (v.InternalID == id)
-                return v;
+        foreach (var pair in Contents){
+            if (pair.Value.InternalID == id)
+                return pair.Value;
         }
         return null;
     }
 
     public Content GetContentByGUID(string guid){
         if(Contents.ContainsKey(guid))
-            return Contents[guid] as Content;
+            return Contents[guid];
         return null;
     }
 
@@ -103,24 +103,22 @@ public class ContentAPI
 
 
     public void FAKE()
-    { 
-		Contents = new Hashtable();
-		TotalContents = 0;
-        Hashtable contents = JSON.JsonDecode(auxData) as Hashtable;
+    {
+        Dictionary<string,object> contents = BestHTTP.JSON.Json.Decode(auxData) as Dictionary<string, object>;
         if (contents != null)
         {
-            ArrayList results = contents["Results"] as ArrayList;
-            foreach (Hashtable vg in results)
+            List<object> results = contents["Results"] as List<object>;
+            foreach (Dictionary<string, object> vg in results)
             {
                 string guid = vg["IdContent"] as string;
                 string title = vg["Title"] as string;
                 string desc = vg["Description"] as string;
 
                 string internalID = "";
-                ArrayList links = vg["Links"] as ArrayList;
-                if (links.Count > 0) internalID = (links[0] as Hashtable)["Text"] as string;
+                List<object> links = vg["Links"] as List<object>;
+                if (links.Count > 0) internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
 
-                Hashtable asset = vg["Asset"] as Hashtable;
+                Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
                 string packURL = asset["AssetUrl"] as string;
                 string thumbnailUrl = asset["ThumbnailUrl"] as string;
 
@@ -132,26 +130,26 @@ public class ContentAPI
     }
 
     public IEnumerator AwaitRequest() {
-        Contents = new Hashtable();
+        Contents = new Dictionary<string, Content>();
         bool needRequest = true;
         int page = 1;
         TotalContents = 0;
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
-                    Hashtable contents = JSON.JsonDecode(res) as Hashtable;
+                    Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (contents != null) {
-                        ArrayList results = contents["Results"] as ArrayList;
-                        foreach (Hashtable vg in results) {
+                        List<object> results = contents["Results"] as List<object>;
+                        foreach (Dictionary<string, object> vg in results) {
                             string guid = vg["IdContent"] as string;
                             string title = vg["Title"] as string;
                             string desc = vg["Description"] as string;
 
                             string internalID = "";
-                            ArrayList links = vg["Links"] as ArrayList;
-                            if(links.Count>0) internalID = (links[0] as Hashtable)["Text"] as string;
+                            List<object> links = vg["Links"] as List<object>;
+                            if(links.Count>0) internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
 
-                            Hashtable asset = vg["Asset"] as Hashtable;
+                            Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
                             string packURL = asset["AssetUrl"] as string;
                             string thumbnailUrl = asset["ThumbnailUrl"] as string;
 

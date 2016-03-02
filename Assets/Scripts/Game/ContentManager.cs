@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class ContentManager: MonoBehaviour
@@ -36,7 +35,7 @@ public class ContentManager: MonoBehaviour
 		}
 	}
 
-	IEnumerator PreloadContents() {
+    System.Collections.IEnumerator PreloadContents() {
 		ContentList[] contentLists = GameObject.FindObjectsOfType<ContentList>();
 		foreach(ContentList contentList in contentLists) {
 			yield return StartCoroutine(contentList.LoadContents());
@@ -46,7 +45,7 @@ public class ContentManager: MonoBehaviour
 	void Update () {
 	}
 
-	public IEnumerator GetContentItem(string contentId) {
+	public System.Collections.IEnumerator GetContentItem(string contentId) {
         yield return Authentication.AzureServices.AwaitableRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
             Debug.LogError("GetContentItem " + res);
         });
@@ -62,7 +61,7 @@ public class ContentManager: MonoBehaviour
 		return CompactContents.ContainsKey(key) ? CompactContents[key] : new List<CompactContent>();
 	}
 
-	public IEnumerator LoadContentsByKey(string contentKey) {
+	public System.Collections.IEnumerator LoadContentsByKey(string contentKey) {
 		if (Authentication.Instance.IsOk) {
 			string contentType = RoomManager.Instance.Room.Content(contentKey);
 			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
@@ -72,7 +71,7 @@ public class ContentManager: MonoBehaviour
 		}
 	}
 
-	public IEnumerator LoadContentsByType(string contentType) {
+	public System.Collections.IEnumerator LoadContentsByType(string contentType) {
 		if (Authentication.Instance.IsOk) {
 			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 			if (!CompactContents.ContainsKey(key)) {
@@ -91,7 +90,7 @@ public class ContentManager: MonoBehaviour
 		return _model3DInstances[instanceId];
 	}
 
-	public IEnumerator GetTexture2DInstance(string imageUrl, System.Action<Texture2D> callback) {
+	public System.Collections.IEnumerator GetTexture2DInstance(string imageUrl, System.Action<Texture2D> callback) {
 		if (_texture2DInstances.ContainsKey(imageUrl)) {
 			Debug.Log ("Texture2D Cached: " + imageUrl);
 			callback(_texture2DInstances[imageUrl]);
@@ -110,7 +109,7 @@ public class ContentManager: MonoBehaviour
 		callback(www.texture);
 	}
 
-	private IEnumerator LoadContents(string contentType) {
+	private System.Collections.IEnumerator LoadContents(string contentType) {
         int page = 0;
 		int pageCount = 1;
 
@@ -120,18 +119,15 @@ public class ContentManager: MonoBehaviour
 			page++;
 			Debug.Log ("GetListContentType: Page: " + page);
             yield return Authentication.AzureServices.AwaitableRequestGet(string.Format(URL_LIST_CONTENT_BY_TYPE, contentType, language, page), (res) => {
-                object json = JSON.JsonDecode(res);
-                if (json is Hashtable) {
-                    Hashtable jsonMap = json as Hashtable;
-                    ArrayList results = jsonMap[KEY_RESULTS] as ArrayList;
-                    foreach (object result in results) {
-                        CompactContent compactContent = CompactContent.LoadFromJSON(result);
-                        contents.Add(compactContent);
-                        // StartCoroutine(GetContentItem(compactContent.IdContent));
-                    }
-                    page = (int)jsonMap[KEY_CURRENT_PAGE];
-                    pageCount = (int)jsonMap[KEY_PAGE_COUNT];
+                Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                List<object> results = jsonMap[KEY_RESULTS] as List<object>;
+                foreach (object result in results) {
+                    CompactContent compactContent = CompactContent.LoadFromJSON(result);
+                    contents.Add(compactContent);
+                    // StartCoroutine(GetContentItem(compactContent.IdContent));
                 }
+                page = (int)(double)jsonMap[KEY_CURRENT_PAGE];
+                pageCount = (int)(double)jsonMap[KEY_PAGE_COUNT];
             });
 		}
 

@@ -76,14 +76,9 @@ public class ClothesListController : MonoBehaviour {
 		CleanProductLists ();
 		//UserAPI.VirtualGoodsDesciptor.VirtualGoods
 
-		foreach (DictionaryEntry vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
-			
+		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
 			GameObject cloth = Instantiate(Slot);
-			
-			
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
-
-
 			ClothSlot cs = cloth.GetComponent<ClothSlot>();
 			cs.SetupSlot(item);		
 			

@@ -1,6 +1,7 @@
 ﻿#define CASO1
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // TODO:    No funciona el ranking global personal.
 //          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
@@ -75,7 +76,7 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest() );
 
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
-            Hashtable hs = JSON.JsonDecode(res) as Hashtable;
+            Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string,object>;
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
             Debug.LogError(">>>>>>>>>>>>>>>>>>>> REQUEST USER " + UserID + " " + Nick);
@@ -87,7 +88,7 @@ public class UserAPI {
                 PlayerManager.Instance.SelectedModel = "";
             }
             else {
-                AvatarDesciptor.Parse(JSON.JsonDecode(res) as Hashtable);
+                AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                 VirtualGoodsDesciptor.FilterBySex();
             }
@@ -114,8 +115,8 @@ public class UserAPI {
             try
             {
                 Debug.LogError(">>>> GamificationStatus " + res);
-                Hashtable gamificationstatus = JSON.JsonDecode(res) as Hashtable;
-                Points = (int)gamificationstatus["Points"];
+                    Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                Points = (int)(double)gamificationstatus["Points"];
                 Level = int.Parse(gamificationstatus["Level"] as string);
                     // No se porque no devuelve la XP.
                 }
@@ -154,18 +155,19 @@ public class UserAPI {
 
     public void UpdateAvatar()
     {
-		if (!Online)
-			return;
-        Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
-            Debug.LogError("UpdateAvatar " + res);
-        }, null);
+        if (Online) {
+            Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) =>
+            {
+                Debug.LogError("UpdateAvatar " + res);
+            }, null);
+        }
     }
 
     public void UpdateNick(string nick, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/CheckAlias?alias={0}", nick), (res) => {
             if (res == "true") {
-                Hashtable hs = new Hashtable();
+                Dictionary<string, object> hs = new Dictionary<string, object>();
                 hs.Add("Alias", nick);
                 Authentication.AzureServices.RequestJSON("put", "api/v1/fan/me/updatealias", hs, (res2) => {
                    Debug.LogError("UpdateNick " + res2);
@@ -180,6 +182,7 @@ public class UserAPI {
     }
 
     public void SendAvatar(byte[] bytes) {
+        if (!Online) return;
         Authentication.AzureServices.Request("put", "api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
             Debug.LogError("SendAvatar " + res);
         });
@@ -203,7 +206,7 @@ public class UserAPI {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
             if (res != "null") {
                 Debug.LogError(">>>> Rankings2 " + res);
-                Hashtable globalRanking = JSON.JsonDecode(res) as Hashtable;
+                Dictionary<string, object> globalRanking = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 if (globalRanking != null)
                 {
                     Exp = (int)globalRanking["GamingScore"];

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Photon;
 
@@ -14,9 +13,9 @@ public class RoomDefinition {
 	public bool PlayerVisible = true;
 	public byte MaxPlayers = 16;
     public bool HiddenObjects = false;
-    public Hashtable Doors;
-	public Hashtable Bundles;
-	public Hashtable Contents;
+    public Dictionary<string, object> Doors;
+	public Dictionary<string, object> Bundles;
+	public Dictionary<string, object> Contents;
 
 	public string _name;
 	public string Name {
@@ -65,26 +64,26 @@ public class RoomDefinition {
 		return door;
 	}
 	
-	public RoomDefinition(string id, string sceneName, Hashtable doors) {
+	public RoomDefinition(string id, string sceneName, Dictionary<string, object> doors) {
 		Id = id;
 		SceneName = sceneName;
 		Doors = doors;
 	}
 	
-	static public RoomDefinition LoadFromJSON(Hashtable jsonMap) {
+	static public RoomDefinition LoadFromJSON(Dictionary<string, object> jsonMap) {
 		RoomDefinition roomDefinition = new RoomDefinition(
 			jsonMap[KEY_ID] as string,
 			jsonMap[KEY_SCENE] as string,
-			jsonMap[KEY_DOORS] as Hashtable
-			);
+			jsonMap[KEY_DOORS] as Dictionary<string, object>
+            );
 		if (jsonMap.ContainsKey(KEY_NAME)) {
 			roomDefinition.Name = jsonMap[KEY_NAME] as string;
 		}
 		if (jsonMap.ContainsKey(KEY_CONTENTS)) {
-			roomDefinition.Contents = jsonMap[KEY_CONTENTS] as Hashtable;
+			roomDefinition.Contents = jsonMap[KEY_CONTENTS] as Dictionary<string, object>;
 		}
 		if (jsonMap.ContainsKey(KEY_BUNDLES)) {
-			roomDefinition.Bundles = jsonMap[KEY_BUNDLES] as Hashtable;
+			roomDefinition.Bundles = jsonMap[KEY_BUNDLES] as Dictionary<string, object>;
 		}
 		if (jsonMap.ContainsKey(KEY_GUI)) {
 			roomDefinition.Gui = jsonMap[KEY_GUI] as string;
@@ -131,7 +130,7 @@ public class RoomManager : Photon.PunBehaviour {
 	public TextAsset Sitemap;
 	public string RoomStart;
 
-	public Hashtable RoomDefinitions = new Hashtable();
+	public Dictionary<string, object> RoomDefinitions = new Dictionary<string, object>();
 
 	private Transform _pointOfInterest;
 	public Transform PointOfInterest {
@@ -175,7 +174,7 @@ public class RoomManager : Photon.PunBehaviour {
 		*/
     }
 
-    public IEnumerator Connect() {
+    public System.Collections.IEnumerator Connect() {
         RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);
 		if (roomLoaded != null) {
             // Shortcut 
@@ -266,7 +265,7 @@ public class RoomManager : Photon.PunBehaviour {
 		if (!_loadingRoom) StartCoroutine(LoadRoom(roomDefinition));
 	}
 
-	IEnumerator LoadRoom(RoomDefinition roomDefinition) {
+    System.Collections.IEnumerator LoadRoom(RoomDefinition roomDefinition) {
 		_loadingRoom = true;
 
 		RoomDefinition roomOld = Room;
@@ -339,7 +338,7 @@ public class RoomManager : Photon.PunBehaviour {
 		PointOfInterest = pointOfInterest;
 	}
 	
-	private IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
+	private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
 		Portal portal = null;
 
 		// Esperamos a que se haya inicializado correctamente la escena recien cargada
@@ -538,16 +537,11 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 	
 	private void LoadRooms() {
-		object json = JSON.JsonDecode(Sitemap.text);
-		if (json is Hashtable) {
-			Hashtable jsonMap = json as Hashtable;
-			ArrayList rooms = jsonMap[KEY_ROOMS] as ArrayList;
-			foreach (object room in rooms) {
-				if (room is Hashtable) {
-					RoomDefinition roomDefinition = RoomDefinition.LoadFromJSON(room as Hashtable);
-					RoomDefinitions.Add (roomDefinition.Id, roomDefinition);
-				}
-			}
+		Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(Sitemap.text) as Dictionary<string, object>;
+		List<object> rooms = jsonMap[KEY_ROOMS] as List<object>;
+		foreach (object room in rooms) {
+			RoomDefinition roomDefinition = RoomDefinition.LoadFromJSON(room as Dictionary<string, object>);
+			RoomDefinitions.Add (roomDefinition.Id, roomDefinition);
 		}
 	}
 	

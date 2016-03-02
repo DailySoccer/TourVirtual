@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CompactContent {
 	public int ASSET_TYPE_PHOTO = 0;
@@ -10,9 +11,9 @@ public class CompactContent {
 	public string Type;
 	public string Title;
 	public string Description;
-	public Hashtable Asset = new Hashtable();
+    public Dictionary<string, object> Asset = new Dictionary<string, object>();
 	public string CreationDate;
-	public ArrayList Links = new ArrayList();
+	public List<object> Links = new List<object>();
 	public string PublishedDate;
 	public int OrderInDay;
 	public bool HighLight;
@@ -45,15 +46,15 @@ public class CompactContent {
 	}
 
 	private void initFromJSON(object json) {
-		if (json is Hashtable) {
-			Hashtable jsonMap = json as Hashtable;
+		if (json is Dictionary<string, object>) {
+            Dictionary<string, object> jsonMap = json as Dictionary<string, object>;
 			
 			IdContent = jsonMap["IdContent"] as string;
 			Type = jsonMap["Type"] as string;
 			Title = jsonMap["Title"] as string;
 			Description = jsonMap["Description"] as string;
 
-			Asset = jsonMap["Asset"] as Hashtable;
+			Asset = jsonMap["Asset"] as Dictionary<string, object>;
 		}
 	}
 	

@@ -56,7 +56,7 @@ namespace HiddenObjects {
             // Crear una lista de objetos.
             List<HiddenObjectPosition> usefullRooms = new List<HiddenObjectPosition>();
 
-            foreach (DictionaryEntry pair in RoomManager.Instance.RoomDefinitions) {
+            foreach (var pair in RoomManager.Instance.RoomDefinitions) {
                 RoomDefinition rd = pair.Value as RoomDefinition;
                 if(rd.HiddenObjects) {
                     for (int i = 0; i < objectByRoom; ++i)

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,24 +19,29 @@ public class StartCanvasManager : CanvasManager {
 	}
 	
 	void Update () {
-		if (MainManager.Instance.Ready) {
-			if (!enterButton.gameObject.activeSelf) {
-				bttEffects = enterButton.gameObject.GetComponents<IAnimated>().ToList();
-				enterButton.gameObject.SetActive(true);
-				bttEffects.ForEach(c => c.Open(1f));
-			}
+        if (MainManager.Instance.Ready)
+        {
+            if (!enterButton.gameObject.activeSelf)
+            {
+                bttEffects = enterButton.gameObject.GetComponents<IAnimated>().ToList();
+                enterButton.gameObject.SetActive(true);
+                bttEffects.ForEach(c => c.Open(1f));
+            }
 
-			if (!_initialized) {
-				if (Input.anyKey/*GetMouseButton(0)*/ || Input.touchCount > 0) {
-					if (RoomManager.Instance != null) {
-						_initialized = true;
-						if (startSound != null) startSound.Play();
+            if (!_initialized)
+            {
+                if (Input.anyKey/*GetMouseButton(0)*/ || Input.touchCount > 0)
+                {
+                    if (RoomManager.Instance != null)
+                    {
+                        _initialized = true;
+                        if (startSound != null) startSound.Play();
                         // Inicia la conexion con el servidor PUN.
-						StartCoroutine( RoomManager.Instance.Connect() );
-					}
-				}
-			}
-		}
+                        StartCoroutine(RoomManager.Instance.Connect());
+                    }
+                }
+            }
+        }
 	}
 
 	private bool _initialized = false;

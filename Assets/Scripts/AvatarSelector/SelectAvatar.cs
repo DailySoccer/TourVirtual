@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class SelectAvatar : MonoBehaviour {
     public int shownModel = 0;
@@ -36,7 +36,7 @@ public class SelectAvatar : MonoBehaviour {
                 break;
         }
         UserAPI.AvatarDesciptor.Gender = gender;
-        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as ArrayList).Count;
+        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as List<object>).Count;
         UpdateAvatarDesciptor();
         StartCoroutine(LoadModel());
     }
@@ -63,7 +63,7 @@ public class SelectAvatar : MonoBehaviour {
         }));
 	}
 	
-	IEnumerator LoadModel() {
+	System.Collections.IEnumerator LoadModel() {
 		if (lastInstance != null) Destroy(lastInstance);
         yield return StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
             lastInstance = instance;
@@ -74,7 +74,7 @@ public class SelectAvatar : MonoBehaviour {
 
     void UpdateAvatarDesciptor() {
         // Pillar los descriptores de cara y pelo de algun sitio
-        Hashtable headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as ArrayList)[shownModel] as Hashtable;
+        Dictionary<string, object> headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as List<object>)[shownModel] as Dictionary<string,object>;
         UserAPI.AvatarDesciptor.Hair = headesc["Hair"] as string;
         UserAPI.AvatarDesciptor.Head = headesc["Head"] as string;
         UserAPI.AvatarDesciptor.Body = "";
@@ -85,8 +85,7 @@ public class SelectAvatar : MonoBehaviour {
     }
 
     void OnEnable() {
-
-        maxModel = (PlayerManager.Instance.Heads["Man"] as ArrayList).Count;
+        maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
         OnSelectGender("Man");
  	}
     /*

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using BestHTTP;
 
 public class AzureInterfaz {
     protected MonoBehaviour component;
@@ -93,50 +93,97 @@ public class AzureInterfaz {
     }
 
 
-#if !UNITY_WSA
-    void checkResult(RequestEvent ok, RequestEvent error, HTTP.Request request) {
-        if (request.response.status != 200) {
-            if (error != null) error(request.response.status.ToString());
-            Debug.LogError("ERROR(" + request.response.status + " : " + request.uri + ") >>>  " + request.response.Text);
+    
+    void checkResult(RequestEvent ok, RequestEvent error, HTTPRequest request)
+    {
+        if (request.Response.StatusCode != 200) {
+            if (error != null) error(request.Response.StatusCode.ToString());
+            Debug.LogError("ERROR(" + request.Response.StatusCode + " : " + request.Uri + ") >>>  " + request.Response.Message);
         }
         else {
-            if (ok != null) ok(request.response.Text);
+            if (ok != null) ok(MyTools.AsciiToString(request.Response.Data));
         }
     }
 
     public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null) {
-        HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url));
-		yield return component.StartCoroutine( AddAuthorization(request) );
+        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)));
+        request.MethodType = HTTPMethods.Get;
+        request.DisableCache = true;
+        yield return component.StartCoroutine(AddAuthorization(request));
         request.Send();
-        while (!request.isDone) { yield return null; }
-        checkResult(ok, error, request);
+        while (request.State < HTTPRequestStates.Finished) yield return null;
+        checkResult(ok, error, request );
     }
 
     public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
+        Debug.LogError("2");
+        HTTPRequest request;
+        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Post);
+        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        request.AddHeader("Content-Type", "application/json");
+        request.RawData = MyTools.GetBytes(value);
+        yield return component.StartCoroutine(AddAuthorization(request));
+        request.Send();
+        while (request.State < HTTPRequestStates.Finished) yield return null;
+        checkResult(ok, error, request);
+/*
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), value);
 		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
+*/
     }
 
     public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
     {
+        Debug.LogError("3");
+        HTTPRequest request;
+        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Post);
+        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        request.AddHeader("Content-Type", "application/json");
+        request.RawData = MyTools.GetBytes(BestHTTP.JSON.Json.Encode(json));
+        yield return component.StartCoroutine(AddAuthorization(request));
+        request.Send();
+        while (request.State < HTTPRequestStates.Finished) yield return null;
+        checkResult(ok, error, request);
+/*
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), json as object);
 		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
+*/
     }
 
     public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
+        Debug.LogError("4");
+        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        request.AddHeader("Content-Type", "application/json");
+        request.RawData = array;
+        yield return component.StartCoroutine(AddAuthorization(request));
+        request.Send();
+        while (request.State < HTTPRequestStates.Finished) yield return null;
+        checkResult(ok, error, request);
+
+/*
         HTTP.Request request = new HTTP.Request(mode, string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url), array);
 		yield return component.StartCoroutine( AddAuthorization(request) );
         request.Send();
         while (!request.isDone) { yield return null; }
         checkResult(ok, error, request);
+*/
     }
-
+    
+    protected IEnumerator AddAuthorization(HTTPRequest request)
+    {
+        yield return component.StartCoroutine(AskForAccessToken());
+        // pido el token a la liberia
+        string scheme = "Bearer";
+        string authorization = string.Format("{0} {1}", scheme, AccessToken);
+        request.AddHeader("Authorization", authorization);
+    }
+    /*
     protected IEnumerator AddAuthorization(HTTP.Request request) {
 		yield return component.StartCoroutine( AskForAccessToken () );
 		// pido el token a la liberia
@@ -144,30 +191,7 @@ public class AzureInterfaz {
 		string authorization = string.Format("{0} {1}", scheme, AccessToken);
         request.AddHeader("Authorization", authorization);
     }
-#else
-
-    public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null)
-    {
-        yield return null;
-    }
-
-    public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null)
-    {
-        yield return null;
-    }
-
-    public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
-    {
-        yield return null;
-    }
-
-    public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null)
-    {
-        yield return null;
-    }
-
-
-#endif
+    */
     private const string SPANISH_LANGUAGE = "es-es";
     private const string ENGLISH_LANGUAGE = "en-us";
     private const string DEFAULT_LANGUAGE = SPANISH_LANGUAGE;

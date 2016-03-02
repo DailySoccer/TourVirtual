@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class VirtualGoodsAPI { 
     public class VirtualGood {
@@ -21,19 +21,19 @@ public class VirtualGoodsAPI {
         }
     }
 
-    public Hashtable VirtualGoods;
+    public Dictionary<string, VirtualGood> VirtualGoods;
 
     public VirtualGood GetByGUID(string guid)
     {
         if (VirtualGoods.ContainsKey(guid))
-            return VirtualGoods[guid] as VirtualGood;
+            return VirtualGoods[guid];
         return null;
     }
 
     public VirtualGood GetByID(string id)
     {
-        foreach (DictionaryEntry pair in VirtualGoods) {
-            VirtualGood v = pair.Value as VirtualGood;            
+        foreach (var pair in VirtualGoods) {
+            VirtualGood v = pair.Value;
             if (v.InternalID == id) return v;
         }
         return null;
@@ -76,31 +76,31 @@ public class VirtualGoodsAPI {
 
     public void FAKE()
     {
-        VirtualGoods = new Hashtable();
-        Hashtable virtualgoods = JSON.JsonDecode(auxData) as Hashtable;
+        VirtualGoods = new Dictionary<string, VirtualGood>();
+        Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(auxData) as Dictionary<string, object>;
         if (virtualgoods != null)
         {
-            ArrayList results = virtualgoods["Results"] as ArrayList;
-            foreach (Hashtable vg in results)
+            List<object> results = virtualgoods["Results"] as List<object>;
+            foreach (Dictionary<string,object> vg in results)
             {
                 if ((bool)vg["CanBeUsedInAvatar"])
                 {
                     string guid = vg["IdVirtualGood"] as string;
                     string subtype = vg["IdSubType"] as string;
-                    string desc = ((vg["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                    string IID = ((vg["Url"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                    float value = vg.ContainsKey("Price") ? (float)(((vg["Price"] as ArrayList)[0] as Hashtable)["Price"]) : 0.0f;
+                    string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                    string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                    float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]) : 0.0f;
                     VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string);
                     VirtualGoods.Add(guid, tmp);
                 }
             }
         }
         // Mis virtual goods.
-        Hashtable myvirtualgoods = JSON.JsonDecode(auxData2) as Hashtable;
+        Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(auxData2) as Dictionary<string, object>;
         if (myvirtualgoods != null)
         {
-            ArrayList myresults = myvirtualgoods["Results"] as ArrayList;
-            foreach (Hashtable vg in myresults)
+            List<object> myresults = myvirtualgoods["Results"] as List<object>;
+            foreach (Dictionary<string, object> vg in myresults)
             {
                 string guid = vg["IdVirtualGood"] as string;
                 if (VirtualGoods.ContainsKey(guid))
@@ -111,12 +111,12 @@ public class VirtualGoodsAPI {
             }
         }
 
-
-
     }
 
-    public IEnumerator AwaitRequest(){
-        VirtualGoods = new Hashtable();
+//>>> virtualgoods {"CurrentPage":1,"PageSize":10,"PageCount":1,"TotalItems":9,"Results":[{"IdVirtualGood":"1bf6687b-bdf3-4906-83d7-118018f71b37","Description":[{"Locale":"en-us","Description":"MTorso11"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/1bf6687b-bdf3-4906-83d7-118018f71b37.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/1bf6687b-bdf3-4906-83d7-118018f71b37_thumbnail.png","Url":[{"Locale":"en-us","Description":"MTorso11"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":0.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"MTORSO","CanBeUsedInAvatar":true},{"IdVirtualGood":"1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a","Description":[{"Locale":"en-us","Description":"HPiernas01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/1dfcd4f6-6f38-4dd2-bfa9-6f7641d6253a_thumbnail.png","Url":[{"Locale":"en-us","Description":"HPiernas01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":0.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"HLEG","CanBeUsedInAvatar":true},{"IdVirtualGood":"2252658f-738a-4fb9-a21b-ee6ec88b5dee","Description":[{"Locale":"en-us","Description":"MPies01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/2252658f-738a-4fb9-a21b-ee6ec88b5dee.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/2252658f-738a-4fb9-a21b-ee6ec88b5dee_thumbnail.png","Url":[{"Locale":"en-us","Description":"MPies01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":1.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"MSHOE","CanBeUsedInAvatar":true},{"IdVirtualGood":"438ca85c-b364-429a-88ee-78ac14d7b47d","Description":[{"Locale":"en-us","Description":"HCabeza01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/438ca85c-b364-429a-88ee-78ac14d7b47d.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/438ca85c-b364-429a-88ee-78ac14d7b47d_thumbnail.png","Url":[{"Locale":"en-us","Description":"HCabeza01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":0.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":300,"CanBeGiven":false,"CanBeUsed":true,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"HHEAD","CanBeUsedInAvatar":true},{"IdVirtualGood":"4d229050-fd95-4492-bcff-2ceecf8115b8","Description":[{"Locale":"en-us","Description":"Content Test Pack  1"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/4d229050-fd95-4492-bcff-2ceecf8115b8.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/4d229050-fd95-4492-bcff-2ceecf8115b8_thumbnail.png","Url":[{"Locale":"en-us","Description":"TESTPACK1"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":1.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"CONTENT","CanBeUsedInAvatar":false},{"IdVirtualGood":"66092685-b049-46dd-8f53-04f333e3b1c4","Description":[{"Locale":"en-us","Description":"MPiernas01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/66092685-b049-46dd-8f53-04f333e3b1c4.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/66092685-b049-46dd-8f53-04f333e3b1c4_thumbnail.png","Url":[{"Locale":"en-us","Description":"MPiernas01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":0.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":300,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"MLEG","CanBeUsedInAvatar":true},{"IdVirtualGood":"8dd68e06-ab9e-4dab-9f28-a6f5c697e18f","Description":[{"Locale":"en-us","Description":"HPies01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/8dd68e06-ab9e-4dab-9f28-a6f5c697e18f.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/8dd68e06-ab9e-4dab-9f28-a6f5c697e18f_thumbnail.png","Url":[{"Locale":"en-us","Description":"HPies01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":1.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"HSHOE","CanBeUsedInAvatar":true},{"IdVirtualGood":"bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3","Description":[{"Locale":"en-us","Description":"MCabeza01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3_thumbnail.png","Url":[{"Locale":"en-us","Description":"MCabeza01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":0.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"HEADS","CanBeUsedInAvatar":true},{"IdVirtualGood":"d8551f4f-8301-47b2-87be-8c0077afbb05","Description":[{"Locale":"en-us","Description":"HTorso01"}],"PictureUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05.png","ThumbnailUrl":"https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05_thumbnail.png","Url":[{"Locale":"en-us","Description":"HTorso01"}],"ValueInPoints":0,"Price":[{"UserType":0,"Price":1.0,"CoinType":1}],"Enabled":true,"MinAge":0,"ExpirationInDays":0,"CanBeGiven":false,"CanBeUsed":false,"IdType":"AVATARVG","Highlight":false,"HighLightInCategory":false,"IdSubType":"HTORSO","CanBeUsedInAvatar":true}],"HasMoreResults":false}
+
+    public System.Collections.IEnumerator AwaitRequest(){
+        VirtualGoods = new Dictionary<string, VirtualGood>();
         bool needRequest = true;
         int page = 1;
 
@@ -124,17 +124,17 @@ public class VirtualGoodsAPI {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
                     Debug.LogError(">>> virtualgoods " + res);
-                    Hashtable virtualgoods = JSON.JsonDecode(res) as Hashtable;
+                    Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (virtualgoods != null) {
-                        ArrayList results = virtualgoods["Results"] as ArrayList;
-                        foreach (Hashtable vg in results) {
+                        List<object> results = virtualgoods["Results"] as List<object>;
+                        foreach (Dictionary<string, object> vg in results) {
 //                            if ((bool)vg["CanBeUsedInAvatar"])
                             {
                                 string guid = vg["IdVirtualGood"] as string;
                                 string subtype = vg["IdSubType"] as string;                                
-                                string desc = ((vg["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                                string IID = ((vg["Url"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                                float value = vg.ContainsKey("Price") ? (float)(((vg["Price"] as ArrayList)[0] as Hashtable)["Price"]):0.0f;
+                                string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                                float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]):0.0f;
                                 VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string );
                                 VirtualGoods.Add(guid, tmp);
                             }
@@ -158,10 +158,10 @@ public class VirtualGoodsAPI {
                 if (res != "null"){
                     Debug.LogError(">>> MY virtualgoods " + res);
 
-                    Hashtable myvirtualgoods = JSON.JsonDecode(res) as Hashtable;
+                    Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myvirtualgoods != null){
-                        ArrayList myresults = myvirtualgoods["Results"] as ArrayList;
-                        foreach (Hashtable vg in myresults){
+                        List<object> myresults = myvirtualgoods["Results"] as List<object>;
+                        foreach (Dictionary<string, object> vg in myresults){
                             string guid = vg["IdVirtualGood"] as string;
                             if (VirtualGoods.ContainsKey(guid)){
                                 VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
@@ -182,8 +182,8 @@ public class VirtualGoodsAPI {
 
     public void FilterBySex( )
     {
-        Hashtable tmp = new Hashtable();
-        foreach(DictionaryEntry pair in VirtualGoods) {
+        Dictionary<string, VirtualGood> tmp = new Dictionary<string, VirtualGood>();
+        foreach (var pair in VirtualGoods) {
             if (UserAPI.AvatarDesciptor.Gender == "Male") {
                 if ((pair.Value as VirtualGood).IdSubType[0] == 'H')
                     tmp.Add(pair.Key, pair.Value);
@@ -206,7 +206,7 @@ public class VirtualGoodsAPI {
             VirtualGood vg = (VirtualGood)VirtualGoods[guid];
             if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){
                 // No lo tengo y tengo la pasta.
-                ArrayList ar = new ArrayList();
+                List<object> ar = new List<object>();
                 ar.Add(guid.ToString());
                 Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
                     Debug.LogError("Buy VirtualGood >>>> " + res);

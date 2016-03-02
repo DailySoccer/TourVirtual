@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Photon;
 
@@ -21,15 +20,15 @@ public class PlayerManager : Photon.PunBehaviour {
     public Texture2D textureNumbers;
     public float textureSize = 512;
 
-    public Hashtable Hairs;
-    public Hashtable Heads;
-    public Hashtable Bodies;
-    public Hashtable Legs;
-    public Hashtable Feet;
-    public Hashtable Compliments;
-    public Hashtable Selector;
+    public Dictionary<string, object> Hairs;
+    public Dictionary<string, object> Heads;
+    public Dictionary<string, object> Bodies;
+    public Dictionary<string, object> Legs;
+    public Dictionary<string, object> Feet;
+    public Dictionary<string, object> Compliments;
+    public Dictionary<string, object> Selector;
 
-    ArrayList packsList;
+    List<object> packsList;
 
 
     void Start () {
@@ -114,32 +113,32 @@ public class PlayerManager : Photon.PunBehaviour {
 		// Set the PhotonView
 	}
 
-    public IEnumerator CacheClothes()
+    public System.Collections.IEnumerator CacheClothes()
     {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
-            Hashtable json = JSON.JsonDecode(bundle.LoadAsset<TextAsset>("cloths").text) as Hashtable;
-            Heads   = json["Heads"] as Hashtable;
-            Hairs   = json["Hairs"] as Hashtable;
-            Bodies  = json["Bodies"] as Hashtable;
-            Legs    = json["Legs"] as Hashtable;
-            Feet = json["Feet"] as Hashtable;
-            Compliments = json["Compliments"] as Hashtable;
-            Selector = json["Selector"] as Hashtable;
-            packsList = json["packs"] as ArrayList;
+            Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
+            Heads   = json["Heads"] as Dictionary<string, object>;
+            Hairs   = json["Hairs"] as Dictionary<string, object>;
+            Bodies  = json["Bodies"] as Dictionary<string, object>;
+            Legs    = json["Legs"] as Dictionary<string, object>;
+            Feet = json["Feet"] as Dictionary<string, object>;
+            Compliments = json["Compliments"] as Dictionary<string, object>;
+            Selector = json["Selector"] as Dictionary<string, object>;
+            packsList = json["packs"] as List<object>;
         }));
     }
 
     public delegate void callback(GameObject instance);
-    public IEnumerator CreateAvatar(string model, callback callback=null) {
+    public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
 
-        Hashtable hairDesc = GetDescriptor(Hairs[section[0]] as ArrayList, section[1]);
-        Hashtable headDesc = GetDescriptor(Heads[section[0]] as ArrayList, section[2]);
-        Hashtable bodyDesc = GetDescriptor(Bodies[section[0]] as ArrayList, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Gender] as ArrayList)[0] as Hashtable)["id"] as string);
-        Hashtable legsDesc = GetDescriptor(Legs[section[0]] as ArrayList, !string.IsNullOrEmpty(section[4]) ? section[4] : ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Gender] as ArrayList)[0] as Hashtable)["id"] as string);
-        Hashtable feetDesc = GetDescriptor(Feet[section[0]] as ArrayList, !string.IsNullOrEmpty(section[5]) ? section[5] : ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Gender] as ArrayList)[0] as Hashtable)["id"] as string);
+        Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
+        Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);
+        Dictionary<string, object> bodyDesc = GetDescriptor(Bodies[section[0]] as List<object>, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string,object>)["id"] as string);
+        Dictionary<string, object> legsDesc = GetDescriptor(Legs[section[0]] as List<object>, !string.IsNullOrEmpty(section[4]) ? section[4] : ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
+        Dictionary<string, object> feetDesc = GetDescriptor(Feet[section[0]] as List<object>, !string.IsNullOrEmpty(section[5]) ? section[5] : ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
 
-        Hashtable compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as ArrayList, section[6]);
+        Dictionary<string, object> compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as List<object>, section[6]);
 
         GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
         lastInstance.transform.position = Vector3.zero;
@@ -163,7 +162,7 @@ public class PlayerManager : Photon.PunBehaviour {
             GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
             GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
 
-            ArrayList hairTextures = hairDesc["textures"] as ArrayList;
+            List<object> hairTextures = hairDesc["textures"] as List<object>;
             Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string));
             Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string));
@@ -228,10 +227,10 @@ public class PlayerManager : Photon.PunBehaviour {
             SetLayerRecursively(child.gameObject, newLayer);
     }
 
-    Hashtable GetDescriptor(ArrayList list, string id) {
-        foreach (Hashtable ele in list)
+    Dictionary<string,object> GetDescriptor(List<object> list, string id) {
+        foreach (Dictionary<string, object> ele in list)
             if (ele["id"] as string == id)
-                return ele as Hashtable;
+                return ele as Dictionary<string, object>;
         return null;
     }
 

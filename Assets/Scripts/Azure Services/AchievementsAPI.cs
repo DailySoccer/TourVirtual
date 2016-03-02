@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 
 
@@ -24,7 +24,7 @@ public class AchievementsAPI{
             earned = false;
         }
     }
-    public Hashtable Achievements;
+    public Dictionary<string, Achievement> Achievements;
 
     public int TotalAchievements;
     public int EarnedAchievements;
@@ -77,62 +77,60 @@ public class AchievementsAPI{
 
     public void FAKE()
     {
-		TotalAchievements = 0;
-		Achievements = new Hashtable();
-        ArrayList results = JSON.JsonDecode(auxData) as ArrayList;
-        foreach (Hashtable ele in results)
+        List<object> results = BestHTTP.JSON.Json.Decode(auxData) as List<object>;
+        foreach (Dictionary<string,object> ele in results)
         {
             string guid = ele["IdAchievement"] as string;
             string iname = ele["Name"] as string;
-            string name = ((ele["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
-            int points = (int)ele["Points"];
-            int level = (int)ele["Level"];
-            string description = ((ele["LevelName"] as ArrayList)[0] as Hashtable)["Description"] as string;
-            string imageUrl = ele["ImageUrl "] as string;
+            string name = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+            int points = (int)(double)ele["Points"];
+            int level = (int)(double)ele["Level"];
+            string description = ((ele["LevelName"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+            string imageUrl = ele["ImageUrl"] as string;
             // string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
             Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl);
             Achievements.Add(guid + "|" + level, tmp);
             TotalAchievements++;
         }
 
-        Hashtable myachievements = JSON.JsonDecode(auxData2) as Hashtable;
+        Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(auxData2) as Dictionary<string, object>;
         if (myachievements != null)
         {
-            ArrayList myresults = myachievements["Results"] as ArrayList;
-            foreach (Hashtable ele in myresults)
+            List<object> myresults = myachievements["Results"] as List<object>;
+            foreach (Dictionary<string, object> ele in myresults)
             {
                 string guid = ele["IdAchievement"] as string;
-                int level = (int)ele["Level"];
+                int level = (int)(double)ele["Level"];
                 string aux = guid + "|" + level;
                 if (Achievements.ContainsKey(aux))
                 {
-                    Achievement myvg = (Achievement)Achievements[aux];
-                    myvg.earned = true;
+                    Achievements[aux].earned = true;
                     EarnedAchievements++;
                 }
             }
         }
     }
 
-    public IEnumerator AwaitRequest()
+    public System.Collections.IEnumerator AwaitRequest()
     {
         TotalAchievements = 0;
-        Achievements = new Hashtable();
+        Achievements = new Dictionary<string, Achievement>();
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/achievements?achievementConfigurationType=VIRTUALTOUR&idClient={0}&language={1}", Authentication.IDClient, Authentication.AzureServices.MainLanguage), (res) =>
         {
             if (res != "null")
             {
                 Debug.LogError(">>> Achievements " + res);
-                ArrayList results = JSON.JsonDecode(res) as ArrayList;
-                foreach (Hashtable ele in results)
+                List<object> results = BestHTTP.JSON.Json.Decode(res) as List<object>;
+                foreach (Dictionary<string, object> ele in results)
                 {
                     string guid = ele["IdAchievement"] as string;
                     string iname = ele["Name"] as string;
-                    string name = ((ele["Description"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                    int points = (int)ele["Points"];
-                    int level = (int)ele["Level"];
-                    string description = ((ele["LevelName"] as ArrayList)[0] as Hashtable)["Description"] as string;
-                    string imageUrl = ele["ImageUrl "] as string;
+                    string name = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+
+                    int points = (int)(double)ele["Points"];
+                    int level = (int)(double)ele["Level"];
+                    string description = ((ele["LevelName"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                    string imageUrl = ele["ImageUrl"] as string;
                     // string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
                     Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl);
                     Achievements.Add(guid + "|" + level, tmp);
@@ -145,7 +143,7 @@ public class AchievementsAPI{
         yield return Authentication.Instance.StartCoroutine(AwaitAchievementEarned(false));
     }
 
-    public IEnumerator AwaitAchievementEarned(bool refresh =true) {
+    public System.Collections.IEnumerator AwaitAchievementEarned(bool refresh =true) {
         bool needRequest = true;
         EarnedAchievements = 0;
 //        string service = "api/v1/fan/me/Achievements?type=VIRTUALTOUR?";
@@ -156,19 +154,18 @@ public class AchievementsAPI{
                 if (res != "null")
                 {
                     Debug.LogError(">>> MY achievements " + res);
-                    Hashtable myachievements = JSON.JsonDecode(res) as Hashtable;
+                    Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myachievements != null)
                     {
-                        ArrayList myresults = myachievements["Results"] as ArrayList;
-                        foreach (Hashtable ele in myresults)
+                        List<object> myresults = myachievements["Results"] as List<object>;
+                        foreach (Dictionary<string, object> ele in myresults)
                         {
                             string guid = ele["IdAchievement"] as string;
-                            int level = (int)ele["Level"];
+                            int level = (int)(double)ele["Level"];
                             string aux = guid + "|" + level;
                             if (Achievements.ContainsKey(aux))
                             {
-                                Achievement myvg = (Achievement)Achievements[aux];
-                                myvg.earned = true;
+                                Achievements[aux].earned = true;
                                 EarnedAchievements++;
                                 if (refresh) {
                                     Debug.LogError(">>>>>>>>>> RETO RECIEN GANADO " + aux);
@@ -192,7 +189,7 @@ public class AchievementsAPI{
     }
 
     public void SedAction(string guid ) {
-        Hashtable hs = new Hashtable();
+        Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("ActionId", guid );
         hs.Add("ClientId", Authentication.IDClient);
         Authentication.AzureServices.RequestPostJSON( "api/v1/useractions", hs, (res) => {

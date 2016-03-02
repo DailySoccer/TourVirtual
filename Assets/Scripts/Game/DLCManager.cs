@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class AssetDefinition {
@@ -12,7 +11,7 @@ public class AssetDefinition {
         // Debug.Log (string.Format("AssetDefinition: Id: {0} Version: {1}", Id, Version));
     }
 	
-	static public AssetDefinition LoadFromJSON(Hashtable jsonMap) {
+	static public AssetDefinition LoadFromJSON(Dictionary<string, object> jsonMap) {
 		AssetDefinition assetDefinition = new AssetDefinition(
 			jsonMap[KEY_ID] as string,
 			System.Convert.ToInt32(jsonMap[KEY_VERSION])
@@ -77,36 +76,27 @@ public class DLCManager : MonoBehaviour {
 		AssetResources.Clear();
 	}
 
-    public IEnumerator LoadVersion()
+    public System.Collections.IEnumerator LoadVersion()
     {
         using (WWW www = new WWW(BaseUrl + "assetbundles.json"))
         {
             yield return www;
             if (string.IsNullOrEmpty(www.error))
             {
-                object json = JSON.JsonDecode(www.text);
-                if (json is Hashtable)
-                {
-                    Hashtable jsonMap = json as Hashtable;
-                    ArrayList assets = jsonMap[KEY_ASSETS] as ArrayList;
-                    foreach (object asset in assets)
-                    {
-
-                        if (asset is Hashtable)
-                        {
-                            AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset as Hashtable);
-                            // CACA: esto es para que solo cachee estos ficheros
-                            if (assetDefinition.Id == "scene/avatar_select" || assetDefinition.Id == "avatars")
-                                AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
-                        }
-                    }
+                Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(www.text) as Dictionary<string, object>;
+                List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
+                foreach (Dictionary<string, object> asset in assets) {
+                    AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
+                    // CACA: esto es para que solo cachee estos ficheros
+                    if (assetDefinition.Id == "scene/avatar_select" || assetDefinition.Id == "avatars")
+                        AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                 }
             }
             else
                 LoadDefinitions();
         }
     }
-    public IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
+    public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
 			yield break;
 		}
@@ -149,7 +139,7 @@ public class DLCManager : MonoBehaviour {
     WWW current;
     string currentName;
 
-    public IEnumerator CacheResources() {
+    public System.Collections.IEnumerator CacheResources() {
         // Wait for the Caching system to be ready
         while (!Caching.ready)
 			yield return null;
@@ -198,16 +188,11 @@ public class DLCManager : MonoBehaviour {
 			Debug.Log ("DLCManager: AssetBundles: Default");
 		}
 
-		object json = JSON.JsonDecode(jsonFile.text);
-		if (json is Hashtable) {
-			Hashtable jsonMap = json as Hashtable;
-			ArrayList assets = jsonMap[KEY_ASSETS] as ArrayList;
-			foreach (object asset in assets) {
-				if (asset is Hashtable) {
-					AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset as Hashtable);
-					AssetDefinitions.Add (assetDefinition.Id, assetDefinition);
-				}
-			}
+		Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(jsonFile.text) as Dictionary<string, object>;
+        List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
+		foreach (Dictionary<string, object> asset in assets) {
+			AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
+			AssetDefinitions.Add (assetDefinition.Id, assetDefinition);
 		}
 	}
 

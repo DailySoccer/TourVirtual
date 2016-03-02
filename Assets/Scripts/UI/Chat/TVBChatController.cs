@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 
 public class TVBChatController : MonoBehaviour {
@@ -51,7 +50,7 @@ public class TVBChatController : MonoBehaviour {
 	/// </summary>
 	private List<GameObject> _messagesGameObjects = new List<GameObject>();
 	
-	private Dictionary<string, ArrayList> _friendChats = new Dictionary<string, ArrayList>();
+	private Dictionary<string, List<object>> _friendChats = new Dictionary<string, List<object>>();
 
 	private string currentChannelName = "";
 	private string currentChannelFriendlyName = "";
@@ -159,7 +158,7 @@ public class TVBChatController : MonoBehaviour {
 		
 		if (_friendChats.ContainsKey(channelName)) {
 			//Fecha/hora de ultima actualizacion
-			Hashtable msg = _friendChats[channelName][_friendChats[channelName].Count-1] as Hashtable;
+			Dictionary<string,object> msg = _friendChats[channelName][_friendChats[channelName].Count-1] as Dictionary<string, object>;
 			DateTime lastMessageDateTime = msg.toChatMessage().GetMessageDate();
 			
 			if (lastMessageDateTime.AddDays(1).ToShortDateString() == DateTime.Now.ToShortDateString()) { // Si el mensaje es de ayer ==> "AYER"
@@ -171,7 +170,7 @@ public class TVBChatController : MonoBehaviour {
 			}
 			
 			//Mensajes no leidos:
-			int unreadedCount = (from Hashtable hash in _friendChats[channelName] 
+			int unreadedCount = (from Dictionary<string, object> hash in _friendChats[channelName] 
 			             where (bool)hash["readed"] == false
 			             select hash).Count ();
 			channel.GetComponentInChildren<BadgeAlert>().Count = unreadedCount;
@@ -264,7 +263,7 @@ public class TVBChatController : MonoBehaviour {
 		int counter = 0;
 
 		foreach(string key in _friendChats.Keys) {
-			foreach (Hashtable hash in _friendChats[key]) {
+			foreach (Dictionary<string, object> hash in _friendChats[key]) {
 				if ((bool)hash["readed"] == false) {
 					counter++;
 				}
@@ -308,7 +307,7 @@ public class TVBChatController : MonoBehaviour {
 		List<ChatMessage> channelMessages = new List<ChatMessage>();
 
 		if ( _friendChats.ContainsKey(channelName) ) {
-			foreach (Hashtable line in _friendChats[channelName]) {
+			foreach (Dictionary<string, object> line in _friendChats[channelName]) {
 				channelMessages.Add(line.toChatMessage());
 			}
 		}
@@ -341,7 +340,7 @@ public class TVBChatController : MonoBehaviour {
 		}
 		// Descartamos los que ya estan en local
 		foreach(ChatMessage cht in messages) {
-			bool messageAlreadyInLocal = (	from Hashtable hash in _friendChats[channel]
+			bool messageAlreadyInLocal = (	from Dictionary<string, object> hash in _friendChats[channel]
 											where (string)hash["sender"] == cht.Sender
 							                   && (string)hash["text"] == cht.Text
 											select hash
@@ -366,7 +365,7 @@ public class TVBChatController : MonoBehaviour {
 	void SaveMessagesInLocal(string channel, List<ChatMessage> messages) {
 		foreach( ChatMessage m in messages) {
 			if (!_friendChats.ContainsKey(channel)) {
-				_friendChats.Add(channel, new ArrayList());
+				_friendChats.Add(channel, new List<object>());
 			}
 
 			m.Readed = false;
@@ -380,31 +379,31 @@ public class TVBChatController : MonoBehaviour {
 	}
 
 	void SetMessagesAsReaded(string currentChannelName) {
-		foreach (Hashtable hash in _friendChats[currentChannelName]) {
+		foreach (Dictionary<string, object> hash in _friendChats[currentChannelName]) {
 			hash["readed"] = true;
 		}
 	}
 	
 	void SerializeAndSaveChats() {
-		Hashtable data = new Hashtable();
+        Dictionary<string, object> data = new Dictionary<string, object>();
         foreach (var pair in _friendChats)
             data.Add(pair.Key, pair.Value);
-        string friend_chats = JSON.JsonEncode(data);
+        string friend_chats = BestHTTP.JSON.Json.Encode(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
 	}
 	
 	void DeserializeAndLoadChats() {
 		string jsonString = PlayerPrefs.GetString("friend_chats");
-		Hashtable data = JSON.JsonDecode(jsonString) as Hashtable;
+        Dictionary<string, object> data = BestHTTP.JSON.Json.Decode(jsonString) as Dictionary<string, object>;
 		
 		
 		_friendChats.Clear();
 		foreach(string key in data.Keys) {
 			if (!_friendChats.ContainsKey(key)) {
-				_friendChats.Add(key, new ArrayList());
+				_friendChats.Add(key, new List<object>());
 			}
-			foreach(Hashtable message in data[key] as ArrayList) {
+			foreach(Dictionary<string, object> message in data[key] as List<object>) {
 				_friendChats[key].Add(message);
 			}
 		}
