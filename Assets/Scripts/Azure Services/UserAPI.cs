@@ -154,6 +154,8 @@ public class UserAPI {
 
     public void UpdateAvatar()
     {
+		if (!Online)
+			return;
         Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) => {
             Debug.LogError("UpdateAvatar " + res);
         }, null);

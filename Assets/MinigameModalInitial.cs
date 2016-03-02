@@ -11,7 +11,10 @@ public class MinigameModalInitial : MonoBehaviour {
 
 	public UserAPI.MiniGame MinigameType = UserAPI.MiniGame.FreeShoots;
 
+	public int MAX_RANKING_COUNT = 6;
+
 	List<GameObject> rankingSlots = new List<GameObject>();
+
 
 
 	// Use this for initialization
@@ -38,17 +41,24 @@ public class MinigameModalInitial : MonoBehaviour {
 
 		UserAPI.ScoreEntry[] ranking;
 		if (UserAPI.Instance == null) {
-			ranking = new UserAPI.ScoreEntry[0];
+			ranking = new UserAPI.ScoreEntry[MAX_RANKING_COUNT];
+			for (int i = 0; i < ranking.Length; i++ ) {
+				ranking[i].Nick = "Noname-" + i.ToString();
+				ranking[i].Score = 10 - i;
+			}
 			Debug.LogError("[MinigameModalInitial in " + name + "]: No se ha iniciado el UserAPI. El Ranking estará vacío");
 			//return;
 		} else {
 			ranking = UserAPI.Instance.GetHighScore (MinigameType);
 		}
-		/*
-		for(int i = 0; i < ranking.Length || i < 10; i++) {
+
+		for(int i = 0; i < ranking.Length || i < MAX_RANKING_COUNT; i++) {
 			GameObject r = Instantiate(RankingSlotElement);
 			r.GetComponent<RankingSlot>().Setup(i.ToString(), ranking[i].Nick, ranking[i].Score.ToString()); 
+			r.transform.SetParent(RankingParentList.transform);
+			r.transform.localScale = Vector3.one;
+			r.name = "RankingPos_" + i.ToString();
 			rankingSlots.Add(r);
-		}*/
+		}
 	}
 }

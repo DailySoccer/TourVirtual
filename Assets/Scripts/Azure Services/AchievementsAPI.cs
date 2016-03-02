@@ -77,6 +77,8 @@ public class AchievementsAPI{
 
     public void FAKE()
     {
+		TotalAchievements = 0;
+		Achievements = new Hashtable();
         ArrayList results = JSON.JsonDecode(auxData) as ArrayList;
         foreach (Hashtable ele in results)
         {

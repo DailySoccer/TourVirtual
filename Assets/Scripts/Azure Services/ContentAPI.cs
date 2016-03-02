@@ -103,7 +103,9 @@ public class ContentAPI
 
 
     public void FAKE()
-    {
+    { 
+		Contents = new Hashtable();
+		TotalContents = 0;
         Hashtable contents = JSON.JsonDecode(auxData) as Hashtable;
         if (contents != null)
         {

@@ -139,6 +139,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efb085c6adaaa4ce69706d84a02264d2, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &664087757 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11410984, guid: dd1bb4335ba7c43498a687e43c9f8acc,
+    type: 2}
+  m_PrefabInternal: {fileID: 671476081}
+  m_Script: {fileID: 11500000, guid: f5f4e88f80366bd49972a306cec22a6c, type: 3}
 --- !u!1001 &671476081
 Prefab:
   m_ObjectHideFlags: 0
@@ -303,21 +309,13 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11402934, guid: cab5506834cb52b47bf36e5c2f668448, type: 2}
-      propertyPath: endMenu
+      propertyPath: minigameCanvasController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1831893430}
     - target: {fileID: 11402934, guid: cab5506834cb52b47bf36e5c2f668448, type: 2}
       propertyPath: minigameScreen
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11402934, guid: cab5506834cb52b47bf36e5c2f668448, type: 2}
-      propertyPath: gameTime
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11402934, guid: cab5506834cb52b47bf36e5c2f668448, type: 2}
-      propertyPath: minigameCanvasController
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 664087757}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cab5506834cb52b47bf36e5c2f668448, type: 2}
   m_IsPrefabParent: 0
@@ -470,3 +468,9 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &1831893430 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11449584, guid: dd1bb4335ba7c43498a687e43c9f8acc,
+    type: 2}
+  m_PrefabInternal: {fileID: 671476081}
+  m_Script: {fileID: 11500000, guid: 673d73d0cbbd644f3b8cd595b515fbdf, type: 3}

@@ -1229,6 +1229,7 @@ MonoBehaviour:
   RankingParentList: {fileID: 151756}
   RankingSlotElement: {fileID: 155516, guid: 39d653c7bb6514c499c790c3b8a8bcc7, type: 2}
   MinigameType: 1
+  MAX_RANKING_COUNT: 6
 --- !u!114 &11435458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2049,7 +2050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Clock: {fileID: 11497010}
-  TimeLeft: 0
+  TimeLeft: 1
 --- !u!114 &11496316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2091,8 +2092,8 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
-  m_FillClockwise: 1
+  m_FillAmount: 1
+  m_FillClockwise: 0
   m_FillOrigin: 0
 --- !u!114 &11498826
 MonoBehaviour:
