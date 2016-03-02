@@ -48,7 +48,7 @@ public class PopUpWindow : MonoBehaviour {
 
 	private DetailedContent2Buttons SingleContentLayOut;
 
-	GameCanvasManager gcm;
+	public GameCanvasManager TheGameCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -64,7 +64,7 @@ public class PopUpWindow : MonoBehaviour {
 			_CurrentThirdsProfileTitleText = ThirdsProfileTitle.GetComponentsInChildren<Text>().Where(t => t.name == "User Other Name").First();
 
 		SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
-		gcm = GameObject.Find ("Game Canvas").GetComponent<GameCanvasManager> ();
+
 	}
 	
 	// Update is called once per frame
@@ -178,12 +178,14 @@ public class PopUpWindow : MonoBehaviour {
 		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content ct = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
-			GameObject slot = Instantiate (PurchasedPackItemGridSlot);
-			slot.transform.SetParent(PurchasedPackGridContentList.transform);
-			slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL);
-			slot.transform.localScale = Vector3.one;
-			slot.name = ct.Description;
-			PurchasedPaksGridSlots.Add(slot);
+			if (ct.owned) {
+				GameObject slot = Instantiate (PurchasedPackItemGridSlot);
+				slot.transform.SetParent(PurchasedPackGridContentList.transform);
+				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL);
+				slot.transform.localScale = Vector3.one;
+				slot.name = ct.Description;
+				PurchasedPaksGridSlots.Add(slot);
+			}
 		}
 	}
 
@@ -199,7 +201,7 @@ public class PopUpWindow : MonoBehaviour {
 
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
-		gcm.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
 
 
@@ -226,7 +228,9 @@ public class PopUpWindow : MonoBehaviour {
 			slot.transform.SetParent(AchievementGridContentList.transform);
 			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach.Name, ach.Image);
 			slot.transform.localScale = Vector3.one;
-			
+			if (!ach.earned) {
+				slot.GetComponent<Button>().interactable = false;
+			}
 			slot.name = ach.Description;
 			AchievementsGridSlots.Add(slot);
 		}
