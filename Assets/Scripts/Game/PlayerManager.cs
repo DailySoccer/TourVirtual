@@ -28,6 +28,10 @@ public class PlayerManager : Photon.PunBehaviour {
     public Dictionary<string, object> Compliments;
     public Dictionary<string, object> Selector;
 
+	public GameObject PlayerRemoteHUDCanvas;
+
+	GameObject PlayerHUD;
+
     List<object> packsList;
 
 
@@ -79,7 +83,6 @@ public class PlayerManager : Photon.PunBehaviour {
             PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
             if (nViews.Length > 1)
                 nViews[0].viewID = id;
-
         }
         else {
             Debug.Log("SpawnOnNetwork: SelectedModel: " + selectedModel);
@@ -95,6 +98,13 @@ public class PlayerManager : Photon.PunBehaviour {
 
                 var csc = thePlayer.GetComponent<ContentSelectorCaster>();
                 if(csc!=null) csc.enabled = false;
+
+				//Código para insertar el HUD de los players remotos
+				PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
+				PlayerHUD.transform.SetParent(thePlayer.transform);
+				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
+				PlayerHUD.transform.position = new Vector3(PlayerHUD.transform.position.x, 2.2f, PlayerHUD.transform.position.z);
+
             }));
             /*
 			GameObject prefab = Library.GetRecipe(selectedModel) ?? playerPrefab;
