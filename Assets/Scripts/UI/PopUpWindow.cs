@@ -20,8 +20,11 @@ public class PopUpWindow : MonoBehaviour {
 	public GameObject CloseButton;
 
 	// Titulos
-	public GameObject StandardTitle;
+	//public GameObject StandardTitle;
+	public Text StandardTitleText;
+
 	public GameObject ThirdsProfileTitle;
+	public Text ThirdsProfileTitleText;
 
 	//Contenidos
 	public GameObject PurchasedPackGridContent;
@@ -40,11 +43,8 @@ public class PopUpWindow : MonoBehaviour {
 
 	public GameObject SingleContent;
 
-	public GameObject ThirdsProfileContent;
+	ThirdProfileController ThirdsProfile;
 	public GameObject ProfileScreenController;
-	
-	private Text _CurrentStandardTitleText;
-	private Text _CurrentThirdsProfileTitleText;
 
 	private DetailedContent2Buttons SingleContentLayOut;
 
@@ -52,19 +52,15 @@ public class PopUpWindow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StandardTitle.SetActive(true);
-		_CurrentStandardTitleText = StandardTitle.GetComponent<Text> ();
+		StandardTitleText.gameObject.SetActive(true);
+		//CurrentStandardTitleText = StandardTitle.GetComponent<Text> ();
 		if (ThirdsProfileTitle != null) {
 			ThirdsProfileTitle.SetActive (true);
 		} else {
 			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
 		}
 
-		if (_CurrentThirdsProfileTitleText != null)
-			_CurrentThirdsProfileTitleText = ThirdsProfileTitle.GetComponentsInChildren<Text>().Where(t => t.name == "User Other Name").First();
-
 		SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
-
 	}
 	
 	// Update is called once per frame
@@ -81,63 +77,62 @@ public class PopUpWindow : MonoBehaviour {
 			break;
 		case ModalLayout.PURCHASED_PACKS_GRID:
 			PurchasedPackGridContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "PACKS COMPRADOS";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "PACKS COMPRADOS";
 			break;
 			
 		case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
 			PurchasedPackListContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "CONTENIDO DEL PACK";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "CONTENIDO DEL PACK";
 			break;
 			
 		case ModalLayout.ACHIEVEMENTS_GRID:
 			AchievementGridContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "LISTADO DE LOGROS";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "LISTADO DE LOGROS";
 			break;
 			
 		case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
 			SingleContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "FONDOS INSUFICIENTES";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "FONDOS INSUFICIENTES";
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
 			break;
 			
 		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 			SingleContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "ADQUIERE ESTE PRODUCTO";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "ADQUIERE ESTE PRODUCTO";
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 			break;
 			
 		case ModalLayout.SINGLE_CONTENT_SARE:
 			SingleContent.SetActive(true);
-			StandardTitle.SetActive (true);
-			_CurrentStandardTitleText.text = "COMPARTE TU ADQUISICIÓN";
+			StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = "COMPARTE TU ADQUISICIÓN";
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 			break;
 			
 		case ModalLayout.THIRDS_PROFILE_CONTENT:
 			ThirdsProfileTitle.SetActive(true);
-			_CurrentThirdsProfileTitleText.text = "NOMBRE DE USUARIO";
-			ThirdsProfileContent.SetActive(true);
+			ThirdsProfileTitleText.text = "NOMBRE DE USUARIO";
+			ProfileScreenController.SetActive(true);
 			break;			
 		}
 	}
 
 	public void ResetWindow() {
-		_CurrentStandardTitleText.text = "";
-		StandardTitle.SetActive (false);
+		StandardTitleText.text = "";
+		StandardTitleText.gameObject.SetActive (false);
 
-		if (_CurrentThirdsProfileTitleText != null)
-			_CurrentThirdsProfileTitleText.text = "";
+		ThirdsProfileTitleText.text = "";
 
 		if (ThirdsProfileTitle != null)
 			ThirdsProfileTitle.SetActive (false);
 
-		if (ThirdsProfileContent != null)
-			ThirdsProfileContent.SetActive (false);
+		if (ProfileScreenController != null)
+			ProfileScreenController.SetActive (false);
 
 		/// Limpieza del grid de contenidos comprados
 		if (PurchasedPackGridContentList != null) {
@@ -204,9 +199,6 @@ public class PopUpWindow : MonoBehaviour {
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
 
-
-
-
 	public void SetupPurchasedListContent() {
 		
 	}
@@ -261,7 +253,9 @@ public class PopUpWindow : MonoBehaviour {
 	public void SetupSingleContentToShare() {
 		
 	}
-	public void SetupThirdProfileContent() {
-		
+
+	public void SetupThirdProfileContent(string playerID) {
+		ThirdsProfile = ProfileScreenController.GetComponent<ThirdProfileController> ();
+		ThirdsProfile.Setup (playerID);
 	}
 }

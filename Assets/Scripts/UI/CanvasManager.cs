@@ -152,6 +152,13 @@ public class CanvasManager : MonoBehaviour {
 		}
 	}
 
+	public void ShowOTherPlayerInfo(string playerID) {
+		//Configuramos las modal...
+		ModalScreen.GetComponent<PopUpWindow> ().SetupThirdProfileContent(playerID);
+		//.. y la mostramos
+		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
+	}
+
 	public void ShowModalScreen(int newModalLayout) {
 
 		if (ModalScreen == null) {
@@ -189,10 +196,12 @@ public class CanvasManager : MonoBehaviour {
 			case ModalLayout.SINGLE_CONTENT_SARE:
 				modalPopUpWindow.SetupSingleContentToShare();
 				break;
-			case ModalLayout.THIRDS_PROFILE_CONTENT:
-				modalPopUpWindow.SetupThirdProfileContent();
+			*/
+			/*
+			case ModalLayout.THIRDS_PROFILE_CONTENT:				
 				break;
-			 */
+			*/
+			 
 		}
 
 	}

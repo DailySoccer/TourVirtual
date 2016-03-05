@@ -22,7 +22,10 @@ public class ThirdProfileController : MonoBehaviour {
 		//Debug.LogError("===> { ProfileScreen/ScoresResume:\n TODO: Necesito info de PACKS y ACHIEVEMENTS del usuario \n } <==");
 	}
 	
-	void Setup(string UserID) {
+	public void Setup(string  UserID) {
+		Debug.LogError ("[ThirdProfileController in " + name + "]: Me tienen que pasar los datos del otro player");
+		// Conseguimos la info del player, quizás a través del ID es posible (Ver con Fernando)
+
 		penaltiesScore.text 	= (1000 * Time.deltaTime).ToString();
 		BasketScore.text		= (1000 * Time.deltaTime).ToString();
 		HiddenObjectsScore.text = (1000 * Time.deltaTime).ToString();
