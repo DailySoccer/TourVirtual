@@ -119,10 +119,11 @@ public class MainManager : Photon.PunBehaviour {
 
     string DeepLinkingURL;
     public void DeepLinking(string url){
+        Debug.LogError(">>>>>>>>DeepLinking<<<<<<< " + url);
         DeepLinkingURL = url;
 	}
 
-    public string GetDeepLinkingURL() {
+    public void GetDeepLinkingURL() {
 #if UNITY_ANDROID
         try {
             using (AndroidJavaClass jclass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -130,16 +131,20 @@ public class MainManager : Photon.PunBehaviour {
                 AndroidJavaObject activity = jclass.GetStatic<AndroidJavaObject>("currentActivity");
                 AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
                 AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
-                DeepLinkingURL = uri.Call<string>("toString");
+                DeepLinking( uri.Call<string>("toString"));
             }
         }
         catch (System.Exception ex) {
             Debug.LogWarning(ex.Message);
-            DeepLinkingURL=null;
+
         }
+#else
+#if UNITY_WSA
+        string[] arguments = System.Environment.GetCommandLineArgs();
+        Debug.LogError(">>>>> arguments!!! " + arguments.Length + " " + arguments[0]);
+#endif
 #endif
 
-        return DeepLinkingURL;
     }
 
     void Awake() {
@@ -165,6 +170,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	void Start() {
+        GetDeepLinkingURL();
         if (UserAPI.Instance != null && UserAPI.Instance.Online) {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());

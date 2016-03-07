@@ -57,6 +57,10 @@ public class VirtualGoodsAPI {
         ""HasMoreResults"":false 
         }";
 
+
+
+
+
     string auxData2 = @"{
         ""ContinuationToken"":null,
         ""ContinuationTokenB64"":null,
@@ -171,7 +175,7 @@ public class VirtualGoodsAPI {
                         needRequest = false;
                         if (myvirtualgoods.ContainsKey("HasMoreResults")) {
                             needRequest = (bool)myvirtualgoods["HasMoreResults"];
-                            url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, myvirtualgoods["ContinuationToken"] as string);
+                            url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, myvirtualgoods["ContinuationTokenB64"] as string);
                         }
                     }
                 }
