@@ -59,8 +59,8 @@ public class TVBChatMessage : MonoBehaviour {
 		set {
 			_theOwner = ChatManager.Instance.UserName == value.Sender ? "" : value.Sender;
 			_theText = value.Text.Substring(value.getDateTextSeparatorIndex() + 1);
-			_theDate = value.GetMessageDate().ToLocalTime().ToShortDateString();
-			_theTime = value.GetMessageDate().ToLocalTime().ToShortTimeString();
+			_theDate = MyTools.ToShortDateString( value.GetMessageDate().ToLocalTime());
+			_theTime = MyTools.ToShortTimeString( value.GetMessageDate().ToLocalTime());
 
 			if (owner != null) {
 				owner.text = value.Sender;

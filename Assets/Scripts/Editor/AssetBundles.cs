@@ -58,7 +58,7 @@ public class CreateAssetBundles {
         {
             string basePath = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
             System.IO.Directory.CreateDirectory(basePath + "/" + WINDOWS_FOLDER);
-            BuildPipeline.BuildAssetBundles(WINDOWS_FOLDER, BundleOptions, BuildTarget.WP8Player);
+            BuildPipeline.BuildAssetBundles(WINDOWS_FOLDER, BundleOptions, BuildTarget.WSAPlayer);
             //CreateVersionJSON(basePath + "/" + WINDOWS_FOLDER, Application.dataPath + "/Resources/Windows/" + ASSET_BUNDLES_JSON);
             CreateVersionJSON(basePath + "/" + WINDOWS_FOLDER, "Assets/WebPlayerTemplates/AssetBundles/Windows/" + ASSET_BUNDLES_JSON);
 

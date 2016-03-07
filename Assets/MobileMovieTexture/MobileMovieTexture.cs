@@ -7,13 +7,14 @@ namespace MMT
 {
     public class MobileMovieTexture : MonoBehaviour
     {
-        #region Types
+
+#region Types
 
         public delegate void OnFinished(MobileMovieTexture sender);
 
-        #endregion
+#endregion
 
-        #region Editor Variables
+#region Editor Variables
 
         /// <summary>
         /// File path to the video file, includes the extension, usually .ogg or .ogv
@@ -70,9 +71,9 @@ namespace MMT
         [SerializeField]
         private bool m_seekKeyFrame = false;
 
-        #endregion
+#endregion
 
-        #region Other Variables
+#region Other Variables
 
         private IntPtr m_nativeContext = IntPtr.Zero;
         private IntPtr m_nativeTextureContext = IntPtr.Zero;
@@ -104,14 +105,14 @@ namespace MMT
             Width = 0;
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Function to call on finish
         /// </summary>
         public event OnFinished onFinished;
 
-        #region Properties
+#region Properties
 
         /// <summary>
         /// File path to the video file, includes the extension, usually .ogg or .ogv
@@ -235,9 +236,9 @@ namespace MMT
             get { return m_nativeContext != IntPtr.Zero ? GetDuration(m_nativeContext) : 0.0; }
         }
 
-        #endregion
+#endregion
 
-        #region Native Interface
+#region Native Interface
 
 #if UNITY_IPHONE && !UNITY_EDITOR
     private const string PLATFORM_DLL = "__Internal";
@@ -318,6 +319,7 @@ namespace MMT
 
         #endregion
 
+#if !UNITY_WINRT
         #region Behaviour Overrides
 
         void Start()
@@ -588,8 +590,9 @@ namespace MMT
             }
         }
 
-       
         #endregion
+#endif       
     }
+
 }
 

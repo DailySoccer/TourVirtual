@@ -425,26 +425,20 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JoinToRoom is " + roomid + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnConnectedToMaster <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		//JoinToRoom();
 	}
 
 	public override void OnConnectedToPhoton() {
-		Debug.Log("OnConnectedToPhoton");
 	}
 
 	public override void OnCreatedRoom() {
-		Debug.Log("OnCreatedRoom");
     }
 
 	public override void OnJoinedRoom() {
-		Debug.Log("OnJoinedRoom: " + PhotonNetwork.room.name);
-        
         if (OnChange != null) OnChange();
 		if (OnRoomChange != null) OnRoomChange();
 		if (OnJoinRoomAction != null) OnJoinRoomAction();
@@ -452,14 +446,12 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnLeftRoom <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
         bJustOneTime = false;
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnJoinedLobby <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     public override void OnReceivedRoomListUpdate() {
@@ -488,45 +480,43 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
-		Debug.Log("OnPhotonPlayerConnected: " + newPlayer.name);
 		if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
-		Debug.Log("OnPhotonPlayerDisconnected: " + otherPlayer.name);
 		if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
 	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
-		Debug.LogWarning("OnPhotonCreateRoomFailed");
-	}
+        //		Debug.LogWarning("OnPhotonCreateRoomFailed");
+    }
 
-	public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
-		Debug.LogWarning("OnPhotonJoinRoomFailed");
+    public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+        //		Debug.LogWarning("OnPhotonJoinRoomFailed");
         // Si hay un error de conexion a la sala, se crea una nueva.
         GetRoomIdById(Room.Id, true);
 
     }
 	
 	public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-		Debug.LogWarning("OnFailedToConnectToPhoton");
+        //		Debug.LogWarning("OnFailedToConnectToPhoton");
 	}
 	
 	public override void OnDisconnectedFromPhoton() {
-		Debug.LogWarning("OnDisconnectedFromPhoton");
-	}
-	
-	public override void OnConnectionFail(DisconnectCause cause) {
-		Debug.LogWarning("OnConnectionFail");
-	}
-	
-	public override void OnPhotonMaxCccuReached() {
-		Debug.LogWarning("OnPhotonMaxCccuReached");
-	}
+        //        Debug.LogWarning("OnDisconnectedFromPhoton");
+    }
 
-	private List<GameObject> GetRootObjects() {
+    public override void OnConnectionFail(DisconnectCause cause) {
+        //		Debug.LogWarning("OnConnectionFail");
+    }
+
+    public override void OnPhotonMaxCccuReached() {
+        //		Debug.LogWarning("OnPhotonMaxCccuReached");
+    }
+
+    private List<GameObject> GetRootObjects() {
 		List<GameObject> rootObjects = new List<GameObject>();
 		foreach (Transform xform in UnityEngine.Object.FindObjectsOfType<Transform>()) {
 			if (xform.parent == null) {

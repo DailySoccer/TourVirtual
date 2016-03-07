@@ -10,7 +10,7 @@ public class TVBChatMessageDate : MonoBehaviour {
 		get {return _theDateString;}
 		set {
 			_theDateString = value;
-			TextComponent.text = _theDateString == DateTime.Now.ToShortDateString() ? "Today" : value;
+			TextComponent.text = _theDateString == MyTools.ToShortDateString( DateTime.Now ) ? "Today" : value;
 		}
 	}
 

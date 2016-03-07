@@ -61,12 +61,14 @@ namespace Soomla {
 #endif
 
 #if UNITY_WP8 && UNITY_EDITOR
+        /*
         protected SoomlaEntity(SoomlaWpCore.SoomlaEntity<T> wpSoomlaEntity)
         {
             this.Name = wpSoomlaEntity.GetName();
             this.Description = wpSoomlaEntity.GetDescription();
             this._id = wpSoomlaEntity.GetId();
 		}
+        */
 #endif
         /// <summary>
 		/// Constructor.

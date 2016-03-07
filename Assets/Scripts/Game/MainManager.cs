@@ -173,12 +173,12 @@ public class MainManager : Photon.PunBehaviour {
 			StartCoroutine(Connect ());
 		}
 #if UNITY_ANDROID || UNITY_IOS
-//        InitializeStore();
+                InitializeStore();
 #endif
 
-	}
+    }
 
-	void OnApplicationPause(bool pauseStatus) {
+    void OnApplicationPause(bool pauseStatus) {
 // Ver como evitar este tema.
 //		Application.Quit();
 	}

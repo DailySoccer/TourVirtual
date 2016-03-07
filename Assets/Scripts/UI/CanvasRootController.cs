@@ -114,7 +114,5 @@ public class CanvasRootController : MonoBehaviour {
                 canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas").SetActive(true);
                 break;
         }
-
-        Debug.Log("Security cargo else level: " + Application.loadedLevelName);
 	}
 }

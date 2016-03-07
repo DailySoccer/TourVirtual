@@ -25,7 +25,8 @@ public class StartCanvasManager : CanvasManager {
             {
                 bttEffects = enterButton.gameObject.GetComponents<IAnimated>().ToList();
                 enterButton.gameObject.SetActive(true);
-                bttEffects.ForEach(c => c.Open(1f));
+                foreach( var c in bttEffects)
+                    c.Open(1f);
             }
 
             if (!_initialized)

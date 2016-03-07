@@ -33,8 +33,7 @@ public class GenderSelector : MonoBehaviour {
 	}
 
 	void DeselectAll() {
-		Buttons.ForEach (b => {
-			b.IsTabActive = false;
-		});
+        foreach( var b in Buttons)
+			b.IsTabActive = false;		
 	}
 }

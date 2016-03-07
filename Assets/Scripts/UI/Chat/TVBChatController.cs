@@ -161,12 +161,12 @@ public class TVBChatController : MonoBehaviour {
 			Dictionary<string,object> msg = _friendChats[channelName][_friendChats[channelName].Count-1] as Dictionary<string, object>;
 			DateTime lastMessageDateTime = msg.toChatMessage().GetMessageDate();
 			
-			if (lastMessageDateTime.AddDays(1).ToShortDateString() == DateTime.Now.ToShortDateString()) { // Si el mensaje es de ayer ==> "AYER"
+			if (  MyTools.ToShortDateString( lastMessageDateTime.AddDays(1) ) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de ayer ==> "AYER"
 				channel.lastUpdateDate.text = MainManager.Instance.LanguageManagerInstance.GetTextValue("TVB.Chat.Yesterday").ToUpper(); 
-			} else if (lastMessageDateTime.ToShortDateString() == DateTime.Now.ToShortDateString()) { // Si el mensaje es de hoy   ==> La Hora
-				channel.lastUpdateDate.text = lastMessageDateTime.ToShortTimeString();
+			} else if (MyTools.ToShortDateString(lastMessageDateTime) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de hoy   ==> La Hora
+				channel.lastUpdateDate.text = MyTools.ToShortTimeString(lastMessageDateTime);
 			} else { // Resto de mensajes  ==> La Fecha
-				channel.lastUpdateDate.text = lastMessageDateTime.ToShortDateString();
+				channel.lastUpdateDate.text = MyTools.ToShortDateString(lastMessageDateTime);
 			}
 			
 			//Mensajes no leidos:
@@ -414,7 +414,7 @@ public class TVBChatController : MonoBehaviour {
 
 		foreach( ChatMessage msg in messages) {
 
-			string msgDate = msg.GetMessageDate().ToLocalTime().ToShortDateString();
+			string msgDate = MyTools.ToShortDateString( msg.GetMessageDate().ToLocalTime() );
 
 			if (!datesProcessed.Contains(msgDate)) {
 				datesProcessed.Add(msgDate);
@@ -517,7 +517,8 @@ public class TVBChatController : MonoBehaviour {
 	}
 
 	public void HideSearchBar() {
-		_channelsGameObjects.ForEach(obj => obj.SetActive(true));
+        foreach (var obj in _channelsGameObjects)
+            obj.SetActive(true);
 		channelsInputField.text = "";
 		Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
 		chnlScrnAnimator.SetBool("IsOpen", false);
@@ -525,7 +526,8 @@ public class TVBChatController : MonoBehaviour {
 	}
 
 	public void FilterChannelList() {
-		_channelsGameObjects.ForEach ( obj => obj.SetActive( obj.GetComponent<TVBChatChannel>().name.ToLower().Contains(channelsInputField.text.ToLower()) ) );
+        foreach( var obj in _channelsGameObjects)
+		    obj.SetActive( obj.GetComponent<TVBChatChannel>().name.ToLower().Contains(channelsInputField.text.ToLower()));
 	}
 
 	public void ClearPlayerPrefs() {

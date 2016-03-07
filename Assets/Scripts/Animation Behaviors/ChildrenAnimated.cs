@@ -13,9 +13,11 @@ public class ChildrenAnimated : StateMachineBehaviour {
 		var animatedChildren = new List<IAnimated>(animator.GetComponentsInChildren<IAnimated>());
 
 		if (speed >= 0f) {
-			animatedChildren.ForEach( c => c.Open(speed));
+            foreach (var c in animatedChildren)
+                c.Open(speed);
 		} else {
-			animatedChildren.ForEach( c => c.Close(-speed));
+            foreach (var c in animatedChildren)
+                c.Close(-speed);
 		}
 
 	}

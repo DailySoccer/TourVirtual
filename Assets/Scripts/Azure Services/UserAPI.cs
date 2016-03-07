@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
@@ -79,7 +79,6 @@ public class UserAPI {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string,object>;
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
-            Debug.LogError(">>>>>>>>>>>>>>>>>>>> REQUEST USER " + UserID + " " + Nick);
         });
 
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {

@@ -45,7 +45,9 @@ public class TestMobileTexture : MonoBehaviour
 			{
 				if(!m_movieTexture.Pause)
 				{
-					m_movieTexture.Play();
+#if !UNITY_WINRT
+                    m_movieTexture.Play();
+#endif
 				}
 				else
 				{
@@ -57,7 +59,9 @@ public class TestMobileTexture : MonoBehaviour
 		
 		if (GUILayout.Button("Stop"))
 		{
+#if !UNITY_WINRT
 			m_movieTexture.Stop();
+#endif
 		}
 
         GUILayout.EndHorizontal();

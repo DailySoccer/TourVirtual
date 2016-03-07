@@ -115,18 +115,14 @@ public class DLCManager : MonoBehaviour {
 		// Ignoramos las versiones 0...
 		if (definition.Version > 0)
         {
-            Debug.Log("DLCManager: Loading... " + (BaseUrl + definition.Id) + " " + definition.Version);
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
             using (WWW www = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version)) {
 				yield return www;
-
-                Debug.Log("DLCManager: Loaded " + definition.Id + " " + definition.Version);
-
                 if (string.IsNullOrEmpty(www.error)) {
 					AssetBundle bundle = www.assetBundle;
 					bundle.LoadAllAssets();
 					AssetResources[keyResource] = bundle;
-					if (callback != null) callback(bundle);
+                    if (callback != null) callback(bundle);
 				}
 				else {
 					Debug.LogError("WWW download had an error:" + www.error);
@@ -156,8 +152,8 @@ public class DLCManager : MonoBehaviour {
 					yield return current;
                     if (string.IsNullOrEmpty(current.error)) {
 						AssetBundle bundle = current.assetBundle;
-						bundle.Unload(false);
-					}
+						bundle.Unload(true);
+                    }
 					else {
 						Debug.LogWarning("WWW download had an error:" + current.error);
 						// throw new Exception("WWW download had an error:" + www.error);

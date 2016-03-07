@@ -4,11 +4,8 @@ public class Authentication : MonoBehaviour {
     public static string IDClient = "";
     public static AzureInterfaz AzureServices;
 	static public Authentication Instance {
-		get {
-			GameObject authenticationObj = GameObject.FindGameObjectWithTag("AzureServices");
-			return authenticationObj != null ? authenticationObj.GetComponent<Authentication>() : null;
-		}
-	}
+        get; private set; 
+    }
 
     public bool IsOk { get { return !string.IsNullOrEmpty(AzureServices.AccessToken); } }
 
@@ -34,6 +31,7 @@ public class Authentication : MonoBehaviour {
 	}
 
     void Awake() {
+        Instance = this;
         UserAPI ua = new UserAPI();
     }
 
@@ -54,7 +52,7 @@ public class Authentication : MonoBehaviour {
 #else
 #if UNITY_WSA
         IDClient = "c0c95635-cdfc-447b-bdab-d4a833fc52ca";
-        // AzureServices = new WP8AzureInterfaz(); // Es instanciado desde el lado de WP
+         AzureServices = new WSAAzureInterfaz(this); // Es instanciado desde el lado de WP
 #endif
 #endif
 #endif
@@ -67,7 +65,11 @@ public class Authentication : MonoBehaviour {
         AzureServices.SignIn();
     }
 
-    void Update() { }
+    void Update() {
+#if UNITY_WSA
+        (AzureServices as WSAAzureInterfaz).Update();
+#endif
+    }
 
 
     private string _urlCode = "";
