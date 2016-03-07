@@ -4,8 +4,38 @@ using System.Collections.Generic;
 
 public class ContentAPI
 {
+
+    public enum AssetType
+    {
+        Photo = 0,
+        Video = 1,
+        ContentTitleImage = 2,
+        Audio = 3,
+        Binary = 4,
+        Model3D = 5
+    };
+
+    public class Asset
+    {
+        public string Title;
+        public string Body;
+        public string AssetUrl;
+        public string ThumbnailUrl;
+        public AssetType Type;
+        public Asset(string _Title, string _Body, string _AssetUrl, string _ThumbnailUrl, AssetType _Type)
+        {
+            Title = _Title;
+            Body = _Body;
+            AssetUrl = _AssetUrl;
+            ThumbnailUrl = _ThumbnailUrl;
+            Type = _Type;
+        }
+
+    };
+
     public class Content
     {
+
         public string GUID;
         public string InternalID;
         public string Title;
@@ -132,6 +162,113 @@ public class ContentAPI
         }
     }
 
+    string auxData2 = @"{  
+   ""IdContent"":""6ffa6413-4e53-4556-b406-17a40fe8ff93"",
+   ""SourceId"":""TESTPACK1"",
+   ""Type"":""VIRTUALTOUR"",
+   ""HashTag"":""#virtualtour"",
+   ""Title"":""Test Pack 1"",
+   ""Description"":""Test Pack 1"",
+   ""Body"":[
+      {  
+         ""Title"":""Paquete de ejemplo"",
+         ""Body"":""Paquete de ejemplo\n""
+      },
+      {  
+         ""Title"":""Imagen de ejemplo"",
+         ""Body"":""Imagen de ejemplo\n""
+      }
+
+   ],
+   ""Assets"":[
+      {  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e.jpg"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/TESTPACK1"",
+         ""Type"":2,
+         ""VideoUrlType"":null
+      },
+      {  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
+         ""Type"":0,
+         ""VideoUrlType"":null
+      }
+   ],
+   ""CreationDate"":""2016-02-11T08:05:28.1858037Z"",
+   ""LastUpdateDate"":""2016-02-11T08:05:28.1858037Z"",
+   ""PublishedDate"":""2016-02-11T08:38:10.4779949Z"",
+   ""OrderInDay"":0,
+   ""HighLight"":false,
+   ""OrderInHighLight"":0,
+   ""NotificationTags"":[
+
+   ],
+   ""Visible"":true,
+   ""Published"":true,
+   ""LocaleId"":""en-us"",
+   ""CommentsIdThread"":""ce27ccf1-4e15-4607-90f9-f79049ab45a0"",
+   ""Links"":[
+      {  
+         ""Url"":""TESTPACK1"",
+         ""Text"":""TESTPACK1"",
+         ""Order"":0
+      }
+   ],
+   ""HasGamification"":false,
+   ""RelatedNews"":[
+
+   ],
+   ""RelatedPlayers"":[
+
+   ],
+   ""LinkId"":null,
+   ""AllowReplaceFromSource"":false
+}";
+
+    public delegate void GetContentCallback(List<Asset> values);
+
+    /// <summary>
+    /// Solicita asincronamente la infromación de un paquete de contenido.
+    /// </summary>
+    /// <param name="contenid">GUID del paquete solicitado.</param>
+    /// <param name="callback">callback con una Lista de ContentAPI.Asset, que describe cada Asset </param>
+    /// <returns></returns>
+    public IEnumerator GetContent(string contenid, GetContentCallback callback=null )
+    {
+        if (!UserAPI.Instance.Online)
+        {
+            if (callback != null) callback(ParseContent(auxData2));
+        }
+        else {
+            yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contenid), (res) =>
+            {
+                if (res != "null")
+                {
+                    if (callback != null) callback(ParseContent(res));
+                    Debug.Log(">>> Content\n" + res);
+                }
+            });
+        }
+    }
+
+    List<Asset> ParseContent(string res) {
+        List<Asset> ret = new List<Asset>();
+        Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+        List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
+        List<object>.Enumerator bodies = (contents["Body"] as List<object>).GetEnumerator();
+
+        while (assets.MoveNext())
+        {
+            bodies.MoveNext();
+            var asset = assets.Current as Dictionary<string, object>;
+            var body = bodies.Current as Dictionary<string, object>;
+
+            ret.Add( new Asset(body["Title"] as string, body["Body"] as string,
+                asset["AssetUrl"] as string, asset["ThumbnailUrl"] as string, (AssetType)(double)asset["Type"]));
+        }
+        return ret;
+    }
+
     public IEnumerator AwaitRequest() {
 		TotalContents = 0;
 		Contents = new Dictionary<string, Content>();
@@ -140,6 +277,8 @@ public class ContentAPI
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
+
+                    Debug.Log(">>> Contents\n" + res);                    
                     Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (contents != null) {
                         List<object> results = contents["Results"] as List<object>;

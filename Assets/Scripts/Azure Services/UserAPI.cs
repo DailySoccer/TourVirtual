@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 public class UserAPI {
 
-    public bool Online = true;
+    public bool Online = false;
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
@@ -67,13 +67,27 @@ public class UserAPI {
             Points = 10;
             Level = 2;
 
+
+            Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
+                foreach (ContentAPI.Asset asset in values)
+                {
+                    Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
+                }
+            }));
+
         }
     }
 
     public IEnumerator Request() {
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
-        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest() );
+        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
+        yield return Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
+            foreach (ContentAPI.Asset asset in values)
+            {
+                Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
+            }
+        }));
 
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string,object>;
