@@ -22,6 +22,8 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen currentGUIScreen;
 	public GUIPopUpScreen currentGUIPopUpScreen;
 
+	public GameObject ContentLoadingScreen;
+
 	/// <summary>
 	/// Intercambia pantallas.	/// 
 	/// Sutituye a ShowScreen
