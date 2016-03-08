@@ -9,6 +9,9 @@ public enum TourVirtualBuildMode {
 	Release
 }
 
+// Application.OpenURL("rmapp://");
+
+
 public class MainManager : Photon.PunBehaviour {
 
 	static public MainManager Instance {
@@ -231,9 +234,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 	
 	void HandleOnUserLogin () {
-		Debug.LogError (UserAPI.Instance.UserID + " UserName: " + UserAPI.Instance.Nick + " Points "+ UserAPI.Instance.Points + " Level "+ UserAPI.Instance.Level );
-		// TODO: Temporalmente no obtendremos el nombre del usuario de Azure para no tener que obligar a registrarse en su servicio
-		// PhotonNetwork.playerName = UserAPI.Instance.UserName;
+		PhotonNetwork.playerName = UserAPI.Instance.Nick;
 		StartCoroutine(Connect ());
 	}
 
@@ -255,12 +256,14 @@ public class MainManager : Photon.PunBehaviour {
 	
 	IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
+        /*
 		if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
             yield return StartCoroutine(DLCManager.Instance.LoadVersion());
 			yield return StartCoroutine(DLCManager.Instance.CacheResources());            
             
         }
+        */
         if (PlayerManager.Instance != null)
         {
             yield return StartCoroutine(PlayerManager.Instance.CacheClothes());

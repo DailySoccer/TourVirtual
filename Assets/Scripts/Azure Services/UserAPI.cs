@@ -79,6 +79,8 @@ public class UserAPI {
     }
 
     public IEnumerator Request() {
+        LoadingCanvasManager.Show();
+
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
@@ -164,6 +166,7 @@ public class UserAPI {
 #endif
 #endif
         if (OnUserLogin != null) OnUserLogin();
+        LoadingCanvasManager.Hide();
     }
 
     public void UpdateAvatar()

@@ -2,20 +2,22 @@
 using System.Collections;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class LoadingBar : MonoBehaviour {
-
-
     public static LoadingBar Instance { get; private set; }
 
     public Image fillBar;
 	public Text description;
 	public float Current = 0;
 
-
     void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {
+        Hide();
     }
 
 	public void SetValue(float value) {
@@ -37,6 +39,11 @@ public class LoadingBar : MonoBehaviour {
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
     }
 
 }

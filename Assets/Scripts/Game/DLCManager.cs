@@ -64,8 +64,9 @@ public class DLCManager : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (current != null)
-            LoadingBar.Instance.SetValue(current.progress, currentName );
+        if (current != null){
+            LoadingBar.Instance.SetValue(current.progress, currentName);
+        }
     }
 
 	public void ClearResources() {
@@ -87,8 +88,7 @@ public class DLCManager : MonoBehaviour {
                 List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
                 foreach (Dictionary<string, object> asset in assets) {
                     AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
-                    // CACA: esto es para que solo cachee estos ficheros
-                    if (assetDefinition.Id == "scene/avatar_select" || assetDefinition.Id == "avatars")
+                    if (!assetDefinition.Id.Contains("content"))
                         AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                 }
             }
@@ -142,12 +142,15 @@ public class DLCManager : MonoBehaviour {
 
 		foreach(string key in AssetDefinitions.Keys) {
 			AssetDefinition definition = AssetDefinitions[key];
+            // CACA, solo precachea estos ficheros
+            if (definition.Id != "scene/avatar_select" && definition.Id != "avatars") continue;
 
-			// Ignoramos las versiones 0...
-			if (definition.Version > 0){
+            // Ignoramos las versiones 0...
+            if (definition.Version > 0){
                 Debug.Log("DLCManager: Loading... " + (BaseUrl + definition.Id) + " " + definition.Version);
                 currentName = definition.Id;
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
+                LoadingBar.Instance.Show();
                 using (current = WWW.LoadFromCacheOrDownload ( BaseUrl + definition.Id, definition.Version)) {
 					yield return current;
                     if (string.IsNullOrEmpty(current.error)) {
