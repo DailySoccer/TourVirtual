@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class BadgeAlert : MonoBehaviour {
 
 	public GameObject badgeObject;

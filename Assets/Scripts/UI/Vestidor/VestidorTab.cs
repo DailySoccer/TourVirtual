@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class VestidorTab : MonoBehaviour {
 
 	public bool IsTabActive;

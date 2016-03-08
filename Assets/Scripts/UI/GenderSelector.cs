@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class GenderSelector : MonoBehaviour {
 
 	private List<ButtonCheckable> Buttons;

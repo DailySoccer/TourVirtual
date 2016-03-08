@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ButtonCheckable : MonoBehaviour {
 
 	public bool IsTabActive;

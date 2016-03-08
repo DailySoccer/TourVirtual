@@ -7,7 +7,7 @@ public enum ChatChannelType {
 	Private
 }
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class TVBChatChannel : MonoBehaviour {
 	//public RawImage userAvatar;
 

@@ -6,7 +6,7 @@ public enum MinigameModalType {
 	FootbalShots,
 	BasketShots
 }
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class MinigameModal : MonoBehaviour {
 	public Sprite FootballBg;
 	public Sprite BasketBg;

@@ -10,7 +10,7 @@ public enum ContentType {
 	MODEL3D
 }
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class PurchasedContentSlot : MonoBehaviour {
 
 	public ContentType CurrentType;
