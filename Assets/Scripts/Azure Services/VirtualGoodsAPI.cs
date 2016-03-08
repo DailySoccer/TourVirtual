@@ -161,7 +161,6 @@ public class VirtualGoodsAPI {
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null"){
                     Debug.LogError(">>> MY virtualgoods " + res);
-
                     Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myvirtualgoods != null){
                         List<object> myresults = myvirtualgoods["Results"] as List<object>;
@@ -175,7 +174,7 @@ public class VirtualGoodsAPI {
                         needRequest = false;
                         if (myvirtualgoods.ContainsKey("HasMoreResults")) {
                             needRequest = (bool)myvirtualgoods["HasMoreResults"];
-                            url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, myvirtualgoods["ContinuationTokenB64"] as string);
+                            url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, WWW.EscapeURL(myvirtualgoods["ContinuationTokenB64"] as string));
                         }
                     }
                 }

@@ -90,6 +90,15 @@ public class Authentication : MonoBehaviour {
 #endif
 #endif
         if (!UserAPI.Instance.Online) return;
+#if PRO
+            AzureServices.WebApiBaseAddress = "https://api.realmadrid.com/";
+#else
+#if PRE
+            AzureServices.WebApiBaseAddress = "https://apipre.realmadrid.com/";
+#else
+            AzureServices.WebApiBaseAddress = "https://eu-rm-dev-web-api.azurewebsites.net/";
+#endif
+#endif
         AzureServices.Init ("development", IDClient, "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );

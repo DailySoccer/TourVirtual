@@ -179,7 +179,7 @@ public class AchievementsAPI{
                             needRequest = (bool)myachievements["HasMoreResults"];
                             //Pedimos la siguiente pagina.
                             if(needRequest)
-                                url = string.Format("{0}?language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, myachievements["ContinuationToken"] as string);
+                                url = string.Format("{0}?language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, WWW.EscapeURL(myachievements["ContinuationTokenB64"] as string));
                         }
                     }
                 }

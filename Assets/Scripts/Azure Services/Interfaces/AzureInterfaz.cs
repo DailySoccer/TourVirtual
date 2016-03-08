@@ -32,7 +32,7 @@ public class AzureInterfaz {
         }
     }
 
-    public virtual void Init(string environment, string clientId, string signin, string signup) { }
+    public virtual void Init(string environment, string clientId, string signin, string signup) {}
     // LogIn
     public virtual void SignIn() { }
     public virtual void SignUp() { }
@@ -51,11 +51,7 @@ public class AzureInterfaz {
 		while(waitingForToken) yield return null;
 	}
 
-    public static string WebApiBaseAddress {
-        get {
-            return "https://eu-rm-dev-web-api.azurewebsites.net/";
-        }
-    }
+    public string WebApiBaseAddress { get; set; }
     public void RequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
         component.StartCoroutine(_Request("get", url, ok, error));
     }
@@ -106,7 +102,7 @@ public class AzureInterfaz {
     }
 
     public IEnumerator _Request(string mode, string url, RequestEvent ok = null, RequestEvent error = null) {
-        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)));
+        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)));
         request.MethodType = HTTPMethods.Get;
         request.DisableCache = true;
         yield return component.StartCoroutine(AddAuthorization(request));
@@ -118,8 +114,8 @@ public class AzureInterfaz {
     public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
         Debug.LogError("2");
         HTTPRequest request;
-        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Post);
-        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Post);
+        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
         request.AddHeader("Content-Type", "application/json");
         request.RawData = MyTools.GetBytes(value);
         yield return component.StartCoroutine(AddAuthorization(request));
@@ -139,8 +135,8 @@ public class AzureInterfaz {
     {
         Debug.LogError("3");
         HTTPRequest request;
-        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Post);
-        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Post);
+        else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
         request.AddHeader("Content-Type", "application/json");
         request.RawData = MyTools.GetBytes(BestHTTP.JSON.Json.Encode(json));
         yield return component.StartCoroutine(AddAuthorization(request));
@@ -158,7 +154,7 @@ public class AzureInterfaz {
 
     public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
         Debug.LogError("4");
-        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", AzureInterfaz.WebApiBaseAddress, url)), HTTPMethods.Put);
+        HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
         request.AddHeader("Content-Type", "application/json");
         request.RawData = array;
         yield return component.StartCoroutine(AddAuthorization(request));

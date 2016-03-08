@@ -40,7 +40,6 @@ public class WSAAzureInterfaz : AzureInterfaz
     bool LoginWaiter = false;
     public void OnLoginCallback(string res)
     {
-        Debug.Log(">>>>>>OnLoginCallback");
         LoginWaiter = true;
         token = res;
 
@@ -49,7 +48,6 @@ public class WSAAzureInterfaz : AzureInterfaz
     bool TokenWaiter = false;
     public void OnTokenCallback(string res)
     {
-        Debug.Log(">>>>>>OnTokenCallback");
         TokenWaiter = true;
         token = res;
     }
