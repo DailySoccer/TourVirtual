@@ -178,13 +178,11 @@ public class MainManager : Photon.PunBehaviour {
 
 	void Start() {
         GetDeepLinkingURL();
-        if (UserAPI.Instance != null && UserAPI.Instance.Online) {
+        if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
 		}
-		else {
-			StartCoroutine(Connect ());
-		}
+//		else StartCoroutine(Connect ());
 #if UNITY_ANDROID || UNITY_IOS
                 InitializeStore();
 #endif

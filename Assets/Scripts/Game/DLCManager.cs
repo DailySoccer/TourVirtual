@@ -98,6 +98,7 @@ public class DLCManager : MonoBehaviour {
     }
     public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
+			Debug.LogError("Unknow File "+keyResource);
 			yield break;
 		}
 

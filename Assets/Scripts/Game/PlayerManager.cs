@@ -125,10 +125,10 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public System.Collections.IEnumerator CacheClothes()
     {
+
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
             Heads   = json["Heads"] as Dictionary<string, object>;
-
             Hairs   = json["Hairs"] as Dictionary<string, object>;
             Bodies  = json["Bodies"] as Dictionary<string, object>;
             Legs    = json["Legs"] as Dictionary<string, object>;

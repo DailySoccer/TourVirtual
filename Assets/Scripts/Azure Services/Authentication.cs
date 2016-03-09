@@ -90,7 +90,20 @@ public class Authentication : MonoBehaviour {
 #endif
 #endif
 #endif
-        if (!UserAPI.Instance.Online) yield break;
+
+		yield return new WaitForEndOfFrame();
+		
+		if (DLCManager.Instance != null)
+		{
+			// Descargar el fichero de versiones.
+			yield return StartCoroutine(DLCManager.Instance.LoadVersion());
+			yield return StartCoroutine(DLCManager.Instance.CacheResources());
+		}
+
+        if (!UserAPI.Instance.Online) {
+			UserAPI.Instance.CallOnUserLogin();
+			yield break;
+		}
 #if PRO
             AzureServices.WebApiBaseAddress = "https://api.realmadrid.com/";
 #else
@@ -100,14 +113,7 @@ public class Authentication : MonoBehaviour {
             AzureServices.WebApiBaseAddress = "https://eu-rm-dev-web-api.azurewebsites.net/";
 #endif
 #endif
-        yield return new WaitForEndOfFrame();
-
-        if (DLCManager.Instance != null)
-        {
-            // Descargar el fichero de versiones.
-            yield return StartCoroutine(DLCManager.Instance.LoadVersion());
-            yield return StartCoroutine(DLCManager.Instance.CacheResources());
-        }
+ 
 
         AzureServices.Init ("development", IDClient, "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {

@@ -52,6 +52,10 @@ public class UserAPI {
     public delegate void callback();
     public event UserLogin OnUserLogin;
 
+	public void CallOnUserLogin(){
+		OnUserLogin ();
+	}
+
 
     public UserAPI() {
         Instance = this;

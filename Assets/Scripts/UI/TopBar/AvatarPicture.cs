@@ -32,10 +32,8 @@ public class AvatarPicture : MonoBehaviour {
 	}
 
 	public void SetAvatarPicture() {
-		if (UserAPI.Instance != null) {
-			string cara = UserAPI.VirtualGoodsDesciptor.GetByID(UserAPI.AvatarDesciptor.Head).Image;
-			Debug.Log("[Cabeza de avatar] = " + cara.ToString());
-			MyTools.LoadSpriteFromURL(cara, Avatar.sprite);
+		if (UserAPI.Instance != null && MainManager) {
+			//Avatar.sprite = MainManager.getComponent<AvatarPicture>().GetAvatarPicture(UserAPI.AvatarDesciptor.Head);
 		}
 	}
 
