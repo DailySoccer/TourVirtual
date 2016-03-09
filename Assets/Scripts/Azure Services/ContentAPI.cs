@@ -57,14 +57,7 @@ public class ContentAPI
 
             VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
             if ( vg!=null) {
-                Debug.LogError("VG "+ vg.count);
                 if (vg.count > 0) owned = true;
-                Debug.LogError("Contenido relaccionado con el VG " + vg.GUID + " OWNED "+ owned);
-            }
-            else
-            {
-                Debug.LogError("No encuentro el VG "+ _VirtualGoodID);
-
             }
         }
     }

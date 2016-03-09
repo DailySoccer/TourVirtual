@@ -120,7 +120,7 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-    public static bool IsDeepLinking = true;
+    public static bool IsDeepLinking = false;
 
     string DeepLinkingURL;
     public void DeepLinking(string url){
