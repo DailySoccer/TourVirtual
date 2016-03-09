@@ -144,7 +144,8 @@ public class MainManager : Photon.PunBehaviour {
 #else
 #if UNITY_WSA
         string[] arguments = System.Environment.GetCommandLineArgs();
-        Debug.LogError(">>>>> arguments!!! " + arguments.Length + " " + arguments[0]);
+        if(arguments!=null)
+            Debug.LogError(">>>>> arguments!!! " + arguments.Length + " " + arguments[0]);
 #endif
 #endif
 
