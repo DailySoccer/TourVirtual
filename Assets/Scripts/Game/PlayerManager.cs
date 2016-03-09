@@ -128,6 +128,7 @@ public class PlayerManager : Photon.PunBehaviour {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
             Heads   = json["Heads"] as Dictionary<string, object>;
+
             Hairs   = json["Hairs"] as Dictionary<string, object>;
             Bodies  = json["Bodies"] as Dictionary<string, object>;
             Legs    = json["Legs"] as Dictionary<string, object>;
@@ -136,6 +137,8 @@ public class PlayerManager : Photon.PunBehaviour {
             Selector = json["Selector"] as Dictionary<string, object>;
             packsList = json["packs"] as List<object>;
         }));
+
+		//Debug.LogError("Cachado!!!! "  + Heads.ToString() );
     }
 
     public delegate void callback(GameObject instance);
