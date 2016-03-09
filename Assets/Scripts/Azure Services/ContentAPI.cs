@@ -53,10 +53,18 @@ public class ContentAPI
             PackURL = _PackURL;
             ThumbURL = _ThumbURL;
             // Ver si tengo el VG.
+
+
             VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
             if ( vg!=null) {
+                Debug.LogError("VG "+ vg.count);
                 if (vg.count > 0) owned = true;
                 Debug.LogError("Contenido relaccionado con el VG " + vg.GUID + " OWNED "+ owned);
+            }
+            else
+            {
+                Debug.LogError("No encuentro el VG "+ _VirtualGoodID);
+
             }
         }
     }
@@ -120,7 +128,13 @@ public class ContentAPI
 
                 },
         		""CreationDate"": ""2016-02-11T08:05:28.1858037Z"",
-        		""Links"": [],
+        		""Links"":[
+                              {  
+                                 ""Url"":""4d229050-fd95-4492-bcff-2ceecf8115b8"",
+                                 ""Text"":""4d229050-fd95-4492-bcff-2ceecf8115b8"",
+                                 ""Order"":0
+                              }
+                           ],
         		""PublishedDate"": ""2016-02-11T08:38:10.4779949Z"",
         		""OrderInDay"": 0,
         		""HighLight"": false,
@@ -209,8 +223,8 @@ public class ContentAPI
    ""CommentsIdThread"":""ce27ccf1-4e15-4607-90f9-f79049ab45a0"",
    ""Links"":[
       {  
-         ""Url"":""TESTPACK1"",
-         ""Text"":""TESTPACK1"",
+         ""Url"":""4d229050-fd95-4492-bcff-2ceecf8115b8"",
+         ""Text"":""4d229050-fd95-4492-bcff-2ceecf8115b8"",
          ""Order"":0
       }
    ],

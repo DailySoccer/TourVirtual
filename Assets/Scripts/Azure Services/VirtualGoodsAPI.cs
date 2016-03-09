@@ -44,7 +44,8 @@ public class VirtualGoodsAPI {
                 {""IdVirtualGood"":""66092685-b049-46dd-8f53-04f333e3b1c4"",""Description"":[{""Locale"":""en-us"",""Description"":""MPiernas01""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/66092685-b049-46dd-8f53-04f333e3b1c4.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/66092685-b049-46dd-8f53-04f333e3b1c4_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""MPiernas01""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":0.0,""CoinType"":1}],""Enabled"":false,""MinAge"":0,""ExpirationInDays"":300,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""MLEG"",""CanBeUsedInAvatar"":true},
                 {""IdVirtualGood"":""8dd68e06-ab9e-4dab-9f28-a6f5c697e18f"",""Description"":[{""Locale"":""en-us"",""Description"":""HPies01""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/8dd68e06-ab9e-4dab-9f28-a6f5c697e18f.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/8dd68e06-ab9e-4dab-9f28-a6f5c697e18f_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""HPies01""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":1.0,""CoinType"":1}],""Enabled"":true,""MinAge"":0,""ExpirationInDays"":0,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""HSHOE"",""CanBeUsedInAvatar"":true},
                 {""IdVirtualGood"":""bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3"",""Description"":[{""Locale"":""en-us"",""Description"":""MCabeza01""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/bfd1a844-5a6e-4b7f-bdb2-aba2cc8983a3_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""MCabeza01""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":0.0,""CoinType"":1}],""Enabled"":true,""MinAge"":0,""ExpirationInDays"":0,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""HEADS"",""CanBeUsedInAvatar"":true},
-                {""IdVirtualGood"":""d8551f4f-8301-47b2-87be-8c0077afbb05"",""Description"":[{""Locale"":""en-us"",""Description"":""HTorso01""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""HTorso01""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":1.0,""CoinType"":1}],""Enabled"":true,""MinAge"":0,""ExpirationInDays"":0,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""HTORSO"",""CanBeUsedInAvatar"":true}
+                {""IdVirtualGood"":""d8551f4f-8301-47b2-87be-8c0077afbb05"",""Description"":[{""Locale"":""en-us"",""Description"":""HTorso01""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""HTorso01""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":1.0,""CoinType"":1}],""Enabled"":true,""MinAge"":0,""ExpirationInDays"":0,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""HTORSO"",""CanBeUsedInAvatar"":true},
+                {""IdVirtualGood"":""03edad5e-f581-4aed-b217-cc117e3556b4"",""Description"":[{""Locale"":""en-us"",""Description"":""TestPack1""}],""PictureUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05.png"",""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-virtualgoods/d8551f4f-8301-47b2-87be-8c0077afbb05_thumbnail.png"",""Url"":[{""Locale"":""en-us"",""Description"":""TestPack1""}],""ValueInPoints"":0,""Price"":[{""UserType"":0,""Price"":1.0,""CoinType"":1}],""Enabled"":true,""MinAge"":0,""ExpirationInDays"":0,""CanBeGiven"":false,""CanBeUsed"":false,""IdType"":""AVATARVG"",""Highlight"":false,""HighLightInCategory"":false,""IdSubType"":""CONTENT"",""CanBeUsedInAvatar"":false}
             ],
         ""HasMoreResults"":false 
         }";
@@ -72,6 +73,7 @@ public class VirtualGoodsAPI {
 
     public void FAKE()
     {
+        Debug.LogError("Loading FAKE");
         VirtualGoods = new Dictionary<string, VirtualGood>();
         Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(auxData) as Dictionary<string, object>;
         if (virtualgoods != null)
@@ -92,14 +94,11 @@ public class VirtualGoodsAPI {
         }
         // Mis virtual goods.
         Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(auxData2) as Dictionary<string, object>;
-        if (myvirtualgoods != null)
-        {
+        if (myvirtualgoods != null) {
             List<object> myresults = myvirtualgoods["Results"] as List<object>;
-            foreach (Dictionary<string, object> vg in myresults)
-            {
+            foreach (Dictionary<string, object> vg in myresults) {
                 string guid = vg["IdVirtualGood"] as string;
-                if (VirtualGoods.ContainsKey(guid))
-                {
+                if (VirtualGoods.ContainsKey(guid)) {
                     VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
                     myvg.count++;
                 }
