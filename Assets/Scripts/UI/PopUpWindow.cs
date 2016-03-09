@@ -123,10 +123,14 @@ public class PopUpWindow : MonoBehaviour {
 	}
 
 	public void ResetWindow() {
-		StandardTitleText.text = "";
-		StandardTitleText.gameObject.SetActive (false);
+		if (StandardTitleText != null)
+			StandardTitleText.text = "";
 
-		ThirdsProfileTitleText.text = "";
+		if (StandardTitleText != null)
+			StandardTitleText.gameObject.SetActive (false);
+
+		if (ThirdsProfileTitleText != null)
+			ThirdsProfileTitleText.text = "";
 
 		if (ThirdsProfileTitle != null)
 			ThirdsProfileTitle.SetActive (false);
