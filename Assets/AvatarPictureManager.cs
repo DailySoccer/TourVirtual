@@ -6,4 +6,8 @@ public class AvatarPictureManager : MonoBehaviour {
 
 	public List<Sprite> AvatarSprites;
 
+	public Sprite GetAvatarPicture(string id) {
+		return AvatarSprites.Find (d => d.name == id);
+	}
+
 }
