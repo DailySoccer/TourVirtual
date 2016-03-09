@@ -37,23 +37,23 @@ public class ContentAPI
     {
 
         public string GUID;
-        public string InternalID;
+        public string VirtualGoodID;
         public string Title;
         public string Description;
         public string PackURL;
         public string ThumbURL;
         public bool owned;
 
-        public Content(string _GUID, string _InternalID, string _Title, string _Description, string _PackURL, string _ThumbURL)
+        public Content(string _GUID, string _VirtualGoodID, string _Title, string _Description, string _PackURL, string _ThumbURL)
         {
             GUID = _GUID;
-            InternalID = _InternalID;
+            VirtualGoodID = _VirtualGoodID;
             Title = _Title;
             Description = _Description;
             PackURL = _PackURL;
             ThumbURL = _ThumbURL;
             // Ver si tengo el VG.
-            VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByID(_InternalID);
+            VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
             if ( vg!=null) {
                 if (vg.count > 0) owned = true;
                 Debug.LogError("Contenido relaccionado con el VG " + vg.GUID + " OWNED "+ owned);
@@ -79,7 +79,7 @@ public class ContentAPI
 
     public Content GetContentByID(string id){
         foreach (var pair in Contents){
-            if (pair.Value.InternalID == id)
+            if (pair.Value.VirtualGoodID == id)
                 return pair.Value;
         }
         return null;
@@ -245,7 +245,6 @@ public class ContentAPI
                 if (res != "null")
                 {
                     if (callback != null) callback(ParseContent(res));
-                    Debug.Log(">>> Content\n" + res);
                 }
             });
         }
@@ -278,7 +277,7 @@ public class ContentAPI
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
 
-                    Debug.Log(">>> Contents\n" + res);                    
+//                    Debug.Log(">>> Contents\n" + res);                    
                     Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (contents != null) {
                         List<object> results = contents["Results"] as List<object>;

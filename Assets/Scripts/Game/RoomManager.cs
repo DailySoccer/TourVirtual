@@ -186,18 +186,25 @@ public class RoomManager : Photon.PunBehaviour {
                 if (RoomDefinitions.ContainsKey(roomKey)) {
 //                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
                     if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
-                        // Sin pasar por seleccion de avatar.
+                        // Sin pasar por seleccion de avatar ya que tiene avatar
+
                         RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
                         RoomStart = rd.Door(roomKey);
                         roomKey = GetRoomKey(RoomStart);
                         _doorToEnter = GetDoorKey(RoomStart);
+
                         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
                             Player thePlayer = Player.Instance;
                             instance.layer = LayerMask.NameToLayer("Player");
                             if (thePlayer != null) {
                                 thePlayer.Avatar = instance;
                             }
-                            ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
+                            if (MainManager.IsDeepLinking) {
+                                MainManager.IsDeepLinking = false;
+                                GotoRoom("VESTIDOR");
+                            }
+                            else
+                                ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                         }));
                     }
                     else {
@@ -303,8 +310,7 @@ public class RoomManager : Photon.PunBehaviour {
 		else {
 			Debug.Log("Scene loaded... " + Room.SceneName);
 		}
-		
-        
+		        
 		yield return StartCoroutine(EnterPlayer(roomOld, player));
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 

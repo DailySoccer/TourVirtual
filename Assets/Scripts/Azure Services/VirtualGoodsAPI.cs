@@ -10,13 +10,12 @@ public class VirtualGoodsAPI {
         public string InternalID;
         public float Price;
         public int count;
-        public VirtualGood(string _GUID, string _InternalID, string _IdSubType, string _Description, float _Price, string _Image) {
+        public VirtualGood(string _GUID, string _IdSubType, string _Description, float _Price, string _Image) {
             GUID = _GUID;
             IdSubType = _IdSubType;
             Description = _Description;
             Price = _Price;
             Image = _Image;
-            InternalID = _InternalID;
             count = 0;
         }
     }
@@ -25,19 +24,12 @@ public class VirtualGoodsAPI {
 
     public VirtualGood GetByGUID(string guid)
     {
+
         if (VirtualGoods.ContainsKey(guid))
             return VirtualGoods[guid];
         return null;
     }
 
-    public VirtualGood GetByID(string id)
-    {
-        foreach (var pair in VirtualGoods) {
-            VirtualGood v = pair.Value;
-            if (v.InternalID == id) return v;
-        }
-        return null;
-    }
 
     string auxData = @"{
             ""CurrentPage"":1, 
@@ -92,9 +84,8 @@ public class VirtualGoodsAPI {
                     string guid = vg["IdVirtualGood"] as string;
                     string subtype = vg["IdSubType"] as string;
                     string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-                    string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                     float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]) : 0.0f;
-                    VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string);
+                    VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string);
                     VirtualGoods.Add(guid, tmp);
                 }
             }
@@ -127,7 +118,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
-                    Debug.LogError(">>> virtualgoods " + res);
+//                    Debug.LogError(">>> virtualgoods " + res);
                     Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (virtualgoods != null) {
                         List<object> results = virtualgoods["Results"] as List<object>;
@@ -137,9 +128,9 @@ public class VirtualGoodsAPI {
                                 string guid = vg["IdVirtualGood"] as string;
                                 string subtype = vg["IdSubType"] as string;                                
                                 string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+//                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                                 float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]):0.0f;
-                                VirtualGood tmp = new VirtualGood(guid, IID, subtype, desc, value, vg["PictureUrl"] as string );
+                                VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string );
                                 VirtualGoods.Add(guid, tmp);
                             }
                         }
@@ -160,7 +151,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null"){
-                    Debug.LogError(">>> MY virtualgoods " + res);
+//                    Debug.LogError(">>> MY virtualgoods " + res);
                     Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myvirtualgoods != null){
                         List<object> myresults = myvirtualgoods["Results"] as List<object>;
@@ -199,10 +190,6 @@ public class VirtualGoodsAPI {
         VirtualGoods = tmp;
     }
 
-
-    public void BuyByID(string id, bool multiple = false) {
-        BuyByGUID(GetByID(id).GUID, multiple);
-    }
 
     public void BuyByGUID(string guid, bool multiple = false) {
         if (VirtualGoods.ContainsKey(guid)) {

@@ -88,8 +88,6 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestString(mode, url, value, ok, error));
     }
 
-
-    
     void checkResult(RequestEvent ok, RequestEvent error, HTTPRequest request)
     {
         if (request.Response.StatusCode != 200) {
@@ -112,7 +110,6 @@ public class AzureInterfaz {
     }
 
     public IEnumerator _RequestString(string mode, string url, string value, RequestEvent ok = null, RequestEvent error = null) {
-        Debug.LogError("2");
         HTTPRequest request;
         if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Post);
         else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
@@ -133,7 +130,6 @@ public class AzureInterfaz {
 
     public IEnumerator _RequestJSON(string mode, string url, object json, RequestEvent ok = null, RequestEvent error = null)
     {
-        Debug.LogError("3");
         HTTPRequest request;
         if (mode == "post") request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Post);
         else request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
@@ -153,7 +149,6 @@ public class AzureInterfaz {
     }
 
     public IEnumerator _RequestByteArray(string mode, string url, byte[] array, RequestEvent ok = null, RequestEvent error = null) {
-        Debug.LogError("4");
         HTTPRequest request = new HTTPRequest(new System.Uri(string.Format("{0}{1}", WebApiBaseAddress, url)), HTTPMethods.Put);
         request.AddHeader("Content-Type", "application/json");
         request.RawData = array;

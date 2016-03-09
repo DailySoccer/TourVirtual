@@ -121,7 +121,7 @@ public class AchievementsAPI{
         {
             if (res != "null")
             {
-                Debug.LogError(">>> Achievements " + res);
+//                Debug.LogError(">>> Achievements " + res);
                 List<object> results = BestHTTP.JSON.Json.Decode(res) as List<object>;
                 foreach (Dictionary<string, object> ele in results)
                 {
@@ -155,7 +155,7 @@ public class AchievementsAPI{
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null")
                 {
-                    Debug.LogError(">>> MY achievements " + res);
+//                    Debug.LogError(">>> MY achievements " + res);
                     Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myachievements != null)
                     {

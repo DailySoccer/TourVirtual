@@ -30,7 +30,7 @@ public struct AvatarAPI {
 
     public Hashtable GetVirtualGood(string id) {
         Hashtable ht = new Hashtable();
-        VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByID(id);
+        VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(id);
         if (vg != null) {
             ht.Add("IdVirtualGood", vg.GUID);
             ht.Add("Type", "Unknow");
@@ -72,7 +72,7 @@ public struct AvatarAPI {
     public void Parse(Dictionary<string, object> avatar) {
         // Propiedades fisicas. Sexo, Pelo, Cabeza.
         if (avatar.ContainsKey("PhysicalProperties"))
-            SetProperties( avatar["PhysicalProperties"] as List<object> );
+            SetProperties(avatar["PhysicalProperties"] as List<object>);
         // Otras propiedades.
         if (avatar.ContainsKey("Accesories") && avatar["Accesories"]!=null) {
             foreach( Hashtable tmp in avatar["Accesories"] as List<object>) {
