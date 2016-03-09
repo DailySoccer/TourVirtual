@@ -299,7 +299,6 @@ public class RoomManager : Photon.PunBehaviour {
 				}
             }
             Application.LoadLevel(Room.SceneName);
-			Debug.Log("Loading complete... " + Room.SceneName);
 		}
 		else {
 			Debug.Log("Scene loaded... " + Room.SceneName);

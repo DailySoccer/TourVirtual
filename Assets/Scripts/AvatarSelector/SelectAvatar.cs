@@ -59,7 +59,12 @@ public class SelectAvatar : MonoBehaviour {
             if (thePlayer != null) thePlayer.Avatar = instance;
 
             RoomManager roomManager = RoomManager.Instance;
-            if (roomManager != null) roomManager.ToRoom("AVATAR");
+            if (roomManager != null)
+            {
+                // Si venimos por Deep
+                if( MainManager.IsDeepLinking) roomManager.GotoRoom("VESTIDOR");
+                else roomManager.ToRoom("AVATAR");
+            }
         }));
 	}
 	
@@ -88,10 +93,4 @@ public class SelectAvatar : MonoBehaviour {
         maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
         OnSelectGender("Man");
  	}
-    /*
-            UserAPI.AvatarDesciptor.Body = ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
-            UserAPI.AvatarDesciptor.Legs = ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
-            UserAPI.AvatarDesciptor.Feet = ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Sex] as ArrayList)[0] as Hashtable)["id"] as string;
-
-    */
 }

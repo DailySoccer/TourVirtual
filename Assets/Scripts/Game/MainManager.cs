@@ -120,11 +120,14 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
+    public static bool IsDeepLinking = false;
+
     string DeepLinkingURL;
     public void DeepLinking(string url){
-        Debug.LogError(">>>>>>>>DeepLinking<<<<<<< " + url);
         DeepLinkingURL = url;
-	}
+        if(string.IsNullOrEmpty(url))
+            IsDeepLinking = true;
+    }
 
     public void GetDeepLinkingURL() {
 #if UNITY_ANDROID
@@ -159,7 +162,7 @@ public class MainManager : Photon.PunBehaviour {
 		Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
 		Screen.orientation = ScreenOrientation.AutoRotation;
 
-		PhotonNetwork.logLevel = PhotonLogLevel.Full;
+		PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.offlineMode = OfflineMode;
 		// PhotonNetwork.autoCleanUpPlayerObjects = true;
@@ -189,9 +192,15 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     void OnApplicationPause(bool pauseStatus) {
-// Ver como evitar este tema.
-//		Application.Quit();
-	}
+        if (!pauseStatus) {
+            GetDeepLinkingURL();
+            // Ojo de no ir al vestidor si estoy en AVATAR o antes.
+            if (IsDeepLinking)
+                RoomManager.Instance.GotoRoom("VESTIDOR");
+        }
+        // Ver como evitar este tema.
+        //		Application.Quit();
+    }
 
 	void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
