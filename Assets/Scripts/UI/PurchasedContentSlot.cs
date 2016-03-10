@@ -22,34 +22,32 @@ public class PurchasedContentSlot : MonoBehaviour {
 
 	public Image    ItemPictureObject;
 	public Image    IconForContentTypeObject;
-	public Text     DesprictionText;
+	public Text     DescriptionText;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		switch (CurrentType) {
-		    case ContentType.VIDEO:
-			    IconForContentTypeObject.sprite = VideoIcon;
-			    break;
-		    case ContentType.PICTURE:
-			    IconForContentTypeObject.sprite = PictureIcon;
-			    break;
-		    case ContentType.AUDIO:
-			    IconForContentTypeObject.sprite = Audioicon;
-			    break;
-		    case ContentType.MODEL3D:
-			    IconForContentTypeObject.sprite = Model3DIcon;
-			    break;
+	public void SetupSlot(ContentAPI.AssetType type, string thumbURL, string description) {
+
+		StartCoroutine(MyTools.LoadSpriteFromURL (thumbURL, ItemPictureObject.gameObject));
+		DescriptionText.text = description;
+
+		switch (type) {
+		case ContentAPI.AssetType.Video:
+			IconForContentTypeObject.sprite = VideoIcon;
+			break;
+		case ContentAPI.AssetType.Photo:
+			IconForContentTypeObject.sprite = PictureIcon;
+			break;
+		case ContentAPI.AssetType.Audio:
+			IconForContentTypeObject.sprite = Audioicon;
+			break;
+		case ContentAPI.AssetType.Model3D:
+			IconForContentTypeObject.sprite = Model3DIcon;
+			break;
 		}
 	}
-
+	/*
 	public void Reset() {
 		ItemPictureObject.sprite = null;
-		DesprictionText.text = "";
+		DescriptionText.text = "";
 		CurrentType = ContentType.VIDEO;
-	}
+	}*/
 }

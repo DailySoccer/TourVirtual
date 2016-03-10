@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -29,7 +29,7 @@ public class ClothSlot : MonoBehaviour {
 		
 		Price.text = item.Price.ToString();
 
-		StartCoroutine( MyTools.LoadSpriteFromURL (item.Image, Picture.sprite) );
+		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
 	}
 
 	public void Slot_ClickHandle() {

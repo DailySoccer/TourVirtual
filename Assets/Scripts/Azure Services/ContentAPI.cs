@@ -115,7 +115,7 @@ public class ContentAPI
         		""Description"": ""Test Pack 1"",
         		""Asset"": {
         			""AssetUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e.jpg"",
-        			""ThumbnailUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/TESTPACK1"",
+        			""ThumbnailUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e_thumbnail.png"",
         			""Type"": 2,
         			""VideoUrlType"": null
 
@@ -190,7 +190,7 @@ public class ContentAPI
    ""Assets"":[
       {  
          ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e.jpg"",
-         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/TESTPACK1"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e_thumbnail.jpg"",
          ""Type"":2,
          ""VideoUrlType"":null
       },
@@ -242,6 +242,7 @@ public class ContentAPI
     /// <returns></returns>
     public IEnumerator GetContent(string contenid, GetContentCallback callback=null )
     {
+		Debug.LogError(">>>>>>> Pidiendo contenido del pack");
         if (!UserAPI.Instance.Online)
         {
             if (callback != null) callback(ParseContent(auxData2));
@@ -252,6 +253,7 @@ public class ContentAPI
                 if (res != "null")
                 {
                     if (callback != null) callback(ParseContent(res));
+					Debug.LogError(">>>>>>> >>>>>>> Retornando contenido");
                 }
             });
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Text;
 
@@ -34,12 +35,15 @@ public class MyTools
 #endif
     }
 
-    public static IEnumerator LoadSpriteFromURL(string url, Sprite source)
+    public static IEnumerator LoadSpriteFromURL(string url, GameObject source)
     {
         WWW www = new WWW(url);
         yield return www;
-
-        source = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+		Debug.LogError (">>>> >>>> >>>> Cargando imagen w:" + www.texture.width.ToString () + " h: " + www.texture.height.ToString ());
+        //Sprite s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+		Sprite s = new Sprite (); 
+		s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+		source.GetComponent<Image> ().sprite = s;
         //yield return true;
     }
 

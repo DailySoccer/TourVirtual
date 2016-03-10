@@ -694,6 +694,7 @@ GameObject:
   - 222: {fileID: 22251534}
   - 114: {fileID: 11485580}
   - 114: {fileID: 11474306}
+  - 114: {fileID: 11472620}
   m_Layer: 5
   m_Name: Profile Picture
   m_TagString: Untagged
@@ -2294,6 +2295,58 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Abrir perfil de 3\xBA"
+--- !u!114 &11472620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: .65882355, g: .65882355, b: .65882355, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: .784313738, g: .784313738, b: .784313738, a: .501960814}
+    m_ColorMultiplier: 1
+    m_FadeDuration: .100000001
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 11482220}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: ShowProfileScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &11472844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2353,26 +2406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 11485580}
-  Index: 0
-  AvatarPictures:
-  - {fileID: 21300000, guid: a045aaa5242f84cc7adbd46e011d1197, type: 3}
-  - {fileID: 21300000, guid: daec1bcbf81c043b99c093d4072f3c97, type: 3}
-  - {fileID: 21300000, guid: 84f7ddbeaaadf4288b7f7f8586fae8a5, type: 3}
-  - {fileID: 21300000, guid: a9e92ae2b27a64f4cad33e94e564c6cd, type: 3}
-  - {fileID: 21300000, guid: bf797bf27af5542a787a3e0ce6a5c54f, type: 3}
-  - {fileID: 21300000, guid: e2560e64d514f45938f470ce43ea70a8, type: 3}
-  - {fileID: 21300000, guid: 6465a226b0c784e2b91d13187c96a137, type: 3}
-  - {fileID: 21300000, guid: da051e62f6e5f486e9b80a36dd5fc792, type: 3}
-  - {fileID: 21300000, guid: 97669d7140c4547a5a1980bdddb17c8d, type: 3}
-  - {fileID: 21300000, guid: 4cc8460c1e239407991e315c8fc4e6c9, type: 3}
-  - {fileID: 21300000, guid: a109136c265ab49b99bcf9e0b70fd7e1, type: 3}
-  - {fileID: 21300000, guid: 67a5de4bbf1874e929921c27a15db5cd, type: 3}
-  - {fileID: 21300000, guid: b3fb91cc1ac35498084dd861d94d39c3, type: 3}
-  - {fileID: 21300000, guid: 17e3f6f61db5d4f4d94bc907a97dff0e, type: 3}
-  - {fileID: 21300000, guid: 08566f9284f6743e58ebe68cd5b8b3c8, type: 3}
-  - {fileID: 21300000, guid: 4bf20777916d144efb2763cd835f07bd, type: 3}
-  - {fileID: 21300000, guid: e8707fa1fb3eb4df7a444d17ed508720, type: 3}
-  - {fileID: 21300000, guid: a942e23ee3f884f6abcdd3ea5b55a582, type: 3}
 --- !u!114 &11476748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3527,8 +3560,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -.799998462, y: 6.6750145}
-  m_SizeDelta: {x: 72.4000015, y: 66.6999969}
+  m_AnchoredPosition: {x: -.799999237, y: 6.67501068}
+  m_SizeDelta: {x: 156.100006, y: 66.6999969}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22423502
 RectTransform:

@@ -14,6 +14,7 @@ public class AvatarPicture : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 	}
 	
 	// Update is called once per frame
@@ -32,10 +33,12 @@ public class AvatarPicture : MonoBehaviour {
 	}
 
 	public void SetAvatarPicture() {
-		if (UserAPI.Instance != null) {
-            string cara = "";// UserAPI.VirtualGoodsDesciptor.GetByID(UserAPI.AvatarDesciptor.Head).Image;
+		if (Avatar.sprite != null) {
+			if (UserAPI.Instance != null) {
+				string cara = "";// UserAPI.VirtualGoodsDesciptor.GetByID(UserAPI.AvatarDesciptor.Head).Image;
 //			Debug.Log("[Cabeza de avatar] = " + cara.ToString());
-			MyTools.LoadSpriteFromURL(cara, Avatar.sprite);
+				StartCoroutine (MyTools.LoadSpriteFromURL (cara, Avatar.gameObject));
+			}
 		}
 	}
 

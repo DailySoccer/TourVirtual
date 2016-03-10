@@ -35,6 +35,7 @@ public class PopUpWindow : MonoBehaviour {
 	public GameObject PurchasedPackListContent;
 	public GameObject PurchasedPackListContentList;
 	public GameObject PurchasedContenidoVerticalListSlot;
+	private List<GameObject> PurchasedPakContentSlots = new List<GameObject>();
 
 	public GameObject AchievementGridContent;
 	public GameObject AchievementGridContentList;
@@ -167,6 +168,8 @@ public class PopUpWindow : MonoBehaviour {
 		CloseButton.SetActive (true);
 	}
 
+
+
 	/// <summary>
 	/// Rellena la lista de packs obtenidos
 	/// </summary>
@@ -180,7 +183,7 @@ public class PopUpWindow : MonoBehaviour {
 			if (ct.owned) {
 				GameObject slot = Instantiate (PurchasedPackItemGridSlot);
 				slot.transform.SetParent(PurchasedPackGridContentList.transform);
-				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL);
+				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL, ct.VirtualGoodID);
 				slot.transform.localScale = Vector3.one;
 				slot.name = ct.Description;
 				PurchasedPaksGridSlots.Add(slot);
@@ -200,13 +203,28 @@ public class PopUpWindow : MonoBehaviour {
 
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		UserAPI.Contents.GetContent(item.TheID, SetupPurchasedPackContentList);
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
 
-	public void SetupPurchasedListContent() {
-		
+	public void SetupPurchasedPackContentList(List<ContentAPI.Asset> content) {
+		CleanPurchasedPackContent ();
+		foreach (ContentAPI.Asset a in content)  {
+			GameObject slot = Instantiate(PurchasedContenidoVerticalListSlot);
+			slot.GetComponent<PurchasedContentSlot>().SetupSlot(a.Type, a.ThumbnailUrl, a.Title);
+			slot.transform.localScale = Vector3.one;
+			slot.name = a.Title;
+			PurchasedPakContentSlots.Add(slot);
+		}
 	}
 
+	void CleanPurchasedPackContent() {
+		foreach (GameObject go in PurchasedPakContentSlots) {
+			Destroy (go);
+		}
+		PurchasedPakContentSlots.Clear ();
+	}
+	
 
 
 
@@ -241,7 +259,7 @@ public class PopUpWindow : MonoBehaviour {
 		}
 		AchievementsGridSlots.Clear ();
 	}
-	
+
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 	}

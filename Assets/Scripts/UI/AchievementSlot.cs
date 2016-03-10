@@ -23,7 +23,7 @@ public class AchievementSlot : MonoBehaviour {
 	}
 
 	public void SetupSlot(PopUpWindow parentController, string productName, string pictureUrl) {
-		StartCoroutine(MyTools.LoadSpriteFromURL(pictureUrl, Picture.sprite));
+		StartCoroutine(MyTools.LoadSpriteFromURL(pictureUrl, Picture.gameObject));
 		AchievementName.text = productName;
 		theParentController = parentController;
 	}
