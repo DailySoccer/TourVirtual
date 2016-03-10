@@ -37,13 +37,17 @@ public class MyTools
 
     public static IEnumerator LoadSpriteFromURL(string url, GameObject source)
     {
-        WWW www = new WWW(url);
-        yield return www;
-		Debug.LogError (">>>> >>>> >>>> Cargando imagen w:" + www.texture.width.ToString () + " h: " + www.texture.height.ToString ());
+		if (string.IsNullOrEmpty (url)) {
+			Debug.LogError("URL Vacia");
+			yield break;
+		}
+		WWW www  = new WWW(url);
+		yield return www;
         //Sprite s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
 		Sprite s = new Sprite (); 
 		s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
 		source.GetComponent<Image> ().sprite = s;
+
         //yield return true;
     }
 

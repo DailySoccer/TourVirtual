@@ -112,7 +112,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
-//                    Debug.LogError(">>> virtualgoods " + res);
+ //                   Debug.LogError(">>> virtualgoods " + res);
                     Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (virtualgoods != null) {
                         List<object> results = virtualgoods["Results"] as List<object>;
@@ -124,7 +124,10 @@ public class VirtualGoodsAPI {
                                 string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
 //                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                                 float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]):0.0f;
-                                VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string );
+								//string imgurl = vg["PictureUrl"] as string;
+								string imgurl = vg["ThumbnailUrl"] as string;
+
+								VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, imgurl );
                                 VirtualGoods.Add(guid, tmp);
                             }
                         }
@@ -172,13 +175,16 @@ public class VirtualGoodsAPI {
     {
         Dictionary<string, VirtualGood> tmp = new Dictionary<string, VirtualGood>();
         foreach (var pair in VirtualGoods) {
-            if (UserAPI.AvatarDesciptor.Gender == "Male") {
-                if ((pair.Value as VirtualGood).IdSubType[0] == 'H')
+			char stype = (pair.Value as VirtualGood).IdSubType[0];
+			if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
+				if (stype == 'H' || stype == 'U' ){
+					VirtualGood vg = pair.Value as VirtualGood;
                     tmp.Add(pair.Key, pair.Value);
+				}
             }
             else {
-                if ((pair.Value as VirtualGood).IdSubType[0] == 'M')
-                    tmp.Add(pair.Key, pair.Value);
+				if (stype == 'M' || stype == 'U' )
+					tmp.Add(pair.Key, pair.Value);
             }
         }
         VirtualGoods = tmp;
