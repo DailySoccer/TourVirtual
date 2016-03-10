@@ -125,7 +125,6 @@ public class MainManager : Photon.PunBehaviour {
     string DeepLinkingURL;
     public void DeepLinking(string url){
         DeepLinkingURL = url;
-
         Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DeepLinking !!!! ["+ url + "]");
         if(!string.IsNullOrEmpty(url))
             IsDeepLinking = true;

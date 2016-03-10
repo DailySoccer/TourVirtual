@@ -62,7 +62,13 @@ public class SelectAvatar : MonoBehaviour {
             if (roomManager != null)
             {
                 // Si venimos por Deep
-                if( MainManager.IsDeepLinking) roomManager.GotoRoom("VESTIDOR");
+                if (MainManager.IsDeepLinking)
+                {
+                    // De momento no puedo hacer que se vista, ergo, sale direcatamente.
+                    // roomManager.GotoRoom("VESTIDOR");
+                    Application.OpenURL("rmapp://");
+                    Application.Quit();
+                }
                 else roomManager.ToRoom("AVATAR");
             }
         }));

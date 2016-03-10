@@ -50,10 +50,6 @@ public class VirtualGoodsAPI {
         ""HasMoreResults"":false 
         }";
 
-
-
-
-
     string auxData2 = @"{
         ""ContinuationToken"":null,
         ""ContinuationTokenB64"":null,
