@@ -147,9 +147,9 @@ public class MainManager : Photon.PunBehaviour {
         }
 #else
 #if UNITY_WSA
-        string[] arguments = System.Environment.GetCommandLineArgs();
-        if(arguments!=null)
-            Debug.LogError(">>>>> arguments!!! " + arguments.Length + " " + arguments[0]);
+
+        if (!string.IsNullOrEmpty(UnityEngine.WSA.Application.arguments))
+            DeepLinking(UnityEngine.WSA.Application.arguments);
 #endif
 #endif
 

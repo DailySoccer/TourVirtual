@@ -126,6 +126,7 @@ public class CreateAssetBundles {
 		string datePatt = @"d/M/yyyy hh:mm:ss tt";
 		
 		foreach(KeyValuePair<string, string> entry in manifestHashes) {
+            if (entry.Key.Contains("content")) continue;
 			Match hashMatch = new Regex(@".id.:\s*." + entry.Key + @".,\s*.hash.:\s*.(\w*).").Match(sitemapText);
 			if (hashMatch.Success) {
 				// Si el hash no coincide con el del manifest
