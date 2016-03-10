@@ -20,24 +20,25 @@ public class AvatarPicture : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		SetAvatarPicture ();
-		/*if (Index >= 0) {
-			if (Index <= AvatarPictures.Count) {
-				Avatar.sprite = AvatarPictures [Index];
-			}
-			else {
-				Index = AvatarPictures.Count;
-			}
-		} else {
-			Index = 0;
-		}*/
 	}
 
 	public void SetAvatarPicture() {
 		if (Avatar.sprite != null) {
 			if (UserAPI.Instance != null) {
-				string cara = "";// UserAPI.VirtualGoodsDesciptor.GetByID(UserAPI.AvatarDesciptor.Head).Image;
-//			Debug.Log("[Cabeza de avatar] = " + cara.ToString());
-				StartCoroutine (MyTools.LoadSpriteFromURL (cara, Avatar.gameObject));
+				string cara = "";
+				VirtualGoodsAPI.VirtualGood vg  = UserAPI.VirtualGoodsDesciptor.GetByGUID(UserAPI.AvatarDesciptor.Head);
+				if (vg != null) {
+					cara = vg.Image;
+					if (!string.IsNullOrEmpty(cara)) {
+						StartCoroutine (MyTools.LoadSpriteFromURL (cara, Avatar.gameObject));
+					}
+					else {
+						Debug.LogError("[SetAvatarPicture] in " + name + ":  La url de la cara del player no es válida");
+					}
+				}
+				else {
+					Debug.LogError("[SetAvatarPicture] in " + name + ":  No se ha podido averigual la imagen del avatar");			
+				}
 			}
 		}
 	}
