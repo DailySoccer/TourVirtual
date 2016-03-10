@@ -147,7 +147,6 @@ public class MainManager : Photon.PunBehaviour {
         }
 #else
 #if UNITY_WSA
-
         if (!string.IsNullOrEmpty(UnityEngine.WSA.Application.arguments))
             DeepLinking(UnityEngine.WSA.Application.arguments);
 #endif
@@ -191,10 +190,11 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     void OnApplicationPause(bool pauseStatus) {
+        Debug.LogError(">>>> OnApplicationPause!!!!!");
         if (!pauseStatus) {
             GetDeepLinkingURL();
             // Ojo de no ir al vestidor si estoy en AVATAR o antes.
-            if (IsDeepLinking)
+            if (IsDeepLinking && RoomManager.Instance!=null)
                 RoomManager.Instance.GotoRoom("VESTIDOR");
         }
         // Ver como evitar este tema.

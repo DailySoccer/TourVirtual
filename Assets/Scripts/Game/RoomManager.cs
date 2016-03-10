@@ -237,8 +237,11 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void GotoRoom(string roomKey) {
-		IdLastVisitedRoom = RoomManager.Instance.Room.Id;
-		IdLastDoorOfVisitedRoom = "";
+        Debug.LogError(">>>> GotoRoom " + roomKey);
+        if (RoomManager.Instance.Room != null) {
+            IdLastVisitedRoom = RoomManager.Instance.Room.Id;
+        }
+        IdLastDoorOfVisitedRoom = "";
 
 		if (RoomDefinitions.ContainsKey(roomKey)) {
 			ToRoom (RoomDefinitions[roomKey] as RoomDefinition);
