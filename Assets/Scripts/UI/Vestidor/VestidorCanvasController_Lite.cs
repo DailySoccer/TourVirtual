@@ -192,4 +192,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		Debug.LogError("Cerrar App y Volver");
 #endif
 	}
+
+	public void AcceptThisAvatar() {
+		#if !LITE_VERSION
+
+		#else
+		Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
+		#endif
+	}
 }
