@@ -91,7 +91,7 @@ public class DLCManager : MonoBehaviour {
                     if (!assetDefinition.Id.Contains("content"))
                     {
 #if LITE_VERSION
-                        if(assetDefinition.Id!="scene/vestidor" && assetDefinition.Id != "scene/avatar_select")
+                        if(assetDefinition.Id=="avatars")
 #endif
                             AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                     }
