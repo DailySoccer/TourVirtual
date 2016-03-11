@@ -80,9 +80,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		} 
 		else {
 			Debug.Log ("[VestidorCanvas]: No se puede vestir el Player con esto");
+#if !LITE_VERSION
 			popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
-			modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons> ();
 
+			modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons> ();
 			modalDetail.TheName.text = prenda.ClothName.text;
 			modalDetail.ThePicture.sprite = prenda.Picture.sprite;
 
@@ -96,6 +97,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 				popUpWindow.SetState (ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
 			}
 			TogglePopUpScreen(); 
+#endif
 		}
 	}
 
