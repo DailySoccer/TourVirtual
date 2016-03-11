@@ -7,6 +7,7 @@ using System.Collections;
 public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	public enum VestidorState{
+		NONE,
 		SELECT_AVATAR,
 		VESTIDOR
 	}
@@ -17,6 +18,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public GUIScreen GoodiesShopScreen;
 	public GUIScreen AvatarSelectionScreen;
 	private GUIScreen currentGUIScreen;
+
+	public GameObject cameraVestidor;
+	public GameObject cameraAvatarSelector;
 	
 	public GUIPopUpScreen ModalPopUpScreen;
 	private PopUpWindow popUpWindow;
@@ -47,11 +51,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		if (newState != currentVestidorState) {		
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
+					cameraAvatarSelector.SetActive(true);
+					cameraVestidor.SetActive(false);
 					ShowScreen(AvatarSelectionScreen);
 				break;
 
 				case VestidorState.VESTIDOR:
-				ShowScreen(VestidorScreen);
+					cameraAvatarSelector.SetActive(false);
+					cameraVestidor.SetActive(true);
+					ShowScreen(VestidorScreen);
 				break;
 			}
 			currentVestidorState = newState;
@@ -116,7 +124,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 				PlayerInstance.transform.localScale = Vector3.one * 10;				
 			}) );
 
-        ChangeVestidorState ( MainManager.Instance.VestidorMode );
+       ChangeVestidorState ( MainManager.Instance.VestidorMode );
 	}
 
 	public void ShowGoodiesShop() {
@@ -159,12 +167,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	}
 
 	public void AcceptChangesAndBackToRoom() {
+#if !LITE_VERSION
 		Debug.Log ("[VestidorCanvas]: Guardo la nueva vestimenta y vuelvo al tour");
 		HideAllScreens ();
 		BackToRoom ();
+#else
+		Debug.LogError("Aceptar cambios Cerrar App y Volver");
+
+#endif
 	}
 
 	public void BackToRoom() {
+#if !LITE_VERSION
         if (MainManager.IsDeepLinking) {
             Application.OpenURL("rmapp://");
             Application.Quit();
@@ -172,5 +186,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
         }
 		HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
+#else
+		Debug.LogError("Cerrar App y Volver");
+#endif
 	}
 }

@@ -60,7 +60,9 @@ public class PopUpWindow : MonoBehaviour {
 			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
 		}
 #if !LITE_VERSION
-		SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
+		if (SingleContent) {
+			SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
+		}
 #endif
 	}
 	
@@ -187,7 +189,7 @@ public class PopUpWindow : MonoBehaviour {
 			if (ct.owned) {
 				GameObject slot = Instantiate (PurchasedPackItemGridSlot);
 				slot.transform.SetParent(PurchasedPackGridContentList.transform);
-				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL);
+				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL, ct.VirtualGoodID);
 				slot.transform.localScale = Vector3.one;
 				slot.name = ct.Description;
 				PurchasedPaksGridSlots.Add(slot);
