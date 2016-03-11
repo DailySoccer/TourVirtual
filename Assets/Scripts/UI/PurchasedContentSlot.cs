@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.UI;
 
 using System.Collections;
@@ -51,3 +53,5 @@ public class PurchasedContentSlot : MonoBehaviour {
 		CurrentType = ContentType.VIDEO;
 	}*/
 }
+
+#endif

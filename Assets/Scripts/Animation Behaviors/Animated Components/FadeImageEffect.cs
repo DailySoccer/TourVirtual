@@ -23,7 +23,6 @@ public class FadeImageEffect : MonoBehaviour, IAnimated {
 	void Awake() {
 	
 		_imgToFade = GetComponent<UnityEngine.UI.Image>();
-		Debug.Log("-------------------------------------------" + _imgToFade);
 		_initialConfig = new GoTweenConfig();
 		_initialConfig.colorProp("color", new Color(_imgToFade.color.r, _imgToFade.color.g, _imgToFade.color.b, 1), false);
 		_initialConfig.setDelay(_delay);

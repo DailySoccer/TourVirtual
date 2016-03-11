@@ -116,7 +116,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 				PlayerInstance.transform.localScale = Vector3.one * 10;				
 			}) );
 
-		ChangeVestidorState (VestidorState.SELECT_AVATAR);
+        ChangeVestidorState ( MainManager.Instance.VestidorMode );
 	}
 
 	public void ShowGoodiesShop() {

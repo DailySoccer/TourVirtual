@@ -152,7 +152,6 @@ public class DLCManager : MonoBehaviour {
 
             // Ignoramos las versiones 0...
             if (definition.Version > 0){
-                Debug.Log("DLCManager: Loading... " + (BaseUrl + definition.Id) + " " + definition.Version);
                 currentName = definition.Id;
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
                 LoadingBar.Instance.Show();

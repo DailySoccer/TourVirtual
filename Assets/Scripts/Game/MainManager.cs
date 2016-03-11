@@ -30,7 +30,9 @@ public class MainManager : Photon.PunBehaviour {
 
 	public bool InternetConnection = false;
 
-	public GameObject GameInput;
+    public VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
+
+    public GameObject GameInput;
 #if !LITE_VERSION
 	public bool GameInputEnabled {
 		get {
