@@ -20,7 +20,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	private GUIScreen currentGUIScreen;
 
 	public GameObject cameraVestidor;
+	public GameObject SecondPlaneVestidor;
+
 	public GameObject cameraAvatarSelector;
+	public GameObject SecondPlaneAvatarSelect;
 	
 	public GUIPopUpScreen ModalPopUpScreen;
 	private PopUpWindow popUpWindow;
@@ -52,13 +55,21 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
 					cameraAvatarSelector.SetActive(true);
+					SecondPlaneAvatarSelect.SetActive(true);
 					cameraVestidor.SetActive(false);
+					SecondPlaneVestidor.SetActive(false);
+					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraAvatarSelector.GetComponent<Camera>());
+
 					ShowScreen(AvatarSelectionScreen);
 				break;
 
 				case VestidorState.VESTIDOR:
 					cameraAvatarSelector.SetActive(false);
+					SecondPlaneAvatarSelect.SetActive(false);
 					cameraVestidor.SetActive(true);
+					SecondPlaneVestidor.SetActive(true);
+					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
+
 					ShowScreen(VestidorScreen);
 				break;
 			}
