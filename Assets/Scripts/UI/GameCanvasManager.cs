@@ -1,3 +1,5 @@
+#if !LITE_VERSION
+
 using UnityEngine;
 using System.Collections;
 //using UnityEngine.UI;
@@ -65,3 +67,5 @@ public class GameCanvasManager : CanvasManager
 		GameObject.FindGameObjectWithTag("ChatUIButton").GetComponent<BadgeAlert>().Count = counter;
 	}
 }
+
+#endif

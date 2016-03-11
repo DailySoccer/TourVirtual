@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 using UnityEngine;
 using System.Collections;
 
@@ -246,3 +247,5 @@ public class FollowAvatar : MonoBehaviour {
 	private bool _initialized = false;
 	
 }
+
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Soomla;
@@ -32,10 +33,10 @@ public class TourEventHandler {
 		StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
 		
-		#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 		StoreEvents.OnIabServiceStarted += onIabServiceStarted;
 		StoreEvents.OnIabServiceStopped += onIabServiceStopped;
-		#endif
+#endif
 	}
 	
 	/// <summary>
@@ -177,12 +178,13 @@ public class TourEventHandler {
 		
 	}
 	
-	#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 	public void onIabServiceStarted() {
 		
 	}
 	public void onIabServiceStopped() {
 		
 	}
-	#endif
+#endif
 }
+#endif

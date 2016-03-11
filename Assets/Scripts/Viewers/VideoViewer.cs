@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 public class VideoViewer : MonoBehaviour
@@ -22,3 +23,4 @@ public class VideoViewer : MonoBehaviour
     }
 
 }
+#endif

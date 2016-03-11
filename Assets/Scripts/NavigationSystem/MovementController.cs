@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 
 public class MovementController : MonoBehaviour {
 	
@@ -151,3 +152,4 @@ public class MovementController : MonoBehaviour {
     }	
     */
 }
+#endif

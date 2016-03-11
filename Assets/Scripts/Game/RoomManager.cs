@@ -276,7 +276,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
     System.Collections.IEnumerator LoadRoom(RoomDefinition roomDefinition) {
-		_loadingRoom = true;
+        _loadingRoom = true;
 
 		RoomDefinition roomOld = Room;
 		Room = roomDefinition;
@@ -287,7 +287,7 @@ public class RoomManager : Photon.PunBehaviour {
 		if (player != null) {
 			player.gameObject.SetActive(false);
 		}
-		
+#if !LITE_VERSION
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room == null) {
                 // Abre la primera pantalla.
@@ -298,7 +298,7 @@ public class RoomManager : Photon.PunBehaviour {
                 PhotonNetwork.LeaveRoom();
 			}
 		}
-		
+#endif       
 		if (OnSceneChange != null) OnSceneChange();
 		
 		if (Room.SceneName != Application.loadedLevelName) {
@@ -313,8 +313,7 @@ public class RoomManager : Photon.PunBehaviour {
 		else {
 			Debug.Log("Scene loaded... " + Room.SceneName);
 		}
-		        
-		yield return StartCoroutine(EnterPlayer(roomOld, player));
+        yield return StartCoroutine(EnterPlayer(roomOld, player));
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
 		_loadingRoom = false;
@@ -325,6 +324,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void UpdatePointOfInterest() {
+#if !LITE_VERSION
 		Transform pointOfInterest = null;
 
 		if (ContentManager.Instance.ContentNear != null) {
@@ -344,6 +344,7 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 
 		PointOfInterest = pointOfInterest;
+#endif
 	}
 	
 	private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
@@ -394,14 +395,14 @@ public class RoomManager : Photon.PunBehaviour {
 				player.Avatar.transform.rotation = Quaternion.identity;
 			}
 		}
-
+#if !LITE_VERSION
 		// Esperamos que el player entre en la nueva Room
 		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id))) {
 			yield return null;
 		}
 
 		Debug.Log ("EnterPlayer: " + PhotonNetwork.player.name);
-
+#endif
 		if (player != null) {
 			// Hacerlo visible o no...
 			player.gameObject.SetActive(Room.PlayerVisible);

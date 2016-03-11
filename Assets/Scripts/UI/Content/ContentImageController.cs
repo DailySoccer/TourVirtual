@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -106,3 +108,5 @@ public class ContentImageController : MonoBehaviour {
 		yield return null;
 	}
 }
+
+#endif

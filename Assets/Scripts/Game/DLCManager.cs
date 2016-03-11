@@ -89,7 +89,12 @@ public class DLCManager : MonoBehaviour {
                 foreach (Dictionary<string, object> asset in assets) {
                     AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
                     if (!assetDefinition.Id.Contains("content"))
-                        AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
+                    {
+#if LITE_VERSION
+                        if(assetDefinition.Id!="scene/vestidor" && assetDefinition.Id != "scene/avatar_select")
+#endif
+                            AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
+                    }
                 }
             }
             else
@@ -98,7 +103,6 @@ public class DLCManager : MonoBehaviour {
     }
     public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
-			Debug.LogError("Unknow File "+keyResource);
 			yield break;
 		}
 

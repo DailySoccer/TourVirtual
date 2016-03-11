@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -234,14 +235,15 @@ public class ContentModel3DController : MonoBehaviour {
 	GameObject _cameraMain;
 	GameObject _currentModel3D;
 
-	#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 	const float _rotationSpeed = 1.0F;
-	#else	
+#else
 	const float _rotationSpeed = 0.1F;
-	#endif
+#endif
 	private float _lerpSpeed = 1.0F;
 	
 	private Vector3 _theSpeed = Vector3.zero;
 	private Vector3 _avgSpeed = Vector3.zero;
 	private bool _isDragging = false;
 }
+#endif

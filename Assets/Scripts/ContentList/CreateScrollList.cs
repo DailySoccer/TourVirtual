@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
@@ -29,3 +31,5 @@ public class CreateScrollList : MonoBehaviour {
 		}
 	}
 }
+
+#endif

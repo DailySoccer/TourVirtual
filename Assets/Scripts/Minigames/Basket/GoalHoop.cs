@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 namespace Basket
@@ -24,3 +25,4 @@ namespace Basket
         }
     }
 }
+#endif

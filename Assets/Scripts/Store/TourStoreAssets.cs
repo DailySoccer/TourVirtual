@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Soomla.Store;
@@ -157,3 +159,4 @@ public class TourStoreAssets : IStoreAssets {
 		"no_ads",														// item id
 		new PurchaseWithMarket(NO_ADS_LIFETIME_PRODUCT_ID, 0.99));	// the way this virtual good is purchased
 }
+#endif

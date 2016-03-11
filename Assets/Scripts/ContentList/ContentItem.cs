@@ -1,3 +1,5 @@
+#if !LITE_VERSION
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -23,3 +25,4 @@ public class ContentItem : MonoBehaviour {
 
 	private CompactContent _compactContent;
 }
+#endif

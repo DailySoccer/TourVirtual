@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 
 public class RemotePlayerHUD : MonoBehaviour {
@@ -59,3 +61,5 @@ public class RemotePlayerHUD : MonoBehaviour {
 		canvasManager.ShowOTherPlayerInfo (playerID);
 	}
 }
+
+#endif

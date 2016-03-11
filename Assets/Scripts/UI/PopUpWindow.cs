@@ -35,7 +35,6 @@ public class PopUpWindow : MonoBehaviour {
 	public GameObject PurchasedPackListContent;
 	public GameObject PurchasedPackListContentList;
 	public GameObject PurchasedContenidoVerticalListSlot;
-	private List<GameObject> PurchasedPakContentSlots = new List<GameObject>();
 
 	public GameObject AchievementGridContent;
 	public GameObject AchievementGridContentList;
@@ -43,14 +42,14 @@ public class PopUpWindow : MonoBehaviour {
 	private List<GameObject> AchievementsGridSlots = new List<GameObject>();
 
 	public GameObject SingleContent;
-
+#if !LITE_VERSION
 	ThirdProfileController ThirdsProfile;
+#endif
 	public GameObject ProfileScreenController;
-
+#if !LITE_VERSION
 	private DetailedContent2Buttons SingleContentLayOut;
-
 	public GameCanvasManager TheGameCanvas;
-
+#endif
 	// Use this for initialization
 	void Start () {
 		StandardTitleText.gameObject.SetActive(true);
@@ -60,8 +59,9 @@ public class PopUpWindow : MonoBehaviour {
 		} else {
 			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
 		}
-
+#if !LITE_VERSION
 		SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
+#endif
 	}
 	
 	// Update is called once per frame
@@ -98,21 +98,27 @@ public class PopUpWindow : MonoBehaviour {
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "FONDOS INSUFICIENTES";
-			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
+#if !LITE_VERSION
+            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
+#endif
 			break;
 			
 		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "ADQUIERE ESTE PRODUCTO";
+#if !LITE_VERSION
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-			break;
+#endif
+                break;
 			
 		case ModalLayout.SINGLE_CONTENT_SARE:
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "COMPARTE TU ADQUISICIÓN";
+#if !LITE_VERSION
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
+#endif
 			break;
 			
 		case ModalLayout.THIRDS_PROFILE_CONTENT:
@@ -168,27 +174,26 @@ public class PopUpWindow : MonoBehaviour {
 		CloseButton.SetActive (true);
 	}
 
-
-
 	/// <summary>
 	/// Rellena la lista de packs obtenidos
 	/// </summary>
 	public void SetupPurchasedGridContent() {
 
 		CleanPurchaserGridContent ();
-
+#if !LITE_VERSION
 		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content ct = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
 			if (ct.owned) {
 				GameObject slot = Instantiate (PurchasedPackItemGridSlot);
 				slot.transform.SetParent(PurchasedPackGridContentList.transform);
-				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL, ct.VirtualGoodID);
+				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL);
 				slot.transform.localScale = Vector3.one;
 				slot.name = ct.Description;
 				PurchasedPaksGridSlots.Add(slot);
 			}
 		}
+#endif
 	}
 
 	/// <summary>
@@ -200,31 +205,16 @@ public class PopUpWindow : MonoBehaviour {
 		}
 		PurchasedPaksGridSlots.Clear ();
 	}
-
+#if !LITE_VERSION
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
-		UserAPI.Contents.GetContent(item.TheID, SetupPurchasedPackContentList);
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
-
-	public void SetupPurchasedPackContentList(List<ContentAPI.Asset> content) {
-		CleanPurchasedPackContent ();
-		foreach (ContentAPI.Asset a in content)  {
-			GameObject slot = Instantiate(PurchasedContenidoVerticalListSlot);
-			slot.GetComponent<PurchasedContentSlot>().SetupSlot(a.Type, a.ThumbnailUrl, a.Title);
-			slot.transform.localScale = Vector3.one;
-			slot.name = a.Title;
-			PurchasedPakContentSlots.Add(slot);
-		}
+#endif
+	public void SetupPurchasedListContent() {
+		
 	}
 
-	void CleanPurchasedPackContent() {
-		foreach (GameObject go in PurchasedPakContentSlots) {
-			Destroy (go);
-		}
-		PurchasedPakContentSlots.Clear ();
-	}
-	
 
 
 
@@ -234,7 +224,7 @@ public class PopUpWindow : MonoBehaviour {
 	public void SetupAchievementGridContent() {
 
 		CleanAchievementsGridContent ();
-		
+#if !LITE_VERSION
 		foreach (var c in UserAPI.Achievements.Achievements) {	
 			AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
 			// TODO: rellenar el contenido de cada lista
@@ -248,25 +238,28 @@ public class PopUpWindow : MonoBehaviour {
 			slot.name = ach.Description;
 			AchievementsGridSlots.Add(slot);
 		}
+#endif
 	}
 
 	/// <summary>
 	/// Limpia la lista de Logros del grid de logros desbloqueados
 	/// </summary>
 	void CleanAchievementsGridContent() {
+#if !LITE_VERSION
 		foreach (GameObject go in AchievementsGridSlots) {
 			Destroy (go);
 		}
-		AchievementsGridSlots.Clear ();
+#endif
+        AchievementsGridSlots.Clear ();
 	}
-
+#if !LITE_VERSION
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 	}
+#endif
 
 
-
-	public void SetupSingleContentBuyContent() {
+    public void SetupSingleContentBuyContent() {
 		
 	}
 	public void SetupSingleContentGoToShop() {
@@ -275,9 +268,12 @@ public class PopUpWindow : MonoBehaviour {
 	public void SetupSingleContentToShare() {
 		
 	}
-
+#if !LITE_VERSION
 	public void SetupThirdProfileContent(string playerID) {
+
 		ThirdsProfile = ProfileScreenController.GetComponent<ThirdProfileController> ();
 		ThirdsProfile.Setup (playerID);
-	}
+    }
+#endif
+
 }

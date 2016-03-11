@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -69,3 +71,5 @@ public class CompactContent {
 	}
 }
 
+
+#endif

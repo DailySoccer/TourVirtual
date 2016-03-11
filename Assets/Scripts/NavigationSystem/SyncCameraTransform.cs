@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 
 public class SyncCameraTransform : MonoBehaviour {
@@ -51,3 +53,4 @@ public class SyncCameraTransform : MonoBehaviour {
 		_currentPitch = Mathf.Clamp(_currentPitch + amount, MIN_PITCH, MAX_PITCH);
 	}
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 namespace Football
@@ -7,3 +8,4 @@ namespace Football
     {
     }
 }
+#endif

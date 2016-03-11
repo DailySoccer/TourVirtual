@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -31,3 +33,5 @@ public class ContentVideoController : MonoBehaviour {
 		yield return null;
 	}
 }
+
+#endif

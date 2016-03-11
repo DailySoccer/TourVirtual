@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour {
 		get { return _cameraPitch; } 
 		set { _cameraPitch = value; }
 	}
+#if !LITE_VERSION
 
 	private Locomotion _cacheLocomotion;
 	
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour {
 	public FollowAvatar.FollowStyle followStyle;
 	[SerializeField]
 	public SyncCameraTransform.CameraStyle cameraStyle;
-
+#endif
 	static public Player Instance {
 		get {
 			RefreshPlayer();
@@ -60,12 +62,14 @@ public class Player : MonoBehaviour {
 			_avatar.tag = TAG_UMA_AVATAR;
 			_avatar.transform.SetParent(transform);
 			_avatar.transform.position = transform.position;
+#if !LITE_VERSION
 			_cacheLocomotion = null;
 			Locomotion.movementStyle = _movementStyle;
-
+#endif
 			//_umaAvatar.AddComponent<AudioListener>();
 		}
 	}
+#if !LITE_VERSION
 
 	public Locomotion Locomotion {
 		get {
@@ -75,7 +79,7 @@ public class Player : MonoBehaviour {
 			return _cacheLocomotion;
 		}
 	}
-
+#endif
 	void Start() {
 		RefreshPlayer();
 		RefreshAvatar();
@@ -84,9 +88,12 @@ public class Player : MonoBehaviour {
 		if (_player != null) {
 			_player.gameObject.SetActive(false);
 		}
+#if !LITE_VERSION
+
 		if (_avatar != null) {
 			Locomotion.movementStyle = movementStyle;
 		}
+#endif
 	}
 
 	private static void RefreshPlayer() {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -24,3 +25,4 @@ public class TopBarEnergy : MonoBehaviour {
 	}
 
 }
+#endif

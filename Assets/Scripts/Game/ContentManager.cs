@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ContentManager: MonoBehaviour
@@ -149,3 +151,5 @@ public class ContentManager: MonoBehaviour
 	private static string KEY_CURRENT_PAGE = "CurrentPage";
 	private static string KEY_PAGE_COUNT = "PageCount";
 }
+
+#endif

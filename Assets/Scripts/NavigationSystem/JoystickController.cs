@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -153,3 +154,4 @@ public class JoystickController : MonoBehaviour {
 	}
 	
 }
+#endif

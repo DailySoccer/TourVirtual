@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 
 public class ContentCubemapController : MonoBehaviour {
@@ -46,3 +48,5 @@ public class ContentCubemapController : MonoBehaviour {
 
 	Camera _cameraMain;
 }
+
+#endif

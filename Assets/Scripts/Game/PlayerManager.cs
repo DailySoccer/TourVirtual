@@ -50,6 +50,7 @@ public class PlayerManager : Photon.PunBehaviour {
 	}
 
 	void SpawnPlayer() {
+#if !LITE_VERSION
 		int viewIdOld = _viewId;
 
 		// Manually allocate PhotonViewID
@@ -68,8 +69,9 @@ public class PlayerManager : Photon.PunBehaviour {
 			playerTransform = transform;
 		}
 		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel);
+#endif
 	}
-
+#if !LITE_VERSION
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel) {
 		GameObject thePlayer = null;
@@ -119,20 +121,17 @@ public class PlayerManager : Photon.PunBehaviour {
 			thePlayer.layer = LayerMask.NameToLayer( "Net" );
             */
 		}
-
 		// Set the PhotonView
 	}
-
-    public System.Collections.IEnumerator CacheClothes()
-    {
-
+#endif
+    public System.Collections.IEnumerator CacheClothes() {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
             Heads   = json["Heads"] as Dictionary<string, object>;
             Hairs   = json["Hairs"] as Dictionary<string, object>;
             Bodies  = json["Bodies"] as Dictionary<string, object>;
             Legs    = json["Legs"] as Dictionary<string, object>;
-            Feet = json["Feet"] as Dictionary<string, object>;
+            Feet    = json["Feet"] as Dictionary<string, object>;
             Compliments = json["Compliments"] as Dictionary<string, object>;
             Selector = json["Selector"] as Dictionary<string, object>;
             packsList = json["packs"] as List<object>;
@@ -144,6 +143,8 @@ public class PlayerManager : Photon.PunBehaviour {
     public delegate void callback(GameObject instance);
     public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null) {
         string[] section = model.Split('#');
+
+        Debug.LogError(">>> model " + model);
 
         Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
         Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);

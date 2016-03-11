@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using System.Collections;
 
 public class GUIChatScreen : UIScreen 
@@ -42,3 +44,5 @@ public class GUIChatScreen : UIScreen
 	}
 
 }
+
+#endif

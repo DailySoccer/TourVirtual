@@ -132,7 +132,7 @@ public class Authentication : MonoBehaviour {
     private string _urlCode = "";
 #if UNITY_EDITOR
     void OnGUI() {
-        if (string.IsNullOrEmpty(AzureServices.AccessToken) && UserAPI.Instance.Online )
+        if (UserAPI.Instance.Online && string.IsNullOrEmpty(AzureServices.AccessToken) )
         {
             if (GUI.Button(new Rect(0, Screen.height - 150, 150, 80), "Signout"))
                 AzureServices.SignOut();

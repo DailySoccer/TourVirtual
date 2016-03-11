@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 using UnityEngine;
 using System.Collections;
 
@@ -133,3 +134,5 @@ public class Locomotion : MonoBehaviour {
 	}
 
 }
+
+#endif

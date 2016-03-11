@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SmartLocalization;
+
+#if !LITE_VERSION
 using Soomla;
 using Soomla.Store;
+#endif
 
 public enum TourVirtualBuildMode {
 	Debug,
@@ -14,12 +17,7 @@ public enum TourVirtualBuildMode {
 
 public class MainManager : Photon.PunBehaviour {
 
-	static public MainManager Instance {
-		get {
-			GameObject mainManagerObj = GameObject.FindGameObjectWithTag("MainManager");
-			return mainManagerObj != null ? mainManagerObj.GetComponent<MainManager>() : null;
-		}
-	}
+	static public MainManager Instance { get; private set; }
 
 	public delegate void ChangeEvent();
 	public event ChangeEvent OnLanguageChange;
@@ -33,7 +31,7 @@ public class MainManager : Photon.PunBehaviour {
 	public bool InternetConnection = false;
 
 	public GameObject GameInput;
-
+#if !LITE_VERSION
 	public bool GameInputEnabled {
 		get {
 			return GameInput != null ? GameInput.GetComponent<Controller3DExample>().enabled : true;
@@ -46,7 +44,7 @@ public class MainManager : Photon.PunBehaviour {
 			}
 		}
 	}
-
+#endif
 	[SerializeField]
 	private string _currentLanguage;
 	public string CurrentLanguage {
@@ -100,8 +98,14 @@ public class MainManager : Photon.PunBehaviour {
 
 	public bool Ready {
 		get {
+#if !LITE_VERSION
 			return OfflineMode || (InternetConnection && PhotonNetwork.connectedAndReady);
-		}
+#else
+            return InternetConnection;
+#endif
+
+        }
+
 	}
 
 	public void ChangeLanguage(string lang) {
@@ -155,14 +159,17 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     void Awake() {
+        Instance = this;
+
+
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		Screen.autorotateToPortrait = Screen.autorotateToPortraitUpsideDown = false;
 		Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
 		Screen.orientation = ScreenOrientation.AutoRotation;
-
-		PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
+#if !LITE_VERSION
+        PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.offlineMode = OfflineMode;
 		// PhotonNetwork.autoCleanUpPlayerObjects = true;
@@ -171,6 +178,7 @@ public class MainManager : Photon.PunBehaviour {
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 		Debug.Log("PlayerName: " + PhotonNetwork.playerName);
 		// Cargamos las Setting Options
+#endif
 		MusicEnabled = true; // TODO: Cargar desde archivo de configuracion
 		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
 		CurrentLanguage = LanguageManagerInstance.CurrentlyLoadedCulture.languageCode; // TODO: Cargar desde archivo de configuracion
@@ -182,15 +190,16 @@ public class MainManager : Photon.PunBehaviour {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
 		}
-//		else StartCoroutine(Connect ());
-#if UNITY_ANDROID || UNITY_IOS
-                InitializeStore();
+        //		else StartCoroutine(Connect ());
+#if !LITE_VERSION
+#if (UNITY_ANDROID || UNITY_IOS)
+        InitializeStore();
+#endif
 #endif
 
     }
 
     void OnApplicationPause(bool pauseStatus) {
-        Debug.LogError(">>>> OnApplicationPause!!!!!");
         if (!pauseStatus) {
             GetDeepLinkingURL();
             // Ojo de no ir al vestidor si estoy en AVATAR o antes.
@@ -200,7 +209,7 @@ public class MainManager : Photon.PunBehaviour {
         // Ver como evitar este tema.
         //		Application.Quit();
     }
-
+#if !LITE_VERSION
 	void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 
@@ -241,43 +250,37 @@ public class MainManager : Photon.PunBehaviour {
 	public void onUnexpectedStoreError(int errorCode) {
 		SoomlaUtils.LogError ("EventHandler", "error with code: " + errorCode);
 	}
-	
-	void HandleOnUserLogin () {
+#endif
+    void HandleOnUserLogin () {
+#if !LITE_VERSION
 		PhotonNetwork.playerName = UserAPI.Instance.Nick;
+#endif
 		StartCoroutine(Connect ());
 	}
 
-	/*
-	public void OnGUI()	{
-		if (!InternetConnection && !OfflineMode) {
-			GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
-			centeredStyle.alignment = TextAnchor.MiddleCenter;
-			centeredStyle.fontSize = 30;
-			GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Internet...", centeredStyle);
+/*
+public void OnGUI()	{
+    if (!InternetConnection && !OfflineMode) {
+        GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
+        centeredStyle.alignment = TextAnchor.MiddleCenter;
+        centeredStyle.fontSize = 30;
+        GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Internet...", centeredStyle);
 
-			if (GUI.Button(new Rect (Screen.width-300, Screen.height-100, 200, 50), "Offline")) {
-				OfflineMode = true;
-				StartCoroutine(Connect ());
-			}
-		}
-	}
-	*/
-	
+        if (GUI.Button(new Rect (Screen.width-300, Screen.height-100, 200, 50), "Offline")) {
+            OfflineMode = true;
+            StartCoroutine(Connect ());
+        }
+    }
+}
+*/
+
 	IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
-        /*
-		if (DLCManager.Instance != null) {
-            // Descargar el fichero de versiones.
-            yield return StartCoroutine(DLCManager.Instance.LoadVersion());
-			yield return StartCoroutine(DLCManager.Instance.CacheResources());            
-            
-        }
-        */
         if (PlayerManager.Instance != null)
         {
             yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
         }
-
+#if !LITE_VERSION
         Debug.Log ("Connect...");
 		PhotonNetwork.offlineMode = OfflineMode;
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
@@ -292,9 +295,10 @@ public class MainManager : Photon.PunBehaviour {
 			StartCoroutine(RoomManager.Instance.Connect());
 		}
 		*/
-	}
+#endif
+    }
 
-	public IEnumerator CheckForInternetConnection()	{
+    public IEnumerator CheckForInternetConnection()	{
 		while (!InternetConnection && !OfflineMode) {
 			InternetConnection = Application.internetReachability != NetworkReachability.NotReachable;//string.IsNullOrEmpty(www.error);
 			if (InternetConnection) {
@@ -305,6 +309,7 @@ public class MainManager : Photon.PunBehaviour {
 			}
 		}
 	}
-
+#if !LITE_VERSION
 	TourEventHandler _tourEventHandler;
+#endif
 }

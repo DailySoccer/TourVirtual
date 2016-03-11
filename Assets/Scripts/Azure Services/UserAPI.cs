@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 public class UserAPI {
 
-    public bool Online = true;
+    public bool Online = false;
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
@@ -23,6 +23,7 @@ public class UserAPI {
     public int      Energy      { get; set; } // Energia minijuegos. FAKE!!!
     public float    NextLevel   { get; set; } // Progreso de nivel 0 a 1.
     // Tools
+#if !LITE_VERSION
     public int GetScore(MiniGame game) {
         return HighScore[(int)game];
     }
@@ -41,11 +42,12 @@ public class UserAPI {
         max = Contents.TotalContents;
         return Contents.GetOwned();
     }
+    public static AchievementsAPI Achievements { get; private set; }
+    public static ContentAPI Contents { get; private set; }
+#endif
 
     public static AvatarAPI AvatarDesciptor;
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
-    public static AchievementsAPI Achievements { get; private set; }
-    public static ContentAPI Contents { get; private set; }
     public static UserAPI Instance { get; private set; }
 
     public delegate void UserLogin();
@@ -59,26 +61,30 @@ public class UserAPI {
 
     public UserAPI() {
         Instance = this;
+#if !LITE_VERSION
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
+#endif
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
         if (!Online)
         {
             VirtualGoodsDesciptor.FAKE();
+#if !LITE_VERSION
             Achievements.FAKE();
             Contents.FAKE();
+#endif
             // Gamificación.
             Points = 10;
             Level = 2;
 
-
+/*
             Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
                 foreach (ContentAPI.Asset asset in values)
                 {
                     Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
                 }
             }));
-
+*/
         }
     }
 
@@ -86,6 +92,7 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
+#if !LITE_VERSION
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
         /*
@@ -96,6 +103,7 @@ public class UserAPI {
             }
         }));
         */
+#endif
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string,object>;
             UserID = hs["IdUser"] as string;
@@ -129,7 +137,7 @@ public class UserAPI {
             "LevelNumber":0
         }
         */
-
+#if !LITE_VERSION
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
             try
@@ -170,6 +178,9 @@ public class UserAPI {
 
 #endif
 #endif
+
+
+#endif
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }
@@ -209,7 +220,7 @@ public class UserAPI {
         });
     }
 
-
+#if !LITE_VERSION
     public IEnumerator AwaitGlobalRanking() {
         // Global.
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
@@ -295,4 +306,5 @@ public class UserAPI {
             */
         });
     }
+#endif
 }

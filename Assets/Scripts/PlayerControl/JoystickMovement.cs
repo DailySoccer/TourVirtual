@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent (typeof (TouchUnifier))]
@@ -27,3 +28,4 @@ public class JoystickMovement : MonoBehaviour {
 		
 	}
 }
+#endif

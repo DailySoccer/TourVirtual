@@ -202,7 +202,9 @@ public class VirtualGoodsAPI {
                     Debug.LogError("Buy VirtualGood >>>> " + res);
                     vg.count++;
                     UserAPI.Instance.Points -= (int)vg.Price;
+#if !LITE_VERSION
                     UserAPI.Contents.CheckContent(vg);
+#endif
                 });
             }
             else {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !LITE_VERSION
+
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,3 +18,4 @@ public class TVBChatMessageDate : MonoBehaviour {
 
 	string _theDateString;
 }
+#endif

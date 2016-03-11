@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 using UnityEngine;
 
 public class TouchUnifier : MonoBehaviour {
@@ -108,3 +109,4 @@ public class TouchUnifier : MonoBehaviour {
 	}
 	
 }
+#endif

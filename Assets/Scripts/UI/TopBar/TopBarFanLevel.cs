@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -18,3 +20,4 @@ public class TopBarFanLevel : MonoBehaviour {
 		}
 	}
 }
+#endif

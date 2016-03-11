@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -20,3 +21,4 @@ public class TopBarUserName : MonoBehaviour {
 		//	Flag.sprite = UserAPI.Instance.FlagSprite;
 	}
 }
+#endif

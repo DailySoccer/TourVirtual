@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
@@ -54,3 +56,5 @@ public class ContentInfoController : MonoBehaviour {
 		yield return null;
 	}
 }
+
+#endif

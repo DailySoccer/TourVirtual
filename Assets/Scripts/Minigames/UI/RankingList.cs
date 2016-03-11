@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 public class RankingList : MonoBehaviour {
@@ -22,3 +23,4 @@ public class RankingList : MonoBehaviour {
 		slot.GetComponent<RankingSlot> ().Setup (positionNumber, playerName, playerscore);
 	}
 }
+#endif

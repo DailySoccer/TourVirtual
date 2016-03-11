@@ -5,12 +5,7 @@ using System.Collections.Generic;
 
 public class CanvasRootController : MonoBehaviour {
 
-	static public CanvasRootController Instance {
-		get {
-			GameObject canvasRootObj = GameObject.FindGameObjectWithTag("CanvasRoot");
-			return canvasRootObj != null ? canvasRootObj.GetComponent<CanvasRootController>() : null;
-		}
-	}
+	static public CanvasRootController Instance { get; private set; }
 
 	public Camera UIScreensCamera;
 
@@ -25,7 +20,9 @@ public class CanvasRootController : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake() {
-		LoadingCanvas.SetActive(false);
+        Instance = this;
+
+        LoadingCanvas.SetActive(false);
 		HideCanvasLayers();
 
 		_roomManager = RoomManager.Instance;
@@ -39,7 +36,8 @@ public class CanvasRootController : MonoBehaviour {
 
 	private void HideCanvasLayers() {
 		foreach(GameObject go in canvasLayers) {
-			go.SetActive(false);
+            if(go!=null)
+                go.SetActive(false);
 		}
 		SecondPlaneCanvas.SetActive(false);
 	}

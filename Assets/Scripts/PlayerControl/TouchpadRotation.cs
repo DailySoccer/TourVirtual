@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 public class TouchpadRotation : MonoBehaviour {
@@ -13,3 +14,4 @@ public class TouchpadRotation : MonoBehaviour {
 	
 	}
 }
+#endif

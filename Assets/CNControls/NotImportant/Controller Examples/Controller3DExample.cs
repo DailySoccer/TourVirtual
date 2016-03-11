@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !LITE_VERSION
+using System;
 using UnityEngine;
 using System.Collections;
 
@@ -244,3 +245,5 @@ public class Controller3DExample : MonoBehaviour
 
 
 }
+
+#endif

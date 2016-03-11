@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if !LITE_VERSION
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent( typeof( CharacterNet ) )]
@@ -7,3 +8,4 @@ using System.Collections;
 [RequireComponent( typeof( Locomotion ) )]
 public class AutoConfigureAvatar : MonoBehaviour {
 }
+#endif
