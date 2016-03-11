@@ -15,6 +15,20 @@
 			}
 		},
 		{ 
+			"id": "VESTIDORLITE",
+			"name": "Selector / Vestidor de avatar",
+			"scene": "VestidorLite",
+			"gui": "",
+			"player_visible": false,
+            "max_players": 1,
+            "doors": {
+            	"VESTIDOR": "ESTADIO"
+            },
+			"bundles": {
+			"SCENE": "scene/vestidor"
+			}
+		},
+		{ 
 			"id": "VESTIDOR",
 			"name": "Personalizar Avatar",
 			"scene": "Vestidor",
