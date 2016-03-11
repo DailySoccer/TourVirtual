@@ -638,8 +638,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: 
   InternetConnection: 0
+  VestidorMode: 2
   GameInput: {fileID: 0}
-  _currentLanguage: 
+  _currentLanguage: es
   _musicEnabled: 0
   _soundEnabled: 0
   _unreadedChatMessages: 0
@@ -933,6 +934,22 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 284178159}
+--- !u!1 &302157834 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 175824, guid: be4703eb2444b47b0b32255e35ffe95a, type: 2}
+  m_PrefabInternal: {fileID: 1451956826}
+--- !u!114 &302157835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 302157834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1444799201, guid: 151fea9ca90494fc5add8c17ae82c5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Button.Continue
 --- !u!1 &319765521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +1947,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22493014, guid: 8bd2e86537e8f49bfa63a2992fcd637b, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 252.654968
+      value: 33.2453003
       objectReference: {fileID: 0}
     - target: {fileID: 22493014, guid: 8bd2e86537e8f49bfa63a2992fcd637b, type: 2}
       propertyPath: m_SizeDelta.x
@@ -3236,7 +3253,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22482046, guid: be4703eb2444b47b0b32255e35ffe95a, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 252.654968
+      value: 33.2453003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be4703eb2444b47b0b32255e35ffe95a, type: 2}
@@ -3401,7 +3418,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22454310, guid: 53a26340970de439292bd13237ec51cd, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 252.654968
+      value: 33.2453003
       objectReference: {fileID: 0}
     - target: {fileID: 22454310, guid: 53a26340970de439292bd13237ec51cd, type: 2}
       propertyPath: m_SizeDelta.x

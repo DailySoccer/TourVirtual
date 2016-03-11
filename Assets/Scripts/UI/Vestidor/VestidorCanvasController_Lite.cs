@@ -211,4 +211,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
 		#endif
 	}
+
+	public void SetLanguage(string lang) {
+		MainManager.Instance.ChangeLanguage (lang);
+	}
 }
