@@ -75,12 +75,16 @@ public class SelectAvatar : MonoBehaviour {
 	}
 	
 	System.Collections.IEnumerator LoadModel() {
-		if (lastInstance != null) Destroy(lastInstance);
-        yield return StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
-            lastInstance = instance;
-            instance.GetComponent<Rigidbody>().isKinematic = true;
-            instance.GetComponent<SynchNet>().enabled = false;
-        }) );
+		if (MainManager.Instance.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
+		
+			if (lastInstance != null)
+				Destroy (lastInstance);
+			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
+				lastInstance = instance;
+				instance.GetComponent<Rigidbody> ().isKinematic = true;
+				instance.GetComponent<SynchNet> ().enabled = false;
+			}));
+		}
     }
 
     void UpdateAvatarDesciptor() {

@@ -115,7 +115,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
 
-		if (PlayerInstance == null)
+		if (PlayerInstance == null && MainManager.Instance.VestidorMode == VestidorState.VESTIDOR)
 			StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
 				//Seteamos el Avatar que se muestra en estapantalla
 				PlayerInstance = instance;
