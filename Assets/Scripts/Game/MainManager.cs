@@ -30,7 +30,7 @@ public class MainManager : Photon.PunBehaviour {
 
 	public bool InternetConnection = false;
 
-    public VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
+    public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
     public GameObject GameInput;
 #if !LITE_VERSION
@@ -278,10 +278,7 @@ public void OnGUI()	{
 
 	IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
-        if (PlayerManager.Instance != null)
-        {
-            yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
-        }
+ 
 #if !LITE_VERSION
         Debug.Log ("Connect...");
 		PhotonNetwork.offlineMode = OfflineMode;
@@ -298,6 +295,7 @@ public void OnGUI()	{
 		}
 		*/
 #endif
+        UserAPI.Instance.Ready = true;
     }
 
     public IEnumerator CheckForInternetConnection()	{

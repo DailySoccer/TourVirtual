@@ -75,14 +75,13 @@ public class SelectAvatar : MonoBehaviour {
 	}
 	
 	System.Collections.IEnumerator LoadModel() {
-		if (MainManager.Instance.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
-		
+		if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
 			if (lastInstance != null)
 				Destroy (lastInstance);
 			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
 				lastInstance = instance;
 				instance.GetComponent<Rigidbody> ().isKinematic = true;
-				instance.GetComponent<SynchNet> ().enabled = false;
+				instance.GetComponent<SynchNet> ().enabled = false; 
 			}));
 		}
     }
@@ -92,7 +91,7 @@ public class SelectAvatar : MonoBehaviour {
         Dictionary<string, object> headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as List<object>)[shownModel] as Dictionary<string,object>;
         UserAPI.AvatarDesciptor.Hair = headesc["Hair"] as string;
         UserAPI.AvatarDesciptor.Head = headesc["Head"] as string;
-        UserAPI.AvatarDesciptor.Body = "";
+        UserAPI.AvatarDesciptor.Torso = "";
         UserAPI.AvatarDesciptor.Legs = "";
         UserAPI.AvatarDesciptor.Feet = "";
         UserAPI.AvatarDesciptor.Compliment = "";

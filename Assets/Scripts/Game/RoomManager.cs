@@ -185,6 +185,7 @@ public class RoomManager : Photon.PunBehaviour {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
 //                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
+#if !LITE_VERSION
                     if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
                         // Sin pasar por seleccion de avatar ya que tiene avatar
 
@@ -207,7 +208,9 @@ public class RoomManager : Photon.PunBehaviour {
                                 ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                         }));
                     }
-                    else {
+                    else
+#endif 
+                    {
                         _doorToEnter = GetDoorKey(RoomStart);
                         ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                     }
@@ -298,7 +301,7 @@ public class RoomManager : Photon.PunBehaviour {
                 PhotonNetwork.LeaveRoom();
 			}
 		}
-#endif       
+#endif
 		if (OnSceneChange != null) OnSceneChange();
 		
 		if (Room.SceneName != Application.loadedLevelName) {

@@ -55,7 +55,7 @@ public class DLCManager : MonoBehaviour {
 	void Awake () {
 		//LoadDefinitions ();
 #if UNITY_EDITOR
-        //AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
+        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
 //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
 #endif  
     }

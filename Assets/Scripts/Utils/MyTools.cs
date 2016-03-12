@@ -8,7 +8,7 @@ public class MyTools
     public static string AsciiToString(byte[] bytes)
     {
 #if !UNITY_WSA
-        return ASCIIEncoding.ASCII.GetString(bytes);
+        return ASCIIEncoding.UTF8.GetString(bytes);
 #else
         StringBuilder sb = new StringBuilder(bytes.Length);
         foreach (byte b in bytes)
@@ -44,9 +44,10 @@ public class MyTools
 		WWW www  = new WWW(url);
 		yield return www;
         //Sprite s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
-		Sprite s = new Sprite (); 
-		s = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
-		source.GetComponent<Image> ().sprite = s;
+		Sprite s = new Sprite ();
+        s = Sprite.Create (www.texture, new Rect (0, 0, www.texture.width, www.texture.height), Vector2.zero, 100.0f);
+        s.texture.wrapMode = TextureWrapMode.Clamp;
+        source.GetComponent<Image> ().sprite = s;
 
         //yield return true;
     }

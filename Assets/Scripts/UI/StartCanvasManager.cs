@@ -31,7 +31,11 @@ public class StartCanvasManager : CanvasManager {
 
             if (!_initialized)
             {
+#if LITE_VERSION
+                if( UserAPI.Instance.Ready) // CACA
+#else
                 if (Input.anyKey/*GetMouseButton(0)*/ || Input.touchCount > 0)
+#endif
                 {
                     if (RoomManager.Instance != null)
                     {

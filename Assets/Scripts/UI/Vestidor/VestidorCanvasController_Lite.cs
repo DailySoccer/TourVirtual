@@ -50,7 +50,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	}
 
 	public void ChangeVestidorState(VestidorState newState) {
-	
 		if (newState != currentVestidorState) {		
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
@@ -83,12 +82,40 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	public void TryToDressPlayer(ClothSlot prenda) {
 
-		bool CanDressPlayer = false;
+		bool CanDressPlayer = true;
 		bool EnoughMoney = false;
 
-		if (CanDressPlayer) {
-			Debug.Log ("[VestidorCanvas]: Se puede vestir el Player con esto");
-		} 
+        if (CanDressPlayer) {
+            switch (prenda.virtualGood.IdSubType)
+            {
+                case "HTORSO":
+                case "MTORSO":
+                    UserAPI.AvatarDesciptor.Torso = prenda.virtualGood.GUID;
+                    break;
+                case "HLEG":
+                case "MLEG":
+                    UserAPI.AvatarDesciptor.Legs = prenda.virtualGood.GUID;
+                    break;
+                case "HSHOE":
+                case "MSHOE":
+                    UserAPI.AvatarDesciptor.Feet = prenda.virtualGood.GUID;
+                    break;
+                case "HCOMPLIMENT":
+                case "MCOMPLIMENT":
+                    UserAPI.AvatarDesciptor.Compliment = prenda.virtualGood.GUID;
+                    break;
+                case "HHAT":
+                case "MHAT":
+                    UserAPI.AvatarDesciptor.Hat = prenda.virtualGood.GUID;
+                    break;
+                case "HPACK":
+                case "MPACK":
+                    UserAPI.AvatarDesciptor.Pack = prenda.virtualGood.GUID;
+                    break;
+            }
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+            LoadModel();
+        } 
 		else {
 			Debug.Log ("[VestidorCanvas]: No se puede vestir el Player con esto");
 #if !LITE_VERSION
@@ -124,20 +151,26 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		}
 	}
 
-	public void ShowVestidor() {
-		if (isCurrentPopUpOpen)
-			TogglePopUpScreen();
+    public void ShowVestidor() {
+        if (isCurrentPopUpOpen)
+            TogglePopUpScreen();
+        if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
+            LoadModel();
+        Debug.LogError(">>>>> " + MainManager.VestidorMode);
+        ChangeVestidorState(MainManager.VestidorMode);
+    }
 
-		if (PlayerInstance == null && MainManager.Instance.VestidorMode == VestidorState.VESTIDOR)
-			StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
-				//Seteamos el Avatar que se muestra en estapantalla
-				PlayerInstance = instance;
-				PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
-				PlayerInstance.GetComponent<SynchNet>().enabled = false;
-				PlayerInstance.transform.localScale = Vector3.one * 10;				
-			}) );
-
-       ChangeVestidorState ( MainManager.Instance.VestidorMode );
+    void LoadModel() {
+        if (PlayerInstance != null)
+            Destroy(PlayerInstance);
+        StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+			//Seteamos el Avatar que se muestra en estapantalla
+			PlayerInstance = instance;
+			PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
+			PlayerInstance.GetComponent<SynchNet>().enabled = false;
+			PlayerInstance.transform.localScale = Vector3.one * 10;				
+		}) );
+        
 	}
 
 	public void ShowGoodiesShop() {

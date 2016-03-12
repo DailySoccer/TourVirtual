@@ -87,17 +87,15 @@ public class CanvasRootController : MonoBehaviour {
 
 
 	void OnLevelReady() {
-
-		Debug.Log("Security cargo else level: " + _roomManager.Room);
-
 		//GameObject canvas;
 		switch(_roomManager.Room.Gui) {
             case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
 				SecondPlaneCanvas.SetActive(true);	
 				SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(Camera.main);
-				canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
-
-				foreach(Transform t in SecondPlaneCanvas.transform) {
+#if !LITE_VERSION
+                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
+#endif
+                foreach(Transform t in SecondPlaneCanvas.transform) {
 					if (t.name == "Avatar Selector Screen Plano2" || t.name == "Video Bg")
 						t.gameObject.SetActive(true);
 				}

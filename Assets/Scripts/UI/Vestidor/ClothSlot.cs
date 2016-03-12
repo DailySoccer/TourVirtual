@@ -12,7 +12,7 @@ public class ClothSlot : MonoBehaviour {
 	public Text ClothName;
 	public Image Picture;
 	public Text Price;
-	VirtualGoodsAPI.VirtualGood virtualGood;
+	public VirtualGoodsAPI.VirtualGood virtualGood;
 
 	// Use this for initialization
 	void Start () {

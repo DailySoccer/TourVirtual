@@ -7,7 +7,6 @@ public class VirtualGoodsAPI {
         public string IdSubType;
         public string Description;
         public string Image;
-        public string InternalID;
         public float Price;
         public int count;
         public VirtualGood(string _GUID, string _IdSubType, string _Description, float _Price, string _Image) {
@@ -112,7 +111,6 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
- //                   Debug.LogError(">>> virtualgoods " + res);
                     Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (virtualgoods != null) {
                         List<object> results = virtualgoods["Results"] as List<object>;

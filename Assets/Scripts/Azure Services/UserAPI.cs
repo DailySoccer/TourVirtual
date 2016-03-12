@@ -12,7 +12,9 @@ using System.Collections.Generic;
 
 public class UserAPI {
 
-    public bool Online = false;
+    public bool Online = true;
+
+    public bool Ready { get; set;  }
 
     public string   UserID      { get; private set; }
     public string   Nick        { get; private set; }
@@ -61,6 +63,7 @@ public class UserAPI {
 
     public UserAPI() {
         Instance = this;
+        Ready = false;
 #if !LITE_VERSION
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();

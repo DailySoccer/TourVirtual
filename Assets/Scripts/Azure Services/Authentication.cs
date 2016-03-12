@@ -98,7 +98,9 @@ public class Authentication : MonoBehaviour {
 			// Descargar el fichero de versiones.
 			yield return StartCoroutine(DLCManager.Instance.LoadVersion());
 			yield return StartCoroutine(DLCManager.Instance.CacheResources());
-		}
+            if (PlayerManager.Instance != null)
+                yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
+        }
 
         if (!UserAPI.Instance.Online) {
 			UserAPI.Instance.CallOnUserLogin();

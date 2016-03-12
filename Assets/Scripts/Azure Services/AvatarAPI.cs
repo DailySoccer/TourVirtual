@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public struct AvatarAPI {
-    public enum Property { Gender, Hair, Hat, Head, Body, Legs, Feet, Compliment };
+    public enum Property { Gender, Hair, Hat, Head, Torso, Legs, Feet, Compliment };
 
     public string Gender;
     public string Hair;
     public string Hat;
     public string Head;
-    public string Body;
+    public string Torso;
     public string Legs;
     public string Feet;
     public string Compliment;
+    public string Pack;
 
     public Hashtable GetProperty(Property prop)
     {
@@ -49,9 +50,10 @@ public struct AvatarAPI {
         // No se si con esto descarto todos los VG puestos.
         ArrayList array2 = new ArrayList();
         if (!string.IsNullOrEmpty(Hat)) array2.Add(GetVirtualGood(Hat));
-        if (!string.IsNullOrEmpty(Body)) array2.Add(GetVirtualGood(Body));
+        if (!string.IsNullOrEmpty(Torso)) array2.Add(GetVirtualGood(Torso));
         if (!string.IsNullOrEmpty(Legs)) array2.Add(GetVirtualGood(Legs));
         if (!string.IsNullOrEmpty(Feet)) array2.Add(GetVirtualGood(Feet));
+        if (!string.IsNullOrEmpty(Pack)) array2.Add(GetVirtualGood(Pack));
         if (!string.IsNullOrEmpty(Compliment)) array2.Add(GetVirtualGood(Compliment));
         avatar.Add("Accesories", array2);
         return avatar;
@@ -79,13 +81,39 @@ public struct AvatarAPI {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
                 if (vg != null)
                 {
-                    if (vg.IdSubType.Contains("TORSO")) Body = vg.InternalID;
-                    else if (vg.IdSubType.Contains("LEG")) Legs = vg.InternalID;
-                    else if (vg.IdSubType.Contains("SHOE")) Feet = vg.InternalID;
-                    else if (vg.IdSubType.Contains("COMPLIMENT")) Compliment = vg.InternalID;
+                    if (vg.IdSubType.Contains("TORSO")) Torso = vg.GUID;
+                    else if (vg.IdSubType.Contains("LEG")) Legs = vg.GUID;
+                    else if (vg.IdSubType.Contains("SHOE")) Feet = vg.GUID;
+                    else if (vg.IdSubType.Contains("COMPLIMENT")) Compliment = vg.GUID;
+                    else if (vg.IdSubType.Contains("PACK")) Pack = vg.GUID;
+                    else if (vg.IdSubType.Contains("HAT")) Hat = vg.GUID;
                 }
             }
         }
     }
-    public override string ToString() { return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, Body,Legs, Feet, Compliment); }
+    public override string ToString() {
+        string tTorso = Torso;
+        string tLegs = Legs;
+        string tFeet = Feet;
+
+        if (!string.IsNullOrEmpty(Pack)) {
+ 
+            var mypack = PlayerManager.Instance.GetPackDescriptor(Pack);
+            if(mypack!=null)
+            foreach( var cloth in mypack)
+            {
+                switch (cloth.Key)
+                {
+                    case "torso":
+                        tTorso = cloth.Value as string;
+                        break;
+                    case "piernas":
+                        tLegs = cloth.Value as string;
+                        break;
+                }
+            }
+        }
+
+        return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, tTorso,tLegs, tFeet, Compliment);
+    }
 }
