@@ -39,12 +39,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
     // Use this for initialization
     void OnEnable () {
+        if (MainManager.IsDeepLinking)
+        {
+            TryToDressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
+            // MainManager.DeepLinkinParameters["idUser"];
+        }
         EnableTopMenu(true);
 		ShowVestidor ();
-        if (MainManager.IsDeepLinking) {
-        // MainManager.DeepLinkinParameters["idVirtualGood"];
-        // MainManager.DeepLinkinParameters["idUser"];
-        }
+    
 	}
 
     // Update is called once per frame
@@ -84,41 +86,53 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		TopMenu.SetActive (val);
 	}
 
-	public void TryToDressPlayer(ClothSlot prenda) {
+    public void TryToDressPlayer(ClothSlot prenda) {
+        TryToDressVirtualGood(prenda.virtualGood);
+    }
 
+    public void TryToDressVirtualGood(string GUID)
+    {
+        TryToDressVirtualGood(UserAPI.VirtualGoodsDesciptor.GetByGUID(GUID),false);
+    }
+
+    public void TryToDressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood,bool loadmodel=true) {
+
+        if (virtualGood == null)
+            return;
 		bool CanDressPlayer = true;
 		bool EnoughMoney = false;
 
         if (CanDressPlayer) {
-            switch (prenda.virtualGood.IdSubType)
+            switch (virtualGood.IdSubType)
             {
                 case "HTORSO":
                 case "MTORSO":
-                    UserAPI.AvatarDesciptor.Torso = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
                     break;
                 case "HLEG":
                 case "MLEG":
-                    UserAPI.AvatarDesciptor.Legs = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
                     break;
                 case "HSHOE":
                 case "MSHOE":
-                    UserAPI.AvatarDesciptor.Feet = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
                     break;
                 case "HCOMPLIMENT":
                 case "MCOMPLIMENT":
-                    UserAPI.AvatarDesciptor.Compliment = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
                     break;
                 case "HHAT":
                 case "MHAT":
-                    UserAPI.AvatarDesciptor.Hat = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
                     break;
                 case "HPACK":
                 case "MPACK":
-                    UserAPI.AvatarDesciptor.Pack = prenda.virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
                     break;
             }
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-            LoadModel();
+            if(loadmodel)
+                LoadModel();
         } 
 		else {
 			Debug.Log ("[VestidorCanvas]: No se puede vestir el Player con esto");

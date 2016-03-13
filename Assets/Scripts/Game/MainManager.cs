@@ -131,7 +131,9 @@ public class MainManager : Photon.PunBehaviour {
     public static bool IsDeepLinking = true;
     public static Dictionary<string, object> DeepLinkinParameters;
 
-    public static string DeepLinkingURL = "rmvt:editavatar?parameters={ \"idVirtualGood\": \"08e4dd72-a163-4603-b3ab-9588b991b8d3\" }";
+
+
+    public static string DeepLinkingURL;
     public void DeepLinking(string url){
         DeepLinkingURL = url;
         if (!string.IsNullOrEmpty(url))
@@ -208,6 +210,9 @@ public class MainManager : Photon.PunBehaviour {
 
 	void Start() {
         GetDeepLinkingURL();
+
+        DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"1d053141-b548-4299-a067-263a4549663d\" }");
+
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
