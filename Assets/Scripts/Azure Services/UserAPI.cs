@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 public class UserAPI {
 
-    public bool Online = true;
+    public bool Online = false;
 
     public bool Ready { get; set;  }
 

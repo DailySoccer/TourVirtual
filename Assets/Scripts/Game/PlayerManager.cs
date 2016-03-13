@@ -204,6 +204,8 @@ public class PlayerManager : Photon.PunBehaviour {
         }));
     }
 
+    public Vector3 offset = new Vector3(13f, 1.7f, -70f);
+
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
         int oldLayer = avatar.layer;
@@ -211,7 +213,7 @@ public class PlayerManager : Photon.PunBehaviour {
         SetLayerRecursively(avatar, 31);
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
         camera.cullingMask = (1 << 31);
-        camera.transform.position = new Vector3(0, 0.9f, 2);
+        camera.transform.position = new Vector3(offset.x, offset.y, offset.z);
         camera.transform.rotation = Quaternion.Euler(0, 180, 0);
         camera.targetTexture = rt;
         camera.clearFlags = CameraClearFlags.SolidColor;

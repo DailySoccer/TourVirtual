@@ -75,7 +75,7 @@ public class VirtualGoodsAPI {
             List<object> results = virtualgoods["Results"] as List<object>;
             foreach (Dictionary<string,object> vg in results)
             {
-//                if ((bool)vg["CanBeUsedInAvatar"])
+                if ((bool)vg["Enabled"])
                 {
                     string guid = vg["IdVirtualGood"] as string;
                     string subtype = vg["IdSubType"] as string;
@@ -115,7 +115,7 @@ public class VirtualGoodsAPI {
                     if (virtualgoods != null) {
                         List<object> results = virtualgoods["Results"] as List<object>;
                         foreach (Dictionary<string, object> vg in results) {
-//                            if ((bool)vg["CanBeUsedInAvatar"])
+                            if ((bool)vg["Enabled"])
                             {
                                 string guid = vg["IdVirtualGood"] as string;
                                 string subtype = vg["IdSubType"] as string;                                

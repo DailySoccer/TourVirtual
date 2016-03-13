@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
-
+using System.Collections.Generic;
+using System.Linq;
 
 public class VestidorCanvasController_Lite : MonoBehaviour {
 
@@ -37,9 +37,27 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	private GameObject PlayerInstance;
 
-	// Use this for initialization
-	void OnEnable () {
-		EnableTopMenu(true);
+
+    public static Dictionary<string, string> DecodeQueryParameters(System.Uri uri)
+    {
+        if (uri.Query.Length == 0)
+            return new Dictionary<string, string>();
+
+        return uri.Query.TrimStart('?')
+                        .Split(new[] { '&', ';' }, System.StringSplitOptions.RemoveEmptyEntries)
+                        .Select(kvp => kvp.Split(new[] { '=' }, System.StringSplitOptions.RemoveEmptyEntries))
+                        .ToDictionary(kvp => kvp[0],
+                                      kvp => kvp.Length > 2 ? string.Join("=", kvp, 1, kvp.Length - 1) : (kvp.Length > 1 ? kvp[1] : ""));
+    }
+
+    // Use this for initialization
+    void OnEnable () {
+
+        System.Uri uri = new System.Uri(MainManager.DeepLinkingURL);
+        var parms = BestHTTP.JSON.Json.Decode(WWW.UnEscapeURL(DecodeQueryParameters(uri)["parameters"])) as Dictionary<string, object>;
+        Debug.LogError(">>>> "+ parms["idVirtualGood"] as string);
+
+        EnableTopMenu(true);
 		ShowVestidor ();
 	}
 	
@@ -156,7 +174,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
             TogglePopUpScreen();
         if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
             LoadModel();
-        Debug.LogError(">>>>> " + MainManager.VestidorMode);
         ChangeVestidorState(MainManager.VestidorMode);
     }
 
@@ -233,19 +250,40 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
 #else
-		Debug.LogError("Cerrar App y Volver");
+       
+        Debug.LogError("Cerrar App y Volver");
 #endif
 	}
 
 	public void AcceptThisAvatar() {
-		#if !LITE_VERSION
+#if !LITE_VERSION
 
-		#else
-		Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
-		#endif
-	}
+#else
+        if (UserAPI.Instance != null){
+            UserAPI.Instance.UpdateAvatar();
+            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance));
+            UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
+        }
+        Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
+        if (MainManager.IsDeepLinking)
+        {
+            Application.OpenURL("rmapp://");
+            Application.Quit();
+            return;
+        }
+#endif
+    }
 
-	public void SetLanguage(string lang) {
+    public void CancelThisAvatar()
+    {
+#if !LITE_VERSION
+
+#else
+        Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
+#endif
+    }
+
+    public void SetLanguage(string lang) {
 		MainManager.Instance.ChangeLanguage (lang);
 	}
 }

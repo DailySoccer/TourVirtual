@@ -126,9 +126,9 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-    public static bool IsDeepLinking = false;
+    public static bool IsDeepLinking = true;
 
-    string DeepLinkingURL;
+    public static string DeepLinkingURL = "rmvt:editavatar?parameters={ \"idVirtualGood\": \"08e4dd72-a163-4603-b3ab-9588b991b8d3\" }";
     public void DeepLinking(string url){
         DeepLinkingURL = url;
         Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DeepLinking !!!! ["+ url + "]");
