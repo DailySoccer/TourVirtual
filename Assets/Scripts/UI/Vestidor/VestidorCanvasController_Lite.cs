@@ -37,32 +37,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	private GameObject PlayerInstance;
 
-
-    public static Dictionary<string, string> DecodeQueryParameters(System.Uri uri)
-    {
-        if (uri.Query.Length == 0)
-            return new Dictionary<string, string>();
-
-        return uri.Query.TrimStart('?')
-                        .Split(new[] { '&', ';' }, System.StringSplitOptions.RemoveEmptyEntries)
-                        .Select(kvp => kvp.Split(new[] { '=' }, System.StringSplitOptions.RemoveEmptyEntries))
-                        .ToDictionary(kvp => kvp[0],
-                                      kvp => kvp.Length > 2 ? string.Join("=", kvp, 1, kvp.Length - 1) : (kvp.Length > 1 ? kvp[1] : ""));
-    }
-
     // Use this for initialization
     void OnEnable () {
-
-        System.Uri uri = new System.Uri(MainManager.DeepLinkingURL);
-        var parms = BestHTTP.JSON.Json.Decode(WWW.UnEscapeURL(DecodeQueryParameters(uri)["parameters"])) as Dictionary<string, object>;
-        Debug.LogError(">>>> "+ parms["idVirtualGood"] as string);
-
         EnableTopMenu(true);
 		ShowVestidor ();
+        if (MainManager.IsDeepLinking) {
+        // MainManager.DeepLinkinParameters["idVirtualGood"];
+        // MainManager.DeepLinkinParameters["idUser"];
+        }
 	}
-	
-	// Update is called once per frame
-	void Update () {	
+
+    // Update is called once per frame
+    void Update () {	
 		if (PlayerInstance != null)
 			PlayerInstance.transform.position = PlayerPosition.position;
 	}

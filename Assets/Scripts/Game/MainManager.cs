@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using SmartLocalization;
 
 #if !LITE_VERSION
@@ -127,13 +129,31 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
     public static bool IsDeepLinking = true;
+    public static Dictionary<string, object> DeepLinkinParameters;
 
     public static string DeepLinkingURL = "rmvt:editavatar?parameters={ \"idVirtualGood\": \"08e4dd72-a163-4603-b3ab-9588b991b8d3\" }";
     public void DeepLinking(string url){
         DeepLinkingURL = url;
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DeepLinking !!!! ["+ url + "]");
-        if(!string.IsNullOrEmpty(url))
+        if (!string.IsNullOrEmpty(url))
+        {
             IsDeepLinking = true;
+            Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DeepLinking !!!! [" + url + "]");
+            System.Uri uri = new System.Uri(url);
+            DeepLinkinParameters = BestHTTP.JSON.Json.Decode(WWW.UnEscapeURL(DecodeQueryParameters(uri)["parameters"])) as Dictionary<string, object>;
+        }
+       
+    }
+
+    public static Dictionary<string, string> DecodeQueryParameters(System.Uri uri)
+    {
+        if (uri.Query.Length == 0)
+            return new Dictionary<string, string>();
+
+        return uri.Query.TrimStart('?')
+                        .Split(new[] { '&', ';' }, System.StringSplitOptions.RemoveEmptyEntries)
+                        .Select(kvp => kvp.Split(new[] { '=' }, System.StringSplitOptions.RemoveEmptyEntries))
+                        .ToDictionary(kvp => kvp[0],
+                                      kvp => kvp.Length > 2 ? string.Join("=", kvp, 1, kvp.Length - 1) : (kvp.Length > 1 ? kvp[1] : ""));
     }
 
     public void GetDeepLinkingURL() {
