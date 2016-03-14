@@ -131,7 +131,8 @@ public class PlayerManager : Photon.PunBehaviour {
             Bodies  = json["Bodies"] as Dictionary<string, object>;
             Legs    = json["Legs"] as Dictionary<string, object>;
             Feet    = json["Feet"] as Dictionary<string, object>;
-            Packs   = json["Packs"] as Dictionary<string, object>;
+			if(json.ContainsKey("packs"))
+            	Packs   = json["packs"] as Dictionary<string, object>;
             Compliments = json["Compliments"] as Dictionary<string, object>;
             Selector = json["Selector"] as Dictionary<string, object>;
         }));
