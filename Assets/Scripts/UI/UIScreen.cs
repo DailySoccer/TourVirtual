@@ -5,7 +5,7 @@ public class UIScreen : MonoBehaviour {
 
 	public bool IsOpen
 	{
-		get { return _animator.GetBool("IsOpen"); }
+		get { return Animator.GetBool("IsOpen"); }
 		set {
 			if (Animator != null) {
 				Animator.SetBool("IsOpen", value);

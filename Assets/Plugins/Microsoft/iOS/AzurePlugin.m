@@ -82,6 +82,15 @@ void _AzureGetToken(){
     }];
 }
 
+void _OpenURL(char* url){
+    NSString *customURL = CreateNSString(url);
+    
+    //if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:customURL]])
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customURL]];
+    }
+}
+
 char* _helloWorldString()
 {
     // We can use NSString and go to the c string that Unity wants

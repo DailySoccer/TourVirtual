@@ -37,6 +37,7 @@ public class AzureInterfaz {
     public virtual void SignIn() { }
     public virtual void SignUp() { }
     public virtual void SignOut() { }
+	public virtual void OpenURL(string url){ Application.OpenURL (url); }
 	public virtual void AskForToken() {
         waitingForToken = false;
     }

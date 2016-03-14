@@ -16,6 +16,8 @@ public class IOSAzureInterfaz : AzureInterfaz {
 	private static extern void _AzureSignOut();
 	[DllImport ("__Internal")]
 	private static extern void _AzureGetToken();
+	[DllImport ("__Internal")]
+	private static extern void _OpenURL(string url);
 
 	public IOSAzureInterfaz(MonoBehaviour component)  : base(component){ }
 
@@ -51,6 +53,10 @@ public class IOSAzureInterfaz : AzureInterfaz {
 
 	public override void AskForToken(){
 		_AzureGetToken ();
+	}
+
+	public override void OpenURL(string url){
+		_OpenURL (url);
 	}
 
 }
