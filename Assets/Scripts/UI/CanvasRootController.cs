@@ -92,9 +92,9 @@ public class CanvasRootController : MonoBehaviour {
             case RoomDefinition.GUI_AVATAR: // Avatar selector Scene
 				SecondPlaneCanvas.SetActive(true);	
 				SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(Camera.main);
-#if !LITE_VERSION
+//#if !LITE_VERSION
                 canvasLayers.FirstOrDefault(c => c.name.ToLower() == "avatar canvas").SetActive(true);
-#endif
+//#endif
                 foreach(Transform t in SecondPlaneCanvas.transform) {
 					if (t.name == "Avatar Selector Screen Plano2" || t.name == "Video Bg")
 						t.gameObject.SetActive(true);

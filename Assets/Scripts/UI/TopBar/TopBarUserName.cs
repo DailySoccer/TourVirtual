@@ -1,5 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -7,7 +6,7 @@ public class TopBarUserName : MonoBehaviour {
 
 	public Text UserName;
 	public Image Flag;
-	public AvatarPicture ProfilePicture;
+	//public AvatarPicture ProfilePicture;
 	
 	void Update () {
 		if (UserAPI.Instance != null) 
@@ -21,4 +20,3 @@ public class TopBarUserName : MonoBehaviour {
 		//	Flag.sprite = UserAPI.Instance.FlagSprite;
 	}
 }
-#endif

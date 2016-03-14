@@ -1,5 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -15,4 +14,3 @@ public class TopBarVirtualCoins : MonoBehaviour {
 			CurrentVirtualCoins.text = UserAPI.Instance.Points.ToString ();
 	}
 }
-#endif
