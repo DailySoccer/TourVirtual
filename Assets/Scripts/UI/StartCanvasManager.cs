@@ -21,6 +21,7 @@ public class StartCanvasManager : CanvasManager {
 	void Update () {
         if (MainManager.Instance.Ready)
         {
+            /*
             if (!enterButton.gameObject.activeSelf)
             {
                 bttEffects = enterButton.gameObject.GetComponents<IAnimated>().ToList();
@@ -28,7 +29,7 @@ public class StartCanvasManager : CanvasManager {
                 foreach( var c in bttEffects)
                     c.Open(1f);
             }
-
+            */
             if (!_initialized)
             {
 #if LITE_VERSION

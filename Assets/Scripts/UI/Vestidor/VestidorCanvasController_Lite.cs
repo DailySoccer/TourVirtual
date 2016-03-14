@@ -39,7 +39,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
     // Use this for initialization
     void OnEnable () {
-        if (MainManager.IsDeepLinking)
+        if (MainManager.IsDeepLinking &&
+            MainManager.DeepLinkinParameters!=null &&
+            MainManager.DeepLinkinParameters.ContainsKey("idVirtualGood"))
         {
             TryToDressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
@@ -56,7 +58,19 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	}
 
 	public void ChangeVestidorState(VestidorState newState) {
-		if (newState != currentVestidorState) {		
+
+
+        if (MainManager.IsDeepLinking)
+        {
+            popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
+
+            modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
+            modalDetail.TheName.text = MainManager.DeepLinkingURL;
+            modalDetail.ThePicture.sprite = null;
+            TogglePopUpScreen();
+        }
+
+        if (newState != currentVestidorState) {		
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
 					cameraAvatarSelector.SetActive(true);
@@ -108,22 +122,27 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
                 case "HTORSO":
                 case "MTORSO":
                     UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HLEG":
                 case "MLEG":
                     UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HSHOE":
                 case "MSHOE":
                     UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HCOMPLIMENT":
                 case "MCOMPLIMENT":
                     UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HHAT":
                 case "MHAT":
                     UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
+                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HPACK":
                 case "MPACK":
@@ -261,16 +280,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 #else
         if (UserAPI.Instance != null){
             UserAPI.Instance.UpdateAvatar();
-            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance));
+            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance),()=> {
+                if (MainManager.IsDeepLinking)
+                {
+                    Application.OpenURL("rmapp://");
+                    Application.Quit();
+                    return;
+                }
+            });
             UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
         }
         Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
-        if (MainManager.IsDeepLinking)
-        {
-            Application.OpenURL("rmapp://");
-            Application.Quit();
-            return;
-        }
+       
 #endif
     }
 

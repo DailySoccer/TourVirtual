@@ -119,6 +119,7 @@ public class UserAPI {
                 PlayerManager.Instance.SelectedModel = "";
             }
             else {
+                Debug.LogError("AVATAR " + res);
                 AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                 VirtualGoodsDesciptor.FilterBySex();
@@ -216,10 +217,11 @@ public class UserAPI {
         });
     }
 
-    public void SendAvatar(byte[] bytes) {
+    public void SendAvatar(byte[] bytes, callback onSendAvatar=null) {
         if (!Online) return;
         Authentication.AzureServices.Request("put", "api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
             Debug.LogError("SendAvatar " + res);
+            if (onSendAvatar != null) onSendAvatar();
         });
     }
 
