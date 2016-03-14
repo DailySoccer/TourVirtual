@@ -66,7 +66,7 @@ public class SelectAvatar : MonoBehaviour {
                 {
                     // De momento no puedo hacer que se vista, ergo, sale direcatamente.
                     // roomManager.GotoRoom("VESTIDOR");
-                    Application.OpenURL("rmapp://");
+                    Application.OpenURL("rmapp://You");
                     Application.Quit();
                 }
                 else roomManager.ToRoom("AVATAR");

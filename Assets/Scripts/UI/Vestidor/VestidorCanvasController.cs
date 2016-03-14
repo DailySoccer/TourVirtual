@@ -142,7 +142,7 @@ public class VestidorCanvasController : MonoBehaviour {
 
 	public void BackToRoom() {
         if (MainManager.IsDeepLinking) {
-            Application.OpenURL("rmapp://");
+            Application.OpenURL("rmapp://You");
             Application.Quit();
             return;
         }

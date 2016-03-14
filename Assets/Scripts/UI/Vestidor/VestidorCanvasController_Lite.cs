@@ -262,14 +262,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public void BackToRoom() {
 #if !LITE_VERSION
         if (MainManager.IsDeepLinking) {
-            Application.OpenURL("rmapp://");
+            Application.OpenURL("rmapp://You");
             Application.Quit();
             return;
         }
 		HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
 #else
-       
+
         Debug.LogError("Cerrar App y Volver");
 #endif
 	}
@@ -283,7 +283,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
             UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance),()=> {
                 if (MainManager.IsDeepLinking)
                 {
-                    Application.OpenURL("rmapp://");
+                    Application.OpenURL("rmapp://You");
                     Application.Quit();
                     return;
                 }
