@@ -5,13 +5,15 @@ using System.Collections;
 public enum DetailedContent2ButtonsLayout {
 	GOTOSHOP,
 	BUYITEM,
-	SHARE
+	SHARE,
+	OK_ONLY
 }
 
 public class DetailedContent2Buttons : MonoBehaviour {
 
 	public Text TheName;
 	public Image ThePicture;
+	public GameObject OKButton;
 	public GameObject CancelButton;
 	public GameObject GotoShopButton;
 	public GameObject BuyButton;
@@ -51,6 +53,13 @@ public class DetailedContent2Buttons : MonoBehaviour {
 			BuyButton.SetActive(false);
 			GotoShopButton.SetActive(false);
 			ShareButton.SetActive(true);
+			break;
+		case DetailedContent2ButtonsLayout.OK_ONLY:
+			OKButton.SetActive(true);
+			CancelButton.SetActive(false);
+			BuyButton.SetActive(false);
+			GotoShopButton.SetActive(false);
+			ShareButton.SetActive(false);
 			break;
 		}
 	}
