@@ -126,15 +126,14 @@ public class PlayerManager : Photon.PunBehaviour {
     public System.Collections.IEnumerator CacheClothes() {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
-            Heads   = json["Heads"] as Dictionary<string, object>;
-            Hairs   = json["Hairs"] as Dictionary<string, object>;
-            Bodies  = json["Bodies"] as Dictionary<string, object>;
-            Legs    = json["Legs"] as Dictionary<string, object>;
-            Feet    = json["Feet"] as Dictionary<string, object>;
-			if(json.ContainsKey("packs"))
-            	Packs   = json["packs"] as Dictionary<string, object>;
-            Compliments = json["Compliments"] as Dictionary<string, object>;
-            Selector = json["Selector"] as Dictionary<string, object>;
+            if (json.ContainsKey("Heads")) Heads = json["Heads"] as Dictionary<string, object>;
+            if (json.ContainsKey("Hairs")) Hairs = json["Hairs"] as Dictionary<string, object>;
+            if (json.ContainsKey("Bodies")) Bodies = json["Bodies"] as Dictionary<string, object>;
+            if (json.ContainsKey("Legs")) Legs = json["Legs"] as Dictionary<string, object>;
+            if (json.ContainsKey("Feet")) Feet = json["Feet"] as Dictionary<string, object>;
+			if (json.ContainsKey("Packs")) Packs   = json["Packs"] as Dictionary<string, object>;
+            if (json.ContainsKey("Compliments")) Compliments = json["Compliments"] as Dictionary<string, object>;
+            if (json.ContainsKey("Selector")) Selector = json["Selector"] as Dictionary<string, object>;
         }));
 
 		//Debug.LogError("Cachado!!!! "  + Heads.ToString() );
