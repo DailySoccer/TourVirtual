@@ -30,7 +30,7 @@ public class ModalNickInput : MonoBehaviour {
     callback okCallback;
 
 	public void EvaluateNick() {
-		Instance.ButtonOK.enabled = Instance.TheNick.text.Length > 3;
+		Instance.ButtonOK.enabled = Instance.TheNick.text.Length >= 3;
 	}
 
 	public void AcceptNick() {
@@ -38,7 +38,7 @@ public class ModalNickInput : MonoBehaviour {
 	}
 
 	public static void AcceptNick_SelfHandled() {
-		Close ();
+		Instance.AcceptNick ();
 	}
 
     public static void Show(callback _callback=null) {
