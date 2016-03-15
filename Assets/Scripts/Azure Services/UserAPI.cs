@@ -226,14 +226,13 @@ public class UserAPI {
                 hs.Add("Alias", nick);
                 Authentication.AzureServices.RequestJSON("put", "api/v1/fan/me/updatealias", hs, (res2) => {
                     if (onok != null) onok();
-                   Debug.LogError("UpdateNick " + res2);
                 });
             }
             else {
                 if (onerror != null) onerror();
             }
         }, (err)=> {
-            Debug.LogError("Nick en uso");
+            if (onerror != null) onerror();
         });
     }
 
