@@ -14,7 +14,7 @@ public class LoadingCanvasManager : MonoBehaviour {
     }
 
     public static void Show() {
-		Instance.gameObject.SetActive(true);
+		//Instance.gameObject.SetActive(true);
 
 		if (Instance.LoadingScreen == null)
 			Debug.LogError("[LoadingCanvasManager] in " + Instance.gameObject.name + ": No esta asignada la pantalla de loading.");
@@ -28,7 +28,7 @@ public class LoadingCanvasManager : MonoBehaviour {
 		else 
 			Instance.LoadingScreen.IsOpen = false;
 
-        Instance.gameObject.SetActive(false);
+        //Instance.gameObject.SetActive(false);
     }
 
 }
