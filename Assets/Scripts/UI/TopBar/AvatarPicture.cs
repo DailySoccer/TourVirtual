@@ -28,6 +28,8 @@ public class AvatarPicture : MonoBehaviour {
 		if (Avatar.sprite != null) {
 			if (UserAPI.Instance != null) {
 				string cara = "";
+				Avatar.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(UserAPI.AvatarDesciptor.Head);
+				/*
 				VirtualGoodsAPI.VirtualGood vg  = UserAPI.VirtualGoodsDesciptor.GetByGUID(UserAPI.AvatarDesciptor.Head);
 				if (vg != null) {
 					cara = vg.Image;
@@ -41,6 +43,7 @@ public class AvatarPicture : MonoBehaviour {
 				else {
 					Debug.LogError("[SetAvatarPicture] in " + name + ":  No se ha podido averiguar la imagen del avatar");			
 				}
+				*/
 			}
 		}
 	}
