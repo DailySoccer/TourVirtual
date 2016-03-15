@@ -77,7 +77,7 @@ public struct AvatarAPI {
             SetProperties(avatar["PhysicalProperties"] as List<object>);
         // Otras propiedades.
         if (avatar.ContainsKey("Accesories") && avatar["Accesories"]!=null) {
-            foreach( Hashtable tmp in avatar["Accesories"] as List<object>) {
+            foreach( Dictionary<string,object> tmp in avatar["Accesories"] as List<object>) {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
                 if (vg != null)
                 {

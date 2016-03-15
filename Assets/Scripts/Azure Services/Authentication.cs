@@ -125,7 +125,7 @@ public class Authentication : MonoBehaviour {
     }
 
     void Update() {
-#if UNITY_WSA
+#if UNITY_WSA && !UNITY_EDITOR
         (AzureServices as WSAAzureInterfaz).Update();
 #endif
     }
@@ -136,10 +136,12 @@ public class Authentication : MonoBehaviour {
     void OnGUI() {
         if (UserAPI.Instance.Online && string.IsNullOrEmpty(AzureServices.AccessToken) )
         {
-            if (GUI.Button(new Rect(0, Screen.height - 150, 150, 80), "Signout"))
-                AzureServices.SignOut();
-            if (GUI.Button(new Rect(150, Screen.height - 150, 150, 80), "Login"))
+            if (GUI.Button(new Rect(0, Screen.height - 150, 75, 80), "Create"))
+                AzureServices.SignUp();
+            if (GUI.Button(new Rect(75, Screen.height - 150, 75, 80), "Login"))
                 AzureServices.SignIn();
+            if (GUI.Button(new Rect(150, Screen.height - 150, 75, 80), "Signout"))
+                AzureServices.SignOut();
 
             if (GUI.Button(new Rect(320, Screen.height - 150, 150, 25), "Token ")) {
                 StartCoroutine(AzureServices.GetAccessToken(_urlCode) );

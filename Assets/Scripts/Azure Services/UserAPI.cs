@@ -119,7 +119,7 @@ public class UserAPI {
                 PlayerManager.Instance.SelectedModel = "";
             }
             else {
-                Debug.LogError("AVATAR " + res);
+                Debug.LogError(">>>> " + res);
                 AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                 VirtualGoodsDesciptor.FilterBySex();

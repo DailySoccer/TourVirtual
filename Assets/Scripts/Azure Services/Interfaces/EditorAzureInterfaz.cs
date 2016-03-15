@@ -22,7 +22,6 @@ public class EditorAzureInterfaz : AzureInterfaz
     // LogIn
     public override void SignIn()
     {
-		Debug.LogError(">>>>> SigIn");
         string parameters = string.Format("?response_type=code&client_id={0}&redirect_uri={1}&resource={2}", clientId, redirectUri, webApiResourceId);
         string extraParameters = "p=B2C_1_SignIn&nonce=defaultNonce&scope=openid";
         string url = string.Format("{0}/oauth2/authorize{1}&{2}", authority, parameters, extraParameters);

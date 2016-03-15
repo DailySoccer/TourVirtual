@@ -172,35 +172,36 @@ public class PlayerManager : Photon.PunBehaviour {
                 matCmp.mainTexture = bundle.LoadAsset<Texture2D>(compimentsDesc["texture"] as string);
                 Assign(bundle.LoadAsset<GameObject>(compimentsDesc["mesh"] as string), lastInstance.transform.FindChild("Complemento"), matCmp);
             }
-
             RenderTexture rt = RenderTexture.GetTemporary((int)textureSize, (int)textureSize);
             RenderTexture.active = rt;
             GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
             GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
-
             List<object> hairTextures = hairDesc["textures"] as List<object>;
-            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(headDesc["texture"] as string));
-
-            Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string));
-            Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string));
-            Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string));
+            Texture txt = bundle.LoadAsset<Texture2D>(headDesc["texture"] as string);
+            if(txt!=null) Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
+            txt = bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string);
+            if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
+            txt = bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string);
+            if (txt != null) Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), txt);
+            txt = bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string);
+            if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
             if (hairTextures!=null) {
-                Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(hairTextures[0] as string));
-                if (hairTextures.Count > 1)
-                    Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), bundle.LoadAsset<Texture2D>(hairTextures[1] as string));
+                txt = bundle.LoadAsset<Texture2D>(hairTextures[0] as string);
+                if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
+                if (hairTextures.Count > 1) {
+                    txt = bundle.LoadAsset<Texture2D>(hairTextures[1] as string);
+                    if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), txt);
+                }
             }
-
             Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
             dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
             dst.Apply();
-
             RenderTexture.active = null;
             RenderTexture.ReleaseTemporary(rt);
             mat.mainTexture = dst;
             GL.PopMatrix();
             lastInstance.SetActive(true);
             RenderTexture.active = null; // Restore
-
             if (callback != null) callback(lastInstance);
         }));
     }

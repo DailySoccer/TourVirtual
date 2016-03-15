@@ -139,7 +139,7 @@ public class MainManager : Photon.PunBehaviour {
         if (!string.IsNullOrEmpty(url))
         {
             IsDeepLinking = true;
-            Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DeepLinking !!!! [" + url + "]");
+            Debug.LogError("DeepLinking !!!! [" + url + "]");
             System.Uri uri = new System.Uri(url);
             DeepLinkinParameters = BestHTTP.JSON.Json.Decode(WWW.UnEscapeURL(DecodeQueryParameters(uri)["parameters"])) as Dictionary<string, object>;
         }
@@ -174,7 +174,7 @@ public class MainManager : Photon.PunBehaviour {
 
         }
 #else
-#if UNITY_WSA
+#if UNITY_WSA && !UNITY_EDITOR
         if (!string.IsNullOrEmpty(UnityEngine.WSA.Application.arguments))
             DeepLinking(UnityEngine.WSA.Application.arguments);
 #endif
@@ -182,10 +182,9 @@ public class MainManager : Photon.PunBehaviour {
 
     }
 
-    void Awake() {
+   void Awake() {
         Instance = this;
-
-
+        StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b_thumbnail.png", null));
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
