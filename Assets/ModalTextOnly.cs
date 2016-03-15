@@ -3,11 +3,13 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ModalTextOnly : MonoBehaviour {
-	public static ModalTextOnly Instance { get; private set; }
+
 
 	public Text TheText;
 	public GUIPopUpScreen thisModal;
     public delegate void callback();
+
+	public static ModalTextOnly Instance { get; private set; }
 
 	void Awake () {
 		Instance = this;
@@ -27,15 +29,15 @@ public class ModalTextOnly : MonoBehaviour {
     callback okCallback;
 
 
-    public void ShowText(string text, callback _callback=null) {
-        okCallback = _callback;
-        TheText.text = text;
-		thisModal.IsOpen = true;
+    public static void ShowText(string text, callback _callback=null) {
+        Instance.okCallback = _callback;
+        Instance.TheText.text = text;
+		Instance.thisModal.IsOpen = true;
 	}
 
-	public void CloseModal() {
-        if (okCallback == null) okCallback();
-        thisModal.IsOpen = false;
+	public static void CloseModal() {
+        if (Instance.okCallback != null) Instance.okCallback();
+        Instance.thisModal.IsOpen = false;
 	}
 
 

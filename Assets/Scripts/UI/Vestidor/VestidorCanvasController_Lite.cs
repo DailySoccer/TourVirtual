@@ -62,7 +62,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
         if (MainManager.IsDeepLinking)
         {
-            ModalTextOnly.Instance.ShowText(MainManager.DeepLinkingURL);
+            ModalTextOnly.ShowText(MainManager.DeepLinkingURL);
         }
 
         if (newState != currentVestidorState) {		
@@ -305,6 +305,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 		MainManager.Instance.ChangeLanguage (lang);
 	}
 	public void showModalOnlyText(string t) {
-		ModalTextOnly.Instance.ShowText(t);
+		ModalTextOnly.ShowText(t);
 	}
 }

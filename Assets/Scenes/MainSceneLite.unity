@@ -3254,6 +3254,7 @@ GameObject:
   - 95: {fileID: 1344995877}
   - 114: {fileID: 1344995876}
   - 114: {fileID: 1344995875}
+  - 114: {fileID: 1344995881}
   m_Layer: 5
   m_Name: Modal PopUp Screen
   m_TagString: PopUpScreen
@@ -3365,6 +3366,17 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1344995873}
+--- !u!114 &1344995881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1344995873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894a829f480b14ff0ab9abd38367c750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1354764483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3899,7 +3911,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1344995875}
+      - m_Target: {fileID: 1344995881}
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -4372,7 +4384,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1344995875}
+      - m_Target: {fileID: 1344995881}
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
