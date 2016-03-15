@@ -277,7 +277,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 #if !LITE_VERSION
 
 #else
-        
+        if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+        {
+            ModalNickInput.Show((nick) =>
+            {
+                Debug.Log(">>>>> " + nick);
+            });
+        }
+
         if (UserAPI.Instance != null){
             LoadingCanvasManager.Show();
             UserAPI.Instance.UpdateAvatar();

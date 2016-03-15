@@ -120,18 +120,11 @@ public class MainManager : Photon.PunBehaviour {
         }
         catch { }
 
-		if (LanguageManagerInstance.IsLanguageSupported(sublang)) {
-			LanguageManagerInstance.ChangeLanguage(sublang);
-			CurrentLanguage = sublang;
-		}
+        if (LanguageManager.Instance.IsLanguageSupported(sublang)) {
+            LanguageManager.Instance.ChangeLanguage(sublang);
+        }
 		else {
 			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + lang);
-		}
-	}
-
-	public LanguageManager LanguageManagerInstance {
-		get {
-			return LanguageManager.Instance;
 		}
 	}
 
@@ -211,7 +204,6 @@ public class MainManager : Photon.PunBehaviour {
 #endif
 		MusicEnabled = true; // TODO: Cargar desde archivo de configuracion
 		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
-		CurrentLanguage = LanguageManagerInstance.CurrentlyLoadedCulture.languageCode; // TODO: Cargar desde archivo de configuracion
 	}
 
 	void Start() {

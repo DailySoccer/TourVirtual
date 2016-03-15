@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
 
 // TODO:    No funciona el ranking global personal.
 //          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
@@ -97,6 +98,7 @@ public class UserAPI {
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
+
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });
@@ -108,7 +110,7 @@ public class UserAPI {
         { // USUARIO DISTINTO
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
-            ModalTextOnly.ShowText(MainManager.Instance.LanguageManagerInstance.GetTextValue("TVB.Error.BadUserID"), ()=> {
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), ()=> {
                 Authentication.AzureServices.SignIn();
             });
             yield break;
@@ -139,8 +141,8 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
-//            PlayerManager.Instance.SelectedModel = "";
-//            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+            PlayerManager.Instance.SelectedModel = "";
+            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
         /*
         {

@@ -8,7 +8,7 @@ public class ModalNickInput : MonoBehaviour {
 	public Text TheNick;
 	public Button ButtonOK;
 	GUIPopUpScreen thisModal;
-    public delegate void callback();
+    public delegate void callback(string _nick);
 
 	public static ModalNickInput Instance { get; private set; }
 
@@ -34,8 +34,7 @@ public class ModalNickInput : MonoBehaviour {
 	}
 
 	public void AcceptNick() {
-		//TODO: Guardar los cambios
-		Close ();
+        if (Instance.okCallback != null) Instance.okCallback(Instance.TheNick.text);
 	}
 
 	public static void AcceptNick_SelfHandled() {
@@ -48,7 +47,6 @@ public class ModalNickInput : MonoBehaviour {
 	}
 
 	public static void Close() {
-        if (Instance.okCallback != null) Instance.okCallback();
         Instance.thisModal.IsOpen = false;
 		Instance.TheNick.text = "";
 	}
