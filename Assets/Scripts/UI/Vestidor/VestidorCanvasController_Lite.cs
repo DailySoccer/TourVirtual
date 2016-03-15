@@ -68,6 +68,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
         if (newState != currentVestidorState) {		
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
+					EnableTopMenu (false);
 					cameraAvatarSelector.SetActive(true);
 					SecondPlaneAvatarSelect.SetActive(true);
 					cameraVestidor.SetActive(false);
@@ -78,6 +79,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 				break;
 
 				case VestidorState.VESTIDOR:
+					EnableTopMenu (true);
 					cameraAvatarSelector.SetActive(false);
 					SecondPlaneAvatarSelect.SetActive(false);
 					cameraVestidor.SetActive(true);
@@ -301,5 +303,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
     public void SetLanguage(string lang) {
 		MainManager.Instance.ChangeLanguage (lang);
+	}
+	public void showModalOnlyText(string t) {
+		ModalTextOnly.Instance.ShowText(t);
 	}
 }

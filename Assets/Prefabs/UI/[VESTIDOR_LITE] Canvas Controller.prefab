@@ -2186,7 +2186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &158546
 GameObject:
   m_ObjectHideFlags: 1
@@ -7085,17 +7085,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11439568}
-        m_MethodName: ShowText
+      - m_Target: {fileID: 11434616}
+        m_MethodName: showModalOnlyText
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Texto de ejemplo - Texto de ejemplo - Texto de ejemplo
-            - Texto de ejemplo - Texto de ejemplo - Texto de ejemplo - Texto de ejemplo
-            - Texto de ejemplo
+          m_StringArgument: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Proin sagittis placerat scelerisque. Duis pellentesque, lectus a blandit
+            tincidunt, lorem diam ullamcorper elit, ut finibus lectus metus sed neque.
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+            cubilia Curae
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -10721,7 +10723,7 @@ MonoBehaviour:
   m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
-    m_FontSize: 40
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -15306,10 +15308,10 @@ RectTransform:
   - {fileID: 22476584}
   m_Father: {fileID: 22458830}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 379, y: -37.5}
+  m_SizeDelta: {x: 250, y: 75}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22492772
 RectTransform:

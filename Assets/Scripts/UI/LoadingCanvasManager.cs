@@ -5,17 +5,29 @@ using System.Linq;
 
 public class LoadingCanvasManager : MonoBehaviour {
 
+	public UIScreen LoadingScreen;
+
     public static LoadingCanvasManager Instance { get; private set; }
     void Awake () {
         Instance = this;
-        Instance.gameObject.SetActive(false);
+		Hide ();
     }
 
     public static void Show() {
-        Instance.gameObject.SetActive(true);
+		Instance.gameObject.SetActive(true);
+
+		if (Instance.LoadingScreen == null)
+			Debug.LogError("[LoadingCanvasManager] in " + Instance.gameObject.name + ": No esta asignada la pantalla de loading.");
+		else 
+			Instance.LoadingScreen.IsOpen = true;        
     }
 
     public static void Hide() {
+		if (Instance.LoadingScreen == null)
+			Debug.LogError("[LoadingCanvasManager] in " + Instance.gameObject.name + ": No esta asignada la pantalla de loading.");
+		else 
+			Instance.LoadingScreen.IsOpen = false;
+
         Instance.gameObject.SetActive(false);
     }
 
