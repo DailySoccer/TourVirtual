@@ -1,4 +1,4 @@
-﻿#if !LITE_VERSION
+﻿//#if !LITE_VERSION
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +20,7 @@ public class AvatarPicture : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void OnEnable () {
 		SetAvatarPicture ();
 	}
 
@@ -39,7 +39,7 @@ public class AvatarPicture : MonoBehaviour {
 					}
 				}
 				else {
-					Debug.LogError("[SetAvatarPicture] in " + name + ":  No se ha podido averigual la imagen del avatar");			
+					Debug.LogError("[SetAvatarPicture] in " + name + ":  No se ha podido averiguar la imagen del avatar");			
 				}
 			}
 		}
@@ -54,4 +54,4 @@ public class AvatarPicture : MonoBehaviour {
 	*/
 }
 
-#endif
+//#endif
