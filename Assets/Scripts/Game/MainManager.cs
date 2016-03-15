@@ -216,7 +216,7 @@ public class MainManager : Photon.PunBehaviour {
 
 	void Start() {
         GetDeepLinkingURL();
-//        if(!UserAPI.Instance.Online)
+        if(!UserAPI.Instance.Online)
             DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
 
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {

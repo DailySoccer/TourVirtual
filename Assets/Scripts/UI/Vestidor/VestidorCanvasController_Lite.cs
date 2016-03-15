@@ -35,7 +35,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	private VestidorState currentVestidorState;
 
-	private GameObject PlayerInstance;
+	public static GameObject PlayerInstance;
 
     // Use this for initialization
     void OnEnable () {
@@ -52,12 +52,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    void Update () {	
-		if (PlayerInstance != null)
-			PlayerInstance.transform.position = PlayerPosition.position;
-	}
+    void Update () {
+    }
 
-	public void ChangeVestidorState(VestidorState newState) {
+    public void ChangeVestidorState(VestidorState newState) {
 
 
         if (MainManager.IsDeepLinking)
@@ -203,8 +201,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 			PlayerInstance = instance;
 			PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
 			PlayerInstance.GetComponent<SynchNet>().enabled = false;
-			PlayerInstance.transform.localScale = Vector3.one * 10;				
-		}) );
+			PlayerInstance.transform.localScale = Vector3.one * 10;
+            PlayerInstance.transform.position = PlayerPosition.position;
+
+        }) );
         
 	}
 
