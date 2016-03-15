@@ -184,7 +184,7 @@ public class MainManager : Photon.PunBehaviour {
 
    void Awake() {
         Instance = this;
-        StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b_thumbnail.png", null));
+       // StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b_thumbnail.png", null));
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;

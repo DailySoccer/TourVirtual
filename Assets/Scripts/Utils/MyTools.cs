@@ -45,6 +45,7 @@ public class MyTools
         yield return www;
         if (string.IsNullOrEmpty(www.error)) {
             Texture2D txt = www.texture;
+            /*
             Debug.LogError(">>>>> " + www.texture.width + " " + www.texture.height + " " + www.texture.format);
             int tw = www.texture.width>=136? www.texture.width:136;
             int th = www.texture.height >= 136 ? www.texture.height : 136;
@@ -53,6 +54,7 @@ public class MyTools
             txt.SetPixels32(0, 0, www.texture.width, www.texture.height, colors);
             txt.Compress(false);
             txt.Apply(false,false);
+            */
             Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
             s.texture.wrapMode = TextureWrapMode.Clamp;
             if(source!=null) source.GetComponent<Image>().sprite = s;

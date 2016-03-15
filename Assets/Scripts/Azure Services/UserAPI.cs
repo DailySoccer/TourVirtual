@@ -48,7 +48,7 @@ public class UserAPI {
     public static ContentAPI Contents { get; private set; }
 #endif
 
-    public static AvatarAPI AvatarDesciptor;
+    public static AvatarAPI AvatarDesciptor =  new AvatarAPI();
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
     public static UserAPI Instance { get; private set; }
 
@@ -117,12 +117,14 @@ public class UserAPI {
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
+                MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
             }
             else {
                 Debug.LogError(">>>> " + res);
                 AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                 VirtualGoodsDesciptor.FilterBySex();
+                MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
         });
         /*

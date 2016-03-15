@@ -99,7 +99,10 @@ public class SelectAvatar : MonoBehaviour {
     }
 
     void OnEnable() {
-        maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
-        OnSelectGender("Man");
+        if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+        {
+            maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
+            OnSelectGender("Man");
+        }
  	}
 }

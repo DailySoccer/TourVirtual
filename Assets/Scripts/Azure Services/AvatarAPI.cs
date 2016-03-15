@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public struct AvatarAPI {
+public class AvatarAPI {
     public enum Property { Gender, Hair, Hat, Head, Torso, Legs, Feet, Compliment };
 
     public string Gender;
@@ -14,6 +14,12 @@ public struct AvatarAPI {
     public string Feet;
     public string Compliment;
     public string Pack;
+
+    public AvatarAPI()
+    {
+        Debug.LogError(">>> AvatarAPI!!!!!");
+
+    }
 
     public Hashtable GetProperty(Property prop)
     {
@@ -69,6 +75,8 @@ public struct AvatarAPI {
                 case "Head": Head = data; break;
             }
         }
+
+        Debug.Log(">>> Gender " + Gender + " Hair " + Hair + " Head " + Head + " "+ ToString() );
     }
 
     public void Parse(Dictionary<string, object> avatar) {
@@ -113,7 +121,6 @@ public struct AvatarAPI {
                 }
             }
         }
-
-        return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat)?Hair:Hat, Head, tTorso,tLegs, tFeet, Compliment);
+        return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat) ? Hair : Hat, Head, tTorso, tLegs, tFeet, Compliment); ;
     }
 }

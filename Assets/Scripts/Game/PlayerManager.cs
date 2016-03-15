@@ -147,7 +147,13 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public delegate void callback(GameObject instance);
     public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null) {
+#if LITE_VERSION
+        model = UserAPI.AvatarDesciptor.ToString();
+#endif
         string[] section = model.Split('#');
+
+        Debug.Log(">>>>> " + model);
+
 
         Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
         Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);
