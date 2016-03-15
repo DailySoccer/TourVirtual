@@ -104,5 +104,7 @@ public class SelectAvatar : MonoBehaviour {
             maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
             OnSelectGender("Man");
         }
+        else
+            gameObject.SetActive(false);
  	}
 }
