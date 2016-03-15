@@ -37,8 +37,8 @@ public class ModalNickInput : MonoBehaviour {
         if (Instance.okCallback != null) Instance.okCallback(Instance.TheNick.text);
 	}
 
-	public static void AcceptNick_SelfHandled() {
-		Instance.AcceptNick ();
+	public void SelfClose() {
+		Close ();
 	}
 
     public static void Show(callback _callback=null) {
