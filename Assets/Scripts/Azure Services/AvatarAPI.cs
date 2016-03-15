@@ -70,6 +70,7 @@ public class AvatarAPI {
     }
 
     public void Parse(Dictionary<string, object> avatar) {
+        Debug.Log("Parse!!!!!");
         // Propiedades fisicas. Sexo, Pelo, Cabeza.
         if (avatar.ContainsKey("PhysicalProperties"))
             SetProperties(avatar["PhysicalProperties"] as List<object>);

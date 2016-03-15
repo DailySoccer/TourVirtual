@@ -129,17 +129,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
                 case "HSHOE":
                 case "MSHOE":
                     UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
-                    UserAPI.AvatarDesciptor.Pack = null;
+//                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HCOMPLIMENT":
                 case "MCOMPLIMENT":
                     UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
-                    UserAPI.AvatarDesciptor.Pack = null;
+//                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HHAT":
                 case "MHAT":
                     UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
-                    UserAPI.AvatarDesciptor.Pack = null;
+//                    UserAPI.AvatarDesciptor.Pack = null;
                     break;
                 case "HPACK":
                 case "MPACK":
@@ -147,6 +147,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
                     break;
             }
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+            Debug.Log(">>>>> " + UserAPI.AvatarDesciptor.ToString());
             if(loadmodel)
                 LoadModel();
         } 
@@ -196,6 +197,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
     void LoadModel() {
         if (PlayerInstance != null)
             Destroy(PlayerInstance);
+
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
 			//Seteamos el Avatar que se muestra en estapantalla
 			PlayerInstance = instance;
@@ -275,17 +277,21 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 #if !LITE_VERSION
 
 #else
+        
         if (UserAPI.Instance != null){
+            LoadingCanvasManager.Show();
             UserAPI.Instance.UpdateAvatar();
+
             UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance),()=> {
-                if (MainManager.IsDeepLinking)
-                {
+                LoadingCanvasManager.Hide();
+                if (MainManager.IsDeepLinking) {
 					Authentication.AzureServices.OpenURL("rmapp://You");
                     Application.Quit();
                     return;
                 }
             });
-            UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
+            if( MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+                UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
         }
         Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
        
