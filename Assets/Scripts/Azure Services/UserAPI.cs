@@ -218,13 +218,14 @@ public class UserAPI {
         }
     }
 
-    public void UpdateNick(string nick, callback onerror=null) {
+    public void UpdateNick(string nick, callback onok = null, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/CheckAlias?alias={0}", nick), (res) => {
             if (res == "true") {
                 Dictionary<string, object> hs = new Dictionary<string, object>();
                 hs.Add("Alias", nick);
                 Authentication.AzureServices.RequestJSON("put", "api/v1/fan/me/updatealias", hs, (res2) => {
+                    if (onok != null) onok();
                    Debug.LogError("UpdateNick " + res2);
                 });
             }

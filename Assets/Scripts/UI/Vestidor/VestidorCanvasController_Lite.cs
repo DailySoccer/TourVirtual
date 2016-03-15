@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SmartLocalization;
 
 public class VestidorCanvasController_Lite : MonoBehaviour {
 
@@ -277,28 +278,34 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 #if !LITE_VERSION
 
 #else
-        if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+        if (UserAPI.Instance != null)
         {
-            ModalNickInput.Show((nick) =>
+            if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
             {
-                Debug.Log(">>>>> " + nick);
-            });
-        }
+                ModalNickInput.Show((nick) =>
+                {
+                    LoadingCanvasManager.Show();
+                    UserAPI.Instance.UpdateNick(nick,()=> {
+                        UserAPI.Instance.UpdateAvatar();
+                        UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
+                            LoadingCanvasManager.Hide();
+                            ModalNickInput.Close();
+                            if (MainManager.IsDeepLinking) {
+                                Authentication.AzureServices.OpenURL("rmapp://You");
+                                Application.Quit();
+                                return;
+                            }
+                        });
 
-        if (UserAPI.Instance != null){
-            LoadingCanvasManager.Show();
-            UserAPI.Instance.UpdateAvatar();
 
-            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance),()=> {
-                LoadingCanvasManager.Hide();
-                if (MainManager.IsDeepLinking) {
-					Authentication.AzureServices.OpenURL("rmapp://You");
-                    Application.Quit();
-                    return;
-                }
-            });
-            if( MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
-                UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
+                    }, () =>
+                    { // Error
+                        LoadingCanvasManager.Hide();
+                        ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed") );
+                    });
+                });
+            }
+                
         }
         Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
        
