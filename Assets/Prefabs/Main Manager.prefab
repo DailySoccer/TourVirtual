@@ -82,25 +82,10 @@ GameObject:
   - 114: {fileID: 11434724}
   - 114: {fileID: 11491556}
   - 114: {fileID: 11428754}
+  - 114: {fileID: 11450836}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: MainManager
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &151742
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 430062}
-  - 114: {fileID: 11400282}
-  m_Layer: 0
-  m_Name: StoreEvents
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &190954
 GameObject:
   m_ObjectHideFlags: 1
@@ -217,21 +202,8 @@ Transform:
   - {fileID: 482372}
   - {fileID: 491792}
   - {fileID: 440186}
-  - {fileID: 430062}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!4 &430062
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151742}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 422832}
-  m_RootOrder: 4
 --- !u!4 &440186
 Transform:
   m_ObjectHideFlags: 1
@@ -514,24 +486,13 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11400282
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 399d3ff4c11784936a351f538baca45a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11419700
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 141430}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1ad1f13c446a4c668289643caf62a72, type: 3}
   m_Name: 
@@ -644,6 +605,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Assets: {fileID: 4900000, guid: 813ce02953c244b1cb27c5a5e05022db, type: 3}
   AssetsUrl: https://rmdevcdntour.blob.core.windows.net/virtualtour-assets
+--- !u!114 &11450836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -618230154, guid: 151fea9ca90494fc5add8c17ae82c5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultLanguage: en
 --- !u!114 &11474940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -681,7 +654,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 141430}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6ee99d06b1de834488b0c07e2eef4e6, type: 3}
   m_Name: 

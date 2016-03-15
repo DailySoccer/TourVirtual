@@ -313,4 +313,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public void showModalOnlyText(string t) {
 		ModalTextOnly.ShowText(t);
 	}
+	public void ShowModalNickInput() {
+		ModalNickInput.Show();
+	}
 }
