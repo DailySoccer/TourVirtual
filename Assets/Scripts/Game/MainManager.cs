@@ -216,8 +216,8 @@ public class MainManager : Photon.PunBehaviour {
 
 	void Start() {
         GetDeepLinkingURL();
-        if(!UserAPI.Instance.Online)
-            DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"1d053141-b548-4299-a067-263a4549663d\" }");
+//        if(!UserAPI.Instance.Online)
+            DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"1d053141-b548-4299-a067-263a4549663d\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
 
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
@@ -286,13 +286,7 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     void HandleOnUserLogin () {
         // Contro de mismo usuario.
-        if( IsDeepLinking && 
-            DeepLinkinParameters!=null &&
-            DeepLinkinParameters.ContainsKey("idUser") && 
-            MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
-        { // USUARIO DISTINTO
-
-        }
+        
 
 #if !LITE_VERSION
 		PhotonNetwork.playerName = UserAPI.Instance.Nick;

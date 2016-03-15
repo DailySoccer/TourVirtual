@@ -7,6 +7,7 @@ public class ModalTextOnly : MonoBehaviour {
 
 	public Text TheText;
 	public GUIPopUpScreen thisModal;
+    public delegate void callback();
 
 	void Awake () {
 		Instance = this;
@@ -23,13 +24,18 @@ public class ModalTextOnly : MonoBehaviour {
 	
 	}
 
-	public void ShowText(string text) {
-		TheText.text = text;
+    callback okCallback;
+
+
+    public void ShowText(string text, callback _callback=null) {
+        okCallback = _callback;
+        TheText.text = text;
 		thisModal.IsOpen = true;
 	}
 
 	public void CloseModal() {
-		thisModal.IsOpen = false;
+        if (okCallback == null) okCallback();
+        thisModal.IsOpen = false;
 	}
 
 

@@ -62,12 +62,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
         if (MainManager.IsDeepLinking)
         {
-            popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
-
-            modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
-            modalDetail.TheName.text = MainManager.DeepLinkingURL;
-            modalDetail.ThePicture.sprite = null;
-            TogglePopUpScreen();
+            ModalTextOnly.Instance.ShowText(MainManager.DeepLinkingURL);
         }
 
         if (newState != currentVestidorState) {		

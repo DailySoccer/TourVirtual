@@ -101,7 +101,19 @@ public class UserAPI {
             Nick = hs["Alias"] as string;
         });
 
+        if (MainManager.IsDeepLinking &&
+                    MainManager.DeepLinkinParameters != null &&
+                    MainManager.DeepLinkinParameters.ContainsKey("idUser") &&
+                    MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
+        { // USUARIO DISTINTO
+            /*
+            ModalTextOnly.Instance.ShowText(MainManager.Instance.LanguageManagerInstance.GetTextValue("TVB.Error.BadUserID"), ()=>
+            {
+                Debug.LogError("Closed");
+            });
+            */
 
+        }
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
 #if !LITE_VERSION
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
@@ -128,8 +140,8 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
-//            PlayerManager.Instance.SelectedModel = "";
-//            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+            PlayerManager.Instance.SelectedModel = "";
+            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
         /*
         {

@@ -67,8 +67,6 @@ public class AvatarAPI {
                 case "Head": Head = data; break;
             }
         }
-
-        Debug.Log(">>> Gender " + Gender + " Hair " + Hair + " Head " + Head + " "+ ToString() );
     }
 
     public void Parse(Dictionary<string, object> avatar) {
