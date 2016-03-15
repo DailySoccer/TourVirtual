@@ -107,15 +107,22 @@ public class MainManager : Photon.PunBehaviour {
 #else
             return InternetConnection || !UserAPI.Instance.Online;
 #endif
-
         }
 
 	}
 
 	public void ChangeLanguage(string lang) {
-		if (LanguageManagerInstance.IsLanguageSupported(lang)) {
-			LanguageManagerInstance.ChangeLanguage(lang);
-			CurrentLanguage = lang;
+        Authentication.AzureServices.MainLanguage = lang;
+        var sublang = "es";
+        try
+        {
+            sublang = lang.Split('-')[0];
+        }
+        catch { }
+
+		if (LanguageManagerInstance.IsLanguageSupported(sublang)) {
+			LanguageManagerInstance.ChangeLanguage(sublang);
+			CurrentLanguage = sublang;
 		}
 		else {
 			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + lang);

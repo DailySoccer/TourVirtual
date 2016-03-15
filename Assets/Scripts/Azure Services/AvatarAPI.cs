@@ -15,19 +15,11 @@ public class AvatarAPI {
     public string Compliment;
     public string Pack;
 
-    public AvatarAPI()
-    {
-        Debug.LogError(">>> AvatarAPI!!!!!");
-
-    }
-
-    public Hashtable GetProperty(Property prop)
-    {
+    public Hashtable GetProperty(Property prop) {
         Hashtable ht = new Hashtable();
         ht.Add("Type", prop.ToString());
         ht.Add("Version", "1");
-        switch (prop)
-        {
+        switch (prop) {
             case Property.Gender: ht.Add("Data", Gender); break;
             case Property.Hair: ht.Add("Data", Hair); break;
             case Property.Head: ht.Add("Data", Head); break;

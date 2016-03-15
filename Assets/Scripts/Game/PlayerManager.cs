@@ -150,10 +150,6 @@ public class PlayerManager : Photon.PunBehaviour {
         model = UserAPI.AvatarDesciptor.ToString();
 #endif
         string[] section = model.Split('#');
-
-        Debug.Log(">>>>> " + model);
-
-
         Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
         Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);
         Dictionary<string, object> bodyDesc = GetDescriptor(Bodies[section[0]] as List<object>, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string,object>)["id"] as string);

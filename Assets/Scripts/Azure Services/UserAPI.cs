@@ -94,6 +94,14 @@ public class UserAPI {
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
 
+        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
+            Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+            MainManager.Instance.ChangeLanguage(hs["Language"] as string);
+            UserID = hs["IdUser"] as string;
+            Nick = hs["Alias"] as string;
+        });
+
+
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
 #if !LITE_VERSION
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
@@ -107,11 +115,6 @@ public class UserAPI {
         }));
         */
 #endif
-        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
-            Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string,object>;
-            UserID = hs["IdUser"] as string;
-            Nick = hs["Alias"] as string;
-        });
 
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
             if (string.IsNullOrEmpty(res) || res == "null") {
@@ -120,12 +123,13 @@ public class UserAPI {
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
             }
             else {
-                Debug.LogError(">>>> " + res);
                 AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
+//            PlayerManager.Instance.SelectedModel = "";
+//            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
         /*
         {

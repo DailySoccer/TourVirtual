@@ -19,18 +19,7 @@ public class AzureInterfaz {
 	string _AccessToken;
 	public string AccessToken { get{ return _AccessToken; } set { _AccessToken = value; waitingForToken=false; } }
 
-    public string MainLanguage {
-        get {
-            string language = DEFAULT_LANGUAGE;
-            if (MainManager.Instance != null) {
-                switch (MainManager.Instance.CurrentLanguage) {
-                    case "es": language = SPANISH_LANGUAGE; break;
-                    case "en": language = ENGLISH_LANGUAGE; break;
-                }
-            }
-            return language;
-        }
-    }
+    public string MainLanguage { get;  set; }
 
     public virtual void Init(string environment, string clientId, string signin, string signup) {}
     // LogIn
