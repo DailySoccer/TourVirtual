@@ -72,7 +72,7 @@ public class ClothesListController : MonoBehaviour {
 		}
 	}
 
-	public void SetupVestidor() {
+	public void SetupVestidor(ProductType type) {
 		CleanProductLists ();
 		//UserAPI.VirtualGoodsDesciptor.VirtualGoods
 
@@ -81,26 +81,32 @@ public class ClothesListController : MonoBehaviour {
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
 			ClothSlot cs = cloth.GetComponent<ClothSlot>();
 			cs.SetupSlot(item);		
-			
+
+
+
 			// Añadimos el elemento a la lista correspondiente
 			switch(item.IdSubType){
 			case "MTORSO":
 			case "HTORSO":
-				cloth.transform.SetParent(TShirtsList);
+				if (type == ProductType.TShirt)
+					cloth.transform.SetParent(TShirtsList);
 				break;
 			case "MSHOE":
 			case "HSHOE":
-				cloth.transform.SetParent(ShoesList);
+				if (type == ProductType.Shoe)
+					cloth.transform.SetParent(ShoesList);
 				break;
 			case "MPACK":
 			case "HPACK":
-				cloth.transform.SetParent(PacksList);
+				if (type == ProductType.Pack)
+					cloth.transform.SetParent(PacksList);
 				break;
 			case "MHAT":
 			case "HHAT":
 			case "MCOMPLIMENT":
 			case "HCOMPLIMENT":
-				cloth.transform.SetParent(ComplimentsList);
+				if (type == ProductType.Complement)
+					cloth.transform.SetParent(ComplimentsList);
 				break;
 			default:
 				Destroy (cloth);
@@ -116,7 +122,7 @@ public class ClothesListController : MonoBehaviour {
 		HideAllLists();
 		TShirtsListWrapperParent.SetActive (true);
 		TShirtsTab.IsTabActive = true;
-		SetupVestidor ();
+		SetupVestidor (ProductType.TShirt);
 		currentProductList = ProductType.TShirt;
 	}
 
@@ -124,7 +130,7 @@ public class ClothesListController : MonoBehaviour {
 		HideAllLists();
 		ComplimentsListWrapperParent.SetActive (true);
 		ComplimentsTab.IsTabActive = true;
-		SetupVestidor ();
+		SetupVestidor (ProductType.Complement);
 		currentProductList = ProductType.Complement;
 	}
 
@@ -132,7 +138,7 @@ public class ClothesListController : MonoBehaviour {
 		HideAllLists();
 		ShoesListWrapperParent.SetActive (true);
 		ShoesTab.IsTabActive = true;
-		SetupVestidor ();
+		SetupVestidor (ProductType.Shoe);
 		currentProductList = ProductType.Shoe;
 	}
 
@@ -140,7 +146,7 @@ public class ClothesListController : MonoBehaviour {
 		HideAllLists();
 		PacksListWrapperParent.SetActive (true);
 		PacksTab.IsTabActive = true;
-		SetupVestidor ();
+		SetupVestidor (ProductType.Pack);
 		currentProductList = ProductType.Pack;
 	}
 
