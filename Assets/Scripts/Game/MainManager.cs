@@ -183,6 +183,7 @@ public class MainManager : Photon.PunBehaviour {
     }
 
    void Awake() {
+
         Instance = this;
        // StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b_thumbnail.png", null));
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
@@ -206,9 +207,16 @@ public class MainManager : Photon.PunBehaviour {
 		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
 	}
 
-	void Start() {
+    void Start() {
         GetDeepLinkingURL();
-        if(!UserAPI.Instance.Online)
+        /*
+        if (!IsDeepLinking) {
+            Application.OpenURL("https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/VirtualTour-Teaser.mp4");
+            Application.Quit();
+        }
+        */
+
+        if (!UserAPI.Instance.Online)
             DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
 
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {
@@ -325,6 +333,7 @@ public void OnGUI()	{
     }
 
     public IEnumerator CheckForInternetConnection()	{
+        int time = 0;
 		while (!InternetConnection && !OfflineMode) {
 			InternetConnection = Application.internetReachability != NetworkReachability.NotReachable;//string.IsNullOrEmpty(www.error);
 			if (InternetConnection) {
@@ -332,7 +341,13 @@ public void OnGUI()	{
 			}
 			else {
 				yield return new WaitForSeconds(3);
-			}
+                time++;
+                if (time == 10)
+                {
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
+                }
+
+            }
 		}
 	}
 #if !LITE_VERSION

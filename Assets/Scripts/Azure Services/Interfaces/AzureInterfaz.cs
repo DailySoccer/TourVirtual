@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BestHTTP;
+using SmartLocalization;
 
 public class AzureInterfaz {
     protected MonoBehaviour component;
@@ -81,6 +82,10 @@ public class AzureInterfaz {
     void checkResult(RequestEvent ok, RequestEvent error, HTTPRequest request)
     {
         if (request.Response.StatusCode != 200) {
+            // Oculatamos la carga
+            LoadingCanvasManager.Hide();
+            // Sacamos un mensaje genrico.
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
             if (error != null) error(request.Response.StatusCode.ToString());
             Debug.LogError("ERROR(" + request.Response.StatusCode + " : " + request.Uri + ") >>>  " + request.Response.Message);
         }

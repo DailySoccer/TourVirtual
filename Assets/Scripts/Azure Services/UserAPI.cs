@@ -141,8 +141,8 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
-            PlayerManager.Instance.SelectedModel = "";
-            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+//            PlayerManager.Instance.SelectedModel = "";
+//            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
         /*
         {

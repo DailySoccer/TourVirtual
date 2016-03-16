@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public class AssetDefinition {
 	public string Id;
@@ -53,7 +54,6 @@ public class DLCManager : MonoBehaviour {
 	}
 
 	void Awake () {
-		//LoadDefinitions ();
 #if UNITY_EDITOR
         AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
 //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
@@ -84,21 +84,23 @@ public class DLCManager : MonoBehaviour {
             yield return www;
             if (string.IsNullOrEmpty(www.error))
             {
-                Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(www.text) as Dictionary<string, object>;
+                Dictionary<string, object> jsonMap = BestHTTP.JSON.Json.Decode(www.text) as Dictionary<string, object>;
                 List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
-                foreach (Dictionary<string, object> asset in assets) {
+                foreach (Dictionary<string, object> asset in assets)
+                {
                     AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
                     if (!assetDefinition.Id.Contains("content"))
                     {
 #if LITE_VERSION
-                        if(assetDefinition.Id=="avatars")
+                        if (assetDefinition.Id == "avatars")
 #endif
                             AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                     }
                 }
             }
-            else
-                LoadDefinitions();
+            else {
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"),()=> { Application.Quit(); });
+            }
         }
     }
     public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
@@ -130,9 +132,9 @@ public class DLCManager : MonoBehaviour {
                     if (callback != null) callback(bundle);
 				}
 				else {
-					Debug.LogError("WWW download had an error:" + www.error);
-					// throw new Exception("WWW download had an error:" + www.error);
-				}
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
+                    // throw new Exception("WWW download had an error:" + www.error);
+                }
 			} // memory is freed from the web stream (www.Dispose() gets called implicitly)
 		}
 	}
@@ -162,9 +164,9 @@ public class DLCManager : MonoBehaviour {
 						bundle.Unload(true);
                     }
 					else {
-						Debug.LogWarning("WWW download had an error:" + current.error);
-						// throw new Exception("WWW download had an error:" + www.error);
-					}
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
+                        // throw new Exception("WWW download had an error:" + www.error);
+                    }
 				} // memory is freed from the web stream (www.Dispose() gets called implicitly)
 			}
 		}
@@ -173,31 +175,5 @@ public class DLCManager : MonoBehaviour {
 
     }
 	
-	private void LoadDefinitions() {
-#if UNITY_ANDROID
-		string resourceName = "android/assetbundles";
-#elif UNITY_IOS
-		string resourceName = "iOS/assetbundles";
-#else
-        string resourceName = "windows/assetbundles";
-#endif
-
-		TextAsset jsonFile = !string.IsNullOrEmpty(resourceName) ? Resources.Load<TextAsset>(resourceName) : null;
-		if (jsonFile != null) {
-			Debug.Log ("DLCManager: AssetBundles: " + resourceName);
-		}
-		else {
-			jsonFile = Assets;
-			Debug.Log ("DLCManager: AssetBundles: Default");
-		}
-
-		Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(jsonFile.text) as Dictionary<string, object>;
-        List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
-		foreach (Dictionary<string, object> asset in assets) {
-			AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
-			AssetDefinitions.Add (assetDefinition.Id, assetDefinition);
-		}
-	}
-
 	const string KEY_ASSETS = "assets";
 }
