@@ -41,7 +41,9 @@ public class MyTools
 			Debug.LogError("URL Vacia");
 			yield break;
 		}
+        Debug.LogError(">>>> " + url);
         WWW www = new WWW(url);
+
         yield return www;
         if (string.IsNullOrEmpty(www.error)) {
             Texture2D txt = www.texture;
