@@ -146,7 +146,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
                     break;
             }
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-            Debug.Log(">>>>> " + UserAPI.AvatarDesciptor.ToString());
             if(loadmodel)
                 LoadModel();
         } 
