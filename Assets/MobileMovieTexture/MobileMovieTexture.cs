@@ -174,6 +174,7 @@ namespace MMT
         {
             get
             {
+#if !UNITY_WINRT
                 if (m_nativeContext != IntPtr.Zero)
                 {
                     return GetAspectRatio(m_nativeContext);
@@ -182,6 +183,10 @@ namespace MMT
                 {
                     return 1.0f;
                 }
+#else
+                return 1.0f;
+#endif
+
             }
         }
 
@@ -192,6 +197,7 @@ namespace MMT
         {
             get
             {
+#if !UNITY_WINRT
                 if (m_nativeContext != IntPtr.Zero)
                 {
                     return GetVideoFPS(m_nativeContext);
@@ -200,6 +206,9 @@ namespace MMT
                 {
                     return 1.0;
                 }
+#else
+                return 1.0;
+#endif
             }
         }
 
@@ -221,10 +230,12 @@ namespace MMT
             get { return m_elapsedTime; }
             set 
             {
+#if !UNITY_WINRT
                 if (m_nativeContext != IntPtr.Zero)
                 {
                     m_elapsedTime = Seek(m_nativeContext, value, m_seekKeyFrame);
                 }
+#endif
             }
         }
 
@@ -233,7 +244,12 @@ namespace MMT
         /// </summary>
         public double Duration
         {
+
+#if !UNITY_WINRT
             get { return m_nativeContext != IntPtr.Zero ? GetDuration(m_nativeContext) : 0.0; }
+#else
+            get { return 0.0; }
+#endif
         }
 
 #endregion
@@ -245,6 +261,7 @@ namespace MMT
 #else
         private const string PLATFORM_DLL = "theorawrapper";
 #endif
+#if !UNITY_WINRT
         [DllImport(PLATFORM_DLL)]
         private static extern IntPtr CreateContext();
 
@@ -316,8 +333,15 @@ namespace MMT
 
         [DllImport(PLATFORM_DLL)]
         private static extern void SetPostProcessingLevel(IntPtr context, int level);
-
+#endif
         #endregion
+#if UNITY_WINRT
+        void Start()
+        {
+//            gameObject.SetActive(false);
+//            gameObject.GetComponent<UnityEngine.UI.Image>().material = null;
+        }
+#endif
 
 #if !UNITY_WINRT
         #region Behaviour Overrides
@@ -591,8 +615,8 @@ namespace MMT
         }
 
         #endregion
-#endif       
+#endif
     }
 
-}
+    }
 
