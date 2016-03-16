@@ -38,7 +38,8 @@ public class ModalNickInput : MonoBehaviour {
 	}
 
 	public void SelfClose() {
-		Close ();
+        if (Instance.okCallback != null) Instance.okCallback("<EMPTY>");
+        Close ();
 	}
 
     public static void Show(callback _callback=null) {

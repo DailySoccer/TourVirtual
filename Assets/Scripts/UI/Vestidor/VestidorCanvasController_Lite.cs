@@ -284,31 +284,32 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
             {
                 ModalNickInput.Show((nick) =>
                 {
-                    LoadingCanvasManager.Show();
-                    UserAPI.Instance.UpdateNick(nick,()=> {
-                        UserAPI.Instance.UpdateAvatar();
-                        UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
-                            LoadingCanvasManager.Hide();
-                            ModalNickInput.Close();
-                            if (MainManager.IsDeepLinking) {
-                                Authentication.AzureServices.OpenURL("rmapp://You");
-                                Application.Quit();
-                                return;
-                            }
+                    if (nick != "<EMPTY>")
+                    { 
+                        LoadingCanvasManager.Show();
+                        UserAPI.Instance.UpdateNick(nick,()=>
+                        {
+                            UserAPI.Instance.UpdateAvatar();
+                            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
+                            {
+                                LoadingCanvasManager.Hide();
+                                ModalNickInput.Close();
+                                if (MainManager.IsDeepLinking)
+                                {
+                                    Authentication.AzureServices.OpenURL("rmapp://You");
+                                    Application.Quit();
+                                    return;
+                                }
+                            });
+                        }, () =>
+                        { // Error
+                                LoadingCanvasManager.Hide();
+                                ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed") );
                         });
-
-
-                    }, () =>
-                    { // Error
-                        LoadingCanvasManager.Hide();
-                        ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed") );
-                    });
+                    }
                 });
             }
-                
         }
-        Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
-       
 #endif
     }
 
@@ -317,13 +318,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 #if !LITE_VERSION
 
 #else
-        Debug.LogError("Aceptar Modelo de Avatar, Cerrar App y Volver");
+        if (MainManager.IsDeepLinking) {
+            Authentication.AzureServices.OpenURL("rmapp://You");
+            Application.Quit();
+            return;
+        }
 #endif
     }
 
     public void SetLanguage(string lang) {
 		MainManager.Instance.ChangeLanguage (lang);
 	}
+
 	public void showModalOnlyText(string t) {
 		ModalTextOnly.ShowText(t);
 	}
