@@ -307,7 +307,20 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
                         });
                     }
                 });
-            }
+            }else{
+				LoadingCanvasManager.Show();
+				UserAPI.Instance.UpdateAvatar();
+				UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
+				                            {
+					LoadingCanvasManager.Hide();
+					if (MainManager.IsDeepLinking)
+					{
+						Authentication.AzureServices.OpenURL("rmapp://You");
+						Application.Quit();
+						return;
+					}
+				});
+			}
         }
 #endif
     }
