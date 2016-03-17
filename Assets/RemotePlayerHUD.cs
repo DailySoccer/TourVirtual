@@ -40,6 +40,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 	
 	void  Awake ()
 	{
+		return;
 		canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
 
 		// if no camera referenced, grab the main camera
@@ -49,6 +50,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 	
 	void  Update ()
 	{
+		return;
 		if (!IsButtonDbug) {
 			// rotates the object relative to the camera
 			Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.forward : Vector3.back);
@@ -58,6 +60,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 	}
 
 	public void RemotePlayerHUD_ClickHandle() {
+		return;
 		canvasManager.ShowOTherPlayerInfo (playerID);
 	}
 }

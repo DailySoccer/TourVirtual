@@ -210,13 +210,14 @@ public class MainManager : Photon.PunBehaviour {
         GetDeepLinkingURL();
         if (!UserAPI.Instance.Online)
             DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"03edad5e-f581-4aed-b217-cc117e3556b4\" }");
-        if (!IsDeepLinking) {
+        
+#if !UNITY_IOS
+		if (!IsDeepLinking) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
             return;
         }
-
-
+#endif
 
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
         {
@@ -233,8 +234,7 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     void OnApplicationPause(bool pauseStatus) {
-        if (!pauseStatus)
-        {
+        if (!pauseStatus){
             GetDeepLinkingURL();
             // Ojo de no ir al vestidor si estoy en AVATAR o antes.
             if (IsDeepLinking && RoomManager.Instance != null)
@@ -242,8 +242,7 @@ public class MainManager : Photon.PunBehaviour {
         }
         else {
             // CACACACACACACACA OJOOOOOOO---->
-            if (!IsDeepLinking)
-            {
+            if (!IsDeepLinking){
                 Debug.LogError("Sale de la app ya que no es deep linking");
                 Application.Quit();
             }
@@ -341,6 +340,16 @@ public void OnGUI()	{
     }
 
     public IEnumerator CheckForInternetConnection()	{
+		#if UNITY_IOS
+		yield return new WaitForSeconds(1);
+		if (!IsDeepLinking) {
+			Application.OpenURL("http://www.astosch.com/project/real-madrid/");
+			Application.Quit();
+			yield break;
+		}
+		#endif
+
+
         int time = 0;
 		while (!InternetConnection && !OfflineMode) {
 			InternetConnection = Application.internetReachability != NetworkReachability.NotReachable;//string.IsNullOrEmpty(www.error);
@@ -350,8 +359,7 @@ public void OnGUI()	{
 			else {
 				yield return new WaitForSeconds(3);
                 time++;
-                if (time == 10)
-                {
+                if (time == 10) {
                     ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
                 }
 

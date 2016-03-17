@@ -12,7 +12,6 @@ using SmartLocalization;
 //          Leer correctamente los virtualgoods de un avatar
 
 public class UserAPI {
-
     public bool Online = true;
 
     public bool Ready { get; set;  }
@@ -83,8 +82,7 @@ public class UserAPI {
 
 /*
             Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
-                foreach (ContentAPI.Asset asset in values)
-                {
+                foreach (ContentAPI.Asset asset in values){
                     Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
                 }
             }));
@@ -94,7 +92,6 @@ public class UserAPI {
 
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
-
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
