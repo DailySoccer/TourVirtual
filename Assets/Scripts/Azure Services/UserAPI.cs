@@ -98,7 +98,6 @@ public class UserAPI {
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
-
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });

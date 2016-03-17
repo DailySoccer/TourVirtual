@@ -208,8 +208,8 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start() {
         GetDeepLinkingURL();
-        //        if (!UserAPI.Instance.Online)
-        DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
+        if (!UserAPI.Instance.Online)
+            DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"03edad5e-f581-4aed-b217-cc117e3556b4\" }");
         if (!IsDeepLinking) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
@@ -233,16 +233,22 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     void OnApplicationPause(bool pauseStatus) {
-        if (!pauseStatus) {
+        if (!pauseStatus)
+        {
             GetDeepLinkingURL();
             // Ojo de no ir al vestidor si estoy en AVATAR o antes.
-            if (IsDeepLinking && RoomManager.Instance!=null)
+            if (IsDeepLinking && RoomManager.Instance != null)
                 RoomManager.Instance.GotoRoom("VESTIDOR");
         }
-// CACACACACACACACA OJOOOOOOO---->
-        if(!IsDeepLinking)
-            Application.Quit();
-// <---- CACACACACACACACA OJOOOOOOO
+        else {
+            // CACACACACACACACA OJOOOOOOO---->
+            if (!IsDeepLinking)
+            {
+                Debug.LogError("Sale de la app ya que no es deep linking");
+                Application.Quit();
+            }
+            // <---- CACACACACACACACA OJOOOOOOO
+        }
     }
 #if !LITE_VERSION
 	void InitializeStore() {
