@@ -18,6 +18,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public GUIScreen VestidorScreen;
 	public GUIScreen GoodiesShopScreen;
 	public GUIScreen AvatarSelectionScreen;
+	public GUIScreen PlayTeaserScreen;
 	private GUIScreen currentGUIScreen;
 
 	public GameObject cameraVestidor;
@@ -87,6 +88,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 					ShowScreen(VestidorScreen);
 				break;
+				default:
+					EnableTopMenu (false);
+					cameraAvatarSelector.SetActive(true);
+					SecondPlaneAvatarSelect.SetActive(true);
+					cameraVestidor.SetActive(false);
+					SecondPlaneVestidor.SetActive(false);
+					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraAvatarSelector.GetComponent<Camera>());
+					
+					ShowScreen(PlayTeaserScreen);
+				break;
+
 			}
 			currentVestidorState = newState;
 		}
@@ -189,6 +201,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
             TogglePopUpScreen();
         if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
             LoadModel();
+
+		MainManager.VestidorMode = VestidorState.NONE;
+
         ChangeVestidorState(MainManager.VestidorMode);
     }
 
