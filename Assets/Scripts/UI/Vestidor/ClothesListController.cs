@@ -72,50 +72,71 @@ public class ClothesListController : MonoBehaviour {
 		}
 	}
 
-	public void SetupVestidor(ProductType type) {
+	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
 		//UserAPI.VirtualGoodsDesciptor.VirtualGoods
-
+		
+		//int idTraza = 0;
+		
 		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
-			GameObject cloth = Instantiate(Slot);
+
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
-			ClothSlot cs = cloth.GetComponent<ClothSlot>();
-			cs.SetupSlot(item);		
+			if (pType == GetTVGType (item.IdSubType)) {
+				GameObject cloth = Instantiate (Slot);
+				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
+				if (item.count == 0) {
+					cloth.GetComponent<Button>().interactable = false;
+				}
 
+				cs.name = item.Description;
+				cs.SetupSlot (item);	
+				
+				// Añadimos el elemento a la lista correspondiente
+				switch (item.IdSubType) {
+				case "MTORSO":
+				case "HTORSO":
+					cloth.transform.parent =  TShirtsList;
+					break;
+				case "MSHOE":
+				case "HSHOE":
+					cloth.transform.SetParent (ShoesList);
+					break;
+				case "MPACK":
+				case "HPACK":
+					cloth.transform.SetParent (PacksList);
+					break;
+				case "MHAT":
+				case "HHAT":
+				case "MCOMPLIMENT":
+				case "HCOMPLIMENT":
+					cloth.transform.SetParent (ComplimentsList);
+					break;
+				default:
+					Destroy (cloth);
+					//Debug.LogError("VESTIDOR CONTROLLER: Me llegan elementos a la tienda que contemplo, como por ejemplo [" + item.IdSubType + "]" );
+					break;
+				}
+				cloth.name = item.Description;
+				cloth.transform.localScale = Vector3.one;
 
-
-			// Añadimos el elemento a la lista correspondiente
-			switch(item.IdSubType){
-			case "MTORSO":
-			case "HTORSO":
-				if (type == ProductType.TShirt)
-					cloth.transform.SetParent(TShirtsList);
-				break;
-			case "MSHOE":
-			case "HSHOE":
-				if (type == ProductType.Shoe)
-					cloth.transform.SetParent(ShoesList);
-				break;
-			case "MPACK":
-			case "HPACK":
-				if (type == ProductType.Pack)
-					cloth.transform.SetParent(PacksList);
-				break;
-			case "MHAT":
-			case "HHAT":
-			case "MCOMPLIMENT":
-			case "HCOMPLIMENT":
-				if (type == ProductType.Complement)
-					cloth.transform.SetParent(ComplimentsList);
-				break;
-			default:
-				Destroy (cloth);
-				//Debug.LogError("VESTIDOR CONTROLLER: Me llegan elementos a la tienda que contemplo, como por ejemplo [" + item.IdSubType + "]" );
-				break;
+				//idTraza++;
+				//Debug.Log(idTraza + ": [ClothesListController] in " + name + ": Generando prenda: <" + pType + " => " + item.IdSubType + ">");
 			}
-			cloth.name = item.Description;
-			cloth.transform.localScale = Vector3.one;
 		}
+	}
+	
+	ProductType GetTVGType(string vgSubType) {
+		if (vgSubType == "MTORSO" || vgSubType == "HTORSO") {
+			return ProductType.TShirt;
+		} else if (vgSubType == "MSHOE" || vgSubType == "HSHOE") {
+			return ProductType.Shoe;
+		} else if (vgSubType == "MPACK" || vgSubType == "HPACK") {
+			return ProductType.Pack;
+		} else if (vgSubType == "MHAT" || vgSubType == "HHAT" || vgSubType == "MCOMPLIMENT" || vgSubType == "HCOMPLIMENT") {
+			return ProductType.Complement;
+		}
+		// Si es algun otro tipo que no conozco, asumo que es un complemento
+		return ProductType.Complement;
 	}
 
 	public void ShowTShirtsList() {
