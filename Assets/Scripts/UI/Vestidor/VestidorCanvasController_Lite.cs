@@ -10,7 +10,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public enum VestidorState{
 		NONE,
 		SELECT_AVATAR,
-		VESTIDOR
+		VESTIDOR,
+		PLAY_TEASER
 	}
 
 	public Transform PlayerPosition;
@@ -88,13 +89,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 					ShowScreen(VestidorScreen);
 				break;
-				default:
+				case VestidorState.NONE:
 					EnableTopMenu (false);
-					cameraAvatarSelector.SetActive(true);
-					SecondPlaneAvatarSelect.SetActive(true);
+					cameraAvatarSelector.SetActive(false);
+					SecondPlaneAvatarSelect.SetActive(false);
 					cameraVestidor.SetActive(false);
 					SecondPlaneVestidor.SetActive(false);
-					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraAvatarSelector.GetComponent<Camera>());
+					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(Camera.main);
 					
 					ShowScreen(PlayTeaserScreen);
 				break;
@@ -202,7 +203,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
         if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
             LoadModel();
 
-		MainManager.VestidorMode = VestidorState.NONE;
+		MainManager.VestidorMode = VestidorState.PLAY_TEASER;
 
         ChangeVestidorState(MainManager.VestidorMode);
     }
