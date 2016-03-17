@@ -47,6 +47,12 @@ public class MyTools
 
         yield return www;
         if (string.IsNullOrEmpty(www.error) ) {
+#if UNITY_IOS
+			Texture2D txt = www.texture;
+			Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
+			s.texture.wrapMode = TextureWrapMode.Clamp;
+			if(source!=null) source.GetComponent<Image>().sprite = s;
+#else
             if (Slot == null) Slot = Resources.Load<Material>("Slot");
             //Texture2D txt = www.texture;
             // Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
@@ -66,7 +72,7 @@ public class MyTools
                     img.material = mat;
                 }
             }
-
+#endif
         }
         //yield return true;
     }
