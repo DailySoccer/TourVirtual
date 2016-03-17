@@ -146,7 +146,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null"){
-//                    Debug.LogError(">>> MY virtualgoods " + res);
+                    Debug.LogError(">>> MY virtualgoods " + res);
                     Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myvirtualgoods != null){
                         List<object> myresults = myvirtualgoods["Results"] as List<object>;

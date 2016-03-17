@@ -160,7 +160,7 @@ public class UserAPI {
             "LevelNumber":0
         }
         */
-#if !LITE_VERSION
+
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
             try
@@ -173,6 +173,7 @@ public class UserAPI {
                 }
             catch { }
         });
+#if !LITE_VERSION
 
 #if CASO1
         VirtualGoodsDesciptor.BuyByGUID("4d229050-fd95-4492-bcff-2ceecf8115b8");

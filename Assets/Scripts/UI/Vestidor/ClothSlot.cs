@@ -33,8 +33,11 @@ public class ClothSlot : MonoBehaviour {
 		virtualGood = item;
 
 		ClothName.text = item.Description;
-		
+
 		Price.text = item.Price.ToString();
+		if (item.count > 0)
+			Price.gameObject.SetActive (false);
+
 
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
 	}

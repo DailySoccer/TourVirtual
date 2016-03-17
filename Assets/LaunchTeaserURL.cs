@@ -14,6 +14,6 @@ public class LaunchTeaserURL : MonoBehaviour {
 	}
 
 	public void RunURL() {
-		Application.OpenURL("http://www.realmadrid.com/");
+		Application.OpenURL("http://www.astosch.com/project/real-madrid/");
 	}
 }

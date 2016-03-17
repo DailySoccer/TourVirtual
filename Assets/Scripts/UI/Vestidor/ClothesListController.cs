@@ -84,6 +84,9 @@ public class ClothesListController : MonoBehaviour {
 			if (pType == GetTVGType (item.IdSubType)) {
 				GameObject cloth = Instantiate (Slot);
 				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
+
+				//item.count  = idTraza % 2 == 0 ? 1 : 0;
+ 
 				if (item.count == 0) {
 					cloth.GetComponent<Button>().interactable = false;
 				}
@@ -95,7 +98,7 @@ public class ClothesListController : MonoBehaviour {
 				switch (item.IdSubType) {
 				case "MTORSO":
 				case "HTORSO":
-					cloth.transform.parent =  TShirtsList;
+					cloth.transform.SetParent (TShirtsList);
 					break;
 				case "MSHOE":
 				case "HSHOE":
@@ -116,6 +119,10 @@ public class ClothesListController : MonoBehaviour {
 					//Debug.LogError("VESTIDOR CONTROLLER: Me llegan elementos a la tienda que contemplo, como por ejemplo [" + item.IdSubType + "]" );
 					break;
 				}
+
+				if (item.count > 0)
+					cloth.transform.SetAsFirstSibling();
+
 				cloth.name = item.Description;
 				cloth.transform.localScale = Vector3.one;
 
