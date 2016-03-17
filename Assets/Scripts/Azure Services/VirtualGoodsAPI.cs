@@ -146,7 +146,7 @@ public class VirtualGoodsAPI {
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
                 if (res != "null"){
-                    Debug.LogError(">>> MY virtualgoods " + res);
+                    //Debug.LogError(">>> MY virtualgoods " + res);
                     Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (myvirtualgoods != null){
                         List<object> myresults = myvirtualgoods["Results"] as List<object>;
@@ -197,7 +197,7 @@ public class VirtualGoodsAPI {
                 List<object> ar = new List<object>();
                 ar.Add(guid.ToString());
                 Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
-                    Debug.LogError("Buy VirtualGood >>>> " + res);
+                    //Debug.LogError("Buy VirtualGood >>>> " + res);
                     vg.count++;
                     UserAPI.Instance.Points -= (int)vg.Price;
 #if !LITE_VERSION
@@ -208,7 +208,7 @@ public class VirtualGoodsAPI {
             else {
                 if(vg.count > 0 || !multiple) {
                     Debug.LogError("Ya tienes este VG y no es multiple >>>> " + guid + " count " + vg.count);
-                    Debug.LogError("VG PRICE >>>> " + vg.Price + " USER POINTS " +  UserAPI.Instance.Points );
+                    //Debug.LogError("VG PRICE >>>> " + vg.Price + " USER POINTS " +  UserAPI.Instance.Points );
                 }
                 else
                 if ( vg.Price >= UserAPI.Instance.Points) {

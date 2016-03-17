@@ -44,13 +44,12 @@ public class SelectAvatar : MonoBehaviour {
 
     public void OnSelectButton() {
         // Guarda el avatar en el servidor.
-        if (UserAPI.Instance != null) {
-            UserAPI.Instance.UpdateAvatar();
-            UserAPI.Instance.SendAvatar( PlayerManager.Instance.RenderModel(lastInstance) );
-            UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
+//        if (UserAPI.Instance != null) {
+//            UserAPI.Instance.UpdateAvatar();
+//            UserAPI.Instance.SendAvatar( PlayerManager.Instance.RenderModel(lastInstance) );
+//            UserAPI.Instance.UpdateNick("Nick" + Random.Range(0, 100000));
             // Prueba de escritura de nick.
-
-        }
+//        }
 
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
             UserAPI.VirtualGoodsDesciptor.FilterBySex();

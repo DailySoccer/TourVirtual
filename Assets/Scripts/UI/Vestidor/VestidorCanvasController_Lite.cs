@@ -203,8 +203,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
         if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
             LoadModel();
 
-		//MainManager.VestidorMode = VestidorState.PLAY_TEASER;
-
         ChangeVestidorState(MainManager.VestidorMode);
     }
 

@@ -71,5 +71,10 @@ public class WSAAzureInterfaz : AzureInterfaz
         WP8Plugin.Plugin.GetToken(OnTokenCallback);
     }
 
+    public override void OpenURL(string url)
+    {
+        WP8Plugin.Plugin.OpenURI(url);
+    }
 
+    
 }

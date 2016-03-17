@@ -183,9 +183,8 @@ public class MainManager : Photon.PunBehaviour {
     }
 
    void Awake() {
-
         Instance = this;
-       // StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b_thumbnail.png", null));
+        //StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b.png", null));
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -209,20 +208,21 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start() {
         GetDeepLinkingURL();
-        /*
+        //        if (!UserAPI.Instance.Online)
+        DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
         if (!IsDeepLinking) {
-            Application.OpenURL("https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/VirtualTour-Teaser.mp4");
+            Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
+            return;
         }
-        */
 
-        if (!UserAPI.Instance.Online)
-            DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"1d053141-b548-4299-a067-263a4549663d\" }");
 
-        if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ ) {
+
+        if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
+        {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
-		}
+        }
         //		else StartCoroutine(Connect ());
 #if !LITE_VERSION
 #if (UNITY_ANDROID || UNITY_IOS)
@@ -239,8 +239,10 @@ public class MainManager : Photon.PunBehaviour {
             if (IsDeepLinking && RoomManager.Instance!=null)
                 RoomManager.Instance.GotoRoom("VESTIDOR");
         }
-        // Ver como evitar este tema.
-        //		Application.Quit();
+// CACACACACACACACA OJOOOOOOO---->
+        if(!IsDeepLinking)
+            Application.Quit();
+// <---- CACACACACACACACA OJOOOOOOO
     }
 #if !LITE_VERSION
 	void InitializeStore() {

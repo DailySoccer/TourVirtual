@@ -35,21 +35,38 @@ public class MyTools
 #endif
     }
 
+    public static Material Slot = null;
+    public static int count = 0;
     public static IEnumerator LoadSpriteFromURL(string url, GameObject source)
     {
 		if (string.IsNullOrEmpty (url)) {
 			Debug.LogError("URL Vacia");
 			yield break;
 		}
-        Debug.LogError(">>>> " + url);
         WWW www = new WWW(url);
 
         yield return www;
-        if (string.IsNullOrEmpty(www.error)) {
-            Texture2D txt = www.texture;
-            Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
-            s.texture.wrapMode = TextureWrapMode.Clamp;
-            if(source!=null) source.GetComponent<Image>().sprite = s;
+        if (string.IsNullOrEmpty(www.error) ) {
+            if (Slot == null) Slot = Resources.Load<Material>("Slot");
+            //Texture2D txt = www.texture;
+            // Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
+            // s.texture.wrapMode = TextureWrapMode.Clamp;
+            //if(source!=null) source.GetComponent<Image>().sprite = s;
+
+            if (source != null)
+            {
+                Image img = source.GetComponent<Image>();
+                if (img != null)
+                {
+                    img.sprite = null;
+                    Material mat = (Material)GameObject.Instantiate(Slot);
+                    Texture2D txt = www.texture;
+                    txt.wrapMode = TextureWrapMode.Clamp;
+                    mat.mainTexture = txt;
+                    img.material = mat;
+                }
+            }
+
         }
         //yield return true;
     }
