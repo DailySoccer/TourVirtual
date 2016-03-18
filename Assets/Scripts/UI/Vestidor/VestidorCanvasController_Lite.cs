@@ -60,12 +60,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
     public void ChangeVestidorState(VestidorState newState) {
 
-
+#if !PRE && !PRO
         if (MainManager.IsDeepLinking)
         {
             ModalTextOnly.ShowText(MainManager.DeepLinkingURL);
         }
-
+#endif
         if (newState != currentVestidorState) {		
 			switch(newState) {
 				case VestidorState.SELECT_AVATAR:
@@ -275,7 +275,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 	public void BackToRoom() {
 #if !LITE_VERSION
         if (MainManager.IsDeepLinking) {
-			Authentication.AzureServices.OpenURL("rmapp://You");
+			Authentication.AzureServicedes.OpenURL("rmapp://You");
             Application.Quit();
             return;
         }

@@ -145,7 +145,6 @@ public class MainManager : Photon.PunBehaviour {
 				idx += 2;
 				int len = (url.Length - 1) - idx;
 				var parms = url.Substring (idx, len).Replace (" ", "").Split (',');
-				ModalTextOnly.ShowText (parms [0]);
 				DeepLinkinParameters = new Dictionary<string, object> ();
 				foreach (var pair in parms) {
 					var tmp = pair.Split (':');
@@ -220,7 +219,7 @@ public class MainManager : Photon.PunBehaviour {
         GetDeepLinkingURL();
         if (!UserAPI.Instance.Online)
 			DeepLinking("rmvt:editavatar?parameters={ idVirtualGood: 54dc043b-5bdb-4c45-9fd3-66f11d11db59, idUser: 03edad5e-f581-4aed-b217-cc117e3556b4 }");
-		#if !UNITY_IOS
+#if !UNITY_IOS
 		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
