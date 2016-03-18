@@ -342,7 +342,7 @@ public void OnGUI()	{
     public IEnumerator CheckForInternetConnection()	{
 		#if UNITY_IOS
 		yield return new WaitForSeconds(1);
-		if (!IsDeepLinking) {
+		if (!IsDeepLinking || !DeepLinkingURL.ToLower().Contains("editavatar")) {
 			Application.OpenURL("http://www.astosch.com/project/real-madrid/");
 			Application.Quit();
 			yield break;
