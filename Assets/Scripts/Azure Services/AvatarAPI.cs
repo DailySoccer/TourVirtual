@@ -32,8 +32,9 @@ public class AvatarAPI {
         VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(id);
         if (vg != null) {
             ht.Add("IdVirtualGood", vg.GUID);
-            ht.Add("Type", "Unknow");
+			ht.Add("Type", vg.GUID);
             ht.Add("Version", "1");
+			ht.Add("Data", vg.GUID);
         }
         return ht;
     }
