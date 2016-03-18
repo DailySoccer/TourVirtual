@@ -12,7 +12,11 @@ using SmartLocalization;
 //          Leer correctamente los virtualgoods de un avatar
 
 public class UserAPI {
-    public bool Online = true;
+#if UNITY_EDITOR
+    public bool Online = false;
+#else
+	public bool Online = true;
+#endif
 
     public bool Ready { get; set;  }
 

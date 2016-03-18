@@ -134,19 +134,29 @@ public class MainManager : Photon.PunBehaviour {
 
 
     public static string DeepLinkingURL;
-    public void DeepLinking(string url){
+    public void DeepLinking(string url)
+	{
+		url = WWW.UnEscapeURL(url);
         DeepLinkingURL = url;
-        if (!string.IsNullOrEmpty(url))
-        {
-            IsDeepLinking = true;
-            Debug.LogError("DeepLinking !!!! [" + url + "]");
-            System.Uri uri = new System.Uri(url);
-            DeepLinkinParameters = BestHTTP.JSON.Json.Decode(WWW.UnEscapeURL(DecodeQueryParameters(uri)["parameters"])) as Dictionary<string, object>;
-        }
-       
-    }
-
-    public static Dictionary<string, string> DecodeQueryParameters(System.Uri uri)
+        if (!string.IsNullOrEmpty (url)) {
+			IsDeepLinking = true;
+			int idx = url.IndexOf ("=");
+			if (idx != -1) {
+				idx += 2;
+				int len = (url.Length - 1) - idx;
+				var parms = url.Substring (idx, len).Replace (" ", "").Split (',');
+				ModalTextOnly.ShowText (parms [0]);
+				DeepLinkinParameters = new Dictionary<string, object> ();
+				foreach (var pair in parms) {
+					var tmp = pair.Split (':');
+					DeepLinkinParameters.Add (tmp [0], tmp [1]);
+				}
+			}
+		}
+		
+	}
+	
+	public static Dictionary<string, string> DecodeQueryParameters(System.Uri uri)
     {
         if (uri.Query.Length == 0)
             return new Dictionary<string, string>();
@@ -209,10 +219,9 @@ public class MainManager : Photon.PunBehaviour {
     void Start() {
         GetDeepLinkingURL();
         if (!UserAPI.Instance.Online)
-            DeepLinking("rmvt:editavatar?parameters={ \"idVirtualGood\": \"54dc043b-5bdb-4c45-9fd3-66f11d11db59\", \"idUser\": \"03edad5e-f581-4aed-b217-cc117e3556b4\" }");
-        
-#if !UNITY_IOS
-		if (!IsDeepLinking) {
+			DeepLinking("rmvt:editavatar?parameters={ idVirtualGood: 54dc043b-5bdb-4c45-9fd3-66f11d11db59, idUser: 03edad5e-f581-4aed-b217-cc117e3556b4 }");
+		#if !UNITY_IOS
+		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
             return;
@@ -342,7 +351,7 @@ public void OnGUI()	{
     public IEnumerator CheckForInternetConnection()	{
 		#if UNITY_IOS
 		yield return new WaitForSeconds(1);
-		if (!IsDeepLinking || !DeepLinkingURL.ToLower().Contains("editavatar")) {
+		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
 			Application.OpenURL("http://www.astosch.com/project/real-madrid/");
 			Application.Quit();
 			yield break;
