@@ -65,6 +65,7 @@ public class DLCManager : MonoBehaviour {
 	
 	void Update () {
         if (current != null){
+            if (LoadingBar.Instance.isHide) LoadingBar.Instance.Show();
             LoadingBar.Instance.SetValue(current.progress, currentName);
         }
     }
@@ -102,6 +103,8 @@ public class DLCManager : MonoBehaviour {
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"),()=> { Application.Quit(); });
             }
         }
+        //
+
     }
     public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
@@ -137,7 +140,8 @@ public class DLCManager : MonoBehaviour {
                 }
 			} // memory is freed from the web stream (www.Dispose() gets called implicitly)
 		}
-	}
+        LoadingBar.Instance.Hide();
+    }
 
     WWW current;
     string currentName;

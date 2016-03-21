@@ -146,6 +146,9 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public delegate void callback(GameObject instance);
     public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null) {
+#if UNITY_EDITOR
+        if (string.IsNullOrEmpty(model)) model = "Man#988dee0b-e8a2-4771-85ee-e537389b3330#HCabeza03#02e9b0a5-29d9-4b5c-9894-25b72b0209eb#c63925be-c3f5-46d5-97da-617a1489d599#2e1c35ed-ff06-486e-a088-e2b8d5135e3f#";
+#endif 
         string[] section = model.Split('#');
         Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
         Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);
@@ -235,17 +238,21 @@ public class PlayerManager : Photon.PunBehaviour {
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
         int oldLayer = avatar.layer;
+        var oldPosition = avatar.transform.position;
+        var oldEscale = avatar.transform.localScale;
+
+        avatar.transform.position = new Vector3(0,-0.91f,-1.77f);
+        avatar.transform.localScale = Vector3.one;
 
         SetLayerRecursively(avatar, 31);
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
         camera.cullingMask = (1 << 31);
-        camera.transform.position = new Vector3(offset.x, offset.y, offset.z);
+        camera.transform.position = Vector3.zero;
         camera.transform.rotation = Quaternion.Euler(0, 180, 0);
         camera.targetTexture = rt;
         camera.clearFlags = CameraClearFlags.SolidColor;
         camera.backgroundColor = new Color(0, 0, 0, 0);
         camera.Render();
-
         RenderTexture.active = rt;
         Texture2D tex = new Texture2D(w, h, TextureFormat.ARGB32, false);
 
@@ -258,6 +265,9 @@ public class PlayerManager : Photon.PunBehaviour {
         RenderTexture.active = null;
         RenderTexture.ReleaseTemporary(rt);
         Destroy(camera);
+
+        avatar.transform.position = oldPosition;
+        avatar.transform.localScale = oldEscale;
         SetLayerRecursively(avatar, oldLayer);
 
         return bytes;

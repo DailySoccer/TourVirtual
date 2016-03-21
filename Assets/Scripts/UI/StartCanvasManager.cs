@@ -38,8 +38,10 @@ public class StartCanvasManager : CanvasManager {
                 if (Input.anyKey/*GetMouseButton(0)*/ || Input.touchCount > 0)
 #endif
                 {
+                    Debug.Log("Go to first room");
                     if (RoomManager.Instance != null)
                     {
+                        
                         _initialized = true;
                         if (startSound != null) startSound.Play();
                         // Inicia la conexion con el servidor PUN.

@@ -221,8 +221,8 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start() {
         GetDeepLinkingURL();
-        if (!UserAPI.Instance.Online)
-			DeepLinking("rmvt:editavatar?parameters={ idVirtualGood: 54dc043b-5bdb-4c45-9fd3-66f11d11db59, idUser: 03edad5e-f581-4aed-b217-cc117e3556b4 }");
+//        if (!UserAPI.Instance.Online)
+			DeepLinking("rmvt:editavatar?parameters={idVirtualGood:54dc043b-5bdb-4c45-9fd3-66f11d11db59,idUser:d1c9f805-054a-4420-a1af-30d37b75dff7}");
 #if !UNITY_IOS
 		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
@@ -305,12 +305,10 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     void HandleOnUserLogin () {
         // Contro de mismo usuario.
-        
-
 #if !LITE_VERSION
 		PhotonNetwork.playerName = UserAPI.Instance.Nick;
 #endif
-        StartCoroutine(Connect ());
+        StartCoroutine( Connect ());
 	}
 
 /*
@@ -331,7 +329,6 @@ public void OnGUI()	{
 
 	IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
- 
 #if !LITE_VERSION
         Debug.Log ("Connect...");
 		PhotonNetwork.offlineMode = OfflineMode;
@@ -349,6 +346,16 @@ public void OnGUI()	{
 		*/
 #endif
         UserAPI.Instance.Ready = true;
+
+        if (RoomManager.Instance != null)
+        {
+
+//            _initialized = true;
+//            if (startSound != null) startSound.Play();
+            // Inicia la conexion con el servidor PUN.
+            StartCoroutine(RoomManager.Instance.Connect());
+        }
+
     }
 
     public IEnumerator CheckForInternetConnection()	{

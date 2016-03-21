@@ -103,6 +103,7 @@ public class Authentication : MonoBehaviour {
         }
 
         if (!UserAPI.Instance.Online) {
+            
 			UserAPI.Instance.CallOnUserLogin();
 			yield break;
 		}

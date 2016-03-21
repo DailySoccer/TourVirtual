@@ -36,13 +36,16 @@ public class LoadingBar : MonoBehaviour {
 		}
 	}
 
+    public bool isHide { get; private set;  }
     public void Hide()
     {
+        isHide = true;
         gameObject.SetActive(false);
     }
 
     public void Show()
     {
+        isHide = false;
         gameObject.SetActive(true);
     }
 

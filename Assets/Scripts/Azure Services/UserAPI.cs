@@ -111,6 +111,7 @@ public class UserAPI {
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
             ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), ()=> {
+                Debug.LogError(">>> Current " + UserAPI.Instance.UserID);
                 Authentication.AzureServices.SignIn();
             });
             yield break;

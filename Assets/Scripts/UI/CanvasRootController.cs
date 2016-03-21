@@ -31,10 +31,12 @@ public class CanvasRootController : MonoBehaviour {
 	}
 
 	void Start() {
-		canvasLayers.FirstOrDefault(c => c.name.ToLower() == "start canvas").SetActive(true);
-	}
+//		canvasLayers.FirstOrDefault(c => c.name.ToLower() == "start canvas").SetActive(true);
+        LoadingCanvas.SetActive(true);
 
-	private void HideCanvasLayers() {
+    }
+
+    private void HideCanvasLayers() {
 		foreach(GameObject go in canvasLayers) {
             if(go!=null)
                 go.SetActive(false);
