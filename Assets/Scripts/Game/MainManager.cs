@@ -136,21 +136,25 @@ public class MainManager : Photon.PunBehaviour {
     public static string DeepLinkingURL;
     public void DeepLinking(string url)
 	{
-		url = WWW.UnEscapeURL(url);
-        DeepLinkingURL = url;
-        if (!string.IsNullOrEmpty (url)) {
-			IsDeepLinking = true;
-			int idx = url.IndexOf ("=");
-			if (idx != -1) {
-				idx += 2;
-				int len = (url.Length - 1) - idx;
-				var parms = url.Substring (idx, len).Replace (" ", "").Split (',');
-				DeepLinkinParameters = new Dictionary<string, object> ();
-				foreach (var pair in parms) {
-					var tmp = pair.Split (':');
-					DeepLinkinParameters.Add (tmp [0], tmp [1]);
+		try{
+			url = WWW.UnEscapeURL(url);
+	        DeepLinkingURL = url;
+	        if (!string.IsNullOrEmpty (url)) {
+				IsDeepLinking = true;
+				int idx = url.IndexOf ("=");
+				if (idx != -1) {
+					idx += 2;
+					int len = (url.Length - 1) - idx;
+					var parms = url.Substring (idx, len).Replace (" ", "").Split (',');
+					DeepLinkinParameters = new Dictionary<string, object> ();
+					foreach (var pair in parms) {
+						var tmp = pair.Split (':');
+						DeepLinkinParameters.Add (tmp [0], tmp [1]);
+					}
 				}
 			}
+		}catch{
+			ModalTextOnly.ShowText( "ERROR1003: "+url );
 		}
 		
 	}
