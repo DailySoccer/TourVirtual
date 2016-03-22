@@ -38,8 +38,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 
 	private VestidorState currentVestidorState;
 
-	public static GameObject PlayerInstance;
+	public GameObject PlayerInstance;
+    public GameObject Particles;    
+    public static VestidorCanvasController_Lite Instance { get; private set;  }
 
+    void Awake()
+    {
+        Instance = this;
+    }
     // Use this for initialization
     void OnEnable () {
         if (MainManager.IsDeepLinking &&
@@ -217,10 +223,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 			PlayerInstance.GetComponent<SynchNet>().enabled = false;
 			PlayerInstance.transform.localScale = Vector3.one * 10;
             PlayerInstance.transform.position = PlayerPosition.position;
-
+            AddParticles();
         }) );
-        
 	}
+
+    public void AddParticles() {
+        var part = (GameObject.Instantiate(Particles) as GameObject).transform;
+        part.parent = PlayerInstance.transform;
+        part.localPosition = Vector3.zero;
+    }
 
 	public void ShowGoodiesShop() {
 		if (PlayerInstance != null)

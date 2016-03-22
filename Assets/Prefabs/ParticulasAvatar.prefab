@@ -68,7 +68,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 186344}
-  m_LocalRotation: {x: .173648223, y: 0, z: 0, w: .984807789}
+  m_LocalRotation: {x: .0636614561, y: 0, z: 0, w: .997971594}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -282,7 +282,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 300
+      scalar: 18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -347,7 +347,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: -.0219999999
+    gravityModifier: -.00100000005
     inheritVelocity: 0
     maxNumParticles: 15
   ShapeModule:
@@ -1320,7 +1320,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 2
+      scalar: .200000003
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1385,14 +1385,14 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: -1
+    gravityModifier: -.100000001
     inheritVelocity: 1
     maxNumParticles: 150
   ShapeModule:
     serializedVersion: 2
     enabled: 1
     type: 11
-    radius: 65.3339615
+    radius: 4.30000019
     angle: 25
     length: 5
     boxX: 1
@@ -2264,7 +2264,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.x
+      value: .0636614561
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: .997971594
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 186344}

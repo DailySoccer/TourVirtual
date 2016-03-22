@@ -20,7 +20,11 @@ public class Authentication : MonoBehaviour {
 		if (token != "Error") {
 			AzureServices.AccessToken = token;
 			if(AzureServices.OnAccessToken !=null) AzureServices.OnAccessToken();
-		}
+        }
+        else
+        {
+            Debug.LogError("Login mal!!!");
+        }
 	
 	}
 
@@ -116,8 +120,6 @@ public class Authentication : MonoBehaviour {
             AzureServices.WebApiBaseAddress = "https://eu-rm-dev-web-api.azurewebsites.net/";
 #endif
 #endif
- 
-
         AzureServices.Init ("development", IDClient, "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );

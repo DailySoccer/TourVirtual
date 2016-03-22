@@ -78,7 +78,8 @@ public class SelectAvatar : MonoBehaviour {
 			if (lastInstance != null)
 				Destroy (lastInstance);
 			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
-                VestidorCanvasController_Lite.PlayerInstance = instance;
+                VestidorCanvasController_Lite.Instance.PlayerInstance = instance;
+                VestidorCanvasController_Lite.Instance.AddParticles();
                 lastInstance = instance;
 				instance.GetComponent<Rigidbody> ().isKinematic = true;
 				instance.GetComponent<SynchNet> ().enabled = false; 
