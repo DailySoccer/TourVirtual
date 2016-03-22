@@ -24,29 +24,24 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
 
     // LogIn
-    public override void SignIn()
-    {
+    public override void SignIn() {
         activity.Call("Login", false);
     }
 
-    public override void SignUp()
-    {
+    public override void SignUp() {
         activity.Call("Login", true);
+    }
+
+    public override void SignOut() {
+        activity.Call("Logout");
 
     }
 
-    public override void SignOut()
-    {
-
-    }
-
-    public override bool IsLoggedUser()
-    {
+    public override bool IsLoggedUser() {
         return false;
     }
-    // 
-    public override void GetProfile()
-    {
+
+    public override void GetProfile() {
 
     }
 
