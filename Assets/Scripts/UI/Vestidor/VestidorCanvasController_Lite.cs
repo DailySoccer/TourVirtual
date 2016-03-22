@@ -231,6 +231,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
         var part = (GameObject.Instantiate(Particles) as GameObject).transform;
         part.parent = PlayerInstance.transform;
         part.localPosition = Vector3.zero;
+        PlayerInstance.AddComponent<RotateDrag>();
     }
 
 	public void ShowGoodiesShop() {

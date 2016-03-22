@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class RotateDrag : MonoBehaviour
-{
+public class RotateDrag : MonoBehaviour { 
     float oldPoint;
     void OnMouseDown()
     {

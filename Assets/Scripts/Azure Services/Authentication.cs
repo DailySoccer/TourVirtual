@@ -1,7 +1,4 @@
-﻿#define DEV
-//#define PRE
-//#define PRO
-
+﻿using SmartLocalization;
 using System.Collections;
 using UnityEngine;
 
@@ -23,7 +20,10 @@ public class Authentication : MonoBehaviour {
         }
         else
         {
-            Debug.LogError("Login mal!!!");
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"), () => {                
+                Authentication.AzureServices.SignIn();
+            });
+            
         }
 	
 	}
