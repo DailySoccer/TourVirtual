@@ -222,15 +222,16 @@ public class VestidorCanvasController_Lite : MonoBehaviour {
 			PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
 			PlayerInstance.GetComponent<SynchNet>().enabled = false;
 			PlayerInstance.transform.localScale = Vector3.one * 10;
-            PlayerInstance.transform.position = PlayerPosition.position;
+            PlayerInstance.transform.position = PlayerPosition.position - Vector3.right;
+            PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
             AddParticles();
         }) );
 	}
 
+    Transform particles;
     public void AddParticles() {
-        var part = (GameObject.Instantiate(Particles) as GameObject).transform;
-        part.parent = PlayerInstance.transform;
-        part.localPosition = Vector3.zero;
+        if(particles==null) particles = (GameObject.Instantiate(Particles) as GameObject).transform;
+        particles.position = PlayerInstance.transform.position;
         PlayerInstance.AddComponent<RotateDrag>();
     }
 
