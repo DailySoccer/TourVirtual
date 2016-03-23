@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public enum DetailedContent2ButtonsLayout {
+    NONE,
 	GOTOSHOP,
 	BUYITEM,
 	SHARE,
@@ -20,11 +21,10 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	public GameObject ShareButton;
 
 	[SerializeField]
-	private DetailedContent2ButtonsLayout _CurrentLayout;
-
-	public DetailedContent2ButtonsLayout CurrentLayout {
+    private DetailedContent2ButtonsLayout _CurrentLayout;
+    public DetailedContent2ButtonsLayout CurrentLayout {
 		get{ return _CurrentLayout;}
-		set{ _CurrentLayout = value;}
+		set{ if (_CurrentLayout != value) MyUpdate(value);  }
 	}
 
 	// Use this for initialization
@@ -33,33 +33,33 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-		switch (_CurrentLayout) {
+	public void MyUpdate (DetailedContent2ButtonsLayout value) {
+        _CurrentLayout = value;
+        switch (_CurrentLayout) {
 		case DetailedContent2ButtonsLayout.BUYITEM:
 			CancelButton.SetActive(true);
 			BuyButton.SetActive(true);
 			GotoShopButton.SetActive(false);
-			ShareButton.SetActive(false);
+			if(ShareButton!=null) ShareButton.SetActive(false);
 			break;
 		case DetailedContent2ButtonsLayout.GOTOSHOP:
 			CancelButton.SetActive(true);
 			BuyButton.SetActive(false);
 			GotoShopButton.SetActive(true);
-			ShareButton.SetActive(false);
+                if (ShareButton != null) ShareButton.SetActive(false);
 			break;
 		case DetailedContent2ButtonsLayout.SHARE:
 			CancelButton.SetActive(false);
 			BuyButton.SetActive(false);
 			GotoShopButton.SetActive(false);
-			ShareButton.SetActive(true);
+                if (ShareButton != null) ShareButton.SetActive(true);
 			break;
 		case DetailedContent2ButtonsLayout.OK_ONLY:
 			OKButton.SetActive(true);
 			CancelButton.SetActive(false);
 			BuyButton.SetActive(false);
 			GotoShopButton.SetActive(false);
-			ShareButton.SetActive(false);
+                if (ShareButton != null) ShareButton.SetActive(false);
 			break;
 		}
 	}

@@ -33,7 +33,6 @@ public class CanvasRootController : MonoBehaviour {
 	void Start() {
 //		canvasLayers.FirstOrDefault(c => c.name.ToLower() == "start canvas").SetActive(true);
         LoadingCanvas.SetActive(true);
-
     }
 
     private void HideCanvasLayers() {
@@ -41,7 +40,7 @@ public class CanvasRootController : MonoBehaviour {
             if(go!=null)
                 go.SetActive(false);
 		}
-		SecondPlaneCanvas.SetActive(false);
+		if(SecondPlaneCanvas!=null) SecondPlaneCanvas.SetActive(false);
 	}
 
 	public IEnumerator FadeOut (int waitSeconds) {
@@ -82,9 +81,10 @@ public class CanvasRootController : MonoBehaviour {
 	}
 
 	void HideAllSecondPlaneScreens() {
-		foreach(Transform t in SecondPlaneCanvas.transform) {
-			t.gameObject.SetActive(false);
-		}
+        if(SecondPlaneCanvas!=null)
+		    foreach(Transform t in SecondPlaneCanvas.transform) {
+			    t.gameObject.SetActive(false);
+		    }
 	}
 
 

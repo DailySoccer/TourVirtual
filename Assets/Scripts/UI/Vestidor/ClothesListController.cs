@@ -74,10 +74,11 @@ public class ClothesListController : MonoBehaviour {
 
 	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
-		//UserAPI.VirtualGoodsDesciptor.VirtualGoods
-		
-		//int idTraza = 0;
-		
+        //UserAPI.VirtualGoodsDesciptor.VirtualGoods
+
+        //int idTraza = 0;
+        if (UserAPI.VirtualGoodsDesciptor == null) return;
+
 		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
 
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;

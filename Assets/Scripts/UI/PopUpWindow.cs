@@ -46,12 +46,12 @@ public class PopUpWindow : MonoBehaviour {
 	ThirdProfileController ThirdsProfile;
 #endif
 	public GameObject ProfileScreenController;
-#if !LITE_VERSION
 	private DetailedContent2Buttons SingleContentLayOut;
-	public GameCanvasManager TheGameCanvas;
+#if !LITE_VERSION
+    public GameCanvasManager TheGameCanvas;
 #endif
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		StandardTitleText.gameObject.SetActive(true);
 		//CurrentStandardTitleText = StandardTitle.GetComponent<Text> ();
 		if (ThirdsProfileTitle != null) {
@@ -59,11 +59,9 @@ public class PopUpWindow : MonoBehaviour {
 		} else {
 			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
 		}
-#if !LITE_VERSION
 		if (SingleContent) {
 			SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
 		}
-#endif
 	}
 	
 	// Update is called once per frame
@@ -100,27 +98,21 @@ public class PopUpWindow : MonoBehaviour {
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "FONDOS INSUFICIENTES";
-#if !LITE_VERSION
             SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
-#endif
 			break;
 			
 		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 			SingleContent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
+            StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "ADQUIERE ESTE PRODUCTO";
-#if !LITE_VERSION
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-#endif
-                break;
+            break;
 			
 		case ModalLayout.SINGLE_CONTENT_SARE:
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "COMPARTE TU ADQUISICIÓN";
-#if !LITE_VERSION
 			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
-#endif
 			break;
 			
 		case ModalLayout.THIRDS_PROFILE_CONTENT:
