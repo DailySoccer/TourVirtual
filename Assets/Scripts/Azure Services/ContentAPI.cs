@@ -95,12 +95,12 @@ public class ContentAPI
     }
 
     public void CheckContent(VirtualGoodsAPI.VirtualGood vg) {
-        if (string.IsNullOrEmpty(vg.InternalID)) return;
+        if (string.IsNullOrEmpty(vg.GUID)) return;
 
-        Content cnt = GetContentByID(vg.InternalID);
+        Content cnt = GetContentByID(vg.GUID);
         if (cnt != null) {
             if (vg.count > 0) {
-                Debug.LogError(">>>> Desbloqueado " + vg.InternalID);
+                Debug.LogError(">>>> Desbloqueado " + vg.GUID);
                 cnt.owned = true;
             }
         }

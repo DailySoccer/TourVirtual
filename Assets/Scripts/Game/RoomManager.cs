@@ -188,7 +188,6 @@ public class RoomManager : Photon.PunBehaviour {
 #if !LITE_VERSION
                     if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
                         // Sin pasar por seleccion de avatar ya que tiene avatar
-
                         RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
                         RoomStart = rd.Door(roomKey);
                         roomKey = GetRoomKey(RoomStart);
@@ -200,12 +199,7 @@ public class RoomManager : Photon.PunBehaviour {
                             if (thePlayer != null) {
                                 thePlayer.Avatar = instance;
                             }
-                            if (MainManager.IsDeepLinking) {
-                                MainManager.IsDeepLinking = false;
-                                GotoRoom("VESTIDOR");
-                            }
-                            else
-                                ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
+                            ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                         }));
                     }
                     else

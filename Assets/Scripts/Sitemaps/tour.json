@@ -1,20 +1,6 @@
 {
 	"rooms": [
 		{ 
-			"id": "AVATAR",
-			"name": "Avatar Select",
-			"scene": "AvatarSelect",
-			"gui": "AVATAR",
-			"player_visible": false,
-            "max_players": 1,
-            "doors": {
-                "AVATAR": "ESTADIO#PUERTA1"
-            },
-			"bundles": {
-				"SCENE": "scene/avatar_select"
-			}
-		},
-		{ 
 			"id": "VESTIDORLITE",
 			"name": "Selector / Vestidor de avatar",
 			"scene": "VestidorLite",
@@ -22,24 +8,10 @@
 			"player_visible": false,
             "max_players": 1,
             "doors": {
-            	"VESTIDOR": "ESTADIO"
+            	"VESTIDORLITE": "ROOM4#PUERTA1"
             },
 			"bundles": {
-			"SCENE": "scene/vestidor"
-			}
-		},
-		{ 
-			"id": "VESTIDOR",
-			"name": "Personalizar Avatar",
-			"scene": "Vestidor",
-			"gui": "",
-			"player_visible": false,
-            "max_players": 1,
-            "doors": {
-            	"VESTIDOR": "ESTADIO"
-            },
-			"bundles": {
-			"SCENE": "scene/vestidor"
+			    "SCENE": "scene/vestidor"
 			}
 		},
 		{ 

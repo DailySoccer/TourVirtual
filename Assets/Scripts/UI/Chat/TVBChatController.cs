@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public class TVBChatController : MonoBehaviour {
 
@@ -164,7 +165,7 @@ public class TVBChatController : MonoBehaviour {
 			DateTime lastMessageDateTime = msg.toChatMessage().GetMessageDate();
 			
 			if (  MyTools.ToShortDateString( lastMessageDateTime.AddDays(1) ) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de ayer ==> "AYER"
-				channel.lastUpdateDate.text = MainManager.Instance.LanguageManagerInstance.GetTextValue("TVB.Chat.Yesterday").ToUpper(); 
+				channel.lastUpdateDate.text = LanguageManager.Instance.GetTextValue("TVB.Chat.Yesterday").ToUpper(); 
 			} else if (MyTools.ToShortDateString(lastMessageDateTime) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de hoy   ==> La Hora
 				channel.lastUpdateDate.text = MyTools.ToShortTimeString(lastMessageDateTime);
 			} else { // Resto de mensajes  ==> La Fecha

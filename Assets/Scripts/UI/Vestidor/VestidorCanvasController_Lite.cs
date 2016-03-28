@@ -150,7 +150,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 catch { }
             }
             else {
-                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"),()=> {
+                    //Authentication.AzureServices.OpenURL("rmapp://You");
+                });
+//                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
             }
         }
         TogglePopUpScreen();
@@ -322,7 +325,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 #if !LITE_VERSION
         if (MainManager.IsDeepLinking) {
-			Authentication.AzureServicedes.OpenURL("rmapp://You");
+			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
         }
@@ -422,21 +425,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void OnBuy() {
 
         LoadingCanvasManager.Show();
-        UserAPI.VirtualGoodsDesciptor.BuyByGUID(currentPrenda.virtualGood.GUID, false, () => 
-            {
+        UserAPI.VirtualGoodsDesciptor.BuyByGUID(currentPrenda.virtualGood.GUID, false, () => {
                 LoadingCanvasManager.Hide();
                 currentPrenda.SetupSlot(currentPrenda.virtualGood);
                 BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
                 DressVirtualGood(currentPrenda.virtualGood, true, currentPrenda.virtualGood.count == 0);
                 TogglePopUpScreen();
             }, () => {
+                TogglePopUpScreen();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
                 LoadingCanvasManager.Hide();
-                TogglePopUpScreen();
+                
             });
-
-
-
     }
 
     public void OnGoShop()

@@ -354,7 +354,7 @@ public void OnGUI()	{
 //            _initialized = true;
 //            if (startSound != null) startSound.Play();
             // Inicia la conexion con el servidor PUN.
-            StartCoroutine(RoomManager.Instance.Connect());
+            StartCoroutine( RoomManager.Instance.Connect() );
         }
 
     }
