@@ -221,10 +221,11 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start() {
         GetDeepLinkingURL();
-        if (!UserAPI.Instance.Online)
-			DeepLinking("rmvt:editavatar?parameters={idVirtualGood:54dc043b-5bdb-4c45-9fd3-66f11d11db59,idUser:d1c9f805-054a-4420-a1af-30d37b75dff7}");
+#if UNITY_EDITOR
+        DeepLinking("rmvt:editavatar?parameters={idVirtualGood:54dc043b-5bdb-4c45-9fd3-66f11d11db59,idUser:d1c9f805-054a-4420-a1af-30d37b75dff7}");
+#endif
 #if !UNITY_IOS
-		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
+        if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
             return;

@@ -6,14 +6,16 @@ public class VirtualGoodsAPI {
         public string GUID;
         public string IdSubType;
         public string Description;
+        public string Thumb;
         public string Image;
         public float Price;
         public int count;
-        public VirtualGood(string _GUID, string _IdSubType, string _Description, float _Price, string _Image) {
+        public VirtualGood(string _GUID, string _IdSubType, string _Description, float _Price, string _Thumb, string _Image) {
             GUID = _GUID;
             IdSubType = _IdSubType;
             Description = _Description;
             Price = _Price;
+            Thumb = _Thumb;
             Image = _Image;
             count = 0;
         }
@@ -91,7 +93,9 @@ public class VirtualGoodsAPI {
                     string subtype = vg["IdSubType"] as string;
                     string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                     float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]) : 0.0f;
-                    VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, vg["PictureUrl"] as string);
+                    string thburl = vg["ThumbnailUrl"] as string;
+                    string imgurl = vg["PictureUrl"] as string;
+                    VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, thburl, imgurl);
                     VirtualGoods.Add(guid, tmp);
                 }
             }
@@ -132,10 +136,10 @@ public class VirtualGoodsAPI {
                                 string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
 //                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                                 float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]):0.0f;
-								//string imgurl = vg["PictureUrl"] as string;
-								string imgurl = vg["ThumbnailUrl"] as string;
+								string thburl = vg["ThumbnailUrl"] as string;
+                                string imgurl = vg["PictureUrl"] as string;
 
-								VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, imgurl );
+                                VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, thburl, imgurl);
                                 VirtualGoods.Add(guid, tmp);
                             }
                         }
@@ -199,7 +203,7 @@ public class VirtualGoodsAPI {
     }
 
 
-    public void BuyByGUID(string guid, bool multiple = false) {
+    public void BuyByGUID(string guid, bool multiple = false, UserAPI.callback onOk = null, UserAPI.callback onError=null) {
         if (VirtualGoods.ContainsKey(guid)) {
             VirtualGood vg = (VirtualGood)VirtualGoods[guid];
             if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){
@@ -213,6 +217,7 @@ public class VirtualGoodsAPI {
 #if !LITE_VERSION
                     UserAPI.Contents.CheckContent(vg);
 #endif
+                    if (onOk != null) onOk();
                 });
             }
             else {
@@ -224,6 +229,7 @@ public class VirtualGoodsAPI {
                 if ( vg.Price >= UserAPI.Instance.Points) {
                     Debug.LogError("NO hay dinero para comprar >>>> " + guid);
                 }
+                if (onError != null) onError();
             }
         }
     }

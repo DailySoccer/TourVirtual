@@ -31,9 +31,7 @@ public class ClothSlot : MonoBehaviour {
 
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
 		virtualGood = item;
-
-		ClothName.text = item.Description;
-
+        ClothName.text = "";//item.Description;
 		Price.text = item.Price.ToString();
 		if (item.count > 0)
 			Price.gameObject.SetActive (false);

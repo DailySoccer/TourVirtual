@@ -31,36 +31,41 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	public void MyUpdate (DetailedContent2ButtonsLayout value) {
+
+    // Update is called once per frame
+    public void MyUpdate(DetailedContent2ButtonsLayout value)
+    {
         _CurrentLayout = value;
-        switch (_CurrentLayout) {
-		case DetailedContent2ButtonsLayout.BUYITEM:
-			CancelButton.SetActive(true);
-			BuyButton.SetActive(true);
-			GotoShopButton.SetActive(false);
-			if(ShareButton!=null) ShareButton.SetActive(false);
-			break;
-		case DetailedContent2ButtonsLayout.GOTOSHOP:
-			CancelButton.SetActive(true);
-			BuyButton.SetActive(false);
-			GotoShopButton.SetActive(true);
-                if (ShareButton != null) ShareButton.SetActive(false);
-			break;
-		case DetailedContent2ButtonsLayout.SHARE:
-			CancelButton.SetActive(false);
-			BuyButton.SetActive(false);
-			GotoShopButton.SetActive(false);
-                if (ShareButton != null) ShareButton.SetActive(true);
-			break;
-		case DetailedContent2ButtonsLayout.OK_ONLY:
-			OKButton.SetActive(true);
-			CancelButton.SetActive(false);
-			BuyButton.SetActive(false);
-			GotoShopButton.SetActive(false);
-                if (ShareButton != null) ShareButton.SetActive(false);
-			break;
-		}
-	}
+        switch (_CurrentLayout)
+        {
+            case DetailedContent2ButtonsLayout.BUYITEM:
+                OKButton.SetActive(false);
+                CancelButton.SetActive(true);
+                BuyButton.SetActive(true);
+                GotoShopButton.SetActive(false);
+                ShareButton.SetActive(false);
+                break;
+            case DetailedContent2ButtonsLayout.GOTOSHOP:
+                OKButton.SetActive(false);
+                CancelButton.SetActive(true);
+                BuyButton.SetActive(false);
+                GotoShopButton.SetActive(true);
+                ShareButton.SetActive(false);
+                break;
+            case DetailedContent2ButtonsLayout.SHARE:
+                OKButton.SetActive(false);
+                CancelButton.SetActive(false);
+                BuyButton.SetActive(false);
+                GotoShopButton.SetActive(false);
+                ShareButton.SetActive(true);
+                break;
+            case DetailedContent2ButtonsLayout.OK_ONLY:
+                OKButton.SetActive(true);
+                CancelButton.SetActive(false);
+                BuyButton.SetActive(false);
+                GotoShopButton.SetActive(false);
+                ShareButton.SetActive(false);
+                break;
+        }
+    }
 }

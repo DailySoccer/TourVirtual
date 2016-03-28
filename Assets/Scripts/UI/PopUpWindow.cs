@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public enum ModalLayout {
 	BLANK,
@@ -11,8 +12,9 @@ public enum ModalLayout {
 	ACHIEVEMENTS_GRID,
 	SINGLE_CONTENT_GOTO_SHOP,
 	SINGLE_CONTENT_BUY_ITEM,
-	SINGLE_CONTENT_SARE,
-	THIRDS_PROFILE_CONTENT
+    SINGLE_CONTENT_INFO,
+    SINGLE_CONTENT_SARE,
+    THIRDS_PROFILE_CONTENT
 }
 
 public class PopUpWindow : MonoBehaviour {
@@ -104,11 +106,16 @@ public class PopUpWindow : MonoBehaviour {
 		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 			SingleContent.SetActive(true);
             StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "ADQUIERE ESTE PRODUCTO";
-			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
+            StandardTitleText.text = LanguageManager.Instance.GetTextValue("TVB.Popup.Buy");
+            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
             break;
-			
-		case ModalLayout.SINGLE_CONTENT_SARE:
+        case ModalLayout.SINGLE_CONTENT_INFO:
+            SingleContent.SetActive(true);
+            StandardTitleText.gameObject.SetActive(true);
+            StandardTitleText.text = LanguageManager.Instance.GetTextValue("TVB.Popup.Info");
+            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+            break;
+        case ModalLayout.SINGLE_CONTENT_SARE:
 			SingleContent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "COMPARTE TU ADQUISICIÓN";

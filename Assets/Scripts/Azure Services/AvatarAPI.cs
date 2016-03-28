@@ -15,6 +15,36 @@ public class AvatarAPI {
     public string Compliment;
     public string Pack;
 
+    public AvatarAPI Copy()
+    {
+        return new AvatarAPI()
+        {
+            Gender = this.Gender,
+            Hair = this.Hair,
+            Hat = this.Hat,
+            Head = this.Head,
+            Torso = this.Torso,
+            Legs = this.Legs,
+            Feet = this.Feet,
+            Compliment = this.Compliment,
+            Pack = this.Pack
+        };
+    }
+
+    public void Paste(AvatarAPI other)
+    {
+        this.Gender = other.Gender;
+        this.Hair = other.Hair;
+        this.Hat = other.Hat;
+        this.Head = other.Head;
+        this.Torso = other.Torso;
+        this.Legs = other.Legs;
+        this.Feet = other.Feet;
+        this.Compliment = other.Compliment;
+        this.Pack = other.Pack;
+    }
+
+
     public Hashtable GetProperty(Property prop) {
         Hashtable ht = new Hashtable();
         ht.Add("Type", prop.ToString());

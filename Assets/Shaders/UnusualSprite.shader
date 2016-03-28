@@ -5,9 +5,7 @@
 
 Shader "Mobile/Particles/UnusualSprite" {
 Properties {
-	_Color("Color Tint", Color) = (1,1,1,1)
 	_MainTex ("Particle Texture", 2D) = "white" {}
-
 
 	_StencilComp("Stencil Comparison", Float) = 8
 	_Stencil("Stencil ID", Float) = 0
@@ -44,8 +42,7 @@ Category {
 		SubShader {
 			Pass {
 				SetTexture[_MainTex] {
-					constantColor[_Color]
-					combine texture * constant, texture * constant
+					combine texture * primary, texture * primary
 				}
 			}
 		}

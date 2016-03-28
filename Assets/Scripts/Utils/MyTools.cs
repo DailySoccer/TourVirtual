@@ -7,32 +7,12 @@ public class MyTools
 {
     public static string AsciiToString(byte[] bytes)
     {
-#if !UNITY_WSA
-        return ASCIIEncoding.UTF8.GetString(bytes);
-#else
-        StringBuilder sb = new StringBuilder(bytes.Length);
-        foreach (byte b in bytes)
-        {
-            sb.Append(b <= 0x7f ? (char)b : '?');
-        }
-        return sb.ToString();
-#endif
+        return System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
     }
 
     public static byte[] GetBytes(string str)
     {
-#if !UNITY_WSA
-        return Encoding.ASCII.GetBytes(str);
-#else
-        byte[] retval = new byte[str.Length];
-        for (int ix = 0; ix < str.Length; ++ix)
-        {
-            char ch = str[ix];
-            if (ch <= 0x7f) retval[ix] = (byte)ch;
-            else retval[ix] = (byte)'?';
-        }
-        return retval;
-#endif
+        return System.Text.Encoding.UTF8.GetBytes(str);
     }
 
     public static Material Slot = null;
@@ -47,23 +27,16 @@ public class MyTools
 
         yield return www;
         if (string.IsNullOrEmpty(www.error) ) {
-#if UNITY_IOS
+#if !UNITY_WSA
 			Texture2D txt = www.texture;
 			Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
 			s.texture.wrapMode = TextureWrapMode.Clamp;
 			if(source!=null) source.GetComponent<Image>().sprite = s;
 #else
             if (Slot == null) Slot = Resources.Load<Material>("Slot");
-            //Texture2D txt = www.texture;
-            // Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
-            // s.texture.wrapMode = TextureWrapMode.Clamp;
-            //if(source!=null) source.GetComponent<Image>().sprite = s;
-
-            if (source != null)
-            {
+            if (source != null) {
                 Image img = source.GetComponent<Image>();
-                if (img != null)
-                {
+                if (img != null){
                     img.sprite = null;
                     Material mat = (Material)GameObject.Instantiate(Slot);
                     Texture2D txt = www.texture;

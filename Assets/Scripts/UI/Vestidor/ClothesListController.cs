@@ -87,11 +87,13 @@ public class ClothesListController : MonoBehaviour {
 				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
 
 				//item.count  = idTraza % 2 == 0 ? 1 : 0;
- 
+/*
 				if (item.count == 0) {
-					cloth.GetComponent<Button>().interactable = false;
-				}
-
+                    var clrs = cloth.GetComponent<Button>().colors;
+                    clrs.normalColor = new Color32(200, 200, 200, 128);
+                    cloth.GetComponent<Button>().colors = clrs;
+                }
+*/
 				cs.name = item.Description;
 				cs.SetupSlot (item);	
 				
@@ -120,10 +122,7 @@ public class ClothesListController : MonoBehaviour {
 					//Debug.LogError("VESTIDOR CONTROLLER: Me llegan elementos a la tienda que contemplo, como por ejemplo [" + item.IdSubType + "]" );
 					break;
 				}
-
-				if (item.count > 0)
-					cloth.transform.SetAsFirstSibling();
-
+				if (item.count > 0) cloth.transform.SetAsFirstSibling();
 				cloth.name = item.Description;
 				cloth.transform.localScale = Vector3.one;
 
