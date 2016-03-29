@@ -162,8 +162,7 @@ public class DLCManager : MonoBehaviour {
 
 		foreach(string key in AssetDefinitions.Keys) {
 			AssetDefinition definition = AssetDefinitions[key];
-            // CACA, solo precachea estos ficheros
-            if (definition.Id != "scene/avatar_select" && definition.Id != "avatars") continue;
+            if (definition.Id != "scene/vestidor" && definition.Id != "avatars") continue;
 
             // Ignoramos las versiones 0...
             if (definition.Version > 0){

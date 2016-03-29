@@ -102,8 +102,9 @@ public class UserAPI {
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });
+        if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;
 
-        if (MainManager.IsDeepLinking &&
+        if ( MainManager.IsDeepLinking &&
                     MainManager.DeepLinkinParameters != null &&
                     MainManager.DeepLinkinParameters.ContainsKey("idUser") &&
                     MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
@@ -111,7 +112,6 @@ public class UserAPI {
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
             ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), ()=> {
-                Debug.LogError(">>> Current " + UserAPI.Instance.UserID);
                 Authentication.AzureServices.SignIn();
             });
             yield break;
