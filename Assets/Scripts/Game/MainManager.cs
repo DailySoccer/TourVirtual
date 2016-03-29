@@ -220,6 +220,9 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
     void Start() {
+
+        Handheld.PlayFullScreenMovie("http://techslides.com/demos/sample-videos/small.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
+
         GetDeepLinkingURL();
 #if UNITY_EDITOR
         DeepLinking("rmvt:editavatar?parameters={idVirtualGood:54dc043b-5bdb-4c45-9fd3-66f11d11db59,idUser:d1c9f805-054a-4420-a1af-30d37b75dff7}");
