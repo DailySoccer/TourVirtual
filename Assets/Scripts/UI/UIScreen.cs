@@ -60,6 +60,6 @@ public class UIScreen : MonoBehaviour {
 
 	public virtual void CloseWindow() {
 	}
-	
+
 	private CanvasGroup _canvasGroup;
 }

@@ -9,9 +9,12 @@ public class ProfileScreenController : MonoBehaviour {
 	public Text BasketScore;
 	public Text HiddenObjectsScore;
 
+	public Button ShowPacks;
 	public Text PacksCountText;
 	int PacksCount;
 	int MaxPacksCount;
+
+	public Button ShowAchievements;
 	public Text AchivementCountText;
 	int AchievementsCount;
 	int MaxAchivemenstCount;
@@ -27,8 +30,12 @@ public class ProfileScreenController : MonoBehaviour {
 		penaltiesScore.text 	= UserAPI.Instance.GetScore (UserAPI.MiniGame.FreeKicks).ToString();// (1000 * Time.deltaTime).ToString();
 		BasketScore.text		= UserAPI.Instance.GetScore (UserAPI.MiniGame.FreeShoots).ToString();//(1000 * Time.deltaTime).ToString();
 		HiddenObjectsScore.text = UserAPI.Instance.GetScore (UserAPI.MiniGame.HiddenObjects).ToString();//(1000 * Time.deltaTime).ToString();
+
 		PacksCount = UserAPI.Instance.ContentPack (out MaxPacksCount);
+		ShowPacks.interactable = PacksCount > 0 ? true : false;
+
 		AchievementsCount = UserAPI.Instance.GetAchievements (out MaxAchivemenstCount);
+		ShowAchievements.interactable = AchievementsCount > 0 ? true : false;
 
 		PacksCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 		PacksCount.ToString(), MaxPacksCount.ToString());
 		AchivementCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 	AchievementsCount.ToString(), MaxAchivemenstCount.ToString());

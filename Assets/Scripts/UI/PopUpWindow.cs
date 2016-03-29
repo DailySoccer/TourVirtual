@@ -148,18 +148,18 @@ public class PopUpWindow : MonoBehaviour {
 
 		/// Limpieza del grid de contenidos comprados
 		if (PurchasedPackGridContentList != null) {
-			foreach (Transform t in PurchasedPackGridContent.transform)
+			foreach (Transform t in PurchasedPackGridContentList.transform)
 				Destroy (t);
 			PurchasedPackGridContent.SetActive (false);
 		}
-		CleanPurchaserGridContent ();
-	
-
+		CleanPurchasedPaksGridSlots ();
+	    
+		/*
 		if (PurchasedPackListContentList != null){
-			foreach(Transform t in PurchasedPackListContent.transform)
+			foreach(Transform t in PurchasedPackListContentList.transform)
 				Destroy (t);
 			PurchasedPackListContent.SetActive (false);
-		}
+		}*/
 	
 		/// Limpieza del grid de logros
 		if (AchievementGridContent != null) {
@@ -167,7 +167,7 @@ public class PopUpWindow : MonoBehaviour {
 				Destroy (t);
 			AchievementGridContent.SetActive (false);
 		}
-		CleanAchievementsGridContent ();
+		CleanAchievementsGridSlots ();
 
 		//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 		SingleContent.SetActive(false);
@@ -180,7 +180,7 @@ public class PopUpWindow : MonoBehaviour {
 	/// </summary>
 	public void SetupPurchasedGridContent() {
 
-		CleanPurchaserGridContent ();
+		CleanPurchasedPaksGridSlots ();
 #if !LITE_VERSION
 		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content ct = (c.Value as ContentAPI.Content);
@@ -200,7 +200,7 @@ public class PopUpWindow : MonoBehaviour {
 	/// <summary>
 	/// Limpia la lista de packs obtenidos
 	/// </summary>
-	void CleanPurchaserGridContent() {
+	void CleanPurchasedPaksGridSlots() {
 		foreach (GameObject go in PurchasedPaksGridSlots) {
 			Destroy (go);
 		}
@@ -224,7 +224,7 @@ public class PopUpWindow : MonoBehaviour {
 	/// </summary>
 	public void SetupAchievementGridContent() {
 
-		CleanAchievementsGridContent ();
+		CleanAchievementsGridSlots ();
 #if !LITE_VERSION
 		foreach (var c in UserAPI.Achievements.Achievements) {	
 			AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
@@ -245,7 +245,7 @@ public class PopUpWindow : MonoBehaviour {
 	/// <summary>
 	/// Limpia la lista de Logros del grid de logros desbloqueados
 	/// </summary>
-	void CleanAchievementsGridContent() {
+	void CleanAchievementsGridSlots() {
 #if !LITE_VERSION
 		foreach (GameObject go in AchievementsGridSlots) {
 			Destroy (go);
@@ -276,5 +276,9 @@ public class PopUpWindow : MonoBehaviour {
 		ThirdsProfile.Setup (playerID);
     }
 #endif
-
+	public void CloseModalScreen() {
+#if !LITE_VERSION
+		TheGameCanvas.HideModalScreen ();
+#endif
+    }
 }

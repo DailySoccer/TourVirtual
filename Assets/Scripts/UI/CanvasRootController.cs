@@ -90,7 +90,7 @@ public class CanvasRootController : MonoBehaviour {
 
 	void OnLevelReady() {
 		//GameObject canvas;
-		switch(_roomManager.Room.Gui) {
+		switch(_roomManager.Room.Gui) {            
 			case RoomDefinition.GUI_GAME: // Game Scene
                                           //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
                 canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas").SetActive(true);
