@@ -29,17 +29,17 @@ public class PopUpWindow : MonoBehaviour {
 	public Text ThirdsProfileTitleText;
 
 	//Contenidos
-	public GameObject PurchasedPackGridContent;
-	public GameObject PurchasedPackGridContentList;
-	public GameObject PurchasedPackItemGridSlot;
-	private List<GameObject> PurchasedPaksGridSlots = new List<GameObject>();
+	public GameObject PurchasedPacksGridParent;
+	public GameObject PurchasedPacksGridList;
+	public GameObject PurchasedPacksGridSlot;
+	private List<GameObject> PacksGridSlotGameObjectsList = new List<GameObject>();
 
-	public GameObject PurchasedPackListContent;
-	public GameObject PurchasedPackListContentList;
-	public GameObject PurchasedContenidoVerticalListSlot;
+	public GameObject PurchasedPackContentParent;
+	public GameObject PurchasedPackContentList;
+	public GameObject PurchasedPackContentSlot;
 
-	public GameObject AchievementGridContent;
-	public GameObject AchievementGridContentList;
+	public GameObject AchievementsGridParent;
+	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
 	private List<GameObject> AchievementsGridSlots = new List<GameObject>();
 
@@ -79,19 +79,19 @@ public class PopUpWindow : MonoBehaviour {
 		case ModalLayout.BLANK:
 			break;
 		case ModalLayout.PURCHASED_PACKS_GRID:
-			PurchasedPackGridContent.SetActive(true);
+			PurchasedPacksGridParent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "PACKS COMPRADOS";
 			break;
 			
 		case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
-			PurchasedPackListContent.SetActive(true);
+			PurchasedPackContentParent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "CONTENIDO DEL PACK";
 			break;
 			
 		case ModalLayout.ACHIEVEMENTS_GRID:
-			AchievementGridContent.SetActive(true);
+			AchievementsGridParent.SetActive(true);
 			StandardTitleText.gameObject.SetActive (true);
 			StandardTitleText.text = "LISTADO DE LOGROS";
 			break;
@@ -147,25 +147,25 @@ public class PopUpWindow : MonoBehaviour {
 			ProfileScreenController.SetActive (false);
 
 		/// Limpieza del grid de contenidos comprados
-		if (PurchasedPackGridContentList != null) {
-			foreach (Transform t in PurchasedPackGridContentList.transform)
+		if (PurchasedPacksGridList != null) {
+			foreach (Transform t in PurchasedPacksGridList.transform)
 				Destroy (t);
-			PurchasedPackGridContent.SetActive (false);
+			PurchasedPacksGridParent.SetActive (false);
 		}
 		CleanPurchasedPaksGridSlots ();
 	    
-		/*
-		if (PurchasedPackListContentList != null){
-			foreach(Transform t in PurchasedPackListContentList.transform)
+
+		if (PurchasedPackContentList != null){
+			foreach(Transform t in PurchasedPackContentList.transform)
 				Destroy (t);
-			PurchasedPackListContent.SetActive (false);
-		}*/
+			PurchasedPackContentParent.SetActive (false);
+		}
 	
 		/// Limpieza del grid de logros
-		if (AchievementGridContent != null) {
-			foreach(Transform t in AchievementGridContent.transform)
+		if (AchievementsGridList != null) {
+			foreach(Transform t in AchievementsGridList.transform)
 				Destroy (t);
-			AchievementGridContent.SetActive (false);
+			AchievementsGridParent.SetActive (false);
 		}
 		CleanAchievementsGridSlots ();
 
@@ -186,12 +186,12 @@ public class PopUpWindow : MonoBehaviour {
 			ContentAPI.Content ct = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
 			if (ct.owned) {
-				GameObject slot = Instantiate (PurchasedPackItemGridSlot);
-				slot.transform.SetParent(PurchasedPackGridContentList.transform);
+				GameObject slot = Instantiate (PurchasedPacksGridSlot);
+				slot.transform.SetParent(PurchasedPacksGridList.transform);
 				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL, ct.VirtualGoodID);
 				slot.transform.localScale = Vector3.one;
 				slot.name = ct.Description;
-				PurchasedPaksGridSlots.Add(slot);
+				PacksGridSlotGameObjectsList.Add(slot);
 			}
 		}
 #endif
@@ -201,10 +201,10 @@ public class PopUpWindow : MonoBehaviour {
 	/// Limpia la lista de packs obtenidos
 	/// </summary>
 	void CleanPurchasedPaksGridSlots() {
-		foreach (GameObject go in PurchasedPaksGridSlots) {
+		foreach (GameObject go in PacksGridSlotGameObjectsList) {
 			Destroy (go);
 		}
-		PurchasedPaksGridSlots.Clear ();
+		PacksGridSlotGameObjectsList.Clear ();
 	}
 #if !LITE_VERSION
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
@@ -230,7 +230,7 @@ public class PopUpWindow : MonoBehaviour {
 			AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
 			// TODO: rellenar el contenido de cada lista
 			GameObject slot = Instantiate (AchievementSlot);
-			slot.transform.SetParent(AchievementGridContentList.transform);
+			slot.transform.SetParent(AchievementsGridList.transform);
 			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach.Name, ach.Image);
 			slot.transform.localScale = Vector3.one;
 			if (!ach.earned) {

@@ -5,14 +5,9 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-//[ExecuteInEditMode]
 public class AvatarPicture : MonoBehaviour {
 
 	public Image Avatar;
-
-	//public int Index;
-
-	//public List<Sprite> AvatarPictures;
 
 	// Use this for initialization
 	void Start () {
@@ -25,15 +20,13 @@ public class AvatarPicture : MonoBehaviour {
 		//SetAvatarPicture ();
 	}
 
-
 	public IEnumerator SetAvatarPictureWhenInitializeAPI() {
 		while (UserAPI.AvatarDesciptor.Head == null) {
-			Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head not initialized yet");
 			yield return null;
 		}
-		Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head >>> initialized <<<");
 		SetAvatarPicture ();
 	} 
+
 	public void SetAvatarPicture() {
 		if (Avatar.sprite != null) {
 			if (UserAPI.Instance != null) {
