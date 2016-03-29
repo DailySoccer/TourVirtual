@@ -277,6 +277,8 @@ public class PopUpWindow : MonoBehaviour {
     }
 #endif
 	public void CloseModalScreen() {
+#if !LITE_VERSION
 		TheGameCanvas.HideModalScreen ();
-	}
+#endif
+    }
 }

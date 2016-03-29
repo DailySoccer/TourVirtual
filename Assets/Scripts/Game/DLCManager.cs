@@ -115,6 +115,10 @@ public class DLCManager : MonoBehaviour {
         //
 
     }
+
+    WWW current;
+    string currentName;
+
     public System.Collections.IEnumerator LoadResource(string keyResource, System.Action<AssetBundle> callback = null) {
         if (!AssetDefinitions.ContainsKey(keyResource)) {
 			yield break;
@@ -134,11 +138,12 @@ public class DLCManager : MonoBehaviour {
 		// Ignoramos las versiones 0...
 		if (definition.Version > 0)
         {
+            currentName = definition.Id;
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
-            using (WWW www = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version)) {
-				yield return www;
-                if (string.IsNullOrEmpty(www.error)) {
-					AssetBundle bundle = www.assetBundle;
+            using (current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version)) {
+				yield return current;
+                if (string.IsNullOrEmpty(current.error)) {
+					AssetBundle bundle = current.assetBundle;
 					bundle.LoadAllAssets();
 					AssetResources[keyResource] = bundle;
                     if (callback != null) callback(bundle);
@@ -148,12 +153,11 @@ public class DLCManager : MonoBehaviour {
                     // throw new Exception("WWW download had an error:" + www.error);
                 }
 			} // memory is freed from the web stream (www.Dispose() gets called implicitly)
-		}
+            current = null;
+        }
         LoadingBar.Instance.Hide();
     }
 
-    WWW current;
-    string currentName;
 
     public System.Collections.IEnumerator CacheResources() {
         // Wait for the Caching system to be ready
@@ -180,8 +184,9 @@ public class DLCManager : MonoBehaviour {
                         // throw new Exception("WWW download had an error:" + www.error);
                     }
 				} // memory is freed from the web stream (www.Dispose() gets called implicitly)
-			}
-		}
+                current = null;
+            }
+        }
         LoadingBar.Instance.Hide();
         current = null;
 
