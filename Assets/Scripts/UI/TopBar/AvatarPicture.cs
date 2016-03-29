@@ -21,9 +21,19 @@ public class AvatarPicture : MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnEnable () {
-		SetAvatarPicture ();
+		StartCoroutine (SetAvatarPictureWhenInitializeAPI ());
+		//SetAvatarPicture ();
 	}
 
+
+	public IEnumerator SetAvatarPictureWhenInitializeAPI() {
+		while (UserAPI.AvatarDesciptor.Head == null) {
+			Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head not initialized yet");
+			yield return null;
+		}
+		Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head >>> initialized <<<");
+		SetAvatarPicture ();
+	} 
 	public void SetAvatarPicture() {
 		if (Avatar.sprite != null) {
 			if (UserAPI.Instance != null) {
