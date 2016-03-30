@@ -117,7 +117,7 @@ public class ContentAPI
         		""Description"": ""Test Pack 1"",
         		""Asset"": {
         			""AssetUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e.jpg"",
-        			""ThumbnailUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e_thumbnail.png"",
+        			""ThumbnailUrl"": ""https://az726872.vo.msecnd.net/global-contentasset/asset_6a29a830-d506-4a75-b411-61823664fe4e_thumbnail.jpg"",
         			""Type"": 2,
         			""VideoUrlType"": null
 
@@ -171,6 +171,17 @@ public class ContentAPI
         }
     }
 
+
+	/* Asset Types
+		Photo 				= 0,
+        Video 				= 1,
+        ContentTitleImage 	= 2,
+        Audio 				= 3,
+        Binary 				= 4,
+        Model3D 			= 5
+	 */
+
+
     string auxData2 = @"{  
    ""IdContent"":""6ffa6413-4e53-4556-b406-17a40fe8ff93"",
    ""SourceId"":""TESTPACK1"",
@@ -188,6 +199,27 @@ public class ContentAPI
          ""Body"":""Imagen de ejemplo\n""
       }
 
+
+
+
+	 ,{  
+         ""Title"":""Test Photo"",
+         ""Body"":""Test Photo\n""
+      }
+	 ,{  
+         ""Title"":""Test Video"",
+         ""Body"":""Test Video\n""
+      }
+	 ,{  
+         ""Title"":""Test Audio"",
+         ""Body"":""Test Photo\n""
+      }
+	 ,{  
+         ""Title"":""Test 3D"",
+         ""Body"":""Test Photo\n""
+      }
+
+
    ],
    ""Assets"":[
       {  
@@ -200,6 +232,33 @@ public class ContentAPI
          ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
          ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
          ""Type"":0,
+         ""VideoUrlType"":null
+      }
+
+
+
+	 ,{  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
+         ""Type"":0,
+         ""VideoUrlType"":null
+      }
+	 ,{  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
+         ""Type"":1,
+         ""VideoUrlType"":null
+      }
+	 ,{  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
+         ""Type"":3,
+         ""VideoUrlType"":null
+      }
+	 ,{  
+         ""AssetUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228.png"",
+         ""ThumbnailUrl"":""https://az726872.vo.msecnd.net/global-contentasset/asset_6eba5209-8195-4363-8163-b375e916e228_thumbnail.png"",
+         ""Type"":5,
          ""VideoUrlType"":null
       }
    ],

@@ -6,6 +6,7 @@ using System.Collections;
 
 public class PurchasedItemSlot : MonoBehaviour {
 
+	public ContentAPI.Content Content;
 	public Text PurchasedPackName;
 	public Image Picture;
 	public string TheID { get; private set; }
@@ -25,11 +26,12 @@ public class PurchasedItemSlot : MonoBehaviour {
 		Picture.sprite = null;
 	}
 
-	public void SetupSlot(PopUpWindow parentController, string productName, string pictureUrl, string theId) {
-		StartCoroutine(MyTools.LoadSpriteFromURL(pictureUrl, Picture.gameObject));
-		PurchasedPackName.text = productName;
+	public void SetupSlot(PopUpWindow parentController, ContentAPI.Content item){//string productName, string pictureUrl, string theId) {
 		theParentController = parentController;
-		TheID = theId;
+		Content = item;
+		StartCoroutine(MyTools.LoadSpriteFromURL(Content.ThumbURL, Picture.gameObject));
+		PurchasedPackName.text = Content.Description;//productName;
+		TheID = Content.VirtualGoodID;//theId;
 	}
 
 	public void PurchasedItemSlot_ClickHandle() {

@@ -37,11 +37,12 @@ public class PopUpWindow : MonoBehaviour {
 	public GameObject PurchasedPackContentParent;
 	public GameObject PurchasedPackContentList;
 	public GameObject PurchasedPackContentSlot;
+	private List<GameObject> PurchasedPackContentGameObjectsList = new List<GameObject>();
 
 	public GameObject AchievementsGridParent;
 	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
-	private List<GameObject> AchievementsGridSlots = new List<GameObject>();
+	private List<GameObject> AchievementsGridSlotGameObjectsList = new List<GameObject>();
 
 	public GameObject SingleContent;
 #if !LITE_VERSION
@@ -183,14 +184,14 @@ public class PopUpWindow : MonoBehaviour {
 		CleanPurchasedPaksGridSlots ();
 #if !LITE_VERSION
 		foreach (var c in UserAPI.Contents.Contents) {	
-			ContentAPI.Content ct = (c.Value as ContentAPI.Content);
+			ContentAPI.Content content = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
-			if (ct.owned) {
+			if (content.owned) {
 				GameObject slot = Instantiate (PurchasedPacksGridSlot);
 				slot.transform.SetParent(PurchasedPacksGridList.transform);
-				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, ct.Title, ct.ThumbURL, ct.VirtualGoodID);
+				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, content/*.Title, content.ThumbURL, content.VirtualGoodID*/);
 				slot.transform.localScale = Vector3.one;
-				slot.name = ct.Description;
+				slot.name = content.Description;
 				PacksGridSlotGameObjectsList.Add(slot);
 			}
 		}
@@ -206,16 +207,63 @@ public class PopUpWindow : MonoBehaviour {
 		}
 		PacksGridSlotGameObjectsList.Clear ();
 	}
+
 #if !LITE_VERSION
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+		SetupPurchasedPackContentList (item.Content.VirtualGoodID);
 	}
 #endif
-	public void SetupPurchasedListContent() {
-		
+
+
+
+
+
+
+	/// <summary>
+	/// Prepara la pantalla de contenido de un pack comprado
+	/// </summary>
+	/// <param name="packId">Pack identifier.</param>
+	public void SetupPurchasedPackContentList(string packId) {
+		CleanPurchasedPackContentGameObjectsList ();
+#if !LITE_VERSION
+		//TODO: Traer los datos y meterlos en la ventana
+		LoadingCanvasManager.Show();
+		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
+#endif
+	}
+	public void PackContentCallBack(List<ContentAPI.Asset> values) {
+		LoadingCanvasManager.Hide();
+		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )){
+
+			GameObject slot = Instantiate (PurchasedPackContentSlot);
+			slot.transform.SetParent(PurchasedPackContentList.transform);
+			slot.transform.localScale = Vector3.one;
+			slot.name = cont.Title;
+			slot.GetComponent<PurchasedPackContentSlot> ().SetupSlot (this, cont);
+			PurchasedPackContentGameObjectsList.Add(slot);
+		}	
+	}
+	/// <summary>
+	/// Limpia la lista de Logros del grid de logros desbloqueados
+	/// </summary>
+	void CleanPurchasedPackContentGameObjectsList() {
+		#if !LITE_VERSION
+		foreach (GameObject go in PurchasedPackContentGameObjectsList) {
+			Destroy (go);
+		}
+		#endif
+		PurchasedPackContentGameObjectsList.Clear ();
 	}
 
+	#if !LITE_VERSION
+	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
+		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		//SetupPurchasedPackContentList (item.Content.VirtualGoodID);
+		//TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+	}
+	#endif
 
 
 
@@ -237,7 +285,7 @@ public class PopUpWindow : MonoBehaviour {
 				slot.GetComponent<Button>().interactable = false;
 			}
 			slot.name = ach.Description;
-			AchievementsGridSlots.Add(slot);
+			AchievementsGridSlotGameObjectsList.Add(slot);
 		}
 #endif
 	}
@@ -247,11 +295,11 @@ public class PopUpWindow : MonoBehaviour {
 	/// </summary>
 	void CleanAchievementsGridSlots() {
 #if !LITE_VERSION
-		foreach (GameObject go in AchievementsGridSlots) {
+		foreach (GameObject go in AchievementsGridSlotGameObjectsList) {
 			Destroy (go);
 		}
 #endif
-        AchievementsGridSlots.Clear ();
+        AchievementsGridSlotGameObjectsList.Clear ();
 	}
 #if !LITE_VERSION
 	public void AchievementItemSlot_Click(AchievementSlot item) {

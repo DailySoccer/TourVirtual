@@ -13,7 +13,7 @@ public enum ContentType {
 }
 
 //[ExecuteInEditMode]
-public class PurchasedContentSlot : MonoBehaviour {
+public class PurchasedPackContentSlot : MonoBehaviour {
 
 	public ContentType CurrentType;
 
@@ -26,12 +26,17 @@ public class PurchasedContentSlot : MonoBehaviour {
 	public Image    IconForContentTypeObject;
 	public Text     DescriptionText;
 
-	public void SetupSlot(ContentAPI.AssetType type, string thumbURL, string description) {
+	ContentAPI.Asset content;
+	PopUpWindow theParentController;
 
-		StartCoroutine(MyTools.LoadSpriteFromURL (thumbURL, ItemPictureObject.gameObject));
-		DescriptionText.text = description;
+	public void SetupSlot(PopUpWindow parentController, ContentAPI.Asset cont){//ContentAPI.AssetType type, string thumbURL, string description) {
+		theParentController = parentController;
+		content = cont;
 
-		switch (type) {
+		StartCoroutine(MyTools.LoadSpriteFromURL (content.ThumbnailUrl, ItemPictureObject.gameObject));
+		DescriptionText.text = content.Title;
+
+		switch (content.Type) {
 		case ContentAPI.AssetType.Video:
 			IconForContentTypeObject.sprite = VideoIcon;
 			break;
@@ -52,6 +57,10 @@ public class PurchasedContentSlot : MonoBehaviour {
 		DescriptionText.text = "";
 		CurrentType = ContentType.VIDEO;
 	}*/
+
+	public void PurchasedPackContentSlot_ClickHandle() {
+		theParentController.PurchasedPackContentSlot_Click(this);
+	}
 }
 
 #endif
