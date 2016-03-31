@@ -45,6 +45,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public GameObject BuyInfoButtom;
 
+    public UnityEngine.UI.Button BotonAceptar;
+
     void Awake()
     {
         Instance = this;
@@ -206,7 +208,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         if (loadmodel) LoadModel();
 
-        if (temporal) UserAPI.AvatarDesciptor.Paste(tmp);
+        if (temporal) {
+            BotonAceptar.interactable = false;
+            UserAPI.AvatarDesciptor.Paste(tmp);
+        }
+        else
+            BotonAceptar.interactable = true;
     }
 
     public void TogglePopUpScreen()
