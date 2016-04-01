@@ -116,14 +116,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     ClothSlot currentPrenda;
     public void TryToDressPlayer(ClothSlot prenda)
     {
-        if (currentPrenda == prenda) return;
         currentPrenda = prenda;
+        //if (currentPrenda == prenda) return;
+        DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
-        DressVirtualGood(currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
-
-        if (!BuyInfoButtom.GetActive()) BuyInfoButtom.SetActive(true);
-        if (currentPrenda.virtualGood.count != 0) BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
-        else BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Buy");
+        if (currentPrenda != null)
+        {
+            BuyInfoButtom.SetActive(true);
+            if (currentPrenda.virtualGood.count != 0) BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
+            else BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Buy");
+        }
+        else
+            BuyInfoButtom.SetActive(false);
 
 
     }
@@ -177,32 +181,68 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         {
             case "HTORSO":
             case "MTORSO":
-                UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Torso == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Torso = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
                 UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HLEG":
             case "MLEG":
-                UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Legs = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
                 UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HSHOE":
             case "MSHOE":
-                UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Legs = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HCOMPLIMENT":
             case "MCOMPLIMENT":
-                UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Compliment == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Compliment = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HHAT":
             case "MHAT":
-                UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Hat == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Hat = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HPACK":
             case "MPACK":
-                UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Pack == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Pack = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
                 break;
         }
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
@@ -242,7 +282,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void LoadModel()
     {
-        if (PlayerInstance != null) Destroy(PlayerInstance);
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
         {
             //Seteamos el Avatar que se muestra en estapantalla
@@ -261,7 +300,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
             PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
             AddParticles();
-        }));
+        }, PlayerInstance) );
     }
 
     Transform particles;
