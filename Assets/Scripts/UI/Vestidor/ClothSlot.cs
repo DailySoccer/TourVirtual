@@ -43,4 +43,21 @@ public class ClothSlot : MonoBehaviour {
 	public void Slot_ClickHandle() {
 		VestidorControllerInstance.TryToDressPlayer (this);
 	}
+
+    void OnDestroy()
+    {
+        var sprt = Picture.gameObject.GetComponent<Image>().sprite;
+        if (sprt != null)
+        {
+#if !UNITY_WSA
+            DestroyImmediate(sprt.texture, true);
+            Destroy(sprt);
+            Resources.UnloadUnusedAssets();
+#else
+            var mat = sprt.material;
+            if(mat.texture) DestroyImmediate(mat.texture, true);
+            Destroy(mat);
+#endif
+        }
+    }
 }

@@ -158,10 +158,12 @@ public class PlayerManager : Photon.PunBehaviour {
         Dictionary<string, object> compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as List<object>, section[6]);
 
         GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
+        var pmm = lastInstance.AddComponent<PlayerMaterialMemory>();        
         lastInstance.transform.position = Vector3.zero;
 
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
+            pmm.matMaterial = mat;
             if (hairDesc["mesh"]!=null) Assign(bundle.LoadAsset<GameObject>(hairDesc["mesh"] as string), lastInstance.transform.FindChild("Pelo"), mat);
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
             Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
@@ -170,6 +172,7 @@ public class PlayerManager : Photon.PunBehaviour {
             // Material para el complemento.
             if (compimentsDesc != null) {
                 Material matCmp = Instantiate(baseCompliment);
+                pmm.matCompliment = matCmp;
                 matCmp.mainTexture = bundle.LoadAsset<Texture2D>(compimentsDesc["texture"] as string);
                 Assign(bundle.LoadAsset<GameObject>(compimentsDesc["mesh"] as string), lastInstance.transform.FindChild("Complemento"), matCmp);
             }
@@ -221,6 +224,7 @@ public class PlayerManager : Photon.PunBehaviour {
             }
             
             Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
+            dst.name = "PlayerTextureCompose";
             dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
             dst.Apply();
             RenderTexture.active = null;
@@ -298,8 +302,9 @@ public class PlayerManager : Photon.PunBehaviour {
             bones[i] = SearchHierarchyForBone(target.parent, bones[i].name);
         smrDst.bones = bones;
 
-        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
-        Material[] mats = new Material[2];// smrDst.sharedMaterials;
+        Material[] mats = smrDst.sharedMaterials;
+//        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
+        smrDst.sharedMesh = smrOrg.sharedMesh;
         for (int i = 0; i < mats.Length; ++i)
             mats[i] = mat;
         smrDst.sharedMaterials = mats;

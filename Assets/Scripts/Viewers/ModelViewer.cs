@@ -11,18 +11,20 @@ public class ModelViewer : MonoBehaviour
     bool draggin = false;
 
     // Use this for initialization
-    void Start() {
-//        string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
+    void Start()
+    {
+        //        string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
         string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/championsorejona";
 
-        lastCoroutine = StartCoroutine( DownloadModel(AssetsUrl) );
+        lastCoroutine = StartCoroutine(DownloadModel(AssetsUrl));
     }
     // mostrar descarga...
-    IEnumerator DownloadModel(string url) {
+    IEnumerator DownloadModel(string url)
+    {
         WWW www = new WWW(url);
         yield return www;
         var names = www.assetBundle.GetAllAssetNames();
-        model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]) );
+        model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]));
     }
 
     void Update()

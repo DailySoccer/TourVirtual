@@ -28,7 +28,6 @@ public class AvatarPicture : MonoBehaviour {
 
 	public IEnumerator SetAvatarPictureWhenInitializeAPI() {
 		while (UserAPI.AvatarDesciptor.Head == null) {
-			Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head not initialized yet");
 			yield return null;
 		}
 		Debug.LogError("[AvatarPicture] in " + name + ": UserAPI.AvatarDesciptor.Head >>> initialized <<<");

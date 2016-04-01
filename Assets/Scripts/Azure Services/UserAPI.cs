@@ -101,6 +101,7 @@ public class UserAPI {
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
+
         });
         if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;
 

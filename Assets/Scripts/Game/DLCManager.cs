@@ -37,7 +37,7 @@ public class DLCManager : MonoBehaviour {
 	}
 	
 	public TextAsset Assets;
-	public string AssetsUrl;
+	string AssetsUrl;
 	public Dictionary<string, AssetDefinition> AssetDefinitions = new Dictionary<string, AssetDefinition>();
 	public Dictionary<string, AssetBundle> AssetResources = new Dictionary<string, AssetBundle>();
 
@@ -55,16 +55,18 @@ public class DLCManager : MonoBehaviour {
 
 	void Awake () {
 #if UNITY_EDITOR
-	#if !UNITY_IOS	
-        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
-	#endif
+//        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
         //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
+        AssetsUrl = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets";
 #else
 #if PRE
-        AssetsUrl = "https://az879424.vo.msecnd.net/virtualtour-assets";
-#endif
+            AssetsUrl = "https://az879424.vo.msecnd.net/virtualtour-assets";
+#else
 #if PRO
-        AssetsUrl = "https://az878819.vo.msecnd.net/virtualtour-assets";
+                AssetsUrl = "https://az878819.vo.msecnd.net/virtualtour-assets";
+#else
+                AssetsUrl = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets";
+#endif
 #endif
 #endif
 

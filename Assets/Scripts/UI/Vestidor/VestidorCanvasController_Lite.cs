@@ -135,7 +135,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
         modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
         modalDetail.TheName.text = currentPrenda.virtualGood.Description;
-        StartCoroutine(MyTools.LoadSpriteFromURL(currentPrenda.virtualGood.Image, modalDetail.ThePicture.gameObject));
+        StartCoroutine(MyTools.LoadSpriteFromURL(currentPrenda.virtualGood.Thumb, modalDetail.ThePicture.gameObject));
 
         if (currentPrenda.virtualGood.count != 0)
         { // Lo tengo, presento informacion.
