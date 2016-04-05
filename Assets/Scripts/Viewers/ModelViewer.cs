@@ -1,25 +1,56 @@
 ﻿#if !LITE_VERSION
+
 using UnityEngine;
 using System.Collections;
 
 public class ModelViewer : MonoBehaviour
 {
     Coroutine lastCoroutine;
-
+    GameObject model;
+    Vector2 lastTouch;
+    bool draggin = false;
 
     // Use this for initialization
     void Start()
     {
-//        lastCoroutine = StartCoroutine(DownloadImage("https://az726872.vo.msecnd.net/global-contentasset/asset_92d476d9-7c95-4102-8d7d-b9f18c1fadc7.jpg"));
-    }
+        //        string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
+        string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/championsorejona";
 
-    IEnumerator DownloadImage(string url)
+        lastCoroutine = StartCoroutine(DownloadModel(AssetsUrl));
+    }
+    // mostrar descarga...
+    IEnumerator DownloadModel(string url)
     {
-        yield return null;
+        WWW www = new WWW(url);
+        yield return www;
+        var names = www.assetBundle.GetAllAssetNames();
+        model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]));
     }
 
     void Update()
     {
+        if (Input.touchCount == 1)
+        {
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                lastTouch = Input.GetTouch(0).position;
+                draggin = true;
+            }
+            else
+            if (Input.GetTouch(0).phase == TouchPhase.Moved && draggin)
+            {
+                Touch touch = Input.GetTouch(0);
+                Vector3 diff = Input.GetTouch(0).position - lastTouch;
+                lastTouch = Input.GetTouch(0).position;
+            }
+        }
+        else
+            draggin = false;
+    }
+    void OnDisable()
+    {
+        Destroy(model);
+
     }
 
 }

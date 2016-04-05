@@ -13,7 +13,7 @@ using SmartLocalization;
 
 public class UserAPI {
 #if UNITY_EDITOR
-    public bool Online = false;
+    public bool Online = true;
 #else
 	public bool Online = true;
 #endif
@@ -101,6 +101,7 @@ public class UserAPI {
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
+
         });
         if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;
 

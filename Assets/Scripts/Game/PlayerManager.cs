@@ -143,9 +143,8 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         return GetDescriptor( Packs[UserAPI.AvatarDesciptor.Gender] as List<object>, GUID);
     }
-
     public delegate void callback(GameObject instance);
-    public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null) {
+    public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null, GameObject oldInstance=null) {
 #if UNITY_EDITOR
         if (string.IsNullOrEmpty(model)) model = "Man#988dee0b-e8a2-4771-85ee-e537389b3330#HCabeza03#02e9b0a5-29d9-4b5c-9894-25b72b0209eb#c63925be-c3f5-46d5-97da-617a1489d599#2e1c35ed-ff06-486e-a088-e2b8d5135e3f#";
 #endif 
@@ -156,12 +155,20 @@ public class PlayerManager : Photon.PunBehaviour {
         Dictionary<string, object> legsDesc = GetDescriptor(Legs[section[0]] as List<object>, !string.IsNullOrEmpty(section[4]) ? section[4] : ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
         Dictionary<string, object> feetDesc = GetDescriptor(Feet[section[0]] as List<object>, !string.IsNullOrEmpty(section[5]) ? section[5] : ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
         Dictionary<string, object> compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as List<object>, section[6]);
+        float anmTime = 0;
+        if (oldInstance != null)
+        {
+            anmTime = oldInstance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
+            Destroy(oldInstance);
+        }
 
         GameObject lastInstance = Instantiate(section[0]=="Man"?prefabMale:prefabFemale);
+        var pmm = lastInstance.AddComponent<PlayerMaterialMemory>();        
         lastInstance.transform.position = Vector3.zero;
 
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Material mat = Instantiate(baseMaterial);
+            pmm.matMaterial = mat;
             if (hairDesc["mesh"]!=null) Assign(bundle.LoadAsset<GameObject>(hairDesc["mesh"] as string), lastInstance.transform.FindChild("Pelo"), mat);
             Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
             Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
@@ -170,6 +177,7 @@ public class PlayerManager : Photon.PunBehaviour {
             // Material para el complemento.
             if (compimentsDesc != null) {
                 Material matCmp = Instantiate(baseCompliment);
+                pmm.matCompliment = matCmp;
                 matCmp.mainTexture = bundle.LoadAsset<Texture2D>(compimentsDesc["texture"] as string);
                 Assign(bundle.LoadAsset<GameObject>(compimentsDesc["mesh"] as string), lastInstance.transform.FindChild("Complemento"), matCmp);
             }
@@ -183,44 +191,39 @@ public class PlayerManager : Photon.PunBehaviour {
             if (txt != null)
             {
                 Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
-//                GameObject.DestroyImmediate(txt);
             }
             txt = bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string);
             if (txt != null)
             {
                 Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
-//                GameObject.DestroyImmediate(txt);
             }
             txt = bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string);
             if (txt != null)
             {
                 Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), txt);
-//                GameObject.DestroyImmediate(txt);
             }
             txt = bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string);
             if (txt != null)
             {
                 Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
-//                GameObject.DestroyImmediate(txt);
             }
             if (hairTextures!=null) {
                 txt = bundle.LoadAsset<Texture2D>(hairTextures[0] as string);
                 if (txt != null)
                 {
                     Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
-//                    GameObject.DestroyImmediate(txt);
                 }
                 if (hairTextures.Count > 1) {
                     txt = bundle.LoadAsset<Texture2D>(hairTextures[1] as string);
                     if (txt != null)
                     {
                         Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), txt);
-//                        GameObject.DestroyImmediate(txt);
                     }
                 }
             }
             
             Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
+            dst.name = "PlayerTextureCompose";
             dst.ReadPixels(new Rect(0, 0, textureSize, textureSize), 0, 0);
             dst.Apply();
             RenderTexture.active = null;
@@ -229,6 +232,9 @@ public class PlayerManager : Photon.PunBehaviour {
             GL.PopMatrix();
             lastInstance.SetActive(true);
             RenderTexture.active = null; // Restore
+            lastInstance.GetComponent<Animator>().Play("Idle", 0, anmTime);
+
+
             if (callback != null) callback(lastInstance);
         }));
     }
@@ -298,8 +304,9 @@ public class PlayerManager : Photon.PunBehaviour {
             bones[i] = SearchHierarchyForBone(target.parent, bones[i].name);
         smrDst.bones = bones;
 
-        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
-        Material[] mats = new Material[2];// smrDst.sharedMaterials;
+        Material[] mats = smrDst.sharedMaterials;
+//        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
+        smrDst.sharedMesh = smrOrg.sharedMesh;
         for (int i = 0; i < mats.Length; ++i)
             mats[i] = mat;
         smrDst.sharedMaterials = mats;

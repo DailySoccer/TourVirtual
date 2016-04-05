@@ -76,7 +76,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 
 #if !PRE && !PRO
-        //        if (MainManager.IsDeepLinking) ModalTextOnly.ShowText(MainManager.DeepLinkingURL);
+//        if (MainManager.IsDeepLinking) ModalTextOnly.ShowText(MainManager.DeepLinkingURL);
 #endif
         if (newState != currentVestidorState)
         {
@@ -116,26 +116,30 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     ClothSlot currentPrenda;
     public void TryToDressPlayer(ClothSlot prenda)
     {
-        if (currentPrenda == prenda) return;
         currentPrenda = prenda;
+        //if (currentPrenda == prenda) return;
+        DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
-        DressVirtualGood(currentPrenda.virtualGood, true, currentPrenda.virtualGood.count == 0);
-
-        if (!BuyInfoButtom.GetActive()) BuyInfoButtom.SetActive(true);
-        if (currentPrenda.virtualGood.count != 0) BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
-        else BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Buy");
+        if (currentPrenda != null)
+        {
+            BuyInfoButtom.SetActive(true);
+            if (currentPrenda.virtualGood.count != 0) BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
+            else BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Buy");
+        }
+        else
+            BuyInfoButtom.SetActive(false);
 
 
     }
 
     public void InfoBuyVirtualGood()
     {
-        bool EnoughMoney = currentPrenda.virtualGood.Price <= UserAPI.Instance.Points;
+        bool EnoughMoney = currentPrenda.virtualGood.Price<= UserAPI.Instance.Points;
 
         popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
         modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
         modalDetail.TheName.text = currentPrenda.virtualGood.Description;
-        StartCoroutine(MyTools.LoadSpriteFromURL(currentPrenda.virtualGood.Image, modalDetail.ThePicture.gameObject));
+        StartCoroutine(MyTools.LoadSpriteFromURL(currentPrenda.virtualGood.Thumb, modalDetail.ThePicture.gameObject));
 
         if (currentPrenda.virtualGood.count != 0)
         { // Lo tengo, presento informacion.
@@ -143,7 +147,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         }
         else {
             if (EnoughMoney)
-            {
+            {                
                 popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_BUY_ITEM);
                 try
                 {
@@ -152,10 +156,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 catch { }
             }
             else {
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"), () => {
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"),()=> {
                     //Authentication.AzureServices.OpenURL("rmapp://You");
                 });
-                //                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
+//                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
             }
         }
         TogglePopUpScreen();
@@ -167,7 +171,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         DressVirtualGood(UserAPI.VirtualGoodsDesciptor.GetByGUID(GUID), false);
     }
 
-    public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal = false)
+    public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 
         if (virtualGood == null)
@@ -177,39 +181,74 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         {
             case "HTORSO":
             case "MTORSO":
-                UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Torso == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Torso = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
                 UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HLEG":
             case "MLEG":
-                UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Legs = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
                 UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HSHOE":
             case "MSHOE":
-                UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Legs = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HCOMPLIMENT":
             case "MCOMPLIMENT":
-                UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Compliment == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Compliment = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HHAT":
             case "MHAT":
-                UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Hat == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Hat = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;
             case "HPACK":
             case "MPACK":
-                UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
+                if (UserAPI.AvatarDesciptor.Pack == virtualGood.GUID)
+                {
+                    currentPrenda = null;
+                    UserAPI.AvatarDesciptor.Pack = null;
+                }
+                else
+                    UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
                 break;
         }
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         if (loadmodel) LoadModel();
 
-        if (temporal)
-        {
+        if (temporal) {
             BotonAceptar.interactable = false;
             UserAPI.AvatarDesciptor.Paste(tmp);
         }
@@ -243,7 +282,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void LoadModel()
     {
-        if (PlayerInstance != null) Destroy(PlayerInstance);
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
         {
             //Seteamos el Avatar que se muestra en estapantalla
@@ -254,15 +292,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             Camera[] cams = new Camera[Camera.allCamerasCount];
             Camera.GetAllCameras(cams);
             Camera best = null;
-            foreach (Camera cam in cams)
-                if (cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
+            foreach ( Camera cam in cams)
+                if( cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
                     best = cam;
             var v = best.WorldToViewportPoint(PlayerPosition.position);
             v.z = 10;
             PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
             PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
             AddParticles();
-        }));
+        }, PlayerInstance) );
     }
 
     Transform particles;
@@ -320,9 +358,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void AcceptChangesAndBackToRoom()
     {
 #if !LITE_VERSION
-        Debug.Log("[VestidorCanvas]: Guardo la nueva vestimenta y vuelvo al tour");
-        HideAllScreens();
-        BackToRoom();
+		Debug.Log ("[VestidorCanvas]: Guardo la nueva vestimenta y vuelvo al tour");
+		HideAllScreens ();
+		BackToRoom ();
 #else
         Debug.LogError("Aceptar cambios Cerrar App y Volver");
 
@@ -332,14 +370,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void BackToRoom()
     {
 #if !LITE_VERSION
-        if (MainManager.IsDeepLinking)
-        {
-            Authentication.AzureServices.OpenURL("rmapp://You");
+        if (MainManager.IsDeepLinking) {
+			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
         }
-        HideAllScreens();
-        RoomManager.Instance.GotoPreviousRoom();
+		HideAllScreens ();
+		RoomManager.Instance.GotoPreviousRoom ();
 #else
 
         Debug.LogError("Cerrar App y Volver");
@@ -431,22 +468,21 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         ModalNickInput.Show();
     }
 
-    public void OnBuy()
-    {
+    public void OnBuy() {
 
         LoadingCanvasManager.Show();
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(currentPrenda.virtualGood.GUID, false, () => {
-            LoadingCanvasManager.Hide();
-            currentPrenda.SetupSlot(currentPrenda.virtualGood);
-            BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
-            DressVirtualGood(currentPrenda.virtualGood, true, currentPrenda.virtualGood.count == 0);
-            TogglePopUpScreen();
-        }, () => {
-            TogglePopUpScreen();
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
-            LoadingCanvasManager.Hide();
-
-        });
+                LoadingCanvasManager.Hide();
+                currentPrenda.SetupSlot(currentPrenda.virtualGood);
+                BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
+                DressVirtualGood(currentPrenda.virtualGood, true, currentPrenda.virtualGood.count == 0);
+                TogglePopUpScreen();
+            }, () => {
+                TogglePopUpScreen();
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
+                LoadingCanvasManager.Hide();
+                
+            });
     }
 
     public void OnGoShop()

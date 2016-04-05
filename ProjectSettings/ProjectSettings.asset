@@ -102,18 +102,24 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 2800000, guid: 79d29c6362ffb4a73ab2e9374cd74602, type: 3}
-  iPhoneHighResSplashScreen: {fileID: 0}
-  iPhoneTallHighResSplashScreen: {fileID: 0}
-  iPhone47inSplashScreen: {fileID: 0}
-  iPhone55inPortraitSplashScreen: {fileID: 0}
-  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: 79d29c6362ffb4a73ab2e9374cd74602,
+  iPhoneSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6, type: 3}
+  iPhoneHighResSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
     type: 3}
-  iPadPortraitSplashScreen: {fileID: 0}
-  iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 79d29c6362ffb4a73ab2e9374cd74602,
+  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
     type: 3}
-  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 79d29c6362ffb4a73ab2e9374cd74602,
+  iPhone47inSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPhone55inPortraitSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPadPortraitSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPadHighResPortraitSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
+    type: 3}
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 1c2dd14550e29374ba6dedaba7dbaef6,
     type: 3}
   iOSLaunchScreenType: 0
   iOSLaunchScreenPortrait: {fileID: 0}
@@ -317,8 +323,8 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: CROSS_PLATFORM_INPUT
     2: CROSS_PLATFORM_INPUT
-    4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-    7: 
+    4: CROSS_PLATFORM_INPUT;MOBILE_INPUT;LITE_VERSION
+    7: LITE_VERSION
     14: MOBILE_INPUT
     15: CROSS_PLATFORM_INPUT;MOBILE_INPUT;LITE_VERSION
     16: CROSS_PLATFORM_INPUT;MOBILE_INPUT

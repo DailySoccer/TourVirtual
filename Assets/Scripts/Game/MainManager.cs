@@ -363,7 +363,9 @@ public void OnGUI()	{
 		#if UNITY_IOS
 		yield return new WaitForSeconds(1);
 		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
-			Application.OpenURL("http://www.astosch.com/project/real-madrid/");
+			Authentication.AzureServices.OpenURL("http://www.astosch.com/project/real-madrid/");
+			//Application.OpenURL("http://www.astosch.com/project/real-madrid/");
+			Debug.LogError("!!!!! Aplication QUIT!!");
 			Application.Quit();
 			yield break;
 		}
