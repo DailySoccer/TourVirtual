@@ -34,4 +34,11 @@ public class PackFlyerModal : MonoBehaviour {
 
 		ContentList.text += contentTitle;
 	}
+
+	public void Reset() {
+		ContentList.text = "";
+		Price.text = "";
+		TheContent = null;
+		FlyerThumbnail.sprite = null;
+	}
 }

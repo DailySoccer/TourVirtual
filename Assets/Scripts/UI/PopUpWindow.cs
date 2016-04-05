@@ -55,22 +55,29 @@ public class PopUpWindow : MonoBehaviour {
     public GameCanvasManager TheGameCanvas;
 #endif
 
-	public GameObject PackFlyer;
+	public GameObject PackFlyerGameObject;
+	PackFlyerModal ThePackFlyerModal;
 
     // Use this for initialization
     void Start () {
-		StandardTitleText.gameObject.SetActive(true);
-		//CurrentStandardTitleText = StandardTitle.GetComponent<Text> ();
+		//StandardTitleText.gameObject.SetActive(true);
+
 		if (ThirdsProfileTitle != null) {
 			ThirdsProfileTitle.SetActive (true);
 		} else {
 			Debug.LogWarning("No está establecido el GameObject 'ThirdsProfileTitle'. Si es para el vestidor, no es necesario");
 		}
+	}
+
+	void Awake() {
 		if (SingleContent) {
 			SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
 		}
+		
+		if (ThePackFlyerModal == null)
+			ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	}
@@ -86,6 +93,7 @@ public class PopUpWindow : MonoBehaviour {
 				PurchasedPacksGridParent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PurchasedPacks");
+				SetupPurchasedGridContent();
 				break;
 					
 			case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
@@ -98,6 +106,7 @@ public class PopUpWindow : MonoBehaviour {
 				AchievementsGridParent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.AchievementsList");
+				SetupAchievementGridContent();
 				break;
 					
 			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
@@ -133,8 +142,9 @@ public class PopUpWindow : MonoBehaviour {
 				break;			
 				
 			case ModalLayout.PACK_FLYER:
-				PackFlyer.SetActive (true);
+				PackFlyerGameObject.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
+				LauchFlyerPackContent();
 				//StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackFlyerTitle");
 				//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 				break;
@@ -179,6 +189,13 @@ public class PopUpWindow : MonoBehaviour {
 
 		//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 		SingleContent.SetActive(false);
+
+		/// Limpieza del flyer Content
+		if (ThePackFlyerModal != null)
+			ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
+
+		ThePackFlyerModal.Reset ();
+		PackFlyerGameObject.SetActive(false);
 
 		CloseButton.SetActive (true);
 	}
@@ -272,8 +289,6 @@ public class PopUpWindow : MonoBehaviour {
 	}
 	#endif
 
-
-
 	/// <summary>
 	/// Rellena la lista de Logros desbloqueados
 	/// </summary>
@@ -351,6 +366,7 @@ public class PopUpWindow : MonoBehaviour {
 
 
 	public void LauchFlyerPackContent() {	
+
 		// Coger el id del pack asociado a la vitrina
 		string packId = ContentManager.Instance.ContentNear.name;
 
@@ -358,6 +374,8 @@ public class PopUpWindow : MonoBehaviour {
 
 		if (content == null)
 			return;
+
+//		ResetWindow ();
 
 		StandardTitleText.text = content.Description;
 
@@ -373,12 +391,9 @@ public class PopUpWindow : MonoBehaviour {
 
 			// Setear el título de la ventana
 			StandardTitleText.gameObject.SetActive (true);
-
 			
-			// 3. Recuperar la info del pack: Thumb, titulo, contenidos...
-			PackFlyerModal flyer = PackFlyer.GetComponent<PackFlyerModal> ();
-			// ...y configuramos la ventana
-			flyer.Setup (content);
+			// Recuperar la info del pack: Thumb, titulo, contenidos y configuramos la ventana
+			ThePackFlyerModal.Setup (content);
 
 			// Solicitamos el contenido del pack y montamos el flyer
 			StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
@@ -391,7 +406,7 @@ public class PopUpWindow : MonoBehaviour {
 	public void PackFlyerContentCallBack(List<ContentAPI.Asset> values) {
 		LoadingCanvasManager.Hide();
 		//TODO: configurar modal de compra de pack
-		PackFlyerModal flyer = PackFlyer.GetComponent<PackFlyerModal> ();
+		PackFlyerModal flyer = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
 
 		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )) {
 			flyer.AddContentToList(cont.Title);
