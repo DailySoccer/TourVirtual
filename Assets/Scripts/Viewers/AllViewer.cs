@@ -1,5 +1,9 @@
 ﻿#if !LITE_VERSION
 
+
+//        gameObject.GetComponent<AllViewer>().Show("https://az726872.vo.msecnd.net/global-contentasset/asset_92d476d9-7c95-4102-8d7d-b9f18c1fadc7.jpg", AllViewer.ViewerMode.Image);
+
+
 using UnityEngine;
 using System.Collections;
 
@@ -47,7 +51,7 @@ public class AllViewer : MonoBehaviour
 
         switch(mode) {
             case ViewerMode.Image:
-                lastCoroutine = StartCoroutine(DownloadImage("https://az726872.vo.msecnd.net/global-contentasset/asset_92d476d9-7c95-4102-8d7d-b9f18c1fadc7.jpg"));
+                lastCoroutine = StartCoroutine(DownloadImage(url));
                 midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
                 break;
             case ViewerMode.Model:

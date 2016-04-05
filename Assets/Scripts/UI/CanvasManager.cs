@@ -127,14 +127,11 @@ public class CanvasManager : MonoBehaviour {
 
 
     public void ShowMapScreen() {
-        gameObject.GetComponent<AllViewer>().Show("", AllViewer.ViewerMode.Model);
-        /*
         if (ProfilePlayerInstance != null) 
 			Destroy(ProfilePlayerInstance);
 		ActiveSecondPlaneGUI ();			
 		ShowScreen(ScreenMap);
-        */
-	}
+    }
 
 	public void ShowGoodiesShopScreen() {		
 		if (ProfilePlayerInstance != null) 
