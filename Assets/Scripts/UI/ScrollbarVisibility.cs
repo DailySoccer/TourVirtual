@@ -14,6 +14,6 @@ public class ScrollbarVisibility : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		scrollBarComponent.targetGraphic.color = (scrollBarComponent.size < 0.8f)? colorShow : colorHide;
+		scrollBarComponent.targetGraphic.color = (scrollBarComponent.size < 0.9f)? colorShow : colorHide;
 	}
 }
