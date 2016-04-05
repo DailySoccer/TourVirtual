@@ -324,6 +324,10 @@ namespace Football
 
         void OnFinishGame()
         {
+
+            UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
+
+
             Debug.LogError("OnFinishGame");
             currentTime = 0;
             gameState = GameState.Finished;

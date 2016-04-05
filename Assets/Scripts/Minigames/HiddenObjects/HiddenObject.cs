@@ -8,7 +8,6 @@ namespace HiddenObjects
     {
         void OnMouseDown()
         {
-            Debug.LogError("Click!!!");
         }
     }
 }

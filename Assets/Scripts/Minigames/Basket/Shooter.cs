@@ -322,6 +322,7 @@ namespace Basket
 
         void OnFinishGame()
         {
+            UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeShoots, score);
             currentTime = 0;
             gameState = GameState.Finished;
             Destroy(objBall);

@@ -1,5 +1,4 @@
-﻿#define CASO1
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
@@ -175,38 +174,39 @@ public class UserAPI {
                 }
             catch { }
         });
-#if !LITE_VERSION
+        /*
 
+#if !LITE_VERSION
 #if CASO1
-        VirtualGoodsDesciptor.BuyByGUID("4d229050-fd95-4492-bcff-2ceecf8115b8");
-        Achievements.SedAction("VIRTUALTOUR_ACTION1");
-        UpdateNick("Gunderwulde2");
+VirtualGoodsDesciptor.BuyByGUID("4d229050-fd95-4492-bcff-2ceecf8115b8");
+Achievements.SedAction("VIRTUALTOUR_ACTION1");
+UpdateNick("Gunderwulde2");
 #else
 #if CASO2
- 
 
-        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
+
+yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
 
 #else
-        // Pruebas de rankings de minijuegos
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
+// Pruebas de rankings de minijuegos
+yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
+yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
+yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
 
-        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
-        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
-        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
+yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
+yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
+yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
 
-        // Escritura de puntos.
-        SetScore(MiniGame.FreeShoots, 500);
-        SetScore(MiniGame.FreeKicks, 220);
-        SetScore(MiniGame.HiddenObjects, 320);
-
-#endif
-#endif
-
+// Escritura de puntos.
+SetScore(MiniGame.FreeShoots, 500);
+SetScore(MiniGame.FreeKicks, 220);
+SetScore(MiniGame.HiddenObjects, 320);
 
 #endif
+#endif
+
+#endif
+*/
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }

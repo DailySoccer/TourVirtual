@@ -9,7 +9,8 @@ namespace HiddenObjects {
     public class HiddenObjects : MonoBehaviour {
         public int objectByRoom = 5;
         public int numHiddenObjects = 10;
-        public float maxTime = 20;
+        public int numFoundObjects = 0;
+        public float maxTime = 20 * 60;
         float startTime;
         float endTime;
         public GameObject prefab;
@@ -39,6 +40,8 @@ namespace HiddenObjects {
         }
 
         void OnSuccess() {
+            // Mandamos puntuacion al ranking.
+            UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, (int)(RemaingTime * 10f));            
             Stop();
         }
 
@@ -47,12 +50,10 @@ namespace HiddenObjects {
             if(obj!=null)
                 Destroy(obj);
             Stop();
-        }        
-
+        }       
+        
         public void Play() {
             if (enabled) return;
-            Debug.LogError(">>>> HiddenObjects.Play()");
-
             enabled = true;
             // Crear una lista de objetos.
             List<HiddenObjectPosition> usefullRooms = new List<HiddenObjectPosition>();
@@ -74,7 +75,7 @@ namespace HiddenObjects {
             ListOfHiddenObjects = finalList;
             startTime = Time.realtimeSinceStartup;
             endTime = startTime + maxTime;
-
+            numFoundObjects = 0;
             OnSceneReady();
 
         }
@@ -127,6 +128,7 @@ namespace HiddenObjects {
             for( int i=0;i< ListOfHiddenObjects.Count;++i) {
                 var item = ListOfHiddenObjects[i];
                 if (item.roomid == id && item.position == pos) {
+                    numFoundObjects++;
                     ListOfHiddenObjects.RemoveAt(i);
                     break;
                 }
