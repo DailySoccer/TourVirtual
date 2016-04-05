@@ -257,6 +257,7 @@ public class PopUpWindow : MonoBehaviour {
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
 #endif
 	}
+#if !LITE_VERSION
 	public void PackContentCallBack(List<ContentAPI.Asset> values) {
 		LoadingCanvasManager.Hide();
 		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )){
@@ -269,25 +270,26 @@ public class PopUpWindow : MonoBehaviour {
 			PurchasedPackContentGameObjectsList.Add(slot);
 		}	
 	}
-	/// <summary>
-	/// Limpia la lista de Logros del grid de logros desbloqueados
-	/// </summary>
-	void CleanPurchasedPackContentGameObjectsList() {
-		#if !LITE_VERSION
+#endif
+    /// <summary>
+    /// Limpia la lista de Logros del grid de logros desbloqueados
+    /// </summary>
+    void CleanPurchasedPackContentGameObjectsList() {
+#if !LITE_VERSION
 		foreach (GameObject go in PurchasedPackContentGameObjectsList) {
 			Destroy (go);
 		}
-		#endif
+#endif
 		PurchasedPackContentGameObjectsList.Clear ();
 	}
 
-	#if !LITE_VERSION
+#if !LITE_VERSION
 	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		//SetupPurchasedPackContentList (item.Content.VirtualGoodID);
 		//TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
-	#endif
+#endif
 
 	/// <summary>
 	/// Rellena la lista de Logros desbloqueados

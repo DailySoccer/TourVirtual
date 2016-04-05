@@ -6163,6 +6163,7 @@ GameObject:
   - 114: {fileID: 11429138}
   - 114: {fileID: 11457218}
   - 114: {fileID: 11411968}
+  - 114: {fileID: 11408260}
   m_Layer: 5
   m_Name: Game Canvas
   m_TagString: GameCanvasManager
@@ -7441,6 +7442,17 @@ MonoBehaviour:
   reverseFace: 0
   axis: 4
   IsButtonDbug: 1
+--- !u!114 &11408260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68cc8f5dd9f9b694a96f4128eb6e7483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11408640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7777,6 +7789,8 @@ MonoBehaviour:
   currentGUIScreen: {fileID: 11495080}
   currentGUIPopUpScreen: {fileID: 0}
   ContentLoadingScreen: {fileID: 0}
+  PlayerPosition: {fileID: 0}
+  Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
 --- !u!114 &11412140
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -75,15 +75,12 @@ public class CanvasManager : MonoBehaviour {
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
 		
 		//Activamos los elementos necesarios de esta pantalla
-		
 		//ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
-		
 		//SecondPlaneCanvas.SetActive (true);			
 		//SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
 		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
-
-			//UIScreensCamera.SetActive (true);			
-			//MainCamera.SetActive (false);		
+            UIScreensCamera.SetActive (true);
+            MainCamera.SetActive(false);
 
 			ActiveSecondPlaneGUI ();	
 			ShowScreen(ScreenProfile);
@@ -97,17 +94,46 @@ public class CanvasManager : MonoBehaviour {
 			ProfilePlayerInstance.name = "UI Player Clone for Profile";
 			ProfilePlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
 			ProfilePlayerInstance.GetComponent<SynchNet>().enabled = false;
-			ProfilePlayerInstance.transform.position = new Vector3(0.06f, 9998.82f, 0f);
-
-		}) );
+            ProfilePlayerInstance.transform.position = new Vector3(-0.05f, 9998.82f, 0);
+            ProfilePlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
+            ProfilePlayerInstance.AddComponent<RotateDrag>();
+            AddParticles();
+        }) );
 	}
+    public Transform PlayerPosition;
+    public GameObject Particles;
+    Transform particles;
+    public void AddParticles()
+    {
+        if (particles == null)
+        {
+            particles = (GameObject.Instantiate(Particles) as GameObject).transform;
+            SetLayerRecursively(particles.gameObject, LayerMask.NameToLayer("UI"));
+            particles.position = ProfilePlayerInstance.transform.position;
+            particles.transform.rotation = Quaternion.identity;
+        }
+    }
 
-	public void ShowMapScreen() {		
-		if (ProfilePlayerInstance != null) 
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+            SetLayerRecursively(child.gameObject, newLayer);
+    }
+
+
+
+
+
+
+    public void ShowMapScreen() {
+        gameObject.GetComponent<AllViewer>().Show("", AllViewer.ViewerMode.Model);
+        /*
+        if (ProfilePlayerInstance != null) 
 			Destroy(ProfilePlayerInstance);
-		
 		ActiveSecondPlaneGUI ();			
 		ShowScreen(ScreenMap);
+        */
 	}
 
 	public void ShowGoodiesShopScreen() {		

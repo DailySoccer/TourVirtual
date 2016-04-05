@@ -13,45 +13,40 @@ public class ModelViewer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //        string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
+        //string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
         string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/championsorejona";
-
         lastCoroutine = StartCoroutine(DownloadModel(AssetsUrl));
     }
+
     // mostrar descarga...
-    IEnumerator DownloadModel(string url)
-    {
+    IEnumerator DownloadModel(string url) {
         WWW www = new WWW(url);
         yield return www;
         var names = www.assetBundle.GetAllAssetNames();
         model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]));
+        float size = model.GetComponent<Renderer>().bounds.size.y;
+        model.transform.position = new Vector3(0, -size * 0.5f, size*2);
     }
 
-    void Update()
-    {
-        if (Input.touchCount == 1)
-        {
-            if (Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                lastTouch = Input.GetTouch(0).position;
+    void Update() {
+        if (Input.touchCount == 1) {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began) {
+                lastTouch = touch.position;
                 draggin = true;
             }
-            else
-            if (Input.GetTouch(0).phase == TouchPhase.Moved && draggin)
-            {
-                Touch touch = Input.GetTouch(0);
-                Vector3 diff = Input.GetTouch(0).position - lastTouch;
-                lastTouch = Input.GetTouch(0).position;
+            else if (touch.phase == TouchPhase.Moved && draggin) {
+                Vector3 diff = touch.position - lastTouch;
+                model.transform.Rotate(Vector3.up, diff.x);
+                lastTouch = touch.position;
             }
         }
         else
             draggin = false;
     }
-    void OnDisable()
-    {
+
+    void OnDisable() {
         Destroy(model);
-
     }
-
 }
 #endif
