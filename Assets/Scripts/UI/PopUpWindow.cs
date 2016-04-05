@@ -13,8 +13,9 @@ public enum ModalLayout {
 	SINGLE_CONTENT_GOTO_SHOP,
 	SINGLE_CONTENT_BUY_ITEM,
     SINGLE_CONTENT_INFO,
-    SINGLE_CONTENT_SARE,
-    THIRDS_PROFILE_CONTENT
+    SINGLE_CONTENT_SHARE,
+    THIRDS_PROFILE_CONTENT,
+	PACK_FLYER
 }
 
 public class PopUpWindow : MonoBehaviour {
@@ -53,6 +54,9 @@ public class PopUpWindow : MonoBehaviour {
 #if !LITE_VERSION
     public GameCanvasManager TheGameCanvas;
 #endif
+
+	public GameObject PackFlyer;
+
     // Use this for initialization
     void Start () {
 		StandardTitleText.gameObject.SetActive(true);
@@ -69,7 +73,6 @@ public class PopUpWindow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 	}
 
 	public void SetState(ModalLayout newPopUpLayout) {
@@ -77,58 +80,67 @@ public class PopUpWindow : MonoBehaviour {
 		ResetWindow ();
 
 		switch (newPopUpLayout) {
-		case ModalLayout.BLANK:
-			break;
-		case ModalLayout.PURCHASED_PACKS_GRID:
-			PurchasedPacksGridParent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "PACKS COMPRADOS";
-			break;
-			
-		case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
-			PurchasedPackContentParent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "CONTENIDO DEL PACK";
-			break;
-			
-		case ModalLayout.ACHIEVEMENTS_GRID:
-			AchievementsGridParent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "LISTADO DE LOGROS";
-			break;
-			
-		case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
-			SingleContent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "FONDOS INSUFICIENTES";
-            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
-			break;
-			
-		case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
-			SingleContent.SetActive(true);
-            StandardTitleText.gameObject.SetActive (true);
-            StandardTitleText.text = LanguageManager.Instance.GetTextValue("TVB.Popup.Buy");
-            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-            break;
-        case ModalLayout.SINGLE_CONTENT_INFO:
-            SingleContent.SetActive(true);
-            StandardTitleText.gameObject.SetActive(true);
-            StandardTitleText.text = LanguageManager.Instance.GetTextValue("TVB.Popup.Info");
-            SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
-            break;
-        case ModalLayout.SINGLE_CONTENT_SARE:
-			SingleContent.SetActive(true);
-			StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = "COMPARTE TU ADQUISICIÓN";
-			SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
-			break;
-			
-		case ModalLayout.THIRDS_PROFILE_CONTENT:
-			ThirdsProfileTitle.SetActive(true);
-			ThirdsProfileTitleText.text = "NOMBRE DE USUARIO";
-			ProfileScreenController.SetActive(true);
-			break;			
+			case ModalLayout.BLANK:
+				break;
+			case ModalLayout.PURCHASED_PACKS_GRID:
+				PurchasedPacksGridParent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PurchasedPacks");
+				break;
+					
+			case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
+				PurchasedPackContentParent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackContent");
+				break;
+					
+			case ModalLayout.ACHIEVEMENTS_GRID:
+				AchievementsGridParent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.AchievementsList");
+				break;
+					
+			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
+				SingleContent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.InsufficientFunds");
+				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
+				break;
+					
+			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
+				SingleContent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Buy");
+				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
+				break;
+			case ModalLayout.SINGLE_CONTENT_INFO:
+				SingleContent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
+				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+				break;
+			case ModalLayout.SINGLE_CONTENT_SHARE:
+				SingleContent.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+			StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
+				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
+				break;
+					
+			case ModalLayout.THIRDS_PROFILE_CONTENT:
+				ThirdsProfileTitle.SetActive (true);
+				ThirdsProfileTitleText.text = "<NOMBRE DE USUARIO>";
+				ProfileScreenController.SetActive (true);
+				break;			
+				
+			case ModalLayout.PACK_FLYER:
+				PackFlyer.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				//StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackFlyerTitle");
+				//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+				break;
+
 		}
+
 	}
 
 	public void ResetWindow() {
@@ -302,7 +314,7 @@ public class PopUpWindow : MonoBehaviour {
 	}
 #endif
 
-
+	/*
     public void SetupSingleContentBuyContent() {
 		
 	}
@@ -312,6 +324,7 @@ public class PopUpWindow : MonoBehaviour {
 	public void SetupSingleContentToShare() {
 		
 	}
+	*/
 #if !LITE_VERSION
 	public void SetupThirdProfileContent(string playerID) {
 
@@ -319,6 +332,93 @@ public class PopUpWindow : MonoBehaviour {
 		ThirdsProfile.Setup (playerID);
     }
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public void LauchFlyerPackContent() {	
+		// Coger el id del pack asociado a la vitrina
+		string packId = ContentManager.Instance.ContentNear.name;
+
+		ContentAPI.Content content = UserAPI.Contents.GetContentByID (packId);
+
+		if (content == null)
+			return;
+
+		StandardTitleText.text = content.Description;
+
+		if (content.owned) {
+			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina ya está desbloqueado");
+			// Abrimos el modal con la lista de contenidos
+			TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+			SetupPurchasedPackContentList (content.VirtualGoodID);
+		} else {
+			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
+
+			LoadingCanvasManager.Show ();
+
+			// Setear el título de la ventana
+			StandardTitleText.gameObject.SetActive (true);
+
+			
+			// 3. Recuperar la info del pack: Thumb, titulo, contenidos...
+			PackFlyerModal flyer = PackFlyer.GetComponent<PackFlyerModal> ();
+			// ...y configuramos la ventana
+			flyer.Setup (content);
+
+			// Solicitamos el contenido del pack y montamos el flyer
+			StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
+
+		}
+
+	}
+
+
+	public void PackFlyerContentCallBack(List<ContentAPI.Asset> values) {
+		LoadingCanvasManager.Hide();
+		//TODO: configurar modal de compra de pack
+		PackFlyerModal flyer = PackFlyer.GetComponent<PackFlyerModal> ();
+
+		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )) {
+			flyer.AddContentToList(cont.Title);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public void CloseModalScreen() {
 #if !LITE_VERSION
 		TheGameCanvas.HideModalScreen ();

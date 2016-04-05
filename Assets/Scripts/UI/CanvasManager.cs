@@ -188,6 +188,9 @@ public class CanvasManager : MonoBehaviour {
 			case ModalLayout.ACHIEVEMENTS_GRID:
 				modalPopUpWindow.SetupAchievementGridContent();
 				break;
+			case ModalLayout.PACK_FLYER:
+				modalPopUpWindow.LauchFlyerPackContent();
+				break;
 			/*
 			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 				modalPopUpWindow.SetupSingleContentBuyContent();
