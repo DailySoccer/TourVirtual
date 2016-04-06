@@ -11,7 +11,8 @@ public class RoomDefinition {
 	public string SceneName;
 	public string Gui;
 	public bool PlayerVisible = true;
-	public byte MaxPlayers = 16;
+    public string GamaAction="";
+    public byte MaxPlayers = 16;
     public bool HiddenObjects = false;
     public Dictionary<string, object> Doors;
 	public Dictionary<string, object> Bundles;
@@ -95,10 +96,15 @@ public class RoomDefinition {
         {
             roomDefinition.HiddenObjects = System.Convert.ToBoolean(jsonMap[KEY_HIDDEN_OBJECTS]);
         }
-        if (jsonMap.ContainsKey(KEY_PLAYER_VISIBLE)) {
-			roomDefinition.PlayerVisible = System.Convert.ToBoolean(jsonMap[KEY_PLAYER_VISIBLE]);
-		}
-		return roomDefinition;
+        if (jsonMap.ContainsKey(KEY_PLAYER_VISIBLE))
+        {
+            roomDefinition.PlayerVisible = System.Convert.ToBoolean(jsonMap[KEY_PLAYER_VISIBLE]);
+        }
+        if (jsonMap.ContainsKey(KEY_GAMA_ACTION))
+        {
+            roomDefinition.GamaAction = (string)jsonMap[KEY_GAMA_ACTION];
+        }
+        return roomDefinition;
 	}
 	
 	const string KEY_ID = "id";
@@ -106,7 +112,8 @@ public class RoomDefinition {
 	const string KEY_SCENE = "scene";
 	const string KEY_GUI = "gui";
 	const string KEY_PLAYER_VISIBLE = "player_visible";
-	const string KEY_MAX_PLAYERS = "max_players";
+    const string KEY_GAMA_ACTION = "gamaction";
+    const string KEY_MAX_PLAYERS = "max_players";
     const string KEY_HIDDEN_OBJECTS = "hidden_objects";
     const string KEY_DOORS = "doors";
 	const string KEY_BUNDLES = "bundles";
@@ -309,6 +316,12 @@ public class RoomManager : Photon.PunBehaviour {
 		else {
 			Debug.Log("Scene loaded... " + Room.SceneName);
 		}
+
+        if( !string.IsNullOrEmpty(Room.GamaAction)){
+            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
+            UserAPI.Achievements.SendAction(Room.GamaAction);
+        }
+
         yield return StartCoroutine(EnterPlayer(roomOld, player));
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 

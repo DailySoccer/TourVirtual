@@ -7,6 +7,7 @@
 			"gui": "",
 			"player_visible": false,
             "max_players": 1,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_09",
             "doors": {
             	"VESTIDORLITE": "ROOM4#PUERTA1"
             },
@@ -21,6 +22,7 @@
 			"gui": "GAME",
             "max_players": 16,
             "hidden_objects":  true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_06",
 			"doors": {
 				"PUERTA1": "ROOM7#PUERTA2",
 				"PUERTA2": "ROOM1",
@@ -38,36 +40,11 @@
 			"scene": "MejorClubMundo_00",
 			"gui": "GAME",
             "max_players": 16,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_01",
             "hidden_objects":  true,
 			"doors": {
 				"PUERTA1": "ROOM2",
 				"PUERTA2": "ESTADIO"
-			},
-			"bundles": {
-				"SCENE": "scene/mejor_club_mundo",
-				"PANEL1": "trofeos/copa_espana",
-				"VITRINA_00": "mejorclubmundo/vitrina_00",
-				"VITRINA_01": "mejorclubmundo/vitrina_00",
-				"VITRINA_02": "mejorclubmundo/vitrina_00",
-				"VITRINA_03": "mejorclubmundo/vitrina_00",
-				"VITRINA_04": "mejorclubmundo/vitrina_00",
-				"VITRINA_05": "mejorclubmundo/vitrina_00",
-				"VITRINA_06": "mejorclubmundo/vitrina_00",
-				"VITRINA_07": "mejorclubmundo/vitrina_00",
-				"VITRINA_08": "mejorclubmundo/vitrina_00",
-				"VITRINA_09": "mejorclubmundo/vitrina_00"
-			},
-			"contents": {
-				"PANEL1": "FootBallNews",
-				"PANEL2": "FootBallNews",
-				"PANEL3": "BasketNews",
-				"PANEL4": "FootBallVideos",
-				"PANEL5": "BasketVideos",
-				"PANEL6": "FootBallNews",
-				"PANEL7": "FootBallNews",
-				"PANEL8": "FootBallNews",
-				"PANEL9": "FootBallNews",
-				"PANEL10": "FootBallNews"
 			}
 		},
 		{ 
@@ -77,6 +54,7 @@
 			"gui": "GAME",
             "max_players": 16,
             "hidden_objects":  true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_02",
 			"doors": {
 				"PUERTA1": "ROOM1",
 				"PUERTA2": "ROOM3"
@@ -94,6 +72,7 @@
 			"gui": "GAME",
             "max_players": 16,
             "hidden_objects":  true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_03",
 			"doors": {
 				"PUERTA1": "ROOM2",
 				"PUERTA2": "ROOM4"
@@ -110,15 +89,11 @@
 			"scene": "salaReyesEuropa",
 			"gui": "GAME",
             "max_players": 16,
-            "hidden_objects":  true,
+            "hidden_objects": true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_04",
 			"doors": {
 				"PUERTA1": "ROOM3",
 				"PUERTA2": "ROOM5"
-			},
-			"bundles": {
-				"SCENE": "scene/sala_reyes_europa"
-			},
-			"contents": {
 			}
 		},
 		{ 
@@ -127,15 +102,11 @@
 			"scene": "salaTuEresRealMadrid",
 			"gui": "GAME",
 			"max_players": 16,
-            "hidden_objects":  true,
+            "hidden_objects": true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_05",
 			"doors": {
 				"PUERTA1": "ROOM4",
 				"PUERTA2": "ROOM6"
-			},
-			"bundles": {
-				"SCENE": "scene/sala_tu_eres_real_madrid"
-			},
-			"contents": {
 			}
 		},
 		{ 
@@ -145,14 +116,10 @@
 			"gui": "GAME",
 			"max_players": 16,
             "hidden_objects":  true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_07",
 			"doors": {
 				"PUERTA1": "ROOM5",
 				"PUERTA2": "ESTADIO"
-			},
-			"bundles": {
-				"SCENE": "scene/vestuarios"
-			},
-			"contents": {
 			}
 		},
         {
@@ -162,14 +129,10 @@
             "gui": "GAME",
             "max_players": 16,
             "hidden_objects": true,
+            "gamaction":  "VIRTUALTOUR_ACC_SALA_08",
             "doors": {
                 "PUERTA1": "ESTADIO#PUERTA3",
                 "PUERTA2": "ESTADIO#PUERTA1"
-            },
-            "bundles": {
-                "SCENE": "scene/sala_prensa"
-            },
-            "contents": {
             }
         },
         { 

@@ -213,9 +213,11 @@ public class VirtualGoodsAPI {
                 Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
                     //Debug.LogError("Buy VirtualGood >>>> " + res);
                     vg.count++;
+                    
                     UserAPI.Instance.Points -= (int)vg.Price;
 #if !LITE_VERSION
                     UserAPI.Contents.CheckContent(vg);
+                    if(vg.IdSubType=="CONTENT") UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
 #endif
                     if (onOk != null) onOk();
                 });

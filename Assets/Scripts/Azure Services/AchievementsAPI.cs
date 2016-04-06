@@ -192,7 +192,7 @@ public class AchievementsAPI{
         
     }
 
-    public void SedAction(string guid ) {
+    public void SendAction(string guid ) {
         Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("ActionId", guid );
         hs.Add("ClientId", Authentication.IDClient);

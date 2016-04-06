@@ -326,6 +326,7 @@ namespace Football
         {
 
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
+            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL");
 
 
             Debug.LogError("OnFinishGame");
