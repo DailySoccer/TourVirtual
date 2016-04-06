@@ -2990,7 +2990,6 @@ GameObject:
   - 224: {fileID: 22429104}
   - 222: {fileID: 22234392}
   - 114: {fileID: 11478834}
-  - 114: {fileID: 11443986}
   m_Layer: 5
   m_Name: 'Text: Title'
   m_TagString: Untagged
@@ -5906,10 +5905,11 @@ GameObject:
   m_Component:
   - 224: {fileID: 22480354}
   - 222: {fileID: 22256624}
-  - 114: {fileID: 11405848}
   - 95: {fileID: 9552514}
   - 225: {fileID: 22537578}
-  - 114: {fileID: 11470358}
+  - 114: {fileID: 11405848}
+  - 114: {fileID: 11415594}
+  - 114: {fileID: 11426376}
   m_Layer: 5
   m_Name: Visor de Medios Screen
   m_TagString: Untagged
@@ -7190,13 +7190,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: .392156869}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
@@ -7564,7 +7564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cc8f5dd9f9b694a96f4128eb6e7483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visorCanvas: {fileID: 11470358}
+  visorCanvas: {fileID: 11415594}
 --- !u!114 &11408640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8181,7 +8181,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11466310}
   m_HandleRect: {fileID: 22426662}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8369,6 +8369,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11415594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11416166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9271,6 +9282,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: MAPA DEL TOUR
+--- !u!114 &11426376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4947e45b79868456da1d1767e038de54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloomEnabled: 1
+  fadeEnabled: 1
+  slideEnabled: 1
+  initialPivot: {x: 0, y: 0}
 --- !u!114 &11426718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11497,18 +11523,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9999
---- !u!114 &11443986
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.GoodiesShoop.Title
 --- !u!114 &11444036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14854,17 +14868,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizedKey: TVB.GoodiesShoop.Price
---- !u!114 &11470358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a5199c24c63048fc9e1aeefae779119, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11470386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20779,7 +20782,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22494242}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -79, y: 11.5}
@@ -20973,7 +20976,7 @@ RectTransform:
   m_Children:
   - {fileID: 22438614}
   m_Father: {fileID: 22494242}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -3000, y: 0}
@@ -22574,7 +22577,7 @@ RectTransform:
   - {fileID: 22420858}
   - {fileID: 22475318}
   m_Father: {fileID: 22494242}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -6000, y: 0}
@@ -23224,7 +23227,7 @@ RectTransform:
   - {fileID: 22444776}
   - {fileID: 22465020}
   m_Father: {fileID: 22494242}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -9000, y: 0}
@@ -25750,7 +25753,7 @@ RectTransform:
   - {fileID: 22450020}
   - {fileID: 22497918}
   m_Father: {fileID: 22494242}
-  m_RootOrder: 7
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 1493, y: 0}
@@ -26752,11 +26755,11 @@ RectTransform:
   - {fileID: 22416072}
   - {fileID: 22442064}
   - {fileID: 22482308}
+  - {fileID: 22480354}
   - {fileID: 22441630}
   - {fileID: 22406688}
   - {fileID: 22430394}
   - {fileID: 22403890}
-  - {fileID: 22480354}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
