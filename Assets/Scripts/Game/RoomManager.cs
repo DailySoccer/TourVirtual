@@ -47,6 +47,7 @@ public class RoomDefinition {
 	}
 	
 	public bool ExistsBundle(string key) {
+        if (Bundles == null) return false;
 		return Bundles.ContainsKey(key);
 	}
 

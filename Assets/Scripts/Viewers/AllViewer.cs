@@ -30,6 +30,9 @@ public class AllViewer : MonoBehaviour
     float orthoZoomSpeed = 5f;
     Vector2 offset = Vector2.zero;
 
+
+    public UIScreen visorCanvas;
+
     public static AllViewer Instance { get; private set;  }
 
     void Awake() {
@@ -44,7 +47,7 @@ public class AllViewer : MonoBehaviour
         enabled = true;
         CanvasManager cm = gameObject.GetComponent<CanvasManager>();
 
-        cm.ShowScreen(null); //<- Esto seria la ventana con el boton de cierre.
+        cm.ShowScreen(visorCanvas);
 
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
@@ -63,9 +66,7 @@ public class AllViewer : MonoBehaviour
                 var light = new GameObject("Light", typeof(Light)).GetComponent<Light>();
                 light.transform.rotation = Quaternion.Euler(50, 330, 0);
                 light.transform.parent = ViewerCamera.transform;
-                string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/copaforonda";
-                //string AssetsUrl = "file://" + Application.dataPath + "/WebPlayerTemplates/AssetBundles/Android/content/championsorejona";
-                lastCoroutine = StartCoroutine(DownloadModel(AssetsUrl));
+                lastCoroutine = StartCoroutine(DownloadModel(url));
                 break;
         }
     }
@@ -73,14 +74,21 @@ public class AllViewer : MonoBehaviour
     // mostrar descarga...
     IEnumerator DownloadModel(string url) {
         LoadingCanvasManager.Show();
+
         WWW www = new WWW(url);
-        LoadingCanvasManager.Hide();
         yield return www;
+        LoadingCanvasManager.Hide();
+        if (!string.IsNullOrEmpty(www.error))
+        {
+            Camera.current.backgroundColor = Color.red;
+            yield break;
+        }
         var names = www.assetBundle.GetAllAssetNames();
         model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]));
         float size = model.GetComponent<Renderer>().bounds.size.y;
         model.layer = LayerMask.NameToLayer("UI");
-        model.transform.position = new Vector3(0, -size * 0.35f, size*2);
+        model.transform.position = new Vector3(0, -size * 0.5f, size * 2);
+        model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
     }
 
     IEnumerator DownloadImage(string url) {
@@ -119,15 +127,19 @@ public class AllViewer : MonoBehaviour
     }
 
     void UpdateModel() {
-        if (Input.touchCount == 1) {
+        if (model == null) return;
+        if (Input.touchCount == 1)
+        {
             Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began) {
+            if (touch.phase == TouchPhase.Began)
+            {
                 lastTouch = touch.position;
                 draggin = true;
             }
-            else if (touch.phase == TouchPhase.Moved && draggin) {
+            else if (touch.phase == TouchPhase.Moved && draggin)
+            {
                 Vector3 diff = touch.position - lastTouch;
-                model.transform.Rotate(Vector3.up, diff.x);
+                model.transform.rotation = Quaternion.Euler(0, -diff.x * 0.5f, 0) * model.transform.rotation;
                 lastTouch = touch.position;
             }
         }

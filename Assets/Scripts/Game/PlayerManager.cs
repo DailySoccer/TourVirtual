@@ -303,10 +303,9 @@ public class PlayerManager : Photon.PunBehaviour {
         for (int i = 0; i < bones.Length; ++i)
             bones[i] = SearchHierarchyForBone(target.parent, bones[i].name);
         smrDst.bones = bones;
+        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
 
-        Material[] mats = smrDst.sharedMaterials;
-//        smrDst.sharedMesh = Instantiate(smrOrg.sharedMesh);
-        smrDst.sharedMesh = smrOrg.sharedMesh;
+        Material[] mats = new Material[2];
         for (int i = 0; i < mats.Length; ++i)
             mats[i] = mat;
         smrDst.sharedMaterials = mats;
