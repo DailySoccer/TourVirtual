@@ -11,13 +11,11 @@ public class PackFlyerModal : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start () {	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () {	
 	}
 
 	public void Setup(ContentAPI.Content content) {
@@ -28,7 +26,6 @@ public class PackFlyerModal : MonoBehaviour {
 	}
 
 	public void AddContentToList(string contentTitle) {
-
 		if (ContentList.text != "")
 			ContentList.text += "\n";
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public class MinigameModalInitial : MonoBehaviour {
 
@@ -34,10 +35,10 @@ public class MinigameModalInitial : MonoBehaviour {
 
 		string MaxScoreText;
 		if (UserAPI.Instance == null) {
-			MaxScoreText = string.Format("TU MEJOR PUNTUACIÓN \n <size=86>{0}</size>" , 0);
+			MaxScoreText = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), 0);
 			Debug.LogError("[MinigameModalInitial in " + name + "]: No se ha iniciado el UserAPI. El MaxScore será 0");
 		} else {
-			MaxScoreText = string.Format("TU MEJOR PUNTUACIÓN \n <size=86>{0}</size>" ,UserAPI.Instance.GetScore(MinigameType));
+			MaxScoreText = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore") ,UserAPI.Instance.GetScore(MinigameType));
 		}
 		UserMaxScore.text = MaxScoreText;
 

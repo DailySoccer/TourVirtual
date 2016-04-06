@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public class GuiMinigameScreen : GUIScreen {
 
@@ -27,7 +28,7 @@ public class GuiMinigameScreen : GUIScreen {
 
     public void Record(int value)
     {
-        TxtRecord.text = "Record: " + value.ToString();
+		TxtRecord.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.Record") + ": " + value.ToString();
     }
 
     public void Score(int value)

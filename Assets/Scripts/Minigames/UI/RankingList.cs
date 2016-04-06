@@ -16,11 +16,11 @@ public class RankingList : MonoBehaviour {
 	
 	}
 
-	public void AddRankingSlot (string positionNumber, string playerName, string playerscore) {
+	/*public void AddRankingSlot (string positionNumber, string playerName, string playerscore) {
 		GameObject slot = Instantiate (RankingSlotPrefab);
 		slot.transform.parent = transform;
 		slot.transform.localScale = Vector3.one;
 		slot.GetComponent<RankingSlot> ().Setup (positionNumber, playerName, playerscore);
-	}
+	}*/
 }
 #endif
