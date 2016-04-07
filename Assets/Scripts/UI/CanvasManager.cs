@@ -19,8 +19,9 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen ScreenMap;
 	public UIScreen ScreenGoodiesShoop;
 
-	public UIScreen currentGUIScreen;
-	public GUIPopUpScreen currentGUIPopUpScreen;
+    public UIScreen lastGUIScreen;
+    public UIScreen currentGUIScreen;
+    public GUIPopUpScreen currentGUIPopUpScreen;
 
 	public GameObject ContentLoadingScreen;
 
@@ -155,18 +156,24 @@ public class CanvasManager : MonoBehaviour {
 		MainCamera.SetActive (false);	
 	}
 
-	/// <summary>
-	/// (Deprecated) Shows the screen.
-	/// </summary>
-	/// <param name="guiScreen">GUI screen.</param>
-	public void ShowScreen(UIScreen guiScreen) {
+    public void ShowLastScreen()
+    {
+        ShowScreen(lastGUIScreen);
+    }
+
+    /// <summary>
+    /// (Deprecated) Shows the screen.
+    /// </summary>
+    /// <param name="guiScreen">GUI screen.</param>
+    public void ShowScreen(UIScreen guiScreen) {
 		//Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
 		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
 			currentGUIScreen.CloseWindow();
 			currentGUIScreen.IsOpen = false;
 		}
-		
-		currentGUIScreen = guiScreen;
+
+        lastGUIScreen = currentGUIScreen;
+        currentGUIScreen = guiScreen;
 		
 		if (currentGUIScreen != null) {
 			currentGUIScreen.OpenWindow();

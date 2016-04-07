@@ -216,8 +216,16 @@ public class AllViewer : MonoBehaviour
 
 
     void OnDisable() {
+        CanvasManager cm = gameObject.GetComponent<CanvasManager>();
+        cm.MainCamera.SetActive(true);
         Destroy(ViewerCamera);
         Destroy(model);
+    }
+
+    public void Close() {
+        CanvasManager cm = gameObject.GetComponent<CanvasManager>();
+        cm.ShowLastScreen();
+        enabled = false;
     }
 }
 #endif

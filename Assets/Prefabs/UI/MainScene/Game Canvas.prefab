@@ -7919,6 +7919,7 @@ MonoBehaviour:
   ScreenProfile: {fileID: 11423846}
   ScreenMap: {fileID: 11491920}
   ScreenGoodiesShoop: {fileID: 11421774}
+  lastGUIScreen: {fileID: 0}
   currentGUIScreen: {fileID: 11495080}
   currentGUIPopUpScreen: {fileID: 0}
   ContentLoadingScreen: {fileID: 0}
@@ -13036,8 +13037,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowVestidor
+      - m_Target: {fileID: 11408260}
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
