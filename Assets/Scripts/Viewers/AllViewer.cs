@@ -1,14 +1,9 @@
 ﻿#if !LITE_VERSION
-
-
 //        gameObject.GetComponent<AllViewer>().Show("https://az726872.vo.msecnd.net/global-contentasset/asset_92d476d9-7c95-4102-8d7d-b9f18c1fadc7.jpg", AllViewer.ViewerMode.Image);
-
-
 using UnityEngine;
 using System.Collections;
 
-public class AllViewer : MonoBehaviour
-{
+public class AllViewer : MonoBehaviour {
     public enum ViewerMode{
         None,
         Image,
@@ -30,8 +25,8 @@ public class AllViewer : MonoBehaviour
     float orthoZoomSpeed = 5f;
     Vector2 offset = Vector2.zero;
 
-
     public UIScreen visorCanvas;
+    public UnityEngine.UI.Text txtTitle;
 
     public static AllViewer Instance { get; private set;  }
 
@@ -41,13 +36,13 @@ public class AllViewer : MonoBehaviour
     }
 
     // Use this for initialization
-    public void Show(string url, ViewerMode mode )
+    public void Show(string url, ViewerMode mode, string title="" )
     {
         currentMode = mode;
         enabled = true;
         CanvasManager cm = gameObject.GetComponent<CanvasManager>();
-
         cm.ShowScreen(visorCanvas);
+        txtTitle.text = title;
 
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
@@ -67,6 +62,10 @@ public class AllViewer : MonoBehaviour
                 light.transform.rotation = Quaternion.Euler(50, 330, 0);
                 light.transform.parent = ViewerCamera.transform;
                 lastCoroutine = StartCoroutine(DownloadModel(url));
+                break;
+            case ViewerMode.Video:
+                Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Minimal);
+                enabled = false;
                 break;
         }
     }
@@ -218,13 +217,13 @@ public class AllViewer : MonoBehaviour
     void OnDisable() {
         CanvasManager cm = gameObject.GetComponent<CanvasManager>();
         cm.MainCamera.SetActive(true);
+        cm.ShowLastScreen();
+
         Destroy(ViewerCamera);
         Destroy(model);
     }
 
     public void Close() {
-        CanvasManager cm = gameObject.GetComponent<CanvasManager>();
-        cm.ShowLastScreen();
         enabled = false;
     }
 }
