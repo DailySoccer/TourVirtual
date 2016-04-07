@@ -221,10 +221,10 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start() {
         GetDeepLinkingURL();
-#if UNITY_EDITOR
+#if LITE_VERSION && UNITY_EDITOR
         DeepLinking("rmvt:editavatar?parameters={idVirtualGood:54dc043b-5bdb-4c45-9fd3-66f11d11db59,idUser:d1c9f805-054a-4420-a1af-30d37b75dff7}");
 #endif
-#if !UNITY_IOS
+#if LITE_VERSION && !UNITY_IOS
         if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
             Application.OpenURL("http://www.astosch.com/project/real-madrid/");
             Application.Quit();
@@ -360,16 +360,14 @@ public void OnGUI()	{
     }
 
     public IEnumerator CheckForInternetConnection()	{
-		#if UNITY_IOS
+#if LITE_VERSION && UNITY_IOS
 		yield return new WaitForSeconds(1);
 		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
 			Authentication.AzureServices.OpenURL("http://www.astosch.com/project/real-madrid/");
-			//Application.OpenURL("http://www.astosch.com/project/real-madrid/");
-			Debug.LogError("!!!!! Aplication QUIT!!");
 			Application.Quit();
 			yield break;
 		}
-		#endif
+#endif
 
 
         int time = 0;

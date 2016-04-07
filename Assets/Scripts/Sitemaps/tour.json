@@ -42,9 +42,12 @@
             "max_players": 16,
             "gamaction":  "VIRTUALTOUR_ACC_SALA_01",
             "hidden_objects":  true,
-			"doors": {
-				"PUERTA1": "ROOM2",
-				"PUERTA2": "ESTADIO"
+            "doors": {
+                "PUERTA1": "ROOM2",
+                "PUERTA2": "ESTADIO"
+            },
+			"bundles": {
+				"SCENE": "scene/mejor_club_mundo"
 			}
 		},
 		{ 
@@ -61,8 +64,6 @@
 			},
 			"bundles": {
 				"SCENE": "scene/sala_sensaciones"
-			},
-			"contents": {
 			}
 		},
 		{ 
@@ -79,8 +80,6 @@
 			},
 			"bundles": {
 				"SCENE": "scene/sala_basket"
-			},
-			"contents": {
 			}
 		},
 		{ 
@@ -94,6 +93,9 @@
 			"doors": {
 				"PUERTA1": "ROOM3",
 				"PUERTA2": "ROOM5"
+			},
+			"bundles": {
+				"SCENE": "scene/sala_reyes_europa"
 			}
 		},
 		{ 
@@ -107,6 +109,9 @@
 			"doors": {
 				"PUERTA1": "ROOM4",
 				"PUERTA2": "ROOM6"
+			},
+			"bundles": {
+				"SCENE": "scene/sala_tu_eres_real_madrid"
 			}
 		},
 		{ 
@@ -120,6 +125,9 @@
 			"doors": {
 				"PUERTA1": "ROOM5",
 				"PUERTA2": "ESTADIO"
+			},
+			"bundles": {
+				"SCENE": "scene/vestuarios"
 			}
 		},
         {
@@ -133,7 +141,10 @@
             "doors": {
                 "PUERTA1": "ESTADIO#PUERTA3",
                 "PUERTA2": "ESTADIO#PUERTA1"
-            }
+            },
+			"bundles": {
+				"SCENE": "scene/sala_prensa"
+			}
         },
         { 
 			"id": "MINIBASKET",
@@ -163,20 +174,6 @@
 		}
 	],
 	"assets": [
-		{ "id": "scene/avatar_select",			"version": 0 },
-		{ "id": "scene/mejor_club_mundo",   	"version": 0 },
-		{ "id": "scene/estadio_bernabeu",		"version": 0 },
-		
-		{ "id": "mejorclubmundo/vitrina_00",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_01",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_02",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_03",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_04",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_05",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_06",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_07",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_08",	"version": 0 },
-		{ "id": "mejorclubmundo/vitrina_09",	"version": 0 }
 	]
 }
 

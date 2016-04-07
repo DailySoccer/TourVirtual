@@ -14,7 +14,7 @@ public class UserAPI {
 #if UNITY_EDITOR
     public bool Online = false;
 #else
-	public bool Online = true;
+	public bool Online = false;
 #endif
 
     public bool Ready { get; set;  }

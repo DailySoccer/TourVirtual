@@ -284,7 +284,7 @@ public class RoomManager : Photon.PunBehaviour {
 
 		RoomDefinition roomOld = Room;
 		Room = roomDefinition;
-		
+
 		yield return StartCoroutine(CanvasRootController.Instance.FadeOut(2));
 		
 		Player player = Player.Instance;
@@ -307,8 +307,10 @@ public class RoomManager : Photon.PunBehaviour {
 		
 		if (Room.SceneName != Application.loadedLevelName) {
 			if (DLCManager.Instance != null) {
-				DLCManager.Instance.ClearResources();
+                Debug.LogError("LOAD SCENE >>>> "+ Room.BundleId);
+                //DLCManager.Instance.ClearResources();
                 if (!string.IsNullOrEmpty(Room.BundleId)) {
+                    Debug.LogError("LOAD SCENE");
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
             }
