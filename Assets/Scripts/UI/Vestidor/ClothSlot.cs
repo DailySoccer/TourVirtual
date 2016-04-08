@@ -3,11 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ClothSlot : MonoBehaviour {
-#if !LITE_VERSION
-		VestidorCanvasController VestidorControllerInstance;
-#else
-		VestidorCanvasController_Lite VestidorControllerInstance;
-#endif
+
+	VestidorCanvasController_Lite VestidorControllerInstance;
 
 	public Text ClothName;
 	public Image Picture;
@@ -17,11 +14,7 @@ public class ClothSlot : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameObject vcc = GameObject.FindGameObjectWithTag ("VestidorController");
-#if !LITE_VERSION
-		VestidorControllerInstance = vcc.GetComponent<VestidorCanvasController> ();
-#else
 		VestidorControllerInstance = vcc.GetComponent<VestidorCanvasController_Lite> ();
-#endif
 	}
 
 	public void Reset() {
