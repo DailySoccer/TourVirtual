@@ -144,21 +144,20 @@ public class DLCManager : MonoBehaviour {
         {
             currentName = definition.Id;
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
-            using (current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version)) {
-				yield return current;                
-                if (string.IsNullOrEmpty(current.error)) {
-					AssetBundle bundle = current.assetBundle;
-					bundle.LoadAllAssets();
-					AssetResources[keyResource] = bundle;
-                    if (callback != null) callback(bundle);
-				}
-				else {
-                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
-                    // throw new Exception("WWW download had an error:" + www.error);
-                }
-			} // memory is freed from the web stream (www.Dispose() gets called implicitly)
+            current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version);
+			yield return current;                
+            if (string.IsNullOrEmpty(current.error)) {
+				AssetBundle bundle = current.assetBundle;
+                //bundle.LoadAllAssets();
+				AssetResources[keyResource] = bundle;
+                if (callback != null) callback(bundle);
+			}
+			else {
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
+                // throw new Exception("WWW download had an error:" + www.error);
+            }
             current = null;
-        }
+        } // memory is freed from the web stream (www.Dispose() gets called implicitly)
         LoadingBar.Instance.Hide();
     }
 
