@@ -17,5 +17,7 @@ public class HiddenObjectsGUIScreen : GUIScreen {
 	void Update () {
 		TxTScore.text = minigameController.numFoundObjects + " / " + minigameController.numHiddenObjects;
 		TheTimer.TimeLeft = 1 - (minigameController.RemaingTime / minigameController.maxTime);
+		Debug.LogError(string.Format("[HiddenObjectsGUIScreen] in {0}: HiddenObjectsMinigame[ RemaingTime: {1}  +++ maxTime: {2}]", name, minigameController.RemaingTime, minigameController.maxTime));
+
 	}
 }
