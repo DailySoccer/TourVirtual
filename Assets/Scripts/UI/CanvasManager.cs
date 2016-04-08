@@ -143,7 +143,7 @@ public class CanvasManager : MonoBehaviour {
 	}
 
 	public void ShowVestidorScreen() {	
-		RoomManager.Instance.GotoRoom ("VESTIDOR");
+		RoomManager.Instance.GotoRoom ("VESTIDORLITE");
 		ShowMainGameScreen ();
 	}
 

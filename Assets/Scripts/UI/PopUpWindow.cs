@@ -73,9 +73,11 @@ public class PopUpWindow : MonoBehaviour {
 		if (SingleContent) {
 			SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
 		}
-		
-		if (ThePackFlyerModal == null)
-			ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
+
+		if (PackFlyerGameObject != null) {
+			if (ThePackFlyerModal == null)
+				ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
+		}
 	}
 
 	// Update is called once per frame
