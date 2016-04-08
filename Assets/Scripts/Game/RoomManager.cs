@@ -307,10 +307,8 @@ public class RoomManager : Photon.PunBehaviour {
 		
 		if (Room.SceneName != Application.loadedLevelName) {
 			if (DLCManager.Instance != null) {
-                Debug.LogError("LOAD SCENE >>>> "+ Room.BundleId);
                 //DLCManager.Instance.ClearResources();
                 if (!string.IsNullOrEmpty(Room.BundleId)) {
-                    Debug.LogError("LOAD SCENE");
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
             }
@@ -390,17 +388,13 @@ public class RoomManager : Photon.PunBehaviour {
 					player.Avatar.transform.position = entrada.position;
 					player.Avatar.transform.rotation = entrada.rotation;
 				}
-
-				Debug.Log ("Enter: " + Room.Id + " Door: " + portal.PortalID);
 			}
 			else {
-				Debug.LogWarning ("Portal sin Point: " + portal.PortalID);
 				portal = null;
 			}
 		}
 
 		if (portal == null) {
-			Debug.Log ("Enter: " + Room.Id + " Door: Default");
 			if (player != null) {
 				// Colocar al player en un lugar de la escena
 				player.Avatar.transform.position = Vector3.zero;

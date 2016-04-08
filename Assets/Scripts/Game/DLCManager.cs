@@ -145,7 +145,7 @@ public class DLCManager : MonoBehaviour {
             currentName = definition.Id;
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
             using (current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version)) {
-				yield return current;
+				yield return current;                
                 if (string.IsNullOrEmpty(current.error)) {
 					AssetBundle bundle = current.assetBundle;
 					bundle.LoadAllAssets();

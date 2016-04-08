@@ -87,9 +87,7 @@ public class Locomotion : MonoBehaviour {
 	}
 
 	
-	void OnCollisionEnter(Collision collision) {
-		Debug.Log(collision.collider.name + ":" + name);
-	}
+	void OnCollisionEnter(Collision collision) { }
 	
 	private void DirectMovement() {
 		_animator.SetFloat("Speed", movement);

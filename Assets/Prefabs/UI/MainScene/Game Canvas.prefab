@@ -7019,7 +7019,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11486906}
   m_HandleRect: {fileID: 22453304}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8383,7 +8383,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11466310}
   m_HandleRect: {fileID: 22426662}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13408,8 +13408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20b288486b1a4a099714d57f553c2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheTimer: {fileID: 0}
-  TxTScore: {fileID: 0}
+  TheTimer: {fileID: 11410172}
+  TxTScore: {fileID: 11488028}
+  minigameController: {fileID: 0}
 --- !u!114 &11457062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21391,8 +21392,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 22428098}
   - {fileID: 22410138}
+  - {fileID: 22428098}
   m_Father: {fileID: 22419212}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
@@ -21668,7 +21669,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22404768}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -25, y: -25}
@@ -22959,7 +22960,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22404768}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -22.1000004, y: 44.5999985}
@@ -26744,7 +26745,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: .000244140625}
+  m_AnchoredPosition: {x: -20, y: 0}
   m_SizeDelta: {x: -40, y: 0}
   m_Pivot: {x: .5, y: 0}
 --- !u!224 &22484636

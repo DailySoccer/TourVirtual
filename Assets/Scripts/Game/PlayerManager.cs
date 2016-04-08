@@ -76,7 +76,6 @@ public class PlayerManager : Photon.PunBehaviour {
 		GameObject thePlayer = null;
 
 		if (np.isLocal && Player.Instance != null) {
-			Debug.Log("Instantiate Player");
 			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
 			//thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
 			thePlayer.layer = LayerMask.NameToLayer( "Player" );

@@ -193,6 +193,8 @@ public class AchievementsAPI{
     }
 
     public void SendAction(string guid ) {
+
+        if (!UserAPI.Instance.Online) return;
         Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("ActionId", guid );
         hs.Add("ClientId", Authentication.IDClient);
