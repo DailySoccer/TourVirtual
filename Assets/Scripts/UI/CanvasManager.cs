@@ -163,7 +163,8 @@ public class CanvasManager : MonoBehaviour {
     public void ShowScreen(UIScreen guiScreen) {
 		//Debug.LogWarning ("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
 		if (currentGUIScreen != null && guiScreen != currentGUIScreen) {
-			currentGUIScreen.CloseWindow();
+            if (currentGUIScreen.name == "Map Screen") MainCamera.SetActive(true);
+            currentGUIScreen.CloseWindow();
 			currentGUIScreen.IsOpen = false;
 		}
 
