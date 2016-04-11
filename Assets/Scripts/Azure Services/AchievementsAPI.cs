@@ -199,7 +199,7 @@ public class AchievementsAPI{
         hs.Add("ActionId", guid );
         hs.Add("ClientId", Authentication.IDClient);
         Authentication.AzureServices.RequestPostJSON( "api/v1/useractions", hs, (res) => {
-            Debug.LogError(">>>>>>>>>> " + res);
+
         });
     }
 }
