@@ -47,8 +47,8 @@ public class ClothSlot : MonoBehaviour {
             Destroy(sprt);
             Resources.UnloadUnusedAssets();
 #else
-            var mat = sprt.material;
-            if(mat.texture) DestroyImmediate(mat.texture, true);
+            Material mat = Picture.gameObject.GetComponent<Image>().material;
+            if(mat.mainTexture) DestroyImmediate(mat.mainTexture, true);
             Destroy(mat);
 #endif
         }

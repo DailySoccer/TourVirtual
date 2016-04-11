@@ -170,7 +170,6 @@ public class DLCManager : MonoBehaviour {
 		foreach(string key in AssetDefinitions.Keys) {
 			AssetDefinition definition = AssetDefinitions[key];
             if (definition.Id != "scene/vestidor" && definition.Id != "avatars") continue;
-
             // Ignoramos las versiones 0...
             if (definition.Version > 0){
                 currentName = definition.Id;
@@ -179,8 +178,14 @@ public class DLCManager : MonoBehaviour {
                 using (current = WWW.LoadFromCacheOrDownload ( BaseUrl + definition.Id, definition.Version)) {
 					yield return current;
                     if (string.IsNullOrEmpty(current.error)) {
-						AssetBundle bundle = current.assetBundle;
-						bundle.Unload(true);
+                        try {
+                            AssetBundle bundle = current.assetBundle;
+                            if(bundle==null) bundle.Unload(true);
+                        }
+                        catch(System.Exception e)
+                        {
+                            Debug.LogError(">> ERROR: " + e);
+                        }
                     }
 					else {
                         ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
