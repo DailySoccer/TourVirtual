@@ -20,7 +20,8 @@ public class Authentication : MonoBehaviour {
         }
         else
         {
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"), () => {                
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"), () => {
+				Authentication.AzureServices.SignOut();
                 Authentication.AzureServices.SignIn();
             });
             

@@ -346,27 +346,30 @@ public class ContentAPI
         while (needRequest) {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
                 if (res != "null") {
-
-//                    Debug.Log(">>> Contents\n" + res);                    
+					//try{
                     Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                     if (contents != null) {
                         List<object> results = contents["Results"] as List<object>;
                         foreach (Dictionary<string, object> vg in results) {
-                            string guid = vg["IdContent"] as string;
-                            string title = vg["Title"] as string;
-                            string desc = vg["Description"] as string;
-
+							string guid = vg.ContainsKey("IdContent")?vg["IdContent"] as string:"";
+							string title = vg.ContainsKey("Title")?vg["Title"] as string:"";
+							string desc = vg.ContainsKey("Description")?vg["Description"] as string:"";
                             string internalID = "";
-                            List<object> links = vg["Links"] as List<object>;
-                            if(links.Count>0) internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
+							if(vg.ContainsKey("Links")){
+                            	List<object> links = vg["Links"] as List<object>;
+                            	if(links!=null && links.Count>0) internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
+							}
+							if(vg.ContainsKey("Asset")){
+								Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
+								if(asset!=null){
+									string packURL = asset.ContainsKey("AssetUrl")?asset["AssetUrl"] as string:"";
+									string thumbnailUrl = asset.ContainsKey("ThumbnailUrl")?asset["ThumbnailUrl"] as string:"";
 
-                            Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
-                            string packURL = asset["AssetUrl"] as string;
-                            string thumbnailUrl = asset["ThumbnailUrl"] as string;
-
-                            Content tmp = new Content(guid, internalID, title, desc, packURL, thumbnailUrl);
-                            Contents.Add(guid, tmp);
-                            TotalContents++;
+		                            Content tmp = new Content(guid, internalID, title, desc, packURL, thumbnailUrl);
+		                            Contents.Add(guid, tmp);
+		                            TotalContents++;
+								}
+							}
                         }
                         // Vemos si tiene que seguir paginando.
                         needRequest = false;
@@ -375,6 +378,7 @@ public class ContentAPI
                             page++;
                         }
                     }
+				//	}catch{ needRequest = false; }
                 }
             });
         }

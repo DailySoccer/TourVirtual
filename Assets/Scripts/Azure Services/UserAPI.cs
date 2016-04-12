@@ -12,9 +12,9 @@ using SmartLocalization;
 
 public class UserAPI {
 #if UNITY_EDITOR
-    public bool Online = false;
+    public bool Online = true;
 #else
-	public bool Online = false;
+	public bool Online = true;
 #endif
 
     public bool Ready { get; set;  }
@@ -102,8 +102,7 @@ public class UserAPI {
             Nick = hs["Alias"] as string;
 
         });
-        if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;
-
+        if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
         if ( MainManager.IsDeepLinking &&
                     MainManager.DeepLinkinParameters != null &&
                     MainManager.DeepLinkinParameters.ContainsKey("idUser") &&
@@ -129,7 +128,6 @@ public class UserAPI {
         }));
         */
 #endif
-
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
@@ -161,7 +159,6 @@ public class UserAPI {
             "LevelNumber":0
         }
         */
-
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
             try
@@ -207,6 +204,7 @@ SetScore(MiniGame.HiddenObjects, 320);
 
 #endif
 */
+		Debug.LogError("Request 7");
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }

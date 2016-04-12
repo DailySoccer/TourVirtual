@@ -180,7 +180,7 @@ public class DLCManager : MonoBehaviour {
                     if (string.IsNullOrEmpty(current.error)) {
                         try {
                             AssetBundle bundle = current.assetBundle;
-                            if(bundle==null) bundle.Unload(true);
+                            if(bundle!=null) bundle.Unload(true);
                         }
                         catch(System.Exception e)
                         {
