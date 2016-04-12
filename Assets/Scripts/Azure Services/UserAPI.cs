@@ -204,7 +204,6 @@ SetScore(MiniGame.HiddenObjects, 320);
 
 #endif
 */
-		Debug.LogError("Request 7");
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }
