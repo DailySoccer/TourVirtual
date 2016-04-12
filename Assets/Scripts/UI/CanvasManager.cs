@@ -123,11 +123,6 @@ public class CanvasManager : MonoBehaviour {
     }
 
     public void ShowMapScreen() {
-//        gameObject.GetComponent<AllViewer>().Show("https://az726872.vo.msecnd.net/global-contentasset/asset_92d476d9-7c95-4102-8d7d-b9f18c1fadc7.jpg", AllViewer.ViewerMode.Image);
-        gameObject.GetComponent<AllViewer>().Show("https://googledrive.com/host/0B8a_PPkBFGwNdEhYN2JORGtmRUk/copaforonda", AllViewer.ViewerMode.Model, "Copa Foronda");
-        return;
-
-
         if (ProfilePlayerInstance != null) 
 			Destroy(ProfilePlayerInstance);
 		ActiveSecondPlaneGUI ();			

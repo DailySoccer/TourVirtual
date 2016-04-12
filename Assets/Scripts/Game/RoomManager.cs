@@ -304,7 +304,6 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 #endif
 		if (OnSceneChange != null) OnSceneChange();
-		
 		if (Room.SceneName != Application.loadedLevelName) {
 			if (DLCManager.Instance != null) {
                 //DLCManager.Instance.ClearResources();
@@ -317,12 +316,10 @@ public class RoomManager : Photon.PunBehaviour {
 		else {
 			Debug.Log("Scene loaded... " + Room.SceneName);
 		}
-
         if( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }
-
         yield return StartCoroutine(EnterPlayer(roomOld, player));
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
@@ -363,7 +360,6 @@ public class RoomManager : Photon.PunBehaviour {
 		// Esperamos a que se haya inicializado correctamente la escena recien cargada
 		// para que podamos encontrar los "portales" (Portal.FindInScene)
 		yield return null;
-
 		// Nos han proporcionado la puerta por la que entrar?
 		if (!string.IsNullOrEmpty(_doorToEnter)) {
 			portal = Portal.FindInScene(_doorToEnter);
@@ -373,14 +369,12 @@ public class RoomManager : Photon.PunBehaviour {
 			// Encontrar la puerta que conecta con la otra habitación
 			portal = Portal.FindInScene(Room.FindDoorTo(roomOld.Id));
 		}
-
 		if (portal == null) {
 			portal = Portal.First();
 			if (portal != null) {
 				Debug.Log ("Portal: Default");
 			}
 		}
-		
 		if (portal != null) {
 			Transform entrada = portal.transform.FindChild("Point");
 			if (entrada != null) {
@@ -393,9 +387,9 @@ public class RoomManager : Photon.PunBehaviour {
 				portal = null;
 			}
 		}
-
 		if (portal == null) {
 			if (player != null) {
+				Debug.LogError("<<<<<<<<<<< PORTAL ES NULLL >>>>>>>>>>>");
 				// Colocar al player en un lugar de la escena
 				player.Avatar.transform.position = Vector3.zero;
 				player.Avatar.transform.rotation = Quaternion.identity;
@@ -403,7 +397,9 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 #if !LITE_VERSION
 		// Esperamos que el player entre en la nueva Room
-		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id))) {
+		float timeout = Time.realtimeSinceStartup + 2;
+		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id)) && 
+		       Time.realtimeSinceStartup<timeout ) {
 			yield return null;
 		}
 
@@ -415,7 +411,6 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 		yield return null;
 		if (OnChange != null) OnChange();
-
         if (OnSceneReady != null) OnSceneReady();
 	}
 
