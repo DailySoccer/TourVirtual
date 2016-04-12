@@ -73,35 +73,32 @@ public class PlayerManager : Photon.PunBehaviour {
 #if !LITE_VERSION
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel) {
-		GameObject thePlayer = null;
-
 		if (np.isLocal && Player.Instance != null) {
-			thePlayer = Player.Instance.Avatar ?? Player.Instance.gameObject;
-			//thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
-			thePlayer.layer = LayerMask.NameToLayer( "Player" );
+            GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
+            //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
+            tp.layer = LayerMask.NameToLayer( "Player" );
+            tp.GetComponent<SynchNet>().isMine = true;
 
-            PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
-            if (nViews.Length > 1)
-                nViews[0].viewID = id;
+            PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
+            foreach (var v in nViews) v.viewID = id;
         }
         else {
             Debug.Log("SpawnOnNetwork: SelectedModel: " + selectedModel);
             StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
-                thePlayer = instance;
-                if (thePlayer.GetComponent<Locomotion>() != null)
-                    thePlayer.GetComponent<Locomotion>().enabled = false;
-                thePlayer.tag = "AvatarNet";
-                thePlayer.layer = LayerMask.NameToLayer("Net");
-                PhotonView[] nViews = thePlayer.GetComponentsInChildren<PhotonView>(true);
-                if (nViews.Length > 1)
-                    nViews[0].viewID = id;
+                GameObject tp = instance;
+                if (tp.GetComponent<Locomotion>() != null)
+                    tp.GetComponent<Locomotion>().enabled = false;
+                tp.tag = "AvatarNet";
+                tp.layer = LayerMask.NameToLayer("Net");
+                PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
+                foreach( var v in nViews) v.viewID = id;
 
-                var csc = thePlayer.GetComponent<ContentSelectorCaster>();
+                var csc = tp.GetComponent<ContentSelectorCaster>();
                 if(csc!=null) csc.enabled = false;
 
 				//Código para insertar el HUD de los players remotos
 				PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
-				PlayerHUD.transform.SetParent(thePlayer.transform);
+				PlayerHUD.transform.SetParent(tp.transform);
 				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
 				PlayerHUD.transform.position = new Vector3(PlayerHUD.transform.position.x, 2.2f, PlayerHUD.transform.position.z);
 
@@ -148,11 +145,17 @@ public class PlayerManager : Photon.PunBehaviour {
         if (string.IsNullOrEmpty(model)) model = "Man#988dee0b-e8a2-4771-85ee-e537389b3330#HCabeza03#02e9b0a5-29d9-4b5c-9894-25b72b0209eb#c63925be-c3f5-46d5-97da-617a1489d599#2e1c35ed-ff06-486e-a088-e2b8d5135e3f#";
 #endif 
         string[] section = model.Split('#');
+
         Dictionary<string, object> hairDesc = GetDescriptor(Hairs[section[0]] as List<object>, section[1]);
         Dictionary<string, object> headDesc = GetDescriptor(Heads[section[0]] as List<object>, section[2]);
-        Dictionary<string, object> bodyDesc = GetDescriptor(Bodies[section[0]] as List<object>, !string.IsNullOrEmpty(section[3])?section[3]: ((PlayerManager.Instance.Bodies[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string,object>)["id"] as string);
-        Dictionary<string, object> legsDesc = GetDescriptor(Legs[section[0]] as List<object>, !string.IsNullOrEmpty(section[4]) ? section[4] : ((PlayerManager.Instance.Legs[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
-        Dictionary<string, object> feetDesc = GetDescriptor(Feet[section[0]] as List<object>, !string.IsNullOrEmpty(section[5]) ? section[5] : ((PlayerManager.Instance.Feet[UserAPI.AvatarDesciptor.Gender] as List<object>)[0] as Dictionary<string, object>)["id"] as string);
+
+        string bodyID = !string.IsNullOrEmpty(section[3]) ? section[3] : ((Bodies[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
+        string legsID = !string.IsNullOrEmpty(section[4]) ? section[4] : ((Legs[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
+        string feetID = !string.IsNullOrEmpty(section[5]) ? section[5] : ((Feet[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
+
+        Dictionary<string, object> bodyDesc = GetDescriptor(Bodies[section[0]] as List<object>, bodyID );
+        Dictionary<string, object> legsDesc = GetDescriptor(Legs[section[0]] as List<object>, legsID);
+        Dictionary<string, object> feetDesc = GetDescriptor(Feet[section[0]] as List<object>, feetID);
         Dictionary<string, object> compimentsDesc = string.IsNullOrEmpty(section[6])?null:GetDescriptor(Compliments[section[0]] as List<object>, section[6]);
         float anmTime = 0;
         if (oldInstance != null)

@@ -295,7 +295,8 @@ public class RoomManager : Photon.PunBehaviour {
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room == null) {
                 // Abre la primera pantalla.
-                JoinToRoom(Room.Id + "#" + PhotonNetwork.playerName);
+                JoinToRoom(GetRoomIdById(Room.Id));
+                //JoinToRoom(Room.Id + "#" + PhotonNetwork.playerName);
             }
             else {
                 // Sale de la habitacion actual.
@@ -401,13 +402,11 @@ public class RoomManager : Photon.PunBehaviour {
         }
 #if !LITE_VERSION
 		// Esperamos que el player entre en la nueva Room
-		float timeout = Time.realtimeSinceStartup + 200;
+		float timeout = Time.realtimeSinceStartup + 20;
 		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id)) && 
 		       Time.realtimeSinceStartup<timeout ) {
 			yield return null;
 		}
-
-		Debug.LogError ("EnterPlayer: " + PhotonNetwork.player.name + " ["+ PhotonNetwork.room + "]");
 #endif
 		if (player != null) {
             player.Avatar.transform.localPosition = Vector3.zero;
@@ -441,7 +440,6 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
-        Debug.LogError("JoinToRoom>>>> " + roomid);
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
@@ -468,9 +466,6 @@ public class RoomManager : Photon.PunBehaviour {
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
-
-        Debug.LogError(">>> OnJoinedLobby!!!!!");
-
         bJustOneTime = false;
     }
 

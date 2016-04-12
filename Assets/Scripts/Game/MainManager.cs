@@ -254,12 +254,14 @@ public class MainManager : Photon.PunBehaviour {
                 RoomManager.Instance.GotoRoom("VESTIDOR");
         }
         else {
+#if LITE_VERSION
             // CACACACACACACACA OJOOOOOOO---->
             if (!IsDeepLinking){
                 Debug.LogError("Sale de la app ya que no es deep linking");
                 Application.Quit();
             }
             // <---- CACACACACACACACA OJOOOOOOO
+#endif
         }
     }
 #if !LITE_VERSION

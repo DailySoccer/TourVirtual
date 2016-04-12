@@ -974,7 +974,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 11430470}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1006,6 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571f1cc6a4b629641b898a5d7a80038e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMine: 0
 --- !u!114 &11463200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1323,6 +1324,10 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: f8a371de82e21144ebe7555da8ec1d0b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ObservedComponents.Array.data[0]
+      value: 
+      objectReference: {fileID: 11430470}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 189534}
