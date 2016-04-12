@@ -44,4 +44,12 @@ public class CustomSwitcherButton : MonoBehaviour {
 		}
 #endif
 	}
+
+	public void ToggleValue() {
+		isOn = !isOn;
+	}
+
+	public void setValue(bool value){
+		isOn = value;
+	}
 }
