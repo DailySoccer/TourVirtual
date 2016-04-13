@@ -10,16 +10,41 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 	GameCanvasManager gcm;
 	Animator _topMenuAnimator;
 
+	HiddenObjects.HiddenObjects hiddenObjs;
+
 	// Use this for initialization
-	void OnEnable () {
+	void Awake () {
 		gcm = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
 		_topMenuAnimator = TopMenu.GetComponent<Animator> ();
+
+		hiddenObjs = HiddenObjects.HiddenObjects.Instance;//GameObject.FindGameObjectWithTag ("MainManager").GetComponent<HiddenObjects.HiddenObjects> ();
+	}
+
+	void OnDisable() {
+		hiddenObjs.OnGameSuccess -= HandleOnGameSuccess;
+		hiddenObjs.OnGameFail -= HandleOnGameFail;
 	}
 
 	void Start() {
 	}
-
+	
 	void Update () {	
+	}
+
+	void HandleOnGameSuccess ()
+	{
+		HiddenObjectsGameOver();
+	}
+
+	void HandleOnGameFail ()
+	{
+		HiddenObjectsGameOver ();
+	}
+
+	void HiddenObjectsGameOver() {
+		hiddenObjs.OnGameSuccess -= HandleOnGameSuccess;
+		hiddenObjs.OnGameFail -= HandleOnGameFail;
+		IsHiddenObjectHUD_Open = false;
 	}
 
 	public void LaunchHiddenObjectMinigameModal() {
@@ -27,19 +52,22 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 	}
 
 	public void StartHiddenObjectsGame() {
+		hiddenObjs.OnGameSuccess += HandleOnGameSuccess;
+		hiddenObjs.OnGameFail += HandleOnGameFail;
+
 		// Cerramos la modal
 		ModalHiddenObjectsGameScreen.IsOpen = false;
 		// Comienza el juego
-		GameObject.FindGameObjectWithTag ("MainManager").GetComponent<HiddenObjects.HiddenObjects>().Play();
+		hiddenObjs.Play();
 		//Activa el hud de hiddenObjects
 		IsHiddenObjectHUD_Open = true;
 	}
 
-	public void StopHiddenObjectsGame() {
+	public void ForceStopHiddenObjectsGame() {
 		// Finaliza el juego
-		GameObject.FindGameObjectWithTag("MainManager").GetComponent<HiddenObjects.HiddenObjects>().Stop();
+		hiddenObjs.Stop();
 		//Desctiva el hud de hiddenObjects
-		IsHiddenObjectHUD_Open = false;
+		HiddenObjectsGameOver ();
 	}
 
 

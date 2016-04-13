@@ -16,6 +16,11 @@ namespace HiddenObjects {
         public GameObject prefab;
         List<HiddenObjectPosition> ListOfHiddenObjects;
 
+		public delegate void GameFinishEvent();
+		public event GameFinishEvent OnGameFail;
+		public event GameFinishEvent OnGameSuccess;
+
+
         public float RemaingTime {
 			get {
 				//Debug.Log( "[HiddenObjects] in" + name + ": Tiempo restante del minijuego: " + (endTime - startTime).ToString() );
@@ -37,10 +42,10 @@ namespace HiddenObjects {
 
         void Awake() {
             Instance = this;
+			enabled = false;
         }
 
-        void Start() {
-            enabled = false;
+        void Start() {            
             RoomManager.Instance.OnSceneReady += OnSceneReady;
         }
 
@@ -49,7 +54,9 @@ namespace HiddenObjects {
             UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, (int)(RemaingTime * 10f));   
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
 
-            Stop();
+
+			OnGameSuccess ();
+			Stop();
         }
 
         void OnFail() {
@@ -57,7 +64,9 @@ namespace HiddenObjects {
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
             if(obj!=null)
                 Destroy(obj);
-            Stop();
+			            
+			OnGameFail ();
+			Stop();
         }       
         
         public void Play() {
@@ -118,7 +127,6 @@ namespace HiddenObjects {
                 OnFail();
                 return;
             }
-            maxTime -= Time.deltaTime;
 			if (Input.GetMouseButtonDown(0) && Camera.main != null) {
                 Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Physics.RaycastAll(mouse,float.MaxValue, (1 << 14) );
