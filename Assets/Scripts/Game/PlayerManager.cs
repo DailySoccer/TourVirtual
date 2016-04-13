@@ -77,9 +77,8 @@ public class PlayerManager : Photon.PunBehaviour {
             GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
             //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
             tp.layer = LayerMask.NameToLayer( "Player" );
-            tp.GetComponent<SynchNet>().isMine = true;
-
             PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
+            tp.GetComponent<SynchNet>().isLocal = true;
             foreach (var v in nViews) v.viewID = id;
         }
         else {
@@ -88,6 +87,7 @@ public class PlayerManager : Photon.PunBehaviour {
                 GameObject tp = instance;
                 if (tp.GetComponent<Locomotion>() != null)
                     tp.GetComponent<Locomotion>().enabled = false;
+                tp.GetComponent<SynchNet>().isLocal = false;
                 tp.tag = "AvatarNet";
                 tp.layer = LayerMask.NameToLayer("Net");
                 PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);

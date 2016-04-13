@@ -7,6 +7,8 @@ public class SynchNet : MonoBehaviour, IPunObservable
     PhotonView _PhotonView;
     Vector3 target = Vector3.zero;
 
+    public bool isLocal = true;
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -25,7 +27,7 @@ public class SynchNet : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        if (!_PhotonView.isMine)
+        if (!isLocal)
         {
             Vector3 tmp = target;
             tmp.y = transform.position.y;

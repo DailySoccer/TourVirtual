@@ -300,7 +300,6 @@ public class RoomManager : Photon.PunBehaviour {
             }
             else {
                 // Sale de la habitacion actual.
-                Debug.LogError(">>> Leaving Room");
                 PhotonNetwork.LeaveRoom();
 			}
 		}
@@ -315,14 +314,13 @@ public class RoomManager : Photon.PunBehaviour {
             }
             Application.LoadLevel(Room.SceneName);
 		}
-		else {
-			Debug.Log("Scene loaded... " + Room.SceneName);
-		}
+
         if( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }
         yield return StartCoroutine(EnterPlayer(roomOld, player));
+
 		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
 		_loadingRoom = false;
@@ -381,10 +379,8 @@ public class RoomManager : Photon.PunBehaviour {
 			Transform entrada = portal.transform.FindChild("Point");
 			if (entrada != null) {
 				if (player != null) {
-                    player.transform.position = entrada.position;
-                    player.transform.rotation = entrada.rotation;
-                    //player.Avatar.transform.position = Vector3.zero;
-                    //player.Avatar.transform.rotation = Quaternion.identity;
+                    player.Avatar.transform.position = entrada.position;
+                    player.Avatar.transform.rotation = entrada.rotation;
                 }
             }            
             else {
@@ -394,10 +390,8 @@ public class RoomManager : Photon.PunBehaviour {
 		if (portal == null) {
 			if (player != null) {
                 // Colocar al player en un lugar de la escena
-                player.transform.position = Vector3.zero;
-                player.transform.rotation = Quaternion.identity;
-                //player.Avatar.transform.position = Vector3.zero;
-                //player.Avatar.transform.rotation = Quaternion.identity;
+                player.Avatar.transform.position = Vector3.zero;
+                player.Avatar.transform.rotation = Quaternion.identity;
             }
         }
 #if !LITE_VERSION
@@ -408,13 +402,12 @@ public class RoomManager : Photon.PunBehaviour {
 			yield return null;
 		}
 #endif
-		if (player != null) {
-            player.Avatar.transform.localPosition = Vector3.zero;
-            player.Avatar.transform.localRotation = Quaternion.identity;
+        if (player != null) {
             // Hacerlo visible o no...
             player.gameObject.SetActive(Room.PlayerVisible);
 		}
-		yield return null;
+
+        yield return null;
 		if (OnChange != null) OnChange();
         if (OnSceneReady != null) OnSceneReady();
 	}
