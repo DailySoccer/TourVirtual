@@ -7,12 +7,28 @@ public class HiddenObjectsGUIScreen : GUIScreen {
 	public MinigameTimerHUD TheTimer;
 	public Text TxTScore;
 
-	void Awake () {
+	int maxHiddenObjects;
+	int countHiddenObjects;
+
+	public float timeUpdateCicle = 1f;
+	float timer;
+
+	void Start () {
+		int maxHiddenObjects = HiddenObjects.HiddenObjects.Instance.numHiddenObjects;
+		int countHiddenObjects = 0;
+		timer = timeUpdateCicle;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		TxTScore.text = HiddenObjects.HiddenObjects.Instance.numFoundObjects + " / " + HiddenObjects.HiddenObjects.Instance.numHiddenObjects;
-		TheTimer.TimeLeft = 1 - (HiddenObjects.HiddenObjects.Instance.RemaingTime / HiddenObjects.HiddenObjects.Instance.maxTime);
+		if (countHiddenObjects != HiddenObjects.HiddenObjects.Instance.numFoundObjects) {
+			countHiddenObjects = HiddenObjects.HiddenObjects.Instance.numFoundObjects;
+			TxTScore.text = countHiddenObjects + " / " + maxHiddenObjects;
+		}
+		timer += Time.deltaTime;
+		if (timer >= timeUpdateCicle) {
+			timer = timer % timeUpdateCicle; 
+			TheTimer.TimeLeft = 1 - (HiddenObjects.HiddenObjects.Instance.RemaingTime / HiddenObjects.HiddenObjects.Instance.maxTime);
+		}
 	}
 }
