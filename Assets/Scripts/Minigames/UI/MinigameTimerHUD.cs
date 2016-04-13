@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class MinigameTimerHUD : MonoBehaviour {
 
 	public Image Clock;
@@ -12,7 +12,7 @@ public class MinigameTimerHUD : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (TimeLeft == null) {
-			Debug.LogError("MinigameTimerHUD: No hay ningun grafico que con 'ImageType: filled -> Radial360' asignado en este script" );
+			Debug.LogError("[MinigameTimerHUD] in" + name + ": MinigameTimerHUD: No hay ningun grafico que con 'ImageType: filled -> Radial360' asignado en este script" );
 		}
 	}
 	

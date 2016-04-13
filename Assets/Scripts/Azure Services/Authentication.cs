@@ -21,14 +21,16 @@ public class Authentication : MonoBehaviour {
         else
         {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"), () => {
-				Authentication.AzureServices.SignOut();
-                Authentication.AzureServices.SignIn();
+				ResetLoggin();
             });
             
         }
-	
 	}
 
+	public void ResetLoggin() {
+		Authentication.AzureServices.SignOut();
+		Authentication.AzureServices.SignIn();
+	}
 
 	public void OnTokenReceive(string token){
 		if (token != "Error") {

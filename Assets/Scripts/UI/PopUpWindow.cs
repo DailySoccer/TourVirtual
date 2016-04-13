@@ -15,7 +15,8 @@ public enum ModalLayout {
     SINGLE_CONTENT_INFO,
     SINGLE_CONTENT_SHARE,
     THIRDS_PROFILE_CONTENT,
-	PACK_FLYER
+	PACK_FLYER,
+	SETTINGS
 }
 
 public class PopUpWindow : MonoBehaviour {
@@ -57,6 +58,8 @@ public class PopUpWindow : MonoBehaviour {
 
 	public GameObject PackFlyerGameObject;
 	PackFlyerModal ThePackFlyerModal;
+
+	public GameObject SettingsGameObject;
 
     // Use this for initialization
     void Start () {
@@ -151,16 +154,21 @@ public class PopUpWindow : MonoBehaviour {
 				//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 				break;
 
+			case ModalLayout.SETTINGS:
+				SettingsGameObject.SetActive(true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
+				break;
+
 		}
 
 	}
 
 	public void ResetWindow() {
-		if (StandardTitleText != null)
+		if (StandardTitleText != null) {
 			StandardTitleText.text = "";
-
-		if (StandardTitleText != null)
 			StandardTitleText.gameObject.SetActive (false);
+		}
 
 		if (ThirdsProfileTitleText != null)
 			ThirdsProfileTitleText.text = "";
@@ -198,6 +206,10 @@ public class PopUpWindow : MonoBehaviour {
 
 		ThePackFlyerModal.Reset ();
 		PackFlyerGameObject.SetActive(false);
+
+		if (SettingsGameObject != null) {
+			SettingsGameObject.SetActive(false);
+		}
 
 		CloseButton.SetActive (true);
 	}

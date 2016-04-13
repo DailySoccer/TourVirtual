@@ -16,7 +16,12 @@ namespace HiddenObjects {
         public GameObject prefab;
         List<HiddenObjectPosition> ListOfHiddenObjects;
 
-        public float RemaingTime { get { return endTime - startTime; } }
+        public float RemaingTime {
+			get {
+				//Debug.Log( "[HiddenObjects] in" + name + ": Tiempo restante del minijuego: " + (endTime - startTime).ToString() );
+				return endTime - Time.realtimeSinceStartup;
+			} 
+		}
 
         public class HiddenObjectPosition {
             public string roomid;
@@ -114,7 +119,7 @@ namespace HiddenObjects {
                 return;
             }
             maxTime -= Time.deltaTime;
-            if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetMouseButtonDown(0) && Camera.main != null) {
                 Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Physics.RaycastAll(mouse,float.MaxValue, (1 << 14) );
                 if (hits.Length > 0) {

@@ -71,6 +71,10 @@ public class CanvasManager : MonoBehaviour {
 		ShowScreen (ScreenMainGame);
 	}
 
+	/*public void ShowMainScreenNoTouchSecondPlane() {
+		ShowScreen (ScreenMainGame);
+	}*/
+
 	public void ShowProfileScreen() {
 
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
