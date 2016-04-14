@@ -21,8 +21,9 @@ public class PackFlyerModal : MonoBehaviour {
 	public void Setup(ContentAPI.Content content) {
 		TheContent = content;
 		//packurl y thumburl
-		StartCoroutine(MyTools.LoadSpriteFromURL(content.ThumbURL, FlyerThumbnail.gameObject));
-		Price.text = UserAPI.VirtualGoodsDesciptor.GetByGUID (content.VirtualGoodID).Price.ToString();
+		StartCoroutine(MyTools.LoadSpriteFromURL(content.PackURL, FlyerThumbnail.gameObject));
+        var vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(content.VirtualGoodID);
+        Price.text = vg.Price.ToString();
 	}
 
 	public void AddContentToList(string contentTitle) {
@@ -38,4 +39,14 @@ public class PackFlyerModal : MonoBehaviour {
 		TheContent = null;
 		FlyerThumbnail.sprite = null;
 	}
+
+    public void Buy()
+    {
+        UserAPI.VirtualGoodsDesciptor.BuyByGUID(TheContent.VirtualGoodID, false, () => {
+            GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>().ShowModalScreen(9);
+        }, () => {
+            Debug.Log(">>>>");
+        });
+
+    }
 }

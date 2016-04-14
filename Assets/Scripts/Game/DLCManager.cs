@@ -25,19 +25,10 @@ public class AssetDefinition {
 }
 
 public class DLCManager : MonoBehaviour {
-	static public DLCManager Instance {
-		get {
-			GameObject mainManagerObj = GameObject.FindGameObjectWithTag("MainManager");
-			if (mainManagerObj == null)
-				return null;
-
-			DLCManager dlcManager = mainManagerObj.GetComponent<DLCManager>();
-			return dlcManager.enabled ? dlcManager : null;
-		}
-	}
+	static public DLCManager Instance { get; private set; }
 	
 	public TextAsset Assets;
-	string AssetsUrl;
+	public string AssetsUrl;
 	public Dictionary<string, AssetDefinition> AssetDefinitions = new Dictionary<string, AssetDefinition>();
 	public Dictionary<string, AssetBundle> AssetResources = new Dictionary<string, AssetBundle>();
 
@@ -54,8 +45,9 @@ public class DLCManager : MonoBehaviour {
 	}
 
 	void Awake () {
+        Instance = this;
 #if UNITY_EDITOR
-//        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
+        //        AssetsUrl = "file://" + Application.dataPath  + "/WebPlayerTemplates/AssetBundles";
         //        AssetsUrl = "https://12351.wpc.azureedge.net/8012351/rmdevtourcdn.blob.core.windows.net/virtualtour-assets";
         AssetsUrl = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets";
 #else

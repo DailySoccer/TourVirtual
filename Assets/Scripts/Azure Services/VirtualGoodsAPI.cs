@@ -189,13 +189,13 @@ public class VirtualGoodsAPI {
         foreach (var pair in VirtualGoods) {
 			char stype = (pair.Value as VirtualGood).IdSubType[0];
 			if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
-				if (stype == 'H' || stype == 'U' ){
+				if (stype == 'H' || stype == 'U' || stype == 'C' ){
 					VirtualGood vg = pair.Value as VirtualGood;
                     tmp.Add(pair.Key, pair.Value);
 				}
             }
             else {
-				if (stype == 'M' || stype == 'U' )
+				if (stype == 'M' || stype == 'U' || stype == 'C' )
 					tmp.Add(pair.Key, pair.Value);
             }
         }

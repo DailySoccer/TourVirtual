@@ -40,23 +40,19 @@ public class ContentAPI
 
         public string GUID;
         public string VirtualGoodID;
+        public string ContenName;
         public string Title;
         public string Description;
         public string PackURL;
-        public string ThumbURL;
         public bool owned;
 
-        public Content(string _GUID, string _VirtualGoodID, string _Title, string _Description, string _PackURL, string _ThumbURL)
-        {
+        public Content(string _GUID, string _VirtualGoodID, string _ContenName, string _Title, string _Description, string _PackURL) {
             GUID = _GUID;
             VirtualGoodID = _VirtualGoodID;
+            ContenName = _ContenName;
             Title = _Title;
-            Description = _Description;
-            PackURL = _PackURL;
-            ThumbURL = _ThumbURL;
-            // Ver si tengo el VG.
-
-
+            Description = _Description;            
+            PackURL = DLCManager.Instance.AssetsUrl+"/Contents/" +_ContenName + "/"+_PackURL;
             VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
             if ( vg!=null) {
                 if (vg.count > 0) owned = true;
@@ -82,14 +78,14 @@ public class ContentAPI
 
     public Content GetContentByID(string id){
         foreach (var pair in Contents){
-            if (pair.Value.VirtualGoodID == id)
+            if (pair.Value.ContenName == id)
                 return pair.Value;
         }
         return null;
     }
 
     public Content GetContentByGUID(string guid){
-        if(Contents.ContainsKey(guid))
+        if (Contents.ContainsKey(guid))
             return Contents[guid];
         return null;
     }
@@ -162,9 +158,10 @@ public class ContentAPI
 
                 Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
                 string packURL = asset["AssetUrl"] as string;
-                string thumbnailUrl = asset["ThumbnailUrl"] as string;
-
-                Content tmp = new Content(guid, internalID, title, desc, packURL, thumbnailUrl);
+                string contenidoID = "";
+                var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
+                if (vgdsc != null) contenidoID = vgdsc.Description;
+                Content tmp = new Content(guid, internalID, contenidoID, title, desc, packURL.Substring(7));
                 Contents.Add(guid, tmp);
                 TotalContents++;
             }
@@ -303,18 +300,14 @@ public class ContentAPI
     /// <returns></returns>
     public IEnumerator GetContent(string contenid, GetContentCallback callback=null )
     {
-		Debug.LogError(">>>>>>> Pidiendo contenido del pack");
-        if (!UserAPI.Instance.Online)
-        {
+        if (!UserAPI.Instance.Online){
             if (callback != null) callback(ParseContent(auxData2));
         }
         else {
-            yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contenid), (res) =>
-            {
+            yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contenid), (res) =>{
                 if (res != "null")
                 {
                     if (callback != null) callback(ParseContent(res));
-					Debug.LogError(">>>>>>> >>>>>>> Retornando contenido");
                 }
             });
         }
@@ -337,6 +330,8 @@ public class ContentAPI
         }
         return ret;
     }
+
+
 
     public IEnumerator AwaitRequest() {
 		TotalContents = 0;
@@ -365,7 +360,12 @@ public class ContentAPI
 									string packURL = asset.ContainsKey("AssetUrl")?asset["AssetUrl"] as string:"";
 									string thumbnailUrl = asset.ContainsKey("ThumbnailUrl")?asset["ThumbnailUrl"] as string:"";
 
-		                            Content tmp = new Content(guid, internalID, title, desc, packURL, thumbnailUrl);
+                                    string contenidoID = "";
+                                    var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
+                                    if (vgdsc != null) contenidoID = vgdsc.Description;
+
+
+                                    Content tmp = new Content(guid, internalID, contenidoID, title, desc, packURL.Substring(7));
 		                            Contents.Add(guid, tmp);
 		                            TotalContents++;
 								}

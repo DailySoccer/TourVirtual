@@ -387,6 +387,48 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 #if !LITE_VERSION
 
+        if (UserAPI.Instance != null)
+        {
+            if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+            {
+                ModalNickInput.Show((nick) =>
+                {
+                    if (nick != "<EMPTY>")
+                    {
+                        LoadingCanvasManager.Show();
+                        UserAPI.Instance.UpdateNick(nick, () =>
+                        {
+                            UserAPI.Instance.UpdateAvatar();
+                            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
+                            {
+                                LoadingCanvasManager.Hide();
+                                ModalNickInput.Close();
+                                HideAllScreens();
+                                BackToRoom();
+                            });
+                        }, () =>
+                        { // Error
+                            LoadingCanvasManager.Hide();
+                            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed"));
+                        });
+                    }
+                });
+            }
+            else
+            {
+                LoadingCanvasManager.Show();
+                // Por si tiene algo de prueba...
+                PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+                UserAPI.Instance.UpdateAvatar();
+                UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
+                {
+                    LoadingCanvasManager.Hide();
+                    HideAllScreens();
+                    BackToRoom();
+                });
+            }
+        }
+
 #else
         if (UserAPI.Instance != null)
         {
@@ -442,7 +484,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void CancelThisAvatar()
     {
 #if !LITE_VERSION
-
+        HideAllScreens();
+        BackToRoom();
 #else
         if (MainManager.IsDeepLinking)
         {
