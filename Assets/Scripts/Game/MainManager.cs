@@ -13,9 +13,7 @@ public enum TourVirtualBuildMode {
 	Debug,
 	Release
 }
-
 // Application.OpenURL("rmapp://");
-
 
 public class MainManager : Photon.PunBehaviour {
 
