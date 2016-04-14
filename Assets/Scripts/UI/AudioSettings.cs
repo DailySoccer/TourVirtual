@@ -6,19 +6,15 @@ public class AudioSettings : MonoBehaviour {
 	public CustomSwitcherButton IconAudio;
 
 	private bool activeSound;
-	// Use this for initialization
-	void Start () {
+
+	public void Refresh() {
 		activeSound = MainManager.Instance.SoundEnabled;
 		IconAudio.setValue (activeSound);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+		IconAudio.ToggleValue (activeSound);
 	}
 
 	public void ToggleValue() {
-		IconAudio.ToggleValue ();
-		activeSound = !activeSound;
-		MainManager.Instance.SoundEnabled = activeSound;
+		MainManager.Instance.SoundEnabled = !activeSound;
+		Refresh ();
 	}
 }

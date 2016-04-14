@@ -69,4 +69,20 @@ public class MyTools
         return dt.ToString(System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortTimePattern);
 #endif
     }
+
+	public static void SetPlayerPrefsBool (string name, bool value) {
+		
+		PlayerPrefs.SetInt(name, value ? 1 : 0);
+	}
+	
+	public static bool GetPlayerPrefsBool (string name) {
+		return PlayerPrefs.GetInt(name) == 1 ? true : false;
+	}
+	
+	public static bool GePlayerPrefsBool (string name, bool defaultValue) {
+		if (PlayerPrefs.HasKey(name)) {
+			return GetPlayerPrefsBool(name);
+		}
+		return defaultValue;
+	}
 }

@@ -159,7 +159,6 @@ public class PopUpWindow : MonoBehaviour {
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
 				break;
-
 		}
 
 	}

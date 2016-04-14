@@ -412,7 +412,7 @@ GameObject:
   - 114: {fileID: 11465984}
   - 114: {fileID: 11440630}
   m_Layer: 5
-  m_Name: 'Languaje Slot: Eng'
+  m_Name: En
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -712,7 +712,7 @@ GameObject:
   - 222: {fileID: 22257796}
   - 114: {fileID: 11422266}
   m_Layer: 5
-  m_Name: 'Texto: Idioma'
+  m_Name: 'Texto: Audio'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1263,6 +1263,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22435840}
+  - 114: {fileID: 11483862}
   m_Layer: 5
   m_Name: 10 - Settings
   m_TagString: Untagged
@@ -1684,7 +1685,7 @@ GameObject:
   - 114: {fileID: 11455474}
   - 114: {fileID: 11416546}
   m_Layer: 5
-  m_Name: 'Languaje Slot: Esp'
+  m_Name: Es
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3091,7 +3092,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: IDIOMA
+  m_Text: AUDIO
 --- !u!114 &11423644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4327,7 +4328,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11400112}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11442424}
+        m_MethodName: SetLanguage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: es
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11456264
@@ -4418,8 +4430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageOn: {fileID: 21300000, guid: 46fb0bce3474f4f56886fbc2266345d7, type: 3}
   imageOff: {fileID: 21300000, guid: ada0015a5d1d5470181db0021f64f37b, type: 3}
-  thridPersonCameraOnly: 0
-  isOn: 1
+  isEnabled: 1
 --- !u!114 &11458214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4893,7 +4904,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11440022}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11442424}
+        m_MethodName: SetLanguage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: en
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11467002
@@ -5584,6 +5606,19 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &11483862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a85db557d29848d595f382eddeb5b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Languajes: {fileID: 11442424}
+  Audio: {fileID: 11481728}
 --- !u!114 &11483944
 MonoBehaviour:
   m_ObjectHideFlags: 1

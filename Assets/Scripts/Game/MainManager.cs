@@ -60,12 +60,10 @@ public class MainManager : Photon.PunBehaviour {
 				if (OnLanguageChange != null) {
 					OnLanguageChange();
 				}
-
-				//TODO: guardar valor en archivo de configuracion
 			}
 		}
 	}
-	
+	/*
 	[SerializeField]
 	private bool _musicEnabled;
 	public bool MusicEnabled {
@@ -73,16 +71,21 @@ public class MainManager : Photon.PunBehaviour {
 		set {
 			_musicEnabled = value;
 			//TODO: guardar valor en archivo de configuracion
+			PlayerPrefs.SetString("MusicEnabled", value);
+			PlayerPrefs.Save();
 		}
 	}
-	 
+	 */
 	[SerializeField]
 	private bool _soundEnabled;
 	public bool SoundEnabled {
 		get {return _soundEnabled;}
 		set {
 			_soundEnabled = value;
+			GameObject.FindGameObjectWithTag("MusicTheme").GetComponent<AudioSource>().enabled = value;
 			//TODO: guardar valor en archivo de configuracion
+			MyTools.SetPlayerPrefsBool("SoundEnabled", value);
+			PlayerPrefs.Save();
 		}
 	}
 
@@ -120,11 +123,19 @@ public class MainManager : Photon.PunBehaviour {
         }
         catch { }
 
-        if (LanguageManager.Instance.IsLanguageSupported(sublang)) {
-            LanguageManager.Instance.ChangeLanguage(sublang);
-        }
+		SetNewLangManager (sublang, lang);
+	}
+
+	public void SetNewLangManager(string newSubLang, string newLang = "") {
+	
+		if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
+			LanguageManager.Instance.ChangeLanguage(newSubLang);
+			PlayerPrefs.SetString("CurrentLanguaje", newSubLang);				
+			PlayerPrefs.Save();
+			
+		}
 		else {
-			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + lang);
+			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
 	}
 
@@ -213,10 +224,11 @@ public class MainManager : Photon.PunBehaviour {
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 		Debug.Log("PlayerName: " + PhotonNetwork.playerName);
-		// Cargamos las Setting Options
 #endif
-		MusicEnabled = true; // TODO: Cargar desde archivo de configuracion
-		SoundEnabled = true; // TODO: Cargar desde archivo de configuracion
+		SoundEnabled = MyTools.GetPlayerPrefsBool("SoundEnabled");
+		CurrentLanguage = PlayerPrefs.GetString ("CurrentLanguage", "en");
+		if (CurrentLanguage != string.Empty)
+			SetNewLangManager(_currentLanguage);
 	}
 
     void Start() {

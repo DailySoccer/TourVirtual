@@ -12,5 +12,4 @@ public class SettingLaguajeSlot : MonoBehaviour {
 		Texto.color = isActive ? new Color(0.239f, 0.286f, 0.392f) : new Color(0.619f, 0.619f, 0.619f);
 	}
 
-
 }

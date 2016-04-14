@@ -7,10 +7,10 @@ public class CustomSwitcherButton : MonoBehaviour {
 	public Sprite imageOn;
 	public Sprite imageOff;
 
-	public bool thridPersonCameraOnly = true;
+	//public bool thridPersonCameraOnly = true;
 
 	[SerializeField]
-	private bool isOn;
+	private bool isEnabled;
 
 	private Image currentImg;
 
@@ -20,13 +20,13 @@ public class CustomSwitcherButton : MonoBehaviour {
 
 	void Awake() {
 		currentImg = GetComponent<Image>();
-		currentImg.sprite = isOn ? imageOn : imageOff;
+		currentImg.sprite = isEnabled ? imageOn : imageOff;
 	}
 
 	// Use this for initialization
 	void Start () {
 #if !LITE_VERSION
-		Player.Instance.cameraStyle = isOn? SyncCameraTransform.CameraStyle.FPS : SyncCameraTransform.CameraStyle.ThirdPerson;
+		//Player.Instance.cameraStyle = isOn? SyncCameraTransform.CameraStyle.FPS : SyncCameraTransform.CameraStyle.ThirdPerson;
 #endif
 	}
 	
@@ -35,21 +35,12 @@ public class CustomSwitcherButton : MonoBehaviour {
 	
 	}
 
-	public void ChangeState() {
-#if !LITE_VERSION
-		if (!thridPersonCameraOnly) {
-			currentImg.sprite = isOn ? imageOn : imageOff;
-			isOn = !isOn;
-			Player.Instance.cameraStyle = isOn? SyncCameraTransform.CameraStyle.FPS : SyncCameraTransform.CameraStyle.ThirdPerson;
-		}
-#endif
-	}
-
-	public void ToggleValue() {
-		isOn = !isOn;
+	public void ToggleValue( bool value) {
+		isEnabled = value;
+		currentImg.sprite = isEnabled ? imageOn : imageOff;
 	}
 
 	public void setValue(bool value){
-		isOn = value;
+		isEnabled = value;
 	}
 }
