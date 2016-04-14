@@ -9,7 +9,12 @@ public class ClothSlot : MonoBehaviour {
 	public Text ClothName;
 	public Image Picture;
 	public Text Price;
+	public Image Background;
+	public GameObject LabelOwned;
+
 	public VirtualGoodsAPI.VirtualGood virtualGood;
+
+	public bool Selected;
 
 	// Use this for initialization
 	void Start () {
@@ -20,21 +25,28 @@ public class ClothSlot : MonoBehaviour {
 	public void Reset() {
 		ClothName.text = "";
 		Price.text = "";
+		// estoy seleccionado si estoy vistiendo al player.
+		//Selected = false;
 	}
 
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
 		virtualGood = item;
         ClothName.text = "";//item.Description;
 		Price.text = item.Price.ToString();
-		if (item.count > 0)
+		if (item.count > 0) {
 			Price.gameObject.SetActive (false);
-
+			LabelOwned.SetActive (true);
+		} else {
+			Price.gameObject.SetActive (true);
+			LabelOwned.SetActive (false);
+		}
 
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
 	}
 
 	public void Slot_ClickHandle() {
 		VestidorControllerInstance.TryToDressPlayer (this);
+
 	}
 
     void OnDestroy()
