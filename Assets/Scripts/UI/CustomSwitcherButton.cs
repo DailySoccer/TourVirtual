@@ -19,8 +19,7 @@ public class CustomSwitcherButton : MonoBehaviour {
 
 
 	void Awake() {
-		currentImg = GetComponent<Image>();
-		currentImg.sprite = isEnabled ? imageOn : imageOff;
+
 	}
 
 	// Use this for initialization
@@ -32,11 +31,16 @@ public class CustomSwitcherButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public void ToggleValue( bool value) {
 		isEnabled = value;
+
+		if (currentImg == null) {
+			currentImg = GetComponent<Image> ();
+		}
+
 		currentImg.sprite = isEnabled ? imageOn : imageOff;
 	}
 

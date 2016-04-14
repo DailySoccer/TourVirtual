@@ -79,7 +79,9 @@ public class MainManager : Photon.PunBehaviour {
 	[SerializeField]
 	private bool _soundEnabled;
 	public bool SoundEnabled {
-		get {return _soundEnabled;}
+		get {
+			return _soundEnabled;
+		}
 		set {
 			_soundEnabled = value;
 			GameObject.FindGameObjectWithTag("MusicTheme").GetComponent<AudioSource>().enabled = value;
@@ -130,6 +132,7 @@ public class MainManager : Photon.PunBehaviour {
 	
 		if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
 			LanguageManager.Instance.ChangeLanguage(newSubLang);
+			CurrentLanguage = newSubLang;
 			PlayerPrefs.SetString("CurrentLanguaje", newSubLang);				
 			PlayerPrefs.Save();
 			

@@ -200,10 +200,10 @@ public class PopUpWindow : MonoBehaviour {
 		SingleContent.SetActive(false);
 
 		/// Limpieza del flyer Content
-		if (ThePackFlyerModal != null)
+		if (ThePackFlyerModal != null) {
 			ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
-
-		ThePackFlyerModal.Reset ();
+			ThePackFlyerModal.Reset ();
+		}
 		PackFlyerGameObject.SetActive(false);
 
 		if (SettingsGameObject != null) {
@@ -252,10 +252,6 @@ public class PopUpWindow : MonoBehaviour {
 		SetupPurchasedPackContentList (item.Content.VirtualGoodID);
 	}
 #endif
-
-
-
-
 
 
 	/// <summary>
@@ -383,12 +379,16 @@ public class PopUpWindow : MonoBehaviour {
 	public void LauchFlyerPackContent() {	
 
 		// Coger el id del pack asociado a la vitrina
-		string packId = ContentManager.Instance.ContentNear.name;
+		string packId = ContentManager.Instance.ContentNear.ContentKey;
 
 		ContentAPI.Content content = UserAPI.Contents.GetContentByID (packId);
 
-		if (content == null)
+		if (content == null) {
+			// Ha sucedido un error inesperado
+			TheGameCanvas.HideModalScreen ();
+			ModalTextOnly.ShowText("Ha ocurrido un error con el Pack: \"" + packId + "\" y no se puede mostrar el contenido solicitado");
 			return;
+		}
 
 //		ResetWindow ();
 
@@ -412,9 +412,7 @@ public class PopUpWindow : MonoBehaviour {
 
 			// Solicitamos el contenido del pack y montamos el flyer
 			StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
-
 		}
-
 	}
 
 

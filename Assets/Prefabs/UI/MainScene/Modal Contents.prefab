@@ -711,6 +711,7 @@ GameObject:
   - 224: {fileID: 22488094}
   - 222: {fileID: 22257796}
   - 114: {fileID: 11422266}
+  - 114: {fileID: 11484012}
   m_Layer: 5
   m_Name: 'Texto: Audio'
   m_TagString: Untagged
@@ -781,6 +782,7 @@ GameObject:
   - 222: {fileID: 22226378}
   - 114: {fileID: 11461672}
   - 114: {fileID: 11483508}
+  - 114: {fileID: 11484168}
   m_Layer: 5
   m_Name: 'Texto: Idioma Esp'
   m_TagString: Untagged
@@ -1127,6 +1129,7 @@ GameObject:
   - 224: {fileID: 22424820}
   - 222: {fileID: 22220628}
   - 114: {fileID: 11476652}
+  - 114: {fileID: 11441144}
   m_Layer: 5
   m_Name: 'Texto: Idioma'
   m_TagString: Untagged
@@ -1577,6 +1580,7 @@ GameObject:
   - 224: {fileID: 22434932}
   - 222: {fileID: 22251898}
   - 114: {fileID: 11451202}
+  - 114: {fileID: 11427920}
   m_Layer: 5
   m_Name: 'Texto: Idioma'
   m_TagString: Untagged
@@ -1891,6 +1895,7 @@ GameObject:
   - 222: {fileID: 22234542}
   - 114: {fileID: 11468018}
   - 114: {fileID: 11413114}
+  - 114: {fileID: 11460534}
   m_Layer: 5
   m_Name: 'Texto: Idioma Eng'
   m_TagString: Untagged
@@ -3270,6 +3275,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &11427920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Settings.LanguageSelection
 --- !u!114 &11428092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3833,6 +3850,18 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: .100000001
   m_FlexibleHeight: -1
+--- !u!114 &11441144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Settings.LogOut
 --- !u!114 &11441812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4598,6 +4627,18 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
+--- !u!114 &11460534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Settings.LanguageEnglish
 --- !u!114 &11460742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5681,6 +5722,30 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11484012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Settings.MusicToggle
+--- !u!114 &11484168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Settings.LanguageSpanish
 --- !u!114 &11484442
 MonoBehaviour:
   m_ObjectHideFlags: 1
