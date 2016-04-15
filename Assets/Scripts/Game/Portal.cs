@@ -13,19 +13,14 @@ public class Portal : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-        Debug.LogError(">>>>>>>>>>>> " + other.name);
 		if (other.tag != Player.TAG_UMA_AVATAR)
 			return;
-        Debug.LogError(">>>>>>>>>>>> 1 offlineMode " + PhotonNetwork.offlineMode+" room "+ PhotonNetwork.room);
         // Debug.Log ("Enter: Portal: " + PortalID);
 
 //        if (!PhotonNetwork.offlineMode && PhotonNetwork.room == null) return;
-        Debug.LogError(">>>>>>>>>>>> 2");
-
         if (_roomManager == null) {
 		 _roomManager = RoomManager.Instance;
 		}
-        Debug.LogError(">>>>>>>>>>>> 3");
 
         if (_roomManager != null) {
 			_roomManager.ToRoom(PortalID);
