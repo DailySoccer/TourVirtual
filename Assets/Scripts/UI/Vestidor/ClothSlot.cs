@@ -6,7 +6,7 @@ public class ClothSlot : MonoBehaviour {
 
 	VestidorCanvasController_Lite VestidorControllerInstance;
 
-	public Text ClothName;
+	//public Text ClothName;  // Esto se ha comentado porque se ha decidido no ponerlo.
 	public Image Picture;
 	public Text Price;
 	public Image Background;
@@ -23,7 +23,7 @@ public class ClothSlot : MonoBehaviour {
 	}
 
 	public void Reset() {
-		ClothName.text = "";
+		//ClothName.text = "";
 		Price.text = "";
 		// estoy seleccionado si estoy vistiendo al player.
 		//Selected = false;
@@ -31,13 +31,13 @@ public class ClothSlot : MonoBehaviour {
 
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
 		virtualGood = item;
-        ClothName.text = "";//item.Description;
+        //ClothName.text = "";//item.Description;
 		Price.text = item.Price.ToString();
 		if (item.count > 0) {
-			Price.gameObject.SetActive (false);
+			Price.transform.parent.gameObject.SetActive (false);
 			LabelOwned.SetActive (true);
 		} else {
-			Price.gameObject.SetActive (true);
+			Price.transform.parent.gameObject.SetActive (true);
 			LabelOwned.SetActive (false);
 		}
 

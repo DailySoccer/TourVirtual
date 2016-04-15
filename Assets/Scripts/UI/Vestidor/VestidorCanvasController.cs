@@ -37,7 +37,7 @@ public class VestidorCanvasController : MonoBehaviour {
 			popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
 			modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons> ();
 
-			modalDetail.TheName.text = prenda.ClothName.text;
+			modalDetail.TheName.text = prenda.virtualGood.Description;
 			modalDetail.ThePicture.sprite = prenda.Picture.sprite;
 
 			if (EnoughMoney) {
