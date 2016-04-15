@@ -44,12 +44,13 @@ public class UIScreen : MonoBehaviour {
 		rect.offsetMax = rect.offsetMin = new Vector2(0, 0);
 	}
 
-	public virtual void Start()
-	{
+	public virtual void Start()	{
 	}
 
-	public virtual void UpdateTitle()
-	{
+	public virtual void UpdateTitle(){
+	}
+
+	public virtual void AnimEvent_PrepareModal(){
 	}
 
 	public virtual void Update()
