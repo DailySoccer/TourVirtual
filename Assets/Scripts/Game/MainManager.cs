@@ -311,33 +311,37 @@ public class MainManager : Photon.PunBehaviour {
 
         GUIStyle style = new GUIStyle();
 
-        Rect rect = new Rect(0, 0, w, h * 2 / 100);
+        Rect rect = new Rect(2, 2, w, h * 2 / 100);
         style.alignment = TextAnchor.UpperLeft;
         style.fontSize = h * 4 / 100;
-        style.normal.textColor = new Color(0.0f, 0.0f, 0.5f, 1.0f);
+        style.normal.textColor = new Color(1f, 1f, 1f, 1.0f);
         float msec = deltaTime * 1000.0f;
         float fps = 1.0f / deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(rect, text, style);
+        rect.x = 0;
+        rect.y = 0;
+        style.normal.textColor = new Color(0f, 0f, 0.5f, 1.0f);
+        GUI.Label(rect, text, style);
     }
 
-        /*
-        public void OnGUI()	{
-            if (!InternetConnection && !OfflineMode) {
-                GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
-                centeredStyle.alignment = TextAnchor.MiddleCenter;
-                centeredStyle.fontSize = 30;
-                GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Internet...", centeredStyle);
+    /*
+    public void OnGUI()	{
+        if (!InternetConnection && !OfflineMode) {
+            GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
+            centeredStyle.alignment = TextAnchor.MiddleCenter;
+            centeredStyle.fontSize = 30;
+            GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Internet...", centeredStyle);
 
-                if (GUI.Button(new Rect (Screen.width-300, Screen.height-100, 200, 50), "Offline")) {
-                    OfflineMode = true;
-                    StartCoroutine(Connect ());
-                }
+            if (GUI.Button(new Rect (Screen.width-300, Screen.height-100, 200, 50), "Offline")) {
+                OfflineMode = true;
+                StartCoroutine(Connect ());
             }
         }
-        */
+    }
+    */
 
-        IEnumerator Connect() {
+    IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
 #if !LITE_VERSION
         Debug.Log ("Connect...");
