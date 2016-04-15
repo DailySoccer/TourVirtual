@@ -84,6 +84,17 @@ public class ContentAPI
         return null;
     }
 
+    public Content GetContentByVGID(string id)
+    {
+        foreach (var pair in Contents)
+        {
+            if (pair.Value.VirtualGoodID == id)
+                return pair.Value;
+        }
+        return null;
+    }
+
+
     public Content GetContentByGUID(string guid){
         if (Contents.ContainsKey(guid))
             return Contents[guid];
@@ -93,7 +104,7 @@ public class ContentAPI
     public void CheckContent(VirtualGoodsAPI.VirtualGood vg) {
         if (string.IsNullOrEmpty(vg.GUID)) return;
 
-        Content cnt = GetContentByID(vg.GUID);
+        Content cnt = GetContentByVGID(vg.GUID);
         if (cnt != null) {
             if (vg.count > 0) {
                 Debug.LogError(">>>> Desbloqueado " + vg.GUID);
