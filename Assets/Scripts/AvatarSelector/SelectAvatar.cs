@@ -78,7 +78,9 @@ public class SelectAvatar : MonoBehaviour {
 			if (lastInstance != null)
 				Destroy (lastInstance);
 			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
+                if (VestidorCanvasController_Lite.Instance == null) Debug.LogError("Error VestidorCanvasController_Lite.Instance es nulo.");
                 VestidorCanvasController_Lite.Instance.PlayerInstance = instance;
+                if (instance == null) Debug.LogError("Error instance es nulo.");
                 instance.transform.position = new Vector3(-0.03f, 0.09f, 0);
                 VestidorCanvasController_Lite.Instance.AddParticles();
                 lastInstance = instance;
@@ -100,10 +102,11 @@ public class SelectAvatar : MonoBehaviour {
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
     }
 
-    void OnEnable() {
+    void Start() {
         if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
         {
             maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
+
             OnSelectGender("Man");
         }
         else
