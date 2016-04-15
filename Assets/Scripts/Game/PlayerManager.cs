@@ -77,8 +77,9 @@ public class PlayerManager : Photon.PunBehaviour {
             GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
             //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
             tp.layer = LayerMask.NameToLayer( "Player" );
+            var sn = tp.GetComponent<SynchNet>();
+            if (sn != null) sn.isLocal = true;
             PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
-            tp.GetComponent<SynchNet>().isLocal = true;
             foreach (var v in nViews) v.viewID = id;
         }
         else {

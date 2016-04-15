@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum ProductType {
 	TShirt,
@@ -33,6 +34,11 @@ public class ClothesListController : MonoBehaviour {
 
 	VirtualGoodsAPI.VirtualGood tshirts;
 
+	private List<GameObject> currentClothesLsit = new List<GameObject>();
+
+	public static ClothesListController Instance { get; private set; }
+
+
 	//Virtualgood Item subtypes
 	enum SubType {
 		TORSO, 
@@ -42,6 +48,10 @@ public class ClothesListController : MonoBehaviour {
 		PACK
 	};
 
+
+	void Awake() {
+		Instance = this;
+	}
 	// Use this for initialization
 	void Start () {
 		// asignamos las listas;
@@ -58,6 +68,7 @@ public class ClothesListController : MonoBehaviour {
 	}
 
 	void CleanProductLists() {
+		/*
 		foreach (Transform t in TShirtsList) {
 			Destroy(t.gameObject);
 		}
@@ -70,30 +81,28 @@ public class ClothesListController : MonoBehaviour {
 		foreach (Transform t in ComplimentsList) {
 			Destroy(t.gameObject);
 		}
+		*/
+		foreach (GameObject go in currentClothesLsit) {
+			Destroy (go);
+		}
+		currentClothesLsit.Clear ();
 	}
 
 	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
-        //UserAPI.VirtualGoodsDesciptor.VirtualGoods
 
-        //int idTraza = 0;
         if (UserAPI.VirtualGoodsDesciptor == null) return;
 
 		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
 
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
 			if (pType == GetTVGType (item.IdSubType)) {
+
 				GameObject cloth = Instantiate (Slot);
+					
+
 				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
 
-				//item.count  = idTraza % 2 == 0 ? 1 : 0;
-/*
-				if (item.count == 0) {
-                    var clrs = cloth.GetComponent<Button>().colors;
-                    clrs.normalColor = new Color32(200, 200, 200, 128);
-                    cloth.GetComponent<Button>().colors = clrs;
-                }
-*/
 				cs.name = item.Description;
 				cs.SetupSlot (item);	
 				
@@ -102,32 +111,34 @@ public class ClothesListController : MonoBehaviour {
 				case "MTORSO":
 				case "HTORSO":
 					cloth.transform.SetParent (TShirtsList);
+					currentClothesLsit.Add(cloth);
 					break;
 				case "MSHOE":
 				case "HSHOE":
 					cloth.transform.SetParent (ShoesList);
+					currentClothesLsit.Add(cloth);
 					break;
 				case "MPACK":
 				case "HPACK":
 					cloth.transform.SetParent (PacksList);
+					currentClothesLsit.Add(cloth);
 					break;
 				case "MHAT":
 				case "HHAT":
 				case "MCOMPLIMENT":
 				case "HCOMPLIMENT":
 					cloth.transform.SetParent (ComplimentsList);
+					currentClothesLsit.Add(cloth);
 					break;
 				default:
 					Destroy (cloth);
-					//Debug.LogError("VESTIDOR CONTROLLER: Me llegan elementos a la tienda que contemplo, como por ejemplo [" + item.IdSubType + "]" );
 					break;
 				}
 				if (item.count > 0) cloth.transform.SetAsFirstSibling();
 				cloth.name = item.Description;
 				cloth.transform.localScale = Vector3.one;
 
-				//idTraza++;
-				//Debug.Log(idTraza + ": [ClothesListController] in " + name + ": Generando prenda: <" + pType + " => " + item.IdSubType + ">");
+
 			}
 		}
 	}
@@ -144,6 +155,12 @@ public class ClothesListController : MonoBehaviour {
 		}
 		// Si es algun otro tipo que no conozco, asumo que es un complemento
 		return ProductType.Complement;
+	}
+
+	public void UpdateSelectedSlots() {
+		foreach (GameObject go in currentClothesLsit) {
+			go.GetComponent<ClothSlot>().UpdateSelection();
+		}
 	}
 
 	public void ShowTShirtsList() {
@@ -193,27 +210,4 @@ public class ClothesListController : MonoBehaviour {
 		ShoesTab.IsTabActive = false;
 		PacksTab.IsTabActive = false;
 	}
-
-	/*
-	public void AddSloth(ProductType productType, string productName, Sprite productPicture, string productPrice) {
-		GameObject slot = Instantiate(Slot);
-		switch (productType) {
-		case ProductType.TShirt:
-			slot.transform.parent = TShirtsList;
-			break;
-		case ProductType.Complement:
-			slot.transform.parent = ComplimentsList;
-			break;
-		case ProductType.Shoe:
-			slot.transform.parent = ShoesList;
-			break;
-		case ProductType.Pack:
-			slot.transform.parent = PacksList;
-			break;
-		}
-		slot.transform.localScale = Vector3.one;
-		slot.name = "Slot_" + productName;
-		slot.GetComponent<ClothSlot> ().SetupSlot (productName, productPicture, productPrice);
-	}*/
-
 }

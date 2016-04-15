@@ -3066,6 +3066,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheName: {fileID: 11443614}
   ThePicture: {fileID: 11442890}
+  OKButton: {fileID: 0}
   CancelButton: {fileID: 102214}
   GotoShopButton: {fileID: 133380}
   BuyButton: {fileID: 178438}
@@ -3120,7 +3121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
     m_FontSize: 30
@@ -3481,17 +3482,20 @@ MonoBehaviour:
   StandardTitleText: {fileID: 11406730}
   ThirdsProfileTitle: {fileID: 0}
   ThirdsProfileTitleText: {fileID: 0}
-  PurchasedPackGridContent: {fileID: 0}
-  PurchasedPackGridContentList: {fileID: 0}
-  PurchasedPackItemGridSlot: {fileID: 0}
-  PurchasedPackListContent: {fileID: 0}
-  PurchasedPackListContentList: {fileID: 0}
-  PurchasedContenidoVerticalListSlot: {fileID: 0}
-  AchievementGridContent: {fileID: 0}
-  AchievementGridContentList: {fileID: 0}
+  PurchasedPacksGridParent: {fileID: 0}
+  PurchasedPacksGridList: {fileID: 0}
+  PurchasedPacksGridSlot: {fileID: 0}
+  PurchasedPackContentParent: {fileID: 0}
+  PurchasedPackContentList: {fileID: 0}
+  PurchasedPackContentSlot: {fileID: 0}
+  AchievementsGridParent: {fileID: 0}
+  AchievementsGridList: {fileID: 0}
   AchievementSlot: {fileID: 0}
   SingleContent: {fileID: 147046}
   ProfileScreenController: {fileID: 0}
+  TheGameCanvas: {fileID: 0}
+  PackFlyerGameObject: {fileID: 0}
+  SettingsGameObject: {fileID: 0}
 --- !u!114 &11412230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3899,7 +3903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FillBar: {fileID: 11432140}
-  currentEnergy: {fileID: 0}
   CurrentEnergy: {fileID: 11467956}
   MaxEnergy: 10
 --- !u!114 &11418634
@@ -5287,7 +5290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
     m_FontSize: 30
@@ -6239,7 +6242,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UserName: {fileID: 11478982}
   Flag: {fileID: 11467912}
-  ProfilePicture: {fileID: 11464892}
 --- !u!114 &11467372
 MonoBehaviour:
   m_ObjectHideFlags: 1
