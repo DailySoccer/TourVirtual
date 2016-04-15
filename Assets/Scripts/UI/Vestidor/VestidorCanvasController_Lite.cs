@@ -120,6 +120,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         //if (currentPrenda == prenda) return;
         DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
+		// Actualizamos la lista para que marque como seleccionados las cosas que tengo puestas
+		ClothesListController.Instance.UpdateSelectedSlots ();
+
         if (currentPrenda != null)
         {
             BuyInfoButtom.SetActive(true);
@@ -128,8 +131,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         }
         else
             BuyInfoButtom.SetActive(false);
-
-
     }
 
     public void InfoBuyVirtualGood()

@@ -5,32 +5,24 @@ using System.Collections;
 public class ClothSlot : MonoBehaviour {
 
 	VestidorCanvasController_Lite VestidorControllerInstance;
+	ClothesListController MyParent;
 
 	//public Text ClothName;  // Esto se ha comentado porque se ha decidido no ponerlo.
 	public Image Picture;
 	public Text Price;
 	public Image Background;
 	public GameObject LabelOwned;
-
 	public VirtualGoodsAPI.VirtualGood virtualGood;
 
-	public bool Selected;
-
-	// Use this for initialization
-	void Start () {
-		GameObject vcc = GameObject.FindGameObjectWithTag ("VestidorController");
-		VestidorControllerInstance = vcc.GetComponent<VestidorCanvasController_Lite> ();
-	}
-
-	public void Reset() {
-		//ClothName.text = "";
-		Price.text = "";
-		// estoy seleccionado si estoy vistiendo al player.
-		//Selected = false;
-	}
-
+	string VirtualGoodSubtype;
+	
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
+
+		VestidorControllerInstance = VestidorCanvasController_Lite.Instance;
+
 		virtualGood = item;
+		VirtualGoodSubtype = item.IdSubType;
+
         //ClothName.text = "";//item.Description;
 		Price.text = item.Price.ToString();
 		if (item.count > 0) {
@@ -41,12 +33,54 @@ public class ClothSlot : MonoBehaviour {
 			LabelOwned.SetActive (false);
 		}
 
+		UpdateSelection ();
+
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
+	}
+
+	public void UpdateSelection() {
+		Background.color = CheckSelected () ? new Color (0.082f, 0.109f, 0.168f) : new Color (1f, 1f, 1f);
+	}
+
+	bool CheckSelected() {
+
+		
+		if (virtualGood == null) {
+			Debug.LogError (">>>>> [ClothSlot] in " + name + ": ClothSlot con VirtualGood NULL. Mi subtipo es: " + VirtualGoodSubtype);
+			return false;
+		}
+
+		switch (virtualGood.IdSubType) {
+			case "HTORSO":
+			case "MTORSO":
+				return UserAPI.AvatarDesciptor.Torso == virtualGood.GUID;
+				break;
+			case "HLEG":
+			case "MLEG":
+				return UserAPI.AvatarDesciptor.Legs == virtualGood.GUID;
+				break;
+			case "HSHOE":
+			case "MSHOE":
+				return UserAPI.AvatarDesciptor.Legs == virtualGood.GUID;
+				break;
+			case "HCOMPLIMENT":
+			case "MCOMPLIMENT":
+				return UserAPI.AvatarDesciptor.Compliment == virtualGood.GUID;
+				break;
+			case "HHAT":
+			case "MHAT":
+				return UserAPI.AvatarDesciptor.Hat == virtualGood.GUID;
+				break;
+			case "HPACK":
+			case "MPACK":
+				return UserAPI.AvatarDesciptor.Pack == virtualGood.GUID;
+				break;
+		}
+		return false;
 	}
 
 	public void Slot_ClickHandle() {
 		VestidorControllerInstance.TryToDressPlayer (this);
-
 	}
 
     void OnDestroy()
