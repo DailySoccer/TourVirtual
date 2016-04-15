@@ -87,6 +87,12 @@ public class PopUpWindow : MonoBehaviour {
 	void Update () {
 	}
 
+	public ModalLayout CurrentModalLayout{ get; set;}
+
+	void AnimEvent_PepareModal() {
+		SetState(CurrentModalLayout);
+	}
+
 	public void SetState(ModalLayout newPopUpLayout) {
 
 		ResetWindow ();

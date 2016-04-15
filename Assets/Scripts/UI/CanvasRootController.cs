@@ -33,7 +33,9 @@ public class CanvasRootController : MonoBehaviour {
 	void Start() {
 //		canvasLayers.FirstOrDefault(c => c.name.ToLower() == "start canvas").SetActive(true);
         LoadingCanvas.SetActive(true);
+		LoadingCanvas.GetComponentInChildren<UIScreen> ().IsOpen = true;
     }
+
 
     private void HideCanvasLayers() {
 		foreach(GameObject go in canvasLayers) {
@@ -92,12 +94,14 @@ public class CanvasRootController : MonoBehaviour {
 		//GameObject canvas;
 		switch(_roomManager.Room.Gui) {            
 			case RoomDefinition.GUI_GAME: // Game Scene
-                                          //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
-                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas").SetActive(true);
+                //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
+				GameObject goCanvasGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas");
+				goCanvasGame.SetActive(true);
                 break;
 
             case RoomDefinition.GUI_MINIGAMES: // Game Scene
-                canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas").SetActive(true);
+				GameObject goCanvasMiniGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas");
+				goCanvasMiniGame.SetActive(true);
                 break;
         }
 	}

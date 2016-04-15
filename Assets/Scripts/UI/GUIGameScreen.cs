@@ -35,7 +35,7 @@ public class GUIGameScreen : GUIScreen {
 	void OnEnable() {
 	}
 	
-	public override void OpenWindow() {
+	void UpdateTitle() {
 		GameObject titleObj = GameObject.Find ("Level Name").gameObject;
 		if (titleObj != null) {
 			titleObj.GetComponent<Animator>().SetBool("IsOpen", true);

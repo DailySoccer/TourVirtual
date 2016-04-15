@@ -48,6 +48,10 @@ public class UIScreen : MonoBehaviour {
 	{
 	}
 
+	public virtual void UpdateTitle()
+	{
+	}
+
 	public virtual void Update()
 	{
 		// Aseguramos que si un menu no está activado, no es interactuable.

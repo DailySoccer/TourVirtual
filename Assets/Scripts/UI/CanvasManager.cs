@@ -202,38 +202,7 @@ public class CanvasManager : MonoBehaviour {
 		ModalScreen.GetComponent<CanvasGroup>().interactable = true;
 
 		PopUpWindow modalPopUpWindow = ModalScreen.GetComponent<PopUpWindow> ();
-		modalPopUpWindow.SetState((ModalLayout)newModalLayout);
-
-		/*
-		switch((ModalLayout)newModalLayout) {
-			case ModalLayout.PURCHASED_PACKS_GRID:
-				modalPopUpWindow.();
-				break;
-			case ModalLayout.ACHIEVEMENTS_GRID:
-				modalPopUpWindow.SetupAchievementGridContent();
-				break;
-			case ModalLayout.PACK_FLYER:
-				modalPopUpWindow.LauchFlyerPackContent();
-				break;
-		
-			case ModalLayout.PURCHASED_LIST_CONTENT:
-				modalPopUpWindow.SetupPurchasedListContent();
-				break;
-			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
-				modalPopUpWindow.SetupSingleContentBuyContent();
-				break;
-			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
-				modalPopUpWindow.SetupSingleContentGoToShop();
-				break;
-			case ModalLayout.SINGLE_CONTENT_SARE:
-				modalPopUpWindow.SetupSingleContentToShare();
-				break;
-			case ModalLayout.THIRDS_PROFILE_CONTENT:				
-				break;
-
-			 
-		}*/
-
+		modalPopUpWindow.CurrentModalLayout = (ModalLayout)newModalLayout;
 	}
 
 	public void HideModalScreen() {
