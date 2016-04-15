@@ -12,7 +12,8 @@ using SmartLocalization;
 
 public class UserAPI {
 #if UNITY_EDITOR
-    public bool Online = true;
+   //TODO: put this value to 'true'
+    public bool Online = false;
 #else
 	public bool Online = true;
 #endif

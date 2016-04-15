@@ -21,12 +21,18 @@ public class JoystickController : MonoBehaviour {
     public string _axisHorizontalName;
     [SerializeField]
     public string _axisVerticalName;
+   [SerializeField]
+   [Range(0, 1)]
+   private float _deadZone = 0.01f;
 
     private int? _currentTouchId = null;
 	private Vector2 _touchStartPoint = Vector2.zero;
 	private Vector2 _touchCurrentPoint = Vector2.zero;
 	private Vector2 _deltaTouch = Vector2.zero;
 	private float _joystickBaseHalfWidth;
+
+   private float _deadRad;
+   private float _actionRad;
 	
 	private EventTrigger _eventTriggerCache;
 	
@@ -42,13 +48,16 @@ public class JoystickController : MonoBehaviour {
 #region "Getters / Communication interface"
 	
 	public Vector2 joystickValue {
-		get {
-            Vector2 val = (_touchCurrentPoint - _touchStartPoint) / _joystickBaseHalfWidth;
-            val.x += Input.GetAxis(_axisHorizontalName);
-            val.y += Input.GetAxis(_axisVerticalName);
+		get
+      {
+         Vector2 val = _touchCurrentPoint - _touchStartPoint;
+         val.x += Input.GetAxis(_axisHorizontalName);
+         val.y += Input.GetAxis(_axisVerticalName);
+         val.x = Mathf.Clamp01((Mathf.Abs(val.x) - _deadRad) / _actionRad) * Mathf.Sign(val.x);
+         val.y = Mathf.Clamp01((Mathf.Abs(val.y) - _deadRad) / _actionRad) * Mathf.Sign(val.y);
 
-            return val.magnitude > 1? val.normalized : val;
-		}
+         return val;
+      }
 	}
 	
 	public Vector2 deltaTouchValue {
@@ -73,6 +82,8 @@ public class JoystickController : MonoBehaviour {
 		AddEventListener(EventTriggerType.PointerUp, OnPointerUpHandler);
 		AddEventListener(EventTriggerType.Drag, OnPointerDragHandler);
 		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width / 2;
+
+      UpdateJoystickParams();
 		
 		ControlVisible(false);
 	}
@@ -89,13 +100,19 @@ public class JoystickController : MonoBehaviour {
 		
 		_eventTriggerCache.triggers.Add(entry);
 	}
-	
-	
-	
-	// Update is called once per frame
-	void Update () {
-		//debugText.text = string.Format(" ID: {0} ", _currentTouchId);
-		
+
+   private void UpdateJoystickParams()
+   {
+      _deadRad = _deadZone * _joystickBaseHalfWidth;
+      _actionRad = _joystickBaseHalfWidth - _deadRad;
+   }
+
+   // Update is called once per frame
+   void Update () {
+      //debugText.text = string.Format(" ID: {0} ", _currentTouchId);
+
+      UpdateJoystickParams();
+
 		if(_currentTouchId.HasValue) {
 			//debugImage.color = new Color(color.r, color.g, color.b, 0.5f);
 			

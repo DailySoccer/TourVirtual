@@ -14,8 +14,10 @@ public class SyncCameraTransform : MonoBehaviour {
 	public GameObject fpsPoint;
 	public GameObject thirdPersonPoint;
 	private float _currentPitch;
-	public const int MAX_PITCH = 35;
-	public const int MIN_PITCH = -35;
+   [Range(0, 90)]
+	public float MAX_PITCH;
+   [Range(-90, 0)]
+   public float MIN_PITCH;
 
 
 	// Use this for initialization
