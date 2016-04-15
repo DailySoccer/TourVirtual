@@ -306,16 +306,23 @@ public class RoomManager : Photon.PunBehaviour {
 #endif
 		if (OnSceneChange != null) OnSceneChange();
 		if (Room.SceneName != Application.loadedLevelName) {
-			if (DLCManager.Instance != null) {
+            Resources.UnloadUnusedAssets();
+            if (DLCManager.Instance != null) {
                 //DLCManager.Instance.ClearResources();
-                if (!string.IsNullOrEmpty(Room.BundleId)) {
+
+                if (Application.CanStreamedLevelBeLoaded(Room.SceneName))
+                    Debug.LogError(">>>> Escena precacheada " + Room.SceneName);
+
+                if (!string.IsNullOrEmpty(Room.BundleId) && !Application.CanStreamedLevelBeLoaded(Room.SceneName) ) {
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
             }
             Application.LoadLevel(Room.SceneName);
-		}
+            Resources.UnloadUnusedAssets();
 
-        if( !string.IsNullOrEmpty(Room.GamaAction)){
+        }
+
+        if ( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }

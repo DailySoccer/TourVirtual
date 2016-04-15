@@ -57,12 +57,12 @@ public class ClothSlot : MonoBehaviour {
 #if !UNITY_WSA
             DestroyImmediate(sprt.texture, true);
             Destroy(sprt);
-            Resources.UnloadUnusedAssets();
 #else
             Material mat = Picture.gameObject.GetComponent<Image>().material;
             if(mat.mainTexture) DestroyImmediate(mat.mainTexture, true);
             Destroy(mat);
 #endif
+            Resources.UnloadUnusedAssets();
         }
     }
 }
