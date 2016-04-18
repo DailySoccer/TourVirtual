@@ -135,21 +135,25 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void InfoBuyVirtualGood()
     {
-        bool EnoughMoney = currentPrenda.virtualGood.Price<= UserAPI.Instance.Points;
+        bool EnoughMoney = currentPrenda.virtualGood.Price <= UserAPI.Instance.Points;
+
+		//TogglePopUpScreen();
 
         popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
-        modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
-        modalDetail.TheName.text = currentPrenda.virtualGood.Description;
-        StartCoroutine(MyTools.LoadSpriteFromURL(currentPrenda.virtualGood.Thumb, modalDetail.ThePicture.gameObject));
+		popUpWindow.CurrentVestidorPrenda = currentPrenda;
 
-        if (currentPrenda.virtualGood.count != 0)
+         modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
+		 modalDetail.Setup (currentPrenda.virtualGood.Description, currentPrenda.virtualGood.Thumb);
+
+			
+		if (currentPrenda.virtualGood.count != 0)
         { // Lo tengo, presento informacion.
-            popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_INFO);
+            popUpWindow.TheGameCanvas.ShowModalScreen((int)ModalLayout.SINGLE_CONTENT_INFO);
         }
         else {
             if (EnoughMoney)
             {                
-                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_BUY_ITEM);
+				popUpWindow.TheGameCanvas.ShowModalScreen((int)ModalLayout.SINGLE_CONTENT_BUY_ITEM);
                 try
                 {
                     modalDetail.BuyButton.GetComponentInChildren<Text>().text = currentPrenda.Price.text;
@@ -163,7 +167,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 //                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
             }
         }
-        TogglePopUpScreen();
+        
 
     }
 

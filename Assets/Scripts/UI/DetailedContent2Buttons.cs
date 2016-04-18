@@ -32,6 +32,11 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	
 	}
 
+	public void Setup(string text, string imageUrl) {		
+		TheName.text = text;
+		StartCoroutine(MyTools.LoadSpriteFromURL(imageUrl, ThePicture.gameObject));
+	}
+
     // Update is called once per frame
     public void MyUpdate(DetailedContent2ButtonsLayout value)
     {

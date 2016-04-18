@@ -65,6 +65,8 @@ public class PopUpWindow : MonoBehaviour {
 
 	string currentSelectedItemGUID;
 
+	public ClothSlot CurrentVestidorPrenda;
+
     // Use this for initialization
     void Start () {
 		//StandardTitleText.gameObject.SetActive(true);
@@ -152,7 +154,12 @@ public class PopUpWindow : MonoBehaviour {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
+
+				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				//modalDetail.Setup (CurrentVestidorPrenda.virtualGood.Description, CurrentVestidorPrenda.virtualGood.Thumb);
+
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+
 				break;
 
 			case ModalLayout.SINGLE_CONTENT_SHARE:
@@ -245,7 +252,9 @@ public class PopUpWindow : MonoBehaviour {
 			ThePackFlyerModal = PackFlyerGameObject.GetComponent<PackFlyerModal> ();
 			ThePackFlyerModal.Reset ();
 		}
-		PackFlyerGameObject.SetActive(false);
+
+		if (PackFlyerGameObject != null)
+			PackFlyerGameObject.SetActive(false);
 
 		if (SettingsGameObject != null) {
 			SettingsGameObject.SetActive(false);
