@@ -26,7 +26,7 @@ public class PurchasedPackContentSlot : MonoBehaviour {
 	public Image    IconForContentTypeObject;
 	public Text     DescriptionText;
 
-	ContentAPI.Asset content;
+	public ContentAPI.Asset content;
 	PopUpWindow theParentController;
 
 	public void SetupSlot(PopUpWindow parentController, ContentAPI.Asset cont){//ContentAPI.AssetType type, string thumbURL, string description) {

@@ -249,7 +249,7 @@ public class CanvasManager : MonoBehaviour {
 	}
 
 
-	/*
+    /*
 	public void ShowScreenWithAnim(UIScreen guiScreen) {
 
 		_newScreen = guiScreen;
@@ -333,4 +333,11 @@ public class CanvasManager : MonoBehaviour {
 		return popUpScreen;
 	}
 	*/
+
+/*
+    void Start()
+    {
+        AllViewer.Instance.Show("http://www.phun.org/newspics/celebrity_butts/3/charlotte_mc_kinney.jpg", ContentAPI.AssetType.Photo, "Ttile");
+    }
+*/
 }

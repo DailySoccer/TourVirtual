@@ -345,13 +345,9 @@ public class PopUpWindow : MonoBehaviour {
 
 #if !LITE_VERSION
 	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
-		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
-
-		// TODO: Lanzar el visor ¿?
-
-		//SetupPurchasedPackContentList (item.Content.VirtualGoodID);
-		//TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
-	}
+        // Ocultar la lista.
+        AllViewer.Instance.Show(item.content.AssetUrl, item.content.Type, item.content.Title, ()=> { });
+    }
 #endif
 
 	/// <summary>

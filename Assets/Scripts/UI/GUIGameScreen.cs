@@ -36,14 +36,14 @@ public class GUIGameScreen : GUIScreen {
 	}
 	
 	void UpdateTitle() {
-		GameObject titleObj = GameObject.Find ("Level Name").gameObject;
+		GameObject titleObj = GameObject.Find ("Level Name");
 		if (titleObj != null) {
 			titleObj.GetComponent<Animator>().SetBool("IsOpen", true);
 		}
 	}
 	
 	public override void CloseWindow() {
-		GameObject titleObj = GameObject.Find ("Level Name").gameObject;
+		GameObject titleObj = GameObject.Find ("Level Name");
 		if (titleObj != null) {
 			if (titleObj.GetComponent<Animator>().GetBool("IsOpen"))
 				titleObj.GetComponent<Animator>().SetBool("IsOpen", false);

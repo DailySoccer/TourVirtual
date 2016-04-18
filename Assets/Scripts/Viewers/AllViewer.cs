@@ -4,19 +4,16 @@ using UnityEngine;
 using System.Collections;
 
 public class AllViewer : MonoBehaviour {
-    public enum ViewerMode{
-        None,
-        Image,
-        Model,
-        Video
-    };
-
-    ViewerMode currentMode= ViewerMode.None;
+    public delegate void callback();
+    ContentAPI.AssetType currentMode = ContentAPI.AssetType.Binary;
     Coroutine lastCoroutine;
     Camera ViewerCamera;
     GameObject model;
     Vector2 lastTouch;
+
     bool draggin = false;
+
+    callback endCallback;
 
     Vector2 textureSize;
     Texture2D texture;
@@ -27,6 +24,8 @@ public class AllViewer : MonoBehaviour {
 
     public UIScreen visorCanvas;
     public UnityEngine.UI.Text txtTitle;
+    public UnityEngine.UI.Image image;
+    RectTransform rectTransform;
 
     public static AllViewer Instance { get; private set;  }
 
@@ -36,8 +35,9 @@ public class AllViewer : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void Show(string url, ViewerMode mode, string title="" )
-    {
+    public void Show(string url, ContentAPI.AssetType mode, string title="", callback endCallback = null ) {
+        this.endCallback = endCallback;
+
         currentMode = mode;
         enabled = true;
         CanvasManager cm = gameObject.GetComponent<CanvasManager>();
@@ -48,11 +48,11 @@ public class AllViewer : MonoBehaviour {
         cm.MainCamera.SetActive(false);
 
         switch(mode) {
-            case ViewerMode.Image:
+            case ContentAPI.AssetType.Photo:
                 lastCoroutine = StartCoroutine(DownloadImage(url));
                 midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
                 break;
-            case ViewerMode.Model:
+            case ContentAPI.AssetType.Model3D:
                 ViewerCamera = new GameObject("ViewerCamera", typeof(Camera)).GetComponent<Camera>();
                 ViewerCamera.clearFlags = CameraClearFlags.SolidColor;
                 ViewerCamera.backgroundColor = Color.black;
@@ -63,7 +63,7 @@ public class AllViewer : MonoBehaviour {
                 light.transform.parent = ViewerCamera.transform;
                 lastCoroutine = StartCoroutine(DownloadModel(url));
                 break;
-            case ViewerMode.Video:
+            case ContentAPI.AssetType.Video:
                 Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Minimal);
                 enabled = false;
                 break;
@@ -92,36 +92,40 @@ public class AllViewer : MonoBehaviour {
 
     IEnumerator DownloadImage(string url) {
         LoadingCanvasManager.Show();
-        WWW www = new WWW(url);
-        yield return www;
+
+        yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
         LoadingCanvasManager.Hide();
-        texture = www.texture;
-        textureSize = new Vector2(texture.width, texture.height);
-        if (textureSize.x > textureSize.y) {
+        image.SetNativeSize();        
+        rectTransform = image.GetComponent<RectTransform>();
+        textureSize = rectTransform.offsetMax - rectTransform.offsetMin;
+        if (textureSize.x > textureSize.y)
+        {
             float scale = 1;
-            if (textureSize.x > Screen.width) {
+            if (textureSize.x > Screen.width)
+            {
                 scale = Screen.width / textureSize.x;
                 textureSize.x = Screen.width;
                 textureSize.y *= scale;
             }
         }
-        else {
+        else
+        {
             float scale = 1;
-            if (textureSize.y > Screen.height) {
+            if (textureSize.y > Screen.height)
+            {
                 scale = Screen.height / textureSize.y;
                 textureSize.y = Screen.height;
                 textureSize.x *= scale;
             }
         }
-
         zoomSize = textureSize.x;
     }
 
 
     void Update() {
         switch (currentMode) {
-            case ViewerMode.Model: UpdateModel(); break;
-            case ViewerMode.Image: UpdateImage(); break;
+            case ContentAPI.AssetType.Model3D: UpdateModel(); break;
+            case ContentAPI.AssetType.Photo: UpdateImage(); break;
         }
     }
 
@@ -145,9 +149,33 @@ public class AllViewer : MonoBehaviour {
         else
             draggin = false;
     }
-
     void UpdateImage()
     {
+#if UNITY_EDITOR
+        if( Input.GetMouseButton(0) )
+        {
+            float dx = Screen.width / 1280.0f;
+            float dy = Screen.height / 720.0f;
+            if (!draggin)
+            {
+                lastTouch = Input.mousePosition;
+                draggin = true;
+            }
+            else
+            {
+                Vector2 diff = ((Vector2)Input.mousePosition - lastTouch) ;
+                lastTouch = Input.mousePosition;
+                offset += new Vector2(diff.x / dx, -diff.y / dy);
+            }
+            if (!Input.GetKey(KeyCode.LeftShift)) zoomSize -= 10;
+            if (!Input.GetKey(KeyCode.RightShift)) zoomSize += 10;
+            if (zoomSize < textureSize.x) zoomSize = textureSize.x;
+            if (zoomSize > textureSize.x*4) zoomSize = textureSize.x * 4;
+
+        }
+        else
+            draggin = false;
+#else
         // If there are two touches on the device...
         if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
@@ -190,29 +218,28 @@ public class AllViewer : MonoBehaviour {
                 else
                 if (Input.GetTouch(0).phase == TouchPhase.Moved && draggin)
                 {
+                    float dx = Screen.width / 1280.0f;
+                    float dy = Screen.height / 720.0f;
                     Touch touch = Input.GetTouch(0);
                     Vector3 diff = Input.GetTouch(0).position - lastTouch;
                     lastTouch = Input.GetTouch(0).position;
-                    offset += new Vector2(diff.x, -diff.y);
+                    offset += new Vector2(diff.x/dx, -diff.y/dy);
                 }
             }
             else
                 draggin = false;
         }
-    }
 
-    void OnGUI()
-    {
-        if (texture)
-        {
-            float zoom = zoomSize / textureSize.x;
-            if (zoom < 1) zoom = 1;
-            Rect r = new Rect(offset.x + midScreen.x - textureSize.x * 0.5f * zoom, offset.y + midScreen.y - textureSize.y * 0.5f * zoom,
-                textureSize.x * zoom, textureSize.y * zoom);
-            GUI.DrawTexture(r, texture);
+
+#endif
+        float zoom = zoomSize / textureSize.x;
+        if (zoom < 1) zoom = 1;
+        if (rectTransform != null) {
+            rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
+            rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom,  textureSize.y * 0.5f * zoom - offset.y);
+            //rectTransform.rect.Set(offset.x + midScreen.x - textureSize.x * 0.5f * zoom, offset.y + midScreen.y - textureSize.y * 0.5f * zoom, textureSize.x * zoom, textureSize.y * zoom);
         }
     }
-
 
     void OnDisable() {
         CanvasManager cm = gameObject.GetComponent<CanvasManager>();
@@ -221,6 +248,9 @@ public class AllViewer : MonoBehaviour {
 
         Destroy(ViewerCamera);
         Destroy(model);
+
+        if (this.endCallback != null) this.endCallback();
+
     }
 
     public void Close() {
