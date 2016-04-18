@@ -198,9 +198,21 @@ public class CanvasManager : MonoBehaviour {
 			return;
 		}
 
+		// Lanzamos la modal, solo si está cerrada previamente.
+		HideModalScreen ();
+		StartCoroutine (ModalCloseBeforeOpenAgain(newModalLayout));
+	}
+
+
+	IEnumerator ModalCloseBeforeOpenAgain(int newModalLayout) {
+
+		while (ModalScreen.InOpenState) {
+			yield return null;
+		}
+
 		ModalScreen.IsOpen = true;
 		ModalScreen.GetComponent<CanvasGroup>().interactable = true;
-
+		
 		PopUpWindow modalPopUpWindow = ModalScreen.GetComponent<PopUpWindow> ();
 		modalPopUpWindow.CurrentModalLayout = (ModalLayout)newModalLayout;
 	}

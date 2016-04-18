@@ -20,7 +20,9 @@ public enum ModalLayout {
 }
 
 public class PopUpWindow : MonoBehaviour {
-	
+
+	public GameObject ModalBase;
+
 	public GameObject CloseButton;
 
 	// Titulos
@@ -61,6 +63,8 @@ public class PopUpWindow : MonoBehaviour {
 
 	public GameObject SettingsGameObject;
 
+	string currentSelectedItemGUID;
+
     // Use this for initialization
     void Start () {
 		//StandardTitleText.gameObject.SetActive(true);
@@ -90,6 +94,14 @@ public class PopUpWindow : MonoBehaviour {
 	public ModalLayout CurrentModalLayout{ get; set;}
 
 	void AnimEvent_PepareModal() {
+		StartCoroutine(WaitForModalBaseEnable());
+	}
+
+	public IEnumerator WaitForModalBaseEnable() {
+		while (!ModalBase.GetActive()) {
+			yield return null;
+		}
+		// cuando la base de la modal está activa... ajecutamos sus operaciones
 		SetState(CurrentModalLayout);
 	}
 
@@ -111,6 +123,8 @@ public class PopUpWindow : MonoBehaviour {
 				PurchasedPackContentParent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackContent");
+				// 'currentSelectedItemGUID': Seteado al hacer click sobre un pack comprado
+				SetupPurchasedPackContentList (currentSelectedItemGUID);
 				break;
 					
 			case ModalLayout.ACHIEVEMENTS_GRID:
@@ -166,7 +180,6 @@ public class PopUpWindow : MonoBehaviour {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
 				break;
 		}
-
 	}
 
 	public void ResetWindow() {
@@ -255,10 +268,12 @@ public class PopUpWindow : MonoBehaviour {
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
-		SetupPurchasedPackContentList (item.Content.GUID);
-	}
-#endif
+		currentSelectedItemGUID = item.Content.GUID;
 
+		//SetupPurchasedPackContentList (item.Content.GUID);
+	}
+
+#endif
 
 	/// <summary>
 	/// Prepara la pantalla de contenido de un pack comprado
@@ -301,6 +316,9 @@ public class PopUpWindow : MonoBehaviour {
 #if !LITE_VERSION
 	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+
+		// TODO: Lanzar el visor ¿?
+
 		//SetupPurchasedPackContentList (item.Content.VirtualGoodID);
 		//TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 	}
