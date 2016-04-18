@@ -147,16 +147,18 @@ public class PopUpWindow : MonoBehaviour {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Buy");
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
 				break;
+
 			case ModalLayout.SINGLE_CONTENT_INFO:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 				break;
+
 			case ModalLayout.SINGLE_CONTENT_SHARE:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
-			StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 				break;
 					
@@ -167,11 +169,31 @@ public class PopUpWindow : MonoBehaviour {
 				break;			
 				
 			case ModalLayout.PACK_FLYER:
-				PackFlyerGameObject.SetActive (true);
-				StandardTitleText.gameObject.SetActive (true);
-				LauchFlyerPackContent();
-				//StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackFlyerTitle");
-				//SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+				// Coger el id del pack asociado a la vitrina
+				string packId = ContentManager.Instance.ContentNear.ContentKey;
+			
+				ContentAPI.Content content = UserAPI.Contents.GetContentByID (packId);
+			
+				if (content == null) {
+					// Ha sucedido un error inesperado
+					TheGameCanvas.HideModalScreen();
+					ModalTextOnly.ShowText("Ha ocurrido un error con el Pack: \"" + packId + "\" y no se puede mostrar el contenido solicitado");
+					return;
+				}
+
+				if (content.owned) {
+					// El contenido está comprado, asique mostramos la lista de contenidos
+					currentSelectedItemGUID = content.GUID;
+					SetState(ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+					return;
+				}
+				else {
+					// No tenemos el contenido, asique mostramos el flyer
+					PackFlyerGameObject.SetActive (true);
+					StandardTitleText.gameObject.SetActive (true);
+					StandardTitleText.text = content.Description;
+					SetupFlyerPackContent(content, packId);
+				}
 				break;
 
 			case ModalLayout.SETTINGS:
@@ -267,9 +289,8 @@ public class PopUpWindow : MonoBehaviour {
 #if !LITE_VERSION
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		currentSelectedItemGUID = item.Content.GUID;
-
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
 
@@ -396,47 +417,19 @@ public class PopUpWindow : MonoBehaviour {
 
 
 
+	public void SetupFlyerPackContent(ContentAPI.Content content, string packId) {	
+	
+		Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
 
+		LoadingCanvasManager.Show ();
 
+		// Setear el título de la ventana
+		StandardTitleText.gameObject.SetActive (true);			
+		// Recuperar la info del pack: Thumb, titulo, contenidos y configuramos la ventana
+		ThePackFlyerModal.Setup (content);
+		// Solicitamos el contenido del pack y montamos el flyer
+		StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
 
-
-	public void LauchFlyerPackContent() {	
-
-		// Coger el id del pack asociado a la vitrina
-		string packId = ContentManager.Instance.ContentNear.ContentKey;
-
-		ContentAPI.Content content = UserAPI.Contents.GetContentByID (packId);
-
-		if (content == null) {
-			// Ha sucedido un error inesperado
-			TheGameCanvas.HideModalScreen ();
-			ModalTextOnly.ShowText("Ha ocurrido un error con el Pack: \"" + packId + "\" y no se puede mostrar el contenido solicitado");
-			return;
-		}
-
-//		ResetWindow ();
-
-		StandardTitleText.text = content.Description;
-
-		if (content.owned) {
-			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina ya está desbloqueado");
-			// Abrimos el modal con la lista de contenidos
-			TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
-			SetupPurchasedPackContentList (content.GUID);
-		} else {
-			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
-
-			LoadingCanvasManager.Show ();
-
-			// Setear el título de la ventana
-			StandardTitleText.gameObject.SetActive (true);
-			
-			// Recuperar la info del pack: Thumb, titulo, contenidos y configuramos la ventana
-			ThePackFlyerModal.Setup (content);
-
-			// Solicitamos el contenido del pack y montamos el flyer
-			StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
-		}
 	}
 
 
