@@ -917,7 +917,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189534}
   serializedVersion: 2
-  m_Mass: 10000
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571f1cc6a4b629641b898a5d7a80038e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMine: 0
+  isLocal: 1
 --- !u!114 &11463200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1328,6 +1328,10 @@ Prefab:
       propertyPath: ObservedComponents.Array.data[0]
       value: 
       objectReference: {fileID: 11430470}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 189534}
