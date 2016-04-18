@@ -40,10 +40,11 @@ public class AllViewer : MonoBehaviour {
 
         currentMode = mode;
         enabled = true;
-        CanvasManager cm = gameObject.GetComponent<CanvasManager>();
-        cm.ShowScreen(visorCanvas);
+        //cm.ShowScreen(visorCanvas);
+        visorCanvas.IsOpen = false;
         txtTitle.text = title;
 
+        CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
 
@@ -242,12 +243,13 @@ public class AllViewer : MonoBehaviour {
     }
 
     void OnDisable() {
-        CanvasManager cm = gameObject.GetComponent<CanvasManager>();
+        CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         cm.MainCamera.SetActive(true);
-        cm.ShowLastScreen();
 
-        Destroy(ViewerCamera);
-        Destroy(model);
+        visorCanvas.IsOpen = false;
+
+        if (ViewerCamera!=null) Destroy(ViewerCamera);
+        if (ViewerCamera != null) Destroy(model);
 
         if (this.endCallback != null) this.endCallback();
 
