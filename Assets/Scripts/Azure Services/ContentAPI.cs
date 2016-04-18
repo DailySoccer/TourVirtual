@@ -335,19 +335,34 @@ public class ContentAPI
             var asset = assets.Current as Dictionary<string, object>;
             var body = bodies.Current as Dictionary<string, object>;
 
-            var resURL = (asset["AssetUrl"] as string).Substring(7);
-            var AssetURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/" + resURL;
+            AssetType at = (AssetType)(double)asset["Type"];
 
-            if (!resURL.Contains(".png") && !resURL.Contains(".jpg"))
+            var sd = "/";
+            switch (at)
             {
+                case AssetType.Photo: sd = "/pic/"; break;
+                case AssetType.Model3D:
+                    #if UNITY_ANDROID
+                                sd = "/3ds/Android/";
+                    #elif UNITY_IOS
+			                    sd = "/3ds/ios/";
+                    #else
+			                    sd = "/3ds/Windows/";
+                    #endif
+                    break;
+                case AssetType.Video: sd = "/vid/"; break;
+            }
+            var resURL = (asset["AssetUrl"] as string).Substring(7);
+            var AssetURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + sd + resURL;
+
+            if (!resURL.Contains(".png") && !resURL.Contains(".jpg")) {
                 int idx = resURL.IndexOf(".");
                 if (idx != -1) resURL = resURL.Substring(0, idx);
                 resURL += ".png";
             }
             var ThumbnailURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/thumbnails/" + resURL;
 
-            ret.Add( new Asset(body["Title"] as string, body["Body"] as string,
-                AssetURL, ThumbnailURL, (AssetType)(double)asset["Type"]));
+            ret.Add( new Asset(body["Title"] as string, body["Body"] as string,AssetURL, ThumbnailURL, at));
         }
         return ret;
     }
