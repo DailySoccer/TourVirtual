@@ -15,24 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &115040
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 488726}
-  - 33: {fileID: 3323814}
-  - 23: {fileID: 2335512}
-  m_Layer: 0
-  m_Name: galleta (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967294
   m_IsActive: 1
 --- !u!4 &458092
 Transform:
@@ -43,21 +26,8 @@ Transform:
   m_LocalRotation: {x: -.549525261, y: .444996744, z: .444996804, w: .549525142}
   m_LocalPosition: {x: -8.13799953, y: 1.52199996, z: 16.8129997}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 488726}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
---- !u!4 &488726
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115040}
-  m_LocalRotation: {x: .694372773, y: -.719615579, z: 0, w: -1.45286322e-07}
-  m_LocalPosition: {x: .00166317122, y: -.00782461651, z: .00400006678}
-  m_LocalScale: {x: .398850113, y: .398849785, z: .398849785}
   m_Children: []
-  m_Father: {fileID: 458092}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2322584
 MeshRenderer:
@@ -84,37 +54,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!23 &2335512
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115040}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: bba5d078d4d6f0343bb191658389d794, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!33 &3323814
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115040}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3380942
 MeshFilter:
   m_ObjectHideFlags: 1
