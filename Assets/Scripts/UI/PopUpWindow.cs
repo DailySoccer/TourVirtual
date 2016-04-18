@@ -255,7 +255,7 @@ public class PopUpWindow : MonoBehaviour {
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
-		SetupPurchasedPackContentList (item.Content.VirtualGoodID);
+		SetupPurchasedPackContentList (item.Content.GUID);
 	}
 #endif
 
@@ -404,7 +404,7 @@ public class PopUpWindow : MonoBehaviour {
 			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina ya está desbloqueado");
 			// Abrimos el modal con la lista de contenidos
 			TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
-			SetupPurchasedPackContentList (content.VirtualGoodID);
+			SetupPurchasedPackContentList (content.GUID);
 		} else {
 			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
 

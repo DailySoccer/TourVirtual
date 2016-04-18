@@ -317,9 +317,8 @@ public class ContentAPI
         else {
             yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contenid), (res) =>{
                 if (res != "null")
-                {
-                    if (callback != null) callback(ParseContent(res));
-                }
+                    if (callback != null)
+                        callback(ParseContent(res));
             });
         }
     }
