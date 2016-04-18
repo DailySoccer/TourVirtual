@@ -328,15 +328,26 @@ public class ContentAPI
         Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
         List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
         List<object>.Enumerator bodies = (contents["Body"] as List<object>).GetEnumerator();
-
+        var contenidoID = contents["SourceId"] as string;
         while (assets.MoveNext())
         {
             bodies.MoveNext();
             var asset = assets.Current as Dictionary<string, object>;
             var body = bodies.Current as Dictionary<string, object>;
 
+            var resURL = (asset["AssetUrl"] as string).Substring(7);
+            var AssetURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/" + resURL;
+
+            if (!resURL.Contains(".png") && !resURL.Contains(".jpg"))
+            {
+                int idx = resURL.IndexOf(".");
+                if (idx != -1) resURL = resURL.Substring(0, idx);
+                resURL += ".png";
+            }
+            var ThumbnailURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/thumbnails/" + resURL;
+
             ret.Add( new Asset(body["Title"] as string, body["Body"] as string,
-                asset["AssetUrl"] as string, asset["ThumbnailUrl"] as string, (AssetType)(double)asset["Type"]));
+                AssetURL, ThumbnailURL, (AssetType)(double)asset["Type"]));
         }
         return ret;
     }
