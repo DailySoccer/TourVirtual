@@ -355,11 +355,10 @@ public class ContentAPI
             var resURL = (asset["AssetUrl"] as string).Substring(7);
             var AssetURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + sd + resURL;
 
-            if (!resURL.Contains(".png") && !resURL.Contains(".jpg")) {
-                int idx = resURL.IndexOf(".");
-                if (idx != -1) resURL = resURL.Substring(0, idx);
-                resURL += ".png";
-            }
+            int idx = resURL.IndexOf(".");
+            if (idx != -1) resURL = resURL.Substring(0, idx);
+            resURL += ".jpg";
+
             var ThumbnailURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/thumbnails/" + resURL;
 
             ret.Add( new Asset(body["Title"] as string, body["Body"] as string,AssetURL, ThumbnailURL, at));
