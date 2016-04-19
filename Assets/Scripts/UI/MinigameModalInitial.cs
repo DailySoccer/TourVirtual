@@ -54,15 +54,18 @@ public class MinigameModalInitial : MonoBehaviour {
 		} else {
 			ranking = UserAPI.Instance.GetHighScore (MinigameType);
 		}
-
-		for(int i = 0; i < ranking.Length || i < MAX_RANKING_COUNT; i++) {
-			GameObject r = Instantiate(RankingSlotElement);
-			r.GetComponent<RankingSlot>().Setup(i.ToString(), ranking[i].Nick, ranking[i].Score.ToString()); 
-			r.transform.SetParent(RankingParentList.transform);
-			r.transform.localScale = Vector3.one;
-			r.name = "RankingPos_" + i.ToString();
-			rankingSlots.Add(r);
-		}
+        if (ranking != null)
+        {
+            for (int i = 0; i < ranking.Length || i < MAX_RANKING_COUNT; i++)
+            {
+                GameObject r = Instantiate(RankingSlotElement);
+                r.GetComponent<RankingSlot>().Setup(i.ToString(), ranking[i].Nick, ranking[i].Score.ToString());
+                r.transform.SetParent(RankingParentList.transform);
+                r.transform.localScale = Vector3.one;
+                r.name = "RankingPos_" + i.ToString();
+                rankingSlots.Add(r);
+            }
+        }
 	}
 }
 
