@@ -277,6 +277,7 @@ public class AllViewer : MonoBehaviour {
         if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
         if (model != null) Destroy(model);
         if (assetbundle != null) assetbundle.Unload(true);
+        if (image.sprite != null) { Destroy(image.sprite); image.sprite = null; }
 
         if (this.endCallback != null) this.endCallback();
 
