@@ -179,6 +179,8 @@ public class MainManager : Photon.PunBehaviour {
     }
 
    void Awake() {
+        Application.targetFrameRate = 30;
+
         Instance = this;
         //StartCoroutine(MyTools.LoadSpriteFromURL("https://az726872.vo.msecnd.net/global-virtualgoods/8a0afa68-55e6-4c6a-ba08-a9c96934351b.png", null));
 		OfflineMode = Application.internetReachability == NetworkReachability.NotReachable;
