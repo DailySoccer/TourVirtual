@@ -2301,7 +2301,6 @@ GameObject:
   - 224: {fileID: 22407706}
   - 222: {fileID: 22252256}
   - 114: {fileID: 11409862}
-  - 114: {fileID: 11427330}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -4919,6 +4918,7 @@ MonoBehaviour:
   TheGameCanvas: {fileID: 0}
   PackFlyerGameObject: {fileID: 0}
   SettingsGameObject: {fileID: 0}
+  CurrentVestidorPrenda: {fileID: 0}
 --- !u!114 &11409862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6124,18 +6124,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11427330
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.Button.Buy
 --- !u!114 &11428038
 MonoBehaviour:
   m_ObjectHideFlags: 1

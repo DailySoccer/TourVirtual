@@ -110,13 +110,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void EnableTopMenu(bool val)
     {
-        TopMenu.SetActive(val);
+        TopMenu.SetActive(val);	
     }
 
     ClothSlot currentPrenda;
-    public void TryToDressPlayer(ClothSlot prenda)
+   
+	public void TryToDressPlayer(ClothSlot prenda)
     {
         currentPrenda = prenda;
+
         //if (currentPrenda == prenda) return;
         DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
@@ -142,8 +144,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
 		popUpWindow.CurrentVestidorPrenda = currentPrenda;
 
-         modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
-		 modalDetail.Setup (currentPrenda.virtualGood.Description, currentPrenda.virtualGood.Thumb);
+        // modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
+		// modalDetail.Setup (currentPrenda.virtualGood.Description, currentPrenda.virtualGood.Thumb);
 
 			
 		if (currentPrenda.virtualGood.count != 0)
@@ -329,7 +331,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     private void ShowScreen(GUIScreen guiScreen)
     {
-        Debug.LogWarning("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
+        //Debug.LogWarning("[CanvasManager]: GameCanvasManager/ShowScreen() [Función deprecada]: Esta función no garantiza apagar la cámara de segundo plano. ");
         if (currentGUIScreen != null && guiScreen != currentGUIScreen)
         {
             currentGUIScreen.CloseWindow();
@@ -344,7 +346,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             currentGUIScreen.IsOpen = true;
         }
         else {
-            Debug.LogError("[CanvasManager]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
+            Debug.LogWarning("[CanvasManager]: La guiScreen es null. Estás cerrando todas las screens ? ó quizás no has establecido la primera desde el inspector.");
         }
     }
 
