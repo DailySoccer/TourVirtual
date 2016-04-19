@@ -262,12 +262,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 break;
             case "HSHOE":
             case "MSHOE":
-                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+			if (UserAPI.AvatarDesciptor.Feet == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Legs = null;
-                }
-                else
+					UserAPI.AvatarDesciptor.Feet = null;
+			}
+			else
                     UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
                 //                    UserAPI.AvatarDesciptor.Pack = null;
                 break;

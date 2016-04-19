@@ -61,7 +61,7 @@ public class ClothSlot : MonoBehaviour {
 				break;
 			case "HSHOE":
 			case "MSHOE":
-				return UserAPI.AvatarDesciptor.Legs == virtualGood.GUID;
+			return UserAPI.AvatarDesciptor.Feet == virtualGood.GUID;
 				break;
 			case "HCOMPLIMENT":
 			case "MCOMPLIMENT":
