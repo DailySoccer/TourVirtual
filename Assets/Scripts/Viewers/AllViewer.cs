@@ -41,15 +41,18 @@ public class AllViewer : MonoBehaviour {
         currentMode = mode;
         enabled = true;
         //cm.ShowScreen(visorCanvas);
-        visorCanvas.IsOpen = false;
+        visorCanvas.IsOpen = true;
         txtTitle.text = title;
 
         CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
 
-        switch(mode) {
+
+		switch(mode) {
             case ContentAPI.AssetType.Photo:
+				image.sprite = null;
+				image.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
                 lastCoroutine = StartCoroutine(DownloadImage(url));
                 midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
                 break;
@@ -95,6 +98,7 @@ public class AllViewer : MonoBehaviour {
         LoadingCanvasManager.Show();
 
         yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
+		image.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
         LoadingCanvasManager.Hide();
         image.SetNativeSize();        
         rectTransform = image.GetComponent<RectTransform>();
