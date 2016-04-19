@@ -199,7 +199,7 @@ public class PopUpWindow : MonoBehaviour {
 					PackFlyerGameObject.SetActive (true);
 					StandardTitleText.gameObject.SetActive (true);
 					StandardTitleText.text = content.Description;
-					SetupFlyerPackContent(content, packId);
+					SetupFlyerPackContent(content);
 				}
 				break;
 
@@ -409,21 +409,7 @@ public class PopUpWindow : MonoBehaviour {
     }
 #endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void SetupFlyerPackContent(ContentAPI.Content content, string packId) {	
-	
+	public void SetupFlyerPackContent(ContentAPI.Content content) {	
 		Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
 
 		LoadingCanvasManager.Show ();
@@ -433,7 +419,7 @@ public class PopUpWindow : MonoBehaviour {
 		// Recuperar la info del pack: Thumb, titulo, contenidos y configuramos la ventana
 		ThePackFlyerModal.Setup (content);
 		// Solicitamos el contenido del pack y montamos el flyer
-		StartCoroutine (UserAPI.Contents.GetContent (packId, PackFlyerContentCallBack));
+		StartCoroutine (UserAPI.Contents.GetContent (content.GUID, PackFlyerContentCallBack));
 
 	}
 

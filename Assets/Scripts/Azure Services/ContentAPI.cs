@@ -386,25 +386,27 @@ public class ContentAPI
 							string title = vg.ContainsKey("Title")?vg["Title"] as string:"";
 							string desc = vg.ContainsKey("Description")?vg["Description"] as string:"";
                             string internalID = "";
-							if(vg.ContainsKey("Links")){
+                            string contenidoID = "";
+                            if (vg.ContainsKey("Links")){
                             	List<object> links = vg["Links"] as List<object>;
-                            	if(links!=null && links.Count>0) internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
-							}
-							if(vg.ContainsKey("Asset")){
+                                if (links != null && links.Count > 0) {
+                                    internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
+                                    var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
+                                    if (vgdsc != null) contenidoID = vgdsc.Description;
+                                }
+                            }
+                            if (vg.ContainsKey("Asset")){
 								Dictionary<string, object> asset = vg["Asset"] as Dictionary<string, object>;
 								if(asset!=null){
 									string packURL = asset.ContainsKey("AssetUrl")?asset["AssetUrl"] as string:"";
 									string thumbnailUrl = asset.ContainsKey("ThumbnailUrl")?asset["ThumbnailUrl"] as string:"";
-
-                                    string contenidoID = "";
-                                    var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
-                                    if (vgdsc != null) contenidoID = vgdsc.Description;
-
-
                                     Content tmp = new Content(guid, internalID, contenidoID, title, desc, packURL.Substring(7));
 		                            Contents.Add(guid, tmp);
 		                            TotalContents++;
-								}
+                                }else
+                                {
+                                    Debug.LogError(">>>> " + contenidoID + " Sin assets "+ title + " LANG "+ Authentication.AzureServices.MainLanguage);
+                                }
 							}
                         }
                         // Vemos si tiene que seguir paginando.

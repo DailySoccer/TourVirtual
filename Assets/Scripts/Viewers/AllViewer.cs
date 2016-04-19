@@ -8,8 +8,10 @@ public class AllViewer : MonoBehaviour {
     ContentAPI.AssetType currentMode = ContentAPI.AssetType.Binary;
     Coroutine lastCoroutine;
     Camera ViewerCamera;
+    Light ViewerLight;
     GameObject model;
     Vector2 lastTouch;
+    AssetBundle assetbundle;
 
     bool draggin = false;
 
@@ -26,6 +28,8 @@ public class AllViewer : MonoBehaviour {
     public UnityEngine.UI.Text txtTitle;
     public UnityEngine.UI.Image image;
     RectTransform rectTransform;
+
+    public Canvas[] toHide;
 
     public static AllViewer Instance { get; private set;  }
 
@@ -47,24 +51,32 @@ public class AllViewer : MonoBehaviour {
         CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
-
-
-		switch(mode) {
+        var canvas = gameObject.GetComponent<Canvas>();
+        switch (mode) {
             case ContentAPI.AssetType.Photo:
 				image.sprite = null;
 				image.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
                 lastCoroutine = StartCoroutine(DownloadImage(url));
                 midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.worldCamera = null;
                 break;
             case ContentAPI.AssetType.Model3D:
                 ViewerCamera = new GameObject("ViewerCamera", typeof(Camera)).GetComponent<Camera>();
                 ViewerCamera.clearFlags = CameraClearFlags.SolidColor;
                 ViewerCamera.backgroundColor = Color.black;
-                ViewerCamera.gameObject.layer= LayerMask.NameToLayer("UI");
+                ViewerCamera.gameObject.layer= LayerMask.NameToLayer("Model3D");
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                canvas.worldCamera = ViewerCamera;
+                if (toHide != null) {
+                    foreach (var hide in toHide)
+                        hide.enabled = false;
+                }
 
-                var light = new GameObject("Light", typeof(Light)).GetComponent<Light>();
-                light.transform.rotation = Quaternion.Euler(50, 330, 0);
-                light.transform.parent = ViewerCamera.transform;
+                ViewerLight = new GameObject("Light", typeof(Light)).GetComponent<Light>();
+                ViewerLight.transform.rotation = Quaternion.Euler(50, 330, 0);
+                ViewerLight.transform.parent = ViewerCamera.transform;
+                ViewerLight.cullingMask = LayerMask.GetMask("Model3D");
                 lastCoroutine = StartCoroutine(DownloadModel(url));
                 break;
             case ContentAPI.AssetType.Video:
@@ -83,13 +95,14 @@ public class AllViewer : MonoBehaviour {
         LoadingCanvasManager.Hide();
         if (!string.IsNullOrEmpty(www.error))
         {
-            Camera.current.backgroundColor = Color.red;
+//            Camera.current.backgroundColor = Color.red;
             yield break;
         }
-        var names = www.assetBundle.GetAllAssetNames();
-        model = GameObject.Instantiate<GameObject>(www.assetBundle.LoadAsset<GameObject>(names[0]));
+        assetbundle = www.assetBundle;
+        var names = assetbundle.GetAllAssetNames();
+        model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
         float size = model.GetComponent<Renderer>().bounds.size.y;
-        model.layer = LayerMask.NameToLayer("UI");
+        model.layer = LayerMask.NameToLayer("Model3D");
         model.transform.position = new Vector3(0, -size * 0.5f, size * 2);
         model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
     }
@@ -247,13 +260,23 @@ public class AllViewer : MonoBehaviour {
     }
 
     void OnDisable() {
-        CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
-        cm.MainCamera.SetActive(true);
+        if (toHide != null){
+            foreach (var hide in toHide)
+                if(hide.enabled==false)
+                hide.enabled = true;
+        }
+        var gcm = GameObject.FindGameObjectWithTag("GameCanvasManager");
+        if (gcm != null){
+            CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
+            if(cm!=null) cm.MainCamera.SetActive(true);
+        }
 
         visorCanvas.IsOpen = false;
-
-        if (ViewerCamera!=null) Destroy(ViewerCamera);
-        if (ViewerCamera != null) Destroy(model);
+        gameObject.GetComponent<Canvas>().worldCamera = null;
+        if (ViewerLight != null) Destroy(ViewerLight.gameObject);
+        if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
+        if (model != null) Destroy(model);
+        if (assetbundle != null) assetbundle.Unload(true);
 
         if (this.endCallback != null) this.endCallback();
 

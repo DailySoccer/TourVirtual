@@ -45,6 +45,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22424646}
+  - 222: {fileID: 22226914}
+  - 114: {fileID: 11497302}
   m_Layer: 5
   m_Name: Parent
   m_TagString: Untagged
@@ -227,6 +229,10 @@ MonoBehaviour:
   visorCanvas: {fileID: 11459144}
   txtTitle: {fileID: 11452544}
   image: {fileID: 11445852}
+  toHide:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11445852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -415,6 +421,33 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11497302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &22226914
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144734}
 --- !u!222 &22230414
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -453,7 +486,7 @@ Canvas:
   m_GameObject: {fileID: 150036}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 1

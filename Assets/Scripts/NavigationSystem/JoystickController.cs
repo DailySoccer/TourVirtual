@@ -22,7 +22,7 @@ public class JoystickController : MonoBehaviour {
     [SerializeField]
     public string _axisVerticalName;
    [SerializeField]
-   [Range(0, 1)]
+   [Range(0, 0.999f)]
    private float _deadZone = 0.01f;
 
     private int? _currentTouchId = null;
