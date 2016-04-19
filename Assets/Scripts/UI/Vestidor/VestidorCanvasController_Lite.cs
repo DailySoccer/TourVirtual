@@ -47,6 +47,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public UnityEngine.UI.Button BotonAceptar;
 
+	public ClothSlot currentPrenda;
+
     void Awake()
     {
         Instance = this;
@@ -112,9 +114,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         TopMenu.SetActive(val);	
     }
-
-    ClothSlot currentPrenda;
-   
+	       
 	public void TryToDressPlayer(ClothSlot prenda)
     {
         currentPrenda = prenda;
@@ -135,10 +135,35 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             BuyInfoButtom.SetActive(false);
     }
 
+
+	ModalLayout CurrentModalLayout;
     public void InfoBuyVirtualGood()
     {
+		// Tenemos la prenda seleccionada en posesión?
+		bool currentlyPurchasedClothing = currentPrenda.virtualGood.count != 0;
+		//Tenemos suficiente dinero?
         bool EnoughMoney = currentPrenda.virtualGood.Price <= UserAPI.Instance.Points;
 
+		// Si tenemos la prenda
+		if (currentlyPurchasedClothing) {
+			// Hay que mostrar una modal con el layout de INFO
+			CurrentModalLayout = ModalLayout.SINGLE_CONTENT_INFO;
+		}
+		else {
+			// Si tenemos suficiente dinero
+			if (EnoughMoney) {
+				// Mostramos la ventana modal con layout COMPRA
+				CurrentModalLayout = ModalLayout.SINGLE_CONTENT_BUY_ITEM;
+			}
+			else {
+				// Mostramos la ventana modal con layout MONEDAS INSUFICIENTE
+				CurrentModalLayout = ModalLayout.SINGLE_CONTENT_GOTO_SHOP;
+			}
+		}
+
+		OpenModalScreen ();
+
+		/*
 		//TogglePopUpScreen();
 
         popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
@@ -169,9 +194,36 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 //                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
             }
         }
-        
-
+        */
     }
+
+	public void OpenModalScreen() {
+		
+		if (ModalPopUpScreen == null) {
+			Debug.LogError("[VestidorCanvasController in " + name + "]: \"ModalPopUpScreen\" es null.");
+			return;
+		}
+		
+		// Lanzamos la modal, solo si está cerrada previamente.
+		ModalPopUpScreen.IsOpen = false;
+		StartCoroutine (ModalCloseBeforeOpenAgain(CurrentModalLayout));
+	}
+	
+	
+	IEnumerator ModalCloseBeforeOpenAgain(ModalLayout newModalLayout) {
+		
+		while (ModalPopUpScreen.InOpenState) {
+			yield return null;
+		}
+		
+		ModalPopUpScreen.IsOpen = true;
+		ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = true;
+		
+		VestidorModalManager modalManager = ModalPopUpScreen.GetComponent<VestidorModalManager> ();
+		modalManager.CurrentModalLayout = newModalLayout;
+	}
+
+
 
     public void DressVirtualGood(string GUID)
     {
@@ -265,7 +317,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void TogglePopUpScreen()
     {
-
         if (ModalPopUpScreen != null)
         {
             isCurrentPopUpOpen = !ModalPopUpScreen.IsOpen;

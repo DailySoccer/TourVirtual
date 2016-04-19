@@ -19,7 +19,7 @@ public enum ModalLayout {
 	SETTINGS
 }
 
-public class PopUpWindow : MonoBehaviour {
+public class PopUpWindow : UIScreen {
 
 	public GameObject ModalBase;
 
@@ -79,6 +79,8 @@ public class PopUpWindow : MonoBehaviour {
 	}
 
 	void Awake() {
+		base.Awake ();
+
 		if (SingleContent) {
 			SingleContentLayOut = SingleContent.GetComponent<DetailedContent2Buttons> ();
 		}
@@ -91,11 +93,12 @@ public class PopUpWindow : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		base.Update ();
 	}
 
 	public ModalLayout CurrentModalLayout{ get; set;}
 
-	void AnimEvent_PepareModal() {
+	void ConfigureModal() {
 		StartCoroutine(WaitForModalBaseEnable());
 	}
 

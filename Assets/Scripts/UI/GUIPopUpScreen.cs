@@ -13,7 +13,7 @@ public class GUIPopUpScreen : UIScreen
 		base.Update ();
 	}
 
-	void AnimEvent_PepareModal() {
+	void AnimEvent_PrepareModal() {
 		return;//SetState(CurrentModalLayout);
 	}
 }

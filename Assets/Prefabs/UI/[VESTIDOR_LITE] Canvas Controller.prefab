@@ -3236,8 +3236,7 @@ GameObject:
   - 114: {fileID: 11479868}
   - 225: {fileID: 22550052}
   - 95: {fileID: 9563768}
-  - 114: {fileID: 11496778}
-  - 114: {fileID: 11409520}
+  - 114: {fileID: 11414966}
   m_Layer: 5
   m_Name: Modal PopUp Screen
   m_TagString: PopUpScreen
@@ -4888,37 +4887,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11409520
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 177320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72241ac23e1844c4da819a22445eaf03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModalBase: {fileID: 139592}
-  CloseButton: {fileID: 149744}
-  StandardTitleText: {fileID: 11417266}
-  ThirdsProfileTitle: {fileID: 0}
-  ThirdsProfileTitleText: {fileID: 0}
-  PurchasedPacksGridParent: {fileID: 0}
-  PurchasedPacksGridList: {fileID: 0}
-  PurchasedPacksGridSlot: {fileID: 0}
-  PurchasedPackContentParent: {fileID: 0}
-  PurchasedPackContentList: {fileID: 0}
-  PurchasedPackContentSlot: {fileID: 0}
-  AchievementsGridParent: {fileID: 0}
-  AchievementsGridList: {fileID: 0}
-  AchievementSlot: {fileID: 0}
-  SingleContent: {fileID: 120188}
-  ProfileScreenController: {fileID: 0}
-  TheGameCanvas: {fileID: 0}
-  PackFlyerGameObject: {fileID: 0}
-  SettingsGameObject: {fileID: 0}
-  CurrentVestidorPrenda: {fileID: 0}
 --- !u!114 &11409862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5282,6 +5250,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11414966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33961ea90cd44a29a0647b4f29c445f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentModalLayout: 0
+  ModalBase: {fileID: 139592}
+  CloseButton: {fileID: 149744}
+  StandardTitleText: {fileID: 11417266}
+  SingleContent: {fileID: 120188}
+  VCC: {fileID: 11434616}
 --- !u!114 &11414994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6526,12 +6511,13 @@ MonoBehaviour:
   SecondPlaneVestidor: {fileID: 171592}
   cameraAvatarSelector: {fileID: 0}
   SecondPlaneAvatarSelect: {fileID: 138610}
-  ModalPopUpScreen: {fileID: 11496778}
+  ModalPopUpScreen: {fileID: 11414966}
   TopMenu: {fileID: 107224}
   PlayerInstance: {fileID: 0}
   Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
   BuyInfoButtom: {fileID: 145028}
   BotonAceptar: {fileID: 11410096}
+  currentPrenda: {fileID: 0}
 --- !u!114 &11434634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10675,7 +10661,7 @@ MonoBehaviour:
   UIScreensCamera: {fileID: 0}
   SecondPlaneCanvas: {fileID: 121050}
   PlayerClone: {fileID: 0}
-  ModalScreen: {fileID: 11496778}
+  ModalScreen: {fileID: 0}
   currentModalLayout: 0
   ScreenMainGame: {fileID: 0}
   ScreenProfile: {fileID: 0}
@@ -11664,17 +11650,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &11496778
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 177320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11497628
 MonoBehaviour:
   m_ObjectHideFlags: 1
