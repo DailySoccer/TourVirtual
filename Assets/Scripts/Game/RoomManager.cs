@@ -186,7 +186,7 @@ public class RoomManager : Photon.PunBehaviour {
         RoomDefinition roomLoaded = FindRoomBySceneName(Application.loadedLevelName);
 		if (roomLoaded != null) {
             // Shortcut 
-			ToRoom (roomLoaded);
+            ToRoom (roomLoaded);
 		}
 		else {
             if ( !string.IsNullOrEmpty(RoomStart) ) {
@@ -200,15 +200,7 @@ public class RoomManager : Photon.PunBehaviour {
                         RoomStart = rd.Door(roomKey);
                         roomKey = GetRoomKey(RoomStart);
                         _doorToEnter = GetDoorKey(RoomStart);
-
-                        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
-                            Player thePlayer = Player.Instance;
-                            instance.layer = LayerMask.NameToLayer("Player");
-                            if (thePlayer != null) {
-                                thePlayer.Avatar = instance;
-                            }
-                            ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
-                        }));
+                        ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                     }
                     else
 #endif 
@@ -361,8 +353,9 @@ public class RoomManager : Photon.PunBehaviour {
 		PointOfInterest = pointOfInterest;
 #endif
 	}
-	
-	private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
+    Transform entrada;
+
+    private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
 		Portal portal = null;
 
 		// Esperamos a que se haya inicializado correctamente la escena recien cargada
@@ -384,7 +377,8 @@ public class RoomManager : Photon.PunBehaviour {
 			}
 		}
 		if (portal != null) {
-			Transform entrada = portal.transform.FindChild("Point");
+			entrada = portal.transform.FindChild("Point");
+            /*
 			if (entrada != null) {
 				if (player != null) {
                     player.Avatar.transform.position = entrada.position;
@@ -394,7 +388,9 @@ public class RoomManager : Photon.PunBehaviour {
             else {
 				portal = null;
 			}
+            */
 		}
+        /*
 		if (portal == null) {
 			if (player != null) {
                 // Colocar al player en un lugar de la escena
@@ -402,6 +398,7 @@ public class RoomManager : Photon.PunBehaviour {
                 player.Avatar.transform.rotation = Quaternion.identity;
             }
         }
+        */
 #if !LITE_VERSION
 		// Esperamos que el player entre en la nueva Room
 		float timeout = Time.realtimeSinceStartup + 20;
@@ -441,20 +438,38 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
+        Debug.LogError(">>> JoinToRoom " + roomid);
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {
-		//JoinToRoom();
-	}
+        //        Debug.LogError(">>> OnConnectedToMaster");
+        //JoinToRoom();
+    }
 
-	public override void OnConnectedToPhoton() {
-	}
+    public override void OnConnectedToPhoton() {
+        //        Debug.LogError(">>> OnConnectedToPhoton");
+    }
 
-	public override void OnCreatedRoom() {
+    public override void OnCreatedRoom() {
+//        Debug.LogError(">>> OnCreatedRoom");
     }
 
 	public override void OnJoinedRoom() {
+        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+            Player thePlayer = Player.Instance;
+            instance.layer = LayerMask.NameToLayer("Player");
+            if (thePlayer != null)
+            {
+                thePlayer.Avatar = instance;
+                if (entrada != null) {
+                    thePlayer.Avatar.transform.position = entrada.position;
+                    thePlayer.Avatar.transform.rotation = entrada.rotation;
+                }
+            }
+        }));
+
+
         if (OnChange != null) OnChange();
 		if (OnRoomChange != null) OnRoomChange();
 		if (OnJoinRoomAction != null) OnJoinRoomAction();
@@ -462,11 +477,13 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
-		if (OnLeftRoomAction != null) OnLeftRoomAction();
+        Debug.LogError(">>> OnLeftRoom");
+        if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
+        Debug.LogError(">>> OnJoinedLobby");
         bJustOneTime = false;
     }
 
@@ -517,15 +534,15 @@ public class RoomManager : Photon.PunBehaviour {
     }
 	
 	public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-        //		Debug.LogWarning("OnFailedToConnectToPhoton");
-	}
-	
-	public override void OnDisconnectedFromPhoton() {
-        //        Debug.LogWarning("OnDisconnectedFromPhoton");
+        //        		Debug.LogError("OnFailedToConnectToPhoton");
+    }
+
+    public override void OnDisconnectedFromPhoton() {
+                        Debug.LogError("OnDisconnectedFromPhoton");
     }
 
     public override void OnConnectionFail(DisconnectCause cause) {
-        //		Debug.LogWarning("OnConnectionFail");
+        //        		Debug.LogError("OnConnectionFail");
     }
 
     public override void OnPhotonMaxCccuReached() {
