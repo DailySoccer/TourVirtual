@@ -288,7 +288,6 @@ public class RoomManager : Photon.PunBehaviour {
 			if (PhotonNetwork.room == null) {
                 // Abre la primera pantalla.
                 JoinToRoom(GetRoomIdById(Room.Id));
-                //JoinToRoom(Room.Id + "#" + PhotonNetwork.playerName);
             }
             else {
                 // Sale de la habitacion actual.
@@ -301,7 +300,6 @@ public class RoomManager : Photon.PunBehaviour {
             Resources.UnloadUnusedAssets();
             if (DLCManager.Instance != null) {
                 //DLCManager.Instance.ClearResources();
-
                 if (Application.CanStreamedLevelBeLoaded(Room.SceneName))
                     Debug.LogError(">>>> Escena precacheada " + Room.SceneName);
 
@@ -309,16 +307,21 @@ public class RoomManager : Photon.PunBehaviour {
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
             }
-            Application.LoadLevel(Room.SceneName);
+            AsyncOperation ao = Application.LoadLevelAsync(Room.SceneName);
+            while (!ao.isDone)
+            {
+                yield return null;
+            }
+            //Application.LoadLevel(Room.SceneName);
             Resources.UnloadUnusedAssets();
-
         }
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }
-        yield return StartCoroutine(EnterPlayer(roomOld, player));
+
+        yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
 
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
@@ -355,12 +358,13 @@ public class RoomManager : Photon.PunBehaviour {
 	}
     Transform entrada;
 
-    private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomOld, Player player) {
+    private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomNew, RoomDefinition roomOld, Player player) {
 		Portal portal = null;
 
-		// Esperamos a que se haya inicializado correctamente la escena recien cargada
-		// para que podamos encontrar los "portales" (Portal.FindInScene)
-		yield return null;
+
+        // Esperamos a que se haya inicializado correctamente la escena recien cargada
+        // para que podamos encontrar los "portales" (Portal.FindInScene)
+        yield return null;
 		// Nos han proporcionado la puerta por la que entrar?
 		if (!string.IsNullOrEmpty(_doorToEnter)) {
 			portal = Portal.FindInScene(_doorToEnter);
@@ -478,13 +482,15 @@ public class RoomManager : Photon.PunBehaviour {
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
+        Debug.LogError(">>>>>>>>>>> OnJoinedLobby");
         bJustOneTime = false;
     }
 
     public override void OnReceivedRoomListUpdate() {
+        Debug.LogError(">>>>>>>>>>> OnReceivedRoomListUpdate");
         if (bJustOneTime) return;
         bJustOneTime = true;
-        if (Room != null) JoinToRoom(GetRoomIdById(Room.Id));
+        if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
     }
 
     string GetRoomIdById(string id, bool forceNew=false) {
@@ -517,26 +523,25 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
-        //		Debug.LogWarning("OnPhotonCreateRoomFailed");
+        Debug.LogWarning("OnPhotonCreateRoomFailed");
     }
 
     public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
-        //		Debug.LogWarning("OnPhotonJoinRoomFailed");
+        Debug.LogWarning("OnPhotonJoinRoomFailed");
         // Si hay un error de conexion a la sala, se crea una nueva.
         GetRoomIdById(Room.Id, true);
-
     }
 	
 	public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-        //        		Debug.LogError("OnFailedToConnectToPhoton");
+        Debug.LogError("OnFailedToConnectToPhoton");
     }
 
     public override void OnDisconnectedFromPhoton() {
-                        Debug.LogError("OnDisconnectedFromPhoton");
+        Debug.LogError("OnDisconnectedFromPhoton");
     }
 
     public override void OnConnectionFail(DisconnectCause cause) {
-        //        		Debug.LogError("OnConnectionFail");
+        Debug.LogError("OnConnectionFail "+ cause);
     }
 
     public override void OnPhotonMaxCccuReached() {
