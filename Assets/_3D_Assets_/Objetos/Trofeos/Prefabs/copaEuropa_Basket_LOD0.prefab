@@ -15,9 +15,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &174022
+--- !u!1 &136132
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 418740}
+  m_Layer: 0
+  m_Name: copaEuropa_Basket_LOD0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &174022
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -34,7 +49,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &185358
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -59,6 +74,20 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 1.55992367e-18}
   m_LocalScale: {x: .831134319, y: .831134319, z: .831134319}
   m_Children: []
+  m_Father: {fileID: 418740}
+  m_RootOrder: 0
+--- !u!4 &418740
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136132}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -.287999988, z: 0}
+  m_LocalScale: {x: 4.16699743, y: 4.16699934, z: 4.16699934}
+  m_Children:
+  - {fileID: 417206}
+  - {fileID: 457524}
   m_Father: {fileID: 471500}
   m_RootOrder: 0
 --- !u!4 &457524
@@ -71,7 +100,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 1.55992367e-18}
   m_LocalScale: {x: .831134319, y: .831134319, z: .831134319}
   m_Children: []
-  m_Father: {fileID: 471500}
+  m_Father: {fileID: 418740}
   m_RootOrder: 1
 --- !u!4 &471500
 Transform:
@@ -81,10 +110,9 @@ Transform:
   m_GameObject: {fileID: 119400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.16699743, y: 4.16699934, z: 4.16699934}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 417206}
-  - {fileID: 457524}
+  - {fileID: 418740}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2314656

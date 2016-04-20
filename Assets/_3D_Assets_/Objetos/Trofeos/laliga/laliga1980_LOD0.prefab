@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &196346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 407020}
+  - 33: {fileID: 3346654}
+  - 23: {fileID: 2366598}
+  m_Layer: 11
+  m_Name: laliga1980_LOD0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &198658
 GameObject:
   m_ObjectHideFlags: 0
@@ -8,15 +25,25 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 425042}
-  - 33: {fileID: 3371734}
-  - 23: {fileID: 2391730}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: laliga1980_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &407020
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196346}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -.268400013, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 425042}
+  m_RootOrder: 0
 --- !u!4 &425042
 Transform:
   m_ObjectHideFlags: 1
@@ -26,15 +53,16 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 407020}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2391730
+--- !u!23 &2366598
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198658}
+  m_GameObject: {fileID: 196346}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -54,12 +82,12 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3371734
+--- !u!33 &3346654
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198658}
+  m_GameObject: {fileID: 196346}
   m_Mesh: {fileID: 4300050, guid: a7caedb089dcef34f8439b82f8bba24c, type: 3}
 --- !u!1001 &100100000
 Prefab:
