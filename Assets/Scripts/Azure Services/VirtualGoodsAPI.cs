@@ -219,6 +219,21 @@ public class VirtualGoodsAPI {
                     if(vg.IdSubType=="CONTENT") UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
 #endif
                     if (onOk != null) onOk();
+                },(error)=> {
+                    ModalTextOnly.ShowText(SmartLocalization.LanguageManager.Instance.GetTextValue("TVB.Error.CantPurchase"));
+                    /*
+                    string[] values = error.Split(';');
+                    if (values.Length > 1) {
+                        switch (values[1]) {
+                            case "0": // Error por limite de edad
+                                break;
+                            case "1": // Age is not defined.
+                                break;
+                            case "2": // Not enough money.
+                                break;
+                        }
+                    }
+                    */
                 });
             }
             else {
