@@ -7066,7 +7066,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11486906}
   m_HandleRect: {fileID: 22453304}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7274,6 +7274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20b288486b1a4a099714d57f553c2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   TheTimer: {fileID: 11410172}
   TxTScore: {fileID: 11488028}
   timeUpdateCicle: 1
@@ -7562,6 +7563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa97e62714694250afd4825ae833bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   screenName: Messages Window
   currentState: 
 --- !u!114 &11406960
@@ -8138,6 +8140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11411968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8165,6 +8168,7 @@ MonoBehaviour:
   ContentLoadingScreen: {fileID: 0}
   PlayerPosition: {fileID: 0}
   Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
+  CurrentThirdProfileIDClicked: 
 --- !u!114 &11412140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9194,6 +9198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11421790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9367,6 +9372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11423866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13753,6 +13759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa97e62714694250afd4825ae833bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   screenName: Channels Window
   currentState: 
 --- !u!114 &11459536
@@ -14046,6 +14053,9 @@ MonoBehaviour:
   reverseFace: 0
   axis: 4
   IsButtonDbug: 1
+  Name: {fileID: 0}
+  FanLevel: {fileID: 0}
+  Face: {fileID: 0}
 --- !u!114 &11461070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17666,6 +17676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf035b25b727436599757c1453da51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   GameCanvasManager: {fileID: 11411968}
   NextButton: {fileID: 11499440}
   PrevButton: {fileID: 11430634}
@@ -17856,6 +17867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997e75b027db24f07b01859caa0d6d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   Selector: {fileID: 106334}
   selectorPosition: 0
 --- !u!114 &11492048
@@ -18299,6 +18311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001423a2367fd49f19b276b204b2bfdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   RoomTitle: {fileID: 11482168}
   ButtonContainer: {fileID: 22434090}
 --- !u!114 &11495126
@@ -26648,7 +26661,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: .000244140625}
+  m_AnchoredPosition: {x: -20, y: -.000732421875}
   m_SizeDelta: {x: -40, y: 0}
   m_Pivot: {x: .5, y: 0}
 --- !u!224 &22484636
@@ -26911,7 +26924,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 9.15527344e-05}
+  m_AnchoredPosition: {x: 0, y: 6.10351562e-05}
   m_SizeDelta: {x: -80, y: 0}
   m_Pivot: {x: .5, y: 1}
 --- !u!224 &22488596

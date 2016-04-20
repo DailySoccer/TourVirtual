@@ -3,6 +3,8 @@ using System.Collections;
 
 public class UIScreen : MonoBehaviour {
 
+	public bool ForceNoBlockRayCastValue = false;
+
 	public bool IsOpen
 	{
 		get { return Animator.GetBool("IsOpen"); }
@@ -56,8 +58,12 @@ public class UIScreen : MonoBehaviour {
 	public virtual void Update()
 	{
 		// Aseguramos que si un menu no está activado, no es interactuable.
-        if(Animator!=null)
-		    _canvasGroup.blocksRaycasts = _canvasGroup.interactable = Animator.GetCurrentAnimatorStateInfo(0).IsName("Open");
+        if (Animator != null)
+
+			_canvasGroup.blocksRaycasts = _canvasGroup.interactable = Animator.GetCurrentAnimatorStateInfo(0).IsName("Open");
+			
+		if (ForceNoBlockRayCastValue)	
+				_canvasGroup.blocksRaycasts = false;
 	}
 
 	public virtual void OpenWindow() {

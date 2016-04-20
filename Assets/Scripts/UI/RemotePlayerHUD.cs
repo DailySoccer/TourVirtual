@@ -58,6 +58,9 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		/// Orden de los datos: Cara, nombre, nivelFan, ptos. Futbol, ptos. Basket, ptos. HiddenObjects, num. Packs, num. logros";
 		dataModel = (head + "#" + data).Split ('#');
+		Name.text = dataModel [(int)PlayerDataModel.NOMBRE];
+		FanLevel.text = dataModel [(int)PlayerDataModel.NIVEL_FAN];
+		Face.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(dataModel[(int)PlayerDataModel.CARA]);
 	}
 
 	// return a direction based upon chosen axis
@@ -82,8 +85,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 	
 	void  Awake ()
 	{
-		return;
-		canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
+
 
 		// if no camera referenced, grab the main camera
 		if (!referenceCamera)
@@ -92,18 +94,20 @@ public class RemotePlayerHUD : MonoBehaviour {
 	
 	void  Update ()
 	{
-		//return;
-		if (!IsButtonDbug) {
+		if (canvasManager == null)
+			if ( GameObject.FindGameObjectWithTag ("GameCanvasManager") )
+				canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
+
 			// rotates the object relative to the camera
-			Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.forward : Vector3.back);
+			Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.back : Vector3.forward);
 			Vector3 targetOrientation = referenceCamera.transform.rotation * GetAxis (axis);
 			transform.LookAt (targetPos, targetOrientation);
-		}
+			transform.localRotation = new Quaternion(0, transform.localRotation.y, 0, transform.localRotation.w);
 	}
 
 	public void RemotePlayerHUD_ClickHandle() {
-		return;
-		canvasManager.ShowOTherPlayerInfo (playerID);
+		Debug.Log("Solicitado el perfil del usuario: " + dataModel[(int)PlayerDataModel.NOMBRE]);
+		canvasManager.ShowOTherPlayerInfo (dataModel);
 	}
 }
 

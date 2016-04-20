@@ -173,8 +173,9 @@ public class PopUpWindow : UIScreen {
 				break;
 					
 			case ModalLayout.THIRDS_PROFILE_CONTENT:
+				SetupThirdProfileContent(TheGameCanvas.CurrentPlayerDataModelSelected);
 				ThirdsProfileTitle.SetActive (true);
-				ThirdsProfileTitleText.text = "<NOMBRE DE USUARIO>";
+				ThirdsProfileTitleText.text = TheGameCanvas.CurrentPlayerDataModelSelected[(int)PlayerDataModel.NOMBRE];
 				ProfileScreenController.SetActive (true);
 				break;			
 				
@@ -405,10 +406,10 @@ public class PopUpWindow : UIScreen {
 	}
 	*/
 #if !LITE_VERSION
-	public void SetupThirdProfileContent(string playerID) {
+	public void SetupThirdProfileContent(string[] dataModel) {
 
 		ThirdsProfile = ProfileScreenController.GetComponent<ThirdProfileController> ();
-		ThirdsProfile.Setup (playerID);
+		ThirdsProfile.Setup (dataModel);
     }
 #endif
 

@@ -196,9 +196,12 @@ public class CanvasManager : MonoBehaviour {
 		}
 	}
 #if !LITE_VERSION
-	public void ShowOTherPlayerInfo(string playerID) {
+
+	public string[] CurrentPlayerDataModelSelected;
+
+	public void ShowOTherPlayerInfo(string[] dataModel) {
 		//Configuramos las modal...
-		ModalScreen.GetComponent<PopUpWindow> ().SetupThirdProfileContent(playerID);
+		CurrentPlayerDataModelSelected  = dataModel;
 		//.. y la mostramos
 		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
 	}

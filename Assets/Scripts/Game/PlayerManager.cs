@@ -102,7 +102,7 @@ public class PlayerManager : Photon.PunBehaviour {
 				PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
 				PlayerHUD.transform.SetParent(tp.transform);
 				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
-				PlayerHUD.transform.position = new Vector3(PlayerHUD.transform.position.x, 2.2f, PlayerHUD.transform.position.z);
+				PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
 
             }));
             /*

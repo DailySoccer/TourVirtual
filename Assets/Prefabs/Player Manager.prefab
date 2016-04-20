@@ -103,6 +103,7 @@ GameObject:
   - 222: {fileID: 22280706}
   - 114: {fileID: 11400700}
   - 114: {fileID: 11419522}
+  - 225: {fileID: 22538506}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -291,8 +292,7 @@ MonoBehaviour:
   baseCompliment: {fileID: 2100000, guid: b5e0b73b4963a1a49977b9d6860c377c, type: 2}
   textureNumbers: {fileID: 0}
   textureSize: 1024
-  PlayerRemoteHUDCanvas: {fileID: 130030, guid: f55d1f31b44bd4a3cacd76cee474e6ba,
-    type: 2}
+  PlayerRemoteHUDCanvas: {fileID: 134088}
   offset: {x: 13, y: 1.70000005, z: -70}
 --- !u!114 &11441178
 MonoBehaviour:
@@ -365,9 +365,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowModalScreen
-        m_Mode: 3
+      - m_Target: {fileID: 11482612}
+        m_MethodName: RemotePlayerHUD_ClickHandle
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -566,9 +566,9 @@ MonoBehaviour:
   reverseFace: 0
   axis: 0
   IsButtonDbug: 0
-  Name: {fileID: 0}
-  FanLevel: {fileID: 0}
-  Face: {fileID: 0}
+  Name: {fileID: 11471990}
+  FanLevel: {fileID: 11482074}
+  Face: {fileID: 11441178}
 --- !u!114 &11495388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -682,7 +682,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 546, y: 1475}
+  m_AnchoredPosition: {x: 597, y: 1240}
   m_SizeDelta: {x: 238.5, y: 55}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22429058
@@ -810,6 +810,17 @@ RectTransform:
   m_AnchoredPosition: {x: 27, y: 3}
   m_SizeDelta: {x: 33, y: 25}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &22538506
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163064}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
