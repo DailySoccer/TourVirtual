@@ -66,7 +66,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         }
         EnableTopMenu(true);
         ShowVestidor();
-
     }
 
     // Update is called once per frame
@@ -333,7 +332,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         if (isCurrentPopUpOpen)
             TogglePopUpScreen();
         if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
-            LoadModel();
+            Invoke("LoadModel", 0.25f);
 
         ChangeVestidorState(MainManager.VestidorMode);
     }

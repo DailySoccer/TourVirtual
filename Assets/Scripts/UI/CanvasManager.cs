@@ -63,10 +63,13 @@ public class CanvasManager : MonoBehaviour {
 		SecondPlaneCanvas.SetActive (false);			
 		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(MainCamera.GetComponent<Camera>());
 		UIScreensCamera.SetActive (false);			
-		MainCamera.SetActive (true);			
-		
-		
-		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
+		MainCamera.SetActive (true);
+
+
+        if (ProfilePlayerInstance != null)
+        {
+            Destroy(ProfilePlayerInstance);
+        }
 		
 		ShowScreen (ScreenMainGame);
 	}
@@ -76,14 +79,12 @@ public class CanvasManager : MonoBehaviour {
 	}*/
 
 	public void ShowProfileScreen() {
-
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
-		
-		//Activamos los elementos necesarios de esta pantalla
-		//ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
-		//SecondPlaneCanvas.SetActive (true);			
-		//SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
-		StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
+        //Activamos los elementos necesarios de esta pantalla
+        //ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
+        //SecondPlaneCanvas.SetActive (true);			
+        //SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
+        StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
             UIScreensCamera.SetActive (true);
             MainCamera.SetActive(false);
 
@@ -102,6 +103,14 @@ public class CanvasManager : MonoBehaviour {
             ProfilePlayerInstance.transform.position = new Vector3(-0.05f, 9998.82f, 0);
             ProfilePlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
             ProfilePlayerInstance.AddComponent<RotateDrag>();
+
+            SkinnedMeshRenderer[] skins = ProfilePlayerInstance.GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (var skin in skins)
+                skin.useLightProbes = false;
+
+            MyTools.SetLayerRecursively(ProfilePlayerInstance, LayerMask.NameToLayer("Model3D"));
+            
+
             AddParticles();
         }) );
 	}
@@ -127,15 +136,18 @@ public class CanvasManager : MonoBehaviour {
     }
 
     public void ShowMapScreen() {
-        if (ProfilePlayerInstance != null) 
-			Destroy(ProfilePlayerInstance);
+        if (ProfilePlayerInstance != null) {
+            Destroy(ProfilePlayerInstance);
+        }
+			
 		ActiveSecondPlaneGUI ();			
 		ShowScreen(ScreenMap);
     }
 
-	public void ShowGoodiesShopScreen() {		
-		if (ProfilePlayerInstance != null) 
-			Destroy(ProfilePlayerInstance);
+	public void ShowGoodiesShopScreen() {
+        if (ProfilePlayerInstance != null){
+            Destroy(ProfilePlayerInstance);
+        }
 		
 		ActiveSecondPlaneGUI ();			
 		ShowScreen(ScreenGoodiesShoop);

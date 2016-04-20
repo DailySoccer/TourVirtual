@@ -35,9 +35,6 @@ public class PurchasedItemSlot : MonoBehaviour {
 	}
 
 	public void PurchasedItemSlot_ClickHandle() {
-
-        Debug.Log(">>>>> PurchasedItemSlot_ClickHandle ");
-
 		theParentController.PurchasedItemSlot_Click(this);
 	}
 
