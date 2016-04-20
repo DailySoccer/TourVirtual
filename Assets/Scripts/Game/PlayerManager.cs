@@ -9,6 +9,7 @@ public class PlayerManager : Photon.PunBehaviour {
 	}
 
 	public string SelectedModel = string.Empty;
+	public string DataModel = string.Empty;
 
     public GameObject prefabMale;
     public GameObject prefabFemale;
@@ -67,12 +68,12 @@ public class PlayerManager : Photon.PunBehaviour {
 		else {
 			playerTransform = transform;
 		}
-		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel);
+		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
 #endif
 	}
 #if !LITE_VERSION
 	[PunRPC]
-	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel) {
+	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
 		if (np.isLocal && Player.Instance != null) {
             GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
             //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
@@ -98,6 +99,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
 				//Código para insertar el HUD de los players remotos
 				PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
+				PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
 				PlayerHUD.transform.SetParent(tp.transform);
 				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
 				PlayerHUD.transform.position = new Vector3(PlayerHUD.transform.position.x, 2.2f, PlayerHUD.transform.position.z);

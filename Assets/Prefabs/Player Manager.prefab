@@ -73,7 +73,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &141316
 GameObject:
   m_ObjectHideFlags: 1
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 25
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -283,7 +283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f959cba28e4204f0193a274f20bfabb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedModel: 
+  SelectedModel: Man#988dee0b-e8a2-4771-85ee-e537389b3330#HCabeza03#02e9b0a5-29d9-4b5c-9894-25b72b0209eb#c63925be-c3f5-46d5-97da-617a1489d599#2e1c35ed-ff06-486e-a088-e2b8d5135e3f#
+  DataModel: 
   prefabMale: {fileID: 189534, guid: 4387e028b1db24a81bd0ed644f80e08a, type: 2}
   prefabFemale: {fileID: 189534, guid: c8da680596ee9a646940540ce37c1efc, type: 2}
   baseMaterial: {fileID: 2100000, guid: b403aa7cbfb08084ebc556df351f6c68, type: 2}
@@ -560,6 +561,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fe4145a177c4d9fbbc8df9be9189dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceCamera: {fileID: 0}
+  playerID: 
+  reverseFace: 0
+  axis: 0
+  IsButtonDbug: 0
+  Name: {fileID: 0}
+  FanLevel: {fileID: 0}
+  Face: {fileID: 0}
 --- !u!114 &11495388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,7 +673,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134088}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: -1.62920685e-07}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -690,10 +699,10 @@ RectTransform:
   - {fileID: 22495302}
   m_Father: {fileID: 22454164}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 154.75, y: -26.5}
-  m_SizeDelta: {x: 167.5, y: 53}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22444586
 RectTransform:
@@ -708,10 +717,10 @@ RectTransform:
   - {fileID: 22445352}
   m_Father: {fileID: 22454164}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30.5, y: -26.5}
-  m_SizeDelta: {x: 61, y: 53}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22445352
 RectTransform:

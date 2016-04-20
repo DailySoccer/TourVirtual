@@ -205,6 +205,7 @@ SetScore(MiniGame.HiddenObjects, 320);
 
 #endif
 */
+		PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }
