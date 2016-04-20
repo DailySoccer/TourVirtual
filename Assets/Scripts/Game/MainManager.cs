@@ -217,7 +217,8 @@ public class MainManager : Photon.PunBehaviour {
             return;
         }
 #endif
-
+        // Fix para el scroll threshold Galaxy 6.
+        UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
         {
             UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
