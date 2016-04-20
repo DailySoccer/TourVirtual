@@ -127,7 +127,14 @@ public class Authentication : MonoBehaviour {
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
-        AzureServices.SignIn();
+#if UNITY_EDITOR
+        if (!string.IsNullOrEmpty(urlCode))
+        {
+            StartCoroutine(AzureServices.GetAccessToken(urlCode));
+        }
+        else
+#endif
+            AzureServices.SignIn();
     }
 
     void Update() {
@@ -137,7 +144,7 @@ public class Authentication : MonoBehaviour {
     }
 
 
-    private string _urlCode = "";
+    public string urlCode = "";
 #if UNITY_EDITOR
     void OnGUI() {
         if (UserAPI.Instance.Online && string.IsNullOrEmpty(AzureServices.AccessToken) )
@@ -150,10 +157,10 @@ public class Authentication : MonoBehaviour {
                 AzureServices.SignOut();
 
             if (GUI.Button(new Rect(320, Screen.height - 150, 150, 25), "Token ")) {
-                StartCoroutine(AzureServices.GetAccessToken(_urlCode) );
+                StartCoroutine(AzureServices.GetAccessToken(urlCode) );
             }
             GUI.Label(new Rect(320, Screen.height - 125, 300, 25), "URL Response: http://localhost/?code=XXX");
-            _urlCode = GUI.TextField(new Rect(320, Screen.height - 100, 300, 25), _urlCode);
+            urlCode = GUI.TextField(new Rect(320, Screen.height - 100, 300, 25), urlCode);
         }
     }
 #endif
