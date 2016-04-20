@@ -253,7 +253,7 @@ public class PlayerManager : Photon.PunBehaviour {
         avatar.transform.position = new Vector3(0,-0.91f,-1.77f);
         avatar.transform.localScale = Vector3.one;
 
-        SetLayerRecursively(avatar, 31);
+        MyTools.SetLayerRecursively(avatar, 31);
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
         camera.cullingMask = (1 << 31);
         camera.transform.position = Vector3.zero;
@@ -277,18 +277,11 @@ public class PlayerManager : Photon.PunBehaviour {
 
         avatar.transform.position = oldPosition;
         avatar.transform.localScale = oldEscale;
-        SetLayerRecursively(avatar, oldLayer);
+        MyTools.SetLayerRecursively(avatar, oldLayer);
 
         return bytes;
-
     }
 
-    void SetLayerRecursively(GameObject obj, int newLayer)
-    {
-        obj.layer = newLayer;
-        foreach (Transform child in obj.transform)
-            SetLayerRecursively(child.gameObject, newLayer);
-    }
 
     Dictionary<string,object> GetDescriptor(List<object> list, string id) {
         foreach (Dictionary<string, object> ele in list)

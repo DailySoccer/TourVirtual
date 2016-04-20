@@ -8,7 +8,7 @@ public class AllViewer : MonoBehaviour {
     ContentAPI.AssetType currentMode = ContentAPI.AssetType.Binary;
     Coroutine lastCoroutine;
     Camera ViewerCamera;
-    Light ViewerLight;
+//    Light ViewerLight;
     GameObject model;
     Vector2 lastTouch;
     AssetBundle assetbundle;
@@ -28,6 +28,9 @@ public class AllViewer : MonoBehaviour {
     public UnityEngine.UI.Text txtTitle;
     public UnityEngine.UI.Image image;
     RectTransform rectTransform;
+
+    bool oldUICameraStatus;
+    bool oldMainCameraStatus;
 
     public Canvas[] toHide;
 
@@ -49,6 +52,9 @@ public class AllViewer : MonoBehaviour {
         txtTitle.text = title;
 
         CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
+        oldUICameraStatus = cm.UIScreensCamera.GetActive();
+        oldMainCameraStatus = cm.MainCamera.GetActive();
+
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
         var canvas = gameObject.GetComponent<Canvas>();
@@ -66,17 +72,19 @@ public class AllViewer : MonoBehaviour {
                 ViewerCamera.clearFlags = CameraClearFlags.SolidColor;
                 ViewerCamera.backgroundColor = Color.black;
                 ViewerCamera.gameObject.layer= LayerMask.NameToLayer("Model3D");
+                ViewerCamera.cullingMask = LayerMask.GetMask("UI", "Model3D");
                 canvas.renderMode = RenderMode.ScreenSpaceCamera;
                 canvas.worldCamera = ViewerCamera;
                 if (toHide != null) {
                     foreach (var hide in toHide)
                         hide.enabled = false;
                 }
-
+/*
                 ViewerLight = new GameObject("Light", typeof(Light)).GetComponent<Light>();
                 ViewerLight.transform.rotation = Quaternion.Euler(50, 330, 0);
                 ViewerLight.transform.parent = ViewerCamera.transform;
                 ViewerLight.cullingMask = LayerMask.GetMask("Model3D");
+*/
                 lastCoroutine = StartCoroutine(DownloadModel(url));
                 break;
             case ContentAPI.AssetType.Video:
@@ -268,12 +276,15 @@ public class AllViewer : MonoBehaviour {
         var gcm = GameObject.FindGameObjectWithTag("GameCanvasManager");
         if (gcm != null){
             CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
-            if(cm!=null) cm.MainCamera.SetActive(true);
+            if (cm != null) {
+                cm.UIScreensCamera.SetActive(oldUICameraStatus);
+                cm.MainCamera.SetActive(oldMainCameraStatus);
+            }
         }
 
         visorCanvas.IsOpen = false;
         gameObject.GetComponent<Canvas>().worldCamera = null;
-        if (ViewerLight != null) Destroy(ViewerLight.gameObject);
+//        if (ViewerLight != null) Destroy(ViewerLight.gameObject);
         if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
         if (model != null) Destroy(model);
         if (assetbundle != null) assetbundle.Unload(true);

@@ -327,8 +327,9 @@ public class RoomManager : Photon.PunBehaviour {
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }
         yield return StartCoroutine(EnterPlayer(roomOld, player));
+        MyTools.FixLights("Model3D"); // Quita mascara a las luces
 
-		StartCoroutine(CanvasRootController.Instance.FadeIn(1));
+        StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
 		_loadingRoom = false;
 	}

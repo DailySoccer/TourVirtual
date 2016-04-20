@@ -85,4 +85,21 @@ public class MyTools
 		}
 		return defaultValue;
 	}
+
+    public static void FixLights(string slayer) {
+        Light[] lights = GameObject.FindObjectsOfType<Light>();
+        int xormask = ~LayerMask.GetMask(slayer);
+        int layer = LayerMask.NameToLayer(slayer);
+        foreach (var l in lights)
+            if (l.gameObject.layer != layer)
+                l.cullingMask &= xormask;
+    }
+
+    public static void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+            SetLayerRecursively(child.gameObject, newLayer);
+    }
+
 }
