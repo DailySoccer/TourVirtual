@@ -83,7 +83,6 @@ public class PlayerManager : Photon.PunBehaviour {
             foreach (var v in nViews) v.viewID = id;
         }
         else {
-            Debug.Log("SpawnOnNetwork: SelectedModel: " + selectedModel);
             StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
                 GameObject tp = instance;
                 if (tp.GetComponent<Locomotion>() != null)

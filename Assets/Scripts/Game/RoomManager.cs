@@ -378,9 +378,8 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 		if (portal != null) {
 			entrada = portal.transform.FindChild("Point");
-            /*
 			if (entrada != null) {
-				if (player != null) {
+				if (player != null && player.Avatar!=null) {
                     player.Avatar.transform.position = entrada.position;
                     player.Avatar.transform.rotation = entrada.rotation;
                 }
@@ -388,17 +387,15 @@ public class RoomManager : Photon.PunBehaviour {
             else {
 				portal = null;
 			}
-            */
 		}
-        /*
 		if (portal == null) {
-			if (player != null) {
+            if (player != null && player.Avatar != null)
+            {
                 // Colocar al player en un lugar de la escena
                 player.Avatar.transform.position = Vector3.zero;
                 player.Avatar.transform.rotation = Quaternion.identity;
             }
         }
-        */
 #if !LITE_VERSION
 		// Esperamos que el player entre en la nueva Room
 		float timeout = Time.realtimeSinceStartup + 20;
@@ -459,10 +456,9 @@ public class RoomManager : Photon.PunBehaviour {
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
             Player thePlayer = Player.Instance;
             instance.layer = LayerMask.NameToLayer("Player");
-            if (thePlayer != null)
-            {
+            if (thePlayer != null) {
                 thePlayer.Avatar = instance;
-                if (entrada != null) {
+                if (entrada != null && thePlayer.Avatar!=null) {
                     thePlayer.Avatar.transform.position = entrada.position;
                     thePlayer.Avatar.transform.rotation = entrada.rotation;
                 }
@@ -477,13 +473,11 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
-        Debug.LogError(">>> OnLeftRoom");
         if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
-        Debug.LogError(">>> OnJoinedLobby");
         bJustOneTime = false;
     }
 
