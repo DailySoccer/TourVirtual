@@ -705,6 +705,7 @@ GameObject:
   - 114: {fileID: 11427202}
   - 114: {fileID: 11400594}
   - 114: {fileID: 11430278}
+  - 114: {fileID: 11419574}
   m_Layer: 5
   m_Name: Touch Controls
   m_TagString: Untagged
@@ -8983,6 +8984,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11419574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7af1fc48d0a46f4b5df70c1e232691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11419720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14138,6 +14150,7 @@ MonoBehaviour:
   Name: {fileID: 0}
   FanLevel: {fileID: 0}
   Face: {fileID: 0}
+  Parent: {fileID: 0}
 --- !u!114 &11461070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21204,7 +21217,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 225, y: 16.5000191}
+  m_AnchoredPosition: {x: 322.999969, y: 16.5000191}
   m_SizeDelta: {x: 100, y: 47}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22401412
@@ -27692,7 +27705,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 110, y: -6.4000001}
+  m_AnchoredPosition: {x: 176.300003, y: -6.4000001}
   m_SizeDelta: {x: 103, y: 23}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22496442

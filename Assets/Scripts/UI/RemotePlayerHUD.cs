@@ -97,8 +97,9 @@ public class RemotePlayerHUD : MonoBehaviour {
 	void  Update ()
 	{
 		if (canvasManager == null)
-			if ( GameObject.FindGameObjectWithTag ("GameCanvasManager") )
+			if ( GameObject.FindGameObjectWithTag ("GameCanvasManager") ) {
 				canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
+			}
 
 		// rotates the object relative to the camera
 		Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.back : Vector3.forward);
@@ -108,7 +109,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		Parent.SetActive(Vector3.Distance(transform.position, referenceCamera.transform.position) > 2 && Vector3.Distance(transform.position, referenceCamera.transform.position) < 14);
 
-		Debug.Log ("Distancia HUD-Camara: " + Vector3.Distance(transform.position, referenceCamera.transform.position).ToString());
+		//Debug.Log ("Distancia HUD-Camara: " + Vector3.Distance(transform.position, referenceCamera.transform.position).ToString());
 	}
 
 	public void RemotePlayerHUD_ClickHandle() {
