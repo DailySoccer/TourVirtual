@@ -33,6 +33,7 @@ public class AllViewer : MonoBehaviour {
     bool oldMainCameraStatus;
 
     public Canvas[] toHide;
+    Canvas canvas;
 
     public static AllViewer Instance { get; private set;  }
 
@@ -45,6 +46,8 @@ public class AllViewer : MonoBehaviour {
     public void Show(string url, ContentAPI.AssetType mode, string title="", callback endCallback = null ) {
         this.endCallback = endCallback;
 
+        offset = Vector2.zero;
+        canvas = gameObject.GetComponent<Canvas>();
         currentMode = mode;
         enabled = true;
         //cm.ShowScreen(visorCanvas);
@@ -57,13 +60,13 @@ public class AllViewer : MonoBehaviour {
 
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
-        var canvas = gameObject.GetComponent<Canvas>();
+        
         switch (mode) {
             case ContentAPI.AssetType.Photo:
 				image.sprite = null;
 				image.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
                 lastCoroutine = StartCoroutine(DownloadImage(url));
-                midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
+                midScreen = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height) * 0.5f;
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
                 canvas.worldCamera = null;
                 break;
@@ -121,26 +124,29 @@ public class AllViewer : MonoBehaviour {
         yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
 		image.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
         LoadingCanvasManager.Hide();
-        image.SetNativeSize();        
+
+        image.SetNativeSize();
         rectTransform = image.GetComponent<RectTransform>();
-        textureSize = rectTransform.offsetMax - rectTransform.offsetMin;
+        textureSize = rectTransform.offsetMax - rectTransform.offsetMin;        
         if (textureSize.x > textureSize.y)
         {
+            
+
             float scale = 1;
-            if (textureSize.x > Screen.width)
+            if (textureSize.x > canvas.pixelRect.width)
             {
-                scale = Screen.width / textureSize.x;
-                textureSize.x = Screen.width;
+                scale = canvas.pixelRect.width / textureSize.x;
+                textureSize.x = canvas.pixelRect.width;
                 textureSize.y *= scale;
             }
         }
         else
         {
             float scale = 1;
-            if (textureSize.y > Screen.height)
+            if (textureSize.y > canvas.pixelRect.height)
             {
-                scale = Screen.height / textureSize.y;
-                textureSize.y = Screen.height;
+                scale = canvas.pixelRect.height / textureSize.y;
+                textureSize.y = canvas.pixelRect.height;
                 textureSize.x *= scale;
             }
         }
@@ -175,20 +181,17 @@ public class AllViewer : MonoBehaviour {
         else
             draggin = false;
     }
-    void UpdateImage()
-    {
+
+    void UpdateImage() {
 #if UNITY_EDITOR
-        if( Input.GetMouseButton(0) )
-        {
-            float dx = Screen.width / 1280.0f;
-            float dy = Screen.height / 720.0f;
-            if (!draggin)
-            {
+        if( Input.GetMouseButton(0) ) {
+            float dx = canvas.pixelRect.width / 1280.0f;
+            float dy = canvas.pixelRect.height / 720.0f;
+            if (!draggin) {
                 lastTouch = Input.mousePosition;
                 draggin = true;
             }
-            else
-            {
+            else {
                 Vector2 diff = ((Vector2)Input.mousePosition - lastTouch) ;
                 lastTouch = Input.mousePosition;
                 offset += new Vector2(diff.x / dx, -diff.y / dy);
@@ -244,8 +247,8 @@ public class AllViewer : MonoBehaviour {
                 else
                 if (Input.GetTouch(0).phase == TouchPhase.Moved && draggin)
                 {
-                    float dx = Screen.width / 1280.0f;
-                    float dy = Screen.height / 720.0f;
+                    float dx = canvas.pixelRect.width / 1280.0f;
+                    float dy = canvas.pixelRect.height / 720.0f;
                     Touch touch = Input.GetTouch(0);
                     Vector3 diff = Input.GetTouch(0).position - lastTouch;
                     lastTouch = Input.GetTouch(0).position;
@@ -255,15 +258,12 @@ public class AllViewer : MonoBehaviour {
             else
                 draggin = false;
         }
-
-
 #endif
         float zoom = zoomSize / textureSize.x;
         if (zoom < 1) zoom = 1;
         if (rectTransform != null) {
             rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
             rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom,  textureSize.y * 0.5f * zoom - offset.y);
-            //rectTransform.rect.Set(offset.x + midScreen.x - textureSize.x * 0.5f * zoom, offset.y + midScreen.y - textureSize.y * 0.5f * zoom, textureSize.x * zoom, textureSize.y * zoom);
         }
     }
 
@@ -283,7 +283,7 @@ public class AllViewer : MonoBehaviour {
         }
 
         visorCanvas.IsOpen = false;
-        gameObject.GetComponent<Canvas>().worldCamera = null;
+        canvas.worldCamera = null;
 //        if (ViewerLight != null) Destroy(ViewerLight.gameObject);
         if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
         if (model != null) Destroy(model);

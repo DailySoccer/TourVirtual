@@ -439,7 +439,6 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
-        Debug.LogError(">>> JoinToRoom " + roomid);
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
@@ -482,12 +481,10 @@ public class RoomManager : Photon.PunBehaviour {
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
-        Debug.LogError(">>>>>>>>>>> OnJoinedLobby");
         bJustOneTime = false;
     }
 
     public override void OnReceivedRoomListUpdate() {
-        Debug.LogError(">>>>>>>>>>> OnReceivedRoomListUpdate");
         if (bJustOneTime) return;
         bJustOneTime = true;
         if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
