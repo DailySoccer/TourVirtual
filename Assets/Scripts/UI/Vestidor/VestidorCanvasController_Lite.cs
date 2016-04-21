@@ -341,6 +341,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
         {
+            MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
             //Seteamos el Avatar que se muestra en estapantalla
             PlayerInstance = instance;
             PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;

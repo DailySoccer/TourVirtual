@@ -112,9 +112,9 @@ public class AllViewer : MonoBehaviour {
         assetbundle = www.assetBundle;
         var names = assetbundle.GetAllAssetNames();
         model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
-        float size = model.GetComponent<Renderer>().bounds.size.y;
+        //float size = model.GetComponent<Renderer>().bounds.size.y;
         model.layer = LayerMask.NameToLayer("Model3D");
-        model.transform.position = new Vector3(0, -size * 0.5f, size * 2);
+        model.transform.position = new Vector3(0, 0, 1.2f);
         model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
     }
 
