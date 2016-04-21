@@ -146,7 +146,7 @@ public class Authentication : MonoBehaviour {
     }
 
 
-    public string urlCode = "";
+    string urlCode = "";
 #if UNITY_EDITOR
     void OnGUI() {
         if (UserAPI.Instance.Online && string.IsNullOrEmpty(AzureServices.AccessToken) )

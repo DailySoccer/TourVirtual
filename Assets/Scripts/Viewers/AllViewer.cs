@@ -114,7 +114,8 @@ public class AllViewer : MonoBehaviour {
         model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
         //float size = model.GetComponent<Renderer>().bounds.size.y;
         model.layer = LayerMask.NameToLayer("Model3D");
-        model.transform.position = new Vector3(0, 0, 1.2f);
+        posTarget = new Vector3(0, 0, 1.2f);
+        model.transform.position = posTarget;
         model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
     }
 
@@ -161,8 +162,10 @@ public class AllViewer : MonoBehaviour {
         }
     }
 
+    Vector3 posTarget;
     void UpdateModel() {
         if (model == null) return;
+        model.transform.position += (posTarget - model.transform.position)*0.2f;
 #if UNITY_EDITOR
         if (Input.GetMouseButton(0))
         {
@@ -177,13 +180,15 @@ public class AllViewer : MonoBehaviour {
             {
                 Vector2 diff = ((Vector2)Input.mousePosition - lastTouch);
                 lastTouch = Input.mousePosition;
-                offset += new Vector2(diff.x / dx, -diff.y / dy);
+                offset = new Vector2(diff.x / dx, -diff.y / dy);
             }
-
-
-            model.transform.rotation = Quaternion.Euler(offset.y * 0.5f, -offset.x * 0.5f, 0) * model.transform.rotation;
-            if (!Input.GetKey(KeyCode.LeftShift)) zoomSize -= 10;
-            if (!Input.GetKey(KeyCode.RightShift)) zoomSize += 10;
+            model.transform.rotation = Quaternion.Euler(0, -offset.x * 0.5f, 0) * model.transform.rotation;
+            if (Input.GetMouseButton(1)){
+                if (posTarget.z != 1.2f)
+                    posTarget = new Vector3(0, 0, 1.2f);
+                else
+                    posTarget = new Vector3(0, 0, 0.6f);
+            }
         }
         else
             draggin = false;
@@ -193,13 +198,25 @@ public class AllViewer : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                lastTouch = touch.position;
-                draggin = true;
+                if (Input.GetTouch(0).tapCount == 2)
+                {
+                    if (posTarget.z != 1.2f){
+                        posTarget = new Vector3(0, 0, 1.2f);
+                    }
+                    else
+                    {
+                        posTarget = new Vector3(0, 0, 0.6f);
+                    }
+                }            
+                else{
+                    lastTouch = touch.position;
+                    draggin = true;
+                }
             }
             else if (touch.phase == TouchPhase.Moved && draggin)
             {
                 Vector3 diff = touch.position - lastTouch;
-                model.transform.rotation = Quaternion.Euler(diff.y * 0.5f, -diff.x * 0.5f, 0) * model.transform.rotation;
+                model.transform.rotation = Quaternion.Euler(0, -diff.x * 0.5f, 0) * model.transform.rotation;
                 lastTouch = touch.position;
             }
         }
