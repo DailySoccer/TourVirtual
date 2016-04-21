@@ -18,6 +18,7 @@ public class SynchNet : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        Debug.LogError(">>>> OnPhotonSerializeView "+ stream.isReading);
         if (stream.isReading != true)
             stream.SendNext(transform.position);
         else

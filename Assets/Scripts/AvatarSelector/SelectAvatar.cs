@@ -52,6 +52,7 @@ public class SelectAvatar : MonoBehaviour {
 //        }
 
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+            MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
             UserAPI.VirtualGoodsDesciptor.FilterBySex();
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
@@ -78,6 +79,7 @@ public class SelectAvatar : MonoBehaviour {
 			if (lastInstance != null)
 				Destroy (lastInstance);
 			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
+                MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
                 if (VestidorCanvasController_Lite.Instance == null) Debug.LogError("Error VestidorCanvasController_Lite.Instance es nulo.");
                 VestidorCanvasController_Lite.Instance.PlayerInstance = instance;
                 if (instance == null) Debug.LogError("Error instance es nulo.");

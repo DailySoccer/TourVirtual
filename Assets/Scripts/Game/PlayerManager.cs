@@ -74,7 +74,7 @@ public class PlayerManager : Photon.PunBehaviour {
 #if !LITE_VERSION
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
-		if (np.isLocal && Player.Instance != null) {
+        if (np.isLocal && Player.Instance != null) {
             GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
             //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
             tp.layer = LayerMask.NameToLayer( "Player" );
@@ -85,24 +85,23 @@ public class PlayerManager : Photon.PunBehaviour {
         }
         else {
             StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
-                GameObject tp = instance;
-                if (tp.GetComponent<Locomotion>() != null)
-                    tp.GetComponent<Locomotion>().enabled = false;
-                tp.GetComponent<SynchNet>().isLocal = false;
-                tp.tag = "AvatarNet";
-                tp.layer = LayerMask.NameToLayer("Net");
-                PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
+                if (instance.GetComponent<Locomotion>() != null) instance.GetComponent<Locomotion>().enabled = false;
+                instance.GetComponent<SynchNet>().isLocal = false;
+                instance.tag = "AvatarNet";
+                instance.layer = LayerMask.NameToLayer("Net");
+                PhotonView[] nViews = instance.GetComponentsInChildren<PhotonView>(true);
                 foreach( var v in nViews) v.viewID = id;
 
-                var csc = tp.GetComponent<ContentSelectorCaster>();
+                var csc = instance.GetComponent<ContentSelectorCaster>();
                 if(csc!=null) csc.enabled = false;
-
+                /*
 				//Código para insertar el HUD de los players remotos
 				PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
 				PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
 				PlayerHUD.transform.SetParent(tp.transform);
 				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
 				PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
+                */
 
             }));
             /*

@@ -85,6 +85,7 @@ public class CanvasManager : MonoBehaviour {
         //SecondPlaneCanvas.SetActive (true);			
         //SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
+            MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
             UIScreensCamera.SetActive (true);
             MainCamera.SetActive(false);
 
@@ -107,9 +108,6 @@ public class CanvasManager : MonoBehaviour {
             SkinnedMeshRenderer[] skins = ProfilePlayerInstance.GetComponentsInChildren<SkinnedMeshRenderer>();
             foreach (var skin in skins)
                 skin.useLightProbes = false;
-
-            MyTools.SetLayerRecursively(ProfilePlayerInstance, LayerMask.NameToLayer("Model3D"));
-            
 
             AddParticles();
         }) );

@@ -285,12 +285,7 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 #if !LITE_VERSION
 		if (PhotonNetwork.connectedAndReady) {
-			if (PhotonNetwork.room == null) {
-                // Abre la primera pantalla.
-                JoinToRoom(GetRoomIdById(Room.Id));
-            }
-            else {
-                // Sale de la habitacion actual.
+			if (PhotonNetwork.room != null) {
                 PhotonNetwork.LeaveRoom();
 			}
 		}
@@ -314,7 +309,11 @@ public class RoomManager : Photon.PunBehaviour {
             }
             //Application.LoadLevel(Room.SceneName);
             Resources.UnloadUnusedAssets();
+            Debug.LogError("Scene loaded");
         }
+
+        if (PhotonNetwork.room == null)
+            JoinToRoom(GetRoomIdById(Room.Id));
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
@@ -439,23 +438,25 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
+        Debug.LogError(">>> JoinToRoom "+roomid);
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {
-        //        Debug.LogError(">>> OnConnectedToMaster");
+        Debug.LogError(">>> OnConnectedToMaster");
         //JoinToRoom();
     }
 
     public override void OnConnectedToPhoton() {
-        //        Debug.LogError(">>> OnConnectedToPhoton");
+        Debug.LogError(">>> OnConnectedToPhoton");
     }
 
     public override void OnCreatedRoom() {
-//        Debug.LogError(">>> OnCreatedRoom");
+        Debug.LogError(">>> OnCreatedRoom");
     }
 
 	public override void OnJoinedRoom() {
+        Debug.LogError(">>> OnJoinedRoom");
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
             Player thePlayer = Player.Instance;
             instance.layer = LayerMask.NameToLayer("Player");
