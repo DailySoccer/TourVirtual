@@ -392,8 +392,7 @@ public class RoomManager : Photon.PunBehaviour {
 			}
 		}
 		if (portal == null) {
-            if (player != null && player.Avatar != null)
-            {
+            if (player != null && player.Avatar != null) {
                 // Colocar al player en un lugar de la escena
                 player.Avatar.transform.position = Vector3.zero;
                 player.Avatar.transform.rotation = Quaternion.identity;
@@ -457,19 +456,6 @@ public class RoomManager : Photon.PunBehaviour {
 
 	public override void OnJoinedRoom() {
         Debug.LogError(">>> OnJoinedRoom");
-        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
-            Player thePlayer = Player.Instance;
-            instance.layer = LayerMask.NameToLayer("Player");
-            if (thePlayer != null) {
-                thePlayer.Avatar = instance;
-                if (entrada != null && thePlayer.Avatar!=null) {
-                    thePlayer.Avatar.transform.position = entrada.position;
-                    thePlayer.Avatar.transform.rotation = entrada.rotation;
-                }
-            }
-        }));
-
-
         if (OnChange != null) OnChange();
 		if (OnRoomChange != null) OnRoomChange();
 		if (OnJoinRoomAction != null) OnJoinRoomAction();

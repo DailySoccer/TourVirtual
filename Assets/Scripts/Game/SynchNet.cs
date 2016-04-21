@@ -1,51 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SynchNet : MonoBehaviour, IPunObservable
+public class SynchNet : Photon.MonoBehaviour, IPunObservable
 {
     Animator _animator;
-    PhotonView _PhotonView;
     Vector3 target = Vector3.zero;
 
     public bool isLocal = true;
 
-    void Start()
-    {
+    void Start() {
         _animator = GetComponent<Animator>();
-        _PhotonView = GetComponent<PhotonView>();
 
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        Debug.LogError(">>>> OnPhotonSerializeView "+ stream.isReading);
-        if (stream.isReading != true)
-            stream.SendNext(transform.position);
-        else
-            target = (Vector3)stream.ReceiveNext();
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.isReading != true) stream.SendNext(transform.position);
+        else target = (Vector3)stream.ReceiveNext();
     }
 
 
     void Update()
     {
-        if (!isLocal)
-        {
+        if (!isLocal) {
             Vector3 tmp = target;
             tmp.y = transform.position.y;
             float dis = (transform.position - tmp).magnitude;
-            if (dis > 5.0f)
-            {
+            if (dis > 5.0f) {
                 transform.position = target;
                 dis = 0;
             }
-            else
-            {
-                if (dis > 0.250f)
-                {
+            else {
+                if (dis > 0.250f) {
                     transform.LookAt(tmp);
                 }
-                else
-                {
+                else {
                     dis = 0;
                 }
             }

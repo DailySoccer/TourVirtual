@@ -52,15 +52,13 @@ public class PlayerManager : Photon.PunBehaviour {
 	void SpawnPlayer() {
 #if !LITE_VERSION
 		int viewIdOld = _viewId;
-
 		// Manually allocate PhotonViewID
 		_viewId = PhotonNetwork.AllocateViewID();
-		/*
 		if (viewIdOld != -1 && _viewId != viewIdOld) {
 			Debug.Log ("PhotonNetwork.UnAllocateViewID: " + viewIdOld);
 			PhotonNetwork.UnAllocateViewID(viewIdOld);
 		}
-		*/
+
 		Transform playerTransform;
 		if (Player.Instance != null) {
 			playerTransform = Player.Instance.Avatar.transform;
@@ -75,47 +73,32 @@ public class PlayerManager : Photon.PunBehaviour {
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
         if (np.isLocal && Player.Instance != null) {
-            GameObject tp = Player.Instance.Avatar ?? Player.Instance.gameObject;
-            //thePlayer.GetComponentsInChildren<Animator>(true)[0].applyRootMotion = true;
-            tp.layer = LayerMask.NameToLayer( "Player" );
-            var sn = tp.GetComponent<SynchNet>();
-            if (sn != null) sn.isLocal = true;
-            PhotonView[] nViews = tp.GetComponentsInChildren<PhotonView>(true);
-            foreach (var v in nViews) v.viewID = id;
+
+            StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+                instance.layer = LayerMask.NameToLayer("Player");
+                instance.GetComponent<SynchNet>().isLocal = true;
+                instance.GetComponent<PhotonView>().viewID = id;
+                if (Player.Instance != null) Player.Instance.Avatar = instance;
+            }));
         }
         else {
             StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
-                if (instance.GetComponent<Locomotion>() != null) instance.GetComponent<Locomotion>().enabled = false;
-                instance.GetComponent<SynchNet>().isLocal = false;
                 instance.tag = "AvatarNet";
                 instance.layer = LayerMask.NameToLayer("Net");
-                PhotonView[] nViews = instance.GetComponentsInChildren<PhotonView>(true);
-                foreach( var v in nViews) v.viewID = id;
+                instance.GetComponent<SynchNet>().isLocal = false;
+                instance.GetComponent<PhotonView>().viewID = id;
 
-                var csc = instance.GetComponent<ContentSelectorCaster>();
-                if(csc!=null) csc.enabled = false;
-                /*
-				//Código para insertar el HUD de los players remotos
-				PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
+                instance.GetComponent<Locomotion>().enabled = false;
+                instance.GetComponent<ContentSelectorCaster>().enabled = false;
+
+                //Código para insertar el HUD de los players remotos
+                PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
 				PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
-				PlayerHUD.transform.SetParent(tp.transform);
+				PlayerHUD.transform.SetParent(instance.transform);
 				PlayerHUD.transform.localScale = Vector3.one * 0.01f;
 				PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
-                */
 
             }));
-            /*
-			GameObject prefab = Library.GetRecipe(selectedModel) ?? playerPrefab;
-			thePlayer = Instantiate(prefab, pos, rot) as GameObject;
-
-			// Apagamos el componente de desplazamiento
-			if (thePlayer.GetComponent<Locomotion>() != null) {
-				thePlayer.GetComponent<Locomotion>().enabled = false;
-			}
-
-			thePlayer.tag = "AvatarNet";
-			thePlayer.layer = LayerMask.NameToLayer( "Net" );
-            */
 		}
 		// Set the PhotonView
 	}
