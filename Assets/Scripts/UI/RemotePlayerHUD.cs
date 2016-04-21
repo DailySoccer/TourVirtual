@@ -36,6 +36,8 @@ public class RemotePlayerHUD : MonoBehaviour {
 	public Text FanLevel;
 	public Image Face;
 
+	public GameObject Parent;
+
 
 	public static string GetDataModel(UserAPI user) {
 		int maxPacks = 0;
@@ -46,7 +48,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		//TODO: parseamos los datos a sus variables.
 		return user.Nick + "#" + user.Level + "#" + 
-			user.GetScore (UserAPI.MiniGame.FreeShoots).ToString() + "#" +
+			user.GetScore (UserAPI.MiniGame.FreeKicks).ToString() + "#" +
 			user.GetScore (UserAPI.MiniGame.FreeShoots).ToString() + "#" +
 			user.GetScore (UserAPI.MiniGame.HiddenObjects).ToString() + "#" + 
 			achivs + "/" + maxAchivs + "#" +
@@ -98,11 +100,15 @@ public class RemotePlayerHUD : MonoBehaviour {
 			if ( GameObject.FindGameObjectWithTag ("GameCanvasManager") )
 				canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
 
-			// rotates the object relative to the camera
-			Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.back : Vector3.forward);
-			Vector3 targetOrientation = referenceCamera.transform.rotation * GetAxis (axis);
-			transform.LookAt (targetPos, targetOrientation);
-			transform.localRotation = new Quaternion(0, transform.localRotation.y, 0, transform.localRotation.w);
+		// rotates the object relative to the camera
+		Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.back : Vector3.forward);
+		Vector3 targetOrientation = referenceCamera.transform.rotation * GetAxis (axis);
+		transform.LookAt (targetPos, targetOrientation);
+		transform.localRotation = new Quaternion(0, transform.localRotation.y, 0, transform.localRotation.w);
+
+		Parent.SetActive(Vector3.Distance(transform.position, referenceCamera.transform.position) > 2 && Vector3.Distance(transform.position, referenceCamera.transform.position) < 14);
+
+		Debug.Log ("Distancia HUD-Camara: " + Vector3.Distance(transform.position, referenceCamera.transform.position).ToString());
 	}
 
 	public void RemotePlayerHUD_ClickHandle() {

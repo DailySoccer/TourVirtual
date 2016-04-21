@@ -12,7 +12,7 @@ public class LoadingContentText : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 		TextField = GetComponent<Text> ();
-
+		TextField.text = "";
 	}
 
 	// Use this for initialization
