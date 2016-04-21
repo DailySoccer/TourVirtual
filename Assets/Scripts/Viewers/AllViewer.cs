@@ -163,6 +163,31 @@ public class AllViewer : MonoBehaviour {
 
     void UpdateModel() {
         if (model == null) return;
+#if UNITY_EDITOR
+        if (Input.GetMouseButton(0))
+        {
+            float dx = canvas.pixelRect.width / 1280.0f;
+            float dy = canvas.pixelRect.height / 720.0f;
+            if (!draggin)
+            {
+                lastTouch = Input.mousePosition;
+                draggin = true;
+            }
+            else
+            {
+                Vector2 diff = ((Vector2)Input.mousePosition - lastTouch);
+                lastTouch = Input.mousePosition;
+                offset += new Vector2(diff.x / dx, -diff.y / dy);
+            }
+
+
+            model.transform.rotation = Quaternion.Euler(offset.y * 0.5f, -offset.x * 0.5f, 0) * model.transform.rotation;
+            if (!Input.GetKey(KeyCode.LeftShift)) zoomSize -= 10;
+            if (!Input.GetKey(KeyCode.RightShift)) zoomSize += 10;
+        }
+        else
+            draggin = false;
+#else
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
@@ -174,12 +199,13 @@ public class AllViewer : MonoBehaviour {
             else if (touch.phase == TouchPhase.Moved && draggin)
             {
                 Vector3 diff = touch.position - lastTouch;
-                model.transform.rotation = Quaternion.Euler(0, -diff.x * 0.5f, 0) * model.transform.rotation;
+                model.transform.rotation = Quaternion.Euler(diff.y * 0.5f, -diff.x * 0.5f, 0) * model.transform.rotation;
                 lastTouch = touch.position;
             }
         }
         else
             draggin = false;
+#endif
     }
 
     void UpdateImage() {

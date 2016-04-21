@@ -127,6 +127,7 @@ public class Authentication : MonoBehaviour {
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
+/*
 #if UNITY_EDITOR
         if (!string.IsNullOrEmpty(urlCode))
         {
@@ -134,6 +135,7 @@ public class Authentication : MonoBehaviour {
         }
         else
 #endif
+*/
             AzureServices.SignIn();
     }
 
