@@ -43,7 +43,7 @@ public class Authentication : MonoBehaviour {
         UserAPI ua = new UserAPI();
     }
 
-    IEnumerator Start()
+    public IEnumerator Init()
     {
 #if UNITY_EDITOR
     #if PRO
