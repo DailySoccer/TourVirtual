@@ -289,7 +289,7 @@ SetScore(MiniGame.HiddenObjects, 320);
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
 
-    int[] HighScore = new int[3] { 1000, 2000, 3000 };
+    int[] HighScore = new int[3] { 0, 0, 0 };
 
     public struct ScoreEntry {
         public string Nick;
