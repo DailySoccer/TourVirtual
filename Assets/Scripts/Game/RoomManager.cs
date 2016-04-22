@@ -284,8 +284,10 @@ public class RoomManager : Photon.PunBehaviour {
 			player.gameObject.SetActive(false);
 		}
 #if !LITE_VERSION
+        bool connected = false;
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room != null) {
+                connected = true;
                 PhotonNetwork.LeaveRoom();
 			}
 		}
@@ -303,29 +305,23 @@ public class RoomManager : Photon.PunBehaviour {
 				}
             }
             AsyncOperation ao = Application.LoadLevelAsync(Room.SceneName);
-            while (!ao.isDone)
-            {
-                yield return null;
-            }
-            //Application.LoadLevel(Room.SceneName);
+            while (!ao.isDone) yield return null;
             Resources.UnloadUnusedAssets();
-            Debug.LogError("Scene loaded");
         }
 
-        if (PhotonNetwork.room == null)
+        Debug.LogError(">>>>> JoinToRoom");
+        if (!connected)
             JoinToRoom(GetRoomIdById(Room.Id));
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
             UserAPI.Achievements.SendAction(Room.GamaAction);
         }
-
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
-
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
-		_loadingRoom = false;
+        _loadingRoom = false;
 	}
 
 	void Update () {
@@ -359,13 +355,12 @@ public class RoomManager : Photon.PunBehaviour {
 
     private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomNew, RoomDefinition roomOld, Player player) {
 		Portal portal = null;
-
-
         // Esperamos a que se haya inicializado correctamente la escena recien cargada
         // para que podamos encontrar los "portales" (Portal.FindInScene)
         yield return null;
-		// Nos han proporcionado la puerta por la que entrar?
-		if (!string.IsNullOrEmpty(_doorToEnter)) {
+
+        // Nos han proporcionado la puerta por la que entrar?
+        if (!string.IsNullOrEmpty(_doorToEnter)) {
 			portal = Portal.FindInScene(_doorToEnter);
 		}
 		// Venimos de otra habitación?
@@ -376,10 +371,10 @@ public class RoomManager : Photon.PunBehaviour {
 		if (portal == null) {
 			portal = Portal.First();
 			if (portal != null) {
-				Debug.Log ("Portal: Default");
+				Debug.Log ("Portal: Default OLD "+ (roomOld != null ? roomOld.Id : "NoOLD") + " NEW "+ (roomNew!=null?roomNew.Id:"NoNEW"));
 			}
 		}
-		if (portal != null) {
+        if (portal != null) {
 			entrada = portal.transform.FindChild("Point");
 			if (entrada != null) {
 				if (player != null && player.Avatar!=null) {
@@ -391,7 +386,7 @@ public class RoomManager : Photon.PunBehaviour {
 				portal = null;
 			}
 		}
-		if (portal == null) {
+        if (portal == null) {
             if (player != null && player.Avatar != null) {
                 // Colocar al player en un lugar de la escena
                 player.Avatar.transform.position = Vector3.zero;
@@ -399,22 +394,20 @@ public class RoomManager : Photon.PunBehaviour {
             }
         }
 #if !LITE_VERSION
-		// Esperamos que el player entre en la nueva Room
-		float timeout = Time.realtimeSinceStartup + 20;
-		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id)) && 
-		       Time.realtimeSinceStartup<timeout ) {
-			yield return null;
+        // Esperamos que el player entre en la nueva Room
+        float timeout = Time.realtimeSinceStartup + 2;
+		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id)) && Time.realtimeSinceStartup<timeout ) {
+            yield return null;
 		}
 #endif
         if (player != null) {
             // Hacerlo visible o no...
             player.gameObject.SetActive(Room.PlayerVisible);
 		}
-
         yield return null;
-		if (OnChange != null) OnChange();
+        if (OnChange != null) OnChange();
         if (OnSceneReady != null) OnSceneReady();
-	}
+    }
 
 	private Portal FindPortalInScene(string portalId) {
 		Portal ret = null;
@@ -437,7 +430,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
-        Debug.LogError(">>> JoinToRoom "+roomid);
+        Debug.LogError( ">>> JoinToRoom "+roomid );
         PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
@@ -463,15 +456,18 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
+        Debug.LogError(">>> OnLeftRoom");
         if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
+        Debug.LogError(">>> OnJoinedLobby");
         bJustOneTime = false;
     }
 
     public override void OnReceivedRoomListUpdate() {
+        Debug.LogError(">>> OnReceivedRoomListUpdate");
         if (bJustOneTime) return;
         bJustOneTime = true;
         if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
@@ -497,12 +493,14 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
-		if (OnChange != null) OnChange();
+        Debug.LogError(">>> OnPhotonPlayerConnected");
+        if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
-		if (OnChange != null) OnChange();
+        Debug.LogError(">>> OnPhotonPlayerDisconnected");
+        if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
@@ -529,7 +527,7 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnPhotonMaxCccuReached() {
-        //		Debug.LogWarning("OnPhotonMaxCccuReached");
+        Debug.LogError("OnPhotonMaxCccuReached");
     }
 
     private List<GameObject> GetRootObjects() {
