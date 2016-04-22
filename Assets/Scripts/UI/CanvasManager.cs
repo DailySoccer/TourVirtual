@@ -94,10 +94,6 @@ public class CanvasManager : MonoBehaviour {
 
 			//Seteamos el Avatar que se muestra en estapantalla
 			ProfilePlayerInstance = instance;
-			ProfilePlayerInstance.layer = 5;
-			foreach(Transform t in ProfilePlayerInstance.transform) {
-				t.gameObject.layer = 5;
-			}
 			ProfilePlayerInstance.name = "UI Player Clone for Profile";
 			ProfilePlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
 			ProfilePlayerInstance.GetComponent<SynchNet>().enabled = false;
