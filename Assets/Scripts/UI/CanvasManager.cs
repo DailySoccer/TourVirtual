@@ -89,7 +89,7 @@ public class CanvasManager : MonoBehaviour {
             UIScreensCamera.SetActive (true);
             MainCamera.SetActive(false);
 
-			ActiveSecondPlaneGUI ();	
+			ActiveSecondPlaneGUI ("Video Bg", "Profile Screen Plano2");	
 			ShowScreen(ScreenProfile);
 
 			//Seteamos el Avatar que se muestra en estapantalla
@@ -134,7 +134,7 @@ public class CanvasManager : MonoBehaviour {
             Destroy(ProfilePlayerInstance);
         }
 			
-		ActiveSecondPlaneGUI ();			
+		ActiveSecondPlaneGUI ("Video Bg");			
 		ShowScreen(ScreenMap);
     }
 
@@ -143,7 +143,7 @@ public class CanvasManager : MonoBehaviour {
             Destroy(ProfilePlayerInstance);
         }
 		
-		ActiveSecondPlaneGUI ();			
+		ActiveSecondPlaneGUI ("Video Bg");			
 		ShowScreen(ScreenGoodiesShoop);
 	}
 
@@ -152,8 +152,8 @@ public class CanvasManager : MonoBehaviour {
 		ShowMainGameScreen ();
 	}
 
-	private void ActiveSecondPlaneGUI() {
-		ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");		
+	private void ActiveSecondPlaneGUI(params string[] names) {
+		ShowSecondPlaneScreens(names);		
 		SecondPlaneCanvas.SetActive (true);			
 		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
 		
