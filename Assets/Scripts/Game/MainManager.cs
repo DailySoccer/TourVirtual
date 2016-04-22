@@ -82,7 +82,7 @@ public class MainManager : Photon.PunBehaviour {
 		}
 		set {
 			_soundEnabled = value;
-			GameObject.FindGameObjectWithTag("MusicTheme").GetComponent<AudioSource>().enabled = value;
+			MusicTheme.enabled = value;
 			//TODO: guardar valor en archivo de configuracion
 			MyTools.SetPlayerPrefsBool("SoundEnabled", value);
 			PlayerPrefs.Save();
@@ -139,6 +139,8 @@ public class MainManager : Photon.PunBehaviour {
 			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
 	}
+
+	public AudioSource MusicTheme;
 
     public static bool IsDeepLinking = false;
     public static Dictionary<string, object> DeepLinkinParameters;
@@ -203,6 +205,7 @@ public class MainManager : Photon.PunBehaviour {
 		CurrentLanguage = PlayerPrefs.GetString ("CurrentLanguage", "en");
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
+		MusicTheme.enabled = false;
 	}
 
     void Start() {
