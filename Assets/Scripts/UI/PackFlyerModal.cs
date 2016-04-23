@@ -27,6 +27,9 @@ public class PackFlyerModal : MonoBehaviour {
 	}
 
 	public void AddContentToList(string contentTitle) {
+		if (ContentList == null)
+			return;
+
 		if (ContentList.text != "")
 			ContentList.text += "\n";
 
@@ -34,7 +37,9 @@ public class PackFlyerModal : MonoBehaviour {
 	}
 
 	public void Reset() {
-		ContentList.text = "";
+		if (ContentList != null)
+			ContentList.text = "";
+
 		Price.text = "";
 		TheContent = null;
 		FlyerThumbnail.sprite = null;

@@ -64,7 +64,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         {
             DressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
-        }F
+        }
         EnableTopMenu(true);
         ShowVestidor();
     }

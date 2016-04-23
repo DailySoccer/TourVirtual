@@ -19,6 +19,7 @@ public class TVBChatController : MonoBehaviour {
 	public GUIChatScreen messagesScreen;
 
 	public Text currentChannelUILabel;
+	public GameObject ChannelInputBar;
 
 
 	public InputField channelsInputField;
@@ -97,7 +98,8 @@ public class TVBChatController : MonoBehaviour {
 	void PopulateChannelsList() {
 		//CleanPlayerSlotList();
 
-		AddChannelSlot("Global");
+		//AddChannelSlot("Global");
+		AddChannelSlot("Community Manager");
 		AddChannelSlot(RoomManager.Instance.Room.Id);
 
 
@@ -277,10 +279,10 @@ public class TVBChatController : MonoBehaviour {
 	}
 	
 	private void SetCurrentChannel(string theName) {
-			currentChannelName = theName;
-			currentChannelFriendlyName = GetChannelFriendlyName(theName);
-
-			currentChannelUILabel.text = currentChannelFriendlyName;
+		currentChannelName = theName;
+		currentChannelFriendlyName = GetChannelFriendlyName(theName);
+		currentChannelUILabel.text = currentChannelFriendlyName;
+		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower ());
 	}
 
 	private string GetChannelFriendlyName( string theName) {

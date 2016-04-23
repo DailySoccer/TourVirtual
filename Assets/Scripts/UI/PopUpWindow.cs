@@ -201,8 +201,8 @@ public class PopUpWindow : UIScreen {
 				else {
 					// No tenemos el contenido, asique mostramos el flyer
 					PackFlyerGameObject.SetActive (true);
-					StandardTitleText.gameObject.SetActive (true);
-					StandardTitleText.text = content.Description;
+					//StandardTitleText.gameObject.SetActive (true);
+					//StandardTitleText.text = content.Description;
 					SetupFlyerPackContent(content);
 				}
 				break;
@@ -419,11 +419,13 @@ public class PopUpWindow : UIScreen {
 		LoadingCanvasManager.Show ();
 
 		// Setear el título de la ventana
-		StandardTitleText.gameObject.SetActive (true);			
+		//StandardTitleText.gameObject.SetActive (true);			
+
 		// Recuperar la info del pack: Thumb, titulo, contenidos y configuramos la ventana
 		ThePackFlyerModal.Setup (content);
+
 		// Solicitamos el contenido del pack y montamos el flyer
-		StartCoroutine (UserAPI.Contents.GetContent (content.GUID, PackFlyerContentCallBack));
+		//StartCoroutine (UserAPI.Contents.GetContent (content.GUID, PackFlyerContentCallBack));
 
 	}
 
