@@ -193,7 +193,8 @@ public class RoomManager : Photon.PunBehaviour {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
 //                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
-#if !LITE_VERSION
+                    // CACA, aqui vamos a seleccion de 
+                   /*
                     if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
                         // Sin pasar por seleccion de avatar ya que tiene avatar
                         RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
@@ -203,8 +204,10 @@ public class RoomManager : Photon.PunBehaviour {
                         ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                     }
                     else
-#endif 
+                    */
                     {
+                        
+                        MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.LANDING_PAGE;
                         _doorToEnter = GetDoorKey(RoomStart);
                         ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                     }
@@ -304,6 +307,7 @@ public class RoomManager : Photon.PunBehaviour {
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
             }
+            //Application.LoadLevel(Room.SceneName);
             AsyncOperation ao = Application.LoadLevelAsync(Room.SceneName);
             while (!ao.isDone) yield return null;
             Resources.UnloadUnusedAssets();
@@ -351,7 +355,7 @@ public class RoomManager : Photon.PunBehaviour {
 		PointOfInterest = pointOfInterest;
 #endif
 	}
-    Transform entrada;
+    public static Transform entrada;
 
     private System.Collections.IEnumerator EnterPlayer(RoomDefinition roomNew, RoomDefinition roomOld, Player player) {
 		Portal portal = null;
@@ -378,9 +382,10 @@ public class RoomManager : Photon.PunBehaviour {
 			entrada = portal.transform.FindChild("Point");
 			if (entrada != null) {
 				if (player != null && player.Avatar!=null) {
-                    player.Avatar.transform.position = entrada.position;
-                    player.Avatar.transform.rotation = entrada.rotation;
+                    player.Avatar.transform.position = RoomManager.entrada.position;
+                    player.Avatar.transform.rotation = RoomManager.entrada.rotation;
                 }
+
             }            
             else {
 				portal = null;

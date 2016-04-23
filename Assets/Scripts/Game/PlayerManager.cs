@@ -55,7 +55,6 @@ public class PlayerManager : Photon.PunBehaviour {
 		// Manually allocate PhotonViewID
 		_viewId = PhotonNetwork.AllocateViewID();
 		if (viewIdOld != -1 && _viewId != viewIdOld) {
-			Debug.Log ("PhotonNetwork.UnAllocateViewID: " + viewIdOld);
 			PhotonNetwork.UnAllocateViewID(viewIdOld);
 		}
 
@@ -79,6 +78,9 @@ public class PlayerManager : Photon.PunBehaviour {
                 instance.GetComponent<SynchNet>().isLocal = true;
                 instance.GetComponent<PhotonView>().viewID = id;
                 if (Player.Instance != null) Player.Instance.Avatar = instance;
+                instance.transform.position = RoomManager.entrada.position;
+                instance.transform.rotation = RoomManager.entrada.rotation;
+
             }));
         }
         else {

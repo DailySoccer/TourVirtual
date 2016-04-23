@@ -12,7 +12,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         NONE,
         SELECT_AVATAR,
-        VESTIDOR
+        VESTIDOR,
+        LANDING_PAGE
     }
 
     public Transform PlayerPosition;
@@ -63,7 +64,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         {
             DressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
-        }
+        }F
         EnableTopMenu(true);
         ShowVestidor();
     }
@@ -103,6 +104,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
                     ShowScreen(VestidorScreen);
+                    break;
+                case VestidorState.LANDING_PAGE:
                     break;
             }
             currentVestidorState = newState;
@@ -433,7 +436,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             Application.Quit();
             return;
         }
-		HideAllScreens ();
+        MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR; // Siempre volvere al vestidor.
+        HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
 #else
 
