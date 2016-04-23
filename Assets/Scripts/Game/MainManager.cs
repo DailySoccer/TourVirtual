@@ -323,7 +323,7 @@ public class MainManager : Photon.PunBehaviour {
 #endif
         StartCoroutine( Connect ());
 	}
-
+    /*
     float deltaTime = 0.0f;
 
     void Update()
@@ -350,7 +350,7 @@ public class MainManager : Photon.PunBehaviour {
         style.normal.textColor = new Color(0f, 0f, 0.5f, 1.0f);
         GUI.Label(rect, text, style);
     }
-
+    */
     /*
     public void OnGUI()	{
         if (!InternetConnection && !OfflineMode) {
