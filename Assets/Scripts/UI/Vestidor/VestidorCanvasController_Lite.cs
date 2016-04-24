@@ -342,7 +342,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         if (isCurrentPopUpOpen)
             TogglePopUpScreen();
-        if (PlayerInstance == null && MainManager.VestidorMode == VestidorState.VESTIDOR)
+        if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
             Invoke("LoadModel", 0.25f);
 
         ChangeVestidorState(MainManager.VestidorMode);
