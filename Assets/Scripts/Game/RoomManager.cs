@@ -66,16 +66,18 @@ public class RoomDefinition {
 		return door;
 	}
 	
-	public RoomDefinition(string id, string sceneName, Dictionary<string, object> doors) {
+	public RoomDefinition(string id, string name, string sceneName, Dictionary<string, object> doors) {
 		Id = id;
+        Name = name;
 		SceneName = sceneName;
 		Doors = doors;
 	}
 	
 	static public RoomDefinition LoadFromJSON(Dictionary<string, object> jsonMap) {
 		RoomDefinition roomDefinition = new RoomDefinition(
-			jsonMap[KEY_ID] as string,
-			jsonMap[KEY_SCENE] as string,
+            jsonMap[KEY_ID] as string,
+            jsonMap[KEY_NAME] as string,
+            jsonMap[KEY_SCENE] as string,
 			jsonMap[KEY_DOORS] as Dictionary<string, object>
             );
 		if (jsonMap.ContainsKey(KEY_NAME)) {
@@ -156,17 +158,18 @@ public class RoomManager : Photon.PunBehaviour {
 
 	private string IdLastVisitedRoom;
 	private string IdLastDoorOfVisitedRoom;
-        
+
     static RoomManager _instance;
     static public RoomManager Instance {
-		get {
+    get {
             if (_instance == null){
-                GameObject roomManagerObj = GameObject.FindGameObjectWithTag("RoomManager");                
-                _instance = roomManagerObj != null ? roomManagerObj.GetComponent<RoomManager>() : null;
+                GameObject roomManagerObj = GameObject.FindGameObjectWithTag("RoomManager");
+    _instance = roomManagerObj != null ? roomManagerObj.GetComponent<RoomManager>() : null;
             }
             return _instance;
         }
 	}
+
 
 	void Start () {
 		LoadRooms();
@@ -550,7 +553,7 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 	}
 	
-	private RoomDefinition FindRoomBySceneName(string sceneName) {
+	public RoomDefinition FindRoomBySceneName(string sceneName) {
 		string roomId = null;
 		foreach(RoomDefinition room in RoomDefinitions.Values) {
 			if (room.SceneName == sceneName) {

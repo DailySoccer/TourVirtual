@@ -144,13 +144,12 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 		}
 		*/
 	}
-	
 	public void OnUnsubscribed(string[] channels) {
 //		Debug.Log ("OnUnsubscribed");
 	}
 
 	public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
+//		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -166,8 +165,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnPrivateMessage(string sender, object message, string channelName) {
-		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
-
+//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
 
@@ -192,7 +190,6 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
 	public override void OnJoinedRoom() {
 //		Debug.Log ("OnJoinedRoom");
-
 		_roomChannel = PhotonNetwork.room.name.Split('#')[0];
         if (ChatClient != null && ChatClient.CanChat) {
 			ChatClient.Subscribe( new string[] { _roomChannel }, MessagesFromHistory );
@@ -216,7 +213,6 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 			if (ChatClient != null && ChatClient.CanChat) {
 				ChatClient.Unsubscribe( new string[] { _roomChannel } );
 			}
-
 			_roomChannel = null;
 		}
 	}

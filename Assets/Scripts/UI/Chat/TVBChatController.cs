@@ -157,9 +157,14 @@ public class TVBChatController : MonoBehaviour {
 
 	private void SetChannelSlotValues(GameObject userSlot, string channelName) {
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
-		
-		// El nombre que ve el usuario es el nombre amistoso
-		channel.channelName.text = GetChannelFriendlyName(channelName);
+        string name = GetChannelFriendlyName(channelName);
+        if (RoomManager.Instance.RoomDefinitions.ContainsKey(name))
+        {
+            RoomDefinition scene = RoomManager.Instance.RoomDefinitions[name] as RoomDefinition;
+            name = scene.Name;
+        }
+        // El nombre que ve el usuario es el nombre amistoso
+        channel.channelName.text = name;
 		
 		if (_friendChats.ContainsKey(channelName)) {
 			//Fecha/hora de ultima actualizacion
