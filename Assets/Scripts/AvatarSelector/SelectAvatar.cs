@@ -80,14 +80,17 @@ public class SelectAvatar : MonoBehaviour {
 				Destroy (lastInstance);
 			yield return StartCoroutine (PlayerManager.Instance.CreateAvatar (PlayerManager.Instance.SelectedModel, (instance) => {
                 MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
+                lastInstance = instance;
+                instance.GetComponent<Rigidbody>().isKinematic = true;
+                instance.GetComponent<SynchNet>().enabled = false;
+
+         
                 if (VestidorCanvasController_Lite.Instance == null) Debug.LogError("Error VestidorCanvasController_Lite.Instance es nulo.");
                 VestidorCanvasController_Lite.Instance.PlayerInstance = instance;
-                if (instance == null) Debug.LogError("Error instance es nulo.");
+
                 instance.transform.position = new Vector3(-0.03f, 0.09f, 0);
                 VestidorCanvasController_Lite.Instance.AddParticles();
-                lastInstance = instance;
-				instance.GetComponent<Rigidbody> ().isKinematic = true;
-				instance.GetComponent<SynchNet> ().enabled = false; 
+               
 			}));
 		}
     }

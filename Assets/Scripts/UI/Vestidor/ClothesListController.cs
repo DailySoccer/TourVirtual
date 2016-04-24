@@ -54,13 +54,19 @@ public class ClothesListController : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		// asignamos las listas;
-		TShirtsList = GameObject.FindGameObjectWithTag ("TShirtsList").transform;
-		ComplimentsList = GameObject.FindGameObjectWithTag ("ComplimentsList").transform;
-		ShoesList = GameObject.FindGameObjectWithTag ("ShoesList").transform;
-		PacksList = GameObject.FindGameObjectWithTag ("PacksList").transform;
+        // asignamos las listas;
+        try
+        {
+            TShirtsList = GameObject.FindGameObjectWithTag("TShirtsList").transform;
+            ComplimentsList = GameObject.FindGameObjectWithTag("ComplimentsList").transform;
+            ShoesList = GameObject.FindGameObjectWithTag("ShoesList").transform;
+            PacksList = GameObject.FindGameObjectWithTag("PacksList").transform;
 
-		ShowTShirtsList ();
+            ShowTShirtsList();
+        }
+        catch {
+            Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>");
+        }
 	}
 	
 	// Update is called once per frame
