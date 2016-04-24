@@ -233,7 +233,7 @@ public class TVBChatController : MonoBehaviour {
 
 		HideSearchBar();
 		ChatManager.Instance.ChannelSelectedId = GetChannelFriendlyName(name);
-		LogFormat("[TVBChatController]: Entrando en el canal {0}", name);
+		//debug.LogFormat("[TVBChatController]: Entrando en el canal {0}", name);
 
 		GotoChatScreen();
 	}
