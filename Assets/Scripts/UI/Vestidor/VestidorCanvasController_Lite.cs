@@ -19,6 +19,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public Transform PlayerPosition;
     //////////////////// Control de ventanas Modales//////////////////// 
     public GUIScreen VestidorScreen;
+	public GUIScreen lobbyScreen;
     public GUIScreen GoodiesShopScreen;
     public GUIScreen AvatarSelectionScreen;
     public GUIScreen PlayTeaserScreen;
@@ -106,6 +107,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(VestidorScreen);
                     break;
                 case VestidorState.LANDING_PAGE:
+					EnableTopMenu(true);
+					cameraAvatarSelector.SetActive(false);
+					SecondPlaneAvatarSelect.SetActive(false);
+					cameraVestidor.SetActive(true);
+					SecondPlaneVestidor.SetActive(true);
+					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
+					
+					ShowScreen(lobbyScreen);
                     break;
             }
             currentVestidorState = newState;
