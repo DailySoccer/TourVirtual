@@ -150,7 +150,17 @@ public class MainManager : Photon.PunBehaviour {
 		try{
 			url = WWW.UnEscapeURL(url);
 	        DeepLinkingURL = url;
-            DeepLinkinParameters = BestHTTP.JSON.Json.Decode(url) as Dictionary<string, object>;
+            var pair = url.Split('?');
+            DeepLinkinParameters = new Dictionary<string, object>();
+            if (pair.Length ==2 ){
+                var pars = pair[1].Split('&');
+                foreach (var p in pars) {
+                    var par = p.Split('=');
+                    if (par.Length == 2){
+                        DeepLinkinParameters.Add(par[0], par[1]);
+                    }
+                }
+            }
             IsDeepLinking = true;
         }
         catch{
@@ -231,7 +241,7 @@ public class MainManager : Photon.PunBehaviour {
 
         GetDeepLinkingURL();
 #if LITE_VERSION && UNITY_EDITOR
-        DeepLinking("rmvt:editavatar?parameters={\"idVirtualGood\":\"54dc043b-5bdb-4c45-9fd3-66f11d11db59\",\"idUser\":\"d1c9f805-054a-4420-a1af-30d37b75dff7\"}");
+        DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=54dc043b-5bdb-4c45-9fd3-66f11d11db59");
 #endif
 #if LITE_VERSION && !UNITY_IOS
         if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
