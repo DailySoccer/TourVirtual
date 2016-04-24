@@ -351,6 +351,7 @@ public class ContentAPI
                     #endif
                     break;
                 case AssetType.Video: sd = "/vid/"; break;
+                
             }
             var resURL = (asset["AssetUrl"] as string).Substring(7);
             var AssetURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + sd + resURL;
@@ -360,8 +361,8 @@ public class ContentAPI
             resURL += ".jpg";
 
             var ThumbnailURL = DLCManager.Instance.AssetsUrl + "/Contents/" + contenidoID + "/thumbnails/" + resURL;
-
-            ret.Add( new Asset(body["Title"] as string, body["Body"] as string,AssetURL, ThumbnailURL, at));
+            if (at != AssetType.ContentTitleImage)
+                ret.Add( new Asset(body["Title"] as string, body["Body"] as string,AssetURL, ThumbnailURL, at));
         }
         return ret;
     }
