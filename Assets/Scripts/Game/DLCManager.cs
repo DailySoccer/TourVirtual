@@ -134,7 +134,7 @@ public class DLCManager : MonoBehaviour {
 		// Ignoramos las versiones 0...
 		if (definition.Version > 0)
         {
-            currentName = definition.Id;
+            currentName = LanguageManager.Instance.GetTextValue("PCK." + definition.Id.Replace('/', '.'));
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
             current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version);
 			yield return current;                
@@ -164,7 +164,7 @@ public class DLCManager : MonoBehaviour {
             if (definition.Id != "scene/vestidor" && definition.Id != "avatars") continue;
             // Ignoramos las versiones 0...
             if (definition.Version > 0){
-                currentName = definition.Id;
+                currentName = LanguageManager.Instance.GetTextValue("PCK." + definition.Id.Replace('/', '.'));
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
                 LoadingBar.Instance.Show();
                 using (current = WWW.LoadFromCacheOrDownload ( BaseUrl + definition.Id, definition.Version)) {

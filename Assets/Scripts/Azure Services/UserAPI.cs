@@ -29,7 +29,7 @@ public class UserAPI {
     public int      Energy      { get; set; } // Energia minijuegos. FAKE!!!
     public float    NextLevel   { get; set; } // Progreso de nivel 0 a 1.
     // Tools
-#if !LITE_VERSION
+
     public int GetScore(MiniGame game) {
         return HighScore[(int)game];
     }
@@ -50,7 +50,6 @@ public class UserAPI {
     }
     public static AchievementsAPI Achievements { get; private set; }
     public static ContentAPI Contents { get; private set; }
-#endif
 
     public static AvatarAPI AvatarDesciptor =  new AvatarAPI();
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
@@ -68,29 +67,19 @@ public class UserAPI {
     public UserAPI() {
         Instance = this;
         Ready = false;
-#if !LITE_VERSION
+
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
-#endif
+
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
         if (!Online)
         {
             VirtualGoodsDesciptor.FAKE();
-#if !LITE_VERSION
             Achievements.FAKE();
             Contents.FAKE();
-#endif
             // Gamificación.
             Points = 10;
             Level = 2;
-
-/*
-            Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
-                foreach (ContentAPI.Asset asset in values){
-                    Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
-                }
-            }));
-*/
         }
     }
 
@@ -117,18 +106,10 @@ public class UserAPI {
             yield break;
         }
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
-#if !LITE_VERSION
+
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
-        /*
-        yield return Authentication.Instance.StartCoroutine(Contents.GetContent("6ffa6413-4e53-4556-b406-17a40fe8ff93", (values) => {
-            foreach (ContentAPI.Asset asset in values)
-            {
-                Debug.LogError(">>>>> " + asset.Type + " " + asset.AssetUrl);
-            }
-        }));
-        */
-#endif
+
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
@@ -144,27 +125,10 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
-        /*
-        {
-            "IdUser":"03edad5e-f581-4aed-b217-cc117e3556b4",
-            "Points":0,
-            "GamingScore":500,
-            "CheckIns":0,
-            "Challenges":0,
-            "Friends":0,
-            "Groups":0,
-            "VirtualGoods":2,
-            "Achievements":2,
-            "Reputation":0,
-            "Level":"2",
-            "LevelNumber":0
-        }
-        */
+
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-            try
-            {
-//                Debug.LogError(">>>> GamificationStatus " + res);
+            try{
                     Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 Points = (int)(double)gamificationstatus["Points"];
                 Level = int.Parse(gamificationstatus["Level"] as string);
@@ -172,39 +136,17 @@ public class UserAPI {
                 }
             catch { }
         });
-        /*
 
-#if !LITE_VERSION
-#if CASO1
-VirtualGoodsDesciptor.BuyByGUID("4d229050-fd95-4492-bcff-2ceecf8115b8");
-Achievements.SedAction("VIRTUALTOUR_ACTION1");
-UpdateNick("Gunderwulde2");
-#else
-#if CASO2
+//        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
 
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
+        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
 
-yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
+        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
+        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
+        yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
 
-#else
-// Pruebas de rankings de minijuegos
-yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
-yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
-yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
-
-yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
-yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
-yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
-
-// Escritura de puntos.
-SetScore(MiniGame.FreeShoots, 500);
-SetScore(MiniGame.FreeKicks, 220);
-SetScore(MiniGame.HiddenObjects, 320);
-
-#endif
-#endif
-
-#endif
-*/
 		PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
@@ -246,7 +188,7 @@ SetScore(MiniGame.HiddenObjects, 320);
         });
     }
 
-#if !LITE_VERSION
+
     public IEnumerator AwaitGlobalRanking() {
         // Global.
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
@@ -318,19 +260,15 @@ SetScore(MiniGame.HiddenObjects, 320);
 
     public IEnumerator GetRanking(MiniGame game) {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
-            /*
-            if (res != "null")
-            {
+            if (res != "null"){
                 int cnt = 0;
-                ArrayList scores = JSON.JsonDecode(res) as ArrayList;
-                HighScores[(int)game] = new ScoreEntry[scores.Count];
-                foreach (Hashtable entry in scores)
-                {
-                    HighScores[(int)game][cnt] = new ScoreEntry(entry["Alias"] as string, (int)entry["Score"]);
-                }
+                List<object> scores = BestHTTP.JSON.Json.Decode(res) as List<object>;
+                var tmp = new ScoreEntry[scores.Count];
+                foreach (Dictionary<string, object> entry in scores)
+                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(double)entry["Score"]);
+                HighScores[(int)game] = tmp;
             }
-            */
         });
     }
-#endif
+
 }

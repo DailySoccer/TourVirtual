@@ -35,6 +35,7 @@ public class RoomDefinition {
 	}
 
 	public string Door(string key) {
+        Debug.LogError("key " + key);
 		return Doors[key] as string;
 	}
 
@@ -64,7 +65,7 @@ public class RoomDefinition {
 			}
 		}
 		return door;
-	}
+    }
 	
 	public RoomDefinition(string id, string name, string sceneName, Dictionary<string, object> doors) {
 		Id = id;
@@ -206,6 +207,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 		
 	public void GotoPreviousRoom() {
+
 		if (!string.IsNullOrEmpty(IdLastDoorOfVisitedRoom))
 			GotoRoomAtDoor (IdLastVisitedRoom + "#" + IdLastDoorOfVisitedRoom);
 		else
@@ -224,8 +226,11 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void GotoRoomAtDoor(string roomGoto) {
-		IdLastVisitedRoom = RoomManager.Instance.Room.Id;
-		IdLastDoorOfVisitedRoom = GetEntranceDoor();
+        if (RoomManager.Instance.Room != null)
+        {
+            IdLastVisitedRoom = RoomManager.Instance.Room.Id;
+            IdLastDoorOfVisitedRoom = GetEntranceDoor();
+        }
 
 		string roomKey = GetRoomKey(roomGoto);
 
@@ -248,7 +253,10 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void ToRoom(string exitKey) {
-		if (Room.ExistsDoor(exitKey)) {
+        IdLastVisitedRoom = RoomManager.Instance.Room.Id;
+        IdLastDoorOfVisitedRoom = GetEntranceDoor();
+
+        if (Room.ExistsDoor(exitKey)) {
 			// La información de la room en la que se entra puede venir en 2 formatos:
 			// 1. <id room>
 			// 2. <id room>#<door>
@@ -270,7 +278,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public void ToRoom(RoomDefinition roomDefinition) {
-		if (!_loadingRoom) StartCoroutine(LoadRoom(roomDefinition));
+        if (!_loadingRoom) StartCoroutine(LoadRoom(roomDefinition));
 	}
 
     System.Collections.IEnumerator LoadRoom(RoomDefinition roomDefinition) {
