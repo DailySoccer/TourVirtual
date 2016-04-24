@@ -85,6 +85,8 @@ public class UserAPI {
 
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
+
+        LoadingContentText.SetText("API.User");
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
@@ -105,11 +107,16 @@ public class UserAPI {
             });
             yield break;
         }
+        LoadingContentText.SetText("API.VirtualGoods");
+
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
+        LoadingContentText.SetText("API.Achievements");
 
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
+        LoadingContentText.SetText("API.Contents");
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
 
+        LoadingContentText.SetText("API.ProfileAvatar");
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
@@ -125,7 +132,7 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
-
+        LoadingContentText.SetText("API.GamificationStatus");
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
             try{
@@ -137,17 +144,17 @@ public class UserAPI {
             catch { }
         });
 
-//        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
-
+        //        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
+        LoadingContentText.SetText("API.Rankings");
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
-
+        LoadingContentText.SetText("API.MaxScores");
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
-
-		PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
+        LoadingContentText.SetText("");
+        PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }

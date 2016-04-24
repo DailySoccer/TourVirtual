@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using SmartLocalization;
 
 public class LoadingContentText : MonoBehaviour {
 	
@@ -25,7 +26,7 @@ public class LoadingContentText : MonoBehaviour {
 	
 	}
 
-	public static void SetText(string text) {
-		Instance.TextField.text = text;
+	public static void SetText(string locID) {
+		Instance.TextField.text = LanguageManager.Instance.GetTextValue(locID);
 	}
 }
