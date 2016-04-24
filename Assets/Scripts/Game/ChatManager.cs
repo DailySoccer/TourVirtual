@@ -104,13 +104,15 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void SendMessage(string channelName, string text) {
-//		Debug.Log (string.Format("SendMessage[{0}]: {1}", channelName, text));
+
 
 		if (IsPublicChannel(channelName)) {
-			ChatClient.PublishMessage(channelName, text);
+            Debug.Log(string.Format("Public SendMessage[{0}]: {1}", channelName, text));
+            ChatClient.PublishMessage(channelName, text);
 		}
 		else {
-			ChatClient.SendPrivateMessage(channelName, text);
+            Debug.Log(string.Format("Private SendMessage[{0}]: {1}", channelName, text));
+            ChatClient.SendPrivateMessage(channelName, text);
 		}
 	}
 
@@ -148,7 +150,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-//		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
+		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -164,7 +166,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 	
 	public void OnPrivateMessage(string sender, object message, string channelName) {
-//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
+		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -191,9 +193,8 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	public override void OnJoinedRoom() {
 //		Debug.Log ("OnJoinedRoom");
 
-		_roomChannel = PhotonNetwork.room.name;
-
-		if (ChatClient != null && ChatClient.CanChat) {
+		_roomChannel = PhotonNetwork.room.name.Split('#')[0];
+        if (ChatClient != null && ChatClient.CanChat) {
 			ChatClient.Subscribe( new string[] { _roomChannel }, MessagesFromHistory );
 		}
 
