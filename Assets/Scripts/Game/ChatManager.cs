@@ -17,7 +17,7 @@ public class ChatMessage {
 
 public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
-	static public string CHANNEL_GLOBAL = "Global";
+	static public string CHANNEL_GLOBAL = "Community Manager";
 
 	public delegate void MessagesChangeEvent(string channelName);
 	public event MessagesChangeEvent OnMessagesChange;
