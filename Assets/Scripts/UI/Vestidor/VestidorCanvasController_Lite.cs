@@ -108,13 +108,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     break;
                 case VestidorState.LANDING_PAGE:
 					EnableTopMenu(true);
-					cameraAvatarSelector.SetActive(false);
-					SecondPlaneAvatarSelect.SetActive(false);
-					cameraVestidor.SetActive(true);
-					SecondPlaneVestidor.SetActive(true);
-					gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
-					
-					ShowScreen(lobbyScreen);
+                    cameraAvatarSelector.SetActive(false);
+                    SecondPlaneAvatarSelect.SetActive(false);
+                    cameraVestidor.SetActive(true);
+                    SecondPlaneVestidor.SetActive(true);
+                    gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
+                    ShowScreen(lobbyScreen);
                     break;
             }
             currentVestidorState = newState;

@@ -78,8 +78,11 @@ public class PlayerManager : Photon.PunBehaviour {
                 instance.GetComponent<SynchNet>().isLocal = true;
                 instance.GetComponent<PhotonView>().viewID = id;
                 if (Player.Instance != null) Player.Instance.Avatar = instance;
-                instance.transform.position = RoomManager.entrada.position;
-                instance.transform.rotation = RoomManager.entrada.rotation;
+                if (RoomManager.entrada != null)
+                {
+                    instance.transform.position = RoomManager.entrada.position;
+                    instance.transform.rotation = RoomManager.entrada.rotation;
+                }
 
             }));
         }

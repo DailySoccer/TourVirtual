@@ -192,25 +192,10 @@ public class RoomManager : Photon.PunBehaviour {
             if ( !string.IsNullOrEmpty(RoomStart) ) {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
-//                    PlayerManager.Instance.SelectedModel = AvatarDefinition;
-                    // CACA, aqui vamos a seleccion de 
-                   /*
-                    if ( !string.IsNullOrEmpty(PlayerManager.Instance.SelectedModel) ) {
-                        // Sin pasar por seleccion de avatar ya que tiene avatar
-                        RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
-                        RoomStart = rd.Door(roomKey);
-                        roomKey = GetRoomKey(RoomStart);
-                        _doorToEnter = GetDoorKey(RoomStart);
-                        ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
-                    }
-                    else
-                    */
-                    {
-                        
+                    if(!MainManager.IsDeepLinking && MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
                         MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.LANDING_PAGE;
-                        _doorToEnter = GetDoorKey(RoomStart);
-                        ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
-                    }
+                    _doorToEnter = GetDoorKey(RoomStart);
+                    ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
                 }
             }
 		}
@@ -218,10 +203,21 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 		
 	public void GotoPreviousRoom() {
-		if (IdLastDoorOfVisitedRoom != string.Empty)
+		if (!string.IsNullOrEmpty(IdLastDoorOfVisitedRoom))
 			GotoRoomAtDoor (IdLastVisitedRoom + "#" + IdLastDoorOfVisitedRoom);
 		else
-			ToRoom (RoomDefinitions[IdLastVisitedRoom] as RoomDefinition);
+            if (!string.IsNullOrEmpty(IdLastVisitedRoom))
+                ToRoom (RoomDefinitions[IdLastVisitedRoom] as RoomDefinition);
+            else
+            {
+                string roomKey = GetRoomKey(RoomStart);
+
+                RoomDefinition rd = RoomDefinitions[roomKey] as RoomDefinition;
+                RoomStart = rd.Door(roomKey);
+                roomKey = GetRoomKey(RoomStart);
+                _doorToEnter = GetDoorKey(RoomStart);
+                ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
+            }
 	}
 
 	public void GotoRoomAtDoor(string roomGoto) {

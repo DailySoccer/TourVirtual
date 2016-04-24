@@ -151,7 +151,9 @@ public class MainManager : Photon.PunBehaviour {
 			url = WWW.UnEscapeURL(url);
 	        DeepLinkingURL = url;
             DeepLinkinParameters = BestHTTP.JSON.Json.Decode(url) as Dictionary<string, object>;
-		}catch{
+            IsDeepLinking = true;
+        }
+        catch{
 			ModalTextOnly.ShowText( "ERROR1003: "+url );
 		}
 	}
