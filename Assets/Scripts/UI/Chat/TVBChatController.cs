@@ -233,7 +233,7 @@ public class TVBChatController : MonoBehaviour {
 
 		HideSearchBar();
 		ChatManager.Instance.ChannelSelectedId = GetChannelFriendlyName(name);
-		//Debug.LogFormat("o===[ChatChannel_OnClickHandle]=====> Entrando en el canal {0}", name);
+		LogFormat("[TVBChatController]: Entrando en el canal {0}", name);
 
 		GotoChatScreen();
 	}
@@ -245,12 +245,12 @@ public class TVBChatController : MonoBehaviour {
 
 
 	private void Messages_OnChangeHandle (string channel) {
-		//Debug.LogFormat("o===[Messages_OnChangeHandle]=====> Hay nuevos mensajes en el canal [{0}]", channel);
+		//Debug.LogFormat("[TVBChatController] Hay nuevos mensajes en el canal [{0}]", channel);
 
 		// Guardamos en el disco lo no oúblicos
 		if (!ChatManager.Instance.IsPublicChannel(channel)) {
 			SaveMessagesInLocal(channel, GetNewRemoteMessages(channel));
-			//Debug.LogFormat("o===[Messages_OnChangeHandle]=====> guardados en local", channel);
+			//Debug.LogFormat("[TVBChatController]: Guardados en local", channel);
 		}
 
 		if (currentChannelName == "") {
@@ -275,7 +275,7 @@ public class TVBChatController : MonoBehaviour {
 			}
 		}
 		MainManager.Instance.UnreadedChatMessages = counter;
-		Debug.LogFormat("o===[CheckUnreadMessages]=====> Existen un total de {0} mensajes sin leer", counter);
+		//Debug.LogFormat("[TVBChatController]: Existen un total de {0} mensajes sin leer", counter);
 	}
 	
 	private void SetCurrentChannel(string theName) {
@@ -295,7 +295,7 @@ public class TVBChatController : MonoBehaviour {
 	}
 
 	private void CleanMessagesList() {
-		//Debug.Log ("o===[CleanMessagesList]=====> Cleaning...");
+		//Debug.Log ("[TVBChatController]: Cleaning...");
 		foreach(GameObject go in _messagesGameObjects) {
 			DestroyImmediate(go);
 		}
@@ -317,10 +317,10 @@ public class TVBChatController : MonoBehaviour {
 			}
 		}
 		else {
-			//Debug.LogFormat("o===[GetPreviousMessages]=====> El canal actual [{0}] No tiene mensajes guardados", channelName);
+			//Debug.LogFormat("[TVBChatController]: El canal actual [{0}] No tiene mensajes guardados", channelName);
 		}
 
-		//Debug.LogFormat("o===[GetPreviousMessages]=====> El canal actual [{0}] tiene [{1}] mensajes guardados", channelName, channelMessages.Count);
+		//Debug.LogFormat("[TVBChatController]: El canal actual [{0}] tiene [{1}] mensajes guardados", channelName, channelMessages.Count);
 
 		return channelMessages;
 	}
@@ -331,7 +331,7 @@ public class TVBChatController : MonoBehaviour {
 
 		//Si son publicos.
 		if (ChatManager.Instance.IsPublicChannel(channel)) {
-			//Debug.LogFormat("o===[GetNewRemoteMessages]=====> Hay {0} nuevos mensajes en el canal [{1}] que es Público", channel, ChatManager.Instance.Messages.Count().ToString());
+			//Debug.LogFormat("[TVBChatController]: Hay {0} nuevos mensajes en el canal [{1}] que es Público", channel, ChatManager.Instance.Messages.Count().ToString());
 			return ChatManager.Instance.Messages;
 		}
 		//Si son privados.
@@ -339,7 +339,7 @@ public class TVBChatController : MonoBehaviour {
 		messages = ChatManager.Instance.GetMessagesFromChannel(GetChannelFriendlyName(channel));
 
 		if (!_friendChats.ContainsKey(channel)) {
-			//Debug.LogFormat("o===[GetNewRemoteMessages]=====> Hay {0} mensajes en el canal [{1}] que es Privado. (Aún no se habían guardado en local)", messages.Count().ToString(), channel);
+			//Debug.LogFormat("[TVBChatController]: Hay {0} mensajes en el canal [{1}] que es Privado. (Aún no se habían guardado en local)", messages.Count().ToString(), channel);
 
 			return messages;
 		}
@@ -355,7 +355,7 @@ public class TVBChatController : MonoBehaviour {
 				channelMessages.Add(cht);
 			}
 		}
-		//Debug.LogFormat("o===[GetNewRemoteMessages]=====> El canal {0} tiene [{1}] mensajes nuevos.", channel, messages.Count().ToString());
+		//Debug.LogFormat("[TVBChatController]: El canal {0} tiene [{1}] mensajes nuevos.", channel, messages.Count().ToString());
 		return channelMessages;
 	}
 
