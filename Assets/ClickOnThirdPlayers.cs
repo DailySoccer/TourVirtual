@@ -13,7 +13,7 @@ public class ClickOnThirdPlayers : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if (gcm.currentGUIPopUpScreen == null) {
+		if (gcm.currentGUIPopUpScreen == null && !gcm.ModalScreen.IsOpen) {
 			// Moviles
 			if (Input.touchCount != 0) {
 				Touch touch = Input.touches [0];
