@@ -1103,7 +1103,6 @@ GameObject:
   - 33: {fileID: 160257970}
   - 23: {fileID: 160257969}
   - 114: {fileID: 160257968}
-  - 114: {fileID: 160257967}
   m_Layer: 11
   m_Name: teleEntrevistas Raul
   m_TagString: Untagged
@@ -1123,27 +1122,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 826170131}
   m_RootOrder: 1
---- !u!114 &160257967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11432876, guid: 459b533c31c69df4cae88b9d14312436,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 160257965}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: raul.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!114 &160257968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6902,7 +6880,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11422520, guid: c2fc648c58a75ca41b7704d0be44a945, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c2fc648c58a75ca41b7704d0be44a945, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &941262353 stripped
@@ -8045,7 +8024,6 @@ GameObject:
   - 33: {fileID: 1297366812}
   - 23: {fileID: 1297366811}
   - 114: {fileID: 1297366810}
-  - 114: {fileID: 1297366809}
   m_Layer: 11
   m_Name: teleEntrevistas Zidane (1)
   m_TagString: Untagged
@@ -8065,27 +8043,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 826170131}
   m_RootOrder: 3
---- !u!114 &1297366809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11458788, guid: 459b533c31c69df4cae88b9d14312436,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1297366807}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: zidane.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!114 &1297366810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9907,7 +9864,6 @@ GameObject:
   - 33: {fileID: 1615084393}
   - 23: {fileID: 1615084392}
   - 114: {fileID: 1615084391}
-  - 114: {fileID: 1615084390}
   m_Layer: 11
   m_Name: teleEntrevistas Mijatovic
   m_TagString: Untagged
@@ -9927,27 +9883,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 826170131}
   m_RootOrder: 2
---- !u!114 &1615084390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11463798, guid: 459b533c31c69df4cae88b9d14312436,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1615084388}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: mijatovic.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!114 &1615084391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10642,7 +10577,6 @@ GameObject:
   - 33: {fileID: 1697720597}
   - 23: {fileID: 1697720596}
   - 114: {fileID: 1697720595}
-  - 114: {fileID: 1697720594}
   m_Layer: 11
   m_Name: teleEntrevistas Zidane
   m_TagString: Untagged
@@ -10662,27 +10596,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 826170131}
   m_RootOrder: 0
---- !u!114 &1697720594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11462732, guid: 459b533c31c69df4cae88b9d14312436,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1697720592}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: zidane.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!114 &1697720595
 MonoBehaviour:
   m_ObjectHideFlags: 0

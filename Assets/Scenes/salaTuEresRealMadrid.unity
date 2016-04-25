@@ -183,7 +183,6 @@ GameObject:
   - 4: {fileID: 154639017}
   - 33: {fileID: 154639019}
   - 23: {fileID: 154639018}
-  - 114: {fileID: 154639021}
   m_Layer: 0
   m_Name: videoWall_Final
   m_TagString: Untagged
@@ -214,8 +213,8 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 8ae8e1464c60aec43aad5f769ad68b68, type: 2}
-  - {fileID: 2100000, guid: 8ae8e1464c60aec43aad5f769ad68b68, type: 2}
+  - {fileID: 2100000, guid: 5bd70c95eb604fe4abf003159527962d, type: 2}
+  - {fileID: 2100000, guid: b20b10548ee72fa4aac04d8d8d2130ec, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -237,26 +236,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 154639016}
   m_Mesh: {fileID: 4300018, guid: 32f924c8d07e0ca478549a756c2df8fc, type: 3}
---- !u!114 &154639021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 154639016}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: Video_Final.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!1 &158930651
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +486,6 @@ GameObject:
   - 4: {fileID: 431738902}
   - 33: {fileID: 431738905}
   - 23: {fileID: 431738904}
-  - 114: {fileID: 431738903}
   m_Layer: 0
   m_Name: salaTuEres
   m_TagString: Untagged
@@ -527,26 +505,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1869296684}
   m_RootOrder: 1
---- !u!114 &431738903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 431738901}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43148a0e368f8c1499ac9715431ec5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_path: Video_Final.ogv
-  m_movieMaterials:
-  - {fileID: 2100000, guid: 0ac1bcad2bdef2e4db76fa0ff07b597f, type: 2}
-  m_playAutomatically: 1
-  m_advance: 1
-  m_loopCount: -1
-  m_playSpeed: 1
-  m_scanDuration: 1
-  m_seekKeyFrame: 0
 --- !u!23 &431738904
 MeshRenderer:
   m_ObjectHideFlags: 0
