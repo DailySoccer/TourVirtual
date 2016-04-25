@@ -32,10 +32,10 @@ public class ProfileScreenController : MonoBehaviour {
 		HiddenObjectsScore.text = UserAPI.Instance.GetScore (UserAPI.MiniGame.HiddenObjects).ToString();//(1000 * Time.deltaTime).ToString();
 
 		PacksCount = UserAPI.Instance.ContentPack (out MaxPacksCount);
-		ShowPacks.interactable = PacksCount > 0 ? true : false;
+		ShowPacks.gameObject.SetActive(PacksCount > 0 ? true : false);
 
 		AchievementsCount = UserAPI.Instance.GetAchievements (out MaxAchivemenstCount);
-		ShowAchievements.interactable = AchievementsCount > 0 ? true : false;
+		ShowAchievements.gameObject.SetActive(AchievementsCount > 0 ? true : false);
 
 		PacksCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 		PacksCount.ToString(), MaxPacksCount.ToString());
 		AchivementCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 	AchievementsCount.ToString(), MaxAchivemenstCount.ToString());
