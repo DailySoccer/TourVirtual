@@ -113,7 +113,7 @@ public class AllViewer : MonoBehaviour {
         var names = assetbundle.GetAllAssetNames();
         model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
         //float size = model.GetComponent<Renderer>().bounds.size.y;
-        model.layer = LayerMask.NameToLayer("Model3D");
+        MyTools.SetLayerRecursively(model, LayerMask.NameToLayer("Model3D"));
         posTarget = new Vector3(0, 0, 1.2f);
         model.transform.position = posTarget;
         model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
