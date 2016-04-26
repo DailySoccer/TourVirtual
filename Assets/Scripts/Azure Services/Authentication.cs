@@ -115,15 +115,18 @@ public class Authentication : MonoBehaviour {
 			yield break;
 		}
 #if PRO
+        string env = "production";
             AzureServices.WebApiBaseAddress = "https://api.realmadrid.com/";
 #else
 #if PRE
+        string env = "preproduction";
             AzureServices.WebApiBaseAddress = "https://apipre.realmadrid.com/";
 #else
+        string env = "development";
             AzureServices.WebApiBaseAddress = "https://eu-rm-dev-web-api.azurewebsites.net/";
 #endif
 #endif
-        AzureServices.Init ("development", IDClient, "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
+        AzureServices.Init(env, IDClient, "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid", "p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");//"7c0557e9-8e0b-4045-b2d6-ccb074cd6606");
         AzureServices.OnAccessToken = () => {
             StartCoroutine( UserAPI.Instance.Request() );
         };
