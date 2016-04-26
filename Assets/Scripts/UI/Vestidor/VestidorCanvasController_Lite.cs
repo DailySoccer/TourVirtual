@@ -51,6 +51,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
 	public ClothSlot currentPrenda;
 
+	//private VestidorState lastVestidorState;
+
     void Awake()
     {
         Instance = this;
@@ -116,6 +118,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(lobbyScreen);
                     break;
             }
+		//	lastVestidorState = currentVestidorState == VestidorState.NONE ? newState : currentVestidorState;
             currentVestidorState = newState;
         }
     }
@@ -603,5 +606,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         Debug.Log(">>>>OnGoShop");
         // currentPrenda
     }
+
+
+	public void showLastVestidorState() {
+		HideAllScreens();
+
+		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+			Invoke("LoadModel", 0.25f);
+		// Forzamos el cambio del vestidor state para volver a su estado anterior
+		VestidorState newVestidorState = currentVestidorState;
+		currentVestidorState = VestidorState.NONE;
+
+		ChangeVestidorState(newVestidorState);
+	}
 
 }
