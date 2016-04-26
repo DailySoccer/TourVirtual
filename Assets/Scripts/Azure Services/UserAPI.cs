@@ -27,7 +27,13 @@ public class UserAPI {
     public int      Exp         { get; set; } // Exp. total.
     // Fakes
     public int      Energy      { get; set; } // Energia minijuegos. FAKE!!!
-    public float    NextLevel   { get; set; } // Progreso de nivel 0 a 1.
+    public float    NextLevel   { get {
+            int[] levels = { 0, 25, 50, 85, 125, 175, 235, 300, 385, 485, 605, 745, 920, 1125, 1370, 1660, 2015, 2435, 2935, 3540, 3540 };
+            float val = (Exp - levels[Level - 1]) / (float)(levels[Level] - levels[Level - 1]);
+            if (val < 0) val = 0;
+            else if (val > 1) val = 1;
+            return val;
+        }  }
     // Tools
 
     public int GetScore(MiniGame game) {
@@ -136,7 +142,7 @@ public class UserAPI {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
             try{
-                    Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 Points = (int)(double)gamificationstatus["Points"];
                 Level = int.Parse(gamificationstatus["Level"] as string);
                     // No se porque no devuelve la XP.
@@ -144,8 +150,8 @@ public class UserAPI {
             catch { }
         });
 
-        //        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
         LoadingContentText.SetText("API.Rankings");
+        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
@@ -216,7 +222,7 @@ public class UserAPI {
                 Dictionary<string, object> globalRanking = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 if (globalRanking != null)
                 {
-                    Exp = (int)globalRanking["GamingScore"];
+                    Exp = (int)(double)globalRanking["GamingScore"];
                 }
             }
             else
