@@ -196,7 +196,6 @@ public class UserAPI {
     public void SendAvatar(byte[] bytes, callback onSendAvatar=null) {
         if (!Online) return;
         Authentication.AzureServices.Request("put", "api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
-            Debug.LogError("SendAvatar " + res);
             if (onSendAvatar != null) onSendAvatar();
         });
     }
@@ -204,10 +203,10 @@ public class UserAPI {
 
     public IEnumerator AwaitGlobalRanking() {
         // Global.
+        /*
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
             if (res != "null")
             {
-                Debug.LogError(">>>> Rankings " + res + " " + Authentication.IDClient);
             }
             else
             {
@@ -215,10 +214,10 @@ public class UserAPI {
             }
 
         });
+        */
         // Del usuario.
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
             if (res != "null") {
-                Debug.LogError(">>>> Rankings2 " + res);
                 Dictionary<string, object> globalRanking = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 if (globalRanking != null)
                 {

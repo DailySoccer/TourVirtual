@@ -280,15 +280,58 @@ public class MainManager : Photon.PunBehaviour {
 
 		StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;        
-
-        // firstLaunchReward = new VirtualItemReward("first-launch", "Give Money at first launch", MuffinRushAssets.MUFFIN_CURRENCY_ITEM_ID, 4000);
+		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
+        StoreEvents.OnMarketItemsRefreshFinished += onMarketItemsRefreshFinished;
+        StoreEvents.OnMarketPurchase += onMarketPurchase;
+        StoreEvents.OnMarketPurchaseStarted += OnMarketPurchaseStarted;
+        StoreEvents.OnMarketPurchase += OnMarketPurchase;
+        StoreEvents.OnItemPurchaseStarted += OnItemPurchaseStarted;
+        StoreEvents.OnItemPurchased += OnItemPurchased;
 
         SoomlaStore.Initialize(new TourStoreAssets());
-	}
+    }
 
-	public void onSoomlaStoreInitialized() {
-		if (StoreInfo.Currencies.Count > 0) {
+
+    public void OnMarketPurchaseStarted(PurchasableVirtualItem pvi)
+    {
+        Debug.Log("OnMarketPurchaseStarted: " + pvi.ItemId);
+
+    }
+    public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> ret)
+    {
+        Debug.Log("OnMarketPurchase: " + pvi.ItemId);
+
+    }
+
+    public void OnItemPurchaseStarted(PurchasableVirtualItem pvi)
+    {
+        Debug.Log("OnItemPurchaseStarted: " + pvi.ItemId);
+
+    }
+
+    public void OnItemPurchased(PurchasableVirtualItem pvi, string ret)
+    {
+        Debug.Log("OnItemPurchased: " + pvi.ItemId);
+
+    }
+
+    public void onMarketItemsRefreshFinished(List<MarketItem> items)
+    {
+        foreach (var item in items)
+            Debug.LogError(">>>> ["+item.ProductId+"] [" + item.MarketDescription + "] [" + item.MarketPriceAndCurrency + "]");
+       // 
+    }
+
+    public void onMarketPurchase(PurchasableVirtualItem item, string ret, Dictionary<string, string> dic)
+    {
+        Debug.LogError(">>>> onMarketPurchase "+ ret);
+        foreach (var pair in dic)
+            Debug.LogError(pair.Key + " " + pair.Value);
+    }
+
+public void onSoomlaStoreInitialized() {
+        Debug.LogWarning(">>>> onSoomlaStoreInitialized " );
+        if (StoreInfo.Currencies.Count > 0) {
 			try {
 				/*
 				//First launch reward

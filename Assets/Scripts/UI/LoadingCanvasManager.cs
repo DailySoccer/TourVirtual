@@ -13,10 +13,11 @@ public class LoadingCanvasManager : MonoBehaviour {
 		Hide ();
     }
 
-    public static void Show() {
-		//Instance.gameObject.SetActive(true);
+    public static void Show(string text="") {
+        if(text!="") LoadingContentText.SetText(text);
+        //Instance.gameObject.SetActive(true);
 
-		if (Instance.LoadingScreen == null)
+        if (Instance.LoadingScreen == null)
 			Debug.LogError("[LoadingCanvasManager] in " + Instance.gameObject.name + ": No esta asignada la pantalla de loading.");
 		else 
 			Instance.LoadingScreen.IsOpen = true;        
