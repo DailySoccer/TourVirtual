@@ -385,13 +385,18 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowGoodiesShop()
     {
-        if (PlayerInstance != null)
+       /*
+		if (PlayerInstance != null)
             Destroy(PlayerInstance);
 
         if (isCurrentPopUpOpen)
             TogglePopUpScreen();
 
         ShowScreen(GoodiesShopScreen);
+        */
+
+		//GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ().ShowModalScreen (10);
+		GoodiesShopController.Show ();
     }
 
     private void ShowScreen(GUIScreen guiScreen)

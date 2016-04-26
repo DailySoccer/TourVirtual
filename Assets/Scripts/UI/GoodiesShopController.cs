@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 public class GoodiesShopController : MonoBehaviour {
 
+	public static GoodiesShopController Instance { get; private set; }	
+	public GUIPopUpScreen thisModal;
+	public delegate void callback();
+	private callback okCallback;
 
     public UnityEngine.UI.Text item1;
     public UnityEngine.UI.Text item2;
@@ -14,6 +18,34 @@ public class GoodiesShopController : MonoBehaviour {
     public UnityEngine.UI.Text item5;
     public UnityEngine.UI.Text item6;
 
+	void Awake () {
+		Instance = this;
+		thisModal.IsOpen = false;
+	}
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+	public static void Show(callback _callback=null) {
+		Instance.okCallback = _callback;
+		Instance.thisModal.IsOpen = true;
+	}
+
+	public static void CloseModal() {
+		if (Instance.okCallback != null) Instance.okCallback();
+		Instance.thisModal.IsOpen = false;
+	}
+
+	public void CloseGoodiesShop() {
+		GoodiesShopController.CloseModal ();
+	}
 
     public void ItemsRefresh(List<MarketItem> items)
     {
@@ -41,7 +73,6 @@ public class GoodiesShopController : MonoBehaviour {
                     break;
             }
         }
-
     }
 
     public void Product_ClickHandle(string iapId) {

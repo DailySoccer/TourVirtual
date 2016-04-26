@@ -4,12 +4,14 @@ using System.Collections;
 
 public class ModalTextOnly : MonoBehaviour {
 
-
-	public Text TheText;
+	public static ModalTextOnly Instance { get; private set; }
 	public GUIPopUpScreen thisModal;
     public delegate void callback();
+	private callback okCallback;
 
-	public static ModalTextOnly Instance { get; private set; }
+	public Text TheText;
+
+
 
 	void Awake () {
 		Instance = this;
@@ -25,10 +27,7 @@ public class ModalTextOnly : MonoBehaviour {
 	void Update () {
 	
 	}
-
-    callback okCallback;
-
-
+	
     public static void ShowText(string text, callback _callback=null) {
         Instance.okCallback = _callback;
         Instance.TheText.text = text;

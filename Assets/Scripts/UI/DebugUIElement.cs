@@ -15,4 +15,10 @@ public class DebugUIElement : MonoBehaviour {
 		//enabled = MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? true : false; 
 		transform.localScale = MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? Vector3.one : Vector3.zero;
 	}
+
+
+
+	public void ShowGoodiesShop(){
+		GoodiesShopController.Show ();
+	}
 }
