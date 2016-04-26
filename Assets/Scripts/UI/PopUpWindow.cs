@@ -16,7 +16,8 @@ public enum ModalLayout {
     SINGLE_CONTENT_SHARE,
     THIRDS_PROFILE_CONTENT,
 	PACK_FLYER,
-	SETTINGS
+	SETTINGS,
+	GOODIES_SHOP
 }
 
 public class PopUpWindow : UIScreen {
@@ -62,9 +63,9 @@ public class PopUpWindow : UIScreen {
 	PackFlyerModal ThePackFlyerModal;
 
 	public GameObject SettingsGameObject;
+	public GameObject GoodiesShopGameObject;
 
 	string currentSelectedItemGUID;
-
 	public ClothSlot CurrentVestidorPrenda;
 
     // Use this for initialization
@@ -116,13 +117,13 @@ public class PopUpWindow : UIScreen {
 
 		switch (newPopUpLayout) {
 			case ModalLayout.BLANK:
-				break;
+			break;
 			case ModalLayout.PURCHASED_PACKS_GRID:
 				PurchasedPacksGridParent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PurchasedPacks");
 				SetupPurchasedGridContent();
-				break;
+			break;
 					
 			case ModalLayout.PURCHASED_PACK_CONTENT_LIST:
 				PurchasedPackContentParent.SetActive (true);
@@ -130,54 +131,51 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackContent");
 				// 'currentSelectedItemGUID': Seteado al hacer click sobre un pack comprado
 				SetupPurchasedPackContentList (currentSelectedItemGUID);
-				break;
+			break;
 					
 			case ModalLayout.ACHIEVEMENTS_GRID:
 				AchievementsGridParent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.AchievementsList");
 				SetupAchievementGridContent();
-				break;
+			break;
 					
 			case ModalLayout.SINGLE_CONTENT_GOTO_SHOP:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.InsufficientFunds");
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.GOTOSHOP;
-				break;
+			break;
 					
 			case ModalLayout.SINGLE_CONTENT_BUY_ITEM:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Buy");
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-				break;
+			break;
 
 			case ModalLayout.SINGLE_CONTENT_INFO:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
-
 				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
 				//modalDetail.Setup (CurrentVestidorPrenda.virtualGood.Description, CurrentVestidorPrenda.virtualGood.Thumb);
-
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
-
-				break;
+			break;
 
 			case ModalLayout.SINGLE_CONTENT_SHARE:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
-				break;
+			break;
 					
 			case ModalLayout.THIRDS_PROFILE_CONTENT:
 				SetupThirdProfileContent(TheGameCanvas.CurrentPlayerDataModelSelected);
 				ThirdsProfileTitle.SetActive (true);
 				ThirdsProfileTitleText.text = TheGameCanvas.CurrentPlayerDataModelSelected[(int)PlayerDataModel.NOMBRE];
 				ProfileScreenController.SetActive (true);
-				break;			
+			break;			
 				
 			case ModalLayout.PACK_FLYER:
 				// Coger el id del pack asociado a la vitrina
@@ -205,13 +203,19 @@ public class PopUpWindow : UIScreen {
 					//StandardTitleText.text = content.Description;
 					SetupFlyerPackContent(content);
 				}
-				break;
+			break;
 
 			case ModalLayout.SETTINGS:
 				SettingsGameObject.SetActive(true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
-				break;
+			break;
+
+			case ModalLayout.GOODIES_SHOP:
+				GoodiesShopGameObject.SetActive(true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.GoodiesShopTitle");
+			break;
 		}
 	}
 
