@@ -283,7 +283,7 @@ public class MainManager : Photon.PunBehaviour {
 		StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
-        StoreEvents.OnMarketItemsRefreshFinished += onMarketItemsRefreshFinished;
+        StoreEvents.OnMarketItemsRefreshFinished += OnMarketItemsRefreshFinished;
         StoreEvents.OnMarketPurchaseStarted += OnMarketPurchaseStarted;
         StoreEvents.OnMarketPurchaseCancelled += OnMarketPurchaseCancelled;
         StoreEvents.OnMarketPurchase += OnMarketPurchase;
@@ -324,33 +324,13 @@ public class MainManager : Photon.PunBehaviour {
 
     }
 
-    public void onMarketItemsRefreshFinished(List<MarketItem> items)
+    public void OnMarketItemsRefreshFinished(List<MarketItem> items)
     {
         GoodiesShopConntroller.ItemsRefresh(items);
     }
 
-public void onSoomlaStoreInitialized() {
-        Debug.LogWarning(">>>> onSoomlaStoreInitialized " );
-        if (StoreInfo.Currencies.Count > 0) {
-			try {
-				/*
-				//First launch reward
-				if(!firstLaunchReward.Owned)
-				{
-					firstLaunchReward.Give();
-				}
-				*/
-
-				// Ejemplo de PurchaseWithMarket
-				/*
-				VirtualCurrencyPack vg = StoreInfo.CurrencyPacks[0];
-				StoreInventory.BuyItem(vg.ItemId);
-				*/
-			} catch (VirtualItemNotFoundException ex){
-				SoomlaUtils.LogError("SOOMLA InitializedException", ex.Message);
-			}
-		}
-	}
+    public void onSoomlaStoreInitialized() {
+ 	}
 
 	public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 	}

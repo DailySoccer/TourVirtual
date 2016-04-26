@@ -13,7 +13,7 @@ using SmartLocalization;
 public class UserAPI {
 #if UNITY_EDITOR
    //TODO: put this value to 'true'
-    public bool Online = true;
+    public bool Online = false;
 #else
 	public bool Online = true;
 #endif
@@ -28,6 +28,7 @@ public class UserAPI {
     // Fakes
     public int      Energy      { get; set; } // Energia minijuegos. FAKE!!!
     public float    NextLevel   { get {
+            if (Level == 0) return 0;
             int[] levels = { 0, 25, 50, 85, 125, 175, 235, 300, 385, 485, 605, 745, 920, 1125, 1370, 1660, 2015, 2435, 2935, 3540, 3540 };
             float val = (Exp - levels[Level - 1]) / (float)(levels[Level] - levels[Level - 1]);
             if (val < 0) val = 0;

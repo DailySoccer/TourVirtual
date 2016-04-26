@@ -26,8 +26,7 @@ public class GoodiesShopController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,36 +49,35 @@ public class GoodiesShopController : MonoBehaviour {
 
     public void ItemsRefresh(List<MarketItem> items)
     {
-        foreach (var item in items)
-        {
-            switch (item.ProductId)
-            {
-                case "100coins":
+        foreach (var item in items){
+            switch (item.ProductId){
+                case "com.realmadrid.virtualworld.100coins":
                     item1.text = item.MarketPriceAndCurrency;
                     break;
-                case "375coins":
-                    item1.text = item.MarketPriceAndCurrency;
+                case "com.realmadrid.virtualworld.375coins":
+                    item2.text = item.MarketPriceAndCurrency;
                     break;
-                case "700coins":
-                    item1.text = item.MarketPriceAndCurrency;
+                case "com.realmadrid.virtualworld.700coins":
+                    item3.text = item.MarketPriceAndCurrency;
                     break;
-                case "1600coins":
-                    item1.text = item.MarketPriceAndCurrency;
+                case "com.realmadrid.virtualworld.1600coins":
+                    item4.text = item.MarketPriceAndCurrency;
                     break;
-                case "3600coins":
-                    item1.text = item.MarketPriceAndCurrency;
+                case "com.realmadrid.virtualworld.3600coins":
+                    item5.text = item.MarketPriceAndCurrency;
                     break;
-                case "10000coins":
-                    item1.text = item.MarketPriceAndCurrency;
+                case "com.realmadrid.virtualworld.10000coins":
+                    item6.text = item.MarketPriceAndCurrency;
+                    break;
+                default:
+                    Debug.LogError("Producto raro " + item.ProductId);
                     break;
             }
         }
     }
 
     public void Product_ClickHandle(string iapId) {
-        
-        Debug.LogError(">>>> " + iapId);
-        StartCoroutine(Buy("100coins"));
+        StartCoroutine(Buy(iapId));
     }
 
     IEnumerator Buy(string id)
