@@ -514,7 +514,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22418448}
-  - 114: {fileID: 11427136}
   - 114: {fileID: 11444388}
   m_Layer: 5
   m_Name: 9 - PackFlyer
@@ -522,7 +521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &129464
 GameObject:
   m_ObjectHideFlags: 1
@@ -3306,20 +3305,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: PACKS
---- !u!114 &11427136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 128022}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe5d83e5865d4c13a7c42af8fda47a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FlyerThumbnail: {fileID: 11421476}
-  ContentList: {fileID: 11430982}
-  Price: {fileID: 11431008}
 --- !u!114 &11427656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5828,7 +5813,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11427136}
+      - m_Target: {fileID: 11444388}
         m_MethodName: Buy
         m_Mode: 1
         m_Arguments:
