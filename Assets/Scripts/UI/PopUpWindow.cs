@@ -425,7 +425,7 @@ public class PopUpWindow : UIScreen {
 		ThePackFlyerModal.Setup (content);
 
 		// Solicitamos el contenido del pack y montamos el flyer
-		//StartCoroutine (UserAPI.Contents.GetContent (content.GUID, PackFlyerContentCallBack));
+		StartCoroutine (UserAPI.Contents.GetContent (content.GUID, PackFlyerContentCallBack));
 
 	}
 
