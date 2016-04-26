@@ -28,7 +28,9 @@ public class MainManager : Photon.PunBehaviour {
 
 	public string PlayerName;
 
-	public bool InternetConnection = false;
+    public GoodiesShopController GoodiesShopConntroller;
+
+    public bool InternetConnection = false;
 
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
@@ -282,8 +284,8 @@ public class MainManager : Photon.PunBehaviour {
 		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
         StoreEvents.OnMarketItemsRefreshFinished += onMarketItemsRefreshFinished;
-        StoreEvents.OnMarketPurchase += onMarketPurchase;
         StoreEvents.OnMarketPurchaseStarted += OnMarketPurchaseStarted;
+        StoreEvents.OnMarketPurchaseCancelled += OnMarketPurchaseCancelled;
         StoreEvents.OnMarketPurchase += OnMarketPurchase;
         StoreEvents.OnItemPurchaseStarted += OnItemPurchaseStarted;
         StoreEvents.OnItemPurchased += OnItemPurchased;
@@ -300,9 +302,16 @@ public class MainManager : Photon.PunBehaviour {
     public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> ret)
     {
         Debug.Log("OnMarketPurchase: " + pvi.ItemId);
+        Debug.LogError(">>>> onMarketPurchase " + ret);
+        foreach (var pair in ret)
+            Debug.LogError(pair.Key + " " + pair.Value);
+        LoadingCanvasManager.Hide();
 
     }
-
+    public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi)
+    {
+        LoadingCanvasManager.Hide();
+    }
     public void OnItemPurchaseStarted(PurchasableVirtualItem pvi)
     {
         Debug.Log("OnItemPurchaseStarted: " + pvi.ItemId);
@@ -317,16 +326,7 @@ public class MainManager : Photon.PunBehaviour {
 
     public void onMarketItemsRefreshFinished(List<MarketItem> items)
     {
-        foreach (var item in items)
-            Debug.LogError(">>>> ["+item.ProductId+"] [" + item.MarketDescription + "] [" + item.MarketPriceAndCurrency + "]");
-       // 
-    }
-
-    public void onMarketPurchase(PurchasableVirtualItem item, string ret, Dictionary<string, string> dic)
-    {
-        Debug.LogError(">>>> onMarketPurchase "+ ret);
-        foreach (var pair in dic)
-            Debug.LogError(pair.Key + " " + pair.Value);
+        GoodiesShopConntroller.ItemsRefresh(items);
     }
 
 public void onSoomlaStoreInitialized() {
