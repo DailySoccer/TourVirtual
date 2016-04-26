@@ -21,6 +21,7 @@ public class GoodiesShopController : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 		thisModal.IsOpen = false;
+		thisModal = GetComponent<GUIPopUpScreen> ();
 	}
 
 	// Use this for initialization
