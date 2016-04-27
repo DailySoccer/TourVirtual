@@ -47,14 +47,11 @@ public class Player : MonoBehaviour {
 			return _avatar ?? Instance.gameObject;
 		}
 		set {
-			if (_avatar == null) {
+			if (_avatar == null) 
 				RefreshAvatar();
-			}
-			if (_avatar != null) {
+
+			if (_avatar != null)
 				Destroy(_avatar);
-			} else {
-				Debug.LogWarning("Player avatar is not initialized.");
-			}
 
 			_avatar = value;
 			_avatar.tag = TAG_UMA_AVATAR;
