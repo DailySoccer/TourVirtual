@@ -79,18 +79,23 @@ public class AzureInterfaz {
         component.StartCoroutine(_RequestString(mode, url, value, ok, error));
     }
 
-    void checkResult(RequestEvent ok, RequestEvent error, HTTPRequest request)
-    {
-        if (request.Response.StatusCode != 200) {
-            // Oculatamos la carga
+    void checkResult(RequestEvent ok, RequestEvent error, HTTPRequest request) {
+        try {
+            if (request.Response.StatusCode != 200) {
+                // Oculatamos la carga
+                LoadingCanvasManager.Hide();
+                // Sacamos un mensaje genrico.
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
+                if (error != null) error(request.Response.StatusCode.ToString());
+            }
+            else {
+                if (ok != null) ok(MyTools.AsciiToString(request.Response.Data));
+            }
+        }catch{
             LoadingCanvasManager.Hide();
             // Sacamos un mensaje genrico.
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
-            if (error != null) error(request.Response.StatusCode.ToString());
-            Debug.LogError("ERROR(" + request.Response.StatusCode + " : " + request.Uri + ") >>>  " + request.Response.Message);
-        }
-        else {
-            if (ok != null) ok(MyTools.AsciiToString(request.Response.Data));
+            if (error != null) error("404");
         }
     }
 
