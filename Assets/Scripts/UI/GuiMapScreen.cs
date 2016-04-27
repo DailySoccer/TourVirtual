@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,10 @@ public enum SelectorPosition {
 }
 
 public class GuiMapScreen : UIScreen {
+	public GameCanvasManager TheGameCanvasManager;
+
 	public GameObject Selector;
+
 	RectTransform selectorRT;
 
 	public SelectorPosition selectorPosition;
@@ -26,6 +29,13 @@ public class GuiMapScreen : UIScreen {
 
 	public void HandleRoom(string roomGoto) {
 		Debug.LogWarning("HandleRoom: " + roomGoto);
+		string room = roomGoto.Split ('#') [0];
+
+		if (room == RoomManager.Instance.Room.Id) {
+			TheGameCanvasManager.ShowMainGameScreen ();
+			return;
+		}
+
 		RoomManager.Instance.GotoRoomAtDoor(roomGoto);
 	}
 
