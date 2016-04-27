@@ -174,16 +174,6 @@ public class RoomManager : Photon.PunBehaviour {
 
 	void Start () {
 		LoadRooms();
-
-        // Prueba de HiddenObjects
-        //HiddenObjects.HiddenObjects.Instance.Play();
-
-        /*
-		// Los gameObjects del escenario "inicial" permanecerán
-		foreach(GameObject obj in GetRootObjects()) {
-			DontDestroyOnLoad(obj);
-		}
-		*/
     }
 
     public System.Collections.IEnumerator Connect() {
@@ -443,7 +433,8 @@ public class RoomManager : Photon.PunBehaviour {
 
 	private void JoinToRoom(string roomid ) {
         Debug.LogError( ">>> JoinToRoom "+roomid );
-        PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
+        if(Room.MaxPlayers>1)
+            PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {

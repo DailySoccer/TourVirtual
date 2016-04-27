@@ -244,7 +244,6 @@ public class UserAPI {
 
     public IEnumerator GetMaxScore(MiniGame game) {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/MaxScore/{0}", MiniGameID[(int)game]), (res) => {
-            Debug.LogError(">>>> GetMaxScore("+ game + ")" + res);
             if (res != "null") {
                 Dictionary<string, object> MaxScore = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 HighScore[(int)game] = (int)(double)MaxScore["Score"];

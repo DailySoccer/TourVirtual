@@ -400,9 +400,7 @@ namespace ExitGames.Client.Photon
 
             if (authValues != null)
             {
-                if (!string.IsNullOrEmpty(authValues.UserId))
-                {
-                    UnityEngine.Debug.LogWarning("UserId sent: " + authValues.UserId);
+                if (!string.IsNullOrEmpty(authValues.UserId)) {
                     opParameters[ParameterCode.UserId] = authValues.UserId;
                 }
 

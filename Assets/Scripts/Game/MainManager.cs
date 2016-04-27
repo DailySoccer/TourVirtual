@@ -393,7 +393,6 @@ public class MainManager : Photon.PunBehaviour {
     IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
 #if !LITE_VERSION
-        Debug.Log ("Connect...");
 		PhotonNetwork.offlineMode = OfflineMode;
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
 		if (!PhotonNetwork.connected)

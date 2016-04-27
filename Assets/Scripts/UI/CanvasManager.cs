@@ -80,10 +80,6 @@ public class CanvasManager : MonoBehaviour {
 
 	public void ShowProfileScreen() {
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
-        //Activamos los elementos necesarios de esta pantalla
-        //ShowSecondPlaneScreens("Video Bg", "Profile Screen Plano2");
-        //SecondPlaneCanvas.SetActive (true);			
-        //SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
             MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
             UIScreensCamera.SetActive (true);
