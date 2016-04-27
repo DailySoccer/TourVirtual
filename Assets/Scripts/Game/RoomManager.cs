@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//#define TRAZAS
+
+using UnityEngine;
 using System.Collections.Generic;
 using Photon;
 
@@ -35,7 +37,6 @@ public class RoomDefinition {
 	}
 
 	public string Door(string key) {
-        Debug.LogError("key " + key);
 		return Doors[key] as string;
 	}
 
@@ -297,9 +298,10 @@ public class RoomManager : Photon.PunBehaviour {
             Resources.UnloadUnusedAssets();
             if (DLCManager.Instance != null) {
                 //DLCManager.Instance.ClearResources();
+#if TRAZAS
                 if (Application.CanStreamedLevelBeLoaded(Room.SceneName))
                     Debug.LogError(">>>> Escena precacheada " + Room.SceneName);
-
+#endif
                 if (!string.IsNullOrEmpty(Room.BundleId) && !Application.CanStreamedLevelBeLoaded(Room.SceneName) ) {
 					yield return StartCoroutine(DLCManager.Instance.LoadResource(Room.BundleId));
 				}
@@ -310,7 +312,6 @@ public class RoomManager : Photon.PunBehaviour {
             Resources.UnloadUnusedAssets();
         }
 
-        Debug.LogError(">>>>> JoinToRoom");
         if (!connected)
             JoinToRoom(GetRoomIdById(Room.Id));
 
@@ -368,9 +369,11 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 		if (portal == null) {
 			portal = Portal.First();
+#if TRAZAS
 			if (portal != null) {
 				Debug.Log ("Portal: Default OLD "+ (roomOld != null ? roomOld.Id : "NoOLD") + " NEW "+ (roomNew!=null?roomNew.Id:"NoNEW"));
 			}
+#endif
 		}
         if (portal != null) {
 			entrada = portal.transform.FindChild("Point");
@@ -427,26 +430,36 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
+#if TRAZAS
         Debug.LogError( ">>> JoinToRoom "+roomid );
-        if(Room.MaxPlayers>1)
+#endif
+        if (Room.MaxPlayers>1)
             PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
 	}
 
 	public override void OnConnectedToMaster() {
+#if TRAZAS
         Debug.LogError(">>> OnConnectedToMaster");
+#endif
         //JoinToRoom();
     }
 
     public override void OnConnectedToPhoton() {
+#if TRAZAS
         Debug.LogError(">>> OnConnectedToPhoton");
+#endif
     }
 
     public override void OnCreatedRoom() {
+#if TRAZAS
         Debug.LogError(">>> OnCreatedRoom");
+#endif
     }
 
-	public override void OnJoinedRoom() {
+    public override void OnJoinedRoom() {
+#if TRAZAS
         Debug.LogError(">>> OnJoinedRoom");
+#endif
         if (OnChange != null) OnChange();
 		if (OnRoomChange != null) OnRoomChange();
 		if (OnJoinRoomAction != null) OnJoinRoomAction();
@@ -454,18 +467,24 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	public override void OnLeftRoom() {
+#if TRAZAS
         Debug.LogError(">>> OnLeftRoom");
+#endif
         if (OnLeftRoomAction != null) OnLeftRoomAction();
 	}
 
     bool bJustOneTime = false;
 	public override void OnJoinedLobby() {
+#if TRAZAS
         Debug.LogError(">>> OnJoinedLobby");
+#endif
         bJustOneTime = false;
     }
 
     public override void OnReceivedRoomListUpdate() {
+#if TRAZAS
         Debug.LogError(">>> OnReceivedRoomListUpdate");
+#endif
         if (bJustOneTime) return;
         bJustOneTime = true;
         if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
@@ -491,41 +510,57 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
+#if TRAZAS
         Debug.LogError(">>> OnPhotonPlayerConnected");
+#endif
         if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
+#if TRAZAS
         Debug.LogError(">>> OnPhotonPlayerDisconnected");
+#endif
         if (OnChange != null) OnChange();
 		if (OnPlayerListChange != null) OnPlayerListChange();
 	}
 
 	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
+#if TRAZAS
         Debug.LogWarning("OnPhotonCreateRoomFailed");
+#endif
     }
 
     public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+#if TRAZAS
         Debug.LogWarning("OnPhotonJoinRoomFailed");
+#endif
         // Si hay un error de conexion a la sala, se crea una nueva.
         GetRoomIdById(Room.Id, true);
     }
 	
 	public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
+#if TRAZAS
         Debug.LogError("OnFailedToConnectToPhoton");
+#endif
     }
 
     public override void OnDisconnectedFromPhoton() {
+#if TRAZAS
         Debug.LogError("OnDisconnectedFromPhoton");
+#endif
     }
 
     public override void OnConnectionFail(DisconnectCause cause) {
+#if TRAZAS
         Debug.LogError("OnConnectionFail "+ cause);
+#endif
     }
 
     public override void OnPhotonMaxCccuReached() {
+#if TRAZAS
         Debug.LogError("OnPhotonMaxCccuReached");
+#endif
     }
 
     private List<GameObject> GetRootObjects() {
