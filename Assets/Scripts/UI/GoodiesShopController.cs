@@ -38,6 +38,10 @@ public class GoodiesShopController : MonoBehaviour {
 		Instance.thisModal.IsOpen = true;
 	}
 
+	public void ShowGoodiesShop() {
+		GoodiesShopController.Show ();
+	}
+
 	public static void CloseModal() {
 		if (Instance.okCallback != null) Instance.okCallback();
 		Instance.thisModal.IsOpen = false;
