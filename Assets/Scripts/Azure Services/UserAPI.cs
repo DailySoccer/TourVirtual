@@ -266,4 +266,15 @@ public class UserAPI {
         });
     }
 
+    public void Purchase(string IdProduct, string Receipt, bool UseVirtualGoods = false) {
+        Dictionary<string, object> hs = new Dictionary<string, object>();
+        hs.Add("IdClient", Authentication.IDClient);
+        hs.Add("IdProduct", IdProduct);
+        hs.Add("Receipt", Receipt);
+        hs.Add("UseVirtualGoods", UseVirtualGoods);
+        Authentication.AzureServices.RequestJSON("post", "api/v1/purchases", hs, (res2) => {
+            //            if (onok != null) onok();
+        });
+    }
+
 }
