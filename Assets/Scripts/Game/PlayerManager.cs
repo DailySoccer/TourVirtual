@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿//#define CORUTINES
+using UnityEngine;
 using System.Collections.Generic;
-using Photon;
 
 public class PlayerManager : Photon.PunBehaviour {
 
@@ -119,6 +119,10 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         return GetDescriptor( Packs[UserAPI.AvatarDesciptor.Gender] as List<object>, GUID);
     }
+
+
+
+
     public delegate void callback(GameObject instance);
     public System.Collections.IEnumerator CreateAvatar(string model, callback callback=null, GameObject oldInstance=null) {
 #if UNITY_EDITOR
@@ -136,13 +140,19 @@ public class PlayerManager : Photon.PunBehaviour {
         lastInstance.transform.position = Vector3.zero;
 
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
+#if CORUTINES
             StartCoroutine(RenderAvatar(lastInstance, section, bundle, anmTime, callback));
+#else
+            RenderAvatar(lastInstance, section, bundle, anmTime, callback);
+#endif
         }));
     }
-
+#if CORUTINES
     System.Collections.IEnumerator RenderAvatar(GameObject lastInstance, string[] section, AssetBundle bundle, float anmTime, callback callback) {
         yield return null;
-        
+#else
+    void RenderAvatar(GameObject lastInstance, string[] section, AssetBundle bundle, float anmTime, callback callback) {
+#endif
         string bodyID = !string.IsNullOrEmpty(section[3]) ? section[3] : ((Bodies[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
         string legsID = !string.IsNullOrEmpty(section[4]) ? section[4] : ((Legs[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
         string feetID = !string.IsNullOrEmpty(section[5]) ? section[5] : ((Feet[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
@@ -160,13 +170,22 @@ public class PlayerManager : Photon.PunBehaviour {
         pmm.matMaterial = mat;
         if (hairDesc["mesh"] != null) Assign(bundle.LoadAsset<GameObject>(hairDesc["mesh"] as string), lastInstance.transform.FindChild("Pelo"), mat);
         Assign(bundle.LoadAsset<GameObject>(headDesc["mesh"] as string), lastInstance.transform.FindChild("Cabeza"), mat);
+#if CORUTINES
         yield return null;
+#endif
         Assign(bundle.LoadAsset<GameObject>(bodyDesc["mesh"] as string), lastInstance.transform.FindChild("Torso"), mat);
+#if CORUTINES
         yield return null;
+#endif
+
         Assign(bundle.LoadAsset<GameObject>(legsDesc["mesh"] as string), lastInstance.transform.FindChild("Piernas"), mat);
+#if CORUTINES
         yield return null;
+#endif
         Assign(bundle.LoadAsset<GameObject>(feetDesc["mesh"] as string), lastInstance.transform.FindChild("Pies"), mat);
+#if CORUTINES
         yield return null;
+#endif
         // Material para el complemento.
         if (compimentsDesc != null) {
             Material matCmp = Instantiate(baseCompliment);
@@ -174,128 +193,119 @@ public class PlayerManager : Photon.PunBehaviour {
             matCmp.mainTexture = bundle.LoadAsset<Texture2D>(compimentsDesc["texture"] as string);
             Assign(bundle.LoadAsset<GameObject>(compimentsDesc["mesh"] as string), lastInstance.transform.FindChild("Complemento"), matCmp);
         }
+#if CORUTINES
         yield return null;
+#endif
+
         RenderTexture rt = RenderTexture.GetTemporary((int)textureSize, (int)textureSize);
+#if CORUTINES
         yield return null;
+#endif
+
         RenderTexture.active = rt;
         GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
         List<object> hairTextures = hairDesc["textures"] as List<object>;
         Texture txt = bundle.LoadAsset<Texture2D>(headDesc["texture"] as string);
-        if (txt != null)
-        {
-            Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
-        }
+        if (txt != null) Graphics.DrawTexture(new Rect(0, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
+#if CORUTINES
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
+#endif
         txt = bundle.LoadAsset<Texture2D>(bodyDesc["texture"] as string);
-        if (txt != null)
-        {
-            Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
-        }
+        if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, 0, textureSize * 0.5f, textureSize * 0.5f), txt);
+#if CORUTINES
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
+#endif
         txt = bundle.LoadAsset<Texture2D>(legsDesc["texture"] as string);
-        if (txt != null)
-        {
-            Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), txt);
-        }
+        if (txt != null) Graphics.DrawTexture(new Rect(0, textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.5f), txt);
+#if CORUTINES
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
-
+#endif
         txt = bundle.LoadAsset<Texture2D>(feetDesc["texture"] as string);
-        if (txt != null)
-        {
-            Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
-        }
-
+        if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
+#if CORUTINES
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
-        if (hairTextures != null)
-        {
+#endif
+        if (hairTextures != null) {
             txt = bundle.LoadAsset<Texture2D>(hairTextures[0] as string);
-            if (txt != null)
-            {
-                Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
-            }
-            if (hairTextures.Count > 1)
-            {
+            if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.75f, textureSize * 0.5f, textureSize * 0.25f, textureSize * 0.25f), txt);
+            if (hairTextures.Count > 1) {
                 txt = bundle.LoadAsset<Texture2D>(hairTextures[1] as string);
-                if (txt != null)
-                {
-                    Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), txt);
-                }
+                if (txt != null) Graphics.DrawTexture(new Rect(textureSize * 0.5f, textureSize * 0.75f, textureSize * 0.25f, textureSize * 0.25f), txt);
             }
         }
         float initTime = Time.realtimeSinceStartup;
-
+#if CORUTINES
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
-
+#endif
         Texture2D dst = new Texture2D((int)textureSize, (int)textureSize);
         dst.name = "PlayerTextureCompose";
+#if CORUTINES
         int hlf = (int)(textureSize * 0.5f);
         dst.ReadPixels(new Rect(  0,   0, hlf, hlf),   0, 0);
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
-
         dst.ReadPixels(new Rect(hlf,   0, hlf, hlf), hlf, 0);
+
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
         dst.ReadPixels(new Rect(  0, hlf, hlf, hlf),   0, hlf);
+
         GL.PopMatrix();
         RenderTexture.active = null;
         yield return null;
-
         RenderTexture.active = rt;
-        GL.PushMatrix();                                //Saves both projection and modelview matrices to the matrix stack.
+        GL.PushMatrix();
         GL.LoadPixelMatrix(0, textureSize, textureSize, 0);
         dst.ReadPixels(new Rect(hlf, hlf, hlf, hlf), hlf, hlf);
         GL.PopMatrix();
         RenderTexture.active = null;
-        yield return null;
-        dst.Apply();
-
-        RenderTexture.active = null;
         RenderTexture.ReleaseTemporary(rt);
-        mat.mainTexture = dst;
-        RenderTexture.active = null; // Restore
         yield return null;
+#else
+        dst.ReadPixels(new Rect(  0, 0, textureSize, textureSize),   0, 0);
+        GL.PopMatrix();
+        RenderTexture.ReleaseTemporary(rt);
+        RenderTexture.active = null;
+#endif
+        dst.Apply();
+        mat.mainTexture = dst;
+#if CORUTINES
+        yield return null;
+#endif
         lastInstance.GetComponent<Animator>().Play("Idle", 0, anmTime);
         lastInstance.SetActive(true);
         if (callback != null) callback(lastInstance);
