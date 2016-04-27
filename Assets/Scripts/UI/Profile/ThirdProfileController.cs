@@ -6,8 +6,12 @@ public class ThirdProfileController : MonoBehaviour {
 	
 	public Text penaltiesScore;
 	public Text BasketScore;
-	public Text HiddenObjectsScore;
-	
+	public Text HiddenObjectsScore;	
+		
+	public Text UserOtherName;
+	public Image UserOtherAvatarPicture;
+	public Text UserOtherFanLevel;
+
 	public Text PacksCountText;
 	int PacksCount;
 	int MaxPacksCount;
@@ -23,6 +27,11 @@ public class ThirdProfileController : MonoBehaviour {
 	}
 	
 	public void Setup(string[]  dataModel) {
+
+		UserOtherName.text = dataModel [(int)PlayerDataModel.NOMBRE];
+		UserOtherFanLevel.text = dataModel [(int)PlayerDataModel.NIVEL_FAN];
+		UserOtherAvatarPicture.sprite = MainManager.Instance.GetComponent<AvatarPictureManager> ().GetAvatarPicture (dataModel [(int)PlayerDataModel.CARA]);
+
 		penaltiesScore.text = dataModel[(int)PlayerDataModel.PTOS_FUTBOL]; //(1000 * Time.deltaTime).ToString();
 		BasketScore.text		=  dataModel [(int)PlayerDataModel.PTOS_BASKET]; //(1000 * Time.deltaTime).ToString();
 		HiddenObjectsScore.text =  dataModel [(int)PlayerDataModel.PTOS_HIDDENOBJECTS]; //(1000 * Time.deltaTime).ToString();

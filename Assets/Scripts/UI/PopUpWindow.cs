@@ -16,8 +16,7 @@ public enum ModalLayout {
     SINGLE_CONTENT_SHARE,
     THIRDS_PROFILE_CONTENT,
 	PACK_FLYER,
-	SETTINGS,
-	GOODIES_SHOP
+	SETTINGS
 }
 
 public class PopUpWindow : UIScreen {
@@ -31,7 +30,6 @@ public class PopUpWindow : UIScreen {
 	public Text StandardTitleText;
 
 	public GameObject ThirdsProfileTitle;
-	public Text ThirdsProfileTitleText;
 
 	//Contenidos
 	public GameObject PurchasedPacksGridParent;
@@ -59,7 +57,6 @@ public class PopUpWindow : UIScreen {
 	PackFlyerModal ThePackFlyerModal;
 
 	public GameObject SettingsGameObject;
-	public GameObject GoodiesShopGameObject;
 
 	string currentSelectedItemGUID;
 	public ClothSlot CurrentVestidorPrenda;
@@ -169,7 +166,6 @@ public class PopUpWindow : UIScreen {
 			case ModalLayout.THIRDS_PROFILE_CONTENT:
 				SetupThirdProfileContent(TheGameCanvas.CurrentPlayerDataModelSelected);
 				ThirdsProfileTitle.SetActive (true);
-				ThirdsProfileTitleText.text = TheGameCanvas.CurrentPlayerDataModelSelected[(int)PlayerDataModel.NOMBRE];
 				ProfileScreenController.SetActive (true);
 			break;			
 				
@@ -206,12 +202,6 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
 			break;
-
-			case ModalLayout.GOODIES_SHOP:
-				GoodiesShopGameObject.SetActive(true);
-				StandardTitleText.gameObject.SetActive (true);
-				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.GoodiesShopTitle");
-			break;
 		}
 	}
 
@@ -220,9 +210,6 @@ public class PopUpWindow : UIScreen {
 			StandardTitleText.text = "";
 			StandardTitleText.gameObject.SetActive (false);
 		}
-
-		if (ThirdsProfileTitleText != null)
-			ThirdsProfileTitleText.text = "";
 
 		if (ThirdsProfileTitle != null)
 			ThirdsProfileTitle.SetActive (false);
