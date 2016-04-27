@@ -42,11 +42,9 @@ public class VestidorModalManager : GUIPopUpScreen {
 	public void SetState(ModalLayout newPopUpLayout) {
 		
 		ResetModal ();
-
-		if (ContentType == null)
+        if (ContentType == null)
 			ContentType = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
-
-		switch (newPopUpLayout) {
+        switch (newPopUpLayout) {
 			case ModalLayout.SINGLE_CONTENT_INFO:
 				SingleContent.SetActive (true);
 
@@ -54,7 +52,7 @@ public class VestidorModalManager : GUIPopUpScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
 							
 				ContentType.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
-				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image);	
+				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
 
 				break;
 			
@@ -65,7 +63,7 @@ public class VestidorModalManager : GUIPopUpScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Buy");
 
 				ContentType.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image);		
+				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
 
 				break;
 		}

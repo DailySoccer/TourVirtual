@@ -12,8 +12,9 @@ public enum DetailedContent2ButtonsLayout {
 
 public class DetailedContent2Buttons : MonoBehaviour {
 
-	public Text TheName;
-	public Image ThePicture;
+    public Text TheName;
+    public Text ThePrice;
+    public Image ThePicture;
 	public GameObject OKButton;
 	public GameObject CancelButton;
 	public GameObject GotoShopButton;
@@ -32,9 +33,10 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	
 	}
 
-	public void Setup(string text, string imageUrl) {		
+	public void Setup(string text, string imageUrl, string price) {		
 		TheName.text = text;
-		StartCoroutine(MyTools.LoadSpriteFromURL(imageUrl, ThePicture.gameObject));
+        ThePrice.text = price;
+        StartCoroutine(MyTools.LoadSpriteFromURL(imageUrl, ThePicture.gameObject));
 	}
 
     // Update is called once per frame

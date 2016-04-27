@@ -165,51 +165,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 			CurrentModalLayout = ModalLayout.SINGLE_CONTENT_INFO;
 		}
 		else {
-			// Si tenemos suficiente dinero
-			if (EnoughMoney) {
-				// Mostramos la ventana modal con layout COMPRA
-				CurrentModalLayout = ModalLayout.SINGLE_CONTENT_BUY_ITEM;
-			}
-			else {
-				// Mostramos la ventana modal con layout MONEDAS INSUFICIENTE
-				CurrentModalLayout = ModalLayout.SINGLE_CONTENT_GOTO_SHOP;
-			}
+            CurrentModalLayout = ModalLayout.SINGLE_CONTENT_BUY_ITEM;
 		}
 
 		OpenModalScreen ();
-
-		/*
-		//TogglePopUpScreen();
-
-        popUpWindow = ModalPopUpScreen.GetComponent<PopUpWindow>();
-		popUpWindow.CurrentVestidorPrenda = currentPrenda;
-
-        // modalDetail = ModalPopUpScreen.GetComponentInChildren<DetailedContent2Buttons>();
-		// modalDetail.Setup (currentPrenda.virtualGood.Description, currentPrenda.virtualGood.Thumb);
-
-			
-		if (currentPrenda.virtualGood.count != 0)
-        { // Lo tengo, presento informacion.
-            popUpWindow.TheGameCanvas.ShowModalScreen((int)ModalLayout.SINGLE_CONTENT_INFO);
-        }
-        else {
-            if (EnoughMoney)
-            {                
-				popUpWindow.TheGameCanvas.ShowModalScreen((int)ModalLayout.SINGLE_CONTENT_BUY_ITEM);
-                try
-                {
-                    modalDetail.BuyButton.GetComponentInChildren<Text>().text = currentPrenda.Price.text;
-                }
-                catch { }
-            }
-            else {
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"),()=> {
-                    //Authentication.AzureServices.OpenURL("rmapp://You");
-                });
-//                popUpWindow.SetState(ModalLayout.SINGLE_CONTENT_GOTO_SHOP);
-            }
-        }
-        */
     }
 
 	public void OpenModalScreen() {
