@@ -265,7 +265,6 @@ public class MainManager : Photon.PunBehaviour {
         InitializeStore();
 #endif
 #endif
-
     }
 
     void OnApplicationPause(bool pauseStatus) {
@@ -276,68 +275,65 @@ public class MainManager : Photon.PunBehaviour {
                 RoomManager.Instance.GotoRoom("VESTIDOR");
         }
     }
+
 #if !LITE_VERSION
 	void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 
-		StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
-		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-		StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
+		StoreEvents.OnSoomlaStoreInitialized += OnSoomlaStoreInitialized;
+		StoreEvents.OnCurrencyBalanceChanged += OnCurrencyBalanceChanged;
+		StoreEvents.OnUnexpectedStoreError += OnUnexpectedStoreError;
         StoreEvents.OnMarketItemsRefreshFinished += OnMarketItemsRefreshFinished;
         StoreEvents.OnMarketPurchaseStarted += OnMarketPurchaseStarted;
         StoreEvents.OnMarketPurchaseCancelled += OnMarketPurchaseCancelled;
         StoreEvents.OnMarketPurchase += OnMarketPurchase;
         StoreEvents.OnItemPurchaseStarted += OnItemPurchaseStarted;
         StoreEvents.OnItemPurchased += OnItemPurchased;
-
         SoomlaStore.Initialize(new TourStoreAssets());
     }
 
-
-    public void OnMarketPurchaseStarted(PurchasableVirtualItem pvi)
-    {
+    public void OnMarketPurchaseStarted(PurchasableVirtualItem pvi) {
         Debug.Log("OnMarketPurchaseStarted: " + pvi.ItemId);
-
     }
-    public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> ret)
-    {
-        Debug.Log("OnMarketPurchase: " + pvi.ItemId);
-        Debug.LogError(">>>> onMarketPurchase " + ret);
+
+    public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> ret) {
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> onMarketPurchase " + ret);
         foreach (var pair in ret)
             Debug.LogError(pair.Key + " " + pair.Value);
         LoadingCanvasManager.Hide();
-
     }
-    public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi)
-    {
+
+    public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
         LoadingCanvasManager.Hide();
     }
-    public void OnItemPurchaseStarted(PurchasableVirtualItem pvi)
-    {
-        Debug.Log("OnItemPurchaseStarted: " + pvi.ItemId);
+
+    public void OnItemPurchaseStarted(PurchasableVirtualItem pvi) {
+        Debug.LogError("OnItemPurchaseStarted: " + pvi.ItemId);
 
     }
 
-    public void OnItemPurchased(PurchasableVirtualItem pvi, string ret)
-    {
-        Debug.Log("OnItemPurchased: " + pvi.ItemId);
+    public void OnItemPurchased(PurchasableVirtualItem pvi, string ret) {
+        Debug.LogError("OnItemPurchased: " + pvi.ItemId);
 
     }
 
-    public void OnMarketItemsRefreshFinished(List<MarketItem> items)
-    {
+    public void OnMarketItemsRefreshFinished(List<MarketItem> items) {
+        Debug.LogError(">>>> OnMarketItemsRefreshFinished");
         GoodiesShopConntroller.ItemsRefresh(items);
     }
 
-    public void onSoomlaStoreInitialized() {
- 	}
+    public void OnSoomlaStoreInitialized() {
+        Debug.LogError(">>>> OnSoomlaStoreInitialized");
+    }
 
-	public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
+    public void OnCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
+        Debug.LogError(">>>> OnCurrencyBalanceChanged virtualCurrency " + virtualCurrency.Name+ " balance " + balance+ " amountAdded " + amountAdded);
+    }
+
+    public void OnUnexpectedStoreError(int errorCode) {
+        Debug.LogError(">>>> OnUnexpectedStoreError "+ errorCode);
 	}
-	
-	public void onUnexpectedStoreError(int errorCode) {
-		SoomlaUtils.LogError ("EventHandler", "error with code: " + errorCode);
-	}
+
 #endif
     void HandleOnUserLogin () {
         // Contro de mismo usuario.
