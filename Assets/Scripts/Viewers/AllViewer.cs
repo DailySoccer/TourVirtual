@@ -99,7 +99,7 @@ public class AllViewer : MonoBehaviour {
 
     // mostrar descarga...
     IEnumerator DownloadModel(string url) {
-        LoadingCanvasManager.Show();
+        LoadingCanvasManager.Show("TVB.Message.LoadingData");
 
         WWW www = new WWW(url);
         yield return www;
@@ -120,7 +120,7 @@ public class AllViewer : MonoBehaviour {
     }
 
     IEnumerator DownloadImage(string url) {
-        LoadingCanvasManager.Show();
+        LoadingCanvasManager.Show("TVB.Message.LoadingData");
 
         yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
 		image.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);

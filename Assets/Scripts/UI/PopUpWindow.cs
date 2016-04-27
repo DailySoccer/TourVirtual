@@ -321,7 +321,7 @@ public class PopUpWindow : UIScreen {
 		CleanPurchasedPackContentGameObjectsList ();
 #if !LITE_VERSION
 		//TODO: Traer los datos y meterlos en la ventana
-		LoadingCanvasManager.Show();
+		LoadingCanvasManager.Show("TVB.Message.BuyingPack");
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
 #endif
 	}
@@ -420,7 +420,7 @@ public class PopUpWindow : UIScreen {
 	public void SetupFlyerPackContent(ContentAPI.Content content) {	
 		Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
 
-		LoadingCanvasManager.Show ();
+		LoadingCanvasManager.Show ("TVB.Message.LoadingData");
 
 		// Setear el título de la ventana
 		//StandardTitleText.gameObject.SetActive (true);			

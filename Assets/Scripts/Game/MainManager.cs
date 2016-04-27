@@ -262,7 +262,9 @@ public class MainManager : Photon.PunBehaviour {
         //		else StartCoroutine(Connect ());
 #if !LITE_VERSION
 #if (UNITY_ANDROID || UNITY_IOS)
+        LoadingCanvasManager.Show("TVB.Message.LoadingData");
         InitializeStore();
+        LoadingCanvasManager.Hide();
 #endif
 #endif
     }
@@ -304,6 +306,7 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
         LoadingCanvasManager.Hide();
     }
 
@@ -332,7 +335,8 @@ public class MainManager : Photon.PunBehaviour {
 
     public void OnUnexpectedStoreError(int errorCode) {
         Debug.LogError(">>>> OnUnexpectedStoreError "+ errorCode);
-	}
+        LoadingCanvasManager.Hide();
+    }
 
 #endif
     void HandleOnUserLogin () {

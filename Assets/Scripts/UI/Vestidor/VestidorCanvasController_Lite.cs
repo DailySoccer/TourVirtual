@@ -50,8 +50,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public UnityEngine.UI.Button BotonAceptar;
 
 	public ClothSlot currentPrenda;
+    AvatarAPI mOldAvatarDesciptor;
 
-	//private VestidorState lastVestidorState;
+    //private VestidorState lastVestidorState;
 
     void Awake()
     {
@@ -68,6 +69,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             DressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
         }
+        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
         EnableTopMenu(true);
         ShowVestidor();
     }
@@ -246,11 +248,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 
-        if (virtualGood == null)
-            return;
+        if (virtualGood == null) return;
+
         AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
-        switch (virtualGood.IdSubType)
-        {
+        switch (virtualGood.IdSubType) {
             case "HTORSO":
             case "MTORSO":
                 if (UserAPI.AvatarDesciptor.Torso == virtualGood.GUID)
@@ -275,8 +276,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 break;
             case "HSHOE":
             case "MSHOE":
-			if (UserAPI.AvatarDesciptor.Feet == virtualGood.GUID)
-                {
+			if (UserAPI.AvatarDesciptor.Feet == virtualGood.GUID) {
                     currentPrenda = null;
 					UserAPI.AvatarDesciptor.Feet = null;
 			}
@@ -323,15 +323,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         if (temporal) {
             BotonAceptar.interactable = false;
             UserAPI.AvatarDesciptor.Paste(tmp);
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         }
         else
             BotonAceptar.interactable = true;
     }
 
-    public void TogglePopUpScreen()
-    {
-        if (ModalPopUpScreen != null)
-        {
+    public void TogglePopUpScreen() {
+        if (ModalPopUpScreen != null) {
             isCurrentPopUpOpen = !ModalPopUpScreen.IsOpen;
             ModalPopUpScreen.IsOpen = isCurrentPopUpOpen;
             ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = isCurrentPopUpOpen;
@@ -463,7 +462,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void AcceptThisAvatar()
     {
-#if !LITE_VERSION
 
         if (UserAPI.Instance != null)
         {
@@ -473,7 +471,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 {
                     if (nick != "<EMPTY>")
                     {
-                        LoadingCanvasManager.Show();
+                        LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                         UserAPI.Instance.UpdateNick(nick, () =>
                         {
                             UserAPI.Instance.UpdateAvatar();
@@ -494,7 +492,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             }
             else
             {
-                LoadingCanvasManager.Show();
+                LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                 // Por si tiene algo de prueba...
                 PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
                 UserAPI.Instance.UpdateAvatar();
@@ -507,60 +505,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             }
         }
 
-#else
-        if (UserAPI.Instance != null)
-        {
-            if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
-            {
-                ModalNickInput.Show((nick) =>
-                {
-                    if (nick != "<EMPTY>")
-                    {
-                        LoadingCanvasManager.Show();
-                        UserAPI.Instance.UpdateNick(nick, () =>
-                         {
-                             UserAPI.Instance.UpdateAvatar();
-                             UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
-                             {
-                                 LoadingCanvasManager.Hide();
-                                 ModalNickInput.Close();
-                                 if (MainManager.IsDeepLinking)
-                                 {
-                                     Authentication.AzureServices.OpenURL("rmapp://You");
-                                     Application.Quit();
-                                     return;
-                                 }
-                             });
-                         }, () =>
-                         { // Error
-                            LoadingCanvasManager.Hide();
-                             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed"));
-                         });
-                    }
-                });
-            }
-            else {
-                LoadingCanvasManager.Show();
-                // Por si tiene algo de prueba...
-                PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-                UserAPI.Instance.UpdateAvatar();
-                UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
-                                            {
-                                                LoadingCanvasManager.Hide();
-                                                if (MainManager.IsDeepLinking)
-                                                {
-                                                    Authentication.AzureServices.OpenURL("rmapp://You");
-                                                    Application.Quit();
-                                                    return;
-                                                }
-                                            });
-            }
-        }
-#endif
+
     }
 
-    public void CancelThisAvatar()
-    {
+    public void CancelThisAvatar() {
+        UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
+        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+
 #if !LITE_VERSION
         HideAllScreens();
         BackToRoom();
@@ -590,8 +541,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
     public void OnBuy() {
-
-        LoadingCanvasManager.Show();
+        LoadingCanvasManager.Show("TVB.Message.Buying");
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(currentPrenda.virtualGood.GUID, false, () => {
                 LoadingCanvasManager.Hide();
                 currentPrenda.SetupSlot(currentPrenda.virtualGood);

@@ -74,20 +74,9 @@ public class UserAPI {
     public UserAPI() {
         Instance = this;
         Ready = false;
-
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
-
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
-        if (!Online)
-        {
-            VirtualGoodsDesciptor.FAKE();
-            Achievements.FAKE();
-            Contents.FAKE();
-            // Gamificación.
-            Points = 10;
-            Level = 2;
-        }
     }
 
     public IEnumerator Request() {
@@ -142,17 +131,19 @@ public class UserAPI {
         LoadingContentText.SetText("API.GamificationStatus");
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
-            try{
-                Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                Points = (int)(double)gamificationstatus["Points"];
-                Level = int.Parse(gamificationstatus["Level"] as string);
-                    // No se porque no devuelve la XP.
+                if (res != "null") {
+                    try{
+                        Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                        Points = (int)(double)gamificationstatus["Points"];
+                        Level = (int)(double)gamificationstatus["LevelNumber"];
+                        Exp = (int)(double)gamificationstatus["GamingScore"];
+                    }
+                    catch { }
                 }
-            catch { }
-        });
+            });
 
         LoadingContentText.SetText("API.Rankings");
-        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
+//        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
@@ -166,13 +157,11 @@ public class UserAPI {
         LoadingCanvasManager.Hide();
     }
 
-    public void UpdateAvatar()
-    {
+    public void UpdateAvatar() {
         if (Online) {
-            Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) =>
-            {
+            Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) =>{
                 Debug.LogError("UpdateAvatar " + res);
-            }, null);
+            });
         }
     }
 
@@ -204,29 +193,19 @@ public class UserAPI {
 
     public IEnumerator AwaitGlobalRanking() {
         // Global.
-        /*
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
-            if (res != "null")
-            {
+            if (res != "null"){
             }
-            else
-            {
+            else {
                 Debug.LogError(">>>> Rankings ERROR " + res);
             }
 
         });
-        */
         // Del usuario.
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
             if (res != "null") {
-                Dictionary<string, object> globalRanking = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                if (globalRanking != null)
-                {
-                    Exp = (int)(double)globalRanking["GamingScore"];
-                }
             }
-            else
-            {
+            else {
                 Debug.LogError(">>>> Rankings2 ERROR " + res);
             }
         });
@@ -256,8 +235,6 @@ public class UserAPI {
     };
 
     ScoreEntry[][] HighScores = new ScoreEntry[3][];
-
-
     public void SetScore(MiniGame game, int score) {
         Authentication.AzureServices.RequestString("post", string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
             if (score > HighScore[(int)game])
@@ -267,7 +244,13 @@ public class UserAPI {
 
     public IEnumerator GetMaxScore(MiniGame game) {
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/MaxScore/{0}", MiniGameID[(int)game]), (res) => {
-            HighScore[(int)game] = 100;
+            Debug.LogError(">>>> GetMaxScore("+ game + ")" + res);
+            if (res != "null") {
+                Dictionary<string, object> MaxScore = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                HighScore[(int)game] = (int)(double)MaxScore["Score"];
+            }
+            else
+                HighScore[(int)game] = 0;
         });
     }
 

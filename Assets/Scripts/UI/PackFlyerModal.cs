@@ -10,14 +10,6 @@ public class PackFlyerModal : MonoBehaviour {
 	ContentAPI.Content TheContent;
 
 
-	// Use this for initialization
-	void Start () {	
-	}
-	
-	// Update is called once per frame
-	void Update () {	
-	}
-
 	public void Setup(ContentAPI.Content content) {
 		TheContent = content;
 		//packurl y thumburl
@@ -45,12 +37,11 @@ public class PackFlyerModal : MonoBehaviour {
 		FlyerThumbnail.sprite = null;
 	}
 
-    public void Buy()
-    {
+    public void Buy() {
+        LoadingCanvasManager.Show("TVB.Message.Buying");
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(TheContent.VirtualGoodID, false, () => {
+            LoadingCanvasManager.Hide();
             GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>().ShowModalScreen(9);
-        }, () => {
-            Debug.Log(">>>>");
         });
 
     }

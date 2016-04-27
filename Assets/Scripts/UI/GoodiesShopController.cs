@@ -86,7 +86,7 @@ public class GoodiesShopController : MonoBehaviour {
 
     IEnumerator Buy(string id)
     {
-        LoadingCanvasManager.Show();
+        LoadingCanvasManager.Show("TVB.Message.Buying");
         yield return null;
         StoreInventory.BuyItem(id);
 
