@@ -283,7 +283,7 @@ public class RoomManager : Photon.PunBehaviour {
 		if (player != null) {
 			player.gameObject.SetActive(false);
 		}
-#if !LITE_VERSION
+
         bool connected = false;
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.room != null) {
@@ -291,7 +291,7 @@ public class RoomManager : Photon.PunBehaviour {
                 PhotonNetwork.LeaveRoom();
 			}
 		}
-#endif
+
 		if (OnSceneChange != null) OnSceneChange();
 		if (Room.SceneName != Application.loadedLevelName) {
             Resources.UnloadUnusedAssets();
@@ -330,9 +330,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void UpdatePointOfInterest() {
-#if !LITE_VERSION
 		Transform pointOfInterest = null;
-
 		if (ContentManager.Instance.ContentNear != null) {
 			pointOfInterest = ContentManager.Instance.ContentNear.PointOfInterest;
 		}
@@ -350,7 +348,6 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 
 		PointOfInterest = pointOfInterest;
-#endif
 	}
     public static Transform entrada;
 
@@ -395,13 +392,11 @@ public class RoomManager : Photon.PunBehaviour {
                 player.Avatar.transform.rotation = Quaternion.identity;
             }
         }
-#if !LITE_VERSION
         // Esperamos que el player entre en la nueva Room
         float timeout = Time.realtimeSinceStartup + 2;
 		while (!PhotonNetwork.offlineMode && (PhotonNetwork.room == null || !PhotonNetwork.room.name.Contains(Room.Id)) && Time.realtimeSinceStartup<timeout ) {
             yield return null;
 		}
-#endif
         if (player != null) {
             // Hacerlo visible o no...
             player.gameObject.SetActive(Room.PlayerVisible);

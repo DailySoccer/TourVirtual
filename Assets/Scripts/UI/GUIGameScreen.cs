@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -134,5 +132,3 @@ public class GUIGameScreen : GUIScreen {
     protected AbstractGoTween _shopContentTween;
     protected AbstractGoTween _playContentTween;
 }
-
-#endif

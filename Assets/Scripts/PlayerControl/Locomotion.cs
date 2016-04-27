@@ -1,6 +1,4 @@
-#if !LITE_VERSION
 using UnityEngine;
-using System.Collections;
 
 public class Locomotion : MonoBehaviour {
 
@@ -55,32 +53,9 @@ public class Locomotion : MonoBehaviour {
 					CarMovement();
 				break;
 			}
-			
-        	//animator.SetFloat("Direction", movement.x, DirectionDampTime, Time.deltaTime);
-			
-			/*
-      		//float h = Input.GetAxis("Horizontal");
-        	//float v = Input.GetAxis("Vertical");
-			animator.SetFloat("Speed", movement.magnitude);//h*h+v*v);
-			
-			float forward = movement.y < -0.85? -1 : 1;
-			animator.SetFloat("Forward", forward);
-			
-			float direction = 0;
-			if (forward != -1) {
-				direction = movement.y >= 0? Mathf.Pow(movement.x, 3) : movement.x/Mathf.Abs(movement.x);
-			}
-        	animator.SetFloat("Direction", direction, DirectionDampTime, Time.deltaTime);
-			//*/
 		}
 	}
 
-	void LateUpdate() {
-		//STABILIZE X AND Z
-		//transform.rotation = new Quaternion(_initialRotation.x, transform.rotation.y, _initialRotation.z, transform.rotation.w);
-		//_lastRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-	}
-	
 	public void StopMoving() {
 		movement = 0f;
 		rotation = 0f;
@@ -125,12 +100,6 @@ public class Locomotion : MonoBehaviour {
 		
 		if (movement != 0) {
 			transform.Rotate(Vector3.up, Player.Instance.cameraRotation * Time.deltaTime * SECONDARY_ROTATION_FACTOR);
-		}
-		
-		//_animator.SetFloat("Direction", Mathf.Clamp(rotation/90, -1f, 1f));
-		
+		}		
 	}
-
 }
-
-#endif

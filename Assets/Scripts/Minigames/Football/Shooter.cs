@@ -1,7 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 namespace Football
 {
@@ -366,5 +363,3 @@ namespace Football
 
     }
 }
-
-#endif

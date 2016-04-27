@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 
@@ -119,4 +117,3 @@ public class AchievementsAPI{
         });
     }
 }
-#endif

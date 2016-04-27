@@ -185,17 +185,14 @@ public class CanvasManager : MonoBehaviour {
 			Debug.LogError("[CanvasManager in " + name +"]: La guiScreen es null. Quizás no has establecido la primera desde el inspector.");
 		}
 	}
-#if !LITE_VERSION
-
 	public string[] CurrentPlayerDataModelSelected;
-
 	public void ShowOTherPlayerInfo(string[] dataModel) {
 		//Configuramos las modal...
 		CurrentPlayerDataModelSelected  = dataModel;
 		//.. y la mostramos
 		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
 	}
-#endif
+
 	public void ShowModalScreen(int newModalLayout) {
 
 		if (ModalScreen == null) {

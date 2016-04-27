@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -117,5 +115,3 @@ public class RemotePlayerHUD : MonoBehaviour {
 		canvasManager.ShowOTherPlayerInfo (dataModel);
 	}
 }
-
-#endif

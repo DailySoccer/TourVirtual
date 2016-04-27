@@ -1,7 +1,5 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class RankingSlot : MonoBehaviour {
 
@@ -25,4 +23,3 @@ public class RankingSlot : MonoBehaviour {
 		PlayerScore.text = playerscore;
 	}
 }
-#endif

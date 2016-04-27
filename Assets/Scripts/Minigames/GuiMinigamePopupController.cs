@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public enum MinigameModalLayout {
@@ -39,5 +37,3 @@ public class GuiMinigamePopupController : MonoBehaviour {
 		}
 	}
 }
-
-#endif

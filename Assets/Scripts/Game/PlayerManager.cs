@@ -45,7 +45,6 @@ public class PlayerManager : Photon.PunBehaviour {
 	}
 
 	void SpawnPlayer() {
-#if !LITE_VERSION
 		int viewIdOld = _viewId;
 		// Manually allocate PhotonViewID
 		_viewId = PhotonNetwork.AllocateViewID();
@@ -61,9 +60,7 @@ public class PlayerManager : Photon.PunBehaviour {
 			playerTransform = transform;
 		}
 		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
-#endif
 	}
-#if !LITE_VERSION
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
         if (np.isLocal && Player.Instance != null) {
@@ -101,7 +98,7 @@ public class PlayerManager : Photon.PunBehaviour {
 		}
 		// Set the PhotonView
 	}
-#endif
+
     public System.Collections.IEnumerator CacheClothes() {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
             Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;

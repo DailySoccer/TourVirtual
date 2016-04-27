@@ -22,25 +22,11 @@ public class CustomSwitcherButton : MonoBehaviour {
 
 	}
 
-	// Use this for initialization
-	void Start () {
-#if !LITE_VERSION
-		//Player.Instance.cameraStyle = isOn? SyncCameraTransform.CameraStyle.FPS : SyncCameraTransform.CameraStyle.ThirdPerson;
-#endif
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
-
 	public void ToggleValue( bool value) {
 		isEnabled = value;
-
 		if (currentImg == null) {
 			currentImg = GetComponent<Image> ();
 		}
-
 		currentImg.sprite = isEnabled ? imageOn : imageOff;
 	}
 

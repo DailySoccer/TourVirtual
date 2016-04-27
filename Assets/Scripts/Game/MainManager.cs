@@ -1,13 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using SmartLocalization;
-
-#if !LITE_VERSION
-using Soomla;
 using Soomla.Store;
-#endif
 
 public enum TourVirtualBuildMode {
 	Debug,
@@ -35,7 +30,7 @@ public class MainManager : Photon.PunBehaviour {
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
     public GameObject GameInput;
-#if !LITE_VERSION
+
 	public bool GameInputEnabled {
 		get {
 			return GameInput != null ? GameInput.GetComponent<Controller3DExample>().enabled : true;
@@ -48,7 +43,7 @@ public class MainManager : Photon.PunBehaviour {
 			}
 		}
 	}
-#endif
+
 	[SerializeField]
 	private string _currentLanguage;
 	public string CurrentLanguage {
@@ -107,11 +102,7 @@ public class MainManager : Photon.PunBehaviour {
 
 	public bool Ready {
 		get {
-#if !LITE_VERSION
 			return OfflineMode || (InternetConnection && PhotonNetwork.connectedAndReady);
-#else
-            return InternetConnection || !UserAPI.Instance.Online;
-#endif
         }
 
 	}
@@ -205,7 +196,7 @@ public class MainManager : Photon.PunBehaviour {
 		Screen.autorotateToPortrait = Screen.autorotateToPortraitUpsideDown = false;
 		Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
 		Screen.orientation = ScreenOrientation.AutoRotation;
-#if !LITE_VERSION
+
         PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.offlineMode = OfflineMode;
@@ -213,8 +204,7 @@ public class MainManager : Photon.PunBehaviour {
 
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
-		Debug.Log("PlayerName: " + PhotonNetwork.playerName);
-#endif
+
 		SoundEnabled = MyTools.GetPlayerPrefsBool("SoundEnabled");
 		CurrentLanguage = PlayerPrefs.GetString ("CurrentLanguage", "en");
 		if (CurrentLanguage != string.Empty)
@@ -242,16 +232,7 @@ public class MainManager : Photon.PunBehaviour {
         StartCoroutine( Authentication.Instance.Init() );
 
         GetDeepLinkingURL();
-#if LITE_VERSION && UNITY_EDITOR
-        DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=54dc043b-5bdb-4c45-9fd3-66f11d11db59");
-#endif
-#if LITE_VERSION && !UNITY_IOS
-        if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
-            Application.OpenURL("http://www.astosch.com/project/real-madrid/");
-            Application.Quit();
-            return;
-        }
-#endif
+
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
@@ -260,12 +241,10 @@ public class MainManager : Photon.PunBehaviour {
             StartCoroutine(CheckForInternetConnection());
         }
         //		else StartCoroutine(Connect ());
-#if !LITE_VERSION
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");
         InitializeStore();
         LoadingCanvasManager.Hide();
-#endif
 #endif
     }
 
@@ -278,7 +257,6 @@ public class MainManager : Photon.PunBehaviour {
         }
     }
 
-#if !LITE_VERSION
 	void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 
@@ -337,62 +315,14 @@ public class MainManager : Photon.PunBehaviour {
         Debug.LogError(">>>> OnUnexpectedStoreError "+ errorCode);
         LoadingCanvasManager.Hide();
     }
-
-#endif
     void HandleOnUserLogin () {
         // Contro de mismo usuario.
-#if !LITE_VERSION
 		PhotonNetwork.playerName = UserAPI.Instance.Nick;
-#endif
         StartCoroutine( Connect ());
 	}
-    /*
-    float deltaTime = 0.0f;
-
-    void Update()
-    {
-        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-    }
-
-    public void OnGUI()
-    {
-        int w = Screen.width, h = Screen.height;
-
-        GUIStyle style = new GUIStyle();
-
-        Rect rect = new Rect(2, 2, w, h * 2 / 100);
-        style.alignment = TextAnchor.UpperLeft;
-        style.fontSize = h * 4 / 100;
-        style.normal.textColor = new Color(1f, 1f, 1f, 1.0f);
-        float msec = deltaTime * 1000.0f;
-        float fps = 1.0f / deltaTime;
-        string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-        GUI.Label(rect, text, style);
-        rect.x = 0;
-        rect.y = 0;
-        style.normal.textColor = new Color(0f, 0f, 0.5f, 1.0f);
-        GUI.Label(rect, text, style);
-    }
-    */
-    /*
-    public void OnGUI()	{
-        if (!InternetConnection && !OfflineMode) {
-            GUIStyle centeredStyle = GUI.skin.GetStyle("Button");
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-            centeredStyle.fontSize = 30;
-            GUI.Box(new Rect (Screen.width/2-100, Screen.height/2-25, 200, 50), "Internet...", centeredStyle);
-
-            if (GUI.Button(new Rect (Screen.width-300, Screen.height-100, 200, 50), "Offline")) {
-                OfflineMode = true;
-                StartCoroutine(Connect ());
-            }
-        }
-    }
-    */
 
     IEnumerator Connect() {
 		yield return StartCoroutine(CheckForInternetConnection());
-#if !LITE_VERSION
 		PhotonNetwork.offlineMode = OfflineMode;
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
 		if (!PhotonNetwork.connected)
@@ -401,36 +331,15 @@ public class MainManager : Photon.PunBehaviour {
 		if (ChatManager.Instance != null && !OfflineMode) {
 			yield return StartCoroutine(ChatManager.Instance.Connect());
 		}
-		/*
-		if (RoomManager.Instance != null) {
-			StartCoroutine(RoomManager.Instance.Connect());
-		}
-		*/
-#endif
         UserAPI.Instance.Ready = true;
-
         if (RoomManager.Instance != null)
         {
-
-//            _initialized = true;
-//            if (startSound != null) startSound.Play();
-            // Inicia la conexion con el servidor PUN.
             StartCoroutine( RoomManager.Instance.Connect() );
         }
 
     }
 
     public IEnumerator CheckForInternetConnection()	{
-#if LITE_VERSION && UNITY_IOS
-		yield return new WaitForSeconds(1);
-		if (!IsDeepLinking || DeepLinkingURL.ToLower().Contains("video")) {
-			Authentication.AzureServices.OpenURL("http://www.astosch.com/project/real-madrid/");
-			Application.Quit();
-			yield break;
-		}
-#endif
-
-
         int time = 0;
 		while (!InternetConnection && !OfflineMode) {
 			InternetConnection = Application.internetReachability != NetworkReachability.NotReachable;//string.IsNullOrEmpty(www.error);
@@ -447,7 +356,5 @@ public class MainManager : Photon.PunBehaviour {
             }
 		}
 	}
-#if !LITE_VERSION
 	TourEventHandler _tourEventHandler;
-#endif
 }

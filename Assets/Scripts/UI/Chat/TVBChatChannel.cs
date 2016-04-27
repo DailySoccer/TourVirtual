@@ -1,8 +1,5 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public enum ChatChannelType {
 	General,
@@ -73,5 +70,3 @@ public class TVBChatChannel : MonoBehaviour {
 		}
 	}
 }
-
-#endif

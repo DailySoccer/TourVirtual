@@ -1,8 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class CompactContent {
 	public int ASSET_TYPE_PHOTO = 0;
@@ -70,6 +66,3 @@ public class CompactContent {
 		return compactContent;
 	}
 }
-
-
-#endif

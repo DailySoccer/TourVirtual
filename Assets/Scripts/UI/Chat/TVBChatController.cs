@@ -1,5 +1,3 @@
-#if !LITE_VERSION
-
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -546,4 +544,3 @@ public class TVBChatController : MonoBehaviour {
 		PopulateChannelsList();
 	}
 }
-#endif

@@ -1,7 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 namespace Basket {
     public class GoalArea : MonoBehaviour {
@@ -34,5 +31,3 @@ namespace Basket {
         }
     }
 }
-
-#endif

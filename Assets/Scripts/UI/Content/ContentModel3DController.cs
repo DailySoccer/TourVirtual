@@ -1,5 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -246,4 +245,3 @@ public class ContentModel3DController : MonoBehaviour {
 	private Vector3 _avgSpeed = Vector3.zero;
 	private bool _isDragging = false;
 }
-#endif

@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 public class ControlPanels : MonoBehaviour {
 
@@ -39,4 +37,3 @@ public class ControlPanels : MonoBehaviour {
 		return transf;
 	}
 }
-#endif

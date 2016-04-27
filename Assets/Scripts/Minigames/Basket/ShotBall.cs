@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 namespace Basket
 {
@@ -17,4 +15,3 @@ namespace Basket
         }
     }
 }
-#endif

@@ -1,8 +1,4 @@
-#if !LITE_VERSION
-
 using UnityEngine;
-using System.Collections;
-//using UnityEngine.UI;
 
 public class GameCanvasManager : CanvasManager 
 {
@@ -29,43 +25,13 @@ public class GameCanvasManager : CanvasManager
 			}
 			break;
 		}
-		/*
-		// Get Sound Settings
-		GameObject toggleSounds = GameObject.Find ("Sounds");
-		if (toggleSounds != null) {
-			_soundsToggle = toggleSounds.GetComponent<UnityEngine.UI.Toggle> ();
-			_soundsToggle.isOn = _mainManagerInstance.SoundEnabled;
-		}
-		
-		// Get Music Settings
-		GameObject toggleMusic = GameObject.Find ("Music");
-		if (toggleSounds != null) {
-			_musicToggle = toggleSounds.GetComponent<UnityEngine.UI.Toggle> ();
-			_musicToggle.isOn = _mainManagerInstance.MusicEnabled;
-		}
-		*/
 		_mainManagerInstance.OnMessagesUnreadedEvent += OnUnreadedMessages;
 	}
 
 	void OnEnable() {
 		ShowScreen(currentGUIScreen);
 	}
-	/*
-	public void SetLanguage(string lang) {
-		_mainManagerInstance.ChangeLanguage(lang);
-	}
-
-	public void SetSoundsEnable() {
-		_mainManagerInstance.SoundEnabled = _soundsToggle.isOn;
-	}
-
-	public void SetMusicEnable() {
-		_mainManagerInstance.MusicEnabled = _musicToggle.isOn;
-	}
-	*/
 	private void OnUnreadedMessages(int counter) {
 		GameObject.FindGameObjectWithTag("ChatUIButton").GetComponent<BadgeAlert>().Count = counter;
 	}
 }
-
-#endif

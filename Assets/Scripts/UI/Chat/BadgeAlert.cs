@@ -1,4 +1,4 @@
-﻿#if !LITE_VERSION
+﻿
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,4 +61,3 @@ public class BadgeAlert : MonoBehaviour {
 
 }
 
-#endif

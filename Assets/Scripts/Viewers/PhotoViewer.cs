@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class PhotoViewer : MonoBehaviour {
@@ -107,4 +105,3 @@ public class PhotoViewer : MonoBehaviour {
         }
     }
 }
-#endif

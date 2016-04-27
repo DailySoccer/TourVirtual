@@ -1,5 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent (typeof (TouchUnifier))]
@@ -21,11 +20,4 @@ public class JoystickMovement : MonoBehaviour {
 		touchInput.AcceptZone = GetComponent<RectTransform>().rect;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-//		TouchUnifier.TouchState state = touchInput.State;
-		
-		
-	}
 }
-#endif

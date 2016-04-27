@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -45,29 +43,4 @@ public class ContentModels : MonoBehaviour {
             ContentSelected = null;
         }
     }
-
-//    gameObject.SendMessage("ApplyDamage", 5.0F);
-/*
-	void OnTriggerEnter(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
-			return;
-		
-		// Debug.Log ("Enter: Models: " + gameObject.name);
-		
-		ContentSelected = this;
-	}
-	
-	void OnTriggerExit(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
-			return;
-		
-		// Debug.Log ("Exit: Models: " + gameObject.name);
-		
-		if (ContentSelected == this) {
-			ContentSelected = null;
-		}
-	}
-    */
 }
-
-#endif

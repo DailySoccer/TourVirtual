@@ -50,14 +50,10 @@ public class PopUpWindow : UIScreen {
 	private List<GameObject> AchievementsGridSlotGameObjectsList = new List<GameObject>();
 
 	public GameObject SingleContent;
-#if !LITE_VERSION
 	ThirdProfileController ThirdsProfile;
-#endif
 	public GameObject ProfileScreenController;
 	private DetailedContent2Buttons SingleContentLayOut;
-#if !LITE_VERSION
     public GameCanvasManager TheGameCanvas;
-#endif
 
 	public GameObject PackFlyerGameObject;
 	PackFlyerModal ThePackFlyerModal;
@@ -277,7 +273,6 @@ public class PopUpWindow : UIScreen {
 	public void SetupPurchasedGridContent() {
 
 		CleanPurchasedPaksGridSlotGameObjectsList ();
-#if !LITE_VERSION
 		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content content = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
@@ -290,7 +285,6 @@ public class PopUpWindow : UIScreen {
 				PacksGridSlotGameObjectsList.Add(slot);
 			}
 		}
-#endif
 	}
 
 	/// <summary>
@@ -303,7 +297,6 @@ public class PopUpWindow : UIScreen {
 		PacksGridSlotGameObjectsList.Clear ();
 	}
 
-#if !LITE_VERSION
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentSelectedItemGUID = item.Content.GUID;
@@ -311,21 +304,19 @@ public class PopUpWindow : UIScreen {
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
 
-#endif
-
 	/// <summary>
 	/// Prepara la pantalla de contenido de un pack comprado
 	/// </summary>
 	/// <param name="packId">Pack identifier.</param>
 	public void SetupPurchasedPackContentList(string packId) {
 		CleanPurchasedPackContentGameObjectsList ();
-#if !LITE_VERSION
+
 		//TODO: Traer los datos y meterlos en la ventana
 		LoadingCanvasManager.Show("TVB.Message.BuyingPack");
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
-#endif
+
 	}
-#if !LITE_VERSION
+
 	public void PackContentCallBack(List<ContentAPI.Asset> values) {
 		LoadingCanvasManager.Hide();
 		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )){
@@ -338,25 +329,22 @@ public class PopUpWindow : UIScreen {
 			PurchasedPackContentGameObjectsList.Add(slot);
 		}	
 	}
-#endif
+
     /// <summary>
     /// Limpia la lista de Logros del grid de logros desbloqueados
     /// </summary>
     void CleanPurchasedPackContentGameObjectsList() {
-#if !LITE_VERSION
 		foreach (GameObject go in PurchasedPackContentGameObjectsList) {
 			Destroy (go);
 		}
-#endif
 		PurchasedPackContentGameObjectsList.Clear ();
 	}
 
-#if !LITE_VERSION
 	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
         // Ocultar la lista.
         AllViewer.Instance.Show(item.content.AssetUrl, item.content.Type, item.content.Title, ()=> { });
     }
-#endif
+
 
 	/// <summary>
 	/// Rellena la lista de Logros desbloqueados
@@ -364,7 +352,6 @@ public class PopUpWindow : UIScreen {
 	public void SetupAchievementGridContent() {
 
 		CleanAchievementsGridSlotGameObjectList ();
-#if !LITE_VERSION
 		foreach (var c in UserAPI.Achievements.Achievements) {	
 			AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
 			// TODO: rellenar el contenido de cada lista
@@ -378,44 +365,27 @@ public class PopUpWindow : UIScreen {
 			slot.name = ach.Description;
 			AchievementsGridSlotGameObjectsList.Add(slot);
 		}
-#endif
 	}
 
 	/// <summary>
 	/// Limpia la lista de Logros del grid de logros desbloqueados
 	/// </summary>
 	void CleanAchievementsGridSlotGameObjectList() {
-#if !LITE_VERSION
 		foreach (GameObject go in AchievementsGridSlotGameObjectsList) {
 			Destroy (go);
 		}
-#endif
         AchievementsGridSlotGameObjectsList.Clear ();
 	}
-#if !LITE_VERSION
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 	}
-#endif
 
-	/*
-    public void SetupSingleContentBuyContent() {
-		
-	}
-	public void SetupSingleContentGoToShop() {
-		
-	}
-	public void SetupSingleContentToShare() {
-		
-	}
-	*/
-#if !LITE_VERSION
+
 	public void SetupThirdProfileContent(string[] dataModel) {
 
 		ThirdsProfile = ProfileScreenController.GetComponent<ThirdProfileController> ();
 		ThirdsProfile.Setup (dataModel);
     }
-#endif
 
 	public void SetupFlyerPackContent(ContentAPI.Content content) {	
 		Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
@@ -444,30 +414,7 @@ public class PopUpWindow : UIScreen {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public void CloseModalScreen() {
-#if !LITE_VERSION
 		TheGameCanvas.HideModalScreen ();
-#endif
     }
 }

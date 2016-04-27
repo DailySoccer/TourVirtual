@@ -430,21 +430,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         EnableTopMenu(false);
     }
 
-    public void AcceptChangesAndBackToRoom()
-    {
-#if !LITE_VERSION
-		Debug.Log ("[VestidorCanvas]: Guardo la nueva vestimenta y vuelvo al tour");
+    public void AcceptChangesAndBackToRoom() {
 		HideAllScreens ();
 		BackToRoom ();
-#else
-        Debug.LogError("Aceptar cambios Cerrar App y Volver");
-
-#endif
     }
 
     public void BackToRoom()
     {
-#if !LITE_VERSION
         if (MainManager.IsDeepLinking) {
 			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
@@ -453,10 +445,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR; // Siempre volvere al vestidor.
         HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
-#else
-
-        Debug.LogError("Cerrar App y Volver");
-#endif
     }
 
     public void AcceptThisAvatar()
@@ -479,7 +467,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                                 LoadingCanvasManager.Hide();
                                 ModalNickInput.Close();
                                 HideAllScreens();
-                                BackToRoom();
+                                if (MainManager.IsDeepLinking) {
+                                    Authentication.AzureServices.OpenURL("rmapp://You");
+                                    Application.Quit();
+                                    return;
+                                }
+                                else
+                                {
+                                    BackToRoom();
+                                }
                             });
                         }, () =>
                         { // Error
@@ -510,18 +506,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void CancelThisAvatar() {
         UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-
-#if !LITE_VERSION
         HideAllScreens();
-        BackToRoom();
-#else
         if (MainManager.IsDeepLinking)
         {
             Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
+        } else {
+            BackToRoom();
         }
-#endif
     }
 
     public void SetLanguage(string lang)

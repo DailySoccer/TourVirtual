@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -89,5 +87,3 @@ public class GUIContentScreen : UIScreen {
 	private bool _loading = false;
 	private Image _background;
 }
-
-#endif

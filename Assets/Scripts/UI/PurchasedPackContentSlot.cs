@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 using System.Collections;
@@ -62,5 +60,3 @@ public class PurchasedPackContentSlot : MonoBehaviour {
 		theParentController.PurchasedPackContentSlot_Click(this);
 	}
 }
-
-#endif

@@ -1,5 +1,4 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -33,4 +32,3 @@ public class AchievementSlot : MonoBehaviour {
 		theParentController.AchievementItemSlot_Click(this);
 	}
 }
-#endif

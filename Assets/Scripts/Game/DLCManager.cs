@@ -96,12 +96,7 @@ public class DLCManager : MonoBehaviour {
                 {
                     AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
                     if (!assetDefinition.Id.Contains("content"))
-                    {
-#if LITE_VERSION
-                        if (assetDefinition.Id == "avatars")
-#endif
-                            AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
-                    }
+                        AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                 }
             }
             else {

@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -61,28 +59,4 @@ public class ContentList : MonoBehaviour {
             ContentManager.Instance.ContentNear = null;
         }
     }
-
-/*
-    void OnTriggerEnter(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
-			return;
-
-		// Debug.Log ("Enter: Content: " + gameObject.name);
-
-		ContentManager.Instance.ContentNear = this;
-	}
-	
-	void OnTriggerExit(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
-			return;
-
-		// Debug.Log ("Exit: Content: " + gameObject.name);
-
-		if (ContentManager.Instance.ContentNear == this) {
-			ContentManager.Instance.ContentNear = null;
-		}
-	}
-    */
 }
-
-#endif

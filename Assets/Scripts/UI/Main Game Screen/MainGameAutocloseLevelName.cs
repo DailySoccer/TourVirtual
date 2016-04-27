@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class MainGameAutocloseLevelName : MonoBehaviour {
@@ -29,5 +27,3 @@ public class MainGameAutocloseLevelName : MonoBehaviour {
 		animator.SetBool ("IsOpen", false);
 	}
 }
-
-#endif

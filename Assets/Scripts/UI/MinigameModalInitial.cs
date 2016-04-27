@@ -1,6 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,5 +66,3 @@ public class MinigameModalInitial : MonoBehaviour {
         }
 	}
 }
-
-#endif

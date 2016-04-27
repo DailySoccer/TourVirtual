@@ -1,7 +1,5 @@
-﻿#if !LITE_VERSION
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 //[ExecuteInEditMode]
 public class MinigameTimerHUD : MonoBehaviour {
@@ -25,4 +23,3 @@ public class MinigameTimerHUD : MonoBehaviour {
 		TimeLeft = Mathf.Clamp (TimeLeft, 0f, 1f);
 	}
 }
-#endif

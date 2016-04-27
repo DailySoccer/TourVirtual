@@ -1,7 +1,4 @@
-﻿#if !LITE_VERSION
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 public class SyncCameraTransform : MonoBehaviour {
 	
@@ -43,11 +40,6 @@ public class SyncCameraTransform : MonoBehaviour {
 			cameraSynced.transform.rotation = point.transform.rotation;
 			AddPitch(Player.Instance.cameraPitch * Time.deltaTime);
 			cameraSynced.transform.Rotate(Vector3.right, -_currentPitch);
-			/*transform.localEulerAngles = new Vector3(
-					Mathf.Clamp(transform.localEulerAngles.x, MIN_PITCH, MAX_PITCH),
-					transform.localEulerAngles.y,
-					transform.localEulerAngles.z);*/
-
 		}
 	}
 
@@ -55,4 +47,3 @@ public class SyncCameraTransform : MonoBehaviour {
 		_currentPitch = Mathf.Clamp(_currentPitch + amount, MIN_PITCH, MAX_PITCH);
 	}
 }
-#endif
