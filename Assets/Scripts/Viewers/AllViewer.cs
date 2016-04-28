@@ -89,7 +89,9 @@ public class AllViewer : MonoBehaviour {
                 lastCoroutine = StartCoroutine(DownloadModel(url));
                 break;
             case ContentAPI.AssetType.Video:
+                LoadingCanvasManager.Show();
                 Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Minimal);
+                LoadingCanvasManager.Hide();
                 enabled = false;
                 break;
         }
