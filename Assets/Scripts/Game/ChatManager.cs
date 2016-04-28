@@ -107,11 +107,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
 
 		if (IsPublicChannel(channelName)) {
-            Debug.Log(string.Format("Public SendMessage[{0}]: {1}", channelName, text));
+            //Debug.Log(string.Format("Public SendMessage[{0}]: {1}", channelName, text));
             ChatClient.PublishMessage(channelName, text);
 		}
 		else {
-            Debug.Log(string.Format("Private SendMessage[{0}]: {1}", channelName, text));
+            //Debug.Log(string.Format("Private SendMessage[{0}]: {1}", channelName, text));
             ChatClient.SendPrivateMessage(channelName, text);
 		}
 	}
