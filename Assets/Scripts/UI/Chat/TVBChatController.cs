@@ -7,6 +7,8 @@ using SmartLocalization;
 
 public class TVBChatController : MonoBehaviour {
 
+	public bool IsCommunityManagerVersion = false;
+
 	public GameObject channelSlotPrefab;
 
 	public GameObject messageDatePrefab;
@@ -285,7 +287,7 @@ public class TVBChatController : MonoBehaviour {
 		currentChannelName = theName;
 		currentChannelFriendlyName = GetChannelFriendlyName(theName);
 		currentChannelUILabel.text = currentChannelFriendlyName;
-		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower ());
+		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower () || IsCommunityManagerVersion);
 	}
 
 	private string GetChannelFriendlyName( string theName) {

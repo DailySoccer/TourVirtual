@@ -6,10 +6,13 @@ public class GUIGameScreen : GUIScreen {
 
 	public Text RoomTitle;
     public Transform ButtonContainer;
+	public GameObject CommunityManagerMessage;
 	
 	public override void Awake () {
 		base.Awake ();
 		RoomManager.Instance.OnSceneReady += HandleOnSceneChange;
+		ChatManager.Instance.OnMessagesChange += Messages_OnChangeHandle;
+		CommunityManagerMessage.SetActive (false);
 	}
 	
 	public override void Start () {
@@ -124,6 +127,15 @@ public class GUIGameScreen : GUIScreen {
             return ContentManager.Instance.ContentNear && ContentManager.Instance.ContentNear.ContentKey.Contains("JUEGO") && !HiddenObjects.HiddenObjects.Instance.enabled;
         }
     }
+
+	void Messages_OnChangeHandle(string channelName) {
+		if (channelName == ChatManager.CHANNEL_GLOBAL) {
+			int msgCount = ChatManager.Instance.GetMessagesFromChannel(channelName).Count;
+			string msg = ChatManager.Instance.GetMessagesFromChannel(channelName)[msgCount -1].Text; 
+			CommunityManagerMessage.SetActive (true);
+			CommunityManagerMessage.GetComponent<CommunityNotificationController>().SetMessage(msg);
+		}
+	}
 
     GameObject _viewContentButton;
 	GameObject _shopContentButton;

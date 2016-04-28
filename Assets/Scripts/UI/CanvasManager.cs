@@ -17,7 +17,7 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen ScreenMainGame;
 	public UIScreen ScreenProfile;
 	public UIScreen ScreenMap;
-	public UIScreen ScreenGoodiesShoop;
+	//public UIScreen ScreenGoodiesShoop;
 
     public UIScreen lastGUIScreen;
     public UIScreen currentGUIScreen;
@@ -133,7 +133,7 @@ public class CanvasManager : MonoBehaviour {
 		ActiveSecondPlaneGUI ("Video Bg");			
 		ShowScreen(ScreenMap);
     }
-
+	/*
 	public void ShowGoodiesShopScreen() {
         if (ProfilePlayerInstance != null){
             Destroy(ProfilePlayerInstance);
@@ -142,7 +142,7 @@ public class CanvasManager : MonoBehaviour {
 		ActiveSecondPlaneGUI ("Video Bg");			
 		ShowScreen(ScreenGoodiesShoop);
 	}
-
+	*/
 	public void ShowVestidorScreen() {	
 		RoomManager.Instance.GotoRoom ("VESTIDORLITE");
 		ShowMainGameScreen ();
