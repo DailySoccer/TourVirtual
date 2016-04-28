@@ -312,20 +312,17 @@ public class PlayerManager : Photon.PunBehaviour {
         if (callback != null) callback(lastInstance);
     }
 
-    public Vector3 offset = new Vector3(13f, 1.7f, -70f);
-
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
         int oldLayer = avatar.layer;
         var oldPosition = avatar.transform.position;
         var oldEscale = avatar.transform.localScale;
 
-        avatar.transform.position = new Vector3(0,-0.91f,-1.77f);
+        avatar.transform.position = new Vector3(0,-1,-1.9f);
         avatar.transform.localScale = Vector3.one;
 
-        MyTools.SetLayerRecursively(avatar, 31);
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
-        camera.cullingMask = (1 << 31);
+        camera.cullingMask = LayerMask.GetMask("Model3D");
         camera.transform.position = Vector3.zero;
         camera.transform.rotation = Quaternion.Euler(0, 180, 0);
         camera.targetTexture = rt;

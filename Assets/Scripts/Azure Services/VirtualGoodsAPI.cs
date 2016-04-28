@@ -135,33 +135,21 @@ public class VirtualGoodsAPI {
                 });
             }
             else {
-                Debug.LogError(">>>>>>>>>>>> BuyByGUID 4");
-
                 if (vg.count > 0 && !multiple)
                 {
                     Debug.LogError("Ya tienes este VG y no es multiple >>>> " + guid + " count " + vg.count);
-                    //Debug.LogError("VG PRICE >>>> " + vg.Price + " USER POINTS " +  UserAPI.Instance.Points );
                 }
                 else
                 {
-                    Debug.LogError(">>>>>>>>>>>> BuyByGUID 6");
-
-                    if (vg.Price > UserAPI.Instance.Points)
-                    {
-                        Debug.LogError(">>>>>>>>>>>> BuyByGUID 7");
-
+                    if (vg.Price > UserAPI.Instance.Points) {
                         LoadingCanvasManager.Hide();
-                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"), () =>
-                        {
-                            Debug.LogError(">>>>>>>>>>>> BuyByGUID 8");
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"), () => {
                             GoodiesShopController.Show();
                         });
                         return;
                     }
                 }
-                if (onError != null)
-                {
-                    Debug.LogError(">>>>>>>>>>>> BuyByGUID 1");
+                if (onError != null) {
                     onError();
                 }
             }

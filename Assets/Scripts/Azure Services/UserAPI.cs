@@ -69,7 +69,6 @@ public class UserAPI {
 		OnUserLogin ();
 	}
 
-
     public UserAPI() {
         Instance = this;
         Ready = false;

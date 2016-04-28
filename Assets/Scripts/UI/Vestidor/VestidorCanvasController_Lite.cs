@@ -409,20 +409,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void AcceptThisAvatar()
     {
 
-        if (UserAPI.Instance != null)
-        {
-            if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
-            {
-                ModalNickInput.Show((nick) =>
-                {
-                    if (nick != "<EMPTY>")
-                    {
+        if (UserAPI.Instance != null) {
+            if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
+                ModalNickInput.Show((nick) => {
+                    if (nick != "<EMPTY>") {
                         LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
-                        UserAPI.Instance.UpdateNick(nick, () =>
-                        {
+                        UserAPI.Instance.UpdateNick(nick, () => {
                             UserAPI.Instance.UpdateAvatar();
-                            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
-                            {
+                            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
                                 LoadingCanvasManager.Hide();
                                 ModalNickInput.Close();
                                 HideAllScreens();
@@ -436,22 +430,19 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                                     BackToRoom();
                                 }
                             });
-                        }, () =>
-                        { // Error
+                        }, () => { // Error
                             LoadingCanvasManager.Hide();
                             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed"));
                         });
                     }
                 });
             }
-            else
-            {
+            else {
                 LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                 // Por si tiene algo de prueba...
                 PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
                 UserAPI.Instance.UpdateAvatar();
-                UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () =>
-                {
+                UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
                     LoadingCanvasManager.Hide();
                     HideAllScreens();
                     BackToRoom();
