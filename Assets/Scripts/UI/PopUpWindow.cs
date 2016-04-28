@@ -299,7 +299,7 @@ public class PopUpWindow : UIScreen {
 		CleanPurchasedPackContentGameObjectsList ();
 
 		//TODO: Traer los datos y meterlos en la ventana
-		LoadingCanvasManager.Show("TVB.Message.BuyingPack");
+		LoadingCanvasManager.Show("TVB.Message.LoadingData");
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
 
 	}
@@ -339,17 +339,15 @@ public class PopUpWindow : UIScreen {
 	public void SetupAchievementGridContent() {
 
 		CleanAchievementsGridSlotGameObjectList ();
-		foreach (var c in UserAPI.Achievements.Achievements) {	
-			AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
+		foreach (var c in UserAPI.Achievements.Achievements) {
+            AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
+            if (!ach.earned) continue;
 			// TODO: rellenar el contenido de cada lista
 			GameObject slot = Instantiate (AchievementSlot);
 			slot.transform.SetParent(AchievementsGridList.transform);
-			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach.Name, ach.Image);
+			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach.Description, ach.Image);
 			slot.transform.localScale = Vector3.one;
-			if (!ach.earned) {
-				slot.GetComponent<Button>().interactable = false;
-			}
-			slot.name = ach.Description;
+			slot.name = ach.Name;
 			AchievementsGridSlotGameObjectsList.Add(slot);
 		}
 	}

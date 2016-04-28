@@ -45,8 +45,7 @@ public class UserAPI {
         return HighScores[(int)game];
     }
 
-    public int GetAchievements(out int max)
-    {
+    public int GetAchievements(out int max) {
         max = Achievements.TotalAchievements;
         return Achievements.EarnedAchievements;
     }

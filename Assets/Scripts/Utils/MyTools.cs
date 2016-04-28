@@ -23,6 +23,9 @@ public class MyTools
 			Debug.LogError("URL Vacia");
 			yield break;
 		}
+#if !UNITY_WSA
+        if (source != null) source.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+#endif
         WWW www = new WWW(url);
 
         yield return www;
@@ -34,7 +37,11 @@ public class MyTools
             www.Dispose();
             s.name = "SpriteLoadSpriteFromURL";
             s.texture.wrapMode = TextureWrapMode.Clamp;
-			if(source!=null) source.GetComponent<Image>().sprite = s;
+            if (source != null){
+                Image img = source.GetComponent<Image>();
+                img.color = Color.white;
+                img.sprite = s;
+            }
 #else
             if (Slot == null) Slot = Resources.Load<Material>("Slot");
             if (source != null) {

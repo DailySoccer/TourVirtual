@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
-
 public class AchievementsAPI{ 
     public class Achievement{
         public string GUID;
@@ -37,10 +35,8 @@ public class AchievementsAPI{
         {
             if (res != "null")
             {
-//                Debug.LogError(">>> Achievements " + res);
                 List<object> results = BestHTTP.JSON.Json.Decode(res) as List<object>;
-                foreach (Dictionary<string, object> ele in results)
-                {
+                foreach (Dictionary<string, object> ele in results) {
                     string guid = ele["IdAchievement"] as string;
                     string iname = ele["Name"] as string;
                     string name = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
