@@ -54,7 +54,9 @@ public class MinigameModalInitial : MonoBehaviour {
 		}
         if (ranking != null)
         {
-            for (int i = 0; i < ranking.Length || i < MAX_RANKING_COUNT; i++)
+			int numSlots = ranking.Length < MAX_RANKING_COUNT ? ranking.Length : MAX_RANKING_COUNT;
+
+			for (int i = 1; i <= numSlots; i++)
             {
                 GameObject r = Instantiate(RankingSlotElement);
                 r.GetComponent<RankingSlot>().Setup(i.ToString(), ranking[i].Nick, ranking[i].Score.ToString());

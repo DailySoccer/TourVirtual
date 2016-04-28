@@ -30,6 +30,9 @@ public class MinigameModalFinal : MonoBehaviour {
 	}
 	*/
 	public void UpdateData () {
+		BestScore.text = "-";
+		LastScore.text = "-";
+
 		if (UserAPI.Instance == null)
 			BestScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), "0");
 		else

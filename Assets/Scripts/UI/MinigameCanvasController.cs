@@ -70,7 +70,7 @@ public class MinigameCanvasController : MonoBehaviour {
 
 	public void StartGame() {
 		// Si no hemos hecho puntos aún... es que nunca hemos jugado y mostramos el tutorial
-		if (RecordScore == 0 && !isShowingTut) {
+		if (/*RecordScore == 0 && */!isShowingTut) {
 			StartCoroutine (ShowModalScreen (MinigameModalLayout.TutorialScreen));
 			isShowingTut = true;
 			return;

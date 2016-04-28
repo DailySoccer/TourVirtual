@@ -92,6 +92,7 @@ namespace Football
             score = 0;
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
+			keeper.Level (0);
         }
 
         public void OnRetry()

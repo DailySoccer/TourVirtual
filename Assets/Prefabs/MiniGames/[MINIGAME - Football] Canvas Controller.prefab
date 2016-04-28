@@ -113,7 +113,6 @@ GameObject:
   - 224: {fileID: 22422984}
   - 222: {fileID: 22299278}
   - 114: {fileID: 11450136}
-  - 114: {fileID: 11479414}
   m_Layer: 5
   m_Name: TXT Best Score
   m_TagString: Untagged
@@ -428,7 +427,6 @@ GameObject:
   - 224: {fileID: 22452924}
   - 222: {fileID: 22246516}
   - 114: {fileID: 11414312}
-  - 114: {fileID: 11492146}
   m_Layer: 5
   m_Name: User Max Score
   m_TagString: Untagged
@@ -768,7 +766,6 @@ GameObject:
   - 224: {fileID: 22440700}
   - 222: {fileID: 22249956}
   - 114: {fileID: 11429240}
-  - 114: {fileID: 11488478}
   m_Layer: 5
   m_Name: TXT Last Score
   m_TagString: Untagged
@@ -951,6 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f4e88f80366bd49972a306cec22a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
   TxtScore: {fileID: 11453978}
   TxtRecord: {fileID: 11477810}
   timer: {fileID: 11499846}
@@ -2152,18 +2150,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ENTENDIDO
---- !u!114 &11479414
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 113686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.Minigame.YourScore
 --- !u!114 &11480132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2197,18 +2183,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11488478
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.Minigame.BestScore
 --- !u!114 &11490206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2230,18 +2204,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11492146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.Minigame.BestScore
 --- !u!114 &11492848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2364,6 +2326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11499688
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2375,6 +2338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11499846
 MonoBehaviour:
   m_ObjectHideFlags: 1
