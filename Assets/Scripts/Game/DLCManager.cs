@@ -85,11 +85,11 @@ public class DLCManager : MonoBehaviour {
 
     public System.Collections.IEnumerator LoadVersion()
     {
-        using (WWW www = new WWW(BaseUrl + "assetbundles.json"))
-        {
+        WWW www;
+        do {
+            www = new WWW(BaseUrl + "assetbundles.json");
             yield return www;
-            if (string.IsNullOrEmpty(www.error))
-            {
+            if (string.IsNullOrEmpty(www.error)) {
                 Dictionary<string, object> jsonMap = BestHTTP.JSON.Json.Decode(www.text) as Dictionary<string, object>;
                 List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
                 foreach (Dictionary<string, object> asset in assets)
@@ -98,13 +98,17 @@ public class DLCManager : MonoBehaviour {
                     if (!assetDefinition.Id.Contains("content"))
                         AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                 }
+                www = null;
             }
             else {
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"),()=> { Application.Quit(); });
+                bool waiting = true;
+                Debug.LogError(">>>> " + www.error);
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => {
+                    waiting = false;
+                });
+                while (waiting) yield return null;
             }
-        }
-        //
-
+        } while (www != null);
     }
 
     WWW current;
@@ -131,19 +135,31 @@ public class DLCManager : MonoBehaviour {
         {
             currentName = LanguageManager.Instance.GetTextValue("PCK." + definition.Id.Replace('/', '.'));
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
-            current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version);
-			yield return current;                
-            if (string.IsNullOrEmpty(current.error)) {
-				AssetBundle bundle = current.assetBundle;
-                //bundle.LoadAllAssets();
-				AssetResources[keyResource] = bundle;
-                if (callback != null) callback(bundle);
-			}
-			else {
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
-                // throw new Exception("WWW download had an error:" + www.error);
-            }
-            current = null;
+            do {
+                current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version);
+                yield return current;
+                if (string.IsNullOrEmpty(current.error))
+                {
+                    AssetBundle bundle = current.assetBundle;
+                    //bundle.LoadAllAssets();
+                    AssetResources[keyResource] = bundle;
+                    if (callback != null) callback(bundle);
+                    current = null;
+                }
+                else
+                {
+                    bool waiting = true;
+                    Debug.LogError(">>>> " + current.error);
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () =>
+                    {
+                        waiting = false;
+                    });
+                    while (waiting) yield return null;
+
+                    // throw new Exception("WWW download had an error:" + www.error);
+                }
+            } while (current != null);
+            
         } // memory is freed from the web stream (www.Dispose() gets called implicitly)
         LoadingBar.Instance.Hide();
     }
@@ -175,7 +191,9 @@ public class DLCManager : MonoBehaviour {
                         }
                     }
 					else {
-                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => { Application.Quit(); });
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => {
+                            Application.Quit();
+                        });
                         // throw new Exception("WWW download had an error:" + www.error);
                     }
 				} // memory is freed from the web stream (www.Dispose() gets called implicitly)
