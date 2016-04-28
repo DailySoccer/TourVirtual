@@ -7,7 +7,11 @@ using SmartLocalization;
 
 public class TVBChatController : MonoBehaviour {
 
-	public bool IsCommunityManagerVersion = false;
+#if COMMUNITY_MANAGER 
+	bool IsCommunityManagerVersion = true;
+#else
+	bool IsCommunityManagerVersion = false;
+#endif
 
 	public GameObject channelSlotPrefab;
 
