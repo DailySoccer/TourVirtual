@@ -55,7 +55,7 @@ public class GuiMapScreen : UIScreen {
 
 		if (IsOpen) {
 
-			Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
+			//Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
 
 			if (Selector != null && RoomManager.Instance != null && RoomManager.Instance.Room != null) {
 				GameObject button = null;
