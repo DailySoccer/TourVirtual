@@ -309,6 +309,25 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         ChangeVestidorState(MainManager.VestidorMode);
     }
 
+
+	public void ShowClothesShop() {
+		if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
+		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+			Invoke("LoadModel", 0.25f);
+
+		ChangeVestidorState (VestidorState.VESTIDOR);
+	}
+
+	public void ShowLandingPage() {
+		if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
+		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+			Invoke("LoadModel", 0.25f);
+		
+		ChangeVestidorState (VestidorState.LANDING_PAGE);
+	}
+
     void LoadModel()
     {
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
