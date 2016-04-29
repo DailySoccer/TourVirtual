@@ -99,17 +99,6 @@ public class TVBChatController : MonoBehaviour {
 		PopulateChannelMessages();
 	}
 
-    bool oldState = false;
-    void Update() {
-        bool state = chatAnimator.GetCurrentAnimatorStateInfo(0).IsName("Close");
-        if (state != oldState) {
-            oldState = state;
-            CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
-            cm.UIScreensCamera.SetActive(oldState);
-            cm.MainCamera.SetActive(oldState);
-        }
-    }
-
     /// <summary>
     /// Populates the Chat Channels list.
     /// </summary>
