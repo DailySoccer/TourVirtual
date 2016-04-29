@@ -72,8 +72,23 @@ public class CanvasManager : MonoBehaviour {
         }
 		
 		ShowScreen (ScreenMainGame);
-	}
 
+
+		//StartCoroutine (DoStuffAterOpenMainScreen ());
+	}
+	/*
+	IEnumerator DoStuffAterOpenMainScreen() {
+			
+		while (!ScreenMainGame.InOpenState) {
+			yield return null;
+		}
+
+		// Si el juego de objetos encontrados esta abierto... abrimos su interfaz.
+		if (HiddenObjects.HiddenObjects.Instance.enabled) {
+			GetComponent<HiddenObjectsGameCanvasController>().IsHiddenObjectHUD_Open = true;
+		}
+	}
+*/
 	/*public void ShowMainScreenNoTouchSecondPlane() {
 		ShowScreen (ScreenMainGame);
 	}*/

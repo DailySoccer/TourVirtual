@@ -20,6 +20,10 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 		hiddenObjs = HiddenObjects.HiddenObjects.Instance;//GameObject.FindGameObjectWithTag ("MainManager").GetComponent<HiddenObjects.HiddenObjects> ();
 	}
 
+	void OnEnable() {
+		GetComponent<HiddenObjectsGameCanvasController>().IsHiddenObjectHUD_Open = HiddenObjects.HiddenObjects.Instance.enabled;
+	}
+
 	void OnDisable() {
 		hiddenObjs.OnGameSuccess -= HandleOnGameSuccess;
 		hiddenObjs.OnGameFail -= HandleOnGameFail;
