@@ -128,7 +128,7 @@ namespace HiddenObjects {
             }
 			if (Input.GetMouseButtonDown(0) && Camera.main != null) {
                 Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit[] hits = Physics.RaycastAll(mouse,float.MaxValue, (1 << 14) );
+                RaycastHit[] hits = Physics.RaycastAll(mouse, 20, LayerMask.NameToLayer("HiddenObject") );
                 if (hits.Length > 0) {
                     foreach (var hit in hits) {
                         hit.transform.GetComponent<Collider>().enabled = false;
