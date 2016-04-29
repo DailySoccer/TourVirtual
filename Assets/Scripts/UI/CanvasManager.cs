@@ -273,8 +273,8 @@ public class CanvasManager : MonoBehaviour {
 
     public void ShowCameras()
     {
-        UIScreensCamera.SetActive(false);
-        MainCamera.SetActive(false);
+        UIScreensCamera.SetActive(true);
+        MainCamera.SetActive(true);
     }
 
 
