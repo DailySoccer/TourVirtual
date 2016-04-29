@@ -250,6 +250,18 @@ public class CanvasManager : MonoBehaviour {
 		currentGUIPopUpScreen = null;
 	}
 
+    public void HideCameras()
+    {
+        UIScreensCamera.SetActive(false);
+        MainCamera.SetActive(false);
+    }
+
+    public void ShowCameras()
+    {
+        UIScreensCamera.SetActive(false);
+        MainCamera.SetActive(false);
+    }
+
 
     /*
 	public void ShowScreenWithAnim(UIScreen guiScreen) {
@@ -336,10 +348,10 @@ public class CanvasManager : MonoBehaviour {
 	}
 	*/
 
-/*
-    void Start()
-    {
-        AllViewer.Instance.Show("http://www.phun.org/newspics/celebrity_butts/3/charlotte_mc_kinney.jpg", ContentAPI.AssetType.Photo, "Ttile");
-    }
-*/
+    /*
+        void Start()
+        {
+            AllViewer.Instance.Show("http://www.phun.org/newspics/celebrity_butts/3/charlotte_mc_kinney.jpg", ContentAPI.AssetType.Photo, "Ttile");
+        }
+    */
 }

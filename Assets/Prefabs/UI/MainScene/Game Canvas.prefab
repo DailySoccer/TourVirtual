@@ -4270,7 +4270,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11486906}
   m_HandleRect: {fileID: 22453304}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5844,6 +5844,17 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11411692}
           m_ObjectArgumentAssemblyTypeName: GUIPopUpScreen, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11411968}
+        m_MethodName: HideCameras
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10170,6 +10181,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11411968}
         m_MethodName: ClosePopUpScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11411968}
+        m_MethodName: ShowCameras
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

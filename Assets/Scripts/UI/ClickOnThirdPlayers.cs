@@ -26,7 +26,7 @@ public class ClickOnThirdPlayers : MonoBehaviour {
 				}
 			}
 			// Editor Unity
-			if ( Input.GetMouseButtonDown(0) ) {
+			if ( Input.GetMouseButtonDown(0) && Camera.main!=null) {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				if ( Physics.Raycast(ray, out hit, 20.0f, layerMask) ){
