@@ -31,6 +31,8 @@ public class TVBChatController : MonoBehaviour {
 
 	public Button messageSendButton;
 
+    public Animator chatAnimator;
+
 	/// <summary>
 	/// El objeto padre de la lista de canales para que los canales generados
 	/// tengan este objeto como padre.
@@ -63,13 +65,14 @@ public class TVBChatController : MonoBehaviour {
 	private string currentChannelName = "";
 	private string currentChannelFriendlyName = "";
 
-	void OnEnable() {
-		if (RoomManager.Instance.Room != null) {
-			StartChatController();
-		}
-	}
+    void OnEnable() {
+        if (RoomManager.Instance.Room != null) {
+            StartChatController();
+        }
+    }
 
-	void Start () {
+
+    void Start () {
 		ChatManager.Instance.OnMessagesChange += Messages_OnChangeHandle;
 	}
 
@@ -96,10 +99,21 @@ public class TVBChatController : MonoBehaviour {
 		PopulateChannelMessages();
 	}
 
-	/// <summary>
-	/// Populates the Chat Channels list.
-	/// </summary>
-	void PopulateChannelsList() {
+    bool oldState = false;
+    void Update() {
+        bool state = chatAnimator.GetCurrentAnimatorStateInfo(0).IsName("Close");
+        if (state != oldState) {
+            oldState = state;
+            CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
+            cm.UIScreensCamera.SetActive(oldState);
+            cm.MainCamera.SetActive(oldState);
+        }
+    }
+
+    /// <summary>
+    /// Populates the Chat Channels list.
+    /// </summary>
+    void PopulateChannelsList() {
 		//CleanPlayerSlotList();
 
 		//AddChannelSlot("Global");
