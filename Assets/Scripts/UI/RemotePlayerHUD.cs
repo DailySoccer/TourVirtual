@@ -44,6 +44,8 @@ public class RemotePlayerHUD : MonoBehaviour {
 		int maxAchivs;
 		int achivs = user.GetAchievements (out maxAchivs);
 
+
+
 		//TODO: parseamos los datos a sus variables.
 		return user.Nick + "#" + user.Level + "#" + 
 			user.GetScore (UserAPI.MiniGame.FreeKicks).ToString() + "#" +
@@ -58,9 +60,10 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		/// Orden de los datos: Cara, nombre, nivelFan, ptos. Futbol, ptos. Basket, ptos. HiddenObjects, num. Packs, num. logros";
 		dataModel = (head + "#" + data).Split ('#');
-		Name.text = dataModel [(int)PlayerDataModel.NOMBRE];
+		Name.text = dataModel [(int)PlayerDataModel.NOMBRE] + " PlayerHUD";
 		FanLevel.text = dataModel [(int)PlayerDataModel.NIVEL_FAN];
 		Face.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(dataModel[(int)PlayerDataModel.CARA]);
+		playerID = dataModel[(int)PlayerDataModel.NOMBRE];
 	}
 
 	// return a direction based upon chosen axis
@@ -95,21 +98,17 @@ public class RemotePlayerHUD : MonoBehaviour {
 	void  Update ()
 	{
 		if (name != "RemotePlayerHUDCanvas") {
-
 			if (canvasManager == null)
-			if (GameObject.FindGameObjectWithTag ("GameCanvasManager")) {
-				canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
-			}
+				if (GameObject.FindGameObjectWithTag ("GameCanvasManager"))
+					canvasManager = GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ();
 
-			// rotates the object relative to the camera
-			Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.back : Vector3.forward);
-			Vector3 targetOrientation = referenceCamera.transform.rotation * GetAxis (axis);
-			transform.LookAt (targetPos, targetOrientation);
-			transform.localRotation = new Quaternion (0, transform.localRotation.y, 0, transform.localRotation.w);
+			// Corrección de rotacion Billboard
+			Vector3 dir = referenceCamera.transform.forward;
+			dir.y = 0;
+			transform.rotation = Quaternion.LookRotation(dir);
 
-			Parent.SetActive (Vector3.Distance (transform.position, referenceCamera.transform.position) > 2 && Vector3.Distance (transform.position, referenceCamera.transform.position) < 14);
-
-			//Debug.Log ("Distancia HUD-Camara: " + Vector3.Distance(transform.position, referenceCamera.transform.position).ToString());
+			// Solo visible en el rango de 2 a 14 metros
+			Parent.SetActive (Vector3.Distance (transform.position, referenceCamera.transform.position) > 2 && Vector3.Distance (transform.position, referenceCamera.transform.position) < 10);
 		}
 	}
 
