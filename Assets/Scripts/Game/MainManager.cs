@@ -305,6 +305,9 @@ public class MainManager : Photon.PunBehaviour {
 
     public void OnSoomlaStoreInitialized() {
         Debug.LogError(">>>> OnSoomlaStoreInitialized");
+#if PRE
+        StoreInventory.BuyItem("100coins");
+#endif
     }
 
     public void OnCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
