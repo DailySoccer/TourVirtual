@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using SmartLocalization;
 
 public class PackFlyerModal : MonoBehaviour {
 
@@ -15,7 +16,7 @@ public class PackFlyerModal : MonoBehaviour {
 		//packurl y thumburl
 		StartCoroutine(MyTools.LoadSpriteFromURL(content.PackURL, FlyerThumbnail.gameObject));
         var vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(content.VirtualGoodID);
-        Price.text = vg.Price.ToString();
+		Price.text = vg.Price.ToString(); //LanguageManager.Instance.GetTextValue("TVB.Button.Buy") + " <size=\"50\">" + vg.Price.ToString() + "</size>";
 	}
 
 	public void AddContentToList(string contentTitle) {
