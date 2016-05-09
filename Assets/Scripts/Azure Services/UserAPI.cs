@@ -126,6 +126,7 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
         });
+
         LoadingContentText.SetText("API.GamificationStatus");
         yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
             Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
@@ -150,6 +151,10 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
         LoadingContentText.SetText("");
+
+ /// Test de compra contra MS!
+//        Purchase("100coins", "{ \"orderId\":\"GPA.1333-6426-9614-43683\",\"packageName\":\"com.realmadrid.virtualworld\",\"productId\":\"com.realmadrid.virtualworld.100coins\",\"purchaseTime\":1462444788449,\"purchaseState\":0,\"purchaseToken\":\"bdgloghieomillmdmdofcoem.AO-J1OybYtDs5EkM7WRkK5Kzw1jbtNMUZFPG7wXR2NpkM1VrdSsQDnY1AuKXwIjZQ1muUJi-hEXM1NRpzS3FcATFm1e6vsDbhbWw8eMUlryTNAKSHe9Bm0pRWAWyD1kMdorh6vZACur2-yKgurb-Iq2mIRF8o_HqGlvnFQV8OCd8-wF0X1BZl_w\"}");
+
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
@@ -264,14 +269,18 @@ public class UserAPI {
         });
     }
 
-    public void Purchase(string IdProduct, string Receipt, bool UseVirtualGoods = false) {
+    public void Purchase(string IdProduct, string Receipt, callback onok = null, callback onerror = null) {
         Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("IdClient", Authentication.IDClient);
         hs.Add("IdProduct", IdProduct);
         hs.Add("Receipt", Receipt);
-        hs.Add("UseVirtualGoods", UseVirtualGoods);
-        Authentication.AzureServices.RequestJSON("post", "api/v1/purchases", hs, (res2) => {
-            //            if (onok != null) onok();
+        hs.Add("UseVirtualGoods", false);
+        Authentication.AzureServices.RequestJSON("post", "api/v1/purchases", hs, (res) => {
+            Debug.LogError("Purchase OK-> " + res);
+            if (onok != null) onok();
+        }, (res) => {
+            Debug.LogError("Purchase KO-> " + res);
+            if (onerror != null) onerror();
         });
     }
 

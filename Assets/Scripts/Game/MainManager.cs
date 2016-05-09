@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//#define TEST_SHOP
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
@@ -213,6 +214,14 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
     void Start() {
+#if PRE && TEST_SHOP
+#if (UNITY_ANDROID || UNITY_IOS)
+        LoadingCanvasManager.Show("TVB.Message.LoadingData");
+        InitializeStore();
+        LoadingCanvasManager.Hide();
+#endif
+#endif
+
         if (Application.internetReachability == NetworkReachability.NotReachable) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), () => {
                 Application.Quit();
@@ -241,10 +250,12 @@ public class MainManager : Photon.PunBehaviour {
             StartCoroutine(CheckForInternetConnection());
         }
         //		else StartCoroutine(Connect ());
+#if !TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");
         InitializeStore();
         LoadingCanvasManager.Hide();
+#endif
 #endif
     }
 
@@ -262,24 +273,48 @@ public class MainManager : Photon.PunBehaviour {
 
 		StoreEvents.OnSoomlaStoreInitialized += OnSoomlaStoreInitialized;
 		StoreEvents.OnCurrencyBalanceChanged += OnCurrencyBalanceChanged;
-		StoreEvents.OnUnexpectedStoreError += OnUnexpectedStoreError;
+        StoreEvents.OnGoodBalanceChanged += OnGoodBalanceChanged;
+
+        StoreEvents.OnUnexpectedStoreError += OnUnexpectedStoreError;
         StoreEvents.OnMarketItemsRefreshFinished += OnMarketItemsRefreshFinished;
         StoreEvents.OnMarketPurchaseStarted += OnMarketPurchaseStarted;
         StoreEvents.OnMarketPurchaseCancelled += OnMarketPurchaseCancelled;
         StoreEvents.OnMarketPurchase += OnMarketPurchase;
         StoreEvents.OnItemPurchaseStarted += OnItemPurchaseStarted;
         StoreEvents.OnItemPurchased += OnItemPurchased;
+        StoreEvents.OnRestoreTransactionsFinished += OnRestoreTransactionsFinished;
         SoomlaStore.Initialize(new TourStoreAssets());
+#if UNITY_ANDROID && !UNITY_EDITOR
+        SoomlaStore.StartIabServiceInBg();
+#endif
+        //       SoomlaStore.RestoreTransactions();
+    }
+
+    public void OnGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnGoodBalanceChanged " + good + " "+ balance+" "+ amountAdded);
     }
 
     public void OnMarketPurchaseStarted(PurchasableVirtualItem pvi) {
         Debug.Log("OnMarketPurchaseStarted: " + pvi.ItemId);
     }
 
-    public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> ret) {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> onMarketPurchase " + ret);
-        foreach (var pair in ret)
-            Debug.LogError(pair.Key + " " + pair.Value);
+    public void OnRestoreTransactionsFinished(bool success)
+    {
+        Debug.Log("OnRestoreTransactionsFinished: " + success);
+    }
+
+
+    public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> extras) {
+        string receipt = "";
+#if UNITY_ANDROID
+        extras.TryGetValue("originalJson", out receipt);
+#elif UNITY_IOS
+        extras.TryGetValue("receiptBase64", out receipt);
+#endif
+        // Enviar proceso de compra a M$
+        UserAPI.Instance.Purchase(pvi.ItemId, receipt, ()=> {
+            StoreInventory.TakeItem(pvi.ItemId, 1);
+        });
         LoadingCanvasManager.Hide();
     }
 
@@ -305,10 +340,15 @@ public class MainManager : Photon.PunBehaviour {
 
     public void OnSoomlaStoreInitialized() {
         Debug.LogError(">>>> OnSoomlaStoreInitialized");
-#if PRE
-        StoreInventory.BuyItem("100coins");
+#if PRE && TEST_SHOP
+        Invoke("PurchaseTest", 2);
 #endif
     }
+
+    void PurchaseTest() {
+        StoreInventory.BuyItem("100coins");
+    }
+
 
     public void OnCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
         Debug.LogError(">>>> OnCurrencyBalanceChanged virtualCurrency " + virtualCurrency.Name+ " balance " + balance+ " amountAdded " + amountAdded);

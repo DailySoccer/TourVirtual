@@ -68,7 +68,6 @@ public class EditorAzureInterfaz : AzureInterfaz
         form.AddField("grant_type", "authorization_code");
         form.AddField("redirect_uri", redirectUri);
         string url = string.Format("{0}/oauth2/token?p={1}&nonce=defaultNonce&scope=openid", authority, "B2C_1_SignIn");
-        Debug.Log("ACCES TOKEN: URL: " + url);
 
         WWW www = new WWW(url, form);
         yield return www;
@@ -90,7 +89,6 @@ public class EditorAzureInterfaz : AzureInterfaz
             string[] parameters = url.Split('?');
             string[] values = parameters[1].Split('=');
             code = WWW.UnEscapeURL(values[1]);
-            Debug.Log("---> Code: " + code);
         }
 
         return code;
