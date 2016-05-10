@@ -60,7 +60,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		/// Orden de los datos: Cara, nombre, nivelFan, ptos. Futbol, ptos. Basket, ptos. HiddenObjects, num. Packs, num. logros";
 		dataModel = (head + "#" + data).Split ('#');
-		Name.text = dataModel [(int)PlayerDataModel.NOMBRE] + " PlayerHUD";
+		Name.text = dataModel [(int)PlayerDataModel.NOMBRE];// + " PlayerHUD";
 		FanLevel.text = dataModel [(int)PlayerDataModel.NIVEL_FAN];
 		Face.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(dataModel[(int)PlayerDataModel.CARA]);
 		playerID = dataModel[(int)PlayerDataModel.NOMBRE];
