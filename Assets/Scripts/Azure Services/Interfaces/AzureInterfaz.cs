@@ -86,16 +86,16 @@ public class AzureInterfaz {
                 LoadingCanvasManager.Hide();
                 // Sacamos un mensaje genrico.
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
-                if (error != null) error(request.Response.StatusCode.ToString());
+                if (error != null) error(request.Response.StatusCode.ToString() +":"+ request.Response.Message );
             }
             else {
                 if (ok != null) ok(MyTools.AsciiToString(request.Response.Data));
             }
-        }catch{
+        }catch(System.Exception e){
             LoadingCanvasManager.Hide();
             // Sacamos un mensaje genrico.
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
-            if (error != null) error("404");
+            if (error != null) error("404 ");
         }
     }
 
