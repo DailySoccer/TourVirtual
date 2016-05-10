@@ -305,13 +305,21 @@ public class MainManager : Photon.PunBehaviour {
 
 
     public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> extras) {
-        string receipt = "";
+        string originalJson = "";
+        string signature = "";
 #if UNITY_ANDROID
-        extras.TryGetValue("originalJson", out receipt);
+        extras.TryGetValue("signature", out signature);
+        extras.TryGetValue("originalJson", out originalJson);
 #elif UNITY_IOS
-        extras.TryGetValue("receiptBase64", out receipt);
+        extras.TryGetValue("receiptBase64", out originalJson);
 #endif
-        // Enviar proceso de compra a M$
+//        var tmp = BestHTTP.JSON.Json.Decode(originalJson) as Dictionary<string, object>;
+//        tmp.Add("developerPayload", payload);
+//        originalJson = BestHTTP.JSON.Json.Encode(tmp).Replace("\"", "\\\"");
+        originalJson = originalJson.Replace("\"", "\\\"");
+        string receipt = "{ \"RESPONSE_CODE\":0,\"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \""+ signature + "\"}";
+        Debug.LogError("Compra-> " + receipt);
+
         UserAPI.Instance.Purchase(pvi.ItemId, receipt, ()=> {
             StoreInventory.TakeItem(pvi.ItemId, 1);
         });
@@ -401,3 +409,5 @@ public class MainManager : Photon.PunBehaviour {
 	}
 	TourEventHandler _tourEventHandler;
 }
+
+
