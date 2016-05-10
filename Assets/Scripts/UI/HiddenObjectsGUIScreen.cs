@@ -14,7 +14,7 @@ public class HiddenObjectsGUIScreen : GUIScreen {
 	float timer;
 
 	void Start () {
-		int maxHiddenObjects = HiddenObjects.HiddenObjects.Instance.numHiddenObjects;
+		maxHiddenObjects = HiddenObjects.HiddenObjects.Instance.numHiddenObjects;
 		int countHiddenObjects = 0;
 		timer = timeUpdateCicle;
 		ResetTheTimer();
