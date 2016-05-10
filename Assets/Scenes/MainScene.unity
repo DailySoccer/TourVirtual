@@ -289,7 +289,7 @@ Prefab:
     - target: {fileID: 11452318, guid: 0b50b0b20b7974418a852325d8ae89a5, type: 2}
       propertyPath: ModalHiddenObjectsGameScreen
       value: 
-      objectReference: {fileID: 1502843759}
+      objectReference: {fileID: 166426748}
     - target: {fileID: 22426662, guid: 0b50b0b20b7974418a852325d8ae89a5, type: 2}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -644,6 +644,10 @@ Prefab:
       propertyPath: MusicTheme
       value: 
       objectReference: {fileID: 1661683757}
+    - target: {fileID: 11491556, guid: 5c64ab2780c42421182c224887efbd10, type: 2}
+      propertyPath: Testing_All_OjectsFound
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c64ab2780c42421182c224887efbd10, type: 2}
   m_IsPrefabParent: 0
@@ -730,6 +734,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1671584788}
+    - target: {fileID: 11434584, guid: 0a065878473eb4d63b60fa135a0afa3f, type: 2}
+      propertyPath: m_Text
+      value: <Mini game Tutorial>
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0a065878473eb4d63b60fa135a0afa3f, type: 2}
   m_IsPrefabParent: 0
@@ -738,6 +746,12 @@ Canvas:
   m_PrefabParentObject: {fileID: 22387890, guid: 0a065878473eb4d63b60fa135a0afa3f,
     type: 2}
   m_PrefabInternal: {fileID: 166426746}
+--- !u!114 &166426748 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11409862, guid: 0a065878473eb4d63b60fa135a0afa3f,
+    type: 2}
+  m_PrefabInternal: {fileID: 166426746}
+  m_Script: {fileID: 11500000, guid: e2bb3500d0c7046cba35d3505afb0dea, type: 3}
 --- !u!1001 &221934805
 Prefab:
   m_ObjectHideFlags: 0
@@ -2074,12 +2088,6 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22447280, guid: dd9418df8188c4ad98d407fb03d5c9aa,
     type: 2}
   m_PrefabInternal: {fileID: 1576388293}
---- !u!114 &1502843759 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11498480, guid: 0a065878473eb4d63b60fa135a0afa3f,
-    type: 2}
-  m_PrefabInternal: {fileID: 166426746}
-  m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
 --- !u!1001 &1576388293
 Prefab:
   m_ObjectHideFlags: 0

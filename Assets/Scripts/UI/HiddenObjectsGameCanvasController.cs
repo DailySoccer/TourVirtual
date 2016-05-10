@@ -4,7 +4,7 @@ using System.Collections;
 public class HiddenObjectsGameCanvasController : MonoBehaviour {
 
 	//public UIScreen HiddenObjectsMinigameHUD;
-	public GUIPopUpScreen ModalHiddenObjectsGameScreen;
+	public ModalHiddenObjectsGameScreen ModalHiddenObjectsGameScreen;
 	public GameObject TopMenu;
 
 	GameCanvasManager gcm;
@@ -52,8 +52,9 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 	}
 
 	public void LaunchHiddenObjectMinigameModal() {
-		ModalHiddenObjectsGameScreen.IsOpen = true;
+		ModalHiddenObjectsGameScreen.Launch_HiddenIbjectModal (HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO, "", true);
 	}
+
 
 	public void StartHiddenObjectsGame() {
 		hiddenObjs.OnGameSuccess += HandleOnGameSuccess;
@@ -61,10 +62,13 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 
 		// Cerramos la modal
 		ModalHiddenObjectsGameScreen.IsOpen = false;
-		// Comienza el juego
-		hiddenObjs.Play();
-		//Activa el hud de hiddenObjects
-		IsHiddenObjectHUD_Open = true;
+
+		if (ModalHiddenObjectsGameScreen.StartGameAfterClose) {
+			// Comienza el juego
+			hiddenObjs.Play (ModalHiddenObjectsGameScreen);
+			//Activa el hud de hiddenObjects
+			IsHiddenObjectHUD_Open = true;
+		}
 	}
 
 	public void ForceStopHiddenObjectsGame() {

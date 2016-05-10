@@ -5,6 +5,12 @@ using System.Collections.Generic;
 // Este objeto esta asociado al GameObject MainManager
 
 namespace HiddenObjects { 
+	public enum HiddenObjectGameResult {
+		TUTORIAL_INICIO,
+		TIME_OUT,
+		SUCCESS
+	}
+
     public class HiddenObjects : MonoBehaviour {
         public int objectByRoom = 5;
         public int numHiddenObjects = 10;
@@ -19,6 +25,7 @@ namespace HiddenObjects {
 		public event GameFinishEvent OnGameFail;
 		public event GameFinishEvent OnGameSuccess;
 
+		ModalHiddenObjectsGameScreen mhogs;
 
         public float RemaingTime {
 			get {
@@ -56,6 +63,7 @@ namespace HiddenObjects {
 
 			OnGameSuccess ();
 			Stop();
+			mhogs.Launch_HiddenIbjectModal(HiddenObjectGameResult.SUCCESS, numFoundObjects + "/" + numHiddenObjects);
         }
 
         void OnFail() {
@@ -66,10 +74,14 @@ namespace HiddenObjects {
 			            
 			OnGameFail ();
 			Stop();
+			mhogs.Launch_HiddenIbjectModal(HiddenObjectGameResult.TIME_OUT);
         }       
         
-        public void Play() {
-            if (enabled) return;
+        public void Play(ModalHiddenObjectsGameScreen modal) {
+			if (mhogs == null) mhogs = modal;
+            
+			if (enabled) return;
+
             enabled = true;
             // Crear una lista de objetos.
             List<HiddenObjectPosition> usefullRooms = new List<HiddenObjectPosition>();
@@ -148,7 +160,7 @@ namespace HiddenObjects {
                     break;
                 }
             }
-            if (ListOfHiddenObjects.Count == 0) OnSuccess();
+			if (ListOfHiddenObjects.Count == 0) OnSuccess();
         }
 
         IEnumerator Pickup(Transform t) {
