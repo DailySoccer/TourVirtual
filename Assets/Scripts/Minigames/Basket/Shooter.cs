@@ -320,6 +320,7 @@ namespace Basket
         {
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeShoots, score);
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET");
+
             currentTime = 0;
             gameState = GameState.Finished;
             Destroy(objBall);
@@ -339,7 +340,6 @@ namespace Basket
             minigameScreen.Score(score);
             minigameScreen.Record(record);
         }
-
 
         public void OnExitGame()
         {

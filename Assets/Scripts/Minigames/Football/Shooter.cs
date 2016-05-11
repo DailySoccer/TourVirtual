@@ -74,7 +74,17 @@ namespace Football
             touchPos.x = -1.0f;
             Reset();
             // changePosition();
+			ConfigScores ();
         }
+
+		void ConfigScores() {
+			if (UserAPI.Instance == null) {
+				record = 0;
+				Debug.LogError ("[Baseket.Shooter in " + name + "]: No se ha iniciado el UserAPI. El record será 0");
+			} else {
+				record = UserAPI.Instance.GetScore (UserAPI.MiniGame.FreeKicks);
+			}
+		}
 
         void OnExit() {
             RoomManager roomManager = RoomManager.Instance;
@@ -97,7 +107,6 @@ namespace Football
 
         public void OnRetry()
         {
-            Debug.LogError("OnRetry");
             Reset();
             Play();
         }
@@ -106,6 +115,8 @@ namespace Football
         {
             score++;
             streak++;
+			if (score > record) record = score;
+
             keeper.Level(score);
             if (objBall != null) {
                 Destroy(objBall);
@@ -322,12 +333,9 @@ namespace Football
 
         void OnFinishGame()
         {
-
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL");
 
-
-            Debug.LogError("OnFinishGame");
             currentTime = 0;
             gameState = GameState.Finished;
             Destroy(objBall);
@@ -348,19 +356,9 @@ namespace Football
             minigameScreen.Record(record);
         }
 
-       /* void OnGUI()
-        {
-            GUILayout.Label("State " + gameState);
-            GUILayout.Label("Time " + Mathf.CeilToInt(gameTime));
-            GUILayout.Label("Round " + round);
-            GUILayout.Label("Score " + score);
-            GUILayout.Label("Streak " + streak);
-        }*/
-
         public void OnExitGame()
         {
             RoomManager.Instance.GotoRoom("ESTADIO#PUERTA5");
         }
-
     }
 }
