@@ -63,6 +63,7 @@ public class UserAPI {
 
     public delegate void UserLogin();
     public delegate void callback();
+    public delegate void callbackParam(string param);
     public event UserLogin OnUserLogin;
 
 	public void CallOnUserLogin(){
@@ -269,7 +270,7 @@ public class UserAPI {
         });
     }
 
-    public void Purchase(string IdProduct, string Receipt, callback onok = null, callback onerror = null) {
+    public void Purchase(string IdProduct, string Receipt, callback onok = null, callbackParam onerror = null) {
         Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("IdClient", Authentication.IDClient);
         hs.Add("IdProduct", IdProduct);
@@ -280,7 +281,7 @@ public class UserAPI {
             if (onok != null) onok();
         }, (res) => {
             Debug.LogError("Purchase KO-> " + res);
-            if (onerror != null) onerror();
+            if (onerror != null) onerror(res);
         });
     }
 

@@ -305,25 +305,49 @@ public class MainManager : Photon.PunBehaviour {
 
 
     public void OnMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string,string> extras) {
+
+        string receipt = "";
+#if UNITY_ANDROID
         string originalJson = "";
         string signature = "";
-#if UNITY_ANDROID
         extras.TryGetValue("signature", out signature);
         extras.TryGetValue("originalJson", out originalJson);
-#elif UNITY_IOS
-        extras.TryGetValue("receiptBase64", out originalJson);
-#endif
-//        var tmp = BestHTTP.JSON.Json.Decode(originalJson) as Dictionary<string, object>;
-//        tmp.Add("developerPayload", payload);
-//        originalJson = BestHTTP.JSON.Json.Encode(tmp).Replace("\"", "\\\"");
         originalJson = originalJson.Replace("\"", "\\\"");
-        string receipt = "{ \"RESPONSE_CODE\":0,\"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \""+ signature + "\"}";
-        Debug.LogError("Compra-> " + receipt);
+        receipt = "{ \"RESPONSE_CODE\":0, \"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \"" + signature + "\"}";
 
-        UserAPI.Instance.Purchase(pvi.ItemId, receipt, ()=> {
-            StoreInventory.TakeItem(pvi.ItemId, 1);
-        });
-        LoadingCanvasManager.Hide();
+#elif UNITY_IOS
+        // Leer fichero, convertir a B64 y enviar.
+        extras.TryGetValue("receiptBase64", out receipt);
+#endif
+        //        var tmp = BestHTTP.JSON.Json.Decode(originalJson) as Dictionary<string, object>;
+        //        tmp.Add("developerPayload", payload);
+        //        originalJson = BestHTTP.JSON.Json.Encode(tmp).Replace("\"", "\\\"");
+        StoreInventory.TakeItem(pvi.ItemId, 1);
+        PlayerPrefs.SetString("PurchasePendingId", pvi.ItemId);
+        PlayerPrefs.SetString("PurchasePendingReceipt", receipt);
+        CheckPurchasePending();
+    }
+
+    public void CheckPurchasePending()
+    {
+        if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
+            var ItemId = PlayerPrefs.GetString("PurchasePendingId");
+            var Receipt = PlayerPrefs.GetString("PurchasePendingReceipt");
+
+            Debug.LogError("Compra-> " + Receipt);
+            LoadingCanvasManager.Show();
+            UserAPI.Instance.Purchase(ItemId, Receipt, () => {
+                PlayerPrefs.DeleteKey("PurchasePendingId");
+                PlayerPrefs.DeleteKey("PurchasePendingReceipt");
+            }, (errorcode) => {
+                // Resolver en caso de errores que abortan el proceso de compra pendiente.
+                // Por ejemplo, si el certificado no es valido.
+                // Quizas, quiando un 404, que sería que ha dado un time out, o un 500... el resto
+                // Deberia de liberar el proceso de purchases.
+                // De todas formas, lo hablo con Catalina que es la que sabe todos los casos de error.
+            });
+
+        }
     }
 
     public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
@@ -367,8 +391,10 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
+        // Mira si hay alguna compra pendiente.
+        CheckPurchasePending();
         // Contro de mismo usuario.
-		PhotonNetwork.playerName = UserAPI.Instance.Nick;
+        PhotonNetwork.playerName = UserAPI.Instance.Nick;
         StartCoroutine( Connect ());
 	}
 
@@ -409,5 +435,3 @@ public class MainManager : Photon.PunBehaviour {
 	}
 	TourEventHandler _tourEventHandler;
 }
-
-

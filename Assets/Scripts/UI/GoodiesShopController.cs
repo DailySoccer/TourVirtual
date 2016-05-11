@@ -81,7 +81,22 @@ public class GoodiesShopController : MonoBehaviour {
     }
 
     public void Product_ClickHandle(string iapId) {
-        StartCoroutine(Buy(iapId));
+        if (PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt"))
+        {
+            // Hay otra compra pendiente...
+            LoadingCanvasManager.Show("TVB.Message.BuyPending");
+        }
+        else
+        {
+#if UNITY_ANDROID
+            iapId = "and" + iapId;
+#elif UNITY_IOS
+            iapId = "ios" + iapId;
+#elif UNITY_WSA
+            iapId = "win" + iapId;
+#endif
+            StartCoroutine(Buy(iapId));
+        }
     }
 
     IEnumerator Buy(string id)
