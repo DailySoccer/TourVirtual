@@ -265,8 +265,10 @@ public class UserAPI {
                 foreach (Dictionary<string, object> entry in scores)
                     tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(double)entry["Score"]);
                 HighScores[(int)game] = tmp;
-                if (onRanking != null) onRanking();
             }
+            if (onRanking != null) onRanking();
+        },(err)=> {
+            if (onRanking != null) onRanking();
         });
     }
 
