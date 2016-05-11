@@ -56,10 +56,10 @@ public class MinigameModalInitial : MonoBehaviour {
         {
 			int numSlots = ranking.Length < MAX_RANKING_COUNT ? ranking.Length : MAX_RANKING_COUNT;
 
-			for (int i = 1; i <= numSlots; i++)
+			for (int i = 0; i < numSlots; i++)
             {
                 GameObject r = Instantiate(RankingSlotElement);
-                r.GetComponent<RankingSlot>().Setup(i.ToString(), ranking[i].Nick, ranking[i].Score.ToString());
+                r.GetComponent<RankingSlot>().Setup((i + 1).ToString(), ranking[i].Nick, ranking[i].Score.ToString());
                 r.transform.SetParent(RankingParentList.transform);
                 r.transform.localScale = Vector3.one;
                 r.name = "RankingPos_" + i.ToString();
