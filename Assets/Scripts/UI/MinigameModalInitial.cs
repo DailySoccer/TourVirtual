@@ -25,12 +25,10 @@ public class MinigameModalInitial : MonoBehaviour {
 
 	void CleanRanking() { 
 		foreach (GameObject go in rankingSlots) {
-			Destroy(go);
+			DestroyImmediate(go);
 		}
 	}
 	public void UpdateData() {
-		CleanRanking ();
-
 		string MaxScoreText;
 		if (UserAPI.Instance == null) {
 			MaxScoreText = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), 0);
@@ -40,7 +38,13 @@ public class MinigameModalInitial : MonoBehaviour {
 		}
 		UserMaxScore.text = MaxScoreText;
 
+		UserAPI.Instance.GetRanking( MinigameType, RankingDataCallBack);
+	}
+
+	public void RankingDataCallBack() {
 		UserAPI.ScoreEntry[] ranking;
+		CleanRanking ();
+
 		if (UserAPI.Instance == null) {
 			ranking = new UserAPI.ScoreEntry[MAX_RANKING_COUNT];
 			for (int i = 0; i < ranking.Length; i++ ) {
@@ -52,19 +56,19 @@ public class MinigameModalInitial : MonoBehaviour {
 		} else {
 			ranking = UserAPI.Instance.GetHighScore (MinigameType);
 		}
-        if (ranking != null)
-        {
+		if (ranking != null)
+		{
 			int numSlots = ranking.Length < MAX_RANKING_COUNT ? ranking.Length : MAX_RANKING_COUNT;
-
+			
 			for (int i = 0; i < numSlots; i++)
-            {
-                GameObject r = Instantiate(RankingSlotElement);
-                r.GetComponent<RankingSlot>().Setup((i + 1).ToString(), ranking[i].Nick, ranking[i].Score.ToString());
-                r.transform.SetParent(RankingParentList.transform);
-                r.transform.localScale = Vector3.one;
-                r.name = "RankingPos_" + i.ToString();
-                rankingSlots.Add(r);
-            }
-        }
+			{
+				GameObject r = Instantiate(RankingSlotElement);
+				r.GetComponent<RankingSlot>().Setup((i + 1).ToString(), ranking[i].Nick, ranking[i].Score.ToString());
+				r.transform.SetParent(RankingParentList.transform);
+				r.transform.localScale = Vector3.one;
+				r.name = "RankingPos_" + i.ToString();
+				rankingSlots.Add(r);
+			}
+		}
 	}
 }
