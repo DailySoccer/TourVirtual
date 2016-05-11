@@ -103,7 +103,6 @@ public class UserAPI {
             yield break;
         }
         LoadingContentText.SetText("API.VirtualGoods");
-
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         LoadingContentText.SetText("API.Achievements");
 
@@ -142,11 +141,11 @@ public class UserAPI {
                 }
             });
 
-        LoadingContentText.SetText("API.Rankings");
+//        LoadingContentText.SetText("API.Rankings");
 //        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
-        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
+//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
+//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
+//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
         LoadingContentText.SetText("API.MaxScores");
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
@@ -257,8 +256,8 @@ public class UserAPI {
         });
     }
 
-    public IEnumerator GetRanking(MiniGame game) {
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
+    public void GetRanking(MiniGame game, callback onRanking) {
+        Authentication.AzureServices.RequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
             if (res != "null"){
                 int cnt = 0;
                 List<object> scores = BestHTTP.JSON.Json.Decode(res) as List<object>;
@@ -266,6 +265,7 @@ public class UserAPI {
                 foreach (Dictionary<string, object> entry in scores)
                     tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(double)entry["Score"]);
                 HighScores[(int)game] = tmp;
+                if (onRanking != null) onRanking();
             }
         });
     }
