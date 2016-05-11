@@ -30,21 +30,6 @@ public class MainManager : Photon.PunBehaviour {
 
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
-    public GameObject GameInput;
-
-	public bool GameInputEnabled {
-		get {
-			return GameInput != null ? GameInput.GetComponent<Controller3DExample>().enabled : true;
-		}
-		set {
-			if (GameInput != null) {
-				// TODO: En android da problemas el desactivar la camara o el gameobject (p.ej. cuando se está en el estadio viendo el cubemap)
-				//GameInput.GetComponent<Camera>().enabled = value;
-				GameInput.GetComponent<Controller3DExample>().enabled = value;
-			}
-		}
-	}
-
 	[SerializeField]
 	private string _currentLanguage;
 	public string CurrentLanguage {
@@ -337,14 +322,21 @@ public class MainManager : Photon.PunBehaviour {
             Debug.LogError("Compra-> " + Receipt);
             LoadingCanvasManager.Show();
             UserAPI.Instance.Purchase(ItemId, Receipt, () => {
+                LoadingCanvasManager.Hide();
+                int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
+                UserAPI.Instance.Points += value;
                 PlayerPrefs.DeleteKey("PurchasePendingId");
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
             }, (errorcode) => {
-                // Resolver en caso de errores que abortan el proceso de compra pendiente.
-                // Por ejemplo, si el certificado no es valido.
-                // Quizas, quiando un 404, que sería que ha dado un time out, o un 500... el resto
-                // Deberia de liberar el proceso de purchases.
-                // De todas formas, lo hablo con Catalina que es la que sabe todos los casos de error.
+                LoadingCanvasManager.Hide();
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),()=> { Application.Quit(); });
+                // Errores no esperados por parte de la plataforma.
+                /*
+                if(errorcode == "412") {
+                    PlayerPrefs.DeleteKey("PurchasePendingId");
+                    PlayerPrefs.DeleteKey("PurchasePendingReceipt");
+                }
+                */
             });
 
         }

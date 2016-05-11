@@ -56,23 +56,25 @@ public class MovementController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (PlayerTransform == null || PlayerTransform.GetComponent<Locomotion>() == null) {
+        if (PlayerTransform == null )
+        {
+            return;
+        }
+        if (PlayerTransform == null) {//|| PlayerTransform.GetComponent<Locomotion>() == null) {
 			return;
 		}
         Vector2 rotCamera = Vector2.zero;
         float facing = FACING_SPEED;
-
-        if ((Mathf.Abs(movement.x) >= JOYSTICK_THRESHOLD || Mathf.Abs(movement.y) >= JOYSTICK_THRESHOLD) && Camera.main != null)
-        {
+        if (_animator == null) _animator = PlayerTransform.GetComponent<Animator>();
+        if ((Mathf.Abs(movement.x) >= JOYSTICK_THRESHOLD || Mathf.Abs(movement.y) >= JOYSTICK_THRESHOLD) && Camera.main != null){
             facing = 0.46f;
             rotCamera.x = movement.x * ROTATE_SPEED;
-            if (_animator == null)
-                _animator = PlayerTransform.GetComponent<Animator>();
-
             _animator.SetFloat("Speed", Mathf.Abs(movement.y));
-
             if (movement.y > 0) _animator.SetFloat("Forward", 1);
             else _animator.SetFloat("Forward", -1);
+        }
+        else{
+            _animator.SetFloat("Speed", 0);
         }
 
         rotCamera.x += rotation.x * ROTATE_SPEED;

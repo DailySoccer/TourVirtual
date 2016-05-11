@@ -31,7 +31,6 @@ public class FollowAvatar : MonoBehaviour {
 	private bool isRotating = false;
 	
 	private Transform _followedAvatar;
-	private Locomotion _playerLocomotion;
 	private Transform _followingCamera;
 	[SerializeField]
 	private Transform _thePointOfInterest;
@@ -78,17 +77,18 @@ public class FollowAvatar : MonoBehaviour {
 			_initialized = true;
 		}
 		
-		if (_followedAvatar == null || _playerLocomotion == null) {
+		if (_followedAvatar == null)
+        {// || _playerLocomotion == null) {
 			GameObject thePlayer = Player.Instance.Avatar;
 			if (thePlayer != null) {
 				_followedAvatar = thePlayer.transform;
 				transform.position = _followedAvatar.position;
 				transform.rotation =  _followedAvatar.rotation;
-				_playerLocomotion = Player.Instance.Locomotion;
+				//_playerLocomotion = Player.Instance.Locomotion;
 			}
 		}
 		
-		if (_followedAvatar != null && _playerLocomotion != null) {
+		if (_followedAvatar != null ) {
 			
 			// MOVIMIENTO
 			
@@ -120,7 +120,7 @@ public class FollowAvatar : MonoBehaviour {
 	}
 	
 	void RigidStick() {
-		isMoving = _playerLocomotion.movement != 0;
+		//isMoving = _playerLocomotion.movement != 0;
 		transform.position = _followedAvatar.position;
 	}
 	

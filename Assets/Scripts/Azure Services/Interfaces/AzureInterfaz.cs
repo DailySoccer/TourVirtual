@@ -86,6 +86,7 @@ public class AzureInterfaz {
                 LoadingCanvasManager.Hide();
                 // Sacamos un mensaje genrico.
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
+                Debug.LogError(request.Response.StatusCode.ToString() + ":" + request.Response.Message);
                 if (error != null) error(request.Response.StatusCode.ToString() );
             }
             else {

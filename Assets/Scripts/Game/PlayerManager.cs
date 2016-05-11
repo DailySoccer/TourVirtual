@@ -83,8 +83,6 @@ public class PlayerManager : Photon.PunBehaviour {
                 instance.layer = LayerMask.NameToLayer("Net");
                 instance.GetComponent<SynchNet>().isLocal = false;
                 instance.GetComponent<PhotonView>().viewID = id;
-
-                instance.GetComponent<Locomotion>().enabled = false;
                 instance.GetComponent<ContentSelectorCaster>().enabled = false;
 
                 //Código para insertar el HUD de los players remotos

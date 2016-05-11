@@ -17,7 +17,7 @@ public class ContentItem : MonoBehaviour {
 
 	public void OnClick() {
 		Debug.Log ("OnClick: " + "[" + _compactContent.IdContent + "] " + _compactContent.Title);
-		GameObject.Find ("ContentInfoUI").GetComponent<ContentImageController>().Set (_compactContent);
+//		GameObject.Find ("ContentInfoUI").GetComponent<ContentImageController>().Set (_compactContent);
 	}
 
 	private CompactContent _compactContent;

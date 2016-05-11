@@ -14,18 +14,6 @@ public class Player : MonoBehaviour {
 		get { return _cameraPitch; } 
 		set { _cameraPitch = value; }
 	}
-	private Locomotion _cacheLocomotion;
-	
-	[SerializeField]
-	private Locomotion.MovementStyle _movementStyle;
-	public Locomotion.MovementStyle movementStyle {
-		get {
-			return _movementStyle;
-		}
-		set {
-			Locomotion.movementStyle = _movementStyle = value;
-		}
-	}
 	
 	[SerializeField]
 	public FollowAvatar.FollowStyle followStyle;
@@ -43,10 +31,11 @@ public class Player : MonoBehaviour {
 		get {
 			RefreshAvatar();
 
-			// Si no existe el UMAAvatar devolvemos el gameObject del Player
 			return _avatar ?? Instance.gameObject;
 		}
 		set {
+            Debug.LogError("!!!!!SetAvatar!!!!!");
+
 			if (_avatar == null) 
 				RefreshAvatar();
 
@@ -57,20 +46,7 @@ public class Player : MonoBehaviour {
 			_avatar.tag = TAG_UMA_AVATAR;
 			_avatar.transform.SetParent(transform);
 			_avatar.transform.position = transform.position;
-			_cacheLocomotion = null;
-			Locomotion.movementStyle = _movementStyle;
-
 			//_umaAvatar.AddComponent<AudioListener>();
-		}
-	}
-
-
-	public Locomotion Locomotion {
-		get {
-			if (_cacheLocomotion == null) {
-				_cacheLocomotion = Avatar.GetComponent<Locomotion>();
-			}
-			return _cacheLocomotion;
 		}
 	}
 
@@ -81,9 +57,6 @@ public class Player : MonoBehaviour {
 		// Por defecto, mantenemos al player desactivado
 		if (_player != null) {
 			_player.gameObject.SetActive(false);
-		}
-		if (_avatar != null) {
-			Locomotion.movementStyle = movementStyle;
 		}
 	}
 

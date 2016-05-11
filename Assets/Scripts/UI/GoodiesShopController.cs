@@ -54,29 +54,13 @@ public class GoodiesShopController : MonoBehaviour {
     public void ItemsRefresh(List<MarketItem> items)
     {
         foreach (var item in items){
-            switch (item.ProductId){
-                case "com.realmadrid.virtualworld.100coins":
-                    item1.text = item.MarketPriceAndCurrency;
-                    break;
-                case "com.realmadrid.virtualworld.375coins":
-                    item2.text = item.MarketPriceAndCurrency;
-                    break;
-                case "com.realmadrid.virtualworld.700coins":
-                    item3.text = item.MarketPriceAndCurrency;
-                    break;
-                case "com.realmadrid.virtualworld.1600coins":
-                    item4.text = item.MarketPriceAndCurrency;
-                    break;
-                case "com.realmadrid.virtualworld.3600coins":
-                    item5.text = item.MarketPriceAndCurrency;
-                    break;
-                case "com.realmadrid.virtualworld.10000coins":
-                    item6.text = item.MarketPriceAndCurrency;
-                    break;
-                default:
-                    Debug.LogError("Producto raro " + item.ProductId);
-                    break;
-            }
+            if (item.ProductId.Contains("10000"))       item6.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("3600"))   item5.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("1600"))   item4.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("700"))    item3.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("375"))    item2.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("100"))    item1.text = item.MarketPriceAndCurrency;
+            else Debug.LogError("Producto raro " + item.ProductId);
         }
     }
 
