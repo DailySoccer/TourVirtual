@@ -102,7 +102,6 @@ public class CanvasManager : MonoBehaviour {
 
 			ActiveSecondPlaneGUI ("Video Bg", "Profile Screen Plano2");	
 			ShowScreen(ScreenProfile);
-
 			//Seteamos el Avatar que se muestra en estapantalla
 			ProfilePlayerInstance = instance;
 			ProfilePlayerInstance.name = "UI Player Clone for Profile";
@@ -115,7 +114,6 @@ public class CanvasManager : MonoBehaviour {
             SkinnedMeshRenderer[] skins = ProfilePlayerInstance.GetComponentsInChildren<SkinnedMeshRenderer>();
             foreach (var skin in skins)
                 skin.useLightProbes = false;
-
             AddParticles();
         }) );
 	}

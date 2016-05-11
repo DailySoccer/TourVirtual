@@ -276,16 +276,16 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     public void OnGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnGoodBalanceChanged " + good + " "+ balance+" "+ amountAdded);
+//        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OnGoodBalanceChanged " + good + " "+ balance+" "+ amountAdded);
     }
 
     public void OnMarketPurchaseStarted(PurchasableVirtualItem pvi) {
-        Debug.Log("OnMarketPurchaseStarted: " + pvi.ItemId);
+//        Debug.Log("OnMarketPurchaseStarted: " + pvi.ItemId);
     }
 
     public void OnRestoreTransactionsFinished(bool success)
     {
-        Debug.Log("OnRestoreTransactionsFinished: " + success);
+//        Debug.Log("OnRestoreTransactionsFinished: " + success);
     }
 
 
@@ -348,22 +348,22 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     public void OnItemPurchaseStarted(PurchasableVirtualItem pvi) {
-        Debug.LogError("OnItemPurchaseStarted: " + pvi.ItemId);
+//        Debug.LogError("OnItemPurchaseStarted: " + pvi.ItemId);
 
     }
 
     public void OnItemPurchased(PurchasableVirtualItem pvi, string ret) {
-        Debug.LogError("OnItemPurchased: " + pvi.ItemId);
+ //       Debug.LogError("OnItemPurchased: " + pvi.ItemId);
 
     }
 
     public void OnMarketItemsRefreshFinished(List<MarketItem> items) {
-        Debug.LogError(">>>> OnMarketItemsRefreshFinished");
+ //       Debug.LogError(">>>> OnMarketItemsRefreshFinished");
         GoodiesShopConntroller.ItemsRefresh(items);
     }
 
     public void OnSoomlaStoreInitialized() {
-        Debug.LogError(">>>> OnSoomlaStoreInitialized");
+ //       Debug.LogError(">>>> OnSoomlaStoreInitialized");
 #if PRE && TEST_SHOP
         Invoke("PurchaseTest", 2);
 #endif
@@ -375,11 +375,11 @@ public class MainManager : Photon.PunBehaviour {
 
 
     public void OnCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
-        Debug.LogError(">>>> OnCurrencyBalanceChanged virtualCurrency " + virtualCurrency.Name+ " balance " + balance+ " amountAdded " + amountAdded);
+ //       Debug.LogError(">>>> OnCurrencyBalanceChanged virtualCurrency " + virtualCurrency.Name+ " balance " + balance+ " amountAdded " + amountAdded);
     }
 
     public void OnUnexpectedStoreError(int errorCode) {
-        Debug.LogError(">>>> OnUnexpectedStoreError "+ errorCode);
+ //       Debug.LogError(">>>> OnUnexpectedStoreError "+ errorCode);
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {

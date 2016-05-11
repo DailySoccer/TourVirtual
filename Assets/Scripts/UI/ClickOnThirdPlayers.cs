@@ -12,7 +12,8 @@ public class ClickOnThirdPlayers : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(Camera.main==null) return;
+		
 		if (gcm.currentGUIPopUpScreen == null && !gcm.ModalScreen.IsOpen) {
 			// Moviles
 			if (Input.touchCount != 0) {
@@ -26,7 +27,7 @@ public class ClickOnThirdPlayers : MonoBehaviour {
 				}
 			}
 			// Editor Unity
-			if ( Input.GetMouseButtonDown(0) && Camera.main!=null) {
+			if ( Input.GetMouseButtonDown(0)) {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				if ( Physics.Raycast(ray, out hit, 20.0f, layerMask) ){
