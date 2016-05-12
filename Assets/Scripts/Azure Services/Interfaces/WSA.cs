@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+#if UNITY_WSA
+
 public class WSAAzureInterfaz : AzureInterfaz
 {
     public WSAAzureInterfaz(MonoBehaviour component): base(component)
@@ -78,3 +80,5 @@ public class WSAAzureInterfaz : AzureInterfaz
 
     
 }
+
+#endif
