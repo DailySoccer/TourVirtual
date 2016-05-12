@@ -129,23 +129,17 @@ public class AllViewer : MonoBehaviour {
         image.SetNativeSize();
         rectTransform = image.GetComponent<RectTransform>();
         textureSize = rectTransform.offsetMax - rectTransform.offsetMin;        
-        if (textureSize.x > textureSize.y)
-        {
-            
-
+        if (textureSize.x > textureSize.y) {
             float scale = 1;
-            if (textureSize.x > canvas.pixelRect.width)
-            {
+            if (textureSize.x > canvas.pixelRect.width) {
                 scale = canvas.pixelRect.width / textureSize.x;
                 textureSize.x = canvas.pixelRect.width;
                 textureSize.y *= scale;
             }
         }
-        else
-        {
+        else {
             float scale = 1;
-            if (textureSize.y > canvas.pixelRect.height)
-            {
+            if (textureSize.y > canvas.pixelRect.height) {
                 scale = canvas.pixelRect.height / textureSize.y;
                 textureSize.y = canvas.pixelRect.height;
                 textureSize.x *= scale;
@@ -167,17 +161,14 @@ public class AllViewer : MonoBehaviour {
         if (model == null) return;
         model.transform.position += (posTarget - model.transform.position)*0.2f;
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0))
-        {
+        if (Input.GetMouseButton(0)) {
             float dx = canvas.pixelRect.width / 1280.0f;
             float dy = canvas.pixelRect.height / 720.0f;
-            if (!draggin)
-            {
+            if (!draggin) {
                 lastTouch = Input.mousePosition;
                 draggin = true;
             }
-            else
-            {
+            else {
                 Vector2 diff = ((Vector2)Input.mousePosition - lastTouch);
                 lastTouch = Input.mousePosition;
                 offset = new Vector2(diff.x / dx, -diff.y / dy);
@@ -193,18 +184,14 @@ public class AllViewer : MonoBehaviour {
         else
             draggin = false;
 #else
-        if (Input.touchCount == 1)
-        {
+        if (Input.touchCount == 1) {
             Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
-            {
-                if (Input.GetTouch(0).tapCount == 2)
-                {
+            if (touch.phase == TouchPhase.Began) {
+                if (Input.GetTouch(0).tapCount == 2) {
                     if (posTarget.z != 1.2f){
                         posTarget = new Vector3(0, 0, 1.2f);
                     }
-                    else
-                    {
+                    else {
                         posTarget = new Vector3(0, 0, 0.6f);
                     }
                 }            
@@ -331,8 +318,7 @@ public class AllViewer : MonoBehaviour {
         if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
         if (model != null) Destroy(model);
         if (assetbundle != null) assetbundle.Unload(true);
-        if (image.sprite != null) { Destroy(image.sprite); image.sprite = null; }
-
+        if (image.sprite != null) { if (image.sprite.texture != null) DestroyImmediate(image.sprite.texture, true); Destroy(image.sprite); image.sprite = null; }
         if (this.endCallback != null) this.endCallback();
 
     }
