@@ -50,9 +50,17 @@ public class AzureInterfaz {
     public IEnumerator AwaitableRequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
         yield return component.StartCoroutine(_Request("get", url, ok, error));
     }
+    
+    public IEnumerator AwaitableRequestPut(string url, RequestEvent ok = null, RequestEvent error = null) {
+        yield return component.StartCoroutine(_Request("put", url, ok, error));
+    }
 
     public Coroutine AwaitRequestGet(string url, RequestEvent ok = null, RequestEvent error = null) {
         return component.StartCoroutine(_Request("get",url, ok, error));
+    }
+
+    public Coroutine AwaitRequestPut(string url, RequestEvent ok = null, RequestEvent error = null) {
+        return component.StartCoroutine(_Request("put",url, ok, error));
     }
 
     public void RequestPost(string url, string json, RequestEvent ok = null, RequestEvent error = null) {

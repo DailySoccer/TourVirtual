@@ -82,6 +82,8 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
+        yield return Authentication.AzureServices.AwaitRequestPut(string.Format("api/v1/fan/me/Apps/{0}/{1}", Authentication.IDClient, SystemInfo.deviceUniqueIdentifier));        
+        
         yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
