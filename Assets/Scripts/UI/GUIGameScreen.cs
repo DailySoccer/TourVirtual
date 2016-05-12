@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -129,7 +129,7 @@ public class GUIGameScreen : GUIScreen {
     }
 
 	void Messages_OnChangeHandle(string channelName) {
-		if (channelName == ChatManager.CHANNEL_GLOBAL) {
+		if (channelName == ChatManager.CHANNEL_COMMUNITYMANAGER) {
 			int msgCount = ChatManager.Instance.GetMessagesFromChannel(channelName).Count;
 			string msg = ChatManager.Instance.GetMessagesFromChannel(channelName)[msgCount -1].Text; 
 			CommunityManagerMessage.SetActive (true);

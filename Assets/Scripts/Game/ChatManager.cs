@@ -17,7 +17,8 @@ public class ChatMessage {
 
 public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
-	static public string CHANNEL_GLOBAL = "Community Manager";
+	static public string CHANNEL_COMMUNITYMANAGER = "Community Manager";
+	static public string CHANNEL_GENERAL = "General";
 
 	public delegate void MessagesChangeEvent(string channelName);
 	public event MessagesChangeEvent OnMessagesChange;
@@ -100,7 +101,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void SendMessage(string text) {
-		SendMessage(_channelSelected ?? CHANNEL_GLOBAL, text);
+		SendMessage(_channelSelected ?? CHANNEL_COMMUNITYMANAGER, text);
 	}
 
 	public void SendMessage(string channelName, string text) {
@@ -121,7 +122,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 		// chatClient.Subscribe( new string[] { "channelA", "channelB" } );
 		ChatClient.SetOnlineStatus(ChatUserStatus.Online);
 
-		ChatClient.Subscribe( new string[] { CHANNEL_GLOBAL }, 0 );
+		ChatClient.Subscribe( new string[] { CHANNEL_COMMUNITYMANAGER }, 0 );
 	}
 	
 	public void OnDisconnected() {
@@ -218,7 +219,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public bool IsPublicChannel(string channel) {
-		return channel.Equals(ChatManager.CHANNEL_GLOBAL) || channel.Equals(_roomChannel);
+		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) ||  channel.Equals(ChatManager.CHANNEL_GENERAL) || channel.Equals(_roomChannel);
 	}
 
 	private string _roomChannel;

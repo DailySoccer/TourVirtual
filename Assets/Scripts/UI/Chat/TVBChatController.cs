@@ -106,9 +106,8 @@ public class TVBChatController : MonoBehaviour {
 		//CleanPlayerSlotList();
 
 		//AddChannelSlot("Global");
-		AddChannelSlot("Community Manager");
-		AddChannelSlot(RoomManager.Instance.Room.Id);
-
+		AddChannelSlot(ChatManager.CHANNEL_COMMUNITYMANAGER);
+		AddChannelSlot(ChatManager.CHANNEL_GENERAL);
 
 		foreach (string channel in _friendChats.Keys) {
 			AddChannelSlot(channel);
@@ -121,9 +120,8 @@ public class TVBChatController : MonoBehaviour {
 		List<string> connectedUsers = new List<string>();
 		connectedUsers = PhotonNetwork.otherPlayers.Select(p => p.name).ToList<String>();
 
-		foreach (string channel in connectedUsers) {
-
-			AddChannelSlot(channel);
+		foreach (string privateChannel in connectedUsers) {
+			AddChannelSlot(privateChannel);
 		}
 	}
 
