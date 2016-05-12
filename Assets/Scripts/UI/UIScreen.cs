@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UIScreen : MonoBehaviour {
 
-	public bool ForceNoBlockRayCastValue = false;
+	//public bool ForceNoBlockRayCastValue = false;
 
 	public bool IsOpen
 	{
@@ -64,8 +64,10 @@ public class UIScreen : MonoBehaviour {
 			_canvasGroup.interactable = Animator.GetCurrentAnimatorStateInfo (0).IsName ("Open");
 		}
 			
+		/*
 		if (ForceNoBlockRayCastValue)	
-				_canvasGroup.blocksRaycasts = false;
+			_canvasGroup.blocksRaycasts = false;
+		*/
 	}
 
 	public virtual void OpenWindow() {
