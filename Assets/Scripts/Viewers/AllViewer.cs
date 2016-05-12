@@ -58,11 +58,11 @@ public class AllViewer : MonoBehaviour {
 
         cm.UIScreensCamera.SetActive(false);
         cm.MainCamera.SetActive(false);
-        
+        image.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+
         switch (mode) {
             case ContentAPI.AssetType.Photo:
-				image.sprite = null;
-				image.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
+				image.sprite = null;				
                 lastCoroutine = StartCoroutine(DownloadImage(url));
                 midScreen = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height) * 0.5f;
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -104,11 +104,8 @@ public class AllViewer : MonoBehaviour {
         WWW www = new WWW(url);
         yield return www;
         LoadingCanvasManager.Hide();
-        if (!string.IsNullOrEmpty(www.error))
-        {
-//            Camera.current.backgroundColor = Color.red;
-            yield break;
-        }
+        if (!string.IsNullOrEmpty(www.error)) yield break;
+
         assetbundle = www.assetBundle;
         var names = assetbundle.GetAllAssetNames();
         model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
@@ -314,13 +311,14 @@ public class AllViewer : MonoBehaviour {
 
         visorCanvas.IsOpen = false;
         canvas.worldCamera = null;
-//        if (ViewerLight != null) Destroy(ViewerLight.gameObject);
+
         if (ViewerCamera!=null) Destroy(ViewerCamera.gameObject);
         if (model != null) Destroy(model);
-        if (assetbundle != null) assetbundle.Unload(true);
         if (image.sprite != null) { if (image.sprite.texture != null) DestroyImmediate(image.sprite.texture, true); Destroy(image.sprite); image.sprite = null; }
+        if (assetbundle != null) assetbundle.Unload(true);
+        Resources.UnloadUnusedAssets();
+        Debug.Log(">>> TEXTURAS!!!! " + Resources.FindObjectsOfTypeAll<Texture>().Length);
         if (this.endCallback != null) this.endCallback();
-
     }
 
     public void Close() {

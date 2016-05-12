@@ -34,7 +34,7 @@ public class MyTools
 #if !UNITY_WSA
             Texture2D txt = www.texture;
 			Sprite s = Sprite.Create(txt, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.zero);
-            www.Dispose();
+            // www.Dispose();
             s.name = "SpriteLoadSpriteFromURL";
             s.texture.wrapMode = TextureWrapMode.Clamp;
             if (source != null){
