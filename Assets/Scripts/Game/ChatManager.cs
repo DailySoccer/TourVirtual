@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.Chat;
+using SmartLocalization;
 
 public class ChatMessage {
 	public string Sender;
@@ -18,7 +19,12 @@ public class ChatMessage {
 public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
 	static public string CHANNEL_COMMUNITYMANAGER = "Community Manager";
-	static public string CHANNEL_GENERAL = "General";
+
+	static public string ROOM_CHANNEL_NAME {
+		get{
+			return LanguageManager.Instance.GetTextValue("TVB.Chat.RoomChannelName");
+		}
+	}
 
 	public delegate void MessagesChangeEvent(string channelName);
 	public event MessagesChangeEvent OnMessagesChange;
@@ -105,52 +111,39 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void SendMessage(string channelName, string text) {
-
-
 		if (IsPublicChannel(channelName)) {
-            //Debug.Log(string.Format("Public SendMessage[{0}]: {1}", channelName, text));
             ChatClient.PublishMessage(channelName, text);
 		}
 		else {
-            //Debug.Log(string.Format("Private SendMessage[{0}]: {1}", channelName, text));
             ChatClient.SendPrivateMessage(channelName, text);
 		}
 	}
 
 	public void OnConnected() {
-//		Debug.Log ("OnConnected");
-		// chatClient.Subscribe( new string[] { "channelA", "channelB" } );
+		//Debug.Log (">>> Chat OnConnected");
 		ChatClient.SetOnlineStatus(ChatUserStatus.Online);
-
 		ChatClient.Subscribe( new string[] { CHANNEL_COMMUNITYMANAGER }, 0 );
 	}
 	
 	public void OnDisconnected() {
-//		Debug.Log ("OnDisconnected");
+		//Debug.Log (">>> Chat OnDisconnected");
         if (!PhotonHandler.AppQuits)
             ChatClient.Connect(ChatAppId, "1.0", UserName, null);
-		// ChatClient.Unsubscribe( new string[] { CHANNEL_GLOBAL } );
 	}
 	
 	public void OnChatStateChange(ChatState state) {
-//		Debug.Log ("OnChatStateChange: " + state.ToString());
+		//Debug.Log (">>> Chat OnChatStateChange: " + state.ToString());
 	}
 	
 	public void OnSubscribed(string[] channels, bool[] results)	{
-//		Debug.Log ("OnSubscribed");
-
-		/*
-		foreach (string channel in channels) {
-			chatClient.PublishMessage(channel, "says 'hi' in OnSubscribed(). " + channel); // you don't HAVE to send a msg on join but you could.
-		}
-		*/
+		//Debug.LogError (">>> Chat OnSubscribed to: " + channels.stringArrayToString());
 	}
 	public void OnUnsubscribed(string[] channels) {
-//		Debug.Log ("OnUnsubscribed");
+		//Debug.Log (">>> Chat OnUnsubscribed to: " + channels.stringArrayToString());
 	}
 
 	public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-//		Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
+	// Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
 
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
@@ -219,7 +212,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public bool IsPublicChannel(string channel) {
-		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) ||  channel.Equals(ChatManager.CHANNEL_GENERAL) || channel.Equals(_roomChannel);
+		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) || channel.Equals(_roomChannel);
 	}
 
 	private string _roomChannel;

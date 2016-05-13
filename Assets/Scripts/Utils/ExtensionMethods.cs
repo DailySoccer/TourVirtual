@@ -25,4 +25,12 @@ public static class ExtensionMethods
 	public static int getDateTextSeparatorIndex(this ChatMessage cht) {
 		return cht.Text.IndexOf('#');
 	}
+
+	public static string stringArrayToString(this string[] arr) {
+		string result = "[";
+		for (int i = 0; i < arr.Length; i++) {
+			result += arr[i] + (i == arr.Length-1 ? "]" : ", "); 
+		}
+		return result;
+	}
 }

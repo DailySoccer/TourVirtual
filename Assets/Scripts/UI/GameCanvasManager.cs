@@ -6,6 +6,7 @@ public class GameCanvasManager : CanvasManager
 
 	private UnityEngine.UI.Toggle _soundsToggle;
 	private UnityEngine.UI.Toggle _musicToggle;
+	private BadgeAlert badgeAlert;
 
 	void Awake() {
 		_mainManagerInstance = MainManager.Instance;
@@ -25,6 +26,8 @@ public class GameCanvasManager : CanvasManager
 			}
 			break;
 		}
+		badgeAlert = GameObject.FindGameObjectWithTag("ChatUIButton").GetComponent<BadgeAlert>();
+
 		_mainManagerInstance.OnMessagesUnreadedEvent += OnUnreadedMessages;
 	}
 
@@ -32,6 +35,6 @@ public class GameCanvasManager : CanvasManager
 		ShowScreen(currentGUIScreen);
 	}
 	private void OnUnreadedMessages(int counter) {
-		GameObject.FindGameObjectWithTag("ChatUIButton").GetComponent<BadgeAlert>().Count = counter;
+		badgeAlert.Count = counter;
 	}
 }

@@ -107,7 +107,7 @@ public class TVBChatController : MonoBehaviour {
 
 		//AddChannelSlot("Global");
 		AddChannelSlot(ChatManager.CHANNEL_COMMUNITYMANAGER);
-		AddChannelSlot(ChatManager.CHANNEL_GENERAL);
+		AddChannelSlot(RoomManager.Instance.Room.Id);
 
 		foreach (string channel in _friendChats.Keys) {
 			AddChannelSlot(channel);
@@ -136,6 +136,10 @@ public class TVBChatController : MonoBehaviour {
 			}
 		} 
 		else {
+
+			if (ChatManager.Instance.IsPublicChannel(name) && name != ChatManager.CHANNEL_COMMUNITYMANAGER)
+				name = ChatManager.ROOM_CHANNEL_NAME;
+
 			GenerateChannelSlot(name);
 		}
 	}
