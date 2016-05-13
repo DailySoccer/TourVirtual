@@ -90,7 +90,7 @@ public class AllViewer : MonoBehaviour {
                 break;
             case ContentAPI.AssetType.Video:
                 LoadingCanvasManager.Show();
-                Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Minimal);
+                Handheld.PlayFullScreenMovie(url, new Color(0.25f, 0.25f, 0.25f,1), FullScreenMovieControlMode.CancelOnInput);
                 LoadingCanvasManager.Hide();
                 enabled = false;
                 break;
