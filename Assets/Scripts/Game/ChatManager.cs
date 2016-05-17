@@ -107,7 +107,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public void SendMessage(string text) {
-		SendMessage(_channelSelected ?? CHANNEL_COMMUNITYMANAGER, text);
+		string chn = _channelSelected ?? CHANNEL_COMMUNITYMANAGER;
+
+		Debug.LogError("[SendMessage] in <" + name + ">: Se enviará al canal: " + chn);
+
+		SendMessage(chn, text);
 	}
 
 	public void SendMessage(string channelName, string text) {

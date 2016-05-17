@@ -129,34 +129,30 @@ public class TVBChatController : MonoBehaviour {
 	/// Añade un GameObject a la lista Padre de canales del chat.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	void AddChannelSlot(string name) {
-		if (_channelsGameObjects.Where(c => c.name == name).Count() > 0) {
-			if (!ChatManager.Instance.IsPublicChannel(name)) {
-				UpdateChannelSlot(name);
+	void AddChannelSlot(string slotName) {
+		if (_channelsGameObjects.Where(c => c.name == slotName).Count() > 0) {
+			if (!ChatManager.Instance.IsPublicChannel(slotName)) {
+				UpdateChannelSlot(slotName);
 			}
 		} 
 		else {
-
-			if (ChatManager.Instance.IsPublicChannel(name) && name != ChatManager.CHANNEL_COMMUNITYMANAGER)
-				name = ChatManager.ROOM_CHANNEL_NAME;
-
-			GenerateChannelSlot(name);
+			GenerateChannelSlot(slotName);
 		}
 	}
 
-	private void UpdateChannelSlot(string name) {
-		GameObject userSlot = _channelsGameObjects.Where(c => c.name == name).FirstOrDefault();
-		SetChannelSlotValues(userSlot, name);
+	private void UpdateChannelSlot(string chnName) {
+		GameObject userSlot = _channelsGameObjects.Where(c => c.name == chnName).FirstOrDefault();
+		SetChannelSlotValues(userSlot, chnName);
 	}
 
-	private void GenerateChannelSlot(string name) {
+	private void GenerateChannelSlot(string chnName) {
 		GameObject userSlot = (GameObject)Instantiate(channelSlotPrefab);
-		userSlot.name = name;
+		userSlot.name = chnName;
 		
 		userSlot.transform.SetParent(channelsListParent.transform);
 		userSlot.transform.localScale = Vector3.one;
 
-		SetChannelSlotValues(userSlot, name);			
+		SetChannelSlotValues(userSlot, chnName);			
 
 		Button btn = userSlot.GetComponent<Button>();
 		btn.onClick.AddListener( () => ChatChannel_OnClickHandle(userSlot.name) );
@@ -166,15 +162,16 @@ public class TVBChatController : MonoBehaviour {
 
 	private void SetChannelSlotValues(GameObject userSlot, string channelName) {
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
-        string name = GetChannelFriendlyName(channelName);
-        if (RoomManager.Instance.RoomDefinitions.ContainsKey(name))
-        {
-            RoomDefinition scene = RoomManager.Instance.RoomDefinitions[name] as RoomDefinition;
-            name = scene.Name;
-        }
-        // El nombre que ve el usuario es el nombre amistoso
-        channel.channelName.text = name;
-		
+        string friendlyName = GetChannelFriendlyName(channelName);
+
+		if (RoomManager.Instance.RoomDefinitions.ContainsKey(friendlyName))	channel.friendlyName = ChatManager.ROOM_CHANNEL_NAME;
+       
+		channel.realName = channelName;
+		channel.friendlyName = friendlyName;
+
+		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? ChatChannelType.General : ChatChannelType.Private;
+		channel.setup ();
+
 		if (_friendChats.ContainsKey(channelName)) {
 			//Fecha/hora de ultima actualizacion
 			Dictionary<string,object> msg = _friendChats[channelName][_friendChats[channelName].Count-1] as Dictionary<string, object>;
@@ -198,6 +195,8 @@ public class TVBChatController : MonoBehaviour {
 			channel.lastUpdateDate.text = "";
 			channel.GetComponentInChildren<BadgeAlert>().Count = 0;
 		}
+
+		Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
 	}
 
 	/// <summary>
@@ -241,12 +240,12 @@ public class TVBChatController : MonoBehaviour {
 		}
 	}
 	
-	void ChatChannel_OnClickHandle(string name) {
+	void ChatChannel_OnClickHandle(string chnName) {
 
-		SetCurrentChannel(name);
+		SetCurrentChannel(chnName);
 
 		HideSearchBar();
-		ChatManager.Instance.ChannelSelectedId = GetChannelFriendlyName(name);
+		ChatManager.Instance.ChannelSelectedId = GetChannelFriendlyName(chnName);
 		//debug.LogFormat("[TVBChatController]: Entrando en el canal {0}", name);
 
 		GotoChatScreen();
@@ -330,9 +329,9 @@ public class TVBChatController : MonoBehaviour {
 				channelMessages.Add(line.toChatMessage());
 			}
 		}
-		else {
+		//else {
 			//Debug.LogFormat("[TVBChatController]: El canal actual [{0}] No tiene mensajes guardados", channelName);
-		}
+		//}
 
 		//Debug.LogFormat("[TVBChatController]: El canal actual [{0}] tiene [{1}] mensajes guardados", channelName, channelMessages.Count);
 
@@ -527,11 +526,15 @@ public class TVBChatController : MonoBehaviour {
 
 	public void SendChatMessage() {
 		if (messageInputField.text.Trim() == string.Empty) {
+			Debug.LogError("[SendChatMessage] in <" + this.name + ">: Intentaste mandar un mensaje vacío.");
 			return;
 		}
 
 		string messageToSend = DateTime.UtcNow + "#" + messageInputField.text;
+		Debug.LogError("[SendChatMessage] in <" + this.name + ">: Trying to send message: \"" + messageToSend );
+
 		ChatManager.Instance.SendMessage(messageToSend);
+
 		messageInputField.text = "";
 	}
 
@@ -552,6 +555,9 @@ public class TVBChatController : MonoBehaviour {
 	public void ClearPlayerPrefs() {
 		PlayerPrefs.DeleteAll();
 		_friendChats.Clear();
+
+		CleanChannelSlotsList();
+
 		PopulateChannelsList();
 	}
 }
