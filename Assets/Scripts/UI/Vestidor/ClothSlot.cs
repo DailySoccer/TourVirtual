@@ -91,7 +91,7 @@ public class ClothSlot : MonoBehaviour {
             if(sprt.texture!=null) DestroyImmediate(sprt.texture, true);
             Destroy(sprt);
 #else
-            Material mat = Picture..material;
+            Material mat = Picture.material;
             if(mat!=null) {
 				 if(mat.mainTexture!=null)
 					DestroyImmediate(mat.mainTexture, true);
