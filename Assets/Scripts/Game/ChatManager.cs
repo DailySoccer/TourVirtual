@@ -108,9 +108,9 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 
 	public void SendMessage(string text) {
 		string chn = _channelSelected ?? CHANNEL_COMMUNITYMANAGER;
-
+#if UNITY_EDITOR
 		Debug.LogError("[SendMessage] in <" + name + ">: Se enviará al canal: " + chn);
-
+#endif
 		SendMessage(chn, text);
 	}
 
@@ -187,8 +187,12 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	}
 
 	public override void OnJoinedRoom() {
-//		Debug.Log ("OnJoinedRoom");
 		_roomChannel = PhotonNetwork.room.name.Split('#')[0];
+		#if UNITY_EDITOR
+			Debug.Log ("OnJoinedRoom");
+			Debug.LogError (">>> JOINED THE ROOM: " + _roomChannel);
+		#endif
+
         if (ChatClient != null && ChatClient.CanChat) {
 			ChatClient.Subscribe( new string[] { _roomChannel }, MessagesFromHistory );
 		}

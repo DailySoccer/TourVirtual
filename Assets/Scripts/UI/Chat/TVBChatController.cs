@@ -155,7 +155,7 @@ public class TVBChatController : MonoBehaviour {
 		SetChannelSlotValues(userSlot, chnName);			
 
 		Button btn = userSlot.GetComponent<Button>();
-		btn.onClick.AddListener( () => ChatChannel_OnClickHandle(userSlot.name) );
+		btn.onClick.AddListener( () => ChatChannel_OnClickHandle(userSlot.GetComponent<TVBChatChannel>()) );
 
 		_channelsGameObjects.Add(userSlot);
 	}
@@ -163,8 +163,6 @@ public class TVBChatController : MonoBehaviour {
 	private void SetChannelSlotValues(GameObject userSlot, string channelName) {
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
         string friendlyName = GetChannelFriendlyName(channelName);
-
-		if (RoomManager.Instance.RoomDefinitions.ContainsKey(friendlyName))	channel.friendlyName = ChatManager.ROOM_CHANNEL_NAME;
        
 		channel.realName = channelName;
 		channel.friendlyName = friendlyName;
@@ -195,8 +193,9 @@ public class TVBChatController : MonoBehaviour {
 			channel.lastUpdateDate.text = "";
 			channel.GetComponentInChildren<BadgeAlert>().Count = 0;
 		}
-
+#if UNITY_EDITOR
 		Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
+#endif
 	}
 
 	/// <summary>
@@ -206,7 +205,7 @@ public class TVBChatController : MonoBehaviour {
 		foreach(GameObject go in _channelsGameObjects) {
 			Button btn = go.GetComponent<Button>();
 			// Desuscribimos el evento de click
-			btn.onClick.RemoveListener( () => ChatChannel_OnClickHandle(go.name) );
+			btn.onClick.RemoveListener( () => ChatChannel_OnClickHandle(go.GetComponent<TVBChatChannel>()) );
 			DestroyImmediate(go);
 		}
 		_channelsGameObjects.Clear();
@@ -240,13 +239,15 @@ public class TVBChatController : MonoBehaviour {
 		}
 	}
 	
-	void ChatChannel_OnClickHandle(string chnName) {
+	void ChatChannel_OnClickHandle(TVBChatChannel chn) {
 
-		SetCurrentChannel(chnName);
+		SetCurrentChannel(chn.realName);
 
 		HideSearchBar();
-		ChatManager.Instance.ChannelSelectedId = GetChannelFriendlyName(chnName);
-		//debug.LogFormat("[TVBChatController]: Entrando en el canal {0}", name);
+		ChatManager.Instance.ChannelSelectedId = chn.realName;
+#if UNITY_EDITOR
+		Debug.LogFormat("[TVBChatController]: Entrando en el canal [{0}]", chn.realName);
+#endif
 
 		GotoChatScreen();
 	}
@@ -258,8 +259,9 @@ public class TVBChatController : MonoBehaviour {
 
 
 	private void Messages_OnChangeHandle (string channel) {
-		//Debug.LogFormat("[TVBChatController] Hay nuevos mensajes en el canal [{0}]", channel);
-
+#if UNITY_EDITOR
+		Debug.LogFormat(" ~ ~ ~ [TVBChatController] Nuevos mensajes en el canal [{0}] [<{1}>]", channel, ChatManager.Instance.IsPublicChannel(channel)? "Público" : "Privado");
+#endif
 		// Guardamos en el disco lo no oúblicos
 		if (!ChatManager.Instance.IsPublicChannel(channel)) {
 			SaveMessagesInLocal(channel, GetNewRemoteMessages(channel));
@@ -304,7 +306,8 @@ public class TVBChatController : MonoBehaviour {
 				return theName.Remove(theName.IndexOf(ChatManager.Instance.UserName), ChatManager.Instance.UserName.Length).Trim(':');
 			}
 		}
-		return theName;
+
+		return RoomManager.Instance.RoomDefinitions.ContainsKey(theName) ? ChatManager.ROOM_CHANNEL_NAME : theName;
 	}
 
 	private void CleanMessagesList() {
@@ -526,12 +529,16 @@ public class TVBChatController : MonoBehaviour {
 
 	public void SendChatMessage() {
 		if (messageInputField.text.Trim() == string.Empty) {
+#if UNITY_EDITOR
 			Debug.LogError("[SendChatMessage] in <" + this.name + ">: Intentaste mandar un mensaje vacío.");
+#endif
 			return;
 		}
 
 		string messageToSend = DateTime.UtcNow + "#" + messageInputField.text;
+#if UNITY_EDITOR
 		Debug.LogError("[SendChatMessage] in <" + this.name + ">: Trying to send message: \"" + messageToSend );
+#endif
 
 		ChatManager.Instance.SendMessage(messageToSend);
 
@@ -549,7 +556,7 @@ public class TVBChatController : MonoBehaviour {
 
 	public void FilterChannelList() {
         foreach( var obj in _channelsGameObjects)
-		    obj.SetActive( obj.GetComponent<TVBChatChannel>().name.ToLower().Contains(channelsInputField.text.ToLower()));
+		    obj.SetActive( obj.GetComponent<TVBChatChannel>().realName.ToLower().Contains(channelsInputField.text.ToLower()));
 	}
 
 	public void ClearPlayerPrefs() {

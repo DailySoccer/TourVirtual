@@ -262,7 +262,11 @@ namespace ExitGames.Client.Photon.Chat
                     { (byte)ChatParameterCode.Message, message }
                 };
 
-            return this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, true);
+			bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, true);
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]",sent ? "PublishMessage" : "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
+#endif
+            return sent;
         }
 
         /// <summary>
@@ -304,7 +308,10 @@ namespace ExitGames.Client.Photon.Chat
                 };
 
             bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.SendPrivate, parameters, true, 0, encrypt);
-            return sent;
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]",sent ? "SendPrivateMessage" : "No SendPrivateMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.UserId]));
+#endif
+			return sent;
         }
 
         /// <summary>Sets the user's status (pre-defined or custom) and an optional message.</summary>
