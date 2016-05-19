@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class HiddenObjectsGameCanvasController : MonoBehaviour {
@@ -52,7 +52,7 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 	}
 
 	public void LaunchHiddenObjectMinigameModal() {
-		ModalHiddenObjectsGameScreen.Launch_HiddenIbjectModal (HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO, "", true);
+		ModalHiddenObjectsGameScreen.Launch_HiddenObjectModal (HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO, "", true);
 	}
 
 

@@ -18,7 +18,7 @@ public class ModalHiddenObjectsGameScreen : GUIPopUpScreen {
 	
 	}
 
-	public void Launch_HiddenIbjectModal(HiddenObjects.HiddenObjectGameResult modalType, string objetosEncontrados = "10 / 10", bool startGameAfterClose = false) {
+	public void Launch_HiddenObjectModal(HiddenObjects.HiddenObjectGameResult modalType, string objetosEncontrados = "10 / 10", bool startGameAfterClose = false) {
 	
 		switch (modalType) {
 		case HiddenObjects.HiddenObjectGameResult.SUCCESS:

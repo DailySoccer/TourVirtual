@@ -63,7 +63,7 @@ namespace HiddenObjects {
 
 			OnGameSuccess ();
 			Stop();
-			mhogs.Launch_HiddenIbjectModal(HiddenObjectGameResult.SUCCESS, numFoundObjects + "/" + numHiddenObjects);
+			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.SUCCESS, numFoundObjects + "/" + numHiddenObjects);
         }
 
         void OnFail() {
@@ -74,7 +74,7 @@ namespace HiddenObjects {
 			            
 			OnGameFail ();
 			Stop();
-			mhogs.Launch_HiddenIbjectModal(HiddenObjectGameResult.TIME_OUT);
+			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.TIME_OUT);
         }       
         
         public void Play(ModalHiddenObjectsGameScreen modal) {
