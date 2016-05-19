@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5199c24c63048fc9e1aeefae779119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForceNoBlockRayCastValue: 0
 --- !u!114 &11410096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2361ba85bd16a4189cb4227b8d9fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingScreen: {fileID: 0}
+  LoadingScreen: {fileID: 11402310}
 --- !u!114 &11414028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -444,7 +445,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 9
+  m_SortingOrder: 4
 --- !u!224 &22419422
 RectTransform:
   m_ObjectHideFlags: 1

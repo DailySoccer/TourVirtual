@@ -4123,13 +4123,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327ca18dfbbbf4d4eae617bbfc7e4225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ROTATE_SPEED: 180
-  PITCH_SPEED: 90
+  ROTATE_SPEED: 60
+  PITCH_SPEED: 20
   JOYSTICK_THRESHOLD: .300000012
-  FACING_SPEED: .119999997
+  FACING_SPEED: .0120000001
   movementSpeed: 5
-  movementJoystick: {fileID: 0}
-  rotationJoystick: {fileID: 0}
+  movementJoystick: {fileID: 11478846}
+  rotationJoystick: {fileID: 11465548}
 --- !u!114 &11401436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4237,7 +4237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.GameScoresTitle
 --- !u!114 &11403334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4494,8 +4494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20b288486b1a4a099714d57f553c2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheTimer: {fileID: 0}
-  TxTScore: {fileID: 0}
+  TheTimer: {fileID: 11410172}
+  TxTScore: {fileID: 11488028}
   timeUpdateCicle: 1
 --- !u!114 &11404688
 MonoBehaviour:
@@ -4572,8 +4572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a02f8071590c4a4bb25654932d58dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserName: {fileID: 0}
-  Flag: {fileID: 0}
+  UserName: {fileID: 11404854}
+  Flag: {fileID: 11460620}
 --- !u!114 &11405330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4585,7 +4585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de14cce13fd341dea9f79ebdbf312a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatar: {fileID: 0}
+  Avatar: {fileID: 11409916}
 --- !u!114 &11406008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4660,7 +4660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa97e62714694250afd4825ae833bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenName: 
+  screenName: Messages Window
   currentState: 
 --- !u!114 &11406960
 MonoBehaviour:
@@ -4741,8 +4741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d597161191e4d32bb9375167e3aa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillBar: {fileID: 0}
-  CurrentEnergy: {fileID: 0}
+  FillBar: {fileID: 11445758}
+  CurrentEnergy: {fileID: 11452622}
   MaxEnergy: 10
 --- !u!114 &11408210
 MonoBehaviour:
@@ -4755,9 +4755,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40929b5428334fbaa897258a5fad1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  badgeObject: {fileID: 0}
-  IsAnimated: 0
-  maxCount: 1000
+  badgeObject: {fileID: 183576}
+  IsAnimated: 1
+  maxCount: 100
   count: 0
 --- !u!114 &11409022
 MonoBehaviour:
@@ -4770,13 +4770,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a36d14c2f504ced88b32025361357f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penaltiesScore: {fileID: 0}
-  BasketScore: {fileID: 0}
-  HiddenObjectsScore: {fileID: 0}
-  ShowPacks: {fileID: 0}
-  PacksCountText: {fileID: 0}
-  ShowAchievements: {fileID: 0}
-  AchivementCountText: {fileID: 0}
+  penaltiesScore: {fileID: 11448374}
+  BasketScore: {fileID: 11443270}
+  HiddenObjectsScore: {fileID: 11403484}
+  ShowPacks: {fileID: 11470386}
+  PacksCountText: {fileID: 11433270}
+  ShowAchievements: {fileID: 11484524}
+  AchivementCountText: {fileID: 11474024}
 --- !u!114 &11409432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4841,7 +4841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.UI.Back
 --- !u!114 &11410088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4866,8 +4866,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8262d06ac716449ac8446356c2fdfda4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Clock: {fileID: 0}
-  TimeLeft: 0
+  Clock: {fileID: 11499552}
+  TimeLeft: .49000001
 --- !u!114 &11411968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4885,16 +4885,16 @@ MonoBehaviour:
   PlayerClone: {fileID: 0}
   ModalScreen: {fileID: 0}
   currentModalLayout: 0
-  ScreenMainGame: {fileID: 0}
-  ScreenProfile: {fileID: 0}
-  ScreenMap: {fileID: 0}
-  ScreenChat: {fileID: 0}
+  ScreenMainGame: {fileID: 11495080}
+  ScreenProfile: {fileID: 11423846}
+  ScreenMap: {fileID: 11491920}
+  ScreenChat: {fileID: 11445842}
   lastGUIScreen: {fileID: 0}
-  currentGUIScreen: {fileID: 0}
+  currentGUIScreen: {fileID: 11495080}
   currentGUIPopUpScreen: {fileID: 0}
   ContentLoadingScreen: {fileID: 0}
   PlayerPosition: {fileID: 0}
-  Particles: {fileID: 0}
+  Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
   CurrentPlayerDataModelSelected: []
 --- !u!114 &11412336
 MonoBehaviour:
@@ -5009,7 +5009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78388a19b929f443e864f9f0a6f7cd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentVirtualCoins: {fileID: 0}
+  CurrentVirtualCoins: {fileID: 11482090}
 --- !u!114 &11414388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5042,8 +5042,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b006a0938faa9433b97bf79e94e6906f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillBar: {fileID: 0}
-  CurrentFanLevel: {fileID: 0}
+  FillBar: {fileID: 11492048}
+  CurrentFanLevel: {fileID: 11470546}
 --- !u!114 &11415196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5234,8 +5234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a02f8071590c4a4bb25654932d58dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserName: {fileID: 0}
-  Flag: {fileID: 0}
+  UserName: {fileID: 11452244}
+  Flag: {fileID: 11427794}
 --- !u!114 &11416144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5312,7 +5312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2cd24cacdf8428d9b465e301572dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextMessage: {fileID: 0}
+  TextMessage: {fileID: 11482248}
   SecondsVisible: 10
 --- !u!114 &11418390
 MonoBehaviour:
@@ -5527,7 +5527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Chat.Title
 --- !u!114 &11421868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5557,9 +5557,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4947e45b79868456da1d1767e038de54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloomEnabled: 1
-  fadeEnabled: 1
-  slideEnabled: 1
+  bloomEnabled: 0
+  fadeEnabled: 0
+  slideEnabled: 0
   initialPivot: {x: 0, y: 0}
 --- !u!114 &11421980
 MonoBehaviour:
@@ -5658,7 +5658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.Points
 --- !u!114 &11424728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6067,7 +6067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Chat.WirteMessagePlaceholder
 --- !u!114 &11430098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6250,7 +6250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a7fe9e3a3ef4618b5bdce4a1aa1a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsVisible: 10
+  SecondsVisible: 5
 --- !u!114 &11432224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6450,7 +6450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Button.GoToVestidor
 --- !u!114 &11435238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6686,7 +6686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.Points
 --- !u!114 &11438382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7023,7 +7023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.TextPacks
 --- !u!114 &11441986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7082,7 +7082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Chat.SendButton
 --- !u!114 &11442904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7898,7 +7898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.TextAchievements
 --- !u!114 &11451936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7958,7 +7958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModalHiddenObjectsGameScreen: {fileID: 0}
-  TopMenu: {fileID: 0}
+  TopMenu: {fileID: 164164}
 --- !u!114 &11452552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8192,7 +8192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Button.Show
 --- !u!114 &11454026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8488,7 +8488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Button.Show
 --- !u!114 &11458294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8599,7 +8599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa97e62714694250afd4825ae833bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenName: 
+  screenName: Channels Window
   currentState: 
 --- !u!114 &11459536
 MonoBehaviour:
@@ -8827,8 +8827,8 @@ MonoBehaviour:
   referenceCamera: {fileID: 0}
   playerID: 
   reverseFace: 0
-  axis: 0
-  IsButtonDbug: 0
+  axis: 4
+  IsButtonDbug: 1
   Name: {fileID: 0}
   FanLevel: {fileID: 0}
   Face: {fileID: 0}
@@ -8931,7 +8931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Chat.SearUserPlaceholder
 --- !u!114 &11462450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9236,13 +9236,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e15c926672f48beb89c80837b6a5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showJoystick: 1
+  _showJoystick: 0
   _showAlways: 0
-  _joystickBase: {fileID: 0}
-  _joystickStick: {fileID: 0}
-  _axisHorizontalName: 
-  _axisVerticalName: 
-  _deadZone: .00999999978
+  _joystickBase: {fileID: 22423462}
+  _joystickStick: {fileID: 22460166}
+  _axisHorizontalName: Horizontal2
+  _axisVerticalName: Vertical2
+  _deadZone: .400000006
 --- !u!114 &11465574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9308,8 +9308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b006a0938faa9433b97bf79e94e6906f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillBar: {fileID: 0}
-  CurrentFanLevel: {fileID: 0}
+  FillBar: {fileID: 11431048}
+  CurrentFanLevel: {fileID: 11454432}
 --- !u!114 &11466938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9436,7 +9436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Chat.CMMEssage
 --- !u!114 &11468594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9656,7 +9656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de14cce13fd341dea9f79ebdbf312a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatar: {fileID: 0}
+  Avatar: {fileID: 11472926}
 --- !u!114 &11471544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10065,20 +10065,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e65a292b26b745f7954de0988447212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channelSlotPrefab: {fileID: 0}
-  messageDatePrefab: {fileID: 0}
-  messageOwnPrefab: {fileID: 0}
-  messageOtherPrefab: {fileID: 0}
-  channelsScreen: {fileID: 0}
-  messagesScreen: {fileID: 0}
-  currentChannelUILabel: {fileID: 0}
-  ChannelInputBar: {fileID: 0}
-  channelsInputField: {fileID: 0}
-  messageInputField: {fileID: 0}
-  messageSendButton: {fileID: 0}
-  chatAnimator: {fileID: 0}
-  channelsListParent: {fileID: 0}
-  messagesListParent: {fileID: 0}
+  channelSlotPrefab: {fileID: 167886, guid: 962bdaf0887964004845ec91be0c28ba, type: 2}
+  messageDatePrefab: {fileID: 155172, guid: 5d9d08917de70492bae42d823415ddc1, type: 2}
+  messageOwnPrefab: {fileID: 194042, guid: 0f70453c2292a4762b4a410d1f0cb532, type: 2}
+  messageOtherPrefab: {fileID: 154226, guid: 24758848dee4741f4a80a952124eba89, type: 2}
+  channelsScreen: {fileID: 11459164}
+  messagesScreen: {fileID: 11406410}
+  currentChannelUILabel: {fileID: 11466938}
+  ChannelInputBar: {fileID: 188256}
+  channelsInputField: {fileID: 11436476}
+  messageInputField: {fileID: 11415254}
+  messageSendButton: {fileID: 11403334}
+  chatAnimator: {fileID: 9501050}
+  channelsListParent: {fileID: 135256}
+  messagesListParent: {fileID: 133042}
   _currentGUIChatScreen: {fileID: 0}
 --- !u!114 &11476466
 MonoBehaviour:
@@ -10091,9 +10091,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4947e45b79868456da1d1767e038de54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloomEnabled: 1
-  fadeEnabled: 1
-  slideEnabled: 1
+  bloomEnabled: 0
+  fadeEnabled: 0
+  slideEnabled: 0
   initialPivot: {x: 0, y: 0}
 --- !u!114 &11476480
 MonoBehaviour:
@@ -10295,11 +10295,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _showJoystick: 1
   _showAlways: 0
-  _joystickBase: {fileID: 0}
-  _joystickStick: {fileID: 0}
-  _axisHorizontalName: 
-  _axisVerticalName: 
-  _deadZone: .00999999978
+  _joystickBase: {fileID: 22483144}
+  _joystickStick: {fileID: 22451544}
+  _axisHorizontalName: Horizontal
+  _axisVerticalName: Vertical
+  _deadZone: .200000003
 --- !u!114 &11479120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10567,7 +10567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.ProfileScreen.Points
 --- !u!114 &11482090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10863,7 +10863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.MapScreen.Title
 --- !u!114 &11484188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11098,8 +11098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d597161191e4d32bb9375167e3aa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillBar: {fileID: 0}
-  CurrentEnergy: {fileID: 0}
+  FillBar: {fileID: 11483198}
+  CurrentEnergy: {fileID: 11406960}
   MaxEnergy: 10
 --- !u!114 &11487718
 MonoBehaviour:
@@ -11237,7 +11237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizedKey: INSERT_KEY_HERE
+  localizedKey: TVB.Minigame.HiddenObjectsHUDTitle
 --- !u!114 &11490022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11323,8 +11323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997e75b027db24f07b01859caa0d6d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheGameCanvasManager: {fileID: 0}
-  Selector: {fileID: 0}
+  TheGameCanvasManager: {fileID: 11411968}
+  Selector: {fileID: 106334}
   selectorPosition: 0
 --- !u!114 &11492048
 MonoBehaviour:
@@ -11583,9 +11583,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001423a2367fd49f19b276b204b2bfdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomTitle: {fileID: 0}
-  ButtonContainer: {fileID: 0}
-  CommunityManagerMessage: {fileID: 0}
+  RoomTitle: {fileID: 11482168}
+  ButtonContainer: {fileID: 22434090}
+  CommunityManagerMessage: {fileID: 167684}
 --- !u!114 &11495700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11670,9 +11670,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4947e45b79868456da1d1767e038de54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloomEnabled: 1
-  fadeEnabled: 1
-  slideEnabled: 1
+  bloomEnabled: 0
+  fadeEnabled: 0
+  slideEnabled: 0
   initialPivot: {x: 0, y: 0}
 --- !u!114 &11496304
 MonoBehaviour:
@@ -11758,7 +11758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78388a19b929f443e864f9f0a6f7cd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentVirtualCoins: {fileID: 0}
+  CurrentVirtualCoins: {fileID: 11467346}
 --- !u!114 &11497978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11833,9 +11833,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4947e45b79868456da1d1767e038de54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloomEnabled: 1
-  fadeEnabled: 1
-  slideEnabled: 1
+  bloomEnabled: 0
+  fadeEnabled: 0
+  slideEnabled: 0
   initialPivot: {x: 0, y: 0}
 --- !u!114 &11498492
 MonoBehaviour:
