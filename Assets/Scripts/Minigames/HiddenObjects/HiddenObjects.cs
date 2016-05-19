@@ -67,7 +67,7 @@ namespace HiddenObjects {
         }
 
         void OnFail() {
-            var obj = GameObject.Find("Tesoros");
+            var obj = GameObject.Find("TESOROS");
             UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
             if(obj!=null)
                 Destroy(obj);
