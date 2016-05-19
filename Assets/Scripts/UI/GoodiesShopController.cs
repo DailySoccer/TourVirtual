@@ -3,6 +3,7 @@ using Soomla;
 using Soomla.Store;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
 
 public class GoodiesShopController : MonoBehaviour {
 
@@ -39,10 +40,18 @@ public class GoodiesShopController : MonoBehaviour {
 	}
 
 	public void ShowGoodiesShop() {
-		GoodiesShopController.Show ();
-	}
+#if UNITY_WSA
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.CantBuyOnWindows"),()=> { Authentication.AzureServices.OpenURL("rmapp://You"); });
 
-	public static void CloseModal() {
+#else
+        GoodiesShopController.Show ();
+#endif
+
+
+
+    }
+
+    public static void CloseModal() {
 		if (Instance.okCallback != null) Instance.okCallback();
 		Instance.thisModal.IsOpen = false;
 	}

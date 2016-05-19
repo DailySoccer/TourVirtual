@@ -146,7 +146,12 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 		//Debug.Log (">>> Chat OnUnsubscribed to: " + channels.stringArrayToString());
 	}
 
-	public void OnGetMessages(string channelName, string[] senders, object[] messages) {
+    public override void OnDisconnectedFromPhoton()
+    {
+        OnDisconnected();
+    }
+
+    public void OnGetMessages(string channelName, string[] senders, object[] messages) {
 	// Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
 
 		if (!History.ContainsKey(channelName)) {
@@ -215,7 +220,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 			if (ChatClient != null && ChatClient.CanChat) {
 				ChatClient.Unsubscribe( new string[] { _roomChannel } );
 			}
-			_roomChannel = null;
+			//_roomChannel = null;
 		}
 	}
 

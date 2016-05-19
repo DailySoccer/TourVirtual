@@ -361,18 +361,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowGoodiesShop()
     {
-       /*
-		if (PlayerInstance != null)
-            Destroy(PlayerInstance);
-
-        if (isCurrentPopUpOpen)
-            TogglePopUpScreen();
-
-        ShowScreen(GoodiesShopScreen);
-        */
-
-		//GameObject.FindGameObjectWithTag ("GameCanvasManager").GetComponent<GameCanvasManager> ().ShowModalScreen (10);
-		GoodiesShopController.Show ();
+#if UNITY_WSA
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.CantBuyOnWindows"), () => { Authentication.AzureServices.OpenURL("rmapp://You"); });
+#else
+        GoodiesShopController.Show ();
+#endif
     }
 
     private void ShowScreen(GUIScreen guiScreen)

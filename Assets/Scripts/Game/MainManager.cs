@@ -128,7 +128,10 @@ public class MainManager : Photon.PunBehaviour {
     public void DeepLinking(string url) {
 		try{
 			url = WWW.UnEscapeURL(url);
-	        DeepLinkingURL = url;
+
+            ModalTextOnly.ShowText("DL: " + url);
+
+            DeepLinkingURL = url;
             var pair = url.Split('?');
             DeepLinkinParameters = new Dictionary<string, object>();
             if (pair.Length ==2 ){
@@ -152,10 +155,21 @@ public class MainManager : Photon.PunBehaviour {
         try {
             using (AndroidJavaClass jclass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
-                AndroidJavaObject activity = jclass.GetStatic<AndroidJavaObject>("currentActivity");
-                AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
-                AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
-                DeepLinking( uri.Call<string>("toString"));
+                if (jclass != null)
+                {
+                    AndroidJavaObject activity = jclass.GetStatic<AndroidJavaObject>("currentActivity");
+                    if (activity != null)
+                    {
+                        AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
+                        if (intent != null)
+                        {
+                            AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
+                            if (uri != null)
+                                DeepLinking(uri.Call<string>("toString"));
+                        }
+                    }
+                }
+                
             }
         }
         catch (System.Exception ex) {
@@ -207,22 +221,26 @@ public class MainManager : Photon.PunBehaviour {
 #endif
 #endif
 
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
+        if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), () => {
                 Application.Quit();
             });
             return;
         }
 
-        if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
-        {
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoWiFi"), () => { Continue(); });
+        if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork) {
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoWiFi"), () => {
+                Continue();
+            });
             return;
         }
         Continue();
     }
 
-    void Continue() { 
+    void Continue() {
+        //        DeepLinking("rmvt://editavatar?idUser=iduser&idVirtualGood=1");
+        // DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=e94d896c-8daa-42f3-9210-cbc80217d00e");
+
         StartCoroutine( Authentication.Instance.Init() );
 
         GetDeepLinkingURL();

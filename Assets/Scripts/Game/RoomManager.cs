@@ -546,9 +546,11 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnDisconnectedFromPhoton() {
-#if TRAZAS
         Debug.LogError("OnDisconnectedFromPhoton");
-#endif
+        if (!PhotonHandler.AppQuits) {
+            if (!PhotonNetwork.connected)
+                PhotonNetwork.ConnectUsingSettings("v0.1"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
+        }
     }
 
     public override void OnConnectionFail(DisconnectCause cause) {
