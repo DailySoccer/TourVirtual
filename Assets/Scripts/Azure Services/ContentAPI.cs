@@ -74,6 +74,7 @@ public class ContentAPI
     }
 
     public Content GetContentByID(string id){
+        
         foreach (var pair in Contents){
             if (pair.Value.ContenName == id)
                 return pair.Value;
@@ -195,9 +196,11 @@ public class ContentAPI
                             if (vg.ContainsKey("Links")){
                             	List<object> links = vg["Links"] as List<object>;
                                 if (links != null && links.Count > 0) {
-                                    internalID = (links[0] as Dictionary<string, object>)["Text"] as string;
-                                    var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
-                                    if (vgdsc != null) contenidoID = vgdsc.Description;
+                                    Dictionary<string, object> lnks = links[0] as Dictionary<string, object>;
+                                    internalID = lnks["Text"] as string;
+                                    contenidoID = lnks["Url"] as string;
+//                                    var vgdsc = UserAPI.VirtualGoodsDesciptor.GetByGUID(internalID);
+//                                    if (vgdsc != null) contenidoID = vgdsc.Description;
                                 }
                             }
                             if (vg.ContainsKey("Asset")){
