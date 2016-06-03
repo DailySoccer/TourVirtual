@@ -262,12 +262,30 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     }
 
-    void OnApplicationPause(bool pauseStatus) {
-        if (!pauseStatus){
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+        {
             GetDeepLinkingURL();
             // Ojo de no ir al vestidor si estoy en AVATAR o antes.
-            if (IsDeepLinking && RoomManager.Instance != null)
-                RoomManager.Instance.GotoRoom("VESTIDOR");
+            if (MainManager.IsDeepLinking)
+            {
+                if (MainManager.DeepLinkinParameters != null && MainManager.DeepLinkinParameters.ContainsKey("idUser") && MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
+                { // USUARIO DISTINTO
+                    LoadingCanvasManager.Hide();
+                    Authentication.AzureServices.SignOut();
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () =>
+                    {
+                        Authentication.AzureServices.SignIn();
+                        if (RoomManager.Instance != null)
+                            RoomManager.Instance.GotoRoom("VESTIDOR");
+                    });
+                }
+                else
+                    if (RoomManager.Instance != null)
+                    RoomManager.Instance.GotoRoom("VESTIDOR");
+
+            }
         }
     }
 
