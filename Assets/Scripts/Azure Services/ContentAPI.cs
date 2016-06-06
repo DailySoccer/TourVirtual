@@ -120,7 +120,7 @@ public class ContentAPI
     /// <param name="callback">callback con una Lista de ContentAPI.Asset, que describe cada Asset </param>
     /// <returns></returns>
     public IEnumerator GetContent(string contenid, GetContentCallback callback=null ) {
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/{0}", contenid), (res) =>{
+        yield return Authentication.AzureServices.GetContent(contenid, (res) =>{
             if (res != "null")
                 if (callback != null)
                     callback(ParseContent(res));
@@ -181,7 +181,7 @@ public class ContentAPI
         bool needRequest = true;
         int page = 1;        
         while (needRequest) {
-            yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/content/VIRTUALTOUR?ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
+            yield return Authentication.AzureServices.GetContents("VIRTUALTOUR", page, (res) => {
                 if (res != "null") {
 					//try{
                     Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;

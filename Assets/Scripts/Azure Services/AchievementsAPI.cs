@@ -31,8 +31,7 @@ public class AchievementsAPI{
     {
         TotalAchievements = 0;
         Achievements = new Dictionary<string, Achievement>();
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/achievements?achievementConfigurationType=VIRTUALTOUR&idClient={0}&language={1}", Authentication.IDClient, Authentication.AzureServices.MainLanguage), (res) =>
-        {
+        yield return Authentication.AzureServices.GetAchievements("VIRTUALTOUR", (res) => {
             if (res != "null")
             {
                 List<object> results = BestHTTP.JSON.Json.Decode(res) as List<object>;
@@ -59,57 +58,39 @@ public class AchievementsAPI{
 
     public System.Collections.IEnumerator AwaitAchievementEarned(bool refresh =true) {
         bool needRequest = true;
+        string token = null;
         EarnedAchievements = 0;
-//        string service = "api/v1/fan/me/Achievements?type=VIRTUALTOUR?";
-        string service = "api/v1/fan/me/Achievements?";
-        string url = string.Format("{0}?language={1}", service, Authentication.AzureServices.MainLanguage);
+
         while (needRequest) {            
-            yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
-                if (res != "null")
+            yield return Authentication.AzureServices.GetAchievementsEarned("VIRTUALTOUR", token, (res) => {
+                Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                if (myachievements != null)
                 {
-//                    Debug.LogError(">>> MY achievements " + res);
-                    Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                    if (myachievements != null)
+                    List<object> myresults = myachievements["Results"] as List<object>;
+                    foreach (Dictionary<string, object> ele in myresults)
                     {
-                        List<object> myresults = myachievements["Results"] as List<object>;
-                        foreach (Dictionary<string, object> ele in myresults)
+                        string guid = ele["IdAchievement"] as string;
+                        int level = (int)(double)ele["Level"];
+                        string aux = guid + "|" + level;
+                        if (Achievements.ContainsKey(aux))
                         {
-                            string guid = ele["IdAchievement"] as string;
-                            int level = (int)(double)ele["Level"];
-                            string aux = guid + "|" + level;
-                            if (Achievements.ContainsKey(aux))
-                            {
-                                Achievements[aux].earned = true;
-                                EarnedAchievements++;
-                                if (refresh) {
-                                    Debug.LogError(">>>>>>>>>> RETO RECIEN GANADO " + aux);
-                                }
+                            Achievements[aux].earned = true;
+                            EarnedAchievements++;
+                            if (refresh) {
+                                Debug.LogError(">>>>>>>>>> RETO RECIEN GANADO " + aux);
                             }
                         }
-                        needRequest = false;
-                        if (myachievements.ContainsKey("HasMoreResults")) {
-                            needRequest = (bool)myachievements["HasMoreResults"];
-                            //Pedimos la siguiente pagina.
-                            if(needRequest)
-                                url = string.Format("{0}?language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, WWW.EscapeURL(myachievements["ContinuationTokenB64"] as string));
-                        }
+                    }
+                    needRequest = false;
+                    if (myachievements.ContainsKey("HasMoreResults")) {
+                        needRequest = (bool)myachievements["HasMoreResults"];
+                        //Pedimos la siguiente pagina.
+                        if (needRequest)
+                            token = WWW.EscapeURL(myachievements["ContinuationTokenB64"] as string);
                     }
                 }
-                else
-                    needRequest=false;
             });
         }
         
-    }
-
-    public void SendAction(string guid ) {
-
-        if (!UserAPI.Instance.Online) return;
-        Dictionary<string, object> hs = new Dictionary<string, object>();
-        hs.Add("ActionId", guid );
-        hs.Add("ClientId", Authentication.IDClient);
-        Authentication.AzureServices.RequestPostJSON( "api/v1/useractions", hs, (res) => {
-
-        });
     }
 }

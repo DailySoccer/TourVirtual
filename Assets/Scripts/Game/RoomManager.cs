@@ -307,7 +307,7 @@ public class RoomManager : Photon.PunBehaviour {
 				}
             }
             //Application.LoadLevel(Room.SceneName);
-            AsyncOperation ao = Application.LoadLevelAsync(Room.SceneName);
+            UnityEngine.AsyncOperation ao = Application.LoadLevelAsync(Room.SceneName);
             while (!ao.isDone) yield return null;
             Resources.UnloadUnusedAssets();
         }
@@ -316,8 +316,8 @@ public class RoomManager : Photon.PunBehaviour {
             JoinToRoom(GetRoomIdById(Room.Id));
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
-            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SALA_00");
-            UserAPI.Achievements.SendAction(Room.GamaAction);
+            Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SALA_00");
+            Authentication.AzureServices.SendAction(Room.GamaAction);
         }
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces

@@ -46,7 +46,7 @@ public class ContentManager: MonoBehaviour
 	}
 
 	public System.Collections.IEnumerator GetContentItem(string contentId) {
-        yield return Authentication.AzureServices.AwaitableRequestGet(string.Format("api/v1/content/{0}", contentId), (res) => {
+        yield return Authentication.AzureServices.GetContent(contentId, (res) => {
             Debug.LogError("GetContentItem " + res);
         });
 	}
@@ -62,22 +62,21 @@ public class ContentManager: MonoBehaviour
 	}
 
 	public System.Collections.IEnumerator LoadContentsByKey(string contentKey) {
-		if (Authentication.Instance.IsOk) {
 			string contentType = RoomManager.Instance.Room.Content(contentKey);
 			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 			if (!CompactContents.ContainsKey(key)) {
 				yield return StartCoroutine(LoadContents(contentType));
 			}
-		}
+
 	}
 
 	public System.Collections.IEnumerator LoadContentsByType(string contentType) {
-		if (Authentication.Instance.IsOk) {
+
 			string key = GetContentTypeWithLanguage(Authentication.AzureServices.MainLanguage, contentType);
 			if (!CompactContents.ContainsKey(key)) {
 				yield return StartCoroutine(LoadContents(contentType));
 			}
-		}
+
 	}
 
 	public GameObject GetModel3DInstance(GameObject modelPrefab) {
@@ -118,7 +117,7 @@ public class ContentManager: MonoBehaviour
 		while (page < pageCount) {
 			page++;
 			Debug.Log ("GetListContentType: Page: " + page);
-            yield return Authentication.AzureServices.AwaitableRequestGet(string.Format(URL_LIST_CONTENT_BY_TYPE, contentType, language, page), (res) => {
+            yield return Authentication.AzureServices.GetContents(contentType, page, (res) => {
                 Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 List<object> results = jsonMap[KEY_RESULTS] as List<object>;
                 foreach (object result in results) {

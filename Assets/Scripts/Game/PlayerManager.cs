@@ -111,7 +111,7 @@ public class PlayerManager : Photon.PunBehaviour {
             if (json.ContainsKey("Selector")) Selector = json["Selector"] as Dictionary<string, object>;
         }));
 
-		//Debug.LogError("Cachado!!!! "  + Heads.ToString() );
+		Debug.LogError("Cachado!!!! "  + Heads.ToString() );
     }
 
     public Dictionary<string, object> GetPackDescriptor(string GUID)

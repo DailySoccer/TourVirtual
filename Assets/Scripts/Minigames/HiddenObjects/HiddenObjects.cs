@@ -57,8 +57,8 @@ namespace HiddenObjects {
 
         void OnSuccess() {
             // Mandamos puntuacion al ranking.
-            UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, (int)(RemaingTime * 10f));   
-            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
+            UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, (int)(RemaingTime * 10f));
+            Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
 
 
 			OnGameSuccess ();
@@ -68,7 +68,7 @@ namespace HiddenObjects {
 
         void OnFail() {
             var obj = GameObject.Find("Tesoros");
-            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
+            Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
             if(obj!=null)
                 Destroy(obj);
 			            

@@ -59,7 +59,9 @@ public class UserAPI {
 
     public static AvatarAPI AvatarDesciptor =  new AvatarAPI();
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
-    public static UserAPI Instance { get; private set; }
+
+    static UserAPI instance;
+    public static UserAPI Instance { get { if (instance == null) instance = new UserAPI(); return instance; } }
 
     public delegate void UserLogin();
     public delegate void callback();
@@ -71,7 +73,6 @@ public class UserAPI {
 	}
 
     public UserAPI() {
-        Instance = this;
         Ready = false;
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();
@@ -82,14 +83,13 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
-        yield return Authentication.AzureServices.AwaitRequestPut(string.Format("api/v1/fan/me/Apps/{0}/{1}", Authentication.IDClient, SystemInfo.deviceUniqueIdentifier));        
+        yield return Authentication.AzureServices.GetFanApps();        
         
-        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me", (res) => {
+        yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
-
         });
         if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
         if ( MainManager.IsDeepLinking &&
@@ -113,7 +113,7 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
 
         LoadingContentText.SetText("API.ProfileAvatar");
-        yield return Authentication.AzureServices.AwaitRequestGet("api/v1/fan/me/ProfileAvatar", (res) => {
+        yield return Authentication.AzureServices.GetProfileAvatar((res) => {
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
@@ -122,6 +122,7 @@ public class UserAPI {
             else {
                 AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
+
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
             }
@@ -130,8 +131,7 @@ public class UserAPI {
         });
 
         LoadingContentText.SetText("API.GamificationStatus");
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/GamificationStatus?language={0}&idClient={1}",
-            Authentication.AzureServices.MainLanguage, Authentication.IDClient), (res) => {
+        yield return Authentication.AzureServices.GamificationStatus( (res) => {
                 if (res != "null") {
                     try{
                         Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
@@ -164,7 +164,7 @@ public class UserAPI {
 
     public void UpdateAvatar() {
         if (Online) {
-            Authentication.AzureServices.RequestPostJSON("api/v1/fan/me/ProfileAvatar", AvatarDesciptor.GetProperties(), (res) =>{
+            Authentication.AzureServices.SetProfileAvatar( AvatarDesciptor.GetProperties(), (res) =>{
                 Debug.LogError("UpdateAvatar " + res);
             });
         }
@@ -172,11 +172,9 @@ public class UserAPI {
 
     public void UpdateNick(string nick, callback onok = null, callback onerror=null) {
         if (!Online) return;
-        Authentication.AzureServices.RequestGet(string.Format("api/v1/fan/CheckAlias?alias={0}", nick), (res) => {
+        Authentication.AzureServices.CheckAlias(nick, (res) => {
             if (res == "true") {
-                Dictionary<string, object> hs = new Dictionary<string, object>();
-                hs.Add("Alias", nick);
-                Authentication.AzureServices.RequestJSON("put", "api/v1/fan/me/updatealias", hs, (res2) => {
+                Authentication.AzureServices.UpdateAlias(nick, (res2) => {
                     if (onok != null) onok();
                 });
             }
@@ -190,32 +188,34 @@ public class UserAPI {
 
     public void SendAvatar(byte[] bytes, callback onSendAvatar=null) {
         if (!Online) return;
-        Authentication.AzureServices.Request("put", "api/v1/fan/me/ProfileAvatar/UploadPicture", bytes, (res) => {
+        Authentication.AzureServices.SendAvatarImage(bytes, (res) => {
             if (onSendAvatar != null) onSendAvatar();
         });
     }
 
+    /*
+public IEnumerator AwaitGlobalRanking() {
+    // Global.
 
-    public IEnumerator AwaitGlobalRanking() {
-        // Global.
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
-            if (res != "null"){
-            }
-            else {
-                Debug.LogError(">>>> Rankings ERROR " + res);
-            }
+    yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
+        if (res != "null"){
+        }
+        else {
+            Debug.LogError(">>>> Rankings ERROR " + res);
+        }
 
-        });
-        // Del usuario.
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
-            if (res != "null") {
-            }
-            else {
-                Debug.LogError(">>>> Rankings2 ERROR " + res);
-            }
-        });
-    }
+    });
+    // Del usuario.
+    yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
+        if (res != "null") {
+        }
+        else {
+            Debug.LogError(">>>> Rankings2 ERROR " + res);
+        }
+    });
 
+}
+    */
     public enum MiniGame {
         FreeKicks,
         FreeShoots,
@@ -241,14 +241,14 @@ public class UserAPI {
 
     ScoreEntry[][] HighScores = new ScoreEntry[3][];
     public void SetScore(MiniGame game, int score) {
-        Authentication.AzureServices.RequestString("post", string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), score.ToString(), (res) => {
+        Authentication.AzureServices.SendScore( MiniGameID[(int)game], score, (res) => {
             if (score > HighScore[(int)game])
                 HighScore[(int)game] = score;
         });
     }
 
     public IEnumerator GetMaxScore(MiniGame game) {
-        yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/MaxScore/{0}", MiniGameID[(int)game]), (res) => {
+        yield return Authentication.AzureServices.GetMaxScore(MiniGameID[(int)game], (res) => {
             if (res != "null") {
                 Dictionary<string, object> MaxScore = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
                 HighScore[(int)game] = (int)(double)MaxScore["Score"];
@@ -259,7 +259,7 @@ public class UserAPI {
     }
 
     public void GetRanking(MiniGame game, callback onRanking) {
-        Authentication.AzureServices.RequestGet(string.Format("api/v1/scores/{0}", MiniGameID[(int)game]), (res) => {
+        Authentication.AzureServices.GetRanking(MiniGameID[(int)game], (res) => {
             if (res != "null"){
                 int cnt = 0;
                 List<object> scores = BestHTTP.JSON.Json.Decode(res) as List<object>;
@@ -273,7 +273,7 @@ public class UserAPI {
             if (onRanking != null) onRanking();
         });
     }
-
+/*
     public void Purchase(string IdProduct, string Receipt, callback onok = null, callbackParam onerror = null) {
         Dictionary<string, object> hs = new Dictionary<string, object>();
         hs.Add("IdClient", Authentication.IDClient);
@@ -288,5 +288,5 @@ public class UserAPI {
             if (onerror != null) onerror(res);
         });
     }
-
+*/
 }

@@ -230,18 +230,31 @@ public class MainManager : Photon.PunBehaviour {
 
         if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoWiFi"), () => {
-                Continue();
+                StartCoroutine( Continue() );
             });
             return;
         }
-        Continue();
+        StartCoroutine( Continue() );
     }
 
-    void Continue() {
+    IEnumerator Continue() {
+
+        yield return new WaitForEndOfFrame();
+        if (DLCManager.Instance != null) {
+            // Descargar el fichero de versiones.
+            yield return StartCoroutine(DLCManager.Instance.LoadVersion());
+            yield return StartCoroutine(DLCManager.Instance.CacheResources());
+            if (PlayerManager.Instance != null)
+                yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
+        }
+        if (!UserAPI.Instance.Online) {
+
+            UserAPI.Instance.CallOnUserLogin();
+            yield break;
+        }
         //        DeepLinking("rmvt://editavatar?idUser=iduser&idVirtualGood=1");
         // DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=e94d896c-8daa-42f3-9210-cbc80217d00e");
-
-        StartCoroutine( Authentication.Instance.Init() );
+        Authentication.Instance.Init();
 
         GetDeepLinkingURL();
 
@@ -357,7 +370,7 @@ public class MainManager : Photon.PunBehaviour {
 
             Debug.LogError("Compra-> " + Receipt);
             LoadingCanvasManager.Show();
-            UserAPI.Instance.Purchase(ItemId, Receipt, () => {
+            Authentication.AzureServices.InAppPurchase(ItemId, Receipt, (res) => {
                 LoadingCanvasManager.Hide();
                 int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
                 UserAPI.Instance.Points += value;

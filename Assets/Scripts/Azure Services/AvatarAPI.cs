@@ -45,8 +45,8 @@ public class AvatarAPI {
     }
 
 
-    public Hashtable GetProperty(Property prop) {
-        Hashtable ht = new Hashtable();
+    public Dictionary<string, string> GetProperty(Property prop) {
+        Dictionary<string, string> ht = new Dictionary<string, string>();
         ht.Add("Type", prop.ToString());
         ht.Add("Version", "1");
         switch (prop) {
@@ -57,8 +57,8 @@ public class AvatarAPI {
         return ht;
     }
 
-    public Hashtable GetVirtualGood(string id) {
-        Hashtable ht = new Hashtable();
+    public Dictionary<string, string> GetVirtualGood(string id) {
+        Dictionary<string, string> ht = new Dictionary<string, string>();
         VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(id);
         if (vg != null) {
             ht.Add("IdVirtualGood", vg.GUID);
@@ -69,15 +69,15 @@ public class AvatarAPI {
         return ht;
     }
 
-    public Hashtable GetProperties() {
-        Hashtable avatar = new Hashtable();
-        ArrayList array = new ArrayList();
+    public Dictionary<string, object> GetProperties() {
+        Dictionary<string, object> avatar = new Dictionary<string, object>();
+        List<object> array = new List<object>();
         array.Add(GetProperty(Property.Gender));
         array.Add(GetProperty(Property.Hair));
         array.Add(GetProperty(Property.Head));
         avatar.Add("PhysicalProperties", array);
         // No se si con esto descarto todos los VG puestos.
-        ArrayList array2 = new ArrayList();
+        List<object> array2 = new List<object>();
         if (!string.IsNullOrEmpty(Hat)) array2.Add(GetVirtualGood(Hat));
         if (!string.IsNullOrEmpty(Torso)) array2.Add(GetVirtualGood(Torso));
         if (!string.IsNullOrEmpty(Legs)) array2.Add(GetVirtualGood(Legs));
@@ -108,8 +108,7 @@ public class AvatarAPI {
         if (avatar.ContainsKey("Accesories") && avatar["Accesories"]!=null) {
             foreach( Dictionary<string,object> tmp in avatar["Accesories"] as List<object>) {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
-                if (vg != null)
-                {
+                if (vg != null){
                     if (vg.IdSubType.Contains("TORSO")) Torso = vg.GUID;
                     else if (vg.IdSubType.Contains("LEG")) Legs = vg.GUID;
                     else if (vg.IdSubType.Contains("SHOE")) Feet = vg.GUID;

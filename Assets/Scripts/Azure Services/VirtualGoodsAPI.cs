@@ -37,59 +37,52 @@ public class VirtualGoodsAPI {
         int page = 1;
 
         while (needRequest) {
-            yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/virtualgoods?idType=AVATARVG&ct={0}&language={1}", page, Authentication.AzureServices.MainLanguage), (res) => {
-                if (res != "null") {
+            yield return Authentication.AzureServices.GetVirtualGoods("AVATARVG", page, null, false, (res) => {
                     Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                    if (virtualgoods != null) {
-                        List<object> results = virtualgoods["Results"] as List<object>;
-                        foreach (Dictionary<string, object> vg in results) {
-                            if ((bool)vg["Enabled"])
-                            {
-                                string guid = vg["IdVirtualGood"] as string;
-                                string subtype = vg["IdSubType"] as string;                                
-                                string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-//                                string IID = ((vg["Url"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-                                float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]):0.0f;
-								string thburl = vg["ThumbnailUrl"] as string;
-                                string imgurl = vg["PictureUrl"] as string;
+                if (virtualgoods != null) {
+                    List<object> results = virtualgoods["Results"] as List<object>;
+                    foreach (Dictionary<string, object> vg in results) {
+                        if ((bool)vg["Enabled"]) {
+                            string guid = vg["IdVirtualGood"] as string;
+                            string subtype = vg["IdSubType"] as string;
+                            string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                            float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]) : 0.0f;
+                            string thburl = vg["ThumbnailUrl"] as string;
+                            string imgurl = vg["PictureUrl"] as string;
 
-                                VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, thburl, imgurl);
-                                VirtualGoods.Add(guid, tmp);
-                            }
+                            VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, thburl, imgurl);
+                            VirtualGoods.Add(guid, tmp);
                         }
-                        // Vemos si tiene que seguir paginando.
-                        needRequest = false;
-                        if (virtualgoods.ContainsKey("HasMoreResults"))
-                        {
-                            needRequest = (bool)virtualgoods["HasMoreResults"];
-                            page++;
-                        }
+                    }
+                    // Vemos si tiene que seguir paginando.
+                    needRequest = false;
+                    if (virtualgoods.ContainsKey("HasMoreResults")) {
+                        needRequest = (bool)virtualgoods["HasMoreResults"];
+                        page++;
                     }
                 }
             });
         }
         needRequest = true;
-        string service = "api/v1/fan/me/VirtualGoods?type=AVATARVG";
-        string url = string.Format("{0}&language={1}", service, Authentication.AzureServices.MainLanguage);
+        string token = null;
         while (needRequest) {
-            yield return Authentication.AzureServices.AwaitRequestGet(url, (res) => {
-                if (res != "null"){
+            yield return Authentication.AzureServices.GetVirtualGoodsPurchased("AVATARVG", token, (res) => {
                     //Debug.LogError(">>> MY virtualgoods " + res);
                     Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                    if (myvirtualgoods != null){
-                        List<object> myresults = myvirtualgoods["Results"] as List<object>;
-                        foreach (Dictionary<string, object> vg in myresults){
-                            string guid = vg["IdVirtualGood"] as string;
-                            if (VirtualGoods.ContainsKey(guid)){
-                                VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
-                                myvg.count++;
-                            }
+                if (myvirtualgoods != null) {
+                    List<object> myresults = myvirtualgoods["Results"] as List<object>;
+                    foreach (Dictionary<string, object> vg in myresults) {
+                        string guid = vg["IdVirtualGood"] as string;
+                        if (VirtualGoods.ContainsKey(guid)) {
+                            VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
+                            myvg.count++;
                         }
-                        needRequest = false;
-                        if (myvirtualgoods.ContainsKey("HasMoreResults")) {
-                            needRequest = (bool)myvirtualgoods["HasMoreResults"];
-                            url = string.Format("{0}&language={1}&ct={2}", service, Authentication.AzureServices.MainLanguage, WWW.EscapeURL(myvirtualgoods["ContinuationTokenB64"] as string));
-                        }
+                    }
+                    needRequest = false;
+                    if (myvirtualgoods.ContainsKey("HasMoreResults")) {
+                        needRequest = (bool)myvirtualgoods["HasMoreResults"];
+                        token = WWW.EscapeURL(myvirtualgoods["ContinuationTokenB64"] as string);
+                        Debug.LogError("HasMoreResults " + token);
                     }
                 }
             });
@@ -121,14 +114,12 @@ public class VirtualGoodsAPI {
             VirtualGood vg = (VirtualGood)VirtualGoods[guid];
             if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){
                 // No lo tengo y tengo la pasta.
-                List<object> ar = new List<object>();
-                ar.Add(guid.ToString());
-                Authentication.AzureServices.RequestPostJSON(string.Format("api/v1/purchases/redeem/VirtualGoods?idClient={0}", Authentication.IDClient), ar, (res) => {
+                Authentication.AzureServices.PurchaseVirtualGood(guid, (res) => {
                     //Debug.LogError("Buy VirtualGood >>>> " + res);
                     vg.count++;                    
                     UserAPI.Instance.Points -= (int)vg.Price;
                     UserAPI.Contents.CheckContent(vg);
-                    if(vg.IdSubType=="CONTENT") UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
+                    if(vg.IdSubType=="CONTENT") Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
                     if (onOk != null) onOk();
                 },(error)=> {
                     ModalTextOnly.ShowText(SmartLocalization.LanguageManager.Instance.GetTextValue("TVB.Error.CantPurchase"));

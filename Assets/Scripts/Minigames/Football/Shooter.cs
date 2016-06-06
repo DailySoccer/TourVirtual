@@ -334,7 +334,7 @@ namespace Football
         void OnFinishGame()
         {
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
-            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL");
+            Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL");
 
             currentTime = 0;
             gameState = GameState.Finished;

@@ -319,7 +319,7 @@ namespace Basket
         void OnFinishGame()
         {
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeShoots, score);
-            UserAPI.Achievements.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET");
+            Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET");
 
             currentTime = 0;
             gameState = GameState.Finished;
