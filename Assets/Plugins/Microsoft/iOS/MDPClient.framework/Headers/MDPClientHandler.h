@@ -48,6 +48,7 @@
 #import "MDPScoreRankingHandlerProtocol.h"
 #import "MDPScoresHandlerProtocol.h"
 #import "MDPSingleSignOnHandlerProtocol.h"
+#import "MDPPaidFansHandlerProtocol.h"
 #import "MDPNetworkConstantsHandler.h"
 
 
@@ -159,5 +160,6 @@ extraQueryParametersCombined:(NSString *)extraQueryParametersCombined;
 - (Class <MDPScoreRankingHandlerProtocol>)getScoreRankingHandler;
 - (Class <MDPScoresHandlerProtocol>)getScoresHandler;
 - (Class <MDPSingleSignOnHandlerProtocol>)getSingleSignOnHandler;
+- (Class <MDPPaidFansHandlerProtocol>)getPaidFansHandler;
 
 @end

@@ -24,15 +24,17 @@ extern const struct MDPPlayerChangeModelAttributes {
 	__unsafe_unretained NSString *leaveDate;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *nnewTeam;
-	__unsafe_unretained NSString *realPosition;
-	__unsafe_unretained NSString *realPositionSide;
 	__unsafe_unretained NSString *weight;
 } MDPPlayerChangeModelAttributes;
 
 extern const struct MDPPlayerChangeModelRelationships {
+	__unsafe_unretained NSString *realPosition;
+	__unsafe_unretained NSString *realPositionSide;
 	__unsafe_unretained NSString *teamPlayerChanges;
 } MDPPlayerChangeModelRelationships;
 
+@class MDPKeyValueObjectModel;
+@class MDPKeyValueObjectModel;
 @class MDPTeamModel;
 
 @interface _MDPPlayerChangeModel : NSManagedObject
@@ -85,17 +87,17 @@ extern const struct MDPPlayerChangeModelRelationships {
 
 //- (BOOL)validateNnewTeam:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* realPosition;
-
-//- (BOOL)validateRealPosition:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* realPositionSide;
-
-//- (BOOL)validateRealPositionSide:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSDecimalNumber* weight;
 
 //- (BOOL)validateWeight:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPKeyValueObjectModel *realPosition;
+
+//- (BOOL)validateRealPosition:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPKeyValueObjectModel *realPositionSide;
+
+//- (BOOL)validateRealPositionSide:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPTeamModel *teamPlayerChanges;
 
@@ -141,14 +143,14 @@ extern const struct MDPPlayerChangeModelRelationships {
 - (NSString*)primitiveNnewTeam;
 - (void)setPrimitiveNnewTeam:(NSString*)value;
 
-- (NSString*)primitiveRealPosition;
-- (void)setPrimitiveRealPosition:(NSString*)value;
-
-- (NSString*)primitiveRealPositionSide;
-- (void)setPrimitiveRealPositionSide:(NSString*)value;
-
 - (NSDecimalNumber*)primitiveWeight;
 - (void)setPrimitiveWeight:(NSDecimalNumber*)value;
+
+- (MDPKeyValueObjectModel*)primitiveRealPosition;
+- (void)setPrimitiveRealPosition:(MDPKeyValueObjectModel*)value;
+
+- (MDPKeyValueObjectModel*)primitiveRealPositionSide;
+- (void)setPrimitiveRealPositionSide:(MDPKeyValueObjectModel*)value;
 
 - (MDPTeamModel*)primitiveTeamPlayerChanges;
 - (void)setPrimitiveTeamPlayerChanges:(MDPTeamModel*)value;

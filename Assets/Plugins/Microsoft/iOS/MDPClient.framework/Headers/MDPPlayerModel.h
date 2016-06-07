@@ -12,7 +12,7 @@
 #pragma mark PlayerPreferredFoot
 typedef NS_ENUM(NSInteger, MDPPlayerPreferredFoot ) {
     MDPPlayerPreferredFootLeft   = 0,
-    PlayerPreferredFootRight    = 1,
+    MDPPlayerPreferredFootRight    = 1,
 };
 
 

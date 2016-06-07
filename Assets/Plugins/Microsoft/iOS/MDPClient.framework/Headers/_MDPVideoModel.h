@@ -14,14 +14,12 @@
 
 extern const struct MDPVideoModelAttributes {
 	__unsafe_unretained NSString *areaDepartment;
+	__unsafe_unretained NSString *callType;
 	__unsafe_unretained NSString *camera;
 	__unsafe_unretained NSString *competitionType;
 	__unsafe_unretained NSString *descriptionVideo;
 	__unsafe_unretained NSString *eventDateTime;
 	__unsafe_unretained NSString *expurgateDate;
-	__unsafe_unretained NSString *idCompetition;
-	__unsafe_unretained NSString *idMatch;
-	__unsafe_unretained NSString *idSeason;
 	__unsafe_unretained NSString *idVideo;
 	__unsafe_unretained NSString *language;
 	__unsafe_unretained NSString *lastUpdateAt;
@@ -49,11 +47,27 @@ extern const struct MDPVideoModelAttributes {
 	__unsafe_unretained NSString *videoTypes;
 } MDPVideoModelAttributes;
 
+extern const struct MDPVideoModelRelationships {
+	__unsafe_unretained NSString *pagedVideosItems;
+	__unsafe_unretained NSString *pagedVideosRequest;
+} MDPVideoModelRelationships;
+
+@class MDPPagedVideosModel;
+@class MDPPagedVideosRequestModel;
+
 @interface _MDPVideoModel : NSManagedObject
 
 @property (nonatomic, strong) NSString* areaDepartment;
 
 //- (BOOL)validateAreaDepartment:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* callType;
+
+@property (atomic) int16_t callTypeValue;
+- (int16_t)callTypeValue;
+- (void)setCallTypeValue:(int16_t)value_;
+
+//- (BOOL)validateCallType:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* camera;
 
@@ -74,18 +88,6 @@ extern const struct MDPVideoModelAttributes {
 @property (nonatomic, strong) NSDate* expurgateDate;
 
 //- (BOOL)validateExpurgateDate:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* idCompetition;
-
-//- (BOOL)validateIdCompetition:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* idMatch;
-
-//- (BOOL)validateIdMatch:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* idSeason;
-
-//- (BOOL)validateIdSeason:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* idVideo;
 
@@ -199,12 +201,26 @@ extern const struct MDPVideoModelAttributes {
 
 //- (BOOL)validateVideoTypes:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPPagedVideosModel *pagedVideosItems;
+
+//- (BOOL)validatePagedVideosItems:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPPagedVideosRequestModel *pagedVideosRequest;
+
+//- (BOOL)validatePagedVideosRequest:(id*)value_ error:(NSError**)error_;
+
 @end
 
 @interface _MDPVideoModel (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSString*)primitiveAreaDepartment;
 - (void)setPrimitiveAreaDepartment:(NSString*)value;
+
+- (NSNumber*)primitiveCallType;
+- (void)setPrimitiveCallType:(NSNumber*)value;
+
+- (int16_t)primitiveCallTypeValue;
+- (void)setPrimitiveCallTypeValue:(int16_t)value_;
 
 - (NSString*)primitiveCamera;
 - (void)setPrimitiveCamera:(NSString*)value;
@@ -220,15 +236,6 @@ extern const struct MDPVideoModelAttributes {
 
 - (NSDate*)primitiveExpurgateDate;
 - (void)setPrimitiveExpurgateDate:(NSDate*)value;
-
-- (NSString*)primitiveIdCompetition;
-- (void)setPrimitiveIdCompetition:(NSString*)value;
-
-- (NSString*)primitiveIdMatch;
-- (void)setPrimitiveIdMatch:(NSString*)value;
-
-- (NSString*)primitiveIdSeason;
-- (void)setPrimitiveIdSeason:(NSString*)value;
 
 - (NSString*)primitiveIdVideo;
 - (void)setPrimitiveIdVideo:(NSString*)value;
@@ -313,5 +320,11 @@ extern const struct MDPVideoModelAttributes {
 
 - (NSData*)primitiveVideoTypes;
 - (void)setPrimitiveVideoTypes:(NSData*)value;
+
+- (MDPPagedVideosModel*)primitivePagedVideosItems;
+- (void)setPrimitivePagedVideosItems:(MDPPagedVideosModel*)value;
+
+- (MDPPagedVideosRequestModel*)primitivePagedVideosRequest;
+- (void)setPrimitivePagedVideosRequest:(MDPPagedVideosRequestModel*)value;
 
 @end

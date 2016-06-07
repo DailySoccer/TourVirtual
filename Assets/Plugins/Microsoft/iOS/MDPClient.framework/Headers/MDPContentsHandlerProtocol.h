@@ -66,13 +66,6 @@ typedef NS_ENUM(NSUInteger, MDPContentAssetVideoType) {
                                                 ct:(int)ct
                                    completionBlock:(void(^)(MDPPagedCompactContentModel *contentResults, NSError *error))completionBlock;
 
-
-/*
-  Gets the asset with type: ContentTitleImage if the field ThumbnailURL is empty or nil. 
- */
-+ (void)getCompactContentIfNotExistsThumbnailUrlWithCompactContent:(MDPCompactContentModel *)compactContent;
-
-
 /*
  Gets the paginated list of related news of a content.
 */
@@ -89,6 +82,10 @@ typedef NS_ENUM(NSUInteger, MDPContentAssetVideoType) {
                   videoAdType:(MDPContentVideoAdType)videoAdType
                     videoType:(MDPContentAssetVideoType)videoType
               completionBlock:(void(^)(NSString *xml, NSError *error))completionBlock;
+
+
+#pragma mark - Get Content
++ (MDPContentModel *)contentWithIdContent:(NSString *)idContent;
 
 @end
 

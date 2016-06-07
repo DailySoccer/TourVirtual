@@ -20,6 +20,7 @@ extern const struct MDPFanVirtualGoodModelAttributes {
 	__unsafe_unretained NSString *idVirtualGood;
 	__unsafe_unretained NSString *idVirtualGoodSubType;
 	__unsafe_unretained NSString *idVirtualGoodType;
+	__unsafe_unretained NSString *language;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *pictureUrl;
 	__unsafe_unretained NSString *thumbnailUrl;
@@ -73,6 +74,10 @@ extern const struct MDPFanVirtualGoodModelRelationships {
 @property (nonatomic, strong) NSString* idVirtualGoodType;
 
 //- (BOOL)validateIdVirtualGoodType:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* language;
+
+//- (BOOL)validateLanguage:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
@@ -157,6 +162,9 @@ extern const struct MDPFanVirtualGoodModelRelationships {
 
 - (NSString*)primitiveIdVirtualGoodType;
 - (void)setPrimitiveIdVirtualGoodType:(NSString*)value;
+
+- (NSString*)primitiveLanguage;
+- (void)setPrimitiveLanguage:(NSString*)value;
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;

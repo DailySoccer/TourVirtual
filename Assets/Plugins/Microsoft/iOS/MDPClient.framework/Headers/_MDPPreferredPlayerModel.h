@@ -13,6 +13,9 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPPreferredPlayerModelAttributes {
+	__unsafe_unretained NSString *alias;
+	__unsafe_unretained NSString *cardPhotoThumbnailUrl;
+	__unsafe_unretained NSString *cardPhotoUrl;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *order;
 	__unsafe_unretained NSString *playerId;
@@ -21,6 +24,18 @@ extern const struct MDPPreferredPlayerModelAttributes {
 } MDPPreferredPlayerModelAttributes;
 
 @interface _MDPPreferredPlayerModel : NSManagedObject
+
+@property (nonatomic, strong) NSString* alias;
+
+//- (BOOL)validateAlias:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* cardPhotoThumbnailUrl;
+
+//- (BOOL)validateCardPhotoThumbnailUrl:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* cardPhotoUrl;
+
+//- (BOOL)validateCardPhotoUrl:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
@@ -53,6 +68,15 @@ extern const struct MDPPreferredPlayerModelAttributes {
 @end
 
 @interface _MDPPreferredPlayerModel (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString*)primitiveAlias;
+- (void)setPrimitiveAlias:(NSString*)value;
+
+- (NSString*)primitiveCardPhotoThumbnailUrl;
+- (void)setPrimitiveCardPhotoThumbnailUrl:(NSString*)value;
+
+- (NSString*)primitiveCardPhotoUrl;
+- (void)setPrimitiveCardPhotoUrl:(NSString*)value;
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;

@@ -22,7 +22,12 @@ typedef void (^MDPCountriesHandlerResponseBlock)(NSArray *response, NSError *err
  */
 + (void)getCountriesByLanguageWithLanguage:(NSString *)language completionBlock:(MDPCountriesHandlerResponseBlock)completionBlock;
 
-
+/*
+ Gets a list of states of a country
+ */
++ (void)getCountryStatesWithLanguage:(NSString *)language
+                         countryCode:(NSString *)countryCode
+                     completionBlock:(MDPCountriesHandlerResponseBlock)completionBlock;
 
 /*
  Listens to MDPCountryModel objects. Return the elements order for countries

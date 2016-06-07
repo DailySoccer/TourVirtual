@@ -53,15 +53,15 @@ extern const struct MDPPagedStoreProductsModelRelationships {
 
 //- (BOOL)validatePagedStoreProductsRequest:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *results;
+@property (nonatomic, strong) NSOrderedSet *results;
 
-- (NSMutableSet*)resultsSet;
+- (NSMutableOrderedSet*)resultsSet;
 
 @end
 
 @interface _MDPPagedStoreProductsModel (ResultsCoreDataGeneratedAccessors)
-- (void)addResults:(NSSet*)value_;
-- (void)removeResults:(NSSet*)value_;
+- (void)addResults:(NSOrderedSet*)value_;
+- (void)removeResults:(NSOrderedSet*)value_;
 - (void)addResultsObject:(MDPStoreProductModel*)value_;
 - (void)removeResultsObject:(MDPStoreProductModel*)value_;
 @end
@@ -86,7 +86,7 @@ extern const struct MDPPagedStoreProductsModelRelationships {
 - (MDPPagedStoreProductsRequestModel*)primitivePagedStoreProductsRequest;
 - (void)setPrimitivePagedStoreProductsRequest:(MDPPagedStoreProductsRequestModel*)value;
 
-- (NSMutableSet*)primitiveResults;
-- (void)setPrimitiveResults:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveResults;
+- (void)setPrimitiveResults:(NSMutableOrderedSet*)value;
 
 @end

@@ -18,6 +18,7 @@ extern const struct MDPCompetitionModelAttributes {
 	__unsafe_unretained NSString *idTeam;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *processRanking;
+	__unsafe_unretained NSString *videoPlatformName;
 } MDPCompetitionModelAttributes;
 
 extern const struct MDPCompetitionModelRelationships {
@@ -52,6 +53,10 @@ extern const struct MDPCompetitionModelRelationships {
 
 //- (BOOL)validateProcessRanking:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSString* videoPlatformName;
+
+//- (BOOL)validateVideoPlatformName:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSSet *name;
 
 - (NSMutableSet*)nameSet;
@@ -84,6 +89,9 @@ extern const struct MDPCompetitionModelRelationships {
 
 - (BOOL)primitiveProcessRankingValue;
 - (void)setPrimitiveProcessRankingValue:(BOOL)value_;
+
+- (NSString*)primitiveVideoPlatformName;
+- (void)setPrimitiveVideoPlatformName:(NSString*)value;
 
 - (NSMutableSet*)primitiveName;
 - (void)setPrimitiveName:(NSMutableSet*)value;

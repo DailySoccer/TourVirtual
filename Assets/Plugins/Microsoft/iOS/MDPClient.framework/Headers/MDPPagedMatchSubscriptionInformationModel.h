@@ -12,4 +12,7 @@
 #pragma mark - Interface
 @interface MDPPagedMatchSubscriptionInformationModel : _MDPPagedMatchSubscriptionInformationModel
 
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary
+                managedObjectContext:(NSManagedObjectContext *)context;
+
 @end

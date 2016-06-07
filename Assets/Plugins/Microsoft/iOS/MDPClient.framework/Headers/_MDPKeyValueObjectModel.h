@@ -37,6 +37,8 @@ extern const struct MDPKeyValueObjectModelRelationships {
 	__unsafe_unretained NSString *matchEventextEventType;
 	__unsafe_unretained NSString *playerBasicInfoRealPosition;
 	__unsafe_unretained NSString *playerBasicInfoRealPositionSide;
+	__unsafe_unretained NSString *playerChangeRealPosition;
+	__unsafe_unretained NSString *playerChangeRealPositionSide;
 	__unsafe_unretained NSString *playerPosition;
 	__unsafe_unretained NSString *playerRealPosition;
 	__unsafe_unretained NSString *playerRealPositionSide;
@@ -57,6 +59,8 @@ extern const struct MDPKeyValueObjectModelRelationships {
 @class MDPMatchEventModel;
 @class MDPPlayerBasicInfoModel;
 @class MDPPlayerBasicInfoModel;
+@class MDPPlayerChangeModel;
+@class MDPPlayerChangeModel;
 @class MDPPlayerModel;
 @class MDPPlayerModel;
 @class MDPPlayerModel;
@@ -152,6 +156,14 @@ extern const struct MDPKeyValueObjectModelRelationships {
 @property (nonatomic, strong) NSSet *playerBasicInfoRealPositionSide;
 
 - (NSMutableSet*)playerBasicInfoRealPositionSideSet;
+
+@property (nonatomic, strong) NSSet *playerChangeRealPosition;
+
+- (NSMutableSet*)playerChangeRealPositionSet;
+
+@property (nonatomic, strong) NSSet *playerChangeRealPositionSide;
+
+- (NSMutableSet*)playerChangeRealPositionSideSet;
 
 @property (nonatomic, strong) NSSet *playerPosition;
 
@@ -266,6 +278,20 @@ extern const struct MDPKeyValueObjectModelRelationships {
 - (void)removePlayerBasicInfoRealPositionSideObject:(MDPPlayerBasicInfoModel*)value_;
 @end
 
+@interface _MDPKeyValueObjectModel (PlayerChangeRealPositionCoreDataGeneratedAccessors)
+- (void)addPlayerChangeRealPosition:(NSSet*)value_;
+- (void)removePlayerChangeRealPosition:(NSSet*)value_;
+- (void)addPlayerChangeRealPositionObject:(MDPPlayerChangeModel*)value_;
+- (void)removePlayerChangeRealPositionObject:(MDPPlayerChangeModel*)value_;
+@end
+
+@interface _MDPKeyValueObjectModel (PlayerChangeRealPositionSideCoreDataGeneratedAccessors)
+- (void)addPlayerChangeRealPositionSide:(NSSet*)value_;
+- (void)removePlayerChangeRealPositionSide:(NSSet*)value_;
+- (void)addPlayerChangeRealPositionSideObject:(MDPPlayerChangeModel*)value_;
+- (void)removePlayerChangeRealPositionSideObject:(MDPPlayerChangeModel*)value_;
+@end
+
 @interface _MDPKeyValueObjectModel (PlayerPositionCoreDataGeneratedAccessors)
 - (void)addPlayerPosition:(NSSet*)value_;
 - (void)removePlayerPosition:(NSSet*)value_;
@@ -368,6 +394,12 @@ extern const struct MDPKeyValueObjectModelRelationships {
 
 - (NSMutableSet*)primitivePlayerBasicInfoRealPositionSide;
 - (void)setPrimitivePlayerBasicInfoRealPositionSide:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitivePlayerChangeRealPosition;
+- (void)setPrimitivePlayerChangeRealPosition:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitivePlayerChangeRealPositionSide;
+- (void)setPrimitivePlayerChangeRealPositionSide:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitivePlayerPosition;
 - (void)setPrimitivePlayerPosition:(NSMutableSet*)value;

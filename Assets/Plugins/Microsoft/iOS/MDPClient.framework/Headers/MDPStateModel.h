@@ -12,6 +12,10 @@
 #pragma mark - Interface
 @interface MDPStateModel : _MDPStateModel
 
++ (NSArray *)statesWithLanguage:(NSString *)language
+                    countryCode:(NSString *)countryCode
+           managedObjectContext:(NSManagedObjectContext *)context;
+
 + (instancetype)insertIfNotExistsStateWithDictionary:(NSDictionary *)dictionary
                                 managedObjectContext:(NSManagedObjectContext *)context;
 

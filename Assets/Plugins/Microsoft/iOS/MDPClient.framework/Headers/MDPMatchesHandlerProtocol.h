@@ -12,6 +12,7 @@
 #pragma mark - Model
 #import "MDPMatchModel.h"
 #import "MDPTimelineModel.h"
+#import "MDPPagedMatchSubscriptionInformationModel.h"
 
 
 #pragma mark VideoAdType
@@ -72,6 +73,32 @@ Get all the Master Data for a sport type and language.
                            videoAdType:(MDPMatchesVideoAdType)videoAdType
                              videoType:(MDPMatchesAssetVideoType)videoType
                        completionBlock:(void (^)(NSString *content, NSError *error))completionBlock;
+
+/*
+ Gets all the match subscriptions.The results are returned paginated.
+ */
++ (void)getAllSubscriptionsPagedWithCt:(NSInteger)ct
+                       completionBlock:(void (^)(MDPPagedMatchSubscriptionInformationModel *content, NSError *error))completionBlock;
+
+/*
+ Gets Authorization token for the requested video of the match
+ */
++ (void)getMatchCDNTokenAsyncWithIdSeason:(NSString *)idSeason
+                            idCompetition:(NSString *)idCompetition
+                                  idMatch:(NSString *)idMatch
+                                videoType:(NSString *)videoType
+                                 videoURL:(NSString *)videoURL
+                          completionBlock:(void (^)(NSString *content, NSError *error))completionBlock;
+
+/*
+ Gets if the authorization token for the requested video type of the match is available
+ */
++ (void)isMatchCDNTokenAvailableAsyncWithIdSeason:(NSString *)idSeason
+                                    idCompetition:(NSString *)idCompetition
+                                          idMatch:(NSString *)idMatch
+                                        videoType:(NSString *)videoType
+                                          country:(NSString *)country
+                                  completionBlock:(void (^)(BOOL content, NSError *error))completionBlock;
 
 @end
 

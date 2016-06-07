@@ -24,7 +24,7 @@ typedef void (^MDPPenyasHandlerResponseBlock)(NSArray *response, NSError *error)
  */
 + (void)getPenyasWithCt:(uint)ct
                    text:(NSString *)text
-        completionBlock:(void(^)(MDPPagedPenyaModel *content, NSError *error))completionBlock;
+        completionBlock:(void(^)(MDPPagedPenyaModel *content, NSString *text, NSError *error))completionBlock;
 
 /*
  Listens to MDPPenya objetcs. Returns the elements for penya

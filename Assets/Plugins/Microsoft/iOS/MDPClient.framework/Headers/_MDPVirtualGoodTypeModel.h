@@ -16,6 +16,7 @@ extern const struct MDPVirtualGoodTypeModelAttributes {
 	__unsafe_unretained NSString *highLight;
 	__unsafe_unretained NSString *idType;
 	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *order;
 	__unsafe_unretained NSString *parentIdType;
 } MDPVirtualGoodTypeModelAttributes;
 
@@ -44,6 +45,14 @@ extern const struct MDPVirtualGoodTypeModelRelationships {
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* order;
+
+@property (atomic) uint64_t orderValue;
+- (uint64_t)orderValue;
+- (void)setOrderValue:(uint64_t)value_;
+
+//- (BOOL)validateOrder:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* parentIdType;
 
@@ -86,6 +95,12 @@ extern const struct MDPVirtualGoodTypeModelRelationships {
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSNumber*)primitiveOrder;
+- (void)setPrimitiveOrder:(NSNumber*)value;
+
+- (uint64_t)primitiveOrderValue;
+- (void)setPrimitiveOrderValue:(uint64_t)value_;
 
 - (NSString*)primitiveParentIdType;
 - (void)setPrimitiveParentIdType:(NSString*)value;

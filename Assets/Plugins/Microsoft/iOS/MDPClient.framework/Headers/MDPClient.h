@@ -25,11 +25,10 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #pragma mark - Handlers
 #import "MDPClientHandler.h"
 
+
 #pragma mark - Auth
 #import "MDPAuthHandler.h"
 
-#pragma mark - Resources
-#import "MDPLanguageResourcesHandler.h"
 
 #pragma mark - Log, App Insights
 #import "MDPLogHandler.h"
@@ -42,6 +41,7 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPAdImageModel.h"
 #import "MDPAdvertisementLanguageModel.h"
 #import "MDPAdvertisementModel.h"
+#import "MDPAppConfigurationVersionModel.h"
 #import "MDPAppModel.h"
 #import "MDPAssetModel.h"
 #import "MDPBasketBoxscoreModel.h"
@@ -71,8 +71,11 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPExternalChallengeModel.h"
 #import "MDPExternalChallengeTypeModel.h"
 #import "MDPExternalIdentityModel.h"
+#import "MDPFanContactModel.h"
+#import "MDPFanContactExtendedModel.h"
 #import "MDPFanMaxScoreModel.h"
 #import "MDPFanModel.h"
+#import "MDPFanOfferModel.h"
 #import "MDPFanTagsModel.h"
 #import "MDPFanVirtualGoodModel.h"
 #import "MDPFanMaxScoreModel.h"
@@ -124,6 +127,7 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPPagedCommentsModel.h"
 #import "MDPPagedCompactContentModel.h"
 #import "MDPPagedExternalChallengeTypeModel.h"
+#import "MDPPagedFanOffersModel.h"
 #import "MDPPagedFanVirtualGoodsModel.h"
 #import "MDPPagedGroupsModel.h"
 #import "MDPPagedGroupMembersModel.h"
@@ -135,12 +139,15 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPPagedPointsTransactionsModel.h"
 #import "MDPPagedRequestJoinGroupModel.h"
 #import "MDPPagedStoreProductsModel.h"
+#import "MDPPagedSubscriptionConfigurationBasicInfoModel.h"
 #import "MDPPagedSubscriptionConfigurationModel.h"
 #import "MDPPagedSubscriptionConfigurationTypeModel.h"
 #import "MDPPagedMatchSubscriptionInformationModel.h"
 #import "MDPPagedTweetModel.h"
+#import "MDPPagedVideosModel.h"
 #import "MDPPagedVirtualGoodModel.h"
 #import "MDPPagedVirtualGoodTypeModel.h"
+#import "MDPPaidFanLinkedStatusModel.h"
 #import "MDPPartialUpdateItemModel.h"
 #import "MDPPartialUpdateModel.h"
 #import "MDPPenaltyShotModel.h"
@@ -154,6 +161,7 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPPossessionIntervalModel.h"
 #import "MDPPossessionLastXModel.h"
 #import "MDPPossessionModel.h"
+#import "MDPPreferredPlayerItemModel.h"
 #import "MDPPreferredPlayerModel.h"
 #import "MDPProductItemModel.h"
 #import "MDPProductPriceModel.h"
@@ -191,6 +199,7 @@ FOUNDATION_EXPORT const unsigned char MDPClientVersionString[];
 #import "MDPTweetUserMentionsModel.h"
 #import "MDPTweetUserModel.h"
 #import "MDPTweetUrlModel.h"
+#import "MDPUserNotificationTagModel.h"
 #import "MDPVenueModel.h"
 #import "MDPVideoModel.h"
 #import "MDPVirtualGoodModel.h"

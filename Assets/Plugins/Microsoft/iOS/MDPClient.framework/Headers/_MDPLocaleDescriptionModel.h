@@ -28,6 +28,9 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 	__unsafe_unretained NSString *checkInTypeContents;
 	__unsafe_unretained NSString *checkInTypeDescriptionCheckInType;
 	__unsafe_unretained NSString *competition;
+	__unsafe_unretained NSString *fanOfferBody;
+	__unsafe_unretained NSString *fanOfferImageUrl;
+	__unsafe_unretained NSString *fanOfferTitle;
 	__unsafe_unretained NSString *fanVirtualGoodDescriptionFanVirtualGood;
 	__unsafe_unretained NSString *fanVirtualGoodUrl;
 	__unsafe_unretained NSString *gamificationLevelName;
@@ -65,6 +68,9 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @class MDPCheckInTypeModel;
 @class MDPCheckInTypeModel;
 @class MDPCompetitionModel;
+@class MDPFanOfferModel;
+@class MDPFanOfferModel;
+@class MDPFanOfferModel;
 @class MDPFanVirtualGoodModel;
 @class MDPFanVirtualGoodModel;
 @class MDPGamificationLevelBasicInfoModel;
@@ -141,6 +147,18 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @property (nonatomic, strong) NSSet *competition;
 
 - (NSMutableSet*)competitionSet;
+
+@property (nonatomic, strong) MDPFanOfferModel *fanOfferBody;
+
+//- (BOOL)validateFanOfferBody:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFanOfferModel *fanOfferImageUrl;
+
+//- (BOOL)validateFanOfferImageUrl:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFanOfferModel *fanOfferTitle;
+
+//- (BOOL)validateFanOfferTitle:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSSet *fanVirtualGoodDescriptionFanVirtualGood;
 
@@ -432,6 +450,15 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 
 - (NSMutableSet*)primitiveCompetition;
 - (void)setPrimitiveCompetition:(NSMutableSet*)value;
+
+- (MDPFanOfferModel*)primitiveFanOfferBody;
+- (void)setPrimitiveFanOfferBody:(MDPFanOfferModel*)value;
+
+- (MDPFanOfferModel*)primitiveFanOfferImageUrl;
+- (void)setPrimitiveFanOfferImageUrl:(MDPFanOfferModel*)value;
+
+- (MDPFanOfferModel*)primitiveFanOfferTitle;
+- (void)setPrimitiveFanOfferTitle:(MDPFanOfferModel*)value;
 
 - (NSMutableSet*)primitiveFanVirtualGoodDescriptionFanVirtualGood;
 - (void)setPrimitiveFanVirtualGoodDescriptionFanVirtualGood:(NSMutableSet*)value;

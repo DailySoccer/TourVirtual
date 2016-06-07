@@ -45,6 +45,13 @@ typedef void (^MDPTagsHandlerResponseBlock)(NSArray *response, NSError *error);
 + (void)deleteTagSubscriptionByCurrentUserWithTag:(NSString *)tag
                                   completionBlock:(void(^)(NSError *error))completionBlock;
 
+/*
+ Subscribe or unsubscribe the current user tags.
+ */
++ (void)postUserNotificationTagsWithCollectionUserNotificationTag:(NSArray *)params
+                                                  completionBlock:(void(^)(NSError *error))completionBlock;
+
+
 
 /*
 Listens changes in BD

@@ -9,12 +9,23 @@
 #import "_MDPSubscriptionConfigurationBasicInfoModel.h"
 
 
+#pragma mark Call Type
+typedef NS_ENUM(NSUInteger, MDPSubscriptionConfigBasicInfoModelCallType) {
+    MDPSubscriptionConfigBasicInfoModelCallTypeSubscriptionsHandler                             = 1,
+    MDPSubscriptionConfigBasicInfoModelCallTypeVirtualTicketsBySearchMetadata                   = 2,
+    MDPSubscriptionConfigBasicInfoModelCallTypeSearchVideoPackByMetadata                        = 3,
+
+};
+
+
 #pragma mark - Interface
 @interface MDPSubscriptionConfigurationBasicInfoModel : _MDPSubscriptionConfigurationBasicInfoModel
 
-+ (instancetype)subscriptionConfigurationBasicInfoWithIdSubscription:(NSString *)idSubscription managedObjectContext:(NSManagedObjectContext *)context;
+#pragma mark - General Insert
++ (instancetype)insertIfNotExistsSubscriptionConfigurationBasicInfoWithDictionary:(NSDictionary *)dictionary callType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (instancetype)insertIfNotExistsSubscriptionConfigurationBasicInfoWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
+#pragma mark - Subscriptions Handler
++ (instancetype)subscriptionConfigurationBasicInfoWithIdSubscription:(NSString *)idSubscription managedObjectContext:(NSManagedObjectContext *)context;
 
 + (NSFetchedResultsController *)subscriptionConfigurationBasicInfoFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
                                                                                                           delegate:(id <NSFetchedResultsControllerDelegate>)delegate;

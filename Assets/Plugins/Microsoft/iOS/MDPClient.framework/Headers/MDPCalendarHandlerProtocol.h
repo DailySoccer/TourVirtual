@@ -137,6 +137,12 @@ typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *erro
                               country:(NSString *)country
                       completionBlock:(MDPCalendarHandlerResponseBlock)completionBlock;
 
++ (NSFetchedResultsController *)fetchMatchesByRangeWithDate:(NSDate *)date
+                                                     idTeam:(NSString *)idTeam
+                                                  sportType:(MDPCompetitionMatchModelSportType)sportType
+                                                    country:(NSString *)country
+                                                   delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 /*
  Gets the last finished matches for a team.
  */
@@ -148,30 +154,28 @@ typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *erro
                        numberOfMatches:(NSInteger)numberOfMatches
                        completionBlock:(MDPCalendarHandlerResponseBlock)completionBlock;
 
+/*
+ Gets all matches between two teams in a season.
+ */
++ (void)getHeadToHeadMatchesWithIdSeason:(NSString *)idSeason
+                                 idTeam1:(NSString *)idTeam1
+                                 idTeam2:(NSString *)idTeam2
+                               sportType:(MDPCompetitionMatchModelSportType)sportType
+                                language:(NSString *)language
+                                 country:(NSString *)country
+                         completionBlock:(MDPCalendarHandlerResponseBlock)completionBlock;
 
 /*
- Fetch CompetitionMatch for one date
+ Gets the previous and next matches for a team.
  */
++ (void)getPreviousAndNextMatchesWithIdTeam:(NSString *)idTeam
+                                  sportType:(NSInteger)sportType
+                                   language:(NSString *)language
+              numberOfPreviousPlayedMatches:(NSInteger)numberOfPreviousPlayedMatches
+                        numberOfNextMatches:(NSInteger)numberOfNextMatches
+                                    country:(NSString *)country
+                            completionBlock:(void (^)(NSArray *previousMatches, NSArray *nextMatches, NSError *error))completionBlock;
 
-+ (NSArray *)fetchCompetitionMatchWithIdSeason:(NSString *)idSeason
-                                 idCompetition:(NSString *)idCompetition
-                                         month:(NSDate *)date;
-+ (NSArray *)fetchCompetitionMatchWithIdSeason:(NSString *)idSeason
-                                 idCompetition:(NSString *)idCompetition
-                                         month:(NSDate *)date
-                                        idTeam:(NSString *)idTeam;
-
-/*
- Fetch CompetitionMatch for one team
- */
-+ (NSArray *)fetchCompetitionMatchWithIdSeason:(NSString *)idSeason
-                                 idCompetition:(NSString *)idCompetition
-                                        idTeam:(NSString *)idTeam;
-
-+ (NSArray *)fetchCompetitionMatchWithIdSeason:(NSString *)idSeason
-                                 idCompetition:(NSString *)idCompetition
-                                        idTeam:(NSString *)idTeam
-                                oppositeIdTeam:(NSString *)oppositeIdTeam;
 
 /*
  Fetch Competitions for one team

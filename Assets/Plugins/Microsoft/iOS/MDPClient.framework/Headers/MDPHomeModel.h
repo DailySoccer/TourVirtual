@@ -60,6 +60,10 @@ typedef NS_ENUM(NSInteger, MDPHomeModelSegmentedSelectorComponentType) {
 
 - (NSArray *)nextMatchItems;
 
+- (NSNumber *)previousMatchNumberOfMatches;
+
+- (NSArray *)previousMatchItems;
+
 - (NSString *)videoIdContentLanguage:(NSString *)language;
 
 - (NSString *)backgroundUrl;

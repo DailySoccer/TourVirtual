@@ -20,6 +20,9 @@
 #import "MDPProfileAvatarModel.h"
 #import "MDPProfileAvatarUpdateableModel.h"
 #import "MDPPartialUpdateModel.h"
+#import "MDPFanContactModel.h"
+#import "MDPFanOfferModel.h"
+#import "MDPPagedFanOffersModel.h"
 
 
 #pragma mark  - Response
@@ -298,6 +301,27 @@ Search users by suggestion
 + (void)searchUsersByEmailWithEmail:(NSString *)email
                     completionBlock:(MDPFanHandlerResponseBlock)completionBlock;
 
+/*
+ Gets a user virtual good by Id
+ */
++ (void)getFanVirtualGoodByIdWithIdVirtualGood:(NSString *)idVirtualGood
+                                      language:(NSString *)language
+                               completionBlock:(void (^)(MDPFanVirtualGoodModel *content, NSError *error))completionBlock;
+
+/*
+ Gets the user information by his id.
+ */
++ (void)getUserByIdWithIdUserToFind:(NSString *)userIdToFind
+                    completionBlock:(void (^)(MDPFanContactModel *content, NSError *error))completionBlock;
+
+/*
+ */
++ (void)getOffersWithCt:(NSInteger)ct
+        completionBlock:(void (^)(MDPPagedFanOffersModel *content, NSError *error))completionBlock;
+/*
+ */
++ (void)getOfferDetailsWithIdOfferType:(NSString *)idOfferType
+                       completionBlock:(void (^)(MDPFanOfferModel *content, NSError *error))completionBlock;
 
 
 /////////////////////////////////////////////////////////////////////////////

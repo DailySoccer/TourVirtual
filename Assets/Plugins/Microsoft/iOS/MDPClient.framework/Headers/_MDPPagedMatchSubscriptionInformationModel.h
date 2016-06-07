@@ -22,9 +22,11 @@ extern const struct MDPPagedMatchSubscriptionInformationModelAttributes {
 } MDPPagedMatchSubscriptionInformationModelAttributes;
 
 extern const struct MDPPagedMatchSubscriptionInformationModelRelationships {
+	__unsafe_unretained NSString *pagedMatchSubscriptionInformationRequest;
 	__unsafe_unretained NSString *results;
 } MDPPagedMatchSubscriptionInformationModelRelationships;
 
+@class MDPPagedMatchSubscriptionInformationRequestModel;
 @class MDPMatchSubscriptionInformationModel;
 
 @interface _MDPPagedMatchSubscriptionInformationModel : NSManagedObject
@@ -68,6 +70,10 @@ extern const struct MDPPagedMatchSubscriptionInformationModelRelationships {
 - (void)setTotalItemsValue:(int64_t)value_;
 
 //- (BOOL)validateTotalItems:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPPagedMatchSubscriptionInformationRequestModel *pagedMatchSubscriptionInformationRequest;
+
+//- (BOOL)validatePagedMatchSubscriptionInformationRequest:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSSet *results;
 
@@ -113,6 +119,9 @@ extern const struct MDPPagedMatchSubscriptionInformationModelRelationships {
 
 - (int64_t)primitiveTotalItemsValue;
 - (void)setPrimitiveTotalItemsValue:(int64_t)value_;
+
+- (MDPPagedMatchSubscriptionInformationRequestModel*)primitivePagedMatchSubscriptionInformationRequest;
+- (void)setPrimitivePagedMatchSubscriptionInformationRequest:(MDPPagedMatchSubscriptionInformationRequestModel*)value;
 
 - (NSMutableSet*)primitiveResults;
 - (void)setPrimitiveResults:(NSMutableSet*)value;

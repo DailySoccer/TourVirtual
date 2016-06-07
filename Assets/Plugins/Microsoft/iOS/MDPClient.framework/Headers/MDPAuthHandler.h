@@ -69,4 +69,7 @@ typedef void (^MDPAuthHandlerShowUserSelectionScreenBlock)(MDPAuthHandler *authH
 #pragma mark Clean previous token
 - (void)cleanPreviousTokenRequest;
 
+#pragma mark Store Cache
+- (void)importStoredCache;
+
 @end

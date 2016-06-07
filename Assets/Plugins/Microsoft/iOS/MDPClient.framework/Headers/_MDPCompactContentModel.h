@@ -31,7 +31,7 @@ extern const struct MDPCompactContentModelAttributes {
 extern const struct MDPCompactContentModelRelationships {
 	__unsafe_unretained NSString *asset;
 	__unsafe_unretained NSString *links;
-	__unsafe_unretained NSString *pagedCompactContentResultsResults;
+	__unsafe_unretained NSString *pagedCompactContentResults;
 } MDPCompactContentModelRelationships;
 
 @class MDPAssetModel;
@@ -116,9 +116,9 @@ extern const struct MDPCompactContentModelRelationships {
 
 - (NSMutableOrderedSet*)linksSet;
 
-@property (nonatomic, strong) NSSet *pagedCompactContentResultsResults;
+@property (nonatomic, strong) NSSet *pagedCompactContentResults;
 
-- (NSMutableSet*)pagedCompactContentResultsResultsSet;
+- (NSMutableSet*)pagedCompactContentResultsSet;
 
 @end
 
@@ -129,11 +129,11 @@ extern const struct MDPCompactContentModelRelationships {
 - (void)removeLinksObject:(MDPContentLinkModel*)value_;
 @end
 
-@interface _MDPCompactContentModel (PagedCompactContentResultsResultsCoreDataGeneratedAccessors)
-- (void)addPagedCompactContentResultsResults:(NSSet*)value_;
-- (void)removePagedCompactContentResultsResults:(NSSet*)value_;
-- (void)addPagedCompactContentResultsResultsObject:(MDPPagedCompactContentModel*)value_;
-- (void)removePagedCompactContentResultsResultsObject:(MDPPagedCompactContentModel*)value_;
+@interface _MDPCompactContentModel (PagedCompactContentResultsCoreDataGeneratedAccessors)
+- (void)addPagedCompactContentResults:(NSSet*)value_;
+- (void)removePagedCompactContentResults:(NSSet*)value_;
+- (void)addPagedCompactContentResultsObject:(MDPPagedCompactContentModel*)value_;
+- (void)removePagedCompactContentResultsObject:(MDPPagedCompactContentModel*)value_;
 @end
 
 @interface _MDPCompactContentModel (CoreDataGeneratedPrimitiveAccessors)
@@ -195,7 +195,7 @@ extern const struct MDPCompactContentModelRelationships {
 - (NSMutableOrderedSet*)primitiveLinks;
 - (void)setPrimitiveLinks:(NSMutableOrderedSet*)value;
 
-- (NSMutableSet*)primitivePagedCompactContentResultsResults;
-- (void)setPrimitivePagedCompactContentResultsResults:(NSMutableSet*)value;
+- (NSMutableSet*)primitivePagedCompactContentResults;
+- (void)setPrimitivePagedCompactContentResults:(NSMutableSet*)value;
 
 @end

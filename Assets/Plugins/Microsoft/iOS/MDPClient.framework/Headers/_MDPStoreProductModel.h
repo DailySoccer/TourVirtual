@@ -14,10 +14,12 @@
 
 extern const struct MDPStoreProductModelAttributes {
 	__unsafe_unretained NSString *amount;
+	__unsafe_unretained NSString *disabled;
 	__unsafe_unretained NSString *idClient;
 	__unsafe_unretained NSString *idProduct;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *order;
 	__unsafe_unretained NSString *storeProductPictureUrl;
 	__unsafe_unretained NSString *storeProductThumbnailUrl;
 	__unsafe_unretained NSString *storeProductType;
@@ -41,6 +43,14 @@ extern const struct MDPStoreProductModelRelationships {
 
 //- (BOOL)validateAmount:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSNumber* disabled;
+
+@property (atomic) BOOL disabledValue;
+- (BOOL)disabledValue;
+- (void)setDisabledValue:(BOOL)value_;
+
+//- (BOOL)validateDisabled:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSString* idClient;
 
 //- (BOOL)validateIdClient:(id*)value_ error:(NSError**)error_;
@@ -56,6 +66,14 @@ extern const struct MDPStoreProductModelRelationships {
 @property (nonatomic, strong) NSString* name;
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* order;
+
+@property (atomic) uint64_t orderValue;
+- (uint64_t)orderValue;
+- (void)setOrderValue:(uint64_t)value_;
+
+//- (BOOL)validateOrder:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* storeProductPictureUrl;
 
@@ -124,6 +142,12 @@ extern const struct MDPStoreProductModelRelationships {
 - (NSDecimalNumber*)primitiveAmount;
 - (void)setPrimitiveAmount:(NSDecimalNumber*)value;
 
+- (NSNumber*)primitiveDisabled;
+- (void)setPrimitiveDisabled:(NSNumber*)value;
+
+- (BOOL)primitiveDisabledValue;
+- (void)setPrimitiveDisabledValue:(BOOL)value_;
+
 - (NSString*)primitiveIdClient;
 - (void)setPrimitiveIdClient:(NSString*)value;
 
@@ -135,6 +159,12 @@ extern const struct MDPStoreProductModelRelationships {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+- (NSNumber*)primitiveOrder;
+- (void)setPrimitiveOrder:(NSNumber*)value;
+
+- (uint64_t)primitiveOrderValue;
+- (void)setPrimitiveOrderValue:(uint64_t)value_;
 
 - (NSString*)primitiveStoreProductPictureUrl;
 - (void)setPrimitiveStoreProductPictureUrl:(NSString*)value;

@@ -20,6 +20,8 @@
 #import "MDPPlayerStatisticValueModel.h"
 #import "MDPPreferredPlayerModel.h"
 #import "MDPPagedTweetModel.h"
+#import "MDPPreferredPlayerItemModel.h"
+
 
 #pragma mark  - Response
 typedef void (^MDPPlayersHandlerResponseBlock)(NSArray *response, NSError *error);
@@ -49,13 +51,13 @@ typedef void (^MDPPlayersHandlerResponseBlock)(NSArray *response, NSError *error
 + (void)postPreferredPlayerWithPlayerId:(NSString *)playerId
                              playerName:(NSString *)playerName
                                   order:(uint)order
-                                  sport:(MDPPlayerModelSportType)sport
+                                  sport:(MDPPreferredPlayerModelSportType)sport
                         completionBlock:(void(^)(NSError *error))completionBlock;
 
 /*
   Get the preferred players identified by a sport
  */
-+ (void)getPreferredPlayersWithSport:(MDPPlayerModelSportType)sportType
++ (void)getPreferredPlayersWithSport:(MDPPreferredPlayerModelSportType)sportType
                       completionBlock:(MDPPlayersHandlerResponseBlock)completionBlock;
 
 /*
@@ -72,6 +74,13 @@ typedef void (^MDPPlayersHandlerResponseBlock)(NSArray *response, NSError *error
                                ct:(uint)ct
                          language:(NSString *)language
                   completionBlock:(void(^)(MDPPagedTweetModel *content, NSError *error))completionBlock;
+
+/*
+ Register the preferred players selected by the user. PreferredPlayers is a array <MDPPreferredPlayerItemModel>
+ */
++ (void)addPreferredPlayersWithPreferredPlayerItem:(NSArray *)preferredPlayers
+                                             sport:(MDPPreferredPlayerItemModelSportType)sportType
+                                   completionBlock:(void(^)(NSError *error))completionBlock;
 
 @end
 

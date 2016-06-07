@@ -11,6 +11,7 @@
 
 #import "MDPConfigurationModel.h"
 #import "MDPConfigurationTrustedClientAppModel.h"
+#import "MDPAppConfigurationVersionModel.h"
 
 
 #pragma mark  - Response
@@ -70,6 +71,12 @@ typedef void (^MDPConfigurationHandlerResponseBlock)(NSArray *response, NSError 
  Get app configuration.
  */
 + (void)getAppConfigurationWithCompletionBlock:(void(^)(NSString *result, NSError *error))completionBlock;
+
+/*
+ Get app configuration version.
+ */
++ (void)getConfigurationVersionWithConfigurationHash:(NSString *)configurationHash
+                                     completionBlock:(void (^)(MDPAppConfigurationVersionModel *content, NSError *error))completionBlock;
 
 @end
 

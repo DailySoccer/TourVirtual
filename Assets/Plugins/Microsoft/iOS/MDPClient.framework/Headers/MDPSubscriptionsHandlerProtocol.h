@@ -103,12 +103,6 @@ typedef void (^MDPSubscriptionsHandlerResponseBlock)(NSArray *response, NSError 
  Gests the videos for a subscription.
  */
 + (void)getVideosBySubscriptionWithIdSubscription:(NSString *)idSubscription
-                                  completionBlock:(MDPSubscriptionsHandlerResponseBlock)completionBlock;
-
-/*
- Gests the videos for a subscription.
- */
-+ (void)getVideosBySubscriptionWithIdSubscription:(NSString *)idSubscription
                                               top:(NSInteger)top
                                              skip:(NSInteger)skip
                                   completionBlock:(MDPSubscriptionsHandlerResponseBlock)completionBlock;

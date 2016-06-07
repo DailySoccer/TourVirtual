@@ -13,6 +13,7 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPHomeModelAttributes {
+	__unsafe_unretained NSString *aspectRatio;
 	__unsafe_unretained NSString *column;
 	__unsafe_unretained NSString *country;
 	__unsafe_unretained NSString *idClient;
@@ -27,6 +28,10 @@ extern const struct MDPHomeModelAttributes {
 } MDPHomeModelAttributes;
 
 @interface _MDPHomeModel : NSManagedObject
+
+@property (nonatomic, strong) NSDecimalNumber* aspectRatio;
+
+//- (BOOL)validateAspectRatio:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* column;
 
@@ -95,6 +100,9 @@ extern const struct MDPHomeModelAttributes {
 @end
 
 @interface _MDPHomeModel (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSDecimalNumber*)primitiveAspectRatio;
+- (void)setPrimitiveAspectRatio:(NSDecimalNumber*)value;
 
 - (NSNumber*)primitiveColumn;
 - (void)setPrimitiveColumn:(NSNumber*)value;

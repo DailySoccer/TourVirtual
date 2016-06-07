@@ -52,13 +52,15 @@ typedef void (^MDPTeamHandlerResponseBlock)(NSArray *response, NSError *error);
                   completionBlock:(void(^)(MDPPagedTweetModel *content, NSError *error))completionBlock;
 
 /*
- Search parameter text in teams name and return the matches
+ Search parameter text in teams name which play against idTeam parameter in indicated season
  */
-+ (void)searchTeamsByNameWithText:(NSString *)text
-                        sportType:(MDPTeamModelSportType)sportType
-                              top:(NSInteger)top
-                         language:(NSString *)language
-                  completionBlock:(MDPTeamHandlerResponseBlock)completionBlock;
++ (void)searchSeasonRivalTeamsByNameWithIdSeason:(NSString *)idSeason
+                                          idTeam:(NSString *)idTeam
+                                            text:(NSString *)text
+                                       sportType:(MDPTeamModelSportType)sportType
+                                             top:(NSInteger)top
+                                        language:(NSString *)language
+                                 completionBlock:(void (^)(NSArray *response, NSString *search, NSError *error))completionBlock;;
 
 /*
  Gets a player identified by two fields: idplayer and idTeam

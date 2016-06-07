@@ -18,8 +18,8 @@ extern const struct MDPCompetitionMatchModelAttributes {
 	__unsafe_unretained NSString *awayTeamGoals;
 	__unsafe_unretained NSString *awayTeamName;
 	__unsafe_unretained NSString *awayTeamPenaltyGoals;
+	__unsafe_unretained NSString *callType;
 	__unsafe_unretained NSString *competitionName;
-	__unsafe_unretained NSString *country;
 	__unsafe_unretained NSString *date;
 	__unsafe_unretained NSString *group;
 	__unsafe_unretained NSString *homeTeamBadgeThumbnailUrl;
@@ -33,13 +33,9 @@ extern const struct MDPCompetitionMatchModelAttributes {
 	__unsafe_unretained NSString *idMatch;
 	__unsafe_unretained NSString *idSeason;
 	__unsafe_unretained NSString *idStadium;
-	__unsafe_unretained NSString *idTeam;
-	__unsafe_unretained NSString *includeRecent;
 	__unsafe_unretained NSString *isHomeMatch;
-	__unsafe_unretained NSString *language;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *matchDay;
-	__unsafe_unretained NSString *round;
 	__unsafe_unretained NSString *seasonName;
 	__unsafe_unretained NSString *showBuyTickets;
 	__unsafe_unretained NSString *sport;
@@ -89,13 +85,17 @@ extern const struct MDPCompetitionMatchModelRelationships {
 
 //- (BOOL)validateAwayTeamPenaltyGoals:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSNumber* callType;
+
+@property (atomic) int16_t callTypeValue;
+- (int16_t)callTypeValue;
+- (void)setCallTypeValue:(int16_t)value_;
+
+//- (BOOL)validateCallType:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSString* competitionName;
 
 //- (BOOL)validateCompetitionName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* country;
-
-//- (BOOL)validateCountry:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* date;
 
@@ -157,18 +157,6 @@ extern const struct MDPCompetitionMatchModelRelationships {
 
 //- (BOOL)validateIdStadium:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* idTeam;
-
-//- (BOOL)validateIdTeam:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* includeRecent;
-
-@property (atomic) BOOL includeRecentValue;
-- (BOOL)includeRecentValue;
-- (void)setIncludeRecentValue:(BOOL)value_;
-
-//- (BOOL)validateIncludeRecent:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSNumber* isHomeMatch;
 
 @property (atomic) BOOL isHomeMatchValue;
@@ -177,10 +165,6 @@ extern const struct MDPCompetitionMatchModelRelationships {
 
 //- (BOOL)validateIsHomeMatch:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* language;
-
-//- (BOOL)validateLanguage:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
@@ -188,10 +172,6 @@ extern const struct MDPCompetitionMatchModelRelationships {
 @property (nonatomic, strong) NSString* matchDay;
 
 //- (BOOL)validateMatchDay:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* round;
-
-//- (BOOL)validateRound:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* seasonName;
 
@@ -272,11 +252,14 @@ extern const struct MDPCompetitionMatchModelRelationships {
 - (int64_t)primitiveAwayTeamPenaltyGoalsValue;
 - (void)setPrimitiveAwayTeamPenaltyGoalsValue:(int64_t)value_;
 
+- (NSNumber*)primitiveCallType;
+- (void)setPrimitiveCallType:(NSNumber*)value;
+
+- (int16_t)primitiveCallTypeValue;
+- (void)setPrimitiveCallTypeValue:(int16_t)value_;
+
 - (NSString*)primitiveCompetitionName;
 - (void)setPrimitiveCompetitionName:(NSString*)value;
-
-- (NSString*)primitiveCountry;
-- (void)setPrimitiveCountry:(NSString*)value;
 
 - (NSDate*)primitiveDate;
 - (void)setPrimitiveDate:(NSDate*)value;
@@ -323,32 +306,17 @@ extern const struct MDPCompetitionMatchModelRelationships {
 - (NSString*)primitiveIdStadium;
 - (void)setPrimitiveIdStadium:(NSString*)value;
 
-- (NSString*)primitiveIdTeam;
-- (void)setPrimitiveIdTeam:(NSString*)value;
-
-- (NSNumber*)primitiveIncludeRecent;
-- (void)setPrimitiveIncludeRecent:(NSNumber*)value;
-
-- (BOOL)primitiveIncludeRecentValue;
-- (void)setPrimitiveIncludeRecentValue:(BOOL)value_;
-
 - (NSNumber*)primitiveIsHomeMatch;
 - (void)setPrimitiveIsHomeMatch:(NSNumber*)value;
 
 - (BOOL)primitiveIsHomeMatchValue;
 - (void)setPrimitiveIsHomeMatchValue:(BOOL)value_;
 
-- (NSString*)primitiveLanguage;
-- (void)setPrimitiveLanguage:(NSString*)value;
-
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
 
 - (NSString*)primitiveMatchDay;
 - (void)setPrimitiveMatchDay:(NSString*)value;
-
-- (NSString*)primitiveRound;
-- (void)setPrimitiveRound:(NSString*)value;
 
 - (NSString*)primitiveSeasonName;
 - (void)setPrimitiveSeasonName:(NSString*)value;

@@ -12,7 +12,16 @@
 #pragma mark - Interface
 @interface MDPFanVirtualGoodModel : _MDPFanVirtualGoodModel
 
-+ (instancetype)insertIfNotExistsFanVirtualGoodWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
++ (MDPFanVirtualGoodModel *)fanVirtualGoodWithId:(NSString *)idVirtualGood
+                                        language:(NSString *)language
+                            managedObjectContext:(NSManagedObjectContext *)context;
+
++ (instancetype)insertIfNotExistsFanVirtualGoodWithDictionary:(NSDictionary *)dictionary
+                                         managedObjectContext:(NSManagedObjectContext *)context;
+
++ (instancetype)insertIfNotExistsFanVirtualGoodWithDictionary:(NSDictionary *)dictionary
+                                                     language:(NSString *)language
+                                         managedObjectContext:(NSManagedObjectContext *)context;
 
 + (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
                                                                                       delegate:(id <NSFetchedResultsControllerDelegate>)delegate;

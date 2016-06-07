@@ -12,6 +12,6 @@
 #pragma mark - Interface
 @interface MDPPlayerChangeModel : _MDPPlayerChangeModel
 
-+ (instancetype)insertIfNotExistsPlayerChangeWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

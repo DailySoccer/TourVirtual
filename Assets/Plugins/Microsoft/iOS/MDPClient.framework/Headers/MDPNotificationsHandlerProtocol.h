@@ -10,6 +10,7 @@
 #define MDPClient_MDPNotificationsHandlerProtocol_h
 
 #import "MDPPagedNotificationsModel.h"
+#import "MDPNotificationModel.h"
 
 
 #pragma mark - MDPNotificationsHandlerProtocol
@@ -33,6 +34,11 @@
 + (void)deleteNotificationWithIdNotification:(NSString *)idNotification
                              completionBlock:(void(^)(NSError *error))completionBlock;
 
+/*
+ Gets a notification from current user by its identifier
+ */
++ (void)getNotificationWithIdNotification:(NSString *)idNotification
+                          completionBlock:(void(^)(MDPNotificationModel *content, NSError *error))completionBlock;
 
 /*
  Fetch controller

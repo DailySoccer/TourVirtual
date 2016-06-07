@@ -22,7 +22,7 @@ typedef void (^MDPScoreRankingHandlerResponseBlock)(NSArray *response, NSError *
  */
 + (void)postScoreWithIdGame:(NSString *)idGame
                     idScore:(NSInteger)score
-            completionBlock:(void(^)(NSError *error))completionBlock;
+            completionBlock:(MDPScoreRankingHandlerResponseBlock)completionBlock;
 
 /*
   Gets top 50 best scores for a game

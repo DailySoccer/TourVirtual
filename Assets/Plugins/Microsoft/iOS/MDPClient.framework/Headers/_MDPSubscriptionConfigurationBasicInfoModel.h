@@ -13,6 +13,7 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPSubscriptionConfigurationBasicInfoModelAttributes {
+	__unsafe_unretained NSString *callType;
 	__unsafe_unretained NSString *expirationType;
 	__unsafe_unretained NSString *fixedExpirationDate;
 	__unsafe_unretained NSString *highlight;
@@ -24,7 +25,6 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelAttributes {
 	__unsafe_unretained NSString *rangeExpirationMinutes;
 	__unsafe_unretained NSString *relatedChildrenSubscriptions;
 	__unsafe_unretained NSString *relatedParentsSubscriptions;
-	__unsafe_unretained NSString *relatedSubscriptions;
 	__unsafe_unretained NSString *renewable;
 	__unsafe_unretained NSString *type;
 	__unsafe_unretained NSString *videosAssociated;
@@ -33,6 +33,7 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelAttributes {
 extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 	__unsafe_unretained NSString *descriptionSubscriptionConfigurationBasicInfo;
 	__unsafe_unretained NSString *image;
+	__unsafe_unretained NSString *pagedSubscriptionConfigurationBasicInfoItems;
 	__unsafe_unretained NSString *pagedSubscriptionConfigurationResults;
 	__unsafe_unretained NSString *price;
 	__unsafe_unretained NSString *thumbnailImage;
@@ -41,12 +42,21 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 @class MDPLocaleDescriptionModel;
 @class MDPLocaleDescriptionModel;
+@class MDPPagedSubscriptionConfigurationBasicInfoModel;
 @class MDPPagedSubscriptionConfigurationModel;
 @class MDPProductPriceModel;
 @class MDPLocaleDescriptionModel;
 @class MDPLocaleDescriptionModel;
 
 @interface _MDPSubscriptionConfigurationBasicInfoModel : NSManagedObject
+
+@property (nonatomic, strong) NSNumber* callType;
+
+@property (atomic) int16_t callTypeValue;
+- (int16_t)callTypeValue;
+- (void)setCallTypeValue:(int16_t)value_;
+
+//- (BOOL)validateCallType:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* expirationType;
 
@@ -112,10 +122,6 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 //- (BOOL)validateRelatedParentsSubscriptions:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSData* relatedSubscriptions;
-
-//- (BOOL)validateRelatedSubscriptions:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSNumber* renewable;
 
 @property (atomic) BOOL renewableValue;
@@ -143,6 +149,10 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 @property (nonatomic, strong) NSSet *image;
 
 - (NSMutableSet*)imageSet;
+
+@property (nonatomic, strong) MDPPagedSubscriptionConfigurationBasicInfoModel *pagedSubscriptionConfigurationBasicInfoItems;
+
+//- (BOOL)validatePagedSubscriptionConfigurationBasicInfoItems:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPPagedSubscriptionConfigurationModel *pagedSubscriptionConfigurationResults;
 
@@ -199,6 +209,12 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 @interface _MDPSubscriptionConfigurationBasicInfoModel (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSNumber*)primitiveCallType;
+- (void)setPrimitiveCallType:(NSNumber*)value;
+
+- (int16_t)primitiveCallTypeValue;
+- (void)setPrimitiveCallTypeValue:(int16_t)value_;
+
 - (NSNumber*)primitiveExpirationType;
 - (void)setPrimitiveExpirationType:(NSNumber*)value;
 
@@ -247,9 +263,6 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 - (NSData*)primitiveRelatedParentsSubscriptions;
 - (void)setPrimitiveRelatedParentsSubscriptions:(NSData*)value;
 
-- (NSData*)primitiveRelatedSubscriptions;
-- (void)setPrimitiveRelatedSubscriptions:(NSData*)value;
-
 - (NSNumber*)primitiveRenewable;
 - (void)setPrimitiveRenewable:(NSNumber*)value;
 
@@ -270,6 +283,9 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 - (NSMutableSet*)primitiveImage;
 - (void)setPrimitiveImage:(NSMutableSet*)value;
+
+- (MDPPagedSubscriptionConfigurationBasicInfoModel*)primitivePagedSubscriptionConfigurationBasicInfoItems;
+- (void)setPrimitivePagedSubscriptionConfigurationBasicInfoItems:(MDPPagedSubscriptionConfigurationBasicInfoModel*)value;
 
 - (MDPPagedSubscriptionConfigurationModel*)primitivePagedSubscriptionConfigurationResults;
 - (void)setPrimitivePagedSubscriptionConfigurationResults:(MDPPagedSubscriptionConfigurationModel*)value;
