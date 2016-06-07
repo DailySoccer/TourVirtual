@@ -34,8 +34,6 @@ public class Player : MonoBehaviour {
 			return _avatar ?? Instance.gameObject;
 		}
 		set {
-            Debug.LogError("!!!!!SetAvatar!!!!!");
-
 			if (_avatar == null) 
 				RefreshAvatar();
 

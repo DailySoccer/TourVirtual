@@ -62,11 +62,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void OnEnable()
     {
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
-        if (MainManager.IsDeepLinking &&
-            MainManager.DeepLinkinParameters != null &&
-            MainManager.DeepLinkinParameters.ContainsKey("idVirtualGood"))
+        if (Authentication.AzureServices.IsDeepLinking &&
+            Authentication.AzureServices.DeepLinkinParameters != null &&
+            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
         {
-            DressVirtualGood(MainManager.DeepLinkinParameters["idVirtualGood"] as string);
+            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
         }
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
@@ -408,7 +408,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void BackToRoom()
     {
-        if (MainManager.IsDeepLinking) {
+        if (Authentication.AzureServices.IsDeepLinking) {
 			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
@@ -432,7 +432,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                                 LoadingCanvasManager.Hide();
                                 ModalNickInput.Close();
                                 HideAllScreens();
-                                if (MainManager.IsDeepLinking) {
+                                if (Authentication.AzureServices.IsDeepLinking) {
                                     Authentication.AzureServices.OpenURL("rmapp://You");
                                     Application.Quit();
                                     return;
@@ -469,7 +469,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         HideAllScreens();
-        if (MainManager.IsDeepLinking)
+        if (Authentication.AzureServices.IsDeepLinking)
         {
             Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();

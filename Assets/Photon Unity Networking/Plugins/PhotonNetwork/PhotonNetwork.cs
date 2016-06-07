@@ -1068,8 +1068,6 @@ public static class PhotonNetwork
         }
         #endif
 
-        Application.runInBackground = true;
-
         // Set up a MonoBehaviour to run Photon, and hide it
         GameObject photonGO = new GameObject();
         photonMono = (PhotonHandler)photonGO.AddComponent<PhotonHandler>();

@@ -141,7 +141,7 @@ public class VestidorCanvasController : MonoBehaviour {
 	}
 
 	public void BackToRoom() {
-        if (MainManager.IsDeepLinking) {
+        if (Authentication.AzureServices.IsDeepLinking) {
 			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;

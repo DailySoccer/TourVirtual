@@ -11,7 +11,7 @@
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    UnitySendMessage("Azure Services", "DeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
+    UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
     return YES;
 }
 @end

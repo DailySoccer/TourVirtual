@@ -409,14 +409,14 @@ public class TVBChatController : MonoBehaviour {
         Dictionary<string, object> data = new Dictionary<string, object>();
         foreach (var pair in _friendChats)
             data.Add(pair.Key, pair.Value);
-        string friend_chats = BestHTTP.JSON.Json.Encode(data);
+        string friend_chats = MiniJSON.Json.Serialize(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
 	}
 	
 	void DeserializeAndLoadChats() {
 		string jsonString = PlayerPrefs.GetString("friend_chats");
-        Dictionary<string, object> data = BestHTTP.JSON.Json.Decode(jsonString) as Dictionary<string, object>;
+        Dictionary<string, object> data = MiniJSON.Json.Deserialize(jsonString) as Dictionary<string, object>;
 		
 		
 		_friendChats.Clear();

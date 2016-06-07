@@ -131,7 +131,7 @@ public class ContentAPI
 
     List<Asset> ParseContent(string res) {
         List<Asset> ret = new List<Asset>();
-        Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+        Dictionary<string, object> contents = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
         List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
         List<object>.Enumerator bodies = (contents["Body"] as List<object>).GetEnumerator();
         var contenidoID = contents["SourceId"] as string;
@@ -184,7 +184,7 @@ public class ContentAPI
             yield return Authentication.AzureServices.GetContents("VIRTUALTOUR", page, (res) => {
                 if (res != "null") {
 					//try{
-                    Dictionary<string, object> contents = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                    Dictionary<string, object> contents = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                     if (contents != null) {
                         List<object> results = contents["Results"] as List<object>;
                         foreach (Dictionary<string, object> vg in results) {

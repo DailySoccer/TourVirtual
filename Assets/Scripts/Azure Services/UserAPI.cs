@@ -79,24 +79,26 @@ public class UserAPI {
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
     }
 
+    public bool CheckIsOtherUser() {
+        return Authentication.AzureServices.IsDeepLinking && Authentication.AzureServices.DeepLinkinParameters != null && Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idUser") && Authentication.AzureServices.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID;
+    }
+
+
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
-        yield return Authentication.AzureServices.GetFanApps();        
-        
+        yield return Authentication.AzureServices.GetFanApps();
+
         yield return Authentication.AzureServices.GetFanMe((res) => {
-            Dictionary<string, object> hs = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+            Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
             MainManager.Instance.ChangeLanguage(hs["Language"] as string);
             UserID = hs["IdUser"] as string;
             Nick = hs["Alias"] as string;
         });
-        if(string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
-        if ( MainManager.IsDeepLinking &&
-                    MainManager.DeepLinkinParameters != null &&
-                    MainManager.DeepLinkinParameters.ContainsKey("idUser") &&
-                    MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
-        { // USUARIO DISTINTO
+
+        if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
+        if (CheckIsOtherUser()) { // USUARIO DISTINTO
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
             ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), ()=> {
@@ -120,7 +122,7 @@ public class UserAPI {
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
             }
             else {
-                AvatarDesciptor.Parse(BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>);
+                AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
 
                 VirtualGoodsDesciptor.FilterBySex();
@@ -133,30 +135,25 @@ public class UserAPI {
         LoadingContentText.SetText("API.GamificationStatus");
         yield return Authentication.AzureServices.GamificationStatus( (res) => {
                 if (res != "null") {
-                    try{
-                        Dictionary<string, object> gamificationstatus = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                        Points = (int)(double)gamificationstatus["Points"];
-                        Level = (int)(double)gamificationstatus["LevelNumber"];
-                        Exp = (int)(double)gamificationstatus["GamingScore"];
-                    }
-                    catch { }
+                    Dictionary<string, object> gamificationstatus = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
+                    Points = (int)(long)gamificationstatus["Points"];
+                    Level = (int)(long)gamificationstatus["LevelNumber"];
+                    Exp = (int)(long)gamificationstatus["GamingScore"];
                 }
             });
-
-//        LoadingContentText.SetText("API.Rankings");
-//        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
-//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
-//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
-//        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
+        //        LoadingContentText.SetText("API.Rankings");
+        //        yield return Authentication.Instance.StartCoroutine(AwaitGlobalRanking());
+        //        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeShoots));
+        //        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
+        //        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
         LoadingContentText.SetText("API.MaxScores");
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
         LoadingContentText.SetText("");
 
- /// Test de compra contra MS!
-//        Purchase("100coins", "{ \"orderId\":\"GPA.1333-6426-9614-43683\",\"packageName\":\"com.realmadrid.virtualworld\",\"productId\":\"com.realmadrid.virtualworld.100coins\",\"purchaseTime\":1462444788449,\"purchaseState\":0,\"purchaseToken\":\"bdgloghieomillmdmdofcoem.AO-J1OybYtDs5EkM7WRkK5Kzw1jbtNMUZFPG7wXR2NpkM1VrdSsQDnY1AuKXwIjZQ1muUJi-hEXM1NRpzS3FcATFm1e6vsDbhbWw8eMUlryTNAKSHe9Bm0pRWAWyD1kMdorh6vZACur2-yKgurb-Iq2mIRF8o_HqGlvnFQV8OCd8-wF0X1BZl_w\"}");
-
+        /// Test de compra contra MS!
+        //        Purchase("100coins", "{ \"orderId\":\"GPA.1333-6426-9614-43683\",\"packageName\":\"com.realmadrid.virtualworld\",\"productId\":\"com.realmadrid.virtualworld.100coins\",\"purchaseTime\":1462444788449,\"purchaseState\":0,\"purchaseToken\":\"bdgloghieomillmdmdofcoem.AO-J1OybYtDs5EkM7WRkK5Kzw1jbtNMUZFPG7wXR2NpkM1VrdSsQDnY1AuKXwIjZQ1muUJi-hEXM1NRpzS3FcATFm1e6vsDbhbWw8eMUlryTNAKSHe9Bm0pRWAWyD1kMdorh6vZACur2-yKgurb-Iq2mIRF8o_HqGlvnFQV8OCd8-wF0X1BZl_w\"}");
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
@@ -250,8 +247,8 @@ public IEnumerator AwaitGlobalRanking() {
     public IEnumerator GetMaxScore(MiniGame game) {
         yield return Authentication.AzureServices.GetMaxScore(MiniGameID[(int)game], (res) => {
             if (res != "null") {
-                Dictionary<string, object> MaxScore = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
-                HighScore[(int)game] = (int)(double)MaxScore["Score"];
+                Dictionary<string, object> MaxScore = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
+                HighScore[(int)game] = (int)(long)MaxScore["Score"];
             }
             else
                 HighScore[(int)game] = 0;
@@ -262,10 +259,10 @@ public IEnumerator AwaitGlobalRanking() {
         Authentication.AzureServices.GetRanking(MiniGameID[(int)game], (res) => {
             if (res != "null"){
                 int cnt = 0;
-                List<object> scores = BestHTTP.JSON.Json.Decode(res) as List<object>;
+                List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 var tmp = new ScoreEntry[scores.Count];
                 foreach (Dictionary<string, object> entry in scores)
-                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(double)entry["Score"]);
+                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["Score"]);
                 HighScores[(int)game] = tmp;
             }
             if (onRanking != null) onRanking();

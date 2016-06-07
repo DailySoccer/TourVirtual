@@ -118,15 +118,15 @@ public class ContentManager: MonoBehaviour
 			page++;
 			Debug.Log ("GetListContentType: Page: " + page);
             yield return Authentication.AzureServices.GetContents(contentType, page, (res) => {
-                Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                Dictionary<string,object> jsonMap = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                 List<object> results = jsonMap[KEY_RESULTS] as List<object>;
                 foreach (object result in results) {
                     CompactContent compactContent = CompactContent.LoadFromJSON(result);
                     contents.Add(compactContent);
                     // StartCoroutine(GetContentItem(compactContent.IdContent));
                 }
-                page = (int)(double)jsonMap[KEY_CURRENT_PAGE];
-                pageCount = (int)(double)jsonMap[KEY_PAGE_COUNT];
+                page = (int)(long)jsonMap[KEY_CURRENT_PAGE];
+                pageCount = (int)(long)jsonMap[KEY_PAGE_COUNT];
             });
 		}
 

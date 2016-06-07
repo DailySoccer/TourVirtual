@@ -90,7 +90,7 @@ public class DLCManager : MonoBehaviour {
             www = new WWW(BaseUrl + "assetbundles.json");
             yield return www;
             if (string.IsNullOrEmpty(www.error)) {
-                Dictionary<string, object> jsonMap = BestHTTP.JSON.Json.Decode(www.text) as Dictionary<string, object>;
+                Dictionary<string, object> jsonMap = MiniJSON.Json.Deserialize(www.text) as Dictionary<string, object>;
                 List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
                 foreach (Dictionary<string, object> asset in assets)
                 {

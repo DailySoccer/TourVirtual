@@ -106,86 +106,21 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	public void SetNewLangManager(string newSubLang, string newLang = "") {
-	
-		if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
-			LanguageManager.Instance.ChangeLanguage(newSubLang);
+        if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
+            LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
-			PlayerPrefs.SetString("CurrentLanguaje", newSubLang);				
-			PlayerPrefs.Save();
-			
-		}
-		else {
+            PlayerPrefs.SetString("CurrentLanguaje", newSubLang);
+            PlayerPrefs.Save();
+
+        } else {
 			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
-	}
-
-	public AudioSource MusicTheme;
-
-    public static bool IsDeepLinking = false;
-    public static Dictionary<string, object> DeepLinkinParameters;
-
-    public static string DeepLinkingURL;
-    public void DeepLinking(string url) {
-		try{
-			url = WWW.UnEscapeURL(url);
-
-            ModalTextOnly.ShowText("DL: " + url);
-
-            DeepLinkingURL = url;
-            var pair = url.Split('?');
-            DeepLinkinParameters = new Dictionary<string, object>();
-            if (pair.Length ==2 ){
-                var pars = pair[1].Split('&');
-                foreach (var p in pars) {
-                    var par = p.Split('=');
-                    if (par.Length == 2){
-                        DeepLinkinParameters.Add(par[0], par[1]);
-                    }
-                }
-            }
-            IsDeepLinking = true;
-        }
-        catch{
-			ModalTextOnly.ShowText( "ERROR1003: "+url );
-		}
-	}
-
-    public void GetDeepLinkingURL() {
-#if UNITY_ANDROID
-        try {
-            using (AndroidJavaClass jclass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-            {
-                if (jclass != null)
-                {
-                    AndroidJavaObject activity = jclass.GetStatic<AndroidJavaObject>("currentActivity");
-                    if (activity != null)
-                    {
-                        AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
-                        if (intent != null)
-                        {
-                            AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
-                            if (uri != null)
-                                DeepLinking(uri.Call<string>("toString"));
-                        }
-                    }
-                }
-                
-            }
-        }
-        catch (System.Exception ex) {
-            Debug.LogWarning(ex.Message);
-
-        }
-#else
-#if UNITY_WSA && !UNITY_EDITOR
-        if (!string.IsNullOrEmpty(UnityEngine.WSA.Application.arguments))
-            DeepLinking(UnityEngine.WSA.Application.arguments);
-#endif
-#endif
 
     }
 
-   void Awake() {
+    public AudioSource MusicTheme;
+
+    void Awake() {
         Application.targetFrameRate = 30;
 
         Instance = this;
@@ -255,8 +190,7 @@ public class MainManager : Photon.PunBehaviour {
         //        DeepLinking("rmvt://editavatar?idUser=iduser&idVirtualGood=1");
         // DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=e94d896c-8daa-42f3-9210-cbc80217d00e");
         Authentication.Instance.Init();
-
-        GetDeepLinkingURL();
+        Authentication.AzureServices.CheckDeepLinking();
 
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
@@ -275,34 +209,39 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     }
 
-    void OnApplicationPause(bool pauseStatus)
-    {
-        if (!pauseStatus)
-        {
-            GetDeepLinkingURL();
-            // Ojo de no ir al vestidor si estoy en AVATAR o antes.
-            if (MainManager.IsDeepLinking)
-            {
-                if (MainManager.DeepLinkinParameters != null && MainManager.DeepLinkinParameters.ContainsKey("idUser") && MainManager.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID)
-                { // USUARIO DISTINTO
-                    LoadingCanvasManager.Hide();
-                    Authentication.AzureServices.SignOut();
-                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () =>
-                    {
-                        Authentication.AzureServices.SignIn();
-                        if (RoomManager.Instance != null)
-                            RoomManager.Instance.GotoRoom("VESTIDOR");
-                    });
-                }
-                else
-                    if (RoomManager.Instance != null)
-                    RoomManager.Instance.GotoRoom("VESTIDOR");
 
-            }
+    void OnApplicationFocus(bool focusStatus) {
+        if (focusStatus) {
+            Authentication.AzureServices.CheckDeepLinking();
+
+        }
+    }
+/*
+    void OnApplicationPause(bool pauseStatus) {
+        Debug.LogError("OnApplicationPause " + pauseStatus);
+        if (!pauseStatus) {
+            Authentication.AzureServices.CheckDeepLinking();
+            if (!Authentication.AzureServices.IsDeepLinking && RoomManager.Instance != null)
+                RoomManager.Instance.GotoRoom("VESTIDOR");
+        }
+    }
+*/
+    public void OnDeepLinking() {
+        if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.
+            LoadingCanvasManager.Hide();
+            Authentication.AzureServices.SignOut();
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () => {
+                Authentication.AzureServices.SignIn();
+                if (RoomManager.Instance != null)
+                    RoomManager.Instance.GotoRoom("VESTIDOR");
+            });
+        }else {
+            if (RoomManager.Instance != null  )
+                RoomManager.Instance.GotoRoom("VESTIDOR");
         }
     }
 
-	void InitializeStore() {
+    void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 
 		StoreEvents.OnSoomlaStoreInitialized += OnSoomlaStoreInitialized;

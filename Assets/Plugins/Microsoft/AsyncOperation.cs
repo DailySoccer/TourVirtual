@@ -20,11 +20,21 @@ public class AsyncOperation{
         {
             var op = Operations[hash];
             string rest = result.Substring(idx + 1);
-            if (success && op.OnSuccess != null) op.OnSuccess(rest);
-            else if (!success && op.OnError != null) op.OnError(rest);
-            //
+#if NETFX_CORE
+            UnityEngine.WSA.Application.InvokeOnAppThread(() => {
+#endif
+            if (success && op.OnSuccess != null) {
+                op.OnSuccess(rest);
+            } else if (!success && op.OnError != null) {
+                UnityEngine.Debug.LogError(">>>>> OnError " + rest);
+                op.OnError(rest);
+            }
             op.pending = false;
             Operations.Remove(hash);
+#if NETFX_CORE
+            }, true);
+#endif
+            //
         }
     }
 

@@ -82,7 +82,7 @@ void _GetFanMe(char* _hash){
             
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
-            [jobject setObject:content.idUser forKey:@"UserID"];
+            [jobject setObject:content.idUser forKey:@"IdUser"];
             [jobject setObject:content.alias forKey:@"Alias"];
             [jobject setObject:content.language forKey:@"Language"];
             
@@ -230,7 +230,12 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
             
         } else {
-            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, content.score ];
+			NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
+            [jobject setObject:content.score forKey:@"Score"];
+			NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
             UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
         }
     }];

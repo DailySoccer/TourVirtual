@@ -11,9 +11,7 @@ public class EditorAzureInterfaz : AzureInterfaz
 
     public string AccessToken { get; set; }
 
-
-    public override void Init(string signin)
-    {
+    public override void Init(string signin) {
 #if PRO
         this.WebApiBaseAddress = "https://api.realmadrid.com/";
         this.clientId = "1416e63a-8998-4243-99f7-8c9ebf516157";
@@ -239,7 +237,7 @@ public class EditorAzureInterfaz : AzureInterfaz
     {
         HTTPRequest request;
         if (token == null) request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/VirtualGoods?type={0}&language{1}", type, MainLanguage));
-        else request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/VirtualGoods?type={0}&language={1}&ct={2}", type, MainLanguage, token));
+        else request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/VirtualGoods?type={0}&language={1}&ct={2}", type, MainLanguage, WWW.EscapeURL(token)));
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }
@@ -265,7 +263,7 @@ public class EditorAzureInterfaz : AzureInterfaz
     {
         HTTPRequest request;
         if (token == null) request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Achievements?language={0}", MainLanguage));
-        else request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Achievements?language={0}&ct={1}", MainLanguage, token));
+        else request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Achievements?language={0}&ct={1}", MainLanguage, WWW.EscapeURL(token)));
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }

@@ -38,7 +38,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
 	    _AzureSignOut();
     }
     
-    public override string GetDeepLinking() { return null; }
+    public override void CheckDeepLinking() { }
 
     public void OnResponseOK(string response) {
         AsyncOperation.EndOperation(true, response);

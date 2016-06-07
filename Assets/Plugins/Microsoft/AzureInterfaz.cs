@@ -12,18 +12,42 @@ public class AzureInterfaz : MonoBehaviour
     protected string    WebApiBaseAddress;
     public string       MainLanguage = "es-es";
 
-    protected void DeepLinking(string url) {
-        Debug.LogError("Start >>>>>> DeepLinking " + this.GetDeepLinking());
-    }
-
     public virtual void Init(string signin) { Debug.LogError(">>>>> AzureInterfaz.Init");  }
     // LogIn
     public virtual void SignIn(AzureEvent OnSignInEvent=null) { }
     public virtual void SignOut() { }
     public virtual void OpenURL(string url) { Application.OpenURL(url); }
-    public virtual string GetDeepLinking() { return ""; }
 
-    // No se para que es esto.
+    public bool IsDeepLinking = false;
+    public string DeepLinkingURL;
+    public Dictionary<string, object> DeepLinkinParameters;
+
+    public virtual void CheckDeepLinking() { }
+
+    public void SetDeepLinking(string url) {
+        if (string.IsNullOrEmpty(url)) {
+            IsDeepLinking = false;
+            return;
+        }
+
+        url = WWW.UnEscapeURL(url);
+        DeepLinkingURL = url;
+        var pair = url.Split('?');
+        DeepLinkinParameters = new Dictionary<string, object>();
+        if (pair.Length == 2) {
+            var pars = pair[1].Split('&');
+            foreach (var p in pars) {
+                var par = p.Split('=');
+                if (par.Length == 2) {
+                    DeepLinkinParameters.Add(par[0], par[1]);
+                }
+            }
+        }
+        IsDeepLinking = true;
+        gameObject.SendMessage("OnDeepLinking");
+    }
+    
+// No se para que es esto.
     public virtual Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
 
     // Profile

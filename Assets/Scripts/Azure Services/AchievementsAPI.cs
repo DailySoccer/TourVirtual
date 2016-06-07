@@ -32,16 +32,15 @@ public class AchievementsAPI{
         TotalAchievements = 0;
         Achievements = new Dictionary<string, Achievement>();
         yield return Authentication.AzureServices.GetAchievements("VIRTUALTOUR", (res) => {
-            if (res != "null")
-            {
-                List<object> results = BestHTTP.JSON.Json.Decode(res) as List<object>;
+            if (res != "null") {
+                List<object> results = MiniJSON.Json.Deserialize(res) as List<object>;
                 foreach (Dictionary<string, object> ele in results) {
                     string guid = ele["IdAchievement"] as string;
                     string iname = ele["Name"] as string;
                     string name = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
 
-                    int points = (int)(double)ele["Points"];
-                    int level = (int)(double)ele["Level"];
+                    int points = (int)(long)ele["Points"];
+                    int level = (int)(long)ele["Level"];
                     string description = ((ele["LevelName"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                     string imageUrl = ele["ImageUrl"] as string;
                     // string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
@@ -63,14 +62,14 @@ public class AchievementsAPI{
 
         while (needRequest) {            
             yield return Authentication.AzureServices.GetAchievementsEarned("VIRTUALTOUR", token, (res) => {
-                Dictionary<string, object> myachievements = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                Dictionary<string, object> myachievements = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                 if (myachievements != null)
                 {
                     List<object> myresults = myachievements["Results"] as List<object>;
                     foreach (Dictionary<string, object> ele in myresults)
                     {
                         string guid = ele["IdAchievement"] as string;
-                        int level = (int)(double)ele["Level"];
+                        int level = (int)(long)ele["Level"];
                         string aux = guid + "|" + level;
                         if (Achievements.ContainsKey(aux))
                         {
@@ -86,7 +85,7 @@ public class AchievementsAPI{
                         needRequest = (bool)myachievements["HasMoreResults"];
                         //Pedimos la siguiente pagina.
                         if (needRequest)
-                            token = WWW.EscapeURL(myachievements["ContinuationTokenB64"] as string);
+                            token = myachievements.ContainsKey("ContinuationTokenB64")?myachievements["ContinuationTokenB64"] as string:"";
                     }
                 }
             });

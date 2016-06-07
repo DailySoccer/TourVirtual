@@ -187,7 +187,7 @@ public class RoomManager : Photon.PunBehaviour {
             if ( !string.IsNullOrEmpty(RoomStart) ) {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
-                    if(!MainManager.IsDeepLinking && MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+                    if(!Authentication.AzureServices.IsDeepLinking && MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
                         MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.LANDING_PAGE;
                     _doorToEnter = GetDoorKey(RoomStart);
                     ToRoom(RoomDefinitions[roomKey] as RoomDefinition);
@@ -576,7 +576,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 	
 	private void LoadRooms() {
-		Dictionary<string,object> jsonMap = BestHTTP.JSON.Json.Decode(Sitemap.text) as Dictionary<string, object>;
+		Dictionary<string,object> jsonMap = MiniJSON.Json.Deserialize(Sitemap.text) as Dictionary<string, object>;
 		List<object> rooms = jsonMap[KEY_ROOMS] as List<object>;
 		foreach (object room in rooms) {
 			RoomDefinition roomDefinition = RoomDefinition.LoadFromJSON(room as Dictionary<string, object>);

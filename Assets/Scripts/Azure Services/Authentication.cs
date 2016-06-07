@@ -29,13 +29,7 @@ public class Authentication : MonoBehaviour {
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
 
-    public void DeepLinking(string url)
-    {
-
-    }
-
     public void Init() {
-        Debug.LogError(">>> Call AzureServices.Init "+ AzureServices.GetType()+" <<< ");
         AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
         AzureServices.SignIn((success) => {
             StartCoroutine(UserAPI.Instance.Request());

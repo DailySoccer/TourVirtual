@@ -100,7 +100,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public System.Collections.IEnumerator CacheClothes() {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
-            Dictionary<string,object> json = BestHTTP.JSON.Json.Decode(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
+            Dictionary<string,object> json = MiniJSON.Json.Deserialize(bundle.LoadAsset<TextAsset>("cloths").text) as Dictionary<string, object>;
             if (json.ContainsKey("Heads")) Heads = json["Heads"] as Dictionary<string, object>;
             if (json.ContainsKey("Hairs")) Hairs = json["Hairs"] as Dictionary<string, object>;
             if (json.ContainsKey("Bodies")) Bodies = json["Bodies"] as Dictionary<string, object>;
@@ -110,8 +110,6 @@ public class PlayerManager : Photon.PunBehaviour {
             if (json.ContainsKey("Compliments")) Compliments = json["Compliments"] as Dictionary<string, object>;
             if (json.ContainsKey("Selector")) Selector = json["Selector"] as Dictionary<string, object>;
         }));
-
-		Debug.LogError("Cachado!!!! "  + Heads.ToString() );
     }
 
     public Dictionary<string, object> GetPackDescriptor(string GUID)

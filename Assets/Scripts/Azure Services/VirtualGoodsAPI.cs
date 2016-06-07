@@ -38,7 +38,7 @@ public class VirtualGoodsAPI {
 
         while (needRequest) {
             yield return Authentication.AzureServices.GetVirtualGoods("AVATARVG", page, null, false, (res) => {
-                    Dictionary<string, object> virtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                    Dictionary<string, object> virtualgoods = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                 if (virtualgoods != null) {
                     List<object> results = virtualgoods["Results"] as List<object>;
                     foreach (Dictionary<string, object> vg in results) {
@@ -67,8 +67,7 @@ public class VirtualGoodsAPI {
         string token = null;
         while (needRequest) {
             yield return Authentication.AzureServices.GetVirtualGoodsPurchased("AVATARVG", token, (res) => {
-                    //Debug.LogError(">>> MY virtualgoods " + res);
-                    Dictionary<string, object> myvirtualgoods = BestHTTP.JSON.Json.Decode(res) as Dictionary<string, object>;
+                Dictionary<string, object> myvirtualgoods = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                 if (myvirtualgoods != null) {
                     List<object> myresults = myvirtualgoods["Results"] as List<object>;
                     foreach (Dictionary<string, object> vg in myresults) {
@@ -81,8 +80,7 @@ public class VirtualGoodsAPI {
                     needRequest = false;
                     if (myvirtualgoods.ContainsKey("HasMoreResults")) {
                         needRequest = (bool)myvirtualgoods["HasMoreResults"];
-                        token = WWW.EscapeURL(myvirtualgoods["ContinuationTokenB64"] as string);
-                        Debug.LogError("HasMoreResults " + token);
+                        token = myvirtualgoods.ContainsKey("ContinuationTokenB64") ? myvirtualgoods["ContinuationTokenB64"] as string : "";
                     }
                 }
             });

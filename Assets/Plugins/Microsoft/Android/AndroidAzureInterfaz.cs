@@ -9,20 +9,6 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     private static AndroidJavaObject _activity;
     private static AndroidJavaObject activity { get { if (_activity == null) _activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity"); return _activity; } }
 
-    void Start() {
-        TryDeepLinking();
-    }
-
-    void OnApplicationPause(bool pauseStatus) {
-        if (!pauseStatus) TryDeepLinking();
-    }
-
-    void TryDeepLinking() {
-        var dl = this.GetDeepLinking();
-        if (!string.IsNullOrEmpty(dl)) DeepLinking(dl);
-
-    }
-
     public override void Init(string signin) {
 #if PRO
         this.clientId = "1416e63a-8998-4243-99f7-8c9ebf516157";
@@ -52,7 +38,7 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         activity.Call("Logout");
     }
 
-    public override string GetDeepLinking() { return activity.Call<string>("GetDeepLinking"); }
+    public override void CheckDeepLinking() { SetDeepLinking( activity.Call<string>("GetDeepLinking") ); }
 
     public void OnResponseOK(string response) {
         AsyncOperation.EndOperation(true, response);
