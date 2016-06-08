@@ -190,7 +190,7 @@ public class MainManager : Photon.PunBehaviour {
         //        DeepLinking("rmvt://editavatar?idUser=iduser&idVirtualGood=1");
         // DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=e94d896c-8daa-42f3-9210-cbc80217d00e");
         Authentication.Instance.Init();
-        Authentication.AzureServices.CheckDeepLinking();
+        Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
 
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
@@ -211,33 +211,29 @@ public class MainManager : Photon.PunBehaviour {
 
 
     void OnApplicationFocus(bool focusStatus) {
-        if (focusStatus) {
+        if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
 
         }
     }
-/*
-    void OnApplicationPause(bool pauseStatus) {
-        Debug.LogError("OnApplicationPause " + pauseStatus);
-        if (!pauseStatus) {
-            Authentication.AzureServices.CheckDeepLinking();
-            if (!Authentication.AzureServices.IsDeepLinking && RoomManager.Instance != null)
-                RoomManager.Instance.GotoRoom("VESTIDOR");
-        }
-    }
-*/
+
     public void OnDeepLinking() {
         if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () => {
                 Authentication.AzureServices.SignIn();
-                if (RoomManager.Instance != null)
-                    RoomManager.Instance.GotoRoom("VESTIDOR");
+                if (RoomManager.Instance != null) {
+                    if(RoomManager.Instance.Room.Id!= "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
+                    else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
+                }
+                
             });
         }else {
-            if (RoomManager.Instance != null  )
-                RoomManager.Instance.GotoRoom("VESTIDOR");
+            if (RoomManager.Instance != null) {
+                if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
+                else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
+            }
         }
     }
 

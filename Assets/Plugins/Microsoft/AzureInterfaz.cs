@@ -22,6 +22,10 @@ public class AzureInterfaz : MonoBehaviour
     public string DeepLinkingURL;
     public Dictionary<string, object> DeepLinkinParameters;
 
+    public delegate void DeepLinkingDelegate();
+    public event DeepLinkingDelegate OnDeepLinking;
+
+
     public virtual void CheckDeepLinking() { }
 
     public void SetDeepLinking(string url) {
@@ -44,7 +48,7 @@ public class AzureInterfaz : MonoBehaviour
             }
         }
         IsDeepLinking = true;
-        gameObject.SendMessage("OnDeepLinking");
+        if(OnDeepLinking!=null) OnDeepLinking();
     }
     
 // No se para que es esto.
