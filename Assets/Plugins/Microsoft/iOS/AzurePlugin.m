@@ -71,6 +71,9 @@ NSMutableArray *GetLocalization(NSSet * levelNames){
 }
 
 void _GetFanApps(char* appID, char* deviceID,char* _hash){
+    __block NSString* hash = CreateNSString(_hash);
+    NSString *res = [NSString stringWithFormat:@"%@:OK", hash ];
+    UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
 }
 
 void _GetFanMe(char* _hash){
@@ -210,14 +213,25 @@ void _SendAvatarImage(int length, Byte* array, char* _hash){
 
 void _SendScore(char* IDMinigame, int score, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    [[[MDPClientHandler sharedInstance] getScoreRankingHandler] postScoreWithIdGame:CreateNSString(IDMinigame) idScore:score completionBlock:^(NSError *error) {
+    [[[MDPClientHandler sharedInstance] getScoreRankingHandler] postScoreWithIdGame:CreateNSString(IDMinigame) idScore:score completionBlock:^(NSArray *response, NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
-            
         } else {
-            NSString *res = [NSString stringWithFormat:@"%@:ScoreSent", hash ];
+            NSMutableArray *jobject = [[NSMutableArray alloc] init];
+            for(MDPScoreRankingModel *entry in response ){
+                NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
+                [jent setObject:entry.position forKey:@"Position"];
+                [jent setObject:entry.alias forKey:@"Alias"];
+                [jent setObject:entry.score forKey:@"Score"];
+                [jobject addObject:jent];
+            }
+            NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
             UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+            
         }
     }];
 }
@@ -230,9 +244,9 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
             
         } else {
-			NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
             [jobject setObject:content.score forKey:@"Score"];
-			NSError	*error		= nil;
+            NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
             NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
@@ -250,24 +264,22 @@ void _GetRanking(char* IDMinigame, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
             
         } else {
-            NSLog(@"_GetRanking >>[%@]", response);
-            /*
-             NSMutableArray *jobject = [[NSMutableArray alloc] init];
-             for(MDPVirtualGoodModel *entry in content.results ){
-             NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
-             [jent setObject:entry.p forKey:<#(nonnull id<NSCopying>)#>.Add("Position", entry.Position);
-             ele.Add("Alias", entry.Alias);
-             ele.Add("Score", entry.Score);
-             ele.Add("AvatarUrl", entry.AvatarUrl);
-             ele.Add("IsCurrentUser", entry.IsCurrentUser);
-             jobject.Add(ele);
-             }
-             */
+            NSMutableArray *jobject = [[NSMutableArray alloc] init];
+            for(MDPScoreRankingModel *entry in response ){
+                NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
+                [jent setObject:entry.position forKey:@"Position"];
+                [jent setObject:entry.alias forKey:@"Alias"];
+                [jent setObject:entry.score forKey:@"Score"];
+                [jobject addObject:jent];
+            }
+            NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
         }
     }];
-    
 }
-
 
 // Virtual Goods ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bool onlyPurchasables, char*  _hash){
@@ -282,7 +294,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
             NSMutableArray *jreponse = [[NSMutableArray alloc] init];
             for(MDPVirtualGoodModel *entry in content.results ){
                 NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:entry.enabled forKey:@"Enabled"];
+                [jentry setObject:[NSNumber numberWithBool:[entry.enabled intValue]==1] forKey:@"Enabled"];
                 [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
                 [jentry setObject:entry.idSubType forKey:@"IdSubType"];
                 [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
@@ -333,8 +345,9 @@ void _GetVirtualGoodsPurchased(char* type, char* language, char* token, char* _h
                 [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
                 [jreponse addObject:jentry];
             }
-            //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];
-            [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+            //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];ç
+            if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+            else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
             [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
             [jobject setObject:jreponse forKey:@"Results"];
             NSError	*error		= nil;
@@ -364,7 +377,7 @@ void _PurchaseVirtualGood(char* IDVirtualGood, char* _hash){
 // Achievements ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void _GetAchievements(char* type, char* language, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    
+    NSLog(@">>> type %@ lang %@", CreateNSString(type), CreateNSString(language));
     [[[MDPClientHandler sharedInstance] getAchivementsHandler] getAchivementsWithAchievementConfigurationType: CreateNSString(type) language:CreateNSString(language) completionBlock:^(NSArray *response, NSError *error){
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
@@ -409,7 +422,8 @@ void _GetAchievementsEarned(char* type, char* language, char* token, char* _hash
                 [jreponse addObject:jentry];
             }
             //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];
-            [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+            if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+            else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
             [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
             [jobject setObject:jreponse forKey:@"Results"];
             NSError	*error		= nil;

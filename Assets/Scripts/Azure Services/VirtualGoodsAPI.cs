@@ -46,7 +46,9 @@ public class VirtualGoodsAPI {
                             string guid = vg["IdVirtualGood"] as string;
                             string subtype = vg["IdSubType"] as string;
                             string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-                            float value = vg.ContainsKey("Price") ? (float)(double)(((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]) : 0.0f;
+                            float value = 0.0f;
+                            if( vg.ContainsKey("Price") )
+                                value = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
                             string thburl = vg["ThumbnailUrl"] as string;
                             string imgurl = vg["PictureUrl"] as string;
 
