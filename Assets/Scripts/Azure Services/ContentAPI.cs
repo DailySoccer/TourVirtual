@@ -130,6 +130,7 @@ public class ContentAPI
     }
 
     List<Asset> ParseContent(string res) {
+        Debug.LogError("res " + res);
         List<Asset> ret = new List<Asset>();
         Dictionary<string, object> contents = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
         List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
@@ -141,7 +142,7 @@ public class ContentAPI
             var asset = assets.Current as Dictionary<string, object>;
             var body = bodies.Current as Dictionary<string, object>;
 
-            AssetType at = (AssetType)(double)asset["Type"];
+            AssetType at = (AssetType)int.Parse( asset["Type"].ToString() );
 
             var sd = "/";
             switch (at)
