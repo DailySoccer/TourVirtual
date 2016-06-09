@@ -1,3 +1,4 @@
+/*
 package com.example.ximo.myapplication;
 
 import android.content.Intent;
@@ -45,24 +46,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void login() {
-        AuthListenerToken token = new AuthListenerToken(){
-            @Override
-            public void onResponse(String var1){
-
-            }
-            @Override
-            public void onError(DigitalPlatformClientException var1){
-
-            }
-        };
-
-        DigitalPlatformClient.getInstance().getAuthHandler().login(this, token, false);
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (DigitalPlatformClient.getInstance().getAuthHandler() != null)
             DigitalPlatformClient.getInstance().getAuthHandler().onActivityResult(this, requestCode, resultCode, data);
     }
 }
+*/
