@@ -203,7 +203,6 @@ void _SendAvatarImage(int length, Byte* array, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     NSData* data = [NSData dataWithBytes:array length:length];
     UIImage* image = [UIImage imageWithData:data];
-    
     [[[MDPClientHandler sharedInstance] getFanHandler] putProfileAvatarPictureWithImage:(UIImage *)image                                                                      completionBlock:^(NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
@@ -253,7 +252,7 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
         } else {
             NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil) [jobject setObject:content.score forKey:@"Score"];
-            else [jobject setObject: (NSInteger) 0 forKey:@"Score"]; // Esto dara error.
+            else [jobject setObject: (NSInteger) 0 forKey:@"Score"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -264,7 +263,6 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
 }
 
 void _GetRanking(char* IDMinigame, char* _hash){
-    NSLog(@"_GetRanking >>[%@]",CreateNSString(IDMinigame));
     __block NSString* hash = CreateNSString(_hash);
     [[[MDPClientHandler sharedInstance] getScoreRankingHandler] getTopScoresWithIdGame:CreateNSString(IDMinigame) completionBlock:^(NSArray *response, NSError *error) {
         if (error) {
@@ -302,7 +300,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
-                NSMutableArray *jreponse = [[NSMutableArray alloc] init];
+                NSMutableArray *results = [[NSMutableArray alloc] init];
                 if(content.results!=nil){
                     for(MDPVirtualGoodModel *entry in content.results ){
                         NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
@@ -311,6 +309,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
                         [jentry setObject:entry.idSubType forKey:@"IdSubType"];
                         [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
                         [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
+                        
                         NSMutableArray *description = [[NSMutableArray alloc]init];
                         if([entry descriptionVirtualGood]!=nil){
                             for( MDPLocaleDescriptionModel *loc in [entry descriptionVirtualGood]){
@@ -333,7 +332,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
                             }
                         }
                         [jentry setObject:price forKey:@"Price"];
-                        [jreponse addObject:jentry];
+                        [results addObject:jentry];
                     }
                 }
                 [jobject setObject:content.currentPage forKey:@"CurrentPage"];
@@ -341,7 +340,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
                 [jobject setObject:content.pageCount forKey:@"PageCount"];
                 [jobject setObject:content.pageSize forKey:@"PageSize"];
                 [jobject setObject:content.totalItems forKey:@"TotalItems"];
-                [jobject setObject:jreponse forKey:@"Results"];
+                [jobject setObject:results forKey:@"Results"];
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
@@ -363,21 +362,21 @@ void _GetVirtualGoodsPurchased(char* type, char* language, char* token, char* _h
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
-                NSMutableArray *jreponse = [[NSMutableArray alloc] init];
+                NSMutableArray *results = [[NSMutableArray alloc] init];
                 if(content.results!=nil){
                     for(MDPFanVirtualGoodModel *entry in content.results ){
                         NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
                         [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
                         [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
                         [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
-                        [jreponse addObject:jentry];
+                        [results addObject:jentry];
                     }
                 }
                 //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];ç
                 if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
                 else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
                 [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
-                [jobject setObject:jreponse forKey:@"Results"];
+                [jobject setObject:results forKey:@"Results"];
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
@@ -406,7 +405,6 @@ void _PurchaseVirtualGood(char* IDVirtualGood, char* _hash){
 // Achievements ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void _GetAchievements(char* type, char* language, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    NSLog(@">>> type %@ lang %@", CreateNSString(type), CreateNSString(language));
     [[[MDPClientHandler sharedInstance] getAchivementsHandler] getAchivementsWithAchievementConfigurationType: CreateNSString(type) language:CreateNSString(language) completionBlock:^(NSArray *response, NSError *error){
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
@@ -440,7 +438,7 @@ void _GetAchievements(char* type, char* language, char* _hash){
                             NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
                             [entry setObject:loc.locale forKey:@"Locale"];
                             [entry setObject:loc.descriptionLocaleDescription forKey:@"Description"];
-                            [description addObject:entry];
+                            [levelName addObject:entry];
                         }
                     }
                     [jentry setObject:levelName forKey:@"LevelName"];
@@ -509,17 +507,18 @@ void _GetContents(char* type, int page, char* language, char* _hash){
                         [jentry setObject:entry.title  forKey:@"Title"];
                         [jentry setObject:entry.descriptionCompactContent  forKey:@"Description"];
                         
-                        NSMutableArray *ma = [[NSMutableArray alloc]init];
+                        NSMutableArray *links = [[NSMutableArray alloc]init];
                         if([entry links]!=nil){
                             NSMutableDictionary *jtemp;
                             for( MDPContentLinkModel *ent in [entry links]){
                                 jtemp = [[NSMutableDictionary alloc] init];
                                 [jtemp setObject:ent.text forKey:@"Text"];
                                 [jtemp setObject:ent.url forKey:@"Url"];
-                                [ma addObject:jtemp];
+                                [links addObject:jtemp];
                             }
                         }
-                        [jentry setObject:ma forKey:@"Links"];
+                        [jentry setObject:links forKey:@"Links"];
+                        
                         MDPAssetModel* asset =[entry asset];
                         if( asset!=nil){
                             NSMutableDictionary *jtemp;
@@ -560,26 +559,27 @@ void _GetContent(char* IDContent, char* _hash){
             if(content!=nil){
                 NSMutableDictionary *jtemp;
                 [jobject setObject:content.sourceId forKey:@"SourceId"];
-                NSMutableArray *ma = [[NSMutableArray alloc]init];
+                NSMutableArray *assets = [[NSMutableArray alloc]init];
                 if([content assets]!=nil){
                     for( MDPAssetModel *ent in [content assets]){
                         jtemp = [[NSMutableDictionary alloc] init];
                         [jtemp setObject:ent.typeAsset forKey:@"Type"];
                         [jtemp setObject:ent.assetUrl forKey:@"AssetUrl"];
-                        [ma addObject:jtemp];
+                        [assets addObject:jtemp];
                     }
                 }
-                [jobject setObject:ma forKey:@"Assets"];
-                ma = [[NSMutableArray alloc]init];
+                [jobject setObject:assets forKey:@"Assets"];
+                
+                NSMutableArray *body = [[NSMutableArray alloc]init];
                 if([content body]!=nil){
                     for( MDPContentParagraphModel *ent in [content body]){
                         jtemp = [[NSMutableDictionary alloc] init];
-                        [jtemp setObject:ent.title forKey:@"Ttile"];
+                        [jtemp setObject:ent.title forKey:@"Title"];
                         [jtemp setObject:ent.body forKey:@"Body"];
-                        [ma addObject:jtemp];
+                        [body addObject:jtemp];
                     }
                 }
-                [jobject setObject:ma forKey:@"Body"];
+                [jobject setObject:body forKey:@"Body"];
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
