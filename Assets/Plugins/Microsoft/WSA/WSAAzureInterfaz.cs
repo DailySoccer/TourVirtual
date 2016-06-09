@@ -56,9 +56,11 @@ public class WSAAzureInterfaz : AzureInterfaz {
             var res = await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.GetFan();
             // Componer el retono a JSON y enviar.
             Dictionary<string, object> jobject = new Dictionary<string, object>();
-            jobject.Add("IdUser", res.IdUser);
-            jobject.Add("Alias", res.Alias);
-            jobject.Add("Language", res.Language);
+            if(res!=null){
+                jobject.Add("IdUser", res.IdUser);
+                jobject.Add("Alias", res.Alias);
+                jobject.Add("Language", res.Language);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -77,27 +79,32 @@ public class WSAAzureInterfaz : AzureInterfaz {
             var res = await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.GetProfileAvatar();
             // Componer el retono a JSON y enviar.
             Dictionary<string, object> jobject = new Dictionary<string, object>();
-            jobject.Add("PictureUrl", res.PictureUrl);
-            List<object> PhysicalProperties = new List<object>();
-            foreach (var itm in res.PhysicalProperties) {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("Data", itm.Data);
-                dic.Add("Type", itm.Type);
-                dic.Add("Version", itm.Version);
-                PhysicalProperties.Add(dic);
+            if(res!=null){
+                jobject.Add("PictureUrl", res.PictureUrl);
+                List<object> PhysicalProperties = new List<object>();
+                if(res.PhysicalProperties!=null){
+                    foreach (var itm in res.PhysicalProperties) {
+                        Dictionary<string, string> dic = new Dictionary<string, string>();
+                        dic.Add("Data", itm.Data);
+                        dic.Add("Type", itm.Type);
+                        dic.Add("Version", itm.Version);
+                        PhysicalProperties.Add(dic);
+                    }
+                }
+                jobject.Add("PhysicalProperties", PhysicalProperties);
+                List<object> Accesories = new List<object>();
+                if(res.Accesories!=null){
+                    foreach (var itm in res.Accesories) {
+                        Dictionary<string, string> dic = new Dictionary<string, string>();
+                        dic.Add("IdVirtualGood", itm.IdVirtualGood.ToString());
+                        dic.Add("Data", itm.Data);
+                        dic.Add("Type", itm.Type);
+                        dic.Add("Version", itm.Version);
+                        Accesories.Add(dic);
+                    }
+                }
+                jobject.Add("Accesories", Accesories);
             }
-
-            jobject.Add("PhysicalProperties", PhysicalProperties);
-            List<object> Accesories = new List<object>();
-            foreach (var itm in res.Accesories) {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("IdVirtualGood", itm.IdVirtualGood.ToString());
-                dic.Add("Data", itm.Data);
-                dic.Add("Type", itm.Type);
-                dic.Add("Version", itm.Version);
-                Accesories.Add(dic);
-            }
-            jobject.Add("Accesories", Accesories);
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -204,16 +211,18 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             var ranking = await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Scores.PostScore(new Guid(IDMinigame), score);
             var jobject = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (ScoreRanking entry in ranking) {
-                ele = new Dictionary<string, object>();
-                ele.Add("Position", entry.Position);
-                ele.Add("Alias", entry.Alias);
-                ele.Add("Score", entry.Score);
-                ele.Add("AvatarUrl", entry.AvatarUrl);
-                ele.Add("IsCurrentUser", entry.IsCurrentUser);
-                jobject.Add(ele);
+            if(ranking!=null){
+                Dictionary<string, object> ele;
+                foreach (ScoreRanking entry in ranking) {
+                    ele = new Dictionary<string, object>();
+                    ele.Add("Position", entry.Position);
+                    ele.Add("Alias", entry.Alias);
+                    ele.Add("Score", entry.Score);
+                    ele.Add("AvatarUrl", entry.AvatarUrl);
+                    ele.Add("IsCurrentUser", entry.IsCurrentUser);
+                    jobject.Add(ele);
 
+                }
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
@@ -232,7 +241,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             FanMaxScore score = await DigitalPlatformClient.Instance.Scores.GetFanMaxScore(new Guid(IDMinigame));
             Dictionary<string, object> jobject = new Dictionary<string, object>();
-            jobject.Add("Score", score.Score);
+            if(score!=null) jobject.Add("Score", score.Score);
+            else jobject.Add("Score", 0);
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -249,15 +259,17 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             var ranking = await DigitalPlatformClient.Instance.Scores.GetTopScores(new Guid(IDMinigame));
             var jobject = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (ScoreRanking entry in ranking) {
-                ele = new Dictionary<string, object>();
-                ele.Add("Position", entry.Position);
-                ele.Add("Alias", entry.Alias);
-                ele.Add("Score", entry.Score);
-                ele.Add("AvatarUrl", entry.AvatarUrl);
-                ele.Add("IsCurrentUser", entry.IsCurrentUser);
-                jobject.Add(ele);
+            if(ranking!=null) {
+                Dictionary<string, object> ele;
+                foreach (ScoreRanking entry in ranking) {
+                    ele = new Dictionary<string, object>();
+                    ele.Add("Position", entry.Position);
+                    ele.Add("Alias", entry.Alias);
+                    ele.Add("Score", entry.Score);
+                    ele.Add("AvatarUrl", entry.AvatarUrl);
+                    ele.Add("IsCurrentUser", entry.IsCurrentUser);
+                    jobject.Add(ele);
+                }
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
@@ -277,44 +289,51 @@ public class WSAAzureInterfaz : AzureInterfaz {
     async void _GetVirtualGoods(string type, int page, string subtype, bool onlyPurchasables, AsyncOperation op) {
         try {
             var res = await DigitalPlatformClient.Instance.VirtualGoods.GetVirtualGoodsByType(type, page, MainLanguage, subtype, onlyPurchasables);
-
-            var results = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (VirtualGood entry in res.Results) {
-                ele = new Dictionary<string, object>();
-                ele.Add("Enabled", entry.Enabled);
-                ele.Add("IdVirtualGood", entry.IdVirtualGood);
-                ele.Add("IdSubType", entry.IdSubType);
-                ele.Add("ThumbnailUrl", entry.ThumbnailUrl);
-                ele.Add("PictureUrl", entry.PictureUrl);
-                List<object> tmpList = new List<object>();
-                Dictionary<string, object> tmpDict = new Dictionary<string, object>();
-                foreach (var des in entry.Description) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("Locale", des.Locale);
-                    tmpDict.Add("Description", des.Description);
-                    tmpList.Add(tmpDict);
-                }
-                ele.Add("Description", tmpList);
-
-                tmpList = new List<object>();
-                foreach (var des in entry.Price) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("UserType", des.UserType);
-                    tmpDict.Add("CoinType", des.CoinType);
-                    tmpDict.Add("Price", des.Price);
-                    tmpList.Add(tmpDict);
-                }
-                ele.Add("Price", tmpList);
-                results.Add(ele);
-            }
             var jobject = new Dictionary<string, object>();
-            jobject.Add("CurrentPage", res.CurrentPage);
-            jobject.Add("HasMoreResults", res.HasMoreResults);
-            jobject.Add("PageCount", res.PageCount);
-            jobject.Add("PageSize", res.PageSize);
-            jobject.Add("TotalItems", res.TotalItems);
-            jobject.Add("Results", results);
+            if(res!=null) {
+                var results = new List<object>();                
+                if(res.Results!=null) {
+                    Dictionary<string, object> ele;
+                    foreach (VirtualGood entry in res.Results) {
+                        ele = new Dictionary<string, object>();
+                        ele.Add("Enabled", entry.Enabled);
+                        ele.Add("IdVirtualGood", entry.IdVirtualGood);
+                        ele.Add("IdSubType", entry.IdSubType);
+                        ele.Add("ThumbnailUrl", entry.ThumbnailUrl);
+                        ele.Add("PictureUrl", entry.PictureUrl);
+                        List<object> tmpList = new List<object>();
+                        if(entry.Description!=null) {
+                            Dictionary<string, object> tmpDict = new Dictionary<string, object>();
+                            foreach (var des in entry.Description) {
+                                tmpDict = new Dictionary<string, object>();
+                                tmpDict.Add("Locale", des.Locale);
+                                tmpDict.Add("Description", des.Description);
+                                tmpList.Add(tmpDict);
+                            }
+                        }
+                        ele.Add("Description", tmpList);
+
+                        tmpList = new List<object>();
+                        if(entry.Description!=null) {
+                            foreach (var des in entry.Price) {
+                                tmpDict = new Dictionary<string, object>();
+                                tmpDict.Add("UserType", des.UserType);
+                                tmpDict.Add("CoinType", des.CoinType);
+                                tmpDict.Add("Price", des.Price);
+                                tmpList.Add(tmpDict);
+                            }
+                        }
+                        ele.Add("Price", tmpList);
+                        results.Add(ele);
+                    }
+                }
+                jobject.Add("CurrentPage", res.CurrentPage);
+                jobject.Add("HasMoreResults", res.HasMoreResults);
+                jobject.Add("PageCount", res.PageCount);
+                jobject.Add("PageSize", res.PageSize);
+                jobject.Add("TotalItems", res.TotalItems);
+                jobject.Add("Results", results);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -330,21 +349,23 @@ public class WSAAzureInterfaz : AzureInterfaz {
     async void _GetVirtualGoodsPurchased(string type, string token, AsyncOperation op) {
         try {
             var res = await DigitalPlatformClient.Instance.Fans.GetFanVirtualGoodsByType(type, token, MainLanguage);
-
-            var results = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (FanVirtualGood entry in res.Results) {
-                ele = new Dictionary<string, object>();
-                ele.Add("IdVirtualGood", entry.IdVirtualGood);
-                ele.Add("ThumbnailUrl", entry.ThumbnailUrl);
-                ele.Add("PictureUrl", entry.PictureUrl);
-                results.Add(ele);
-            }
             var jobject = new Dictionary<string, object>();
-            jobject.Add("ContinuationToken", res.ContinuationToken);
-            jobject.Add("ContinuationTokenB64", res.ContinuationTokenB64);
-            jobject.Add("HasMoreResults", res.HasMoreResults);
-            jobject.Add("Results", results);
+            if(res!=null) {
+                var results = new List<object>();                
+                if(res.Results!=null) {
+                    Dictionary<string, object> ele;
+                    foreach (FanVirtualGood entry in res.Results) {
+                        ele = new Dictionary<string, object>();
+                        ele.Add("IdVirtualGood", entry.IdVirtualGood);
+                        ele.Add("ThumbnailUrl", entry.ThumbnailUrl);
+                        ele.Add("PictureUrl", entry.PictureUrl);
+                        results.Add(ele);
+                    }
+                jobject.Add("ContinuationToken", res.ContinuationToken);
+                jobject.Add("ContinuationTokenB64", res.ContinuationTokenB64);
+                jobject.Add("HasMoreResults", res.HasMoreResults);
+                jobject.Add("Results", results);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -379,34 +400,39 @@ public class WSAAzureInterfaz : AzureInterfaz {
     async void _GetAchievements(string type, AsyncOperation op) {
         try {
             var res = await DigitalPlatformClient.Instance.Achievements.GetAchievements(type, new Guid(this.IDClient), MainLanguage);
-
             var jobject = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (AchievementConfiguration entry in res) {
-                ele = new Dictionary<string, object>();
-                ele.Add("IdAchievement", entry.IdAchievement);
-                ele.Add("Name", entry.Name);
-                ele.Add("Points", entry.Points);
-                ele.Add("Level", entry.Level);
-                ele.Add("ImageUrl", entry.ImageUrl);
-                List<object> tmpList = new List<object>();
-                Dictionary<string, object> tmpDict;
-                foreach (var des in entry.Description) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("Locale", des.Locale);
-                    tmpDict.Add("Description", des.Description);
-                    tmpList.Add(tmpDict);
-                }
-                ele.Add("Description", tmpList);
+            if(res!=null) {
+                Dictionary<string, object> ele;
+                foreach (AchievementConfiguration entry in res) {
+                    ele = new Dictionary<string, object>();
+                    ele.Add("IdAchievement", entry.IdAchievement);
+                    ele.Add("Name", entry.Name);
+                    ele.Add("Points", entry.Points);
+                    ele.Add("Level", entry.Level);
+                    ele.Add("ImageUrl", entry.ImageUrl);
+                    List<object> tmpList = new List<object>();
+                    if(entry.Description!=null) {
+                        Dictionary<string, object> tmpDict;
+                        foreach (var des in entry.Description) {
+                            tmpDict = new Dictionary<string, object>();
+                            tmpDict.Add("Locale", des.Locale);
+                            tmpDict.Add("Description", des.Description);
+                            tmpList.Add(tmpDict);
+                        }
+                    }
+                    ele.Add("Description", tmpList);
 
-                tmpList = new List<object>();
-                foreach (var des in entry.LevelName) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("Locale", des.Locale);
-                    tmpDict.Add("Description", des.Description);
-                    tmpList.Add(tmpDict);
+                    tmpList = new List<object>();
+                    if(entry.LevelName!=null) {
+                        foreach (var des in entry.LevelName) {
+                            tmpDict = new Dictionary<string, object>();
+                            tmpDict.Add("Locale", des.Locale);
+                            tmpDict.Add("Description", des.Description);
+                            tmpList.Add(tmpDict);
+                        }
+                    }
+                    ele.Add("LevelName", tmpList);
                 }
-                ele.Add("LevelName", tmpList);
                 jobject.Add(ele);
             }
 
@@ -425,20 +451,23 @@ public class WSAAzureInterfaz : AzureInterfaz {
     async void _GetAchievementsEarned(string type, string token, AsyncOperation op) {
         try {
             var res = await DigitalPlatformClient.Instance.Fans.GetFanAchievementsByType(type, token, MainLanguage);
-
-            var results = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (Achievement entry in res.Results) {
-                ele = new Dictionary<string, object>();
-                ele.Add("IdAchievement", entry.IdAchievement);
-                ele.Add("Level", entry.Level);
-                results.Add(ele);
-            }
             var jobject = new Dictionary<string, object>();
-            jobject.Add("ContinuationToken", res.ContinuationToken);
-            jobject.Add("ContinuationTokenB64", res.ContinuationTokenB64);
-            jobject.Add("HasMoreResults", res.HasMoreResults);
-            jobject.Add("Results", results);
+            if(res!=null){
+                var results = new List<object>();
+                if(res.Results!=null){
+                    Dictionary<string, object> ele;
+                    foreach (Achievement entry in res.Results) {
+                        ele = new Dictionary<string, object>();
+                        ele.Add("IdAchievement", entry.IdAchievement);
+                        ele.Add("Level", entry.Level);
+                        results.Add(ele);
+                    }
+                }
+                jobject.Add("ContinuationToken", res.ContinuationToken);
+                jobject.Add("ContinuationTokenB64", res.ContinuationTokenB64);
+                jobject.Add("HasMoreResults", res.HasMoreResults);
+                jobject.Add("Results", results);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -456,41 +485,46 @@ public class WSAAzureInterfaz : AzureInterfaz {
     async void _GetContents(string type, int page, AsyncOperation op) {
         try {
             var res = await DigitalPlatformClient.Instance.Contents.GetContentItemsByType(type, MainLanguage, page);
-
-            var results = new List<object>();
-            Dictionary<string, object> ele;
-            foreach (CompactContent entry in res.Results) {
-                ele = new Dictionary<string, object>();
-                ele.Add("IdContent", entry.IdContent);
-                ele.Add("Title", entry.Title);
-                ele.Add("Description", entry.Description);
-                List<object> tmpList = new List<object>();
-                Dictionary<string, object> tmpDict;
-                foreach (var des in entry.Links) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("Text", des.Text);
-                    tmpDict.Add("Url", des.Url);
-                    tmpList.Add(tmpDict);
-                }
-                ele.Add("Links", tmpList);
-
-                if (entry.Asset != null) {
-                    tmpDict = new Dictionary<string, object>();
-                    tmpDict.Add("AssetUrl", entry.Asset.AssetUrl);
-                    tmpDict.Add("ThumbnailUrl", entry.Asset.ThumbnailUrl);
-                    tmpDict.Add("Type", entry.Asset.Type);
-                    ele.Add("Asset", tmpDict);
-                }
-
-                results.Add(ele);
-            }
             var jobject = new Dictionary<string, object>();
-            jobject.Add("CurrentPage", res.CurrentPage);
-            jobject.Add("HasMoreResults", res.HasMoreResults);
-            jobject.Add("PageCount", res.PageCount);
-            jobject.Add("PageSize", res.PageSize);
-            jobject.Add("TotalItems", res.TotalItems);
-            jobject.Add("Results", results);
+            if(res!=null){
+                var results = new List<object>();
+                if(res!=null){
+                    Dictionary<string, object> ele;
+                    foreach (CompactContent entry in res.Results) {
+                        ele = new Dictionary<string, object>();
+                        ele.Add("IdContent", entry.IdContent);
+                        ele.Add("Title", entry.Title);
+                        ele.Add("Description", entry.Description);
+                        List<object> tmpList = new List<object>();
+                        if(entry.Links!=null){
+                            Dictionary<string, object> tmpDict;
+                            foreach (var des in entry.Links) {
+                                tmpDict = new Dictionary<string, object>();
+                                tmpDict.Add("Text", des.Text);
+                                tmpDict.Add("Url", des.Url);
+                                tmpList.Add(tmpDict);
+                            }
+                        }
+                        ele.Add("Links", tmpList);
+
+                        if (entry.Asset != null) {
+                            tmpDict = new Dictionary<string, object>();
+                            tmpDict.Add("AssetUrl", entry.Asset.AssetUrl);
+                            tmpDict.Add("ThumbnailUrl", entry.Asset.ThumbnailUrl);
+                            tmpDict.Add("Type", entry.Asset.Type);
+                            ele.Add("Asset", tmpDict);
+                        }
+
+                        results.Add(ele);
+                    }
+                }
+                jobject.Add("CurrentPage", res.CurrentPage);
+                jobject.Add("HasMoreResults", res.HasMoreResults);
+                jobject.Add("PageCount", res.PageCount);
+                jobject.Add("PageSize", res.PageSize);
+                jobject.Add("TotalItems", res.TotalItems);
+                jobject.Add("Results", results);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch(System.Exception e) {
             AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
@@ -507,28 +541,32 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             Content res = await DigitalPlatformClient.Instance.Contents.GetContentItem(new Guid(IDContent));
             var jobject = new Dictionary<string, object>();
-            jobject.Add("SourceId", res.SourceId);
+            if(res!=null){
+                jobject.Add("SourceId", res.SourceId);
 
-            List<object> tmpList = new List<object>();
-            Dictionary<string, object> tmpDict;
-            
-            foreach (var des in res.Assets) {
-                tmpDict = new Dictionary<string, object>();
-                tmpDict.Add("Type", des.Type);
-                tmpDict.Add("AssetUrl", des.AssetUrl);
-                tmpList.Add(tmpDict);
+                List<object> tmpList = new List<object>();
+                if(res.Assets!=null){
+                    Dictionary<string, object> tmpDict;
+                    foreach (var des in res.Assets) {
+                        tmpDict = new Dictionary<string, object>();
+                        tmpDict.Add("Type", des.Type);
+                        tmpDict.Add("AssetUrl", des.AssetUrl);
+                        tmpList.Add(tmpDict);
+                    }
+                }
+                jobject.Add("Assets", tmpList);
+
+                tmpList = new List<object>();
+                if(res.Body!=null){
+                    foreach (var des in res.Body) {
+                        tmpDict = new Dictionary<string, object>();
+                        tmpDict.Add("Title", des.Title);
+                        tmpDict.Add("Body", des.Body);
+                        tmpList.Add(tmpDict);
+                    }
+                }
+                jobject.Add("Body", tmpList);
             }
-            jobject.Add("Assets", tmpList);
-
-            tmpList = new List<object>();
-            foreach (var des in res.Body) {
-                tmpDict = new Dictionary<string, object>();
-                tmpDict.Add("Title", des.Title);
-                tmpDict.Add("Body", des.Body);
-                tmpList.Add(tmpDict);
-            }
-
-            jobject.Add("Body", tmpList);
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -548,9 +586,11 @@ public class WSAAzureInterfaz : AzureInterfaz {
             var res = await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.GetGamificationStatus();
             // Componer el retono a JSON y enviar.
             Dictionary<string, object> jobject = new Dictionary<string, object>();
-            jobject.Add("GamingScore", res.GamingScore);
-            jobject.Add("Points", res.Points);
-            jobject.Add("LevelNumber", res.LevelNumber);
+            if(res!=null){
+                jobject.Add("GamingScore", res.GamingScore);
+                jobject.Add("Points", res.Points);
+                jobject.Add("LevelNumber", res.LevelNumber);
+            }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");

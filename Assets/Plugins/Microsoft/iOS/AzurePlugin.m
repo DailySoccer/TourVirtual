@@ -85,10 +85,11 @@ void _GetFanMe(char* _hash){
             
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
-            [jobject setObject:content.idUser forKey:@"IdUser"];
-            [jobject setObject:content.alias forKey:@"Alias"];
-            [jobject setObject:content.language forKey:@"Language"];
-            
+            if(content!=nil){
+                [jobject setObject:content.idUser forKey:@"IdUser"];
+                [jobject setObject:content.alias forKey:@"Alias"];
+                [jobject setObject:content.language forKey:@"Language"];
+            }            
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -106,29 +107,33 @@ void _GetProfileAvatar(char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
-            
-            [jobject setObject:content.pictureUrl forKey:@"PictureUrl"];
-            NSMutableArray *jArray = [[NSMutableArray alloc]init];
-            for( MDPProfileAvatarItemModel *ent in [content physicalProperties]){
-                NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
-                [entry setObject:ent.data forKey:@"Data"];
-                [entry setObject:ent.type forKey:@"Type"];
-                [entry setObject:ent.version forKey:@"Version"];
-                [jArray addObject:entry];
-            }
-            [jobject setObject:jArray forKey:@"PhysicalProperties"];
-            
-            jArray = [[NSMutableArray alloc]init];
-            for( MDPProfileAvatarAccessoryItemModel *ent in [content accesories]){
-                NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
-                [entry setObject:ent.data forKey:@"Data"];
-                [entry setObject:ent.type forKey:@"Type"];
-                [entry setObject:ent.version forKey:@"Version"];
-                [entry setObject:ent.idVirtualGood forKey:@"IdVirtualGood"];
-                [jArray addObject:entry];
-            }
-            [jobject setObject:jArray forKey:@"Accesories"];
-            
+            if(content!=nil){
+                [jobject setObject:content.pictureUrl forKey:@"PictureUrl"];
+                NSMutableArray *jArray = [[NSMutableArray alloc]init];
+                if([content physicalProperties]!=nil){
+                    for( MDPProfileAvatarItemModel *ent in [content physicalProperties]){
+                        NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                        [entry setObject:ent.data forKey:@"Data"];
+                        [entry setObject:ent.type forKey:@"Type"];
+                        [entry setObject:ent.version forKey:@"Version"];
+                        [jArray addObject:entry];
+                    }
+                }
+                [jobject setObject:jArray forKey:@"PhysicalProperties"];
+
+                jArray = [[NSMutableArray alloc]init];
+                if([content accesories]!=nil){
+                    for( MDPProfileAvatarAccessoryItemModel *ent in [content accesories]){
+                        NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                        [entry setObject:ent.data forKey:@"Data"];
+                        [entry setObject:ent.type forKey:@"Type"];
+                        [entry setObject:ent.version forKey:@"Version"];
+                        [entry setObject:ent.idVirtualGood forKey:@"IdVirtualGood"];
+                        [jArray addObject:entry];
+                    }
+                }
+                [jobject setObject:jArray forKey:@"Accesories"];
+            }            
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -219,12 +224,14 @@ void _SendScore(char* IDMinigame, int score, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSMutableArray *jobject = [[NSMutableArray alloc] init];
-            for(MDPScoreRankingModel *entry in response ){
-                NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
-                [jent setObject:entry.position forKey:@"Position"];
-                [jent setObject:entry.alias forKey:@"Alias"];
-                [jent setObject:entry.score forKey:@"Score"];
-                [jobject addObject:jent];
+            if(response!=nil){
+                for(MDPScoreRankingModel *entry in response ){
+                    NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
+                    [jent setObject:entry.position forKey:@"Position"];
+                    [jent setObject:entry.alias forKey:@"Alias"];
+                    [jent setObject:entry.score forKey:@"Score"];
+                    [jobject addObject:jent];
+                }
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
@@ -245,7 +252,8 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
             
         } else {
             NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
-            [jobject setObject:content.score forKey:@"Score"];
+            if(content!=nil) [jobject setObject:content.score forKey:@"Score"];
+            else [jobject setObject:0 forKey:@"Score"]; // Esto dara error.
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -265,12 +273,14 @@ void _GetRanking(char* IDMinigame, char* _hash){
             
         } else {
             NSMutableArray *jobject = [[NSMutableArray alloc] init];
-            for(MDPScoreRankingModel *entry in response ){
-                NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
-                [jent setObject:entry.position forKey:@"Position"];
-                [jent setObject:entry.alias forKey:@"Alias"];
-                [jent setObject:entry.score forKey:@"Score"];
-                [jobject addObject:jent];
+            if(response!=nil){
+                for(MDPScoreRankingModel *entry in response ){
+                    NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
+                    [jent setObject:entry.position forKey:@"Position"];
+                    [jent setObject:entry.alias forKey:@"Alias"];
+                    [jent setObject:entry.score forKey:@"Score"];
+                    [jobject addObject:jent];
+                }
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
@@ -291,33 +301,48 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
             
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
-            NSMutableArray *jreponse = [[NSMutableArray alloc] init];
-            for(MDPVirtualGoodModel *entry in content.results ){
-                NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:[NSNumber numberWithBool:[entry.enabled intValue]==1] forKey:@"Enabled"];
-                [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
-                [jentry setObject:entry.idSubType forKey:@"IdSubType"];
-                [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
-                [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
-                [jentry setObject:GetLocalization([entry descriptionVirtualGood]) forKey:@"Description"];
-                
-                NSMutableArray *ma = [[NSMutableArray alloc]init];
-                for( MDPProductPriceModel *ent in [entry price]){
-                    NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
-                    [entry setObject:ent.userType forKey:@"UserType"];
-                    [entry setObject:ent.coinType forKey:@"CoinType"];
-                    [entry setObject:ent.price forKey:@"Price"];
-                    [ma addObject:entry];
+            if(content!=nil){
+                NSMutableArray *jreponse = [[NSMutableArray alloc] init];
+                if(content!=nil.result){
+                    for(MDPVirtualGoodModel *entry in content.results ){
+                        NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
+                        [jentry setObject:[NSNumber numberWithBool:[entry.enabled intValue]==1] forKey:@"Enabled"];
+                        [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
+                        [jentry setObject:entry.idSubType forKey:@"IdSubType"];
+                        [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
+                        [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
+                        NSMutableArray *description = [[NSMutableArray alloc]init];
+                        if([entry descriptionVirtualGood]!=nil){
+                            for( MDPLocaleDescriptionModel *loc in [entry descriptionVirtualGood]){
+                                NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                                [entry setObject:loc.locale forKey:@"Locale"];
+                                [entry setObject:loc.descriptionLocaleDescription forKey:@"Description"];
+                                [description addObject:entry];
+                            }
+                        }
+                        [jentry setObject:description forKey:@"Description"];
+                        
+                        NSMutableArray *price = [[NSMutableArray alloc]init];
+                        if([entry price]!=nil){
+                            for( MDPProductPriceModel *ent in [entry price]){
+                                NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                                [entry setObject:ent.userType forKey:@"UserType"];
+                                [entry setObject:ent.coinType forKey:@"CoinType"];
+                                [entry setObject:ent.price forKey:@"Price"];
+                                [price addObject:entry];
+                            }
+                        }
+                        [jentry setObject:price forKey:@"Price"];
+                        [jreponse addObject:jentry];
+                    }
                 }
-                [jentry setObject:ma forKey:@"Price"];
-                [jreponse addObject:jentry];
+                [jobject setObject:content.currentPage forKey:@"CurrentPage"];
+                [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
+                [jobject setObject:content.pageCount forKey:@"PageCount"];
+                [jobject setObject:content.pageSize forKey:@"PageSize"];
+                [jobject setObject:content.totalItems forKey:@"TotalItems"];
+                [jobject setObject:jreponse forKey:@"Results"];
             }
-            [jobject setObject:content.currentPage forKey:@"CurrentPage"];
-            [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
-            [jobject setObject:content.pageCount forKey:@"PageCount"];
-            [jobject setObject:content.pageSize forKey:@"PageSize"];
-            [jobject setObject:content.totalItems forKey:@"TotalItems"];
-            [jobject setObject:jreponse forKey:@"Results"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -337,19 +362,23 @@ void _GetVirtualGoodsPurchased(char* type, char* language, char* token, char* _h
             
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
-            NSMutableArray *jreponse = [[NSMutableArray alloc] init];
-            for(MDPFanVirtualGoodModel *entry in content.results ){
-                NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
-                [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
-                [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
-                [jreponse addObject:jentry];
+            if(content!=nil){
+                NSMutableArray *jreponse = [[NSMutableArray alloc] init];
+                if(content.results!=nil){
+                    for(MDPFanVirtualGoodModel *entry in content.results ){
+                        NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
+                        [jentry setObject:entry.idVirtualGood forKey:@"IdVirtualGood"];
+                        [jentry setObject:entry.thumbnailUrl forKey:@"ThumbnailUrl"];
+                        [jentry setObject:entry.pictureUrl forKey:@"PictureUrl"];
+                        [jreponse addObject:jentry];
+                    }
+                }
+                //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];ç
+                if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+                else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
+                [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
+                [jobject setObject:jreponse forKey:@"Results"];
             }
-            //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];ç
-            if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
-            else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
-            [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
-            [jobject setObject:jreponse forKey:@"Results"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -385,16 +414,38 @@ void _GetAchievements(char* type, char* language, char* _hash){
             
         } else {
             NSMutableArray *jobject = [[NSMutableArray alloc] init];
-            for(MDPAchievementConfigurationModel *entry in response ){
-                NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:entry.idAchievement forKey:@"IdAchievement"];
-                [jentry setObject:entry.name forKey:@"Name"];
-                [jentry setObject:entry.points forKey:@"Points"];
-                [jentry setObject:entry.level forKey:@"Level"];
-                [jentry setObject:entry.imageUrl forKey:@"ImageUrl"];
-                [jentry setObject:GetLocalization([entry descriptionAchievementConfiguration]) forKey:@"Description"];
-                [jentry setObject:GetLocalization([entry levelName]) forKey:@"LevelName"];
-                [jobject addObject:jentry];
+            if(response!=nil){
+                for(MDPAchievementConfigurationModel *entry in response ){
+                    NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
+                    [jentry setObject:entry.idAchievement forKey:@"IdAchievement"];
+                    [jentry setObject:entry.name forKey:@"Name"];
+                    [jentry setObject:entry.points forKey:@"Points"];
+                    [jentry setObject:entry.level forKey:@"Level"];
+                    [jentry setObject:entry.imageUrl forKey:@"ImageUrl"];
+
+                    NSMutableArray *description = [[NSMutableArray alloc]init];
+                    if([entry descriptionAchievementConfiguration]!=nil){
+                        for( MDPLocaleDescriptionModel *loc in [entry descriptionAchievementConfiguration]){
+                            NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                            [entry setObject:loc.locale forKey:@"Locale"];
+                            [entry setObject:loc.descriptionLocaleDescription forKey:@"Description"];
+                            [description addObject:entry];
+                        }
+                    }
+                    [jentry setObject:description forKey:@"Description"];
+
+                    NSMutableArray *levelName = [[NSMutableArray alloc]init];
+                    if([entry levelName]!=nil){
+                        for( MDPLocaleDescriptionModel *loc in [entry levelName]!=nil){
+                            NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+                            [entry setObject:loc.locale forKey:@"Locale"];
+                            [entry setObject:loc.descriptionLocaleDescription forKey:@"Description"];
+                            [description addObject:entry];
+                        }
+                    }
+                    [jentry setObject:levelName forKey:@"LevelName"];
+                    [jobject addObject:jentry];
+                }
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
@@ -414,18 +465,22 @@ void _GetAchievementsEarned(char* type, char* language, char* token, char* _hash
             
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
-            NSMutableArray *jreponse = [[NSMutableArray alloc] init];
-            for(MDPAchievementModel *entry in content.results ){
-                NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:entry.idAchievement forKey:@"IdAchievement"];
-                [jentry setObject:entry.level forKey:@"Level"];
-                [jreponse addObject:jentry];
+            if(content!=nil){
+                NSMutableArray *jreponse = [[NSMutableArray alloc] init];
+                if(content.result!=nil){
+                    for(MDPAchievementModel *entry in content.results ){
+                        NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
+                        [jentry setObject:entry.idAchievement forKey:@"IdAchievement"];
+                        [jentry setObject:entry.level forKey:@"Level"];
+                        [jreponse addObject:jentry];
+                    }
+                }
+                //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];
+                if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
+                else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
+                [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
+                [jobject setObject:jreponse forKey:@"Results"];
             }
-            //[jobject setObject:content.continuationToken forKey:@"ContinuationToken"];
-            if(content.continuationTokenB64!=nil) [jobject setObject:content.continuationTokenB64 forKey:@"ContinuationTokenB64"];
-            else [jobject setObject:@"" forKey:@"ContinuationTokenB64"];
-            [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
-            [jobject setObject:jreponse forKey:@"Results"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -444,40 +499,46 @@ void _GetContents(char* type, int page, char* language, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
-            NSMutableArray* jresults = [[NSMutableArray alloc] init];
-            NSMutableDictionary* jentry;
-            for(MDPCompactContentModel *entry in content.results ){
-                jentry = [[NSMutableDictionary alloc] init];
-                [jentry setObject:entry.idContent  forKey:@"IdContent"];
-                [jentry setObject:entry.title  forKey:@"Title"];
-                [jentry setObject:entry.descriptionCompactContent  forKey:@"Description"];
-                
-                NSMutableArray *ma = [[NSMutableArray alloc]init];
-                NSMutableDictionary *jtemp;
-                for( MDPContentLinkModel *ent in [entry links ]){
-                    jtemp = [[NSMutableDictionary alloc] init];
-                    [jtemp setObject:ent.text forKey:@"Text"];
-                    [jtemp setObject:ent.url forKey:@"Url"];
-                    [ma addObject:jtemp];
+            if(content!=nil){
+                NSMutableArray* jresults = [[NSMutableArray alloc] init];
+                if(content.results!=nil){
+                    NSMutableDictionary* jentry;
+                    for(MDPCompactContentModel *entry in content.results ){
+                        jentry = [[NSMutableDictionary alloc] init];
+                        [jentry setObject:entry.idContent  forKey:@"IdContent"];
+                        [jentry setObject:entry.title  forKey:@"Title"];
+                        [jentry setObject:entry.descriptionCompactContent  forKey:@"Description"];
+                        
+                        NSMutableArray *ma = [[NSMutableArray alloc]init];
+                        if([entry links]!=nil){
+                            NSMutableDictionary *jtemp;
+                            for( MDPContentLinkModel *ent in [entry links]){
+                                jtemp = [[NSMutableDictionary alloc] init];
+                                [jtemp setObject:ent.text forKey:@"Text"];
+                                [jtemp setObject:ent.url forKey:@"Url"];
+                                [ma addObject:jtemp];
+                            }
+                        }
+                        [jentry setObject:ma forKey:@"Links"];
+                        MDPAssetModel* asset =[entry asset];
+                        if( asset!=nil){
+                            jtemp = [[NSMutableDictionary alloc] init];
+                            [jtemp setObject:asset.assetUrl forKey:@"AssetUrl"];
+                            [jtemp setObject:asset.thumbnailUrl forKey:@"ThumbnailUrl"];
+                            [jtemp setObject:asset.typeAsset forKey:@"Type"];
+                            [jentry setObject:jtemp forKey:@"Asset"];
+                            
+                        }
+                        [jresults addObject:jentry];
+                    }
                 }
-                [jentry setObject:ma forKey:@"Links"];
-                MDPAssetModel* asset =[entry asset];
-                if( asset!=nil){
-                    jtemp = [[NSMutableDictionary alloc] init];
-                    [jtemp setObject:asset.assetUrl forKey:@"AssetUrl"];
-                    [jtemp setObject:asset.thumbnailUrl forKey:@"ThumbnailUrl"];
-                    [jtemp setObject:asset.typeAsset forKey:@"Type"];
-                    [jentry setObject:jtemp forKey:@"Asset"];
-                    
-                }
-                [jresults addObject:jentry];
+                [jobject setObject:content.currentPage forKey:@"CurrentPage"];
+                [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
+                [jobject setObject:content.pageCount forKey:@"PageCount"];
+                [jobject setObject:content.pageSize forKey:@"PageSize"];
+                [jobject setObject:content.totalItems forKey:@"TotalItems"];
+                [jobject setObject:jresults forKey:@"Results"];
             }
-            [jobject setObject:content.currentPage forKey:@"CurrentPage"];
-            [jobject setObject:[NSNumber numberWithBool:[content.hasMoreResults intValue]==1] forKey:@"HasMoreResults"];
-            [jobject setObject:content.pageCount forKey:@"PageCount"];
-            [jobject setObject:content.pageSize forKey:@"PageSize"];
-            [jobject setObject:content.totalItems forKey:@"TotalItems"];
-            [jobject setObject:jresults forKey:@"Results"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -495,24 +556,29 @@ void _GetContent(char* IDContent, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
-            [jobject setObject:content.sourceId forKey:@"SourceId"];
-            NSMutableArray *ma = [[NSMutableArray alloc]init];
-            NSMutableDictionary *jtemp;
-            for( MDPAssetModel *ent in [content assets ]){
-                jtemp = [[NSMutableDictionary alloc] init];
-                [jtemp setObject:ent.typeAsset forKey:@"Type"];
-                [jtemp setObject:ent.assetUrl forKey:@"AssetUrl"];
-                [ma addObject:jtemp];
+            if(content!=nil){
+                [jobject setObject:content.sourceId forKey:@"SourceId"];
+                NSMutableArray *ma = [[NSMutableArray alloc]init];
+                if([content assets]!=nil){   
+                    NSMutableDictionary *jtemp;
+                    for( MDPAssetModel *ent in [content assets]){
+                        jtemp = [[NSMutableDictionary alloc] init];
+                        [jtemp setObject:ent.typeAsset forKey:@"Type"];
+                        [jtemp setObject:ent.assetUrl forKey:@"AssetUrl"];
+                        [ma addObject:jtemp];
+                    }
+                }
+                [jobject setObject:ma forKey:@"Assets"];
+                if([content body]!=nil){   
+                    for( MDPContentParagraphModel *ent in [content body]){
+                        jtemp = [[NSMutableDictionary alloc] init];
+                        [jtemp setObject:ent.title forKey:@"Title"];
+                        [jtemp setObject:ent.body forKey:@"Body"];
+                        [ma addObject:jtemp];
+                    }
+                }
+                [jobject setObject:ma forKey:@"Body"];
             }
-            [jobject setObject:ma forKey:@"Assets"];
-            
-            for( MDPContentParagraphModel *ent in [content body ]){
-                jtemp = [[NSMutableDictionary alloc] init];
-                [jtemp setObject:ent.title forKey:@"Title"];
-                [jtemp setObject:ent.body forKey:@"Body"];
-                [ma addObject:jtemp];
-            }
-            [jobject setObject:ma forKey:@"Body"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -531,9 +597,11 @@ void _GamificationStatus(char* language, char* _hash){
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
-            [jobject setObject:content.points forKey:@"Points"];
-            [jobject setObject:content.gamingScore forKey:@"GamingScore"];
-            [jobject setObject:content.levelNumber forKey:@"LevelNumber"];
+            if(content!=nil){
+                [jobject setObject:content.points forKey:@"Points"];
+                [jobject setObject:content.gamingScore forKey:@"GamingScore"];
+                [jobject setObject:content.levelNumber forKey:@"LevelNumber"];
+            }
             
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
