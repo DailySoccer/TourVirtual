@@ -89,7 +89,7 @@ void _GetFanMe(char* _hash){
                 [jobject setObject:content.idUser forKey:@"IdUser"];
                 [jobject setObject:content.alias forKey:@"Alias"];
                 [jobject setObject:content.language forKey:@"Language"];
-            }            
+            }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -120,7 +120,7 @@ void _GetProfileAvatar(char* _hash){
                     }
                 }
                 [jobject setObject:jArray forKey:@"PhysicalProperties"];
-
+                
                 jArray = [[NSMutableArray alloc]init];
                 if([content accesories]!=nil){
                     for( MDPProfileAvatarAccessoryItemModel *ent in [content accesories]){
@@ -133,7 +133,7 @@ void _GetProfileAvatar(char* _hash){
                     }
                 }
                 [jobject setObject:jArray forKey:@"Accesories"];
-            }            
+            }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -253,7 +253,7 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
         } else {
             NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil) [jobject setObject:content.score forKey:@"Score"];
-            else [jobject setObject:0 forKey:@"Score"]; // Esto dara error.
+            else [jobject setObject: (NSInteger) 0 forKey:@"Score"]; // Esto dara error.
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -303,7 +303,7 @@ void _GetVirtualGoods(char*  type, char*  language, int page, char*  subtype, bo
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
                 NSMutableArray *jreponse = [[NSMutableArray alloc] init];
-                if(content!=nil.result){
+                if(content.results!=nil){
                     for(MDPVirtualGoodModel *entry in content.results ){
                         NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
                         [jentry setObject:[NSNumber numberWithBool:[entry.enabled intValue]==1] forKey:@"Enabled"];
@@ -422,7 +422,7 @@ void _GetAchievements(char* type, char* language, char* _hash){
                     [jentry setObject:entry.points forKey:@"Points"];
                     [jentry setObject:entry.level forKey:@"Level"];
                     [jentry setObject:entry.imageUrl forKey:@"ImageUrl"];
-
+                    
                     NSMutableArray *description = [[NSMutableArray alloc]init];
                     if([entry descriptionAchievementConfiguration]!=nil){
                         for( MDPLocaleDescriptionModel *loc in [entry descriptionAchievementConfiguration]){
@@ -433,10 +433,10 @@ void _GetAchievements(char* type, char* language, char* _hash){
                         }
                     }
                     [jentry setObject:description forKey:@"Description"];
-
+                    
                     NSMutableArray *levelName = [[NSMutableArray alloc]init];
                     if([entry levelName]!=nil){
-                        for( MDPLocaleDescriptionModel *loc in [entry levelName]!=nil){
+                        for( MDPLocaleDescriptionModel *loc in [entry levelName]){
                             NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
                             [entry setObject:loc.locale forKey:@"Locale"];
                             [entry setObject:loc.descriptionLocaleDescription forKey:@"Description"];
@@ -467,7 +467,7 @@ void _GetAchievementsEarned(char* type, char* language, char* token, char* _hash
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
                 NSMutableArray *jreponse = [[NSMutableArray alloc] init];
-                if(content.result!=nil){
+                if(content.results!=nil){
                     for(MDPAchievementModel *entry in content.results ){
                         NSMutableDictionary *jentry = [[NSMutableDictionary alloc] init];
                         [jentry setObject:entry.idAchievement forKey:@"IdAchievement"];
@@ -522,6 +522,7 @@ void _GetContents(char* type, int page, char* language, char* _hash){
                         [jentry setObject:ma forKey:@"Links"];
                         MDPAssetModel* asset =[entry asset];
                         if( asset!=nil){
+                            NSMutableDictionary *jtemp;
                             jtemp = [[NSMutableDictionary alloc] init];
                             [jtemp setObject:asset.assetUrl forKey:@"AssetUrl"];
                             [jtemp setObject:asset.thumbnailUrl forKey:@"ThumbnailUrl"];
@@ -557,10 +558,10 @@ void _GetContent(char* IDContent, char* _hash){
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
+                NSMutableDictionary *jtemp;
                 [jobject setObject:content.sourceId forKey:@"SourceId"];
                 NSMutableArray *ma = [[NSMutableArray alloc]init];
-                if([content assets]!=nil){   
-                    NSMutableDictionary *jtemp;
+                if([content assets]!=nil){
                     for( MDPAssetModel *ent in [content assets]){
                         jtemp = [[NSMutableDictionary alloc] init];
                         [jtemp setObject:ent.typeAsset forKey:@"Type"];
@@ -569,10 +570,11 @@ void _GetContent(char* IDContent, char* _hash){
                     }
                 }
                 [jobject setObject:ma forKey:@"Assets"];
-                if([content body]!=nil){   
+                ma = [[NSMutableArray alloc]init];
+                if([content body]!=nil){
                     for( MDPContentParagraphModel *ent in [content body]){
                         jtemp = [[NSMutableDictionary alloc] init];
-                        [jtemp setObject:ent.title forKey:@"Title"];
+                        [jtemp setObject:ent.title forKey:@"Ttile"];
                         [jtemp setObject:ent.body forKey:@"Body"];
                         [ma addObject:jtemp];
                     }
