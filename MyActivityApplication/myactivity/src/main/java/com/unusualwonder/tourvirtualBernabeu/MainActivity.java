@@ -48,7 +48,10 @@ import com.microsoft.mdp.sdk.service.ServiceResponseListener;
 import com.unity3d.player.UnityPlayerActivity;
 import com.unity3d.player.UnityPlayer;
 import com.microsoft.applicationinsights.contracts.User;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -254,34 +257,37 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, Object> map = mapper.readValue(profile, new TypeReference<Map<String, Object> >() { });
+            ArrayList<HashMap<String, Object>> PhysicalProperties = (ArrayList) map.get("PhysicalProperties");
+            ArrayList<ProfileAvatarItem> lPhysicalProperties = new ArrayList<ProfileAvatarItem>();
+            for (HashMap<String, Object> itm : PhysicalProperties) {
+                ProfileAvatarItem lItm = new ProfileAvatarItem();
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lPhysicalProperties.add(lItm);
+            }
 
-        Map map = gson.fromJson(profile, new TypeToken<HashMap<String, Object>>() {
-        }.getType());
-        ArrayList<HashMap<String, Object>> PhysicalProperties = (ArrayList) map.get("PhysicalProperties");
-        ArrayList<ProfileAvatarItem> lPhysicalProperties = new ArrayList<ProfileAvatarItem>();
-        for (HashMap<String, Object> itm : PhysicalProperties) {
-            ProfileAvatarItem lItm = new ProfileAvatarItem();
-            lItm.setData((String) itm.get("Data"));
-            lItm.setType((String) itm.get("Type"));
-            lItm.setVersion((String) itm.get("Version"));
-            lPhysicalProperties.add(lItm);
+            ArrayList<HashMap<String, Object>> Accesories = (ArrayList) map.get("Accesories");
+            ArrayList<ProfileAvatarAccessoryItem> lAccesories = new ArrayList<ProfileAvatarAccessoryItem>();
+            for (HashMap<String, Object> itm : Accesories) {
+                ProfileAvatarAccessoryItem lItm = new ProfileAvatarAccessoryItem();
+                lItm.setIdVirtualGood((String) itm.get("IdVirtualGood"));
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lAccesories.add(lItm);
+            }
+
+            ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
+            pau.setPhysicalProperties(lPhysicalProperties);
+            pau.setAccesories(lAccesories);
+            DigitalPlatformClient.getInstance().getFanHandler().updateProfileAvatar(this, pau, callback);
+
+        } catch (IOException e) {
         }
-
-        ArrayList<HashMap<String, Object>> Accesories = (ArrayList) map.get("Accesories");
-        ArrayList<ProfileAvatarAccessoryItem> lAccesories = new ArrayList<ProfileAvatarAccessoryItem>();
-        for (HashMap<String, Object> itm : Accesories) {
-            ProfileAvatarAccessoryItem lItm = new ProfileAvatarAccessoryItem();
-            lItm.setIdVirtualGood((String) itm.get("IdVirtualGood"));
-            lItm.setData((String) itm.get("Data"));
-            lItm.setType((String) itm.get("Type"));
-            lItm.setVersion((String) itm.get("Version"));
-            lAccesories.add(lItm);
-        }
-
-        ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
-        pau.setPhysicalProperties(lPhysicalProperties);
-        pau.setAccesories(lAccesories);
-        DigitalPlatformClient.getInstance().getFanHandler().updateProfileAvatar(this, pau, callback);
     }
 
     public void CheckAlias(String alias, final String hash) {
