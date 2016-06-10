@@ -1,14 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &101758
+--- !u!1 &166248
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 409676}
-  - 137: {fileID: 13730380}
+  - 4: {fileID: 483610}
+  - 137: {fileID: 13739014}
   m_Layer: 0
   m_Name: MPiernas03
   m_TagString: Untagged
@@ -16,24 +16,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &409676
+--- !u!4 &483610
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101758}
+  m_GameObject: {fileID: 166248}
   m_LocalRotation: {x: -.707106709, y: 0, z: -0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: -9.34831194e-16}
+  m_LocalPosition: {x: 0, y: 0, z: -3.68043757e-16}
   m_LocalScale: {x: .393700778, y: .393700808, z: .393700808}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!137 &13730380
+--- !u!137 &13739014
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101758}
+  m_GameObject: {fileID: 166248}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -69,8 +69,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 400004, guid: daf9caebd4c0d144686dd1ecef8045a4, type: 3}
   m_AABB:
-    m_Center: {x: .0113179386, y: -1.25785494, z: -.0762472153}
-    m_Extent: {x: .494049937, y: 1.29172945, z: .607150555}
+    m_Center: {x: .00445586443, y: -.495218486, z: -.0300185755}
+    m_Extent: {x: .194507837, y: .508554816, z: .239035636}
   m_DirtyAABB: 0
 --- !u!1001 &100100000
 Prefab:
@@ -81,5 +81,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 101758}
+  m_RootGameObject: {fileID: 166248}
   m_IsPrefabParent: 1
