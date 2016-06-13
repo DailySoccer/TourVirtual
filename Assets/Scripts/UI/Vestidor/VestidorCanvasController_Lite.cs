@@ -52,6 +52,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public ClothSlot currentPrenda;
     AvatarAPI mOldAvatarDesciptor;
 
+	bool IsFirstLaunch;
     //private VestidorState lastVestidorState;
 
     void Awake()
@@ -111,6 +112,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(VestidorScreen);
                     break;
                 case VestidorState.LANDING_PAGE:
+					IsFirstLaunch = true;
 					EnableTopMenu(true);
                     cameraAvatarSelector.SetActive(false);
                     SecondPlaneAvatarSelect.SetActive(false);
@@ -391,7 +393,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void HideAllScreens()
     {
-        if (PlayerInstance != null)
+        if (PlayerInstance != null && !IsFirstLaunch)
             Destroy(PlayerInstance);
 
         if (isCurrentPopUpOpen)
@@ -415,12 +417,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         }
         MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR; // Siempre volvere al vestidor.
         HideAllScreens ();
-		RoomManager.Instance.GotoPreviousRoom ();
+
+		if (IsFirstLaunch && currentVestidorState != VestidorState.LANDING_PAGE)
+			ShowLandingPage ();//ChangeVestidorState (VestidorState.LANDING_PAGE);
+		else {
+			IsFirstLaunch = false;
+			RoomManager.Instance.GotoPreviousRoom ();
+		}
     }
 
     public void AcceptThisAvatar()
     {
-
         if (UserAPI.Instance != null) {
             if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
                 ModalNickInput.Show((nick) => {
@@ -457,7 +464,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
                     LoadingCanvasManager.Hide();
                     HideAllScreens();
-                    BackToRoom();
+					BackToRoom();
                 });
             }
         }
@@ -475,8 +482,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             Application.Quit();
             return;
         } else {
-            BackToRoom();
-        }
+			BackToRoom();
+		}
     }
 
     public void SetLanguage(string lang)
