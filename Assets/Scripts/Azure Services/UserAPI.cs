@@ -122,11 +122,16 @@ public class UserAPI {
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
             }
             else {
+				try{
                 AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
 
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
+				}catch{
+					PlayerManager.Instance.SelectedModel = "";
+					MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+				}
             }
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;

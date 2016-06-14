@@ -324,6 +324,11 @@ public class RoomManager : Photon.PunBehaviour {
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
         _loadingRoom = false;
+
+		if (roomDefinition.Id == "ESTADIO")
+			InitialTutorial.Instance.SartTutorial();
+
+
 	}
 
 	void Update () {

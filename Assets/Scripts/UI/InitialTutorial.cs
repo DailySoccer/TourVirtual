@@ -10,6 +10,11 @@ public class InitialTutorial : MonoBehaviour {
 	Animator _myAnimatorController;
 
 	int _currentScreenId;
+
+	void Awake() {
+		Instance = this;
+	}
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -19,7 +24,7 @@ public class InitialTutorial : MonoBehaviour {
 	}
 
 	void Initialize() {
-		if (_myAnimatorController != null)
+		if (_myAnimatorController == null)
 			_myAnimatorController = GetComponent<Animator> ();
 
 		_myAnimatorController.SetBool ("IsOpen", true);
@@ -31,13 +36,30 @@ public class InitialTutorial : MonoBehaviour {
 		_currentScreenId = 0;
 	}
 
-	void ShowTutorial() {
+	public void SartTutorial() {
+		if (PlayerPrefs.GetInt ("tutorial_done") > 0)
+			return;
+
 		Initialize ();
+		StartCoroutine (LaunchTutorial ());
+	}
+
+	IEnumerator LaunchTutorial() {
+		while (!InOpenState)
+			yield return null;
+
 		ShowNextScreen ();
+	}
+
+	public bool InOpenState {
+		get {
+			return _myAnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Open");
+		}
 	}
 
 	void FinishTutorial() {
 		_myAnimatorController.SetBool ("IsOpen", false);
+		PlayerPrefs.SetInt ("tutorial_done", 1);
 	}
 
 	void ShowNextScreen() {
@@ -59,4 +81,9 @@ public class InitialTutorial : MonoBehaviour {
 		else
 			FinishTutorial ();
 	}
+
+	void ConfigureModal() {
+		return;
+	}
+
 }
