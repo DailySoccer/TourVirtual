@@ -44,6 +44,7 @@ GameObject:
   - 224: {fileID: 22415328}
   - 222: {fileID: 22211092}
   - 114: {fileID: 11416490}
+  - 114: {fileID: 11437804}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -79,7 +80,7 @@ GameObject:
   - 222: {fileID: 22232190}
   - 114: {fileID: 11487066}
   m_Layer: 5
-  m_Name: Slot Settings
+  m_Name: Settings Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +97,7 @@ GameObject:
   - 222: {fileID: 22247072}
   - 114: {fileID: 11479128}
   m_Layer: 5
-  m_Name: Slot Profile
+  m_Name: Profile Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,6 +147,7 @@ GameObject:
   - 224: {fileID: 22425860}
   - 222: {fileID: 22215642}
   - 114: {fileID: 11406490}
+  - 114: {fileID: 11459344}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -163,6 +165,7 @@ GameObject:
   - 224: {fileID: 22439036}
   - 222: {fileID: 22258168}
   - 114: {fileID: 11474504}
+  - 114: {fileID: 11427850}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -197,6 +200,7 @@ GameObject:
   - 224: {fileID: 22424082}
   - 222: {fileID: 22222356}
   - 114: {fileID: 11490654}
+  - 114: {fileID: 11461840}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -232,7 +236,7 @@ GameObject:
   - 222: {fileID: 22239344}
   - 114: {fileID: 11499650}
   m_Layer: 5
-  m_Name: Slot Map
+  m_Name: Map Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,6 +304,7 @@ GameObject:
   - 224: {fileID: 22420280}
   - 222: {fileID: 22205440}
   - 114: {fileID: 11477066}
+  - 114: {fileID: 11476884}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -353,7 +358,7 @@ GameObject:
   - 222: {fileID: 22281486}
   - 114: {fileID: 11482282}
   m_Layer: 5
-  m_Name: Slot Chat
+  m_Name: Chat Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -388,6 +393,7 @@ GameObject:
   - 224: {fileID: 22483932}
   - 222: {fileID: 22217432}
   - 114: {fileID: 11499230}
+  - 114: {fileID: 11493518}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -567,7 +573,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "La mitad derecha de la pantalla es el control de visi\xF3n.\nUtil\xEDzala
+  m_Text: "La mitad derecha de la pantalla es el control de c\xE1mara.\nUtil\xEDzala
     para mirar a tu alrededor"
 --- !u!114 &11418804
 MonoBehaviour:
@@ -642,6 +648,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11427850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.SettingsIconDescription
 --- !u!114 &11431362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -668,6 +686,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ENTENDIDO
+--- !u!114 &11437804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.VirtualJoystickRight
 --- !u!114 &11439482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -710,6 +740,30 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11459344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.VirtualJoystickLeft
+--- !u!114 &11461840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.MapIconDescription
 --- !u!114 &11464010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -794,6 +848,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Cambia la configuraci\xF3n de idioma, audio o cierra sesi\xF3n"
+--- !u!114 &11476884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.ProfileIconDescription
 --- !u!114 &11477066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,7 +885,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Accede a los contenido desbloqueados, ve logros y edita tu perfil
+  m_Text: Accede a los contenido y logros desbloqueados y edita tu perfil
 --- !u!114 &11479128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -963,6 +1029,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizedKey: TVB.Minigame.ButtonUnderstand
+--- !u!114 &11493518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedKey: TVB.Tutorial.ChatIconDescription
 --- !u!114 &11499230
 MonoBehaviour:
   m_ObjectHideFlags: 1
