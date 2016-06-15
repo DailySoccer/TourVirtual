@@ -1,37 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.unusualwonder.tvbernabeu" android:installLocation="preferExternal">
-  <uses-permission android:name="com.android.vending.BILLING" />
-  <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true" android:xlargeScreens="true" />
-  <application android:allowBackup="true" android:icon="@drawable/app_icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:debuggable="false" android:isGame="true" android:banner="@drawable/app_banner" android:name="com.soomla.SoomlaApp">
-    <activity android:label="@string/app_name" android:screenOrientation="landscape" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale" android:name="com.unusualwonder.tourvirtualBernabeu.MainActivity">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:versionCode="1" android:versionName="1.0">
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+  <application android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+    <activity android:name="com.unity3d.player.UnityPlayerActivity" android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
-        <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="rmvt" />
-      </intent-filter>
     </activity>
-    <activity android:label="login" android:launchMode="singleTask" android:name="com.unusualwonder.tourvirtualBernabeu.RegistryActivity">
-    </activity>
-    <meta-data android:name="billing.service" android:value="google.GooglePlayIabService" />
-    <activity android:name="com.soomla.store.billing.google.GooglePlayIabService$IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.unity.FBUnityLoginActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.unity.FBUnityDialogsActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.LoginActivity" android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.unity.FBUnityAppLinkActivity" android:exported="true" />
+    <activity android:name="com.facebook.unity.FBUnityDeepLinkingActivity" android:exported="true" />
+    <activity android:name="com.facebook.unity.FBUnityGameRequestActivity" />
+    <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />
+    <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />
+    <activity android:name="com.facebook.unity.AppInviteDialogActivity" />
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb1093864100699692" />
+    <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider1093864100699692" android:exported="true" />
+    <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
   </application>
-  <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="22" />
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-  <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-  <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-  <uses-feature android:glEsVersion="0x00020000" />
-  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
-  <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false" />
-  <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="false" />
 </manifest>
