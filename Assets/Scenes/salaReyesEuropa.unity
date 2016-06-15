@@ -2249,8 +2249,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 500934339}
   - 64: {fileID: 500934341}
-  m_Layer: 0
-  m_Name: Collider_01
+  m_Layer: 15
+  m_Name: techo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2574,7 +2574,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 537560252}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2592,8 +2592,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 500934339}
+  - {fileID: 1040486973}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &538387167
 GameObject:
   m_ObjectHideFlags: 0
@@ -7212,7 +7213,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 537560252}
     m_Modifications:
     - target: {fileID: 400000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7244,10 +7245,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
+    - {fileID: 3300000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &1040486971 stripped
@@ -7266,6 +7272,10 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
+--- !u!4 &1040486973 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 42121f4cd71ccc64e8ea1159cedc0c61, type: 3}
+  m_PrefabInternal: {fileID: 1040486970}
 --- !u!1001 &1041784259
 Prefab:
   m_ObjectHideFlags: 0

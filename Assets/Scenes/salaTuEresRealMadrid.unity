@@ -181,7 +181,7 @@ Transform:
   m_Children:
   - {fileID: 2124539246}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!1 &71573393
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +725,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1147290333}
     m_Modifications:
     - target: {fileID: 400000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -757,7 +757,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
       propertyPath: m_LocalScale.x
@@ -771,8 +771,13 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2.52999997
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
+    - {fileID: 3300000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &666466152 stripped
@@ -791,6 +796,10 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
+--- !u!4 &666466154 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 236eb651a6c4c634e95eae620967a97c, type: 3}
+  m_PrefabInternal: {fileID: 666466151}
 --- !u!1001 &679686421
 Prefab:
   m_ObjectHideFlags: 0
@@ -892,8 +901,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 737339034}
   - 64: {fileID: 737339032}
-  m_Layer: 0
-  m_Name: Collider_01
+  m_Layer: 15
+  m_Name: techo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,7 +1325,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1147290333}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1334,8 +1343,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 737339034}
+  - {fileID: 666466154}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &1149795263
 GameObject:
   m_ObjectHideFlags: 0
