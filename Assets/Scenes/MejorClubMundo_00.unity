@@ -14384,7 +14384,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 851168486}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14402,8 +14402,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1341065201}
+  - {fileID: 1651987535}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!1001 &855616625
 Prefab:
   m_ObjectHideFlags: 0
@@ -23685,7 +23686,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1341065201}
   - 64: {fileID: 1341065202}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: collider_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29753,7 +29754,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 851168486}
     m_Modifications:
     - target: {fileID: 400000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29785,7 +29786,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
       propertyPath: m_Enabled
@@ -29795,8 +29796,13 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
+    - {fileID: 3300000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &1651987533 stripped
@@ -29815,6 +29821,10 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
+--- !u!4 &1651987535 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 94a2f496eee51c4419ee4abe66d32bab, type: 3}
+  m_PrefabInternal: {fileID: 1651987532}
 --- !u!1001 &1665741967
 Prefab:
   m_ObjectHideFlags: 0

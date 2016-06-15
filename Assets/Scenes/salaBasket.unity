@@ -3019,7 +3019,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1112049018}
     m_Modifications:
     - target: {fileID: 400000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3051,7 +3051,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
       propertyPath: m_LocalScale.x
@@ -3069,8 +3069,13 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
+    - {fileID: 3300000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &450127935 stripped
@@ -3089,6 +3094,10 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
+--- !u!4 &450127937 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 3d1d62e679d7fb64ea7f4462784c37cb, type: 3}
+  m_PrefabInternal: {fileID: 450127934}
 --- !u!1001 &453610649
 Prefab:
   m_ObjectHideFlags: 0
@@ -3618,8 +3627,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 629172440}
   - 64: {fileID: 629172441}
-  m_Layer: 0
-  m_Name: Collider_01
+  m_Layer: 15
+  m_Name: techo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5869,7 +5878,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1112049018}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5887,8 +5896,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 629172440}
+  - {fileID: 450127937}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
 --- !u!1001 &1146883657
 Prefab:
   m_ObjectHideFlags: 0
