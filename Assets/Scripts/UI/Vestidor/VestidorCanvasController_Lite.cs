@@ -434,21 +434,27 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     if (nick != "<EMPTY>") {
                         LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                         UserAPI.Instance.UpdateNick(nick, () => {
-                            UserAPI.Instance.UpdateAvatar();
-                            UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
-                                LoadingCanvasManager.Hide();
-                                ModalNickInput.Close();
-                                HideAllScreens();
-                                if (Authentication.AzureServices.IsDeepLinking) {
-                                    Authentication.AzureServices.OpenURL("rmapp://You");
-                                    Application.Quit();
-                                    return;
-                                }
-                                else
-                                {
-                                    BackToRoom();
-                                }
-                            });
+							UserAPI.VirtualGoodsDesciptor.FilterBySex();
+							UserAPI.Instance.Nick = nick;
+							Authentication.AzureServices.CreateProfileAvatar( UserAPI.AvatarDesciptor.GetProperties(), (res) =>{
+								Debug.LogError("CreateProfileAvatar "+res);
+								UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
+									LoadingCanvasManager.Hide();
+									ModalNickInput.Close();
+									HideAllScreens();
+									if (Authentication.AzureServices.IsDeepLinking) {
+										Authentication.AzureServices.OpenURL("rmapp://You");
+										Application.Quit();
+										return;
+									}
+									else
+									{
+										BackToRoom();
+									}
+								});
+							},(error)=>{
+								Debug.LogError("ERROR CreateProfileAvatar "+error);
+							});
                         }, () => { // Error
                             LoadingCanvasManager.Hide();
                             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NickUsed"));
