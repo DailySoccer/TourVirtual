@@ -87,6 +87,12 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &4680166 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11409862, guid: 0a065878473eb4d63b60fa135a0afa3f,
+    type: 2}
+  m_PrefabInternal: {fileID: 166426746}
+  m_Script: {fileID: 11500000, guid: e2bb3500d0c7046cba35d3505afb0dea, type: 3}
 --- !u!1 &6357751
 GameObject:
   m_ObjectHideFlags: 0
@@ -6550,6 +6556,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1dd6d13a2e3894047bf9635ed610f6fc, type: 2}
   m_IsPrefabParent: 0
+--- !u!224 &710956639 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 22445432, guid: 1dd6d13a2e3894047bf9635ed610f6fc,
+    type: 2}
+  m_PrefabInternal: {fileID: 710956638}
 --- !u!1 &714215503
 GameObject:
   m_ObjectHideFlags: 0
@@ -16509,7 +16520,7 @@ MonoBehaviour:
   currentGUIScreen: {fileID: 2001946397}
   currentGUIPopUpScreen: {fileID: 0}
   ContentLoadingScreen: {fileID: 2081767951}
-  PlayerPosition: {fileID: 0}
+  PlayerPosition: {fileID: 710956639}
   Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
   CurrentPlayerDataModelSelected: []
 --- !u!114 &1671584788
@@ -16524,7 +16535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d682ba70682ef43aeaa4432f9b75f7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModalHiddenObjectsGameScreen: {fileID: 0}
+  ModalHiddenObjectsGameScreen: {fileID: 4680166}
   TopMenu: {fileID: 709543924}
 --- !u!114 &1671584789
 MonoBehaviour:
