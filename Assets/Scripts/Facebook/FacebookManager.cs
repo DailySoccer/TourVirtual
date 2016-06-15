@@ -17,27 +17,31 @@ public class FacebookManager : MonoBehaviour {
 		/// </summary>
 	public void PromptLogIn()
 	{
+#if !UNITY_EDITOR
 		if (!FB.IsLoggedIn)
 		{
 			_processedLogIn = false;
 			FB.LogInWithReadPermissions(perms, AuthCallback);
 		}
 		_updateLedLogIn = true;
+#endif
 	}
 	/// <summary>
 	/// Prompt facebook share link pop up
 	/// </summary>
 	public void ShareToFacebook()
 	{
+#if !UNITY_EDITOR
 		if (!_processingThread)
 		{
 			_processingThread = true;
 			StartCoroutine(CheckLogInShare());
 		}
+#endif
 	}
-	#endregion
+#endregion
 
-	#region MonoBehaviour methods
+#region MonoBehaviour methods
 	void Awake()
 	{
 		_updateLedLogIn = true;
@@ -63,14 +67,12 @@ public class FacebookManager : MonoBehaviour {
 		if (_updateLedLogIn)
 		{
 			_updateLedLogIn = false;
-			//TODO erase this
-			PromptLogIn();
 			//LedLogin.color = FB.IsLoggedIn ? Color.green : Color.red;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Private methods
+#region Private methods
 	private void InitCallback()
 	{
 		if (FB.IsInitialized)
@@ -145,12 +147,12 @@ public class FacebookManager : MonoBehaviour {
 		}
 		_processingThread = false;
 	}
-	#endregion
+#endregion
 
-	#region Private members
+#region Private members
 	private List<string> perms = new List<string>() { "public_profile", "email", "user_friends" };
 	private bool _updateLedLogIn;
 	private bool _processedLogIn;
 	private bool _processingThread;
-	#endregion
+#endregion
 }
