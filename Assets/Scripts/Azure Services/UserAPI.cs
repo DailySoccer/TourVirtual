@@ -91,10 +91,12 @@ public class UserAPI {
         yield return Authentication.AzureServices.GetFanApps();
 
         yield return Authentication.AzureServices.GetFanMe((res) => {
+			Debug.LogError(">>>> GetFanMe(res): " + res);
+
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
-            MainManager.Instance.ChangeLanguage(hs["Language"] as string);
+			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
             UserID = hs["IdUser"] as string;
-            Nick = hs["Alias"] as string;
+			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
 
         if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
@@ -116,21 +118,34 @@ public class UserAPI {
 
         LoadingContentText.SetText("API.ProfileAvatar");
         yield return Authentication.AzureServices.GetProfileAvatar((res) => {
+
+			Debug.LogError(">>>> ProfileAvatar(res): " + res);
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
             }
             else {
+				try{
                 AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
 
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
+				}catch{
+					PlayerManager.Instance.SelectedModel = "";
+					MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+				}
             }
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
-        });
+		},(err)=>{
+			Debug.LogError(">>>> ProfileAvatar(err): " + err);
+
+			PlayerManager.Instance.SelectedModel = "";
+			MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+
+		});
 
         LoadingContentText.SetText("API.GamificationStatus");
         yield return Authentication.AzureServices.GamificationStatus( (res) => {

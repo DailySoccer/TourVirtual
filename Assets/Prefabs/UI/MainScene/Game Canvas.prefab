@@ -322,9 +322,8 @@ GameObject:
   - 114: {fileID: 11402238}
   - 114: {fileID: 11471910}
   - 114: {fileID: 11425074}
-  - 114: {fileID: 11460980}
   m_Layer: 5
-  m_Name: Debug-button_Show_Modal_ThirdsProfile
+  m_Name: Debug-button_Show_Modal_Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8813,26 +8812,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11460980
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 110176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8fe4145a177c4d9fbbc8df9be9189dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  referenceCamera: {fileID: 0}
-  playerID: 
-  reverseFace: 0
-  axis: 4
-  IsButtonDbug: 1
-  Name: {fileID: 0}
-  FanLevel: {fileID: 0}
-  Face: {fileID: 0}
-  Parent: {fileID: 0}
 --- !u!114 &11461070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9717,8 +9696,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11460980}
-        m_MethodName: RemotePlayerHUD_ClickHandle
+      - m_Target: {fileID: 11425074}
+        m_MethodName: Launch_Initial_Tutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10162,7 +10141,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Abrir perfil de 3\xBA"
+  m_Text: Abrir tutorial
 --- !u!114 &11478012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17063,7 +17042,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199914}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

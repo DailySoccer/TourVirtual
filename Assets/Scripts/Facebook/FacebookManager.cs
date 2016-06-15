@@ -63,6 +63,8 @@ public class FacebookManager : MonoBehaviour {
 		if (_updateLedLogIn)
 		{
 			_updateLedLogIn = false;
+			//TODO erase this
+			PromptLogIn();
 			//LedLogin.color = FB.IsLoggedIn ? Color.green : Color.red;
 		}
 	}

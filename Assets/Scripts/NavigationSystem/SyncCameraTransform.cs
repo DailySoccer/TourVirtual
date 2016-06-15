@@ -12,16 +12,22 @@ public class SyncCameraTransform : MonoBehaviour {
 	}
 
 	[Serializable]
-	private struct CameraAnchor
+	private class CameraAnchor
 	{
 		public static float PitchDegreesMin;
 		public static float PitchDegreesMax;
 
-		public CameraStyle Style;
-		public Transform Transform;
+		[SerializeField] private CameraStyle _style;
+		public CameraStyle Style { get { return _style; } }
 
-		[HideInInspector] public float Radius;
-		[HideInInspector] public Vector3 Target;
+		[SerializeField] private Transform _transform;
+		public Transform Transform { get { return _transform; } }
+
+		public float Radius   { get; private set; }
+		public float Distance { get; private set; }
+		public Vector3 Target {
+			get { return Transform.position + Distance*Transform.forward; }
+		}
 
 		private float _pitchDegrees;
 		public float PitchDegrees
@@ -29,12 +35,26 @@ public class SyncCameraTransform : MonoBehaviour {
 			get { return _pitchDegrees; }
 			set
 			{
-				_pitchDegrees = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
-				Transform.Rotate(Vector3.right, -_pitchDegrees);
+				value = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
+				if (Mathf.Approximately(value, _pitchDegrees))
+					return;
 
-				Target = Transform.position + Transform.forward *
-					+ Radius / Mathf.Cos(_pitchDegrees);
+				Transform.localRotation = Quaternion.Euler(-value, 
+					Transform.localRotation.y, Transform.localRotation.z);
+
+				Distance = Radius / Mathf.Cos(Mathf.Deg2Rad * value);
+
+				_pitchDegrees = value;
 			}
+		}
+
+		public void Init()
+		{
+			Vector3 horizontalPos = Transform.localPosition;
+			horizontalPos.y = 0f;
+
+			Radius = horizontalPos.magnitude;
+			PitchDegrees = -Transform.eulerAngles.x;
 		}
 	}
 
@@ -63,23 +83,16 @@ public class SyncCameraTransform : MonoBehaviour {
 	/// </summary>
 	private void Start ()
 	{
-		foreach (CameraAnchor anchor in _anchors)
-			ProcessAnchor(anchor);
+		foreach (CameraAnchor anchor in _anchors) {
+			anchor.Init();
+			_anchorsByStyle[anchor.Style] = anchor;
+		}
 
 		if (_camera == null) 
 			_camera = Camera.main;
 	}
 
-	private void ProcessAnchor(CameraAnchor anchor)
-	{
-		Vector3 horizontalPos = anchor.Transform.position;
-		horizontalPos.y = 0f;
-
-		anchor.Radius = horizontalPos.magnitude;
-		anchor.PitchDegrees = -anchor.Transform.rotation.x;
-
-		_anchorsByStyle[anchor.Style] = anchor;
-	}
+	
 
 	// Update is called once per frame
 	private void LateUpdate ()
@@ -105,24 +118,39 @@ public class SyncCameraTransform : MonoBehaviour {
 	private void SyncWith(CameraAnchor anchor)
 	{
 		_camera.transform.position = anchor.Transform.position;
-
-		if (anchor.Radius > WallAvoidanceDistMin)
-		{
-			Vector3 nearPos   = anchor.Transform.position + _camera.nearClipPlane*anchor.Transform.forward;
-			
-			RaycastHit wallInfo;
-			if (Physics.Linecast(nearPos, anchor.Target, out wallInfo, LayerMask.GetMask(_wallLayerName)))
-			{
-				_camera.transform.position = wallInfo.point
-					- WallSafeDistance*_camera.nearClipPlane*anchor.Transform.forward;
-			}
-		}
-
 		_camera.transform.rotation = anchor.Transform.rotation;
+
+		if (anchor.Radius < WallAvoidanceDistMin)
+			return;
+/*
+		Vector3 nearPos   = anchor.Transform.position + _camera.nearClipPlane*anchor.Transform.forward;
+
+		RaycastHit wallInfo;
+		if (Physics.Linecast(nearPos, anchor.Target, out wallInfo, LayerMask.GetMask(_wallLayerName)))
+		{
+			_camera.transform.position = wallInfo.point
+				- WallSafeDistance*_camera.nearClipPlane*anchor.Transform.forward;
+		}
+		Debug.DrawLine(nearPos, anchor.Target, Color.magenta);
+/*/
+		RaycastHit wallInfo;
+		if (Physics.Raycast(anchor.Target, -anchor.Transform.forward, out wallInfo,
+			anchor.Distance - _camera.nearClipPlane, LayerMask.GetMask(_wallLayerName)))
+		{
+			_camera.transform.position = wallInfo.point
+				- WallSafeDistance*_camera.nearClipPlane*anchor.Transform.forward;
+
+			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.red);
+		}
+		else
+		{
+			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.green);
+		}
+/**/
 	}
 
 
-	private const float WallSafeDistance = .95f;
+	private const float WallSafeDistance = .5f;
 	private const float WallAvoidanceDistMin = 1f;
 
 	[SerializeField] private Camera _camera;

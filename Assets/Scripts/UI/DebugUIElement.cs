@@ -21,4 +21,9 @@ public class DebugUIElement : MonoBehaviour {
 	public void ShowGoodiesShop(){
 		GoodiesShopController.Show ();
 	}
+
+	public void Launch_Initial_Tutorial() {
+		PlayerPrefs.SetInt ("tutorial_done", 0);
+		InitialTutorial.Instance.SartTutorial ();
+	}
 }
