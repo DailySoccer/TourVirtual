@@ -1,49 +1,139 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class SyncCameraTransform : MonoBehaviour {
 	
-	public enum CameraStyle {
-		FPS,
-		ThirdPerson
+	public enum CameraStyle
+	{
+		Default = 0,
+		Fps     = 1,
+		Tps     = 2,
 	}
-	
-	public GameObject cameraSynced;
-	public GameObject fpsPoint;
-	public GameObject thirdPersonPoint;
-	private float _currentPitch;
-   [Range(0, 90)]
-	public float MAX_PITCH;
-   [Range(-90, 0)]
-   public float MIN_PITCH;
 
+	[Serializable]
+	private struct CameraAnchor
+	{
+		public static float PitchDegreesMin;
+		public static float PitchDegreesMax;
 
-	// Use this for initialization
-	void Start () {
-		if (cameraSynced == null && Camera.main != null) {
-			cameraSynced = Camera.main.gameObject;
-		}
-	}
-	
-	// Update is called once per frame
-	void LateUpdate () {
-		if (cameraSynced == null && Camera.main != null) {
-			cameraSynced = Camera.main.gameObject;
-		}
-		if (cameraSynced != null) {
-			GameObject point = thirdPersonPoint;
-			switch (Player.Instance.cameraStyle) {
-				case CameraStyle.FPS: point = fpsPoint; break;
-				case CameraStyle.ThirdPerson: point = thirdPersonPoint; break;
+		public CameraStyle Style;
+		public Transform Transform;
+
+		[HideInInspector] public float Radius;
+		[HideInInspector] public Vector3 Target;
+
+		private float _pitchDegrees;
+		public float PitchDegrees
+		{
+			get { return _pitchDegrees; }
+			set
+			{
+				_pitchDegrees = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
+				Transform.Rotate(Vector3.right, -_pitchDegrees);
+
+				Target = Transform.position + Transform.forward *
+					+ Radius / Mathf.Cos(_pitchDegrees);
 			}
-
-			cameraSynced.transform.position = point.transform.position;
-			cameraSynced.transform.rotation = point.transform.rotation;
-			AddPitch(Player.Instance.cameraPitch * Time.deltaTime);
-			cameraSynced.transform.Rotate(Vector3.right, -_currentPitch);
 		}
 	}
 
-	private void AddPitch(float amount) {
-		_currentPitch = Mathf.Clamp(_currentPitch + amount, MIN_PITCH, MAX_PITCH);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void Awake()
+	{
+		CameraAnchor.PitchDegreesMin = _pitchDegreesMin;
+		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
+
+		_anchorsByStyle = new Dictionary<CameraStyle, CameraAnchor>();
 	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void OnDestroy()
+	{
+		_camera = null;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void Start ()
+	{
+		foreach (CameraAnchor anchor in _anchors)
+			ProcessAnchor(anchor);
+
+		if (_camera == null) 
+			_camera = Camera.main;
+	}
+
+	private void ProcessAnchor(CameraAnchor anchor)
+	{
+		Vector3 horizontalPos = anchor.Transform.position;
+		horizontalPos.y = 0f;
+
+		anchor.Radius = horizontalPos.magnitude;
+		anchor.PitchDegrees = -anchor.Transform.rotation.x;
+
+		_anchorsByStyle[anchor.Style] = anchor;
+	}
+
+	// Update is called once per frame
+	private void LateUpdate ()
+	{
+		// UNDONE FRS 160614 esto no debería ser necesario
+		//if (_camera == null && Camera.main != null) 
+		//	_camera = Camera.main;
+
+		if (_camera == null)
+			return;
+
+		CameraAnchor anchor = _anchorsByStyle[Player.Instance.cameraStyle];
+		anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
+
+		SyncWith(anchor);
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="anchor"></param>
+	private void SyncWith(CameraAnchor anchor)
+	{
+		_camera.transform.position = anchor.Transform.position;
+
+		if (anchor.Radius > WallAvoidanceDistMin)
+		{
+			Vector3 nearPos   = anchor.Transform.position + _camera.nearClipPlane*anchor.Transform.forward;
+			
+			RaycastHit wallInfo;
+			if (Physics.Linecast(nearPos, anchor.Target, out wallInfo, LayerMask.GetMask(_wallLayerName)))
+			{
+				_camera.transform.position = wallInfo.point
+					- WallSafeDistance*_camera.nearClipPlane*anchor.Transform.forward;
+			}
+		}
+
+		_camera.transform.rotation = anchor.Transform.rotation;
+	}
+
+
+	private const float WallSafeDistance = .95f;
+	private const float WallAvoidanceDistMin = 1f;
+
+	[SerializeField] private Camera _camera;
+	[SerializeField] private CameraAnchor[] _anchors;
+	[SerializeField] private string _wallLayerName = "Wall";
+
+	private float _pitch;
+	[SerializeField, Range(-90f,  0f)] private float _pitchDegreesMin = -20f;
+	[SerializeField, Range(  0f, 90f)] private float _pitchDegreesMax =  20f;
+
+	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
+
+
 }
