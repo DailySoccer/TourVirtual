@@ -150,7 +150,7 @@ public class SyncCameraTransform : MonoBehaviour {
 	}
 
 
-	private const float WallSafeDistance = .5f;
+	private const float WallSafeDistance = 0f;
 	private const float WallAvoidanceDistMin = 1f;
 
 	[SerializeField] private Camera _camera;
