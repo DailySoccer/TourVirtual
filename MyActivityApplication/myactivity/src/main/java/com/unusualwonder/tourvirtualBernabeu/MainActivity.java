@@ -40,6 +40,7 @@ import com.microsoft.mdp.sdk.model.fan.ProfileAvatarUpdateable;
 import com.microsoft.mdp.sdk.model.fan.VirtualGood;
 import com.microsoft.mdp.sdk.model.identities.AliasUpdate;
 import com.microsoft.mdp.sdk.model.purchases.Purchase;
+import com.microsoft.mdp.sdk.model.rankings.ExperienceRanking;
 import com.microsoft.mdp.sdk.model.scores.FanMaxScore;
 import com.microsoft.mdp.sdk.model.scores.ScoreRanking;
 import com.microsoft.mdp.sdk.model.subscriptions.ProductPrice;
@@ -189,7 +190,7 @@ public class MainActivity extends UnityPlayerActivity {
                 Map jobject = new HashMap();
                 if (res != null) {
                     jobject.put("IdUser", res.getIdUser());
-                    jobject.put("Alias", res.getAlias());
+                    jobject.put("Alias", res.getAlias()!=null?res.getAlias():"");
                     jobject.put("Language", res.getLanguage());
                 }
                 SendOkResponse(hash, gson.toJson(jobject));
@@ -200,7 +201,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getFanHandler().getFan(this, callback, true);  // !!!!!
+        DigitalPlatformClient.getInstance().getFanHandler().getFan(this, callback, false);
     }
 
     public void GetProfileAvatar(final String hash) {
@@ -243,6 +244,51 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         DigitalPlatformClient.getInstance().getFanHandler().getProfileAvatar(this, callback);
+    }
+
+    public void CreateProfileAvatar(String profile, final String hash) {
+        ServiceResponseListener<String> callback = new ServiceResponseListener<String>() {
+            @Override
+            public void onResponse(String res) {
+                SendOkResponse(hash, gson.toJson(res));
+            }
+
+            @Override
+            public void onError(DigitalPlatformClientException err) {
+                SendErrorResponse(hash, err);
+            }
+        };
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, Object> map = mapper.readValue(profile, new TypeReference<Map<String, Object> >() { });
+            ArrayList<HashMap<String, Object>> PhysicalProperties = (ArrayList) map.get("PhysicalProperties");
+            ArrayList<ProfileAvatarItem> lPhysicalProperties = new ArrayList<ProfileAvatarItem>();
+            for (HashMap<String, Object> itm : PhysicalProperties) {
+                ProfileAvatarItem lItm = new ProfileAvatarItem();
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lPhysicalProperties.add(lItm);
+            }
+
+            ArrayList<HashMap<String, Object>> Accesories = (ArrayList) map.get("Accesories");
+            ArrayList<ProfileAvatarAccessoryItem> lAccesories = new ArrayList<ProfileAvatarAccessoryItem>();
+            for (HashMap<String, Object> itm : Accesories) {
+                ProfileAvatarAccessoryItem lItm = new ProfileAvatarAccessoryItem();
+                lItm.setIdVirtualGood((String) itm.get("IdVirtualGood"));
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lAccesories.add(lItm);
+            }
+
+            ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
+            pau.setPhysicalProperties(lPhysicalProperties);
+            pau.setAccesories(lAccesories);
+            DigitalPlatformClient.getInstance().getFanHandler().createProfileAvatar(this, pau, callback);
+
+        } catch (IOException e) {
+        }
     }
 
     public void SetProfileAvatar(String profile, final String hash) {
@@ -409,6 +455,33 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         DigitalPlatformClient.getInstance().getScoreRankingHandler().getTopScores(this, IDMiniGame, callback);
+    }
+
+    public void GetFanRanking(final String hash) {
+        ServiceResponseListener<ArrayList<ExperienceRanking>> callback = new ServiceResponseListener<ArrayList<ExperienceRanking>>() {
+            @Override
+            public void onResponse(ArrayList<ExperienceRanking> res) {
+                ArrayList jobject = new ArrayList();
+                if (res != null) {
+                    for (ExperienceRanking itm : res) {
+                        Map jitem = new HashMap();
+                        jitem.put("Alias", itm.getAlias());
+                        jitem.put("AvatarUrl", itm.getAvatarUrl());
+                        jitem.put("Position", itm.getPosition());
+                        jitem.put("GamingScore", itm.getGamingScore());
+                        jitem.put("IsCurrentUser", itm.getIsCurrentUser());
+                        jobject.add(jitem);
+                    }
+                }
+                SendOkResponse(hash, gson.toJson(jobject));
+            }
+
+            @Override
+            public void onError(DigitalPlatformClientException err) {
+                SendErrorResponse(hash, err);
+            }
+        };
+        DigitalPlatformClient.getInstance().getRankingHandler().getCurrentUserRanking(this, this.IDClient, callback);
     }
 
     // Virtual Goods
@@ -690,7 +763,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getContentsHandler().getContentItem(this, IDContent, callback, true); // !!!!!
+        DigitalPlatformClient.getInstance().getContentsHandler().getContentItem( this, IDContent, callback, true); // !!!!!
     }
 
     // Gamificación

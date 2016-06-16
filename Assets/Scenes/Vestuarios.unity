@@ -1905,7 +1905,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 232606298}
   - 65: {fileID: 232606299}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: puerta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2636,7 +2636,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 366092825}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2657,8 +2657,9 @@ Transform:
   - {fileID: 1265079846}
   - {fileID: 2017546676}
   - {fileID: 232606298}
+  - {fileID: 1265041643}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!1 &376963955
 GameObject:
   m_ObjectHideFlags: 0
@@ -5456,7 +5457,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 850820961}
   - 64: {fileID: 850820963}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: techo_salida
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6889,13 +6890,13 @@ Transform:
   - {fileID: 629227096}
   - {fileID: 1749204020}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1001 &1265041640
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 366092825}
     m_Modifications:
     - target: {fileID: 400000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6927,10 +6928,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
+    - {fileID: 3300000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &1265041641 stripped
@@ -6949,6 +6955,10 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
+--- !u!4 &1265041643 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: d7b896bb590be8243a17b356c3a5781e, type: 3}
+  m_PrefabInternal: {fileID: 1265041640}
 --- !u!1 &1265079845
 GameObject:
   m_ObjectHideFlags: 0
@@ -6958,7 +6968,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1265079846}
   - 64: {fileID: 1265079848}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: techo_escaleras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10539,7 +10549,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2017546676}
   - 64: {fileID: 2017546678}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: techo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

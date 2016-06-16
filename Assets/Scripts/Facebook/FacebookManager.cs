@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using Facebook.Unity;
 
-public class FacebookManager : MonoBehaviour {
+public class FacebookManager : MonoBehaviour
+{
 
 	#region Public members
 	//public Image LedLogin;
@@ -12,28 +13,32 @@ public class FacebookManager : MonoBehaviour {
 	#endregion
 
 	#region Public methods
-		/// <summary>
-		/// Prompt facebook log in pop up
-		/// </summary>
+	/// <summary>
+	/// Prompt facebook log in pop up
+	/// </summary>
 	public void PromptLogIn()
 	{
+#if !UNITY_EDITOR
 		if (!FB.IsLoggedIn)
 		{
 			_processedLogIn = false;
 			FB.LogInWithReadPermissions(perms, AuthCallback);
 		}
 		_updateLedLogIn = true;
+#endif
 	}
 	/// <summary>
 	/// Prompt facebook share link pop up
 	/// </summary>
 	public void ShareToFacebook()
 	{
+#if !UNITY_EDITOR
 		if (!_processingThread)
 		{
 			_processingThread = true;
 			StartCoroutine(CheckLogInShare());
 		}
+#endif
 	}
 	#endregion
 
@@ -63,8 +68,6 @@ public class FacebookManager : MonoBehaviour {
 		if (_updateLedLogIn)
 		{
 			_updateLedLogIn = false;
-			//TODO erase this
-			PromptLogIn();
 			//LedLogin.color = FB.IsLoggedIn ? Color.green : Color.red;
 		}
 	}

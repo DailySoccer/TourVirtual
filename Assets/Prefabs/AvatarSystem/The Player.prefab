@@ -166,11 +166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fed8820704ce4b11b04a9a894ff7b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSynced: {fileID: 0}
-  fpsPoint: {fileID: 166154}
-  thirdPersonPoint: {fileID: 141924}
-  MAX_PITCH: 20
-  MIN_PITCH: -20
+  _camera: {fileID: 0}
+  _anchors:
+  - _style: 0
+    _transform: {fileID: 493190}
+  _wallLayerName: CameraCollision
+  _smoothSecs: .100000001
+  _pitchDegreesMin: -20
+  _pitchDegreesMax: 20
+  _smoothDistSqrMin: .100000001
+  _wallSafeDistance: 0
+  _wallAvoidanceDistMin: 1
 --- !u!114 &11462548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,9 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarVisible: 1
   cameraRotation: 0
-  _movementStyle: 1
   followStyle: 1
-  cameraStyle: 1
+  cameraStyle: 0
 --- !u!114 &11470108
 MonoBehaviour:
   m_ObjectHideFlags: 1

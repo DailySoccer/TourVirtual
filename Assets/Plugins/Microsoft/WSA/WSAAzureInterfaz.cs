@@ -143,7 +143,7 @@ public class WSAAzureInterfaz : AzureInterfaz {
             }
             pau.Accesories = Accesories;
 
-            await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.PostProfileAvatar(pau);
+            await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.PutProfileAvatar(pau);
             AsyncOperation.EndOperation(true, op.Hash + ":ProfileAvatarSeted");
         } catch {
             AsyncOperation.EndOperation(false, op.Hash + ":KO");
@@ -153,6 +153,45 @@ public class WSAAzureInterfaz : AzureInterfaz {
     public override Coroutine SetProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
         _SetProfileAvatar(profile as Dictionary<string, object>, op);
+        return StartCoroutine(op.Wait());
+    }
+#endregion
+#region CreateProfileAvatar
+    async void _CreateProfileAvatar(object oprofile, AsyncOperation op) {
+        try {
+            Dictionary<string, object> profile = (Dictionary<string, object>)oprofile;
+            var pau = new ProfileAvatarUpdateable();
+            var PhysicalProperties = new List<ProfileAvatarItem>();
+            foreach (Dictionary<string, string> item in profile["PhysicalProperties"] as List<object>) {
+                PhysicalProperties.Add(new ProfileAvatarItem() {
+                    Data = item["Data"],
+                    Type = item["Type"],
+                    Version = item["Version"]
+                });
+            }
+            pau.PhysicalProperties = PhysicalProperties;
+
+            var Accesories = new List<ProfileAvatarAccessoryItem>();
+            foreach (Dictionary<string, string> item in profile["Accesories"] as List<object>) {
+                Accesories.Add(new ProfileAvatarAccessoryItem() {
+                    IdVirtualGood = new Guid(item["IdVirtualGood"]),
+                    Data = item["Data"],
+                    Type = item["Type"],
+                    Version = item["Version"]
+                });
+            }
+            pau.Accesories = Accesories;
+
+            await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.PostProfileAvatar(pau);
+            AsyncOperation.EndOperation(true, op.Hash + ":ProfileAvatarSeted");
+        } catch {
+            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        }
+    }
+
+    public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _CreateProfileAvatar(profile as Dictionary<string, object>, op);
         return StartCoroutine(op.Wait());
     }
 #endregion
@@ -283,7 +322,35 @@ public class WSAAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
 #endregion
+#region GetFanRanking
+    async void _GetFanRanking(string IDMinigame, AsyncOperation op) {
+        try {
+            var ranking = await DigitalPlatformClient.Instance.Scores.GetTopScores(new Guid(IDMinigame));
+            var jobject = new List<object>();
+            if(ranking!=null) {
+                Dictionary<string, object> ele;
+                foreach (ScoreRanking entry in ranking) {
+                    ele = new Dictionary<string, object>();
+                    ele.Add("Alias", entry.Alias);
+                    ele.Add("AvatarUrl", entry.AvatarUrl);
+                    ele.Add("Position", entry.Position);
+                    ele.Add("GamingScore", entry.GamingScore);
+                    ele.Add("IsCurrentUser", entry.IsCurrentUser);
+                    jobject.Add(ele);
+                }
+            }
+            AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
+        } catch {
+            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        }
+    }
 
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _GetFanRanking(op);
+        return StartCoroutine(op.Wait());
+    }
+#endregion
     // Virtual Goods
 #region GetVirtualGoods
     async void _GetVirtualGoods(string type, int page, string subtype, bool onlyPurchasables, AsyncOperation op) {
