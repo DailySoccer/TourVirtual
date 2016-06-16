@@ -38,9 +38,6 @@ public class VirtualGoodsAPI {
 
         while (needRequest) {
             yield return Authentication.AzureServices.GetVirtualGoods("AVATARVG", page, null, false, (res) => {
-
-
-				Debug.LogError(">>>> GetVirtualGoods(res): " + res);
                 Dictionary<string, object> virtualgoods = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
                 if (virtualgoods != null) {
                     List<object> results = virtualgoods["Results"] as List<object>;

@@ -38,8 +38,10 @@ public class DetailedContent2Buttons : MonoBehaviour {
 		TheName.text = name;
         ThePrice.text = price;
 
-		TheDescription.gameObject.SetActive (description != "");
-		TheDescription.text = description;
+		if (TheDescription != null) {
+			TheDescription.gameObject.SetActive (description != "");
+			TheDescription.text = description;
+		}
 				
         StartCoroutine(MyTools.LoadSpriteFromURL(imageUrl, ThePicture.gameObject));
 	}

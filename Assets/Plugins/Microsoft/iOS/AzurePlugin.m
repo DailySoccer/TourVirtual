@@ -255,7 +255,7 @@ void _SendScore(char* IDMinigame, int score, char* _hash){
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
                     [jent setObject:entry.score forKey:@"Score"];
-                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
+                    [jent setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
             }
@@ -304,7 +304,7 @@ void _GetRanking(char* IDMinigame, char* _hash){
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
                     [jent setObject:entry.score forKey:@"Score"];
-                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
+                    [jent setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
             }
@@ -317,9 +317,9 @@ void _GetRanking(char* IDMinigame, char* _hash){
     }];
 }
 
-void _GetFanRanking(char* IDMinigame, char* _hash){
+void _GetFanRanking(char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    [[[MDPClientHandler sharedInstance] getRankingHandler] getCurrentUserRanking:IdClient completionBlock:^(NSArray *response, NSError *error) {
+    [[[MDPClientHandler sharedInstance] getRankingHandler] getCurrentUserRankingWithCompletionBlock:^(NSArray *response, NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
@@ -331,8 +331,8 @@ void _GetFanRanking(char* IDMinigame, char* _hash){
                     NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
-                    [jent setObject:entry.gamingScore forKey:@"Score"];
-                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
+                    [jent setObject:entry.gamingScore forKey:@"GamingScore"];
+                    [jent setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
             }

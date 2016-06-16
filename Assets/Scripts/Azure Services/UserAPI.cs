@@ -98,8 +98,6 @@ public class UserAPI {
 
 
         yield return Authentication.AzureServices.GetFanMe((res) => {
-			Debug.LogError(">>>> GetFanMe(res): " + res);
-
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
             UserID = hs["IdUser"] as string;
@@ -128,8 +126,6 @@ public class UserAPI {
 
         LoadingContentText.SetText("API.ProfileAvatar");
         yield return Authentication.AzureServices.GetProfileAvatar((res) => {
-
-			Debug.LogError(">>>> ProfileAvatar(res): " + res);
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
@@ -150,8 +146,6 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 		},(err)=>{
-			Debug.LogError(">>>> ProfileAvatar(err): " + err);
-
 			PlayerManager.Instance.SelectedModel = "";
 			MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 
@@ -177,6 +171,7 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
 
         yield return Authentication.AzureServices.GetFanRanking((res) => {
+            Debug.LogError(">>>> GetFanRanking(): " + res);
             if (res != "null") {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 FanRanking = new ScoreEntry[scores.Count];
@@ -185,10 +180,6 @@ public class UserAPI {
                     FanRanking[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
             }
         });
-
-
-        /// Test de compra contra MS!
-        //        Purchase("100coins", "{ \"orderId\":\"GPA.1333-6426-9614-43683\",\"packageName\":\"com.realmadrid.virtualworld\",\"productId\":\"com.realmadrid.virtualworld.100coins\",\"purchaseTime\":1462444788449,\"purchaseState\":0,\"purchaseToken\":\"bdgloghieomillmdmdofcoem.AO-J1OybYtDs5EkM7WRkK5Kzw1jbtNMUZFPG7wXR2NpkM1VrdSsQDnY1AuKXwIjZQ1muUJi-hEXM1NRpzS3FcATFm1e6vsDbhbWw8eMUlryTNAKSHe9Bm0pRWAWyD1kMdorh6vZACur2-yKgurb-Iq2mIRF8o_HqGlvnFQV8OCd8-wF0X1BZl_w\"}");
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
