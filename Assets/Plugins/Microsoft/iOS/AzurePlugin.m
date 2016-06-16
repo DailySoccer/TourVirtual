@@ -331,7 +331,7 @@ void _GetFanRanking(char* _hash){
                     NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
-                    [jent setObject:entry.gamingScore forKey:@"Score"];
+                    [jent setObject:entry.gamingScore forKey:@"GamingScore"];
                     [jent setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
