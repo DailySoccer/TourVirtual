@@ -73,8 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23548febc33f83840ae7533054c26128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CycleTime: 1
-  MaxIntensity: 1
+  CycleTime: 2.5
+  MaxIntensity: .5
   MinIntensity: 0
 --- !u!1001 &100100000
 Prefab:
@@ -90,6 +90,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ContentKey
       value: CONTENT0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CycleTime
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MaxIntensity
+      value: .5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

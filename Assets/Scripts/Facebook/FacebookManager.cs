@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using Facebook.Unity;
 
-public class FacebookManager : MonoBehaviour {
+public class FacebookManager : MonoBehaviour
+{
 
 	#region Public members
 	//public Image LedLogin;
@@ -12,9 +13,9 @@ public class FacebookManager : MonoBehaviour {
 	#endregion
 
 	#region Public methods
-		/// <summary>
-		/// Prompt facebook log in pop up
-		/// </summary>
+	/// <summary>
+	/// Prompt facebook log in pop up
+	/// </summary>
 	public void PromptLogIn()
 	{
 #if !UNITY_EDITOR
@@ -39,9 +40,9 @@ public class FacebookManager : MonoBehaviour {
 		}
 #endif
 	}
-#endregion
+	#endregion
 
-#region MonoBehaviour methods
+	#region MonoBehaviour methods
 	void Awake()
 	{
 		_updateLedLogIn = true;
@@ -70,9 +71,9 @@ public class FacebookManager : MonoBehaviour {
 			//LedLogin.color = FB.IsLoggedIn ? Color.green : Color.red;
 		}
 	}
-#endregion
+	#endregion
 
-#region Private methods
+	#region Private methods
 	private void InitCallback()
 	{
 		if (FB.IsInitialized)
@@ -147,12 +148,12 @@ public class FacebookManager : MonoBehaviour {
 		}
 		_processingThread = false;
 	}
-#endregion
+	#endregion
 
-#region Private members
+	#region Private members
 	private List<string> perms = new List<string>() { "public_profile", "email", "user_friends" };
 	private bool _updateLedLogIn;
 	private bool _processedLogIn;
 	private bool _processingThread;
-#endregion
+	#endregion
 }
