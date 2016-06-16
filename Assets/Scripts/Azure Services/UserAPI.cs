@@ -90,6 +90,7 @@ public class UserAPI {
         LoadingContentText.SetText("API.User");
         yield return Authentication.AzureServices.GetFanApps();
 
+
         yield return Authentication.AzureServices.GetFanMe((res) => {
 			Debug.LogError(">>>> GetFanMe(res): " + res);
 
@@ -98,6 +99,9 @@ public class UserAPI {
             UserID = hs["IdUser"] as string;
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
+		
+		//UpdateNick ("Pokemos");
+		//UpdateNick ("Gazmoño");
 
         if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
         if (CheckIsOtherUser()) { // USUARIO DISTINTO
@@ -188,15 +192,22 @@ public class UserAPI {
     public void UpdateNick(string nick, callback onok = null, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.CheckAlias(nick, (res) => {
+			Debug.Log (">>>> UpdateNick: CheckAlias "+nick + " >> res: " + res.ToString());
             if (res == "true") {
                 Authentication.AzureServices.UpdateAlias(nick, (res2) => {
+					Debug.Log (">>>> UpdateNick: UpdateAlias: Ok "+nick + " >> res2: " + res2);
                     if (onok != null) onok();
-                });
+				},(err)=>{
+					Debug.Log (">>>> UpdateNick: Error3 "+nick);
+					if (onerror != null) onerror();
+				});
             }
             else {
+				Debug.Log (">>>> UpdateNick: Error1 "+nick);
                 if (onerror != null) onerror();
             }
         }, (err)=> {
+			Debug.Log (">>>> UpdateNick: Error2 "+nick);
             if (onerror != null) onerror();
         });
     }
