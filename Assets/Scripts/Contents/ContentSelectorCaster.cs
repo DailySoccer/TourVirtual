@@ -30,8 +30,8 @@ public class ContentSelectorCaster : MonoBehaviour {
                 if (cs!= oldContent) {
                     if (oldContent != null) {
                         oldContent.SendMessage("OnDeselect");
-                        for (int i = 0; i < oldContent.transform.childCount; ++i)
-                            oldContent.transform.GetChild(i).gameObject.SetActive(false);
+                        //for (int i = 0; i < oldContent.transform.childCount; ++i)
+                        //    oldContent.transform.GetChild(i).gameObject.SetActive(false);
                     }
                     oldContent = cs;
                     oldContent.SendMessage("OnSelect");
@@ -43,8 +43,8 @@ public class ContentSelectorCaster : MonoBehaviour {
             else {
                 if (oldContent != null) {
                     oldContent.SendMessage("OnDeselect");
-                    for (int i = 0; i < oldContent.transform.childCount; ++i)
-                        oldContent.transform.GetChild(i).gameObject.SetActive(false);
+                    //for (int i = 0; i < oldContent.transform.childCount; ++i)
+                    //    oldContent.transform.GetChild(i).gameObject.SetActive(false);
                     oldContent = null;
                 }
             }

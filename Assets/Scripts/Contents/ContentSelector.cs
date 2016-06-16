@@ -11,6 +11,6 @@ public class ContentSelector : MonoBehaviour {
     }
 
     public void OnDeselect() {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }

@@ -170,6 +170,32 @@ void _SetProfileAvatar(char* json, char* _hash){
     }];
 }
 
+void _CreateProfileAvatar(char* json, char* _hash){
+    NSError *jsonError;
+    NSData *objectData = [CreateNSString(json) dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jDictionary = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
+                                                                  error:&jsonError];
+    __block NSString* hash = CreateNSString(_hash);
+    MDPProfileAvatarUpdateableModel* paum = [[MDPProfileAvatarUpdateableModel alloc]init];
+    for(NSDictionary *item in jDictionary[@"PhysicalProperties"]){
+        [paum addPhysicalPropertyWithType:item[@"Type"] version:item[@"Version"] data:item[@"Data"]];
+    }
+    
+    for(NSDictionary *item in jDictionary[@"Accesories"]){
+        [paum addAccesoryWithIdVirtualGood:item[@"IdVirtualGood"] type:item[@"Type"] version:item[@"Version"] data:item[@"Data"]];
+    }
+    
+    [[[MDPClientHandler sharedInstance] getFanHandler] createProfileAvatarWithProfileAvatarUpdateable:paum completionBlock:^(NSError *error) {
+        if (error) {
+            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            
+        } else {
+            NSString *res = [NSString stringWithFormat:@"%@:ProfileAvatarSeted", hash ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+        }
+    }];
+}
 
 void _CheckAlias(char* nick, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
