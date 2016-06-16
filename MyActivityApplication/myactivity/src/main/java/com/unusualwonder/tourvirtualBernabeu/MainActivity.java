@@ -189,7 +189,7 @@ public class MainActivity extends UnityPlayerActivity {
                 Map jobject = new HashMap();
                 if (res != null) {
                     jobject.put("IdUser", res.getIdUser());
-                    jobject.put("Alias", res.getAlias());
+                    jobject.put("Alias", res.getAlias()!=null?res.getAlias():"");
                     jobject.put("Language", res.getLanguage());
                 }
                 SendOkResponse(hash, gson.toJson(jobject));
@@ -243,6 +243,51 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         DigitalPlatformClient.getInstance().getFanHandler().getProfileAvatar(this, callback);
+    }
+
+    public void CreateProfileAvatar(String profile, final String hash) {
+        ServiceResponseListener<String> callback = new ServiceResponseListener<String>() {
+            @Override
+            public void onResponse(String res) {
+                SendOkResponse(hash, gson.toJson(res));
+            }
+
+            @Override
+            public void onError(DigitalPlatformClientException err) {
+                SendErrorResponse(hash, err);
+            }
+        };
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, Object> map = mapper.readValue(profile, new TypeReference<Map<String, Object> >() { });
+            ArrayList<HashMap<String, Object>> PhysicalProperties = (ArrayList) map.get("PhysicalProperties");
+            ArrayList<ProfileAvatarItem> lPhysicalProperties = new ArrayList<ProfileAvatarItem>();
+            for (HashMap<String, Object> itm : PhysicalProperties) {
+                ProfileAvatarItem lItm = new ProfileAvatarItem();
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lPhysicalProperties.add(lItm);
+            }
+
+            ArrayList<HashMap<String, Object>> Accesories = (ArrayList) map.get("Accesories");
+            ArrayList<ProfileAvatarAccessoryItem> lAccesories = new ArrayList<ProfileAvatarAccessoryItem>();
+            for (HashMap<String, Object> itm : Accesories) {
+                ProfileAvatarAccessoryItem lItm = new ProfileAvatarAccessoryItem();
+                lItm.setIdVirtualGood((String) itm.get("IdVirtualGood"));
+                lItm.setData((String) itm.get("Data"));
+                lItm.setType((String) itm.get("Type"));
+                lItm.setVersion((String) itm.get("Version"));
+                lAccesories.add(lItm);
+            }
+
+            ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
+            pau.setPhysicalProperties(lPhysicalProperties);
+            pau.setAccesories(lAccesories);
+            DigitalPlatformClient.getInstance().getFanHandler().createProfileAvatar(this, pau, callback);
+
+        } catch (IOException e) {
+        }
     }
 
     public void SetProfileAvatar(String profile, final String hash) {
