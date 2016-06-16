@@ -99,6 +99,7 @@ GameObject:
   - 114: {fileID: 11428754}
   - 114: {fileID: 11450836}
   - 114: {fileID: 11475462}
+  - 114: {fileID: 11496942}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: MainManager
@@ -687,7 +688,6 @@ MonoBehaviour:
   _unreadedChatMessages: 0
   OfflineMode: 0
   BuildMode: 0
-  MusicTheme: {fileID: 0}
 --- !u!114 &11491556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -704,6 +704,19 @@ MonoBehaviour:
   numFoundObjects: 0
   maxTime: 600
   prefab: {fileID: 194858, guid: d84537b2d0af0ff4e9196ee95d2eff98, type: 2}
+--- !u!114 &11496942
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fba24d265b3b4e788179d453bfd5778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameSounds: []
+  masterVolume: 1
 --- !u!212 &21289380
 SpriteRenderer:
   m_ObjectHideFlags: 1

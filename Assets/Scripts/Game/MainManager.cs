@@ -65,8 +65,8 @@ public class MainManager : Photon.PunBehaviour {
 		}
 		set {
 			_soundEnabled = value;
-			MusicTheme.enabled = value;
-			//TODO: guardar valor en archivo de configuracion
+			//TODO: Setear el AudioMaster a 0 (False) / 1 (True)
+
 			MyTools.SetPlayerPrefsBool("SoundEnabled", value);
 			PlayerPrefs.Save();
 		}
@@ -118,8 +118,6 @@ public class MainManager : Photon.PunBehaviour {
 
     }
 
-    public AudioSource MusicTheme;
-
     void Awake() {
         Application.targetFrameRate = 30;
 
@@ -144,7 +142,6 @@ public class MainManager : Photon.PunBehaviour {
 		CurrentLanguage = PlayerPrefs.GetString ("CurrentLanguage", "en");
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
-		MusicTheme.enabled = false;
 	}
 
     void Start() {
