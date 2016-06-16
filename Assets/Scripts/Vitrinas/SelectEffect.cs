@@ -4,17 +4,21 @@ using System.Collections;
 public class SelectEffect : MonoBehaviour {
 
 	#region Public members
-	public float CycleTime;
-	public float MaxIntensity;
-	public float MinIntensity;
+	public float CycleTime = 2.5f;
+	public float MaxIntensity = 0.5f;
+	public float MinIntensity = 0;
 	#endregion
 
 	#region Public methods
-	public void StartSelection()
+	public void OnSelect()
 	{
+		for (int i = 0; i < transform.childCount; ++i)
+		{
+			transform.GetChild(i).gameObject.SetActive(true);
+		}
 		StartAnim(1);
 	}
-	public void EndSelection()
+	public void OnDeselect()
 	{
 		StartAnim(-1);
 	}
@@ -26,23 +30,35 @@ public class SelectEffect : MonoBehaviour {
 		_side = 1;
 		_workToDo = false;
 		_HALF_CYCLE = CycleTime * 0.5f;
+		Transform childResaltado = transform.GetChild(0);
+		Renderer rendRef = childResaltado == null ? null : childResaltado.GetComponent<Renderer>();
+		_matRef = rendRef == null ? null : rendRef.material;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//TODO: erase this calculation
+		_HALF_CYCLE = CycleTime * 0.5f;
 		if (_workToDo)
 		{
 			float perc;
 			if (_side < 1)
 			{
-				perc = 1 - ((Time.time - _startTime) / _HALF_CYCLE);
+				perc = ((Time.time - _startTime) / _HALF_CYCLE);
 				_workToDo = perc <= 1;
 			}
 			else
 			{
-				perc = Mathf.Abs(_HALF_CYCLE - ((Time.time - _startTime) % CycleTime)) / _HALF_CYCLE;
+				perc = (Mathf.Abs(_HALF_CYCLE - ((Time.time - _startTime) % CycleTime)) / _HALF_CYCLE);
 			}
-			SetPropertyLevel(Mathf.Clamp01(perc));
+			SetPropertyLevel(Mathf.Clamp01(1 - perc));
+			if (!_workToDo)
+			{
+				for (int i = 0; i < transform.childCount; ++i)
+				{
+					transform.GetChild(i).gameObject.SetActive(false);
+				}
+			}
 		}
 	}
 	#endregion
@@ -56,7 +72,13 @@ public class SelectEffect : MonoBehaviour {
 	}
 	private void SetPropertyLevel(float unitaryPerc)
 	{
-		float result = MinIntensity + (MaxIntensity - MinIntensity) * unitaryPerc;
+		if (_matRef != null)
+		{
+			float result = MinIntensity + (MaxIntensity - MinIntensity) * unitaryPerc;
+			Color matC = _matRef.GetColor("_TintColor");
+			matC.a = result;
+			_matRef.SetColor("_TintColor", matC);
+		}
 	}
 	#endregion
 
@@ -65,5 +87,6 @@ public class SelectEffect : MonoBehaviour {
 	private bool _workToDo;
 	private int _side;
 	private float _HALF_CYCLE;
+	private Material _matRef;
 	#endregion
 }
