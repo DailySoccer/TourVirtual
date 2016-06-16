@@ -167,11 +167,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 0}
-  _fpsPoint: {fileID: 453640}
-  _tpsPoint: {fileID: 493190}
-  _wallLayerName: Wall
-  _pitchMin: -20
-  _pitchMax: 20
+  _anchors:
+  - _style: 0
+    _transform: {fileID: 493190}
+  _wallLayerName: CameraCollision
+  _pitchDegreesMin: -20
+  _pitchDegreesMax: 20
 --- !u!114 &11462548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,7 +187,7 @@ MonoBehaviour:
   avatarVisible: 1
   cameraRotation: 0
   followStyle: 1
-  cameraStyle: 1
+  cameraStyle: 0
 --- !u!114 &11470108
 MonoBehaviour:
   m_ObjectHideFlags: 1
