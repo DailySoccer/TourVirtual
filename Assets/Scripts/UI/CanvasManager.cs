@@ -26,6 +26,10 @@ public class CanvasManager : MonoBehaviour {
 
 	public GameObject ContentLoadingScreen;
 
+	public Transform PlayerPosition;
+	public GameObject Particles;
+	Transform particles;
+	
 	/// <summary>
 	/// Intercambia pantallas.	/// 
 	/// Sutituye a ShowScreen
@@ -118,9 +122,12 @@ public class CanvasManager : MonoBehaviour {
             AddParticles();
         }) );
 	}
-    public Transform PlayerPosition;
-    public GameObject Particles;
-    Transform particles;
+
+	public void ShowGoodiesShopScreen() {
+		GoodiesShopController.Show ();
+	}
+
+
     public void AddParticles()
     {
         if (particles == null)
