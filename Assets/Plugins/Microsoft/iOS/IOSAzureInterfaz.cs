@@ -89,6 +89,14 @@ public class IOSAzureInterfaz : AzureInterfaz {
     }
 
     [DllImport ("__Internal")]
+    private static extern void _CreateProfileAvatar(string json, string hash);
+    public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _CreateProfileAvatar(MiniJSON.Json.Serialize(profile), op.Hash);
+        return StartCoroutine(op.Wait());
+    }
+
+    [DllImport ("__Internal")]
     private static extern void _CheckAlias(string nick, string hash);
     public override Coroutine CheckAlias(string nick, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
@@ -136,6 +144,14 @@ public class IOSAzureInterfaz : AzureInterfaz {
     public override Coroutine GetRanking(string IDMinigame, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
         _GetRanking(IDMinigame, op.Hash);
+        return StartCoroutine(op.Wait());
+    }
+    
+    [DllImport ("__Internal")]
+    private static extern void _GetFanRanking(string hash);
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _GetFanRanking(op.Hash);
         return StartCoroutine(op.Wait());
     }
     

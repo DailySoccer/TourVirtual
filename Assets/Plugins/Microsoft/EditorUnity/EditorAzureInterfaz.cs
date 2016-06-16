@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class EditorAzureInterfaz : AzureInterfaz
 {
-    #region Init
+#region Init
 
     public string AccessToken { get; set; }
 
@@ -146,7 +146,7 @@ public class EditorAzureInterfaz : AzureInterfaz
         else
             AsyncOperation.EndOperation(true, op.Hash + ":" + AsciiToString(request.Response.Data));
     }
-    #endregion
+#endregion
 
     public override Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
@@ -174,6 +174,13 @@ public class EditorAzureInterfaz : AzureInterfaz
     public override Coroutine SetProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
         var request = SendJSonRequest(HTTPMethods.Post, "api/v1/fan/me/ProfileAvatar", profile);
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        return StartCoroutine(WaitForEnd(request, op));
+    }
+
+    public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
+    {
+        var request = SendJSonRequest(HTTPMethods.Put, "api/v1/fan/me/ProfileAvatar", profile);
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }
@@ -219,6 +226,13 @@ public class EditorAzureInterfaz : AzureInterfaz
     public override Coroutine GetRanking(string IDMinigame, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
         HTTPRequest request = SendRequest(HTTPMethods.Get, string.Format("api/v1/scores/{0}", IDMinigame));
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        return StartCoroutine(WaitForEnd(request, op));
+    }
+
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
+    {
+        HTTPRequest request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Rankings/{0}", this.IDClient));
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }

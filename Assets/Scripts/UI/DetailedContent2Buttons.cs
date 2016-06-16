@@ -13,6 +13,7 @@ public enum DetailedContent2ButtonsLayout {
 public class DetailedContent2Buttons : MonoBehaviour {
 
     public Text TheName;
+	public Text TheDescription;
     public Text ThePrice;
     public Image ThePicture;
 	public GameObject OKButton;
@@ -33,9 +34,13 @@ public class DetailedContent2Buttons : MonoBehaviour {
 	
 	}
 
-	public void Setup(string text, string imageUrl, string price) {		
-		TheName.text = text;
+	public void Setup(string name, string description, string imageUrl, string price) {		
+		TheName.text = name;
         ThePrice.text = price;
+
+		TheDescription.gameObject.SetActive (description != "");
+		TheDescription.text = description;
+				
         StartCoroutine(MyTools.LoadSpriteFromURL(imageUrl, ThePicture.gameObject));
 	}
 

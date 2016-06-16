@@ -92,24 +92,27 @@ public class FollowAvatar : MonoBehaviour {
 			
 			// MOVIMIENTO
 			
-			switch (Player.Instance.followStyle) {
+			switch (Player.Instance.followStyle)
+			{
 				case FollowStyle.RigidStickAndFaceAlways:
-					 RigidStick();
-					 FaceCamera();
-				break;
+					RigidStick();
+					FaceCamera();
+					break;
+
 				case FollowStyle.RigidStickAndFaceOnStop:
-					 RigidStick();
-					 FaceCameraOnStop();
-				break;
+					RigidStick();
+					FaceCameraOnStop();
+					break;
 			}
-			
 		}
 	}
 	
-	void LateUpdate() {
+	private void LateUpdate()
+	{
 		//STABILIZE X AND Z
 		transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
 	}
+
 
 	void LookAtPointOfInterest() {
 		Quaternion current = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
@@ -161,7 +164,6 @@ public class FollowAvatar : MonoBehaviour {
 			timeWalking = isMoving? 0 : Mathf.Min(0f, timeWalking);
 		}
 		
-		
 		transform.Rotate(Vector3.up, Player.Instance.cameraRotation * Time.deltaTime);
 		
 		if (timeNotMoving > TIME_STOP_TO_FACE_CAMERA) {
@@ -178,7 +180,8 @@ public class FollowAvatar : MonoBehaviour {
 	}
 
 
-	void FaceCamera() {
+	void FaceCamera()
+	{
 		Transform camTransf = _followingCamera.transform;
 		
 		Vector2 camForward2d = new Vector2(camTransf.forward.x, camTransf.forward.z).normalized;
@@ -242,6 +245,9 @@ public class FollowAvatar : MonoBehaviour {
 			transform.rotation = Quaternion.Lerp(transform.rotation, _followedAvatar.rotation, RotationSpeed * Time.deltaTime);
 		}*/
 	}
+
+
+
 
 	private bool _initialized = false;
 	

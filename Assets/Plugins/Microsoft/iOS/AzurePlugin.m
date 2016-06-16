@@ -170,6 +170,32 @@ void _SetProfileAvatar(char* json, char* _hash){
     }];
 }
 
+void _CreateProfileAvatar(char* json, char* _hash){
+    NSError *jsonError;
+    NSData *objectData = [CreateNSString(json) dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jDictionary = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
+                                                                  error:&jsonError];
+    __block NSString* hash = CreateNSString(_hash);
+    MDPProfileAvatarUpdateableModel* paum = [[MDPProfileAvatarUpdateableModel alloc]init];
+    for(NSDictionary *item in jDictionary[@"PhysicalProperties"]){
+        [paum addPhysicalPropertyWithType:item[@"Type"] version:item[@"Version"] data:item[@"Data"]];
+    }
+    
+    for(NSDictionary *item in jDictionary[@"Accesories"]){
+        [paum addAccesoryWithIdVirtualGood:item[@"IdVirtualGood"] type:item[@"Type"] version:item[@"Version"] data:item[@"Data"]];
+    }
+    
+    [[[MDPClientHandler sharedInstance] getFanHandler] createProfileAvatarWithProfileAvatarUpdateable:paum completionBlock:^(NSError *error) {
+        if (error) {
+            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            
+        } else {
+            NSString *res = [NSString stringWithFormat:@"%@:ProfileAvatarSeted", hash ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+        }
+    }];
+}
 
 void _CheckAlias(char* nick, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
@@ -229,6 +255,7 @@ void _SendScore(char* IDMinigame, int score, char* _hash){
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
                     [jent setObject:entry.score forKey:@"Score"];
+                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
             }
@@ -277,6 +304,35 @@ void _GetRanking(char* IDMinigame, char* _hash){
                     [jent setObject:entry.position forKey:@"Position"];
                     [jent setObject:entry.alias forKey:@"Alias"];
                     [jent setObject:entry.score forKey:@"Score"];
+                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
+                    [jobject addObject:jent];
+                }
+            }
+            NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+        }
+    }];
+}
+
+void _GetFanRanking(char* IDMinigame, char* _hash){
+    __block NSString* hash = CreateNSString(_hash);
+    [[[MDPClientHandler sharedInstance] getRankingHandler] getCurrentUserRanking:IdClient completionBlock:^(NSArray *response, NSError *error) {
+        if (error) {
+            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            
+        } else {
+            NSMutableArray *jobject = [[NSMutableArray alloc] init];
+            if(response!=nil){
+                for(MDPExperienceRankingModel *entry in response ){
+                    NSMutableDictionary* jent = [[NSMutableDictionary alloc] init];
+                    [jent setObject:entry.position forKey:@"Position"];
+                    [jent setObject:entry.alias forKey:@"Alias"];
+                    [jent setObject:entry.gamingScore forKey:@"Score"];
+                    [jobject setObject:[NSNumber numberWithBool:[entry.isCurrentUser intValue]==1] forKey:@"IsCurrentUser"];
                     [jobject addObject:jent];
                 }
             }
