@@ -200,7 +200,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getFanHandler().getFan(this, callback, true);  // !!!!!
+        DigitalPlatformClient.getInstance().getFanHandler().getFan(this, callback, false);
     }
 
     public void GetProfileAvatar(final String hash) {
@@ -735,7 +735,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getContentsHandler().getContentItem(this, IDContent, callback, true); // !!!!!
+        DigitalPlatformClient.getInstance().getContentsHandler().getContentItem( this, IDContent, callback, true); // !!!!!
     }
 
     // Gamificación
