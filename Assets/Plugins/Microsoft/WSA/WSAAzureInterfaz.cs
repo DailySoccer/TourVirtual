@@ -322,7 +322,35 @@ public class WSAAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
 #endregion
+#region GetFanRanking
+    async void _GetFanRanking(string IDMinigame, AsyncOperation op) {
+        try {
+            var ranking = await DigitalPlatformClient.Instance.Scores.GetTopScores(new Guid(IDMinigame));
+            var jobject = new List<object>();
+            if(ranking!=null) {
+                Dictionary<string, object> ele;
+                foreach (ScoreRanking entry in ranking) {
+                    ele = new Dictionary<string, object>();
+                    ele.Add("Alias", entry.Alias);
+                    ele.Add("AvatarUrl", entry.AvatarUrl);
+                    ele.Add("Position", entry.Position);
+                    ele.Add("GamingScore", entry.GamingScore);
+                    ele.Add("IsCurrentUser", entry.IsCurrentUser);
+                    jobject.Add(ele);
+                }
+            }
+            AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
+        } catch {
+            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        }
+    }
 
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _GetFanRanking(op);
+        return StartCoroutine(op.Wait());
+    }
+#endregion
     // Virtual Goods
 #region GetVirtualGoods
     async void _GetVirtualGoods(string type, int page, string subtype, bool onlyPurchasables, AsyncOperation op) {

@@ -230,6 +230,13 @@ public class EditorAzureInterfaz : AzureInterfaz
         return StartCoroutine(WaitForEnd(request, op));
     }
 
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
+    {
+        HTTPRequest request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Rankings/{0}", this.IDClient));
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        return StartCoroutine(WaitForEnd(request, op));
+    }
+
 // Virtual Goods //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetVirtualGoods(string type, int page, string subtype=null, bool onlyPurchasables=false, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {

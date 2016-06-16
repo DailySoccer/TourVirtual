@@ -118,6 +118,12 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
 
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        activity.Call("GetFanRanking", op.Hash);
+        return StartCoroutine(op.Wait());
+    }
+
 // Virtual Goods ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetVirtualGoods(string type, int page, string subtype = null, bool onlyPurchasables = false, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);

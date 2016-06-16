@@ -121,10 +121,12 @@ public class ContentAPI
     /// <returns></returns>
     public IEnumerator GetContent(string contenid, GetContentCallback callback=null ) {
         yield return Authentication.AzureServices.GetContent(contenid, (res) =>{
+            LoadingCanvasManager.Hide();
             if (res != "null")
                 if (callback != null)
                     callback(ParseContent(res));
         },(res)=> {
+            LoadingCanvasManager.Hide();
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
         });
     }

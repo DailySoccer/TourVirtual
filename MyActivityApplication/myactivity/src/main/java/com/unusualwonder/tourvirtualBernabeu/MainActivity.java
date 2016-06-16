@@ -40,6 +40,7 @@ import com.microsoft.mdp.sdk.model.fan.ProfileAvatarUpdateable;
 import com.microsoft.mdp.sdk.model.fan.VirtualGood;
 import com.microsoft.mdp.sdk.model.identities.AliasUpdate;
 import com.microsoft.mdp.sdk.model.purchases.Purchase;
+import com.microsoft.mdp.sdk.model.rankings.ExperienceRanking;
 import com.microsoft.mdp.sdk.model.scores.FanMaxScore;
 import com.microsoft.mdp.sdk.model.scores.ScoreRanking;
 import com.microsoft.mdp.sdk.model.subscriptions.ProductPrice;
@@ -454,6 +455,33 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         DigitalPlatformClient.getInstance().getScoreRankingHandler().getTopScores(this, IDMiniGame, callback);
+    }
+
+    public void GetFanRanking(final String hash) {
+        ServiceResponseListener<ArrayList<ExperienceRanking>> callback = new ServiceResponseListener<ArrayList<ExperienceRanking>>() {
+            @Override
+            public void onResponse(ArrayList<ExperienceRanking> res) {
+                ArrayList jobject = new ArrayList();
+                if (res != null) {
+                    for (ExperienceRanking itm : res) {
+                        Map jitem = new HashMap();
+                        jitem.put("Alias", itm.getAlias());
+                        jitem.put("AvatarUrl", itm.getAvatarUrl());
+                        jitem.put("Position", itm.getPosition());
+                        jitem.put("GamingScore", itm.getGamingScore());
+                        jitem.put("IsCurrentUser", itm.getIsCurrentUser());
+                        jobject.add(jitem);
+                    }
+                }
+                SendOkResponse(hash, gson.toJson(jobject));
+            }
+
+            @Override
+            public void onError(DigitalPlatformClientException err) {
+                SendErrorResponse(hash, err);
+            }
+        };
+        DigitalPlatformClient.getInstance().getRankingHandler().getCurrentUserRanking(this, this.IDClient, callback);
     }
 
     // Virtual Goods

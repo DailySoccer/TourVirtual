@@ -118,6 +118,7 @@ public class VirtualGoodsAPI {
             if ((vg.count <= 0 || multiple) && vg.Price <= UserAPI.Instance.Points){
                 // No lo tengo y tengo la pasta.
                 Authentication.AzureServices.PurchaseVirtualGood(guid, (res) => {
+                    LoadingCanvasManager.Hide();
                     //Debug.LogError("Buy VirtualGood >>>> " + res);
                     vg.count++;                    
                     UserAPI.Instance.Points -= (int)vg.Price;
@@ -125,6 +126,7 @@ public class VirtualGoodsAPI {
                     if(vg.IdSubType=="CONTENT") Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
                     if (onOk != null) onOk();
                 },(error)=> {
+                    LoadingCanvasManager.Hide();
                     ModalTextOnly.ShowText(SmartLocalization.LanguageManager.Instance.GetTextValue("TVB.Error.CantPurchase"));
                 });
             }
