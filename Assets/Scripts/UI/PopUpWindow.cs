@@ -46,6 +46,7 @@ public class PopUpWindow : UIScreen {
 	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
 	private List<GameObject> AchievementsGridSlotGameObjectsList = new List<GameObject>();
+	private AchievementsAPI.Achievement currentAchivementSelected;
 
 	public GameObject SingleContent;
 	ThirdProfileController ThirdsProfile;
@@ -152,8 +153,10 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
 				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
-				//modalDetail.Setup (CurrentVestidorPrenda.virtualGood.Description, CurrentVestidorPrenda.virtualGood.Thumb);
+				if (currentAchivementSelected != null) modalDetail.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+				
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
+
 			break;
 
 			case ModalLayout.SINGLE_CONTENT_SHARE:
@@ -337,7 +340,6 @@ public class PopUpWindow : UIScreen {
 	/// Rellena la lista de Logros desbloqueados
 	/// </summary>
 	public void SetupAchievementGridContent() {
-
 		CleanAchievementsGridSlotGameObjectList ();
 		foreach (var c in UserAPI.Achievements.Achievements) {
             AchievementsAPI.Achievement ach = (c.Value as AchievementsAPI.Achievement);
@@ -345,7 +347,7 @@ public class PopUpWindow : UIScreen {
 			// TODO: rellenar el contenido de cada lista
 			GameObject slot = Instantiate (AchievementSlot);
 			slot.transform.SetParent(AchievementsGridList.transform);
-			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach.Description, ach.Image);
+			slot.GetComponent<AchievementSlot> ().SetupSlot (this, ach);
 			slot.transform.localScale = Vector3.one;
 			slot.name = ach.Name;
 			AchievementsGridSlotGameObjectsList.Add(slot);
@@ -363,6 +365,8 @@ public class PopUpWindow : UIScreen {
 	}
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		currentAchivementSelected = item.TheAchivment;
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_INFO);
 	}
 
 
