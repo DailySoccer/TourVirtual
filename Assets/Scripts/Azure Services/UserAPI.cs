@@ -21,7 +21,7 @@ public class UserAPI {
     public bool Ready { get; set;  }
 
     public string   UserID      { get; private set; }
-    public string   Nick        { get; private set; }
+    public string   Nick        { get; set; }
     public int      Points      { get; set; } // Tokens
     public int      Level       { get; set; } // Nivel de usuario
     public int      Exp         { get; set; } // Exp. total.
@@ -173,12 +173,15 @@ public class UserAPI {
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
     }
+	
 
     public void UpdateAvatar() {
         if (Online) {
             Authentication.AzureServices.SetProfileAvatar( AvatarDesciptor.GetProperties(), (res) =>{
                 Debug.LogError("UpdateAvatar " + res);
-            });
+            },(err)=>{
+				Debug.LogError("Error UpdateAvatar " + err);
+			});
         }
     }
 
