@@ -169,7 +169,7 @@ public class SyncCameraTransform : MonoBehaviour {
 	[SerializeField, Range(  0f, 90f)] private float _pitchDegreesMax =  20f;
 
 	[SerializeField, Range(0f, 5f)] private float _smoothDistSqrMin = 1f;
-	[SerializeField, Range(0f, 5f)] private float _wallSafeDistance = 0f;
+	[SerializeField, Range(-5f, 5f)] private float _wallSafeDistance = 0f;
 	[SerializeField, Range(0f, 5f)] private float _wallAvoidanceDistMin = 1f;
 
 	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
