@@ -52,7 +52,7 @@ public class VestidorModalManager : GUIPopUpScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
 							
 				ContentType.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
-				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
+				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, "", VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
 
 				break;
 			
@@ -63,7 +63,7 @@ public class VestidorModalManager : GUIPopUpScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Buy");
 
 				ContentType.CurrentLayout = DetailedContent2ButtonsLayout.BUYITEM;
-				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
+				ContentType.Setup(VCC.currentPrenda.virtualGood.Description, "", VCC.currentPrenda.virtualGood.Image, VCC.currentPrenda.virtualGood.Price.ToString());
 
 				break;
 		}

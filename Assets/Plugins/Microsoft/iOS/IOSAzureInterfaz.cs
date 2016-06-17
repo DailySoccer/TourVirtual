@@ -147,6 +147,14 @@ public class IOSAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
     
+    [DllImport ("__Internal")]
+    private static extern void _GetFanRanking(string hash);
+    public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _GetFanRanking(op.Hash);
+        return StartCoroutine(op.Wait());
+    }
+    
 // Virtual Goods ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     [DllImport ("__Internal")]
     private static extern void _GetVirtualGoods(string type, string languag, int page, string subtype, bool onlyPurchasables, string hash);

@@ -37,11 +37,11 @@ public class AchievementsAPI{
                 foreach (Dictionary<string, object> ele in results) {
                     string guid = ele["IdAchievement"] as string;
                     string iname = ele["Name"] as string;
-                    string name = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                    string name = ((ele["LevelName"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
+                    string description = ((ele["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
 
                     int points = (int)(long)ele["Points"];
                     int level = (int)(long)ele["Level"];
-                    string description = ((ele["LevelName"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                     string imageUrl = ele["ImageUrl"] as string;
                     // string rule = ((ele["Rules"] as ArrayList)[0] as Hashtable)["IdAction"] as string;
                     Achievement tmp = new Achievement(guid, name, iname, description, level, points, imageUrl);

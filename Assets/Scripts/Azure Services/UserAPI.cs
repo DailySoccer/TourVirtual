@@ -45,6 +45,12 @@ public class UserAPI {
         return HighScores[(int)game];
     }
 
+    ScoreEntry[] FanRanking = null;
+
+    public ScoreEntry[] GetFanRanking() {        
+        return FanRanking;
+    }
+
     public int GetAchievements(out int max) {
         max = Achievements.TotalAchievements;
         return Achievements.EarnedAchievements;
@@ -90,14 +96,16 @@ public class UserAPI {
         LoadingContentText.SetText("API.User");
         yield return Authentication.AzureServices.GetFanApps();
 
-        yield return Authentication.AzureServices.GetFanMe((res) => {
-			Debug.LogError(">>>> GetFanMe(res): " + res);
 
+        yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
             UserID = hs["IdUser"] as string;
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
+		
+		//UpdateNick ("Pokemos");
+		//UpdateNick ("Gazmoño");
 
         if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
         if (CheckIsOtherUser()) { // USUARIO DISTINTO
@@ -118,8 +126,6 @@ public class UserAPI {
 
         LoadingContentText.SetText("API.ProfileAvatar");
         yield return Authentication.AzureServices.GetProfileAvatar((res) => {
-
-			Debug.LogError(">>>> ProfileAvatar(res): " + res);
             if (string.IsNullOrEmpty(res) || res == "null") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
@@ -140,8 +146,6 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 		},(err)=>{
-			Debug.LogError(">>>> ProfileAvatar(err): " + err);
-
 			PlayerManager.Instance.SelectedModel = "";
 			MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 
@@ -165,10 +169,17 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
-        LoadingContentText.SetText("");
 
-        /// Test de compra contra MS!
-        //        Purchase("100coins", "{ \"orderId\":\"GPA.1333-6426-9614-43683\",\"packageName\":\"com.realmadrid.virtualworld\",\"productId\":\"com.realmadrid.virtualworld.100coins\",\"purchaseTime\":1462444788449,\"purchaseState\":0,\"purchaseToken\":\"bdgloghieomillmdmdofcoem.AO-J1OybYtDs5EkM7WRkK5Kzw1jbtNMUZFPG7wXR2NpkM1VrdSsQDnY1AuKXwIjZQ1muUJi-hEXM1NRpzS3FcATFm1e6vsDbhbWw8eMUlryTNAKSHe9Bm0pRWAWyD1kMdorh6vZACur2-yKgurb-Iq2mIRF8o_HqGlvnFQV8OCd8-wF0X1BZl_w\"}");
+        yield return Authentication.AzureServices.GetFanRanking((res) => {
+            Debug.LogError(">>>> GetFanRanking(): " + res);
+            if (res != "null") {
+                List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
+                FanRanking = new ScoreEntry[scores.Count];
+                int cnt = 0;
+                foreach (Dictionary<string, object> entry in scores)
+                    FanRanking[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
+            }
+        });
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
@@ -188,15 +199,22 @@ public class UserAPI {
     public void UpdateNick(string nick, callback onok = null, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.CheckAlias(nick, (res) => {
+			Debug.Log (">>>> UpdateNick: CheckAlias "+nick + " >> res: " + res.ToString());
             if (res == "true") {
                 Authentication.AzureServices.UpdateAlias(nick, (res2) => {
+					Debug.Log (">>>> UpdateNick: UpdateAlias: Ok "+nick + " >> res2: " + res2);
                     if (onok != null) onok();
-                });
+				},(err)=>{
+					Debug.Log (">>>> UpdateNick: Error3 "+nick);
+					if (onerror != null) onerror();
+				});
             }
             else {
+				Debug.Log (">>>> UpdateNick: Error1 "+nick);
                 if (onerror != null) onerror();
             }
         }, (err)=> {
+			Debug.Log (">>>> UpdateNick: Error2 "+nick);
             if (onerror != null) onerror();
         });
     }
@@ -208,29 +226,6 @@ public class UserAPI {
         });
     }
 
-    /*
-public IEnumerator AwaitGlobalRanking() {
-    // Global.
-
-    yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/fan/me/Rankings/{0}",Authentication.IDClient), (res) => {
-        if (res != "null"){
-        }
-        else {
-            Debug.LogError(">>>> Rankings ERROR " + res);
-        }
-
-    });
-    // Del usuario.
-    yield return Authentication.AzureServices.AwaitRequestGet(string.Format("api/v1/Rankings/{0}/{1}", Authentication.IDClient, UserAPI.Instance.UserID), (res) => {
-        if (res != "null") {
-        }
-        else {
-            Debug.LogError(">>>> Rankings2 ERROR " + res);
-        }
-    });
-
-}
-    */
     public enum MiniGame {
         FreeKicks,
         FreeShoots,
@@ -246,11 +241,13 @@ public IEnumerator AwaitGlobalRanking() {
     int[] HighScore = new int[3] { 0, 0, 0 };
 
     public struct ScoreEntry {
+        public bool IsMe;
         public string Nick;
         public int Score;
-        public ScoreEntry(string nick, int score) {
+        public ScoreEntry(string nick, int score, bool isme) {
             Nick = nick;
             Score = score;
+            IsMe = isme;
         }
     };
 
@@ -280,7 +277,7 @@ public IEnumerator AwaitGlobalRanking() {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 var tmp = new ScoreEntry[scores.Count];
                 foreach (Dictionary<string, object> entry in scores)
-                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["Score"]);
+                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["Score"], (bool)entry["IsCurrentUser"]);
                 HighScores[(int)game] = tmp;
             }
             if (onRanking != null) onRanking();
@@ -288,20 +285,4 @@ public IEnumerator AwaitGlobalRanking() {
             if (onRanking != null) onRanking();
         });
     }
-/*
-    public void Purchase(string IdProduct, string Receipt, callback onok = null, callbackParam onerror = null) {
-        Dictionary<string, object> hs = new Dictionary<string, object>();
-        hs.Add("IdClient", Authentication.IDClient);
-        hs.Add("IdProduct", IdProduct);
-        hs.Add("Receipt", Receipt);
-        hs.Add("UseVirtualGoods", false);
-        Authentication.AzureServices.RequestJSON("post", "api/v1/purchases", hs, (res) => {
-            Debug.LogError("Purchase OK-> " + res);
-            if (onok != null) onok();
-        }, (res) => {
-            Debug.LogError("Purchase KO-> " + res);
-            if (onerror != null) onerror(res);
-        });
-    }
-*/
 }

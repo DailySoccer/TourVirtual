@@ -30,13 +30,13 @@ public class FacebookManager : MonoBehaviour
 	/// <summary>
 	/// Prompt facebook share link pop up
 	/// </summary>
-	public void ShareToFacebook()
+	public void ShareToFacebook(FacebookLink aLink)
 	{
 #if !UNITY_EDITOR
 		if (!_processingThread)
 		{
 			_processingThread = true;
-			StartCoroutine(CheckLogInShare());
+			StartCoroutine(CheckLogInShare(aLink));
 		}
 #endif
 	}
@@ -132,7 +132,7 @@ public class FacebookManager : MonoBehaviour
 			//LedShare.color = Color.green;
 		}
 	}
-	private IEnumerator CheckLogInShare()
+	private IEnumerator CheckLogInShare(FacebookLink aLink)
 	{
 		if (!FB.IsLoggedIn)
 		{
@@ -144,7 +144,7 @@ public class FacebookManager : MonoBehaviour
 		}
 		if (FB.IsLoggedIn)
 		{
-			FB.ShareLink(new System.Uri("https://www.unusualwonder.com/"), callback: ShareCallback);
+			FB.ShareLink(/*new System.Uri("https://www.unusualwonder.com/")*/aLink.contentURL, aLink.contentTitle, aLink.contentDescription, aLink.photoURL, callback: ShareCallback);
 		}
 		_processingThread = false;
 	}
