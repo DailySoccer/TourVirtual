@@ -147,8 +147,7 @@ public class SyncCameraTransform : MonoBehaviour {
 				- _wallSafeDistance * _camera.nearClipPlane * anchor.Transform.forward;
 			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.red);
 		}
-
-		/**/
+/**/
 
 		if (Vector3.SqrMagnitude(_camera.transform.position - targetPosition) > _smoothDistSqrMin)
 			_camera.transform.position = Vector3.SmoothDamp(
