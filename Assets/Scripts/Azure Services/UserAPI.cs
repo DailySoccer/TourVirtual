@@ -138,8 +138,9 @@ public class UserAPI {
 
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
-				}catch{
-					PlayerManager.Instance.SelectedModel = "";
+				}catch(System.Exception e){
+                    Debug.LogError(">>>>>>> ERROR REST ProfileAvatar " + e );
+                    PlayerManager.Instance.SelectedModel = "";
 					MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 				}
             }
@@ -189,8 +190,8 @@ public class UserAPI {
 
     public void UpdateAvatar() {
         if (Online) {
-            Authentication.AzureServices.SetProfileAvatar( AvatarDesciptor.GetProperties(), (res) =>{
-                Debug.LogError("UpdateAvatar " + res);
+//            Authentication.AzureServices.SetProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
+            Authentication.AzureServices.CreateProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
             },(err)=>{
 				Debug.LogError("Error UpdateAvatar " + err);
 			});

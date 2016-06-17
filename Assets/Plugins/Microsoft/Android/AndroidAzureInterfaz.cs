@@ -73,13 +73,13 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 		activity.Call("CreateProfileAvatar", MiniJSON.Json.Serialize(profile), op.Hash);
 		return StartCoroutine(op.Wait());
 	}
-
+/*
     public override Coroutine SetProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
         activity.Call("SetProfileAvatar", MiniJSON.Json.Serialize(profile), op.Hash);
         return StartCoroutine(op.Wait());
     }
-
+*/
     public override Coroutine CheckAlias(string nick, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
         activity.Call("CheckAlias", nick, op.Hash);

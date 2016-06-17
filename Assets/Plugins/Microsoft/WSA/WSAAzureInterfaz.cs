@@ -62,8 +62,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Language", res.Language);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -106,8 +106,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Accesories", Accesories);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -117,6 +117,7 @@ public class WSAAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
 #endregion
+/*
 #region SetProfileAvatar
     async void _SetProfileAvatar(object oprofile, AsyncOperation op) {
         try {
@@ -132,6 +133,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             }
             pau.PhysicalProperties = PhysicalProperties;
 
+
+            Debug.LogError("Accesories.Count "+(profile["Accesories"] as List<object>).Count);
             var Accesories = new List<ProfileAvatarAccessoryItem>();
             foreach (Dictionary<string, string> item in profile["Accesories"] as List<object>) {
                 Accesories.Add(new ProfileAvatarAccessoryItem() {
@@ -146,8 +149,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
 
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.PutProfileAvatar(pau);
             AsyncOperation.EndOperation(true, op.Hash + ":ProfileAvatarSeted");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e);
         }
     }
 
@@ -157,6 +160,7 @@ public class WSAAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
 #endregion
+*/
 #region CreateProfileAvatar
     async void _CreateProfileAvatar(object oprofile, AsyncOperation op) {
         try {
@@ -201,8 +205,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             bool isAvailable = await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Identity.GetCheckAlias(alias);
             AsyncOperation.EndOperation(true, op.Hash + ":" + isAvailable);
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine CheckAlias(string nick, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -218,8 +222,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             update.Alias = alias;
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Identity.PutUpdateAlias(update);
             AsyncOperation.EndOperation(true, op.Hash + ":AliasUpdated");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -234,8 +238,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
         try {
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Fans.PutProfileAvatarPicture(new System.IO.MemoryStream(bitmap));
             AsyncOperation.EndOperation(true, op.Hash + ":AvatarImageSent");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine SendAvatarImage(byte[] bitmap, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -265,8 +269,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 }
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -284,8 +288,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             if(score!=null) jobject.Add("Score", score.Score);
             else jobject.Add("Score", 0);
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetMaxScore(string IDMinigame, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -312,8 +316,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 }
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -341,8 +345,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 }
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
 
@@ -403,8 +407,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Results", results);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetVirtualGoods(string type, int page, string subtype = null, bool onlyPurchasables = false, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -436,8 +440,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Results", results);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetVirtualGoodsPurchased(string type, string token = null, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -453,8 +457,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             vgs.Add(new Guid(IDVirtualGood));
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Purchases.PostRedeemVirtualGood(vgs, new Guid(this.IDClient));
             AsyncOperation.EndOperation(true, op.Hash + ":VirtualGoodPurchased");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine PurchaseVirtualGood(string IDVirtualGood, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -504,10 +508,9 @@ public class WSAAzureInterfaz : AzureInterfaz {
                     jobject.Add(ele);
                 }
             }
-
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetAchievements(string type, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -538,8 +541,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Results", results);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetAchievementsEarned(string type, string token = null, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -637,8 +640,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("Body", tmpList);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GetContent(string IDContent, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -661,8 +664,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
                 jobject.Add("LevelNumber", res.LevelNumber);
             }
             AsyncOperation.EndOperation(true, op.Hash + ":" + Newtonsoft.Json.JsonConvert.SerializeObject(jobject));
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine GamificationStatus(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -680,8 +683,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             };
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.UserActions.PostUserAction(userAction);
             AsyncOperation.EndOperation(true, op.Hash + ":UserActionPosted");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine SendAction(string IDAction, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -704,8 +707,8 @@ public class WSAAzureInterfaz : AzureInterfaz {
             };
             await Microsoft.Mdp.SDK.DigitalPlatformClient.Instance.Purchases.PostPurchase(purchase);
             AsyncOperation.EndOperation(true, op.Hash + ":PurchasePosted");
-        } catch {
-            AsyncOperation.EndOperation(false, op.Hash + ":KO");
+        } catch(System.Exception e) {
+            AsyncOperation.EndOperation(false, op.Hash + ":"+e.Message);
         }
     }
     public override Coroutine InAppPurchase(string IdProduct, string Receipt, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {

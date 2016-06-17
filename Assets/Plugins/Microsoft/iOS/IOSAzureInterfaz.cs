@@ -79,7 +79,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
         return StartCoroutine(op.Wait());
     }
     
-    
+/*    
     [DllImport ("__Internal")]
     private static extern void _SetProfileAvatar(string json, string hash);
     public override Coroutine SetProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
@@ -87,7 +87,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
         _SetProfileAvatar(MiniJSON.Json.Serialize(profile), op.Hash);
         return StartCoroutine(op.Wait());
     }
-
+*/
     [DllImport ("__Internal")]
     private static extern void _CreateProfileAvatar(string json, string hash);
     public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
