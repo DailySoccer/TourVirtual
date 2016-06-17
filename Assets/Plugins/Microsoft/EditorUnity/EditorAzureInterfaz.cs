@@ -170,17 +170,17 @@ public class EditorAzureInterfaz : AzureInterfaz
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }
-
+    /*
     public override Coroutine SetProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
-        var request = SendJSonRequest(HTTPMethods.Post, "api/v1/fan/me/ProfileAvatar", profile);
+        var request = SendJSonRequest(HTTPMethods.Put, "api/v1/fan/me/ProfileAvatar", profile);
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }
-
+    */
     public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
-        var request = SendJSonRequest(HTTPMethods.Put, "api/v1/fan/me/ProfileAvatar", profile);
+        var request = SendJSonRequest(HTTPMethods.Post, "api/v1/fan/me/ProfileAvatar", profile);
         var op = AsyncOperation.Create(OnSucess, OnError);
         return StartCoroutine(WaitForEnd(request, op));
     }

@@ -333,6 +333,7 @@ public class MainActivity extends UnityPlayerActivity {
             DigitalPlatformClient.getInstance().getFanHandler().updateProfileAvatar(this, pau, callback);
 
         } catch (IOException e) {
+            System.out.println("Unity > SetProfileAvatar.IOException ");
         }
     }
 
