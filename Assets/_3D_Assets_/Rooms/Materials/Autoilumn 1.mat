@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Autoilumn Suave
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
+  m_Name: Autoilumn 1
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 2
   m_CustomRenderQueue: 3000
   stringTagMap:
@@ -79,18 +79,11 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
           name: _SrcBlend
-        second: 1
+        second: 5
       data:
         first:
           name: _DstBlend
@@ -98,7 +91,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: .57099998
       data:
         first:
           name: _Parallax
@@ -110,7 +103,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -130,7 +123,7 @@ Material:
       data:
         first:
           name: _Mode
-        second: 3
+        second: 2
       data:
         first:
           name: _Metallic
@@ -139,12 +132,8 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: .850000024, g: .850000024, b: .850000024, a: 1}
+        second: {r: 1.25, g: 1.25, b: 1.25, a: 1}
       data:
         first:
           name: _Color
-        second: {r: .529411793, g: .529411793, b: .529411793, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
