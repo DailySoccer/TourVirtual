@@ -18,7 +18,7 @@ public class FacebookManager : MonoBehaviour
 	/// </summary>
 	public void PromptLogIn()
 	{
-#if !UNITY_EDITOR && !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!FB.IsLoggedIn)
 		{
 			_processedLogIn = false;
@@ -32,7 +32,7 @@ public class FacebookManager : MonoBehaviour
 	/// </summary>
 	public void ShareToFacebook(FacebookLink aLink)
 	{
-#if !UNITY_EDITOR && !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!_processingThread)
 		{
 			_processingThread = true;
@@ -48,7 +48,7 @@ public class FacebookManager : MonoBehaviour
 		_updateLedLogIn = true;
 		_processedLogIn = true;
 		_processingThread = false;
-#if !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!FB.IsInitialized)
 		{
 			FB.Init(InitCallback, OnHideUnity);
@@ -78,7 +78,7 @@ public class FacebookManager : MonoBehaviour
 	#region Private methods
 	private void InitCallback()
 	{
-#if ! UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (FB.IsInitialized)
 		{
 			FB.ActivateApp();
@@ -91,7 +91,7 @@ public class FacebookManager : MonoBehaviour
 	}
 	private void OnHideUnity(bool isGameShown)
 	{
-#if !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!isGameShown)
 		{
 			Time.timeScale = 0;
@@ -104,7 +104,7 @@ public class FacebookManager : MonoBehaviour
 	}
 	private void AuthCallback(ILoginResult result)
 	{
-#if !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (FB.IsLoggedIn)
 		{
 			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
@@ -142,7 +142,7 @@ public class FacebookManager : MonoBehaviour
 	}
 	private IEnumerator CheckLogInShare(FacebookLink aLink)
 	{
-#if !UNITY_WSA
+#if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!FB.IsLoggedIn)
 		{
 			PromptLogIn();
@@ -155,6 +155,8 @@ public class FacebookManager : MonoBehaviour
 		{
 			FB.ShareLink(/*new System.Uri("https://www.unusualwonder.com/")*/aLink.contentURL, aLink.contentTitle, aLink.contentDescription, aLink.photoURL, callback: ShareCallback);
 		}
+#else
+		yield return null;
 #endif
 		_processingThread = false;
 	}
