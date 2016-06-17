@@ -18,6 +18,9 @@ public class ProfileScreenController : MonoBehaviour {
 	int AchievementsCount;
 	int MaxAchivemenstCount;
 
+	public Text rankingPosition;
+	public Text rankingScore;
+
 	bool alreadyOpen;
 
 	GUIScreen screen;
@@ -57,6 +60,15 @@ public class ProfileScreenController : MonoBehaviour {
 
 		PacksCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 		PacksCount.ToString(), MaxPacksCount.ToString());
 		AchivementCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 	AchievementsCount.ToString(), MaxAchivemenstCount.ToString());
+
+		UserAPI.ScoreEntry me;
+		foreach (UserAPI.ScoreEntry se in UserAPI.Instance.GetFanRanking()) {
+			if (se.IsMe)
+				me = se;
+		}
+
+		rankingScore.text = me.Score.ToString ();
+		rankingPosition.text = me.Position.ToString();
 		
 	}
 }

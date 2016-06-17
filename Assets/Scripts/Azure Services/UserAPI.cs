@@ -169,7 +169,7 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
-		/*
+
         yield return Authentication.AzureServices.GetFanRanking((res) => {
             Debug.LogError(">>>> GetFanRanking(): " + res);
             if (res != "null") {
@@ -177,10 +177,10 @@ public class UserAPI {
                 FanRanking = new ScoreEntry[scores.Count];
                 int cnt = 0;
                 foreach (Dictionary<string, object> entry in scores)
-                    FanRanking[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
+					FanRanking[cnt++] = new ScoreEntry((int)entry["Position"], entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
             }
         });
-        */
+
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
         if (OnUserLogin != null) OnUserLogin();
         LoadingCanvasManager.Hide();
@@ -242,10 +242,12 @@ public class UserAPI {
     int[] HighScore = new int[3] { 0, 0, 0 };
 
     public struct ScoreEntry {
+		public int Position;
         public bool IsMe;
         public string Nick;
         public int Score;
-        public ScoreEntry(string nick, int score, bool isme) {
+		public ScoreEntry(int position, string nick, int score, bool isme) {
+			Position = position;
             Nick = nick;
             Score = score;
             IsMe = isme;
@@ -278,7 +280,7 @@ public class UserAPI {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 var tmp = new ScoreEntry[scores.Count];
                 foreach (Dictionary<string, object> entry in scores)
-                    tmp[cnt++] = new ScoreEntry(entry["Alias"] as string, (int)(long)entry["Score"], (bool)entry["IsCurrentUser"]);
+					tmp[cnt++] = new ScoreEntry((int)entry["Position"], entry["Alias"] as string, (int)(long)entry["Score"], (bool)entry["IsCurrentUser"]);
                 HighScores[(int)game] = tmp;
             }
             if (onRanking != null) onRanking();
