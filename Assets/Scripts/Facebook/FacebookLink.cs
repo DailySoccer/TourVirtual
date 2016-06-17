@@ -31,19 +31,19 @@ public class FacebookLink{
 	}
 	public static FacebookLink AchievementShare(string achievement)
 	{
-		return new FacebookLink(null, "Logro conseguido", "¡He conseguido el logro " + achievement + "!", null);
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Logro conseguido", "¡He conseguido el logro " + achievement + "!", null);
 	}
 	public static FacebookLink ContentUnlockedShare()
 	{
-		return new FacebookLink(null, "Contenido desbloqueado", "He desbloqueado contenido nuevo.", null);
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", null);
 	}
 	public static FacebookLink PointsShare(bool isRecord, int points, string game)
 	{
-		return new FacebookLink(null, isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", null);
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", null);
 	}
 	public static FacebookLink RankingShare(int rankPos)
 	{
-		return new FacebookLink(null, "Clasificación", "He conseguido el puesto " + rankPos + ".", null);
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Clasificación", "He conseguido el puesto " + rankPos + ".", null);
 	}
 	#endregion
 }
