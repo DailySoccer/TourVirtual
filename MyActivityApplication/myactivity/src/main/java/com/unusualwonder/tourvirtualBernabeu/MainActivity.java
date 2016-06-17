@@ -98,10 +98,14 @@ public class MainActivity extends UnityPlayerActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         deeplinking = "";
+        System.out.println("Unity MainActivity:: onNewIntent");
         if (intent != null) {
             String action = intent.getAction();
             Uri data = intent.getData();
-            if (data != null) deeplinking = data.toString();
+            if (data != null) {
+                deeplinking = data.toString();
+                System.out.println("Unity MainActivity:: onNewIntent "+deeplinking);
+            }
         }
     }
 
@@ -118,7 +122,6 @@ public class MainActivity extends UnityPlayerActivity {
         if (enviroment.equals("development")) env = DigitalPlatformClient.DEVELOPMENT;
         else if (enviroment.equals("preproduction")) env = DigitalPlatformClient.PREPRODUCTION;
         else env = DigitalPlatformClient.PRODUCTION;
-        System.out.println("enviroment " + env + " IDClient " + this.IDClient + " signin " + signin);
         DigitalPlatformClient.init(this, env, this.IDClient, signin, signin);
     }
 
@@ -139,7 +142,6 @@ public class MainActivity extends UnityPlayerActivity {
         AuthListenerToken listener = new AuthListenerToken() {
             @Override
             public void onResponse(String var1) {
-                System.out.println("Start onResponse " + var1);
                 //UnityPlayer.UnitySendMessage("Azure Services", "OnToken", var1);
                 UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
 
@@ -152,7 +154,6 @@ public class MainActivity extends UnityPlayerActivity {
                 UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
             }
         };
-        System.out.println("Start login!!");
         DigitalPlatformClient.getInstance().getAuthHandler().login(this, listener, false);
     }
 

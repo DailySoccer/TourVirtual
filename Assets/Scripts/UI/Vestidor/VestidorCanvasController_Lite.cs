@@ -65,11 +65,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         if (Authentication.AzureServices.IsDeepLinking &&
             Authentication.AzureServices.DeepLinkinParameters != null &&
-            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
-        {
+            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
             DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
         }
+
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
         EnableTopMenu(true);
         ShowVestidor();
@@ -312,11 +312,23 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
 
-	public void ShowClothesShop() {
-		if (isCurrentPopUpOpen)
+    public void ShowClothesShop() {
+        /*
+        Debug.LogError(">>>>>>>>> ShowClothesShop!!!! " + Authentication.AzureServices.IsDeepLinking);
+        if (Authentication.AzureServices.IsDeepLinking &&
+            Authentication.AzureServices.DeepLinkinParameters != null &&
+            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
+        {
+            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
+            // MainManager.DeepLinkinParameters["idUser"];
+        }
+        */
+        if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
-		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
-			Invoke("LoadModel", 0.25f);
+        if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+        {
+            Invoke("LoadModel", 0.25f);
+        }
 
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}

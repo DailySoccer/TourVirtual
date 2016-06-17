@@ -37,7 +37,8 @@ public class AzureInterfaz : MonoBehaviour
         url = WWW.UnEscapeURL(url);
         DeepLinkingURL = url;
         var pair = url.Split('?');
-        DeepLinkinParameters = new Dictionary<string, object>();
+
+        DeepLinkinParameters = new Dictionary<string, object>();        
         if (pair.Length == 2) {
             var pars = pair[1].Split('&');
             foreach (var p in pars) {

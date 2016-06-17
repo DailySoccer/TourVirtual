@@ -47,7 +47,11 @@ public class WSAAzureInterfaz : AzureInterfaz {
         UnityEngine.WSA.Launcher.LaunchUri(url, false);
     }
 
-    public override void CheckDeepLinking() { SetDeepLinking(  UnityEngine.WSA.Application.arguments ); }
+    public override void CheckDeepLinking() { 
+        Debug.LogError(">>>> CheckDeepLinking  " + UnityEngine.WSA.Application.arguments);
+        SetDeepLinking(  UnityEngine.WSA.Application.arguments ); 
+
+    }
 
 #endregion
 #region GetFanMe

@@ -172,7 +172,6 @@ public class UserAPI {
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
 
         yield return Authentication.AzureServices.GetFanRanking((res) => {
-            Debug.LogError(">>>> GetFanRanking(): " + res);
             if (res != "null") {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 FanRanking = new ScoreEntry[scores.Count];
