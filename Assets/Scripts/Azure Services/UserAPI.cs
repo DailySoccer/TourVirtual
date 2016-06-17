@@ -178,7 +178,7 @@ public class UserAPI {
                 FanRanking = new ScoreEntry[scores.Count];
                 int cnt = 0;
                 foreach (Dictionary<string, object> entry in scores)
-					FanRanking[cnt++] = new ScoreEntry((int)entry["Position"], entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
+					FanRanking[cnt++] = new ScoreEntry((int)(long)entry["Position"], entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
             }
         });
 
@@ -281,7 +281,7 @@ public class UserAPI {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 var tmp = new ScoreEntry[scores.Count];
                 foreach (Dictionary<string, object> entry in scores)
-					tmp[cnt++] = new ScoreEntry((int)entry["Position"], entry["Alias"] as string, (int)(long)entry["Score"], (bool)entry["IsCurrentUser"]);
+					tmp[cnt++] = new ScoreEntry((int)(long)entry["Position"], entry["Alias"] as string, (int)(long)entry["Score"], (bool)entry["IsCurrentUser"]);
                 HighScores[(int)game] = tmp;
             }
             if (onRanking != null) onRanking();
