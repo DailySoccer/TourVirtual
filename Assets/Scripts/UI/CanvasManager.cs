@@ -294,6 +294,18 @@ public class CanvasManager : MonoBehaviour {
         MainCamera.SetActive(true);
     }
 
+	public void ShareRankingPosition () {
+		UserAPI.ScoreEntry[] rankingArray = UserAPI.Instance.GetFanRanking();
+		UserAPI.ScoreEntry me = new UserAPI.ScoreEntry();
+
+		foreach (UserAPI.ScoreEntry se in rankingArray) {
+			if (se.IsMe)
+				me = se;
+		}
+
+		FacebookManager.Instance.ShareToFacebook(FacebookLink.RankingShare(me.Position));
+	}
+
 
     /*
 	public void ShowScreenWithAnim(UIScreen guiScreen) {

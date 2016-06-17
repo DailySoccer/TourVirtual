@@ -12,6 +12,10 @@ public class FacebookManager : MonoBehaviour
 	//public Image LedShare;
 	#endregion
 
+
+	public static FacebookManager Instance {get; set;}
+
+
 	#region Public methods
 	/// <summary>
 	/// Prompt facebook log in pop up
@@ -45,6 +49,9 @@ public class FacebookManager : MonoBehaviour
 	#region MonoBehaviour methods
 	void Awake()
 	{
+		if (Instance == null)
+			Instance = this;
+
 		_updateLedLogIn = true;
 		_processedLogIn = true;
 		_processingThread = false;
@@ -59,6 +66,7 @@ public class FacebookManager : MonoBehaviour
 		}
 #endif
 	}
+
 	// Use this for initialization
 	void Start()
 	{

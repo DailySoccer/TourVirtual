@@ -47,7 +47,7 @@ public class PopUpWindow : UIScreen {
 	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
 	private List<GameObject> AchievementsGridSlotGameObjectsList = new List<GameObject>();
-	private AchievementsAPI.Achievement currentAchivementSelected;
+
 
 	public GameObject SingleContent;
 	ThirdProfileController ThirdsProfile;
@@ -60,8 +60,15 @@ public class PopUpWindow : UIScreen {
 
 	public GameObject SettingsGameObject;
 
+	public GameObject RankingFanLevelGameObject;
+	public GameObject RankingFanLevelParentList;
+	public GameObject RankingFanLevelSlot;
+	private List<GameObject> RankingFanLevelSlotGameObjectList = new List<GameObject>();
+
+
 	string currentSelectedItemGUID;
-	public ClothSlot CurrentVestidorPrenda;
+	ClothSlot CurrentVestidorPrenda;
+	AchievementsAPI.Achievement currentAchivementSelected;
 
     // Use this for initialization
     void Start () {
@@ -163,7 +170,7 @@ public class PopUpWindow : UIScreen {
 			case ModalLayout.SINGLE_CONTENT_SHARE:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
-				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 			break;
 					
@@ -210,6 +217,10 @@ public class PopUpWindow : UIScreen {
 			//TODO: Mostrar modal con el fan level
 			case ModalLayout.FANLEVEL_RANKING:
 				Debug.Log ("TODO: Mostrar modal con el fan level");
+				RankingFanLevelGameObject.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.FanLevelRankingTitle");
+				SetupFanRankingListContent();
 			break;
 		}
 	}
@@ -258,6 +269,11 @@ public class PopUpWindow : UIScreen {
 
 		if (SettingsGameObject != null) {
 			SettingsGameObject.SetActive(false);
+		}
+
+		if (RankingFanLevelSlotGameObjectList != null){
+			CleanARankingFanLevelSlotGameObjectList();
+			RankingFanLevelGameObject.SetActive(false);
 		}
 
 		CloseButton.SetActive (true);
@@ -369,6 +385,7 @@ public class PopUpWindow : UIScreen {
 		}
         AchievementsGridSlotGameObjectsList.Clear ();
 	}
+
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentAchivementSelected = item.TheAchivment;
@@ -407,6 +424,30 @@ public class PopUpWindow : UIScreen {
 		foreach (ContentAPI.Asset cont in values.Where( c => c.Type != ContentAPI.AssetType.ContentTitleImage )) {
 			flyer.AddContentToList(cont.Title);
 		}
+	}
+
+
+	void SetupFanRankingListContent() {
+		UserAPI.ScoreEntry[] scoreArray = UserAPI.Instance.GetFanRanking ();
+
+		RankingFanLevelSlotGameObjectList = new List<GameObject> ();
+
+		for (int i = 0; i < scoreArray.Length; i++) {
+			GameObject slot = Instantiate(RankingFanLevelSlot);
+			slot.transform.SetParent(RankingFanLevelParentList.transform);
+			slot.GetComponent<LevelFanRankingSlot>().SetupSlot(scoreArray[i].Position.ToString(), scoreArray[i].Nick, scoreArray[i].Score.ToString(), scoreArray[i].IsMe);
+			slot.transform.localScale = Vector3.one;
+			slot.name = "FanLevelRankigPosition_" + i;
+
+			RankingFanLevelSlotGameObjectList.Add(slot);
+		}
+	}
+
+	void CleanARankingFanLevelSlotGameObjectList() {
+		foreach (GameObject go in RankingFanLevelSlotGameObjectList) {
+			Destroy (go);
+		}
+		RankingFanLevelSlotGameObjectList.Clear ();
 	}
 
 	public void CloseModalScreen() {
