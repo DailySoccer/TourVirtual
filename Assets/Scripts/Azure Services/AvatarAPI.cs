@@ -108,7 +108,7 @@ public class AvatarAPI {
         if (avatar.ContainsKey("Accesories") && avatar["Accesories"]!=null) {
             foreach( Dictionary<string,object> tmp in avatar["Accesories"] as List<object>) {
                 VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(tmp["IdVirtualGood"] as string);
-                if (vg != null){
+                if (vg != null){                    
                     if (vg.IdSubType.Contains("TORSO")) Torso = vg.GUID;
                     else if (vg.IdSubType.Contains("LEG")) Legs = vg.GUID;
                     else if (vg.IdSubType.Contains("SHOE")) Feet = vg.GUID;

@@ -39,7 +39,7 @@ public class FacebookLink{
 	}
 	public static FacebookLink PointsShare(bool isRecord, int points, string game)
 	{
-		return new FacebookLink(null, isRecord ? "Récord" : "Puntuación", "He conseguido " +(isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", null);
+		return new FacebookLink(null, isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", null);
 	}
 	public static FacebookLink RankingShare(int rankPos)
 	{

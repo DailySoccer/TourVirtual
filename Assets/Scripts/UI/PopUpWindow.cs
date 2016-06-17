@@ -16,7 +16,8 @@ public enum ModalLayout {
     SINGLE_CONTENT_SHARE,
     THIRDS_PROFILE_CONTENT,
 	PACK_FLYER,
-	SETTINGS
+	SETTINGS,
+	FANLEVEL_RANKING,
 }
 
 public class PopUpWindow : UIScreen {
@@ -204,6 +205,11 @@ public class PopUpWindow : UIScreen {
 				SettingsGameObject.SetActive(true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.SettingsTitle");
+			break;
+
+			//TODO: Mostrar modal con el fan level
+			case ModalLayout.FANLEVEL_RANKING:
+				Debug.Log ("TODO: Mostrar modal con el fan level");
 			break;
 		}
 	}
