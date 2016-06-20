@@ -118,6 +118,7 @@ GameObject:
   - 114: {fileID: 11400264}
   - 114: {fileID: 11464666}
   - 114: {fileID: 11462684}
+  - 114: {fileID: 11447312}
   m_Layer: 5
   m_Name: Button Buy
   m_TagString: Untagged
@@ -272,6 +273,7 @@ GameObject:
   - 114: {fileID: 11490908}
   - 114: {fileID: 11448856}
   - 114: {fileID: 11458674}
+  - 114: {fileID: 11481646}
   m_Layer: 5
   m_Name: Button Ok
   m_TagString: Untagged
@@ -1855,6 +1857,7 @@ GameObject:
   - 114: {fileID: 11498338}
   - 114: {fileID: 11428414}
   - 114: {fileID: 11491072}
+  - 114: {fileID: 11488680}
   m_Layer: 5
   m_Name: Button Cancelar
   m_TagString: Untagged
@@ -1943,6 +1946,7 @@ GameObject:
   - 114: {fileID: 11416856}
   - 114: {fileID: 11409638}
   - 114: {fileID: 11416990}
+  - 114: {fileID: 11470312}
   m_Layer: 5
   m_Name: Button GotoShop
   m_TagString: Untagged
@@ -2049,6 +2053,7 @@ GameObject:
   - 114: {fileID: 11402238}
   - 114: {fileID: 11490866}
   - 114: {fileID: 11445318}
+  - 114: {fileID: 11438004}
   m_Layer: 5
   m_Name: Button Compartir
   m_TagString: Untagged
@@ -2172,6 +2177,7 @@ GameObject:
   - 222: {fileID: 22238798}
   - 114: {fileID: 11423644}
   - 114: {fileID: 11440518}
+  - 114: {fileID: 11467400}
   m_Layer: 5
   m_Name: Button Close Modal
   m_TagString: Untagged
@@ -3924,6 +3930,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11438004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 11
 --- !u!114 &11438872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4275,6 +4293,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11447312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 11
 --- !u!114 &11447638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5325,6 +5355,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &11467400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 12
 --- !u!114 &11468018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5458,6 +5500,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9999
+--- !u!114 &11470312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 11
 --- !u!114 &11470500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5960,6 +6014,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Description
+--- !u!114 &11481646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 11
 --- !u!114 &11481728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6364,6 +6430,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11488680
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 12
 --- !u!114 &11488906
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,7 +4,7 @@ using FootballStar.Audio;
 
 public class AudioButton : MonoBehaviour {
 	
-	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_CLICK;
+	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_TICK;
  	
 	void Start()
 	{
@@ -13,36 +13,22 @@ public class AudioButton : MonoBehaviour {
 
 	void OnClick()
 	{
-		/*
 		switch (SoundDefinition) 
 		{
-			case SoundDefinitions.BUTTON_MENU:
-					mAudioGameController.PlayMenuButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_BACK:
-					mAudioGameController.PlayGoBackButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_STARTPLAYING:
-					mAudioGameController.PlayStartMatchSound();
-				break;
-				case SoundDefinitions.BUTTON_SELECTOR :
-					mAudioGameController.PlaySelectorSound();
-				break;
-				case SoundDefinitions.BUTTON_REPLAY:
-					mAudioGameController.PlayReplayButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_EXITMATCH:
-					mAudioGameController.StopAllActiveAudios(true);
-					mAudioGameController.PlayContinueButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_CONTINUE:
-					mAudioGameController.PlayContinueButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_PLAY:
-					mAudioGameController.PlayMatchStartSound();
-				break;
+			case SoundDefinitions.BUTTON_TICK:
+				mAudioGameController.PlayButtonTick();
+			break;
+			case SoundDefinitions.BUTTON_FORWARD:
+				mAudioGameController.PlayButtonForward();
+			break;
+			case SoundDefinitions.BUTTON_BACKWARD:
+				mAudioGameController.PlayButtonBackward();
+			break;
+			case SoundDefinitions.BUTTON_ACCEPT:
+				mAudioGameController.PlayButtonAccept();
+			break;
 		}
-		*/
 	}
+
 	private AudioInGameController mAudioGameController;
 }
