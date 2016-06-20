@@ -86,8 +86,8 @@ namespace FootballStar.Audio
 	            //Si no hay asignado un audioclip, hay que evitar que pete y avisamos por la consola
 	            if (gs.TheSound == null)
 	            {
-	               Debug.Log(string.Format("No hay un Clip de audio asignado al GameSound definido como: {0}.\n" +
-	                                 "Revisa el listado de definiciones en el prefab '", soundDef));
+	               Debug.LogErrorFormat("No hay un Clip de audio asignado al GameSound definido como: {0}.\n" +
+	                                 "Revisa el listado de definiciones en el prefab '", soundDef);
 	            }
 	            else
 	            {

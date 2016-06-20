@@ -11,6 +11,7 @@ GameObject:
   - 222: {fileID: 22253838}
   - 114: {fileID: 11447046}
   - 114: {fileID: 11476334}
+  - 114: {fileID: 11443360}
   m_Layer: 5
   m_Name: Button Close
   m_TagString: Untagged
@@ -215,6 +216,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &11443360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 12
 --- !u!114 &11444838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,7 +341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5199c24c63048fc9e1aeefae779119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceNoBlockRayCastValue: 0
 --- !u!114 &11465652
 MonoBehaviour:
   m_ObjectHideFlags: 1

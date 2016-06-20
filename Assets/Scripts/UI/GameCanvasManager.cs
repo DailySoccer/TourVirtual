@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameCanvasManager : CanvasManager 
 {
 	private MainManager _mainManagerInstance;
 
-	private UnityEngine.UI.Toggle _soundsToggle;
-	private UnityEngine.UI.Toggle _musicToggle;
+	private Toggle _soundsToggle;
+	private Toggle _musicToggle;
+
+
 	private BadgeAlert badgeAlert;
 
 	void Awake() {
