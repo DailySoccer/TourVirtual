@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class GUIGameScreen : GUIScreen {
-	
+public class GUIGameScreen : GUIScreen
+{
 	public Text RoomTitle;
 	public Transform ButtonContainer;
 	public GameObject CommunityManagerMessage;
@@ -128,12 +128,17 @@ public class GUIGameScreen : GUIScreen {
 		}
 	}
 	
-	void Messages_OnChangeHandle(string channelName) {
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="channelName"></param>
+	private void Messages_OnChangeHandle(string channelName)
+	{
 		if (channelName == ChatManager.CHANNEL_COMMUNITYMANAGER) {
 			int msgCount = ChatManager.Instance.GetMessagesFromChannel(channelName).Count;
 			string msg = ChatManager.Instance.GetMessagesFromChannel(channelName)[msgCount -1].Text; 
 			CommunityManagerMessage.SetActive (true);
-			CommunityManagerMessage.GetComponent<CommunityNotificationController>().SetMessage(msg);
+			CommunityManagerMessage.GetComponent<ChatNotificationController>().ShowMessage(msg);
 		}
 	}
 	
