@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SelectEffect : MonoBehaviour {
 
@@ -30,9 +31,16 @@ public class SelectEffect : MonoBehaviour {
 		_side = 1;
 		_workToDo = false;
 		_HALF_CYCLE = CycleTime * 0.5f;
-		Transform childResaltado = transform.GetChild(0);
-		Renderer rendRef = childResaltado == null ? null : childResaltado.GetComponent<Renderer>();
-		_matRef = rendRef == null ? null : rendRef.material;
+		Transform childResaltado = transform;
+		do
+		{
+			childResaltado = childResaltado.childCount != 0 ? childResaltado.GetChild(0) : null;
+			Renderer rendRef = childResaltado == null ? null : childResaltado.GetComponent<Renderer>();
+			if (rendRef != null)
+			{
+				_matRef.Add(rendRef.material);
+			}
+		} while (childResaltado != null);
 	}
 	
 	// Update is called once per frame
@@ -75,9 +83,12 @@ public class SelectEffect : MonoBehaviour {
 		if (_matRef != null)
 		{
 			float result = MinIntensity + (MaxIntensity - MinIntensity) * unitaryPerc;
-			Color matC = _matRef.GetColor("_TintColor");
-			matC.a = result;
-			_matRef.SetColor("_TintColor", matC);
+			foreach (Material mat in _matRef)
+			{
+				Color matC = mat.GetColor("_TintColor");
+				matC.a = result;
+				mat.SetColor("_TintColor", matC);
+			}
 		}
 	}
 	#endregion
@@ -87,6 +98,6 @@ public class SelectEffect : MonoBehaviour {
 	private bool _workToDo;
 	private int _side;
 	private float _HALF_CYCLE;
-	private Material _matRef;
+	private List<Material> _matRef = new List<Material>();
 	#endregion
 }
