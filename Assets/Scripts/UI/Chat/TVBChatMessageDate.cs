@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-
+using SmartLocalization;
 
 public class TVBChatMessageDate : MonoBehaviour {
 	public Text TextComponent;	
@@ -10,7 +10,7 @@ public class TVBChatMessageDate : MonoBehaviour {
 		get {return _theDateString;}
 		set {
 			_theDateString = value;
-			TextComponent.text = _theDateString == MyTools.ToShortDateString( DateTime.Now ) ? "Today" : value;
+			TextComponent.text = _theDateString == MyTools.ToShortDateString( DateTime.Now ) ? LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID") : value;
 		}
 	}
 
