@@ -5,16 +5,16 @@ public class FacebookLink{
 
 	#region Constants
 #if DEV
-	public static string source = "https://www.domain.com/";
+	public static string source = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/Facebook/";
 #elif PRE
-	public static string source = "https://www.domain.com/";
+	public static string source = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/Facebook/";
 #elif PRO
-	public static string source = "https://www.domain.com/";
+	public static string source = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/Facebook/";
 #else
-	public static string source = "https://www.domain.com/";
+	public static string source = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/Facebook/";
 #endif
 
-	public static string AchievementShareLink = "achievement/";
+	public static string AchievementShareLink = "Logros/";
 	public static string ContentShareLink = "content/";
 	public static string PointsShareLink = "points/";
 	public static string RecordShareLink = "record/";
@@ -43,9 +43,9 @@ public class FacebookLink{
 		contentDescription = newContentDescription;
 		photoURL = newPhotoURL;
 	}
-	public static FacebookLink AchievementShare(string achievement)
+	public static FacebookLink AchievementShare(string achievementID, string achievementName)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Logro conseguido", "¡He conseguido el logro " + achievement + "!", new System.Uri(source + AchievementShareLink));
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Logro conseguido", "¡He conseguido el logro " + achievementName + "!", new System.Uri(source + AchievementShareLink + achievementID + ".jpg"));
 	}
 	public static FacebookLink ContentUnlockedShare()
 	{
