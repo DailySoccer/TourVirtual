@@ -12,7 +12,7 @@ namespace FootballStar.Audio
 
 
 		// UI CONTROLS
-		BUTTON_CLICK		= 10,
+		BUTTON_TICK			= 10,
 		BUTTON_FORWARD		= 11,
 		BUTTON_BACKWARD		= 12,
 		BUTTON_ACCEPT		= 13,

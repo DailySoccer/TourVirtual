@@ -34,8 +34,25 @@ namespace FootballStar.Audio {
 		}
 
 
-		/*
+
 		// --> Menu SFX		
+		public void PlayButtonTick()
+		{
+			PlayDefinition(SoundDefinitions.BUTTON_TICK);
+		}
+		public void PlayButtonForward()
+		{
+			PlayDefinition(SoundDefinitions.BUTTON_FORWARD);
+		}
+		public void PlayButtonBackward()
+		{
+			PlayDefinition(SoundDefinitions.BUTTON_BACKWARD);
+		}
+		public void PlayButtonAccept()
+		{
+			PlayDefinition(SoundDefinitions.BUTTON_ACCEPT);
+		}
+		/*
 		public void PlayMenuButtonSound()
 		{
 			PlayDefinition(SoundDefinitions.BUTTON_MENU);

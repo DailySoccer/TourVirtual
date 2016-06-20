@@ -84,6 +84,7 @@ GameObject:
   - 222: {fileID: 22234010}
   - 114: {fileID: 11490738}
   - 114: {fileID: 11495348}
+  - 114: {fileID: 11460574}
   m_Layer: 5
   m_Name: Button Aceptar
   m_TagString: Untagged
@@ -254,6 +255,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11460574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 12
 --- !u!114 &11462680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -507,7 +520,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 242, y: 83}
+  m_SizeDelta: {x: 242, y: 96}
   m_Pivot: {x: .5, y: .5}
 --- !u!225 &22510020
 CanvasGroup:
