@@ -374,7 +374,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     Transform particles;
     public void AddParticles()
     {
-        if (particles == null) particles = (GameObject.Instantiate(Particles) as GameObject).transform;
+        if (particles == null) particles = Instantiate(Particles).transform;
         particles.position = PlayerInstance.transform.position;
         PlayerInstance.AddComponent<RotateDrag>();
     }
