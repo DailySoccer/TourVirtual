@@ -8,7 +8,7 @@ public class AudioButton : MonoBehaviour {
  	
 	void Start()
 	{
-		mAudioGameController = GameObject.FindGameObjectWithTag("GameModel").GetComponent<AudioInGameController>();
+		mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
 	}
 
 	void OnClick()

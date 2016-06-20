@@ -65,6 +65,7 @@ GameObject:
   - 114: {fileID: 11418774}
   - 114: {fileID: 11495910}
   - 114: {fileID: 11443022}
+  - 114: {fileID: 11439126}
   m_Layer: 5
   m_Name: Cloth Slot
   m_TagString: Untagged
@@ -219,6 +220,18 @@ MonoBehaviour:
   m_PreferredHeight: 37
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &11439126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 10
 --- !u!114 &11443022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -770,6 +783,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Padding.m_Bottom
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SoundDefinition
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
