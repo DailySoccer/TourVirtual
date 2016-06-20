@@ -61,14 +61,13 @@ public class ProfileScreenController : MonoBehaviour {
 		PacksCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 		PacksCount.ToString(), MaxPacksCount.ToString());
 		AchivementCountText.text = string.Format ("<size=50><color=#151c2b>{0}</color></size><size=30><color=#3d4964>/{1}</color></size>", 	AchievementsCount.ToString(), MaxAchivemenstCount.ToString());
 
-		UserAPI.ScoreEntry me;
 		foreach (UserAPI.ScoreEntry se in UserAPI.Instance.GetFanRanking()) {
 			if (se.IsMe)
-				me = se;
+            {
+                rankingScore.text = se.Score.ToString();
+                rankingPosition.text = se.Position.ToString();
+                break;
+            }
 		}
-
-		rankingScore.text = me.Score.ToString ();
-		rankingPosition.text = me.Position.ToString();
-		
 	}
 }
