@@ -33,6 +33,8 @@ namespace FootballStar.Audio {
 			mAudioManager.CustomPlay(soundDef, volume, pitch);
 		}
 
+
+		/*
 		// --> Menu SFX		
 		public void PlayMenuButtonSound()
 		{
@@ -79,7 +81,8 @@ namespace FootballStar.Audio {
 			PlayDefinition(SoundDefinitions.BUTTON_PLAY);
 		}		
 		// <-- Menu SFX	
-		
+		*/
+
 		public void StopAllActiveAudios(bool fadingSound)
 		{
 			mAudioManager.StopAll(fadingSound);

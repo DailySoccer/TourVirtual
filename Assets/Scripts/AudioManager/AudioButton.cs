@@ -4,7 +4,7 @@ using FootballStar.Audio;
 
 public class AudioButton : MonoBehaviour {
 	
-	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_MENU;
+	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_CLICK;
  	
 	void Start()
 	{
@@ -13,6 +13,7 @@ public class AudioButton : MonoBehaviour {
 
 	void OnClick()
 	{
+		/*
 		switch (SoundDefinition) 
 		{
 			case SoundDefinitions.BUTTON_MENU:
@@ -41,6 +42,7 @@ public class AudioButton : MonoBehaviour {
 					mAudioGameController.PlayMatchStartSound();
 				break;
 		}
+		*/
 	}
 	private AudioInGameController mAudioGameController;
 }
