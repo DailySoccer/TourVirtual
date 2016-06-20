@@ -37,7 +37,10 @@ namespace FootballStar.Audio
 		public void SetMainClip()
 		{
 			int i = Random.Range(0, Audios.Length);
-			TheSound = Audios[i];	
+			if (Audios [i] != null)
+				TheSound = Audios [i];
+			else
+				Debug.LogError ("[GameSound]: No he encontrado audio");
 		}
 	}
 }
