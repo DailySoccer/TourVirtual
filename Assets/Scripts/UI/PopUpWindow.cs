@@ -471,8 +471,8 @@ public class PopUpWindow : UIScreen {
 			FacebookManager.Instance.ShareToFacebook(FacebookLink.AchievementShare(currentAchivementSelected.IName, currentAchivementSelected.Name));
 		}
 		if (currentSelectedPack != null) {
-			#if UNITY_EDITOR
 			string packId = currentSelectedPack.ContenName.Replace("CONTENT","");
+			#if UNITY_EDITOR
 			Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
 			#endif
 			FacebookManager.Instance.ShareToFacebook(FacebookLink.ContentUnlockedShare(packId));
