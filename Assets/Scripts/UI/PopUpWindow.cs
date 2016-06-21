@@ -439,17 +439,42 @@ public class PopUpWindow : UIScreen {
 
 		RankingFanLevelSlotGameObjectList = new List<GameObject> ();
 
-		for (int i = 0; i < scoreArray.Length; i++) {
-			GameObject slot = Instantiate(RankingFanLevelSlot);
-			slot.transform.SetParent(RankingFanLevelParentList.transform);
-			slot.GetComponent<LevelFanRankingSlot>().SetupSlot(scoreArray[i].Position.ToString(), scoreArray[i].Nick, scoreArray[i].Score.ToString(), scoreArray[i].IsMe);
-			slot.transform.localScale = Vector3.one;
-			slot.name = "FanLevelRankigPosition_" + i;
+		bool alreadyInList = false;
 
-			RankingFanLevelSlotGameObjectList.Add(slot);
+		for (int i = 0; i < scoreArray.Length; i++) {
+
+			if (RankingFanLevelSlotGameObjectList.Count >= 9) {
+				if (!alreadyInList) {// Si ya hay 9 oposiciones en el ranking y no estoy en la lista..
+					if (scoreArray[i].IsMe) {// Sólo inserto el 10º si soy yo.
+						RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
+					}
+				}
+				else {
+					RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
+				}
+			}
+			else { // Si hay menos de 9 oposiciones en el ranking
+
+				RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
+				if (scoreArray[i].IsMe) {
+					alreadyInList = true;
+				}
+			}
 		}
 	}
 
+	private GameObject CreateFanRankingSlot (UserAPI.ScoreEntry scoreArray, int pos) {
+		GameObject slot = Instantiate(RankingFanLevelSlot);
+		slot.transform.SetParent(RankingFanLevelParentList.transform);
+		slot.GetComponent<LevelFanRankingSlot>().SetupSlot(scoreArray.Position.ToString(), scoreArray.Nick, scoreArray.Score.ToString(), scoreArray.IsMe);
+		slot.transform.localScale = Vector3.one;
+		slot.name = "FanLevelRankigPosition_" + pos;
+
+		Debug.LogErrorFormat("{0}) {1} / {2}, Soy yo? : {3}", scoreArray.Position, scoreArray.Nick, scoreArray.Score, scoreArray.IsMe? "Si" : "No" );
+
+		return slot;
+	}
+	
 	void CleanARankingFanLevelSlotGameObjectList() {
 		foreach (GameObject go in RankingFanLevelSlotGameObjectList) {
 			Destroy (go);

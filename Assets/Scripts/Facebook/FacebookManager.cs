@@ -52,7 +52,7 @@ public class FacebookManager : MonoBehaviour
 	{
 		if (Instance == null) {
 			Instance = this;
-			Debug.LogError("Iniciando Instancia de FacebookManager");
+			//Debug.LogError("Iniciando Instancia de FacebookManager");
 		}
 
 		_updateLedLogIn = true;

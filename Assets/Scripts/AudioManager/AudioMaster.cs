@@ -101,7 +101,8 @@ namespace FootballStar.Audio
 	                  	Destroy(soundLoc, gs.TheSound.length);
 	               	}
 	               	//Set the source as active
-	               	mActiveAudio.Add(new ClipInfo { Source = source, Volume = GameSounds[(int)soundDef].Volume * masterVolume, Definition = soundDef });
+					if (GameSounds[(int)soundDef] != null) 
+	               		mActiveAudio.Add(new ClipInfo { Source = source, Volume = GameSounds[(int)soundDef].Volume * masterVolume, Definition = soundDef });
 	    		}
 	        }
 			return source;
