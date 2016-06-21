@@ -160,8 +160,9 @@ public class PopUpWindow : UIScreen {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
-				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
-				if (currentAchivementSelected != null) modalDetail.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+				DetailedContent2Buttons modalDetailInfo = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailInfo.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
 				
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 
@@ -171,6 +172,10 @@ public class PopUpWindow : UIScreen {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");
+				DetailedContent2Buttons modalDetailShare = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailShare.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 			break;
 					
@@ -389,7 +394,7 @@ public class PopUpWindow : UIScreen {
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentAchivementSelected = item.TheAchivment;
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_INFO);
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
 	}
 
 
@@ -452,5 +457,15 @@ public class PopUpWindow : UIScreen {
 
 	public void CloseModalScreen() {
 		TheGameCanvas.HideModalScreen ();
+		currentAchivementSelected = null;
     }
+
+	public void ShareWithFB() {
+		if (currentAchivementSelected != null) {
+			#if UNITY_EDITOR
+				Debug.LogErrorFormat("Trying to share Achievement with Facebook: achievementID {0} -> Achievement Name<{1}>", currentAchivementSelected.IName, currentAchivementSelected.Name);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.AchievementShare(currentAchivementSelected.IName, currentAchivementSelected.Name));
+		}
+	}
 }

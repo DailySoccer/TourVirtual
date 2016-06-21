@@ -112,6 +112,6 @@ public class MinigameCanvasController : MonoBehaviour {
 		Debug.LogErrorFormat("Trying to share score with Facebook: points {0} -> Record<{1}>", currentScore, isRecord.ToString());
 		#endif
 
-		FacebookManager.Instance.ShareToFacebook(FacebookLink.PointsShare(isRecord, currentScore, (FacebookLink.GameType)MinigameType));
+		FacebookManager.Instance.ShareToFacebook(FacebookLink.PointsShare(isRecord, currentScore.ToString(), (FacebookLink.GameType)MinigameType));
 	}
 }

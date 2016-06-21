@@ -60,7 +60,7 @@ public class FacebookLink{
 	{
 		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + room.ToString("00") + pack.ToString("00") + FileExt));
 	}
-	public static FacebookLink PointsShare(bool isRecord, int points, GameType game)
+	public static FacebookLink PointsShare(bool isRecord, string points, GameType game)
 	{
 		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", new System.Uri(source + PointsShareLink + PointsShareFilePrefix + game + (isRecord ? PointsShareFileSuffixRecord : PointsShareFileSuffixNormal) + FileExt));
 	}
