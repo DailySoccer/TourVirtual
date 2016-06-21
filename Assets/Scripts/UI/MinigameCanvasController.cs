@@ -100,4 +100,18 @@ public class MinigameCanvasController : MonoBehaviour {
 		HideAllScreens ();
 		RoomManager.Instance.GotoPreviousRoom ();
 	}
+
+	public void ShareScoreWithFB() {
+
+		GameObject minigame = GameObject.Find("Shooter");
+
+		int currentScore 	= MinigameType == UserAPI.MiniGame.FreeShoots ? minigame.GetComponent<Basket.Shooter>().score    : minigame.GetComponent<Football.Shooter>().score;
+		bool isRecord 		= MinigameType == UserAPI.MiniGame.FreeShoots ? minigame.GetComponent<Basket.Shooter>().isRecord : minigame.GetComponent<Football.Shooter>().isRecord;
+
+		#if UNITY_EDITOR
+		Debug.LogErrorFormat("Trying to share score with Facebook: points {0} -> Record<{1}>", currentScore, isRecord.ToString());
+		#endif
+
+		FacebookManager.Instance.ShareToFacebook(FacebookLink.PointsShare(isRecord, currentScore.ToString(), (FacebookLink.GameType)MinigameType));
+	}
 }

@@ -559,5 +559,4 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
 		ChangeVestidorState(newVestidorState);
 	}
-
 }

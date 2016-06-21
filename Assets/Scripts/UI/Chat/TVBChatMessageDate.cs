@@ -10,7 +10,7 @@ public class TVBChatMessageDate : MonoBehaviour {
 		get {return _theDateString;}
 		set {
 			_theDateString = value;
-			TextComponent.text = _theDateString == MyTools.ToShortDateString( DateTime.Now ) ? LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID") : value;
+			TextComponent.text = _theDateString == MyTools.ToShortDateString( DateTime.Now ) ? LanguageManager.Instance.GetTextValue("TVB.Chat.Today") : value;
 		}
 	}
 

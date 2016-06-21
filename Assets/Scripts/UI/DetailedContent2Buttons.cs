@@ -67,7 +67,7 @@ public class DetailedContent2Buttons : MonoBehaviour {
                 ShareButton.SetActive(false);
                 break;
             case DetailedContent2ButtonsLayout.SHARE:
-                OKButton.SetActive(false);
+                OKButton.SetActive(true);
                 CancelButton.SetActive(false);
                 BuyButton.SetActive(false);
                 GotoShopButton.SetActive(false);

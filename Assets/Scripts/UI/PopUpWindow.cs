@@ -67,6 +67,7 @@ public class PopUpWindow : UIScreen {
 
 
 	string currentSelectedItemGUID;
+	ContentAPI.Content currentSelectedPack;
 	ClothSlot CurrentVestidorPrenda;
 	AchievementsAPI.Achievement currentAchivementSelected;
 
@@ -160,8 +161,9 @@ public class PopUpWindow : UIScreen {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
-				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
-				if (currentAchivementSelected != null) modalDetail.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+				DetailedContent2Buttons modalDetailInfo = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailInfo.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
 				
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 
@@ -171,6 +173,10 @@ public class PopUpWindow : UIScreen {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");
+				DetailedContent2Buttons modalDetailShare = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailShare.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 			break;
 					
@@ -312,6 +318,7 @@ public class PopUpWindow : UIScreen {
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentSelectedItemGUID = item.Content.GUID;
+		currentSelectedPack = item.Content;
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
@@ -389,7 +396,7 @@ public class PopUpWindow : UIScreen {
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentAchivementSelected = item.TheAchivment;
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_INFO);
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
 	}
 
 
@@ -452,5 +459,23 @@ public class PopUpWindow : UIScreen {
 
 	public void CloseModalScreen() {
 		TheGameCanvas.HideModalScreen ();
+		currentAchivementSelected = null;
+		currentSelectedPack = null;
     }
+
+	public void ShareWithFB() {
+		if (currentAchivementSelected != null) {
+			#if UNITY_EDITOR
+				Debug.LogErrorFormat("Trying to share Achievement with Facebook: achievementID {0} -> Achievement Name<{1}>", currentAchivementSelected.IName, currentAchivementSelected.Name);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.AchievementShare(currentAchivementSelected.IName, currentAchivementSelected.Name));
+		}
+		if (currentSelectedPack != null) {
+			#if UNITY_EDITOR
+			string packId = currentSelectedPack.ContenName.Replace("CONTENT","");
+			Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.ContentUnlockedShare(packId));
+		}
+	}
 }
