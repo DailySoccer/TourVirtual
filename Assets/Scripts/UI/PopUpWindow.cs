@@ -67,6 +67,7 @@ public class PopUpWindow : UIScreen {
 
 
 	string currentSelectedItemGUID;
+	ContentAPI.Content currentSelectedPack;
 	ClothSlot CurrentVestidorPrenda;
 	AchievementsAPI.Achievement currentAchivementSelected;
 
@@ -317,6 +318,7 @@ public class PopUpWindow : UIScreen {
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentSelectedItemGUID = item.Content.GUID;
+		currentSelectedPack = item.Content;
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
@@ -458,6 +460,7 @@ public class PopUpWindow : UIScreen {
 	public void CloseModalScreen() {
 		TheGameCanvas.HideModalScreen ();
 		currentAchivementSelected = null;
+		currentSelectedPack = null;
     }
 
 	public void ShareWithFB() {
@@ -466,6 +469,13 @@ public class PopUpWindow : UIScreen {
 				Debug.LogErrorFormat("Trying to share Achievement with Facebook: achievementID {0} -> Achievement Name<{1}>", currentAchivementSelected.IName, currentAchivementSelected.Name);
 			#endif
 			FacebookManager.Instance.ShareToFacebook(FacebookLink.AchievementShare(currentAchivementSelected.IName, currentAchivementSelected.Name));
+		}
+		if (currentSelectedPack != null) {
+			#if UNITY_EDITOR
+			string packId = currentSelectedPack.ContenName.Replace("CONTENT","");
+			Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.ContentUnlockedShare(packId));
 		}
 	}
 }

@@ -56,9 +56,9 @@ public class FacebookLink{
 	{
 		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Logro conseguido", "¡He conseguido el logro " + achievementName + "!", new System.Uri(source + AchievementShareLink + achievementID + FileExt));
 	}
-	public static FacebookLink ContentUnlockedShare(int room, int pack)
+	public static FacebookLink ContentUnlockedShare(string pack)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + room.ToString("00") + pack.ToString("00") + FileExt));
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + pack + FileExt));
 	}
 	public static FacebookLink PointsShare(bool isRecord, string points, GameType game)
 	{
