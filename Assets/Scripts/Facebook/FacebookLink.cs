@@ -24,8 +24,8 @@ public class FacebookLink{
 	public static string RankingShareFile = "PostFacebookRanking";
 	public static string FileExt = ".jpg";
 	public enum GameType {
-		BASKET,
 		FUTBOL,
+		BASKET,
 		TESORO
 	};
 	#endregion
