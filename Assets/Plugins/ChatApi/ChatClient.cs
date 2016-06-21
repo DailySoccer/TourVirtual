@@ -244,7 +244,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>False if the client is not yet ready to send messages.</returns>
         public bool PublishMessage(string channelName, object message)
         {
-            if (!this.CanChat)
+            if (!CanChat)
             {
                 // TODO: log error
                 return false;
@@ -252,21 +252,26 @@ namespace ExitGames.Client.Photon.Chat
 
             if (string.IsNullOrEmpty(channelName) || message == null)
             {
-                this.LogWarning("PublishMessage parameters must be non-null and not empty.");
+                LogWarning("PublishMessage parameters must be non-null and not empty.");
                 return false;
             }
 
             Dictionary<byte, object> parameters = new Dictionary<byte, object>
                 {
-                    { (byte)ChatParameterCode.Channel, channelName },
-                    { (byte)ChatParameterCode.Message, message }
+                    { ChatParameterCode.Channel, channelName },
+                    { ChatParameterCode.Message, message }
                 };
 
-			bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, true);
+			bool sent = chatPeer.OpCustom(ChatOperationCode.Publish, parameters, true);
+
 #if UNITY_EDITOR
-			UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]",sent ? "PublishMessage" : "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
+			if(sent)
+				UnityEngine.Debug.Log(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
+			else
+				UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
 #endif
-            return sent;
+
+			return sent;
         }
 
         /// <summary>

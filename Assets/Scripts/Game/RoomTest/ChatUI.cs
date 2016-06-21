@@ -29,7 +29,7 @@ public class ChatUI : MonoBehaviour {
 	}
 
 	public void SendChatMessage() {
-		_chatManager.ChannelSelectedId = ChatManager.CHANNEL_COMMUNITYMANAGER;
+		_chatManager.SelectedChannelId = ChatManager.CHANNEL_COMMUNITYMANAGER;
 		_chatManager.SendMessage(InputText.text);
 		InputText.text = "";
 	}

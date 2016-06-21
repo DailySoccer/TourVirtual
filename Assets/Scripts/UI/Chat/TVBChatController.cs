@@ -244,7 +244,7 @@ public class TVBChatController : MonoBehaviour {
 		SetCurrentChannel(chn.realName);
 
 		HideSearchBar();
-		ChatManager.Instance.ChannelSelectedId = chn.realName;
+		ChatManager.Instance.SelectedChannelId = chn.realName;
 #if UNITY_EDITOR
 		Debug.LogFormat("[TVBChatController]: Entrando en el canal [{0}]", chn.realName);
 #endif

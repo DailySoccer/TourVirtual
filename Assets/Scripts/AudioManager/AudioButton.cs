@@ -1,17 +1,26 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using FootballStar.Audio;
 
 public class AudioButton : MonoBehaviour {
 	
 	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_TICK;
- 	
+	Button myButton;
+
 	void Start()
 	{
 		mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
+		myButton = GetComponent<Button> ();
+		myButton.onClick.AddListener (PlaySound);
 	}
 
-	void OnClick()
+
+	void OnDestroy() {
+		GetComponent<Button> ().onClick.RemoveListener(PlaySound);
+	}
+
+	void PlaySound()
 	{
 		switch (SoundDefinition) 
 		{

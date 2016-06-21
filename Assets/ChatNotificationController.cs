@@ -74,6 +74,4 @@ public class ChatNotificationController : MonoBehaviour
 		yield return new WaitForSeconds(_secondsVisible);
 		HideNotification();
 	}
-
-	
 }
