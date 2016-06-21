@@ -3547,6 +3547,7 @@ GameObject:
   - 222: {fileID: 22240198}
   - 114: {fileID: 11436684}
   - 114: {fileID: 11488896}
+  - 114: {fileID: 11477576}
   m_Layer: 5
   m_Name: Virtual Coins
   m_TagString: Untagged
@@ -11291,6 +11292,18 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
+--- !u!114 &11477576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 10
 --- !u!114 &11477594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14786,7 +14799,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 8, y: 30}
-  m_SizeDelta: {x: 31, y: 42.9000015}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: .5}
 --- !u!224 &22416234
 RectTransform:
@@ -15017,8 +15030,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 27.5299988, y: 0}
-  m_SizeDelta: {x: -1.76000309, y: 0}
+  m_AnchoredPosition: {x: 16, y: 0}
+  m_SizeDelta: {x: -32, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22421602
 RectTransform:
@@ -15090,8 +15103,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
-  m_AnchoredPosition: {x: -64.4000015, y: 0}
-  m_SizeDelta: {x: 118.300003, y: 47}
+  m_AnchoredPosition: {x: -66, y: 0}
+  m_SizeDelta: {x: 126, y: 47}
   m_Pivot: {x: 0, y: .5}
 --- !u!224 &22423360
 RectTransform:
@@ -16463,7 +16476,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142460}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.56978943e-06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22416220}
