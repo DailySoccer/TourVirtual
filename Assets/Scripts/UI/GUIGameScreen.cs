@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SmartLocalization;
 
 public class GUIGameScreen : GUIScreen
 {
@@ -31,7 +32,8 @@ public class GUIGameScreen : GUIScreen
 	
 	void UpdateRoomTitle() {
 		if (RoomManager.Instance.Room != null) {
-			RoomTitle.text = RoomManager.Instance.Room.Name;
+			//PCK.scene.estadio_bernabeu
+			RoomTitle.text = LanguageManager.Instance.GetTextValue(RoomManager.Instance.Room.Pack);
 		}
 	}
 	

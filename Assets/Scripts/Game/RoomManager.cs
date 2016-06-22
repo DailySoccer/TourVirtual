@@ -30,6 +30,16 @@ public class RoomDefinition {
 		}
 	}
 
+	public string _pack;
+	public string Pack {
+		get {
+			return _pack;
+		}
+		set {
+			_pack = value;
+		}
+	}
+
 	public string BundleId {
 		get {
 			return ExistsBundle("SCENE") ? Bundle ("SCENE") : "";
@@ -82,8 +92,9 @@ public class RoomDefinition {
             jsonMap[KEY_SCENE] as string,
 			jsonMap[KEY_DOORS] as Dictionary<string, object>
             );
-		if (jsonMap.ContainsKey(KEY_NAME)) {
-			roomDefinition.Name = jsonMap[KEY_NAME] as string;
+
+		if (jsonMap.ContainsKey(KEY_PACK)) {
+			roomDefinition.Pack = jsonMap[KEY_PACK] as string;
 		}
 		if (jsonMap.ContainsKey(KEY_CONTENTS)) {
 			roomDefinition.Contents = jsonMap[KEY_CONTENTS] as Dictionary<string, object>;
@@ -123,6 +134,7 @@ public class RoomDefinition {
     const string KEY_DOORS = "doors";
 	const string KEY_BUNDLES = "bundles";
 	const string KEY_CONTENTS = "contents";
+	const string KEY_PACK = "pack";
 }
 
 public class RoomManager : Photon.PunBehaviour {
