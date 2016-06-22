@@ -63,6 +63,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void OnEnable()
     {
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
+        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+/*
         if (Authentication.AzureServices.IsDeepLinking &&
             Authentication.AzureServices.DeepLinkinParameters != null &&
             Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
@@ -70,7 +72,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             // MainManager.DeepLinkinParameters["idUser"];
         }
 
-        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+*/
         EnableTopMenu(true);
         ShowVestidor();
     }
@@ -102,6 +104,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     break;
 
                 case VestidorState.VESTIDOR:
+                    if (Authentication.AzureServices.IsDeepLinking &&
+                        Authentication.AzureServices.DeepLinkinParameters != null &&
+                        Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
+                        DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
+                        // MainManager.DeepLinkinParameters["idUser"];
+                    }
                     EnableTopMenu(true);
                     cameraAvatarSelector.SetActive(false);
                     SecondPlaneAvatarSelect.SetActive(false);
@@ -210,6 +218,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 
         if (virtualGood == null) return;
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
         AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
@@ -404,9 +413,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             currentGUIScreen.OpenWindow();
             currentGUIScreen.IsOpen = true;
         }
-        else {
-            Debug.LogWarning("[CanvasManager]: La guiScreen es null. Estás cerrando todas las screens ? ó quizás no has establecido la primera desde el inspector.");
-        }
+        //else {
+        //    Debug.LogWarning("[CanvasManager]: La guiScreen es null. Estás cerrando todas las screens ? ó quizás no has establecido la primera desde el inspector.");
+        //}
     }
 
     void HideAllScreens()
