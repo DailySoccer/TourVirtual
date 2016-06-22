@@ -171,7 +171,7 @@ namespace Football
                             {
                                 ChargeBall();
                                 CheckTrigger();
-
+                                keeper.ResetTarget();
                             }
                             else if (state == ShotState.Ready)
                             {
@@ -324,6 +324,14 @@ namespace Football
             worldPoint.y += (offsetY / shotPower);
 
             direction = (worldPoint - shotPoint.transform.position).normalized;
+
+// Proyectar sobre el plano del portero.
+            Plane pln = new Plane( new Vector3(1,0,0),  keeper.transform.position );
+            Ray ray = new Ray(shotPoint.transform.position,direction);
+            float dist=0;
+            if( pln.Raycast(ray,out dist)){
+                keeper.SetTarget(ray.GetPoint(dist).z);                
+            } 
 
             ballRigidbody.velocity = direction * shotPower;
             ballRigidbody.AddTorque(-shotPoint.transform.right * torque);
