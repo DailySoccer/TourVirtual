@@ -5,14 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using SmartLocalization;
 
-public class TVBChatController : MonoBehaviour {
-
-#if COMMUNITY_MANAGER 
-	bool IsCommunityManagerVersion = true;
-#else
-	bool IsCommunityManagerVersion = false;
-#endif
-
+public class TVBChatController : MonoBehaviour
+{
 	public GameObject channelSlotPrefab;
 
 	public GameObject messageDatePrefab;
@@ -164,7 +158,7 @@ public class TVBChatController : MonoBehaviour {
 	private void SetChannelSlotValues(GameObject userSlot, string channelName)
 	{
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
-        string friendlyName = GetChannelFriendlyName(channelName);
+        string friendlyName = GetChannelName(channelName);
        
 		channel.realName = channelName;
 		channel.friendlyName = friendlyName;
@@ -309,29 +303,36 @@ public class TVBChatController : MonoBehaviour {
 	
 	public void SetCurrentChannel(string theName) {
 		currentChannelName = theName;
-		currentChannelFriendlyName = GetChannelFriendlyName(theName);
+		currentChannelFriendlyName = GetChannelName(theName);
 		currentChannelUILabel.text = currentChannelFriendlyName;
-		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower () || IsCommunityManagerVersion);
 	}
 
-	private string GetChannelFriendlyName(string name)
+
+	private static string GetChannelName(string channelId)
 	{
-		if (ChatManager.Instance.UserName == null)
-			return name;
+		if(channelId == ChatManager.CHANNEL_COMMUNITYMANAGER)
+			return ChatManager.CHANNEL_COMMUNITYMANAGER;
 
-		if (name.Contains(ChatManager.Instance.UserName)) 
-			return name.Remove(name.IndexOf(ChatManager.Instance.UserName), 
-				ChatManager.Instance.UserName.Length).Trim(':');
-		else
-			return RoomManager.Instance.RoomDefinitions.ContainsKey(name) ? ChatManager.ROOM_CHANNEL_NAME : name;
+		if (RoomManager.Instance.RoomDefinitions.ContainsKey(channelId))
+			return ChatManager.ROOM_CHANNEL_NAME;
+
+		if (ChatManager.Instance.UserName != null)
+		{
+			int userNameIndex = channelId.IndexOf(ChatManager.Instance.UserName, StringComparison.Ordinal);
+			if (userNameIndex > 0)
+				return channelId.Remove(userNameIndex, ChatManager.Instance.UserName.Length).Trim(':');
+		}
+
+		return channelId;
 	}
 
+	
 	private void CleanMessagesList()
 	{
 		//Debug.Log ("[TVBChatController]: Cleaning...");
-		foreach(GameObject go in _messagesGameObjects) {
+		foreach(GameObject go in _messagesGameObjects) 
 			DestroyImmediate(go);
-		}
+		
 		_messagesGameObjects.Clear();
 	}
 
