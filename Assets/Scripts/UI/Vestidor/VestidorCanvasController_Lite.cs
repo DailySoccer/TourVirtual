@@ -354,28 +354,33 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void LoadModel()
     {
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
-		{
-            MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
-            //Seteamos el Avatar que se muestra en estapantalla
-            PlayerInstance = instance;
-            PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
-            PlayerInstance.GetComponent<SynchNet>().enabled = false;
-            PlayerInstance.transform.localScale = Vector3.one;
-            Camera[] cams = new Camera[Camera.allCamerasCount];
-            Camera.GetAllCameras(cams);
-            Camera best = null;
+        {
+        MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
+        //Seteamos el Avatar que se muestra en estapantalla
+        PlayerInstance = instance;
+        PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
+        PlayerInstance.GetComponent<SynchNet>().enabled = false;
+        PlayerInstance.transform.localScale = Vector3.one;
+        Camera[] cams = new Camera[Camera.allCamerasCount];
+        Camera.GetAllCameras(cams);
+        Camera best = null;
 
-            foreach ( Camera cam in cams)
-                if( cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
-                    best = cam;
+        foreach (Camera cam in cams)
+            if (cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
+                best = cam;
 
-            var v = best.WorldToViewportPoint(PlayerPosition.position);
-            v.z = 10;
-            PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
-            PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
-            AddParticles();
+        var v = best.WorldToViewportPoint(PlayerPosition.position);
+        v.z = 10;
+        PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
+        PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
+        AddParticles();
 
-			PlayerInstance.GetComponent<Animator>().SetTrigger("ChangingClothes");
+        PlayerInstance.GetComponent<Animator>().SetTrigger("ChangingClothes");
+        ParticleSystem pEmitter = particles.GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+        if(pEmitter != null)
+            {
+                pEmitter.Play();
+            }
 
         }, PlayerInstance) );
     }
