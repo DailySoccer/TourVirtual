@@ -28,7 +28,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 	}
 
-	public delegate void MessagesChangeEvent(string channelName);
+	public delegate void MessagesChangeEvent(string channelId);
 	public event MessagesChangeEvent OnMessagesChange;
 
 	static public ChatManager Instance {
@@ -133,24 +133,24 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
         OnDisconnected();
     }
 
-    public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-	// Debug.Log (string.Format ("OnGetMessages [{0}]", channelName));
+    public void OnGetMessages(string channelId, string[] senders, object[] messages)
+	{
+		// Debug.Log (string.Format ("OnGetMessages [{0}]", channelId));
+	    List<ChatMessage> channelHistory;
+	    if (!History.TryGetValue(channelId, out channelHistory)) {
+		    channelHistory = new List<ChatMessage>();
+			History.Add(channelId, channelHistory);
+	    }
 
-		if (!History.ContainsKey(channelName)) {
-			History.Add(channelName, new List<ChatMessage>());
-		}
-
-		for ( int i = 0; i < senders.Length; i++ ) {
-			History[channelName].Add(new ChatMessage(senders[i], messages[i] as string, false));
-		}
-
-		if (OnMessagesChange != null /*&& channelName.Equals(SelectedChannelId)*/) {
-			OnMessagesChange(channelName);
-		}
+	    for(int i = 0; i < senders.Length; ++i ) 
+			channelHistory.Add(new ChatMessage(senders[i], messages[i] as string, false));
+		
+		if (OnMessagesChange != null /*&& channelId.Equals(SelectedChannelId)*/) 
+			OnMessagesChange(channelId);
 	}
 	
 	public void OnPrivateMessage(string sender, object message, string channelName) {
-//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
+//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelId, sender, message));
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
 
@@ -164,7 +164,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 			History[channelName].Add(new ChatMessage(sender, message as string, false));
 		}
 
-		if (OnMessagesChange != null /*&& channelName.Equals(SelectedChannelId)*/) {
+		if (OnMessagesChange != null /*&& channelId.Equals(SelectedChannelId)*/) {
 			OnMessagesChange(channelName);
 		}
 	}

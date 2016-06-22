@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using SmartLocalization;
@@ -19,7 +20,7 @@ public class ChatNotificationController : MonoBehaviour
 		set { _messageText.text = value; }
 	}
 
-	private string Title
+	private string ChannelName
 	{
 		get { return _titleText.text; }
 		set { _titleText.text = value; }
@@ -46,15 +47,13 @@ public class ChatNotificationController : MonoBehaviour
 	
 	//==============================================================================
 
-	public void ShowMessage(string title, string txt)
+	public void ShowMessage(string channelId, string txt)
 	{
-		Title = title;
+		ChannelName = GetChannelName(channelId);
 		Message = txt.Split('#')[1];
 		ShowNotification ();
 	}
-
 	
-
 	public void ShowNotification()
 	{
 		_animator.SetBool("IsOpen", true);
@@ -73,6 +72,9 @@ public class ChatNotificationController : MonoBehaviour
 		StartCoroutine(Autoclose());
 	}
 
+
+	//=======================================================
+	
 	private IEnumerator DisableMe()
 	{
 		while (_animator.GetCurrentAnimatorStateInfo(0).IsName("Open")) 
@@ -85,5 +87,18 @@ public class ChatNotificationController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(_secondsVisible);
 		HideNotification();
+	}
+
+	//------------------------------------------------------------
+
+	private static string GetChannelName(string channelId)
+	{
+		if (ChatManager.Instance.UserName != null) {
+			int userNameIndex = channelId.IndexOf(ChatManager.Instance.UserName, StringComparison.Ordinal);
+			if(userNameIndex > 0)
+				return channelId.Remove(userNameIndex, ChatManager.Instance.UserName.Length).Trim(':');
+		}
+
+		return channelId;
 	}
 }

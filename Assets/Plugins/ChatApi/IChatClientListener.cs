@@ -34,10 +34,10 @@ namespace ExitGames.Client.Photon.Chat
         /// Number of senders is equal to number of messages in 'messages'. Sender with number '0' corresponds to message with
         /// number '0', sender with number '1' corresponds to message with number '1' and so on
         /// </summary>
-        /// <param name="channelName">channel from where messages came</param>
+        /// <param name="channelId">channel from where messages came</param>
         /// <param name="senders">list of users who sent messages</param>
         /// <param name="messages">list of messages it self</param>
-        void OnGetMessages(string channelName, string[] senders, object[] messages);
+        void OnGetMessages(string channelId, string[] senders, object[] messages);
 
         /// <summary>
         /// Notifies client about private message
