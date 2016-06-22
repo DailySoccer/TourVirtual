@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using SmartLocalization;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Animator))]
@@ -9,13 +10,20 @@ public class ChatNotificationController : MonoBehaviour
 
 	[SerializeField, Range(0f, 50f)] private float _secondsVisible = 10f;
 	[SerializeField] private Animator _animator;
-	[SerializeField]
-	private Text _text;
-	private string Text {
-		get { return _text.text; }
-		set { _text.text = value; }
+	[SerializeField] private Text _titleText;
+	[SerializeField] private Text _messageText;
+	
+
+	private string Message {
+		get { return _messageText.text; }
+		set { _messageText.text = value; }
 	}
 
+	private string Title
+	{
+		get { return _titleText.text; }
+		set { _titleText.text = value; }
+	}
 
 	//============================================================
 
@@ -26,22 +34,26 @@ public class ChatNotificationController : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		_text = null;
+		_titleText = null;
+		_messageText = null;
 		_animator = null;
 	}
 
 	private void Start()
 	{
-		Assert.IsNotNull(_text, "ChatNotificationController::Start>> Text not defined!!");
+		Assert.IsNotNull(_messageText, "ChatNotificationController::Start>> Message not defined!!");
 	}
 	
 	//==============================================================================
 
-	public void ShowMessage(string txt)
+	public void ShowMessage(string title, string txt)
 	{
-		Text = txt.Split('#')[1];
+		Title = title;
+		Message = txt.Split('#')[1];
 		ShowNotification ();
 	}
+
+	
 
 	public void ShowNotification()
 	{
@@ -52,7 +64,7 @@ public class ChatNotificationController : MonoBehaviour
 	{
 		StopCoroutine(Autoclose());
 		_animator.SetBool ("IsOpen", false);
-		Text = "";
+		Message = "";
 		StartCoroutine (DisableMe());
 	}
 

@@ -32,6 +32,7 @@ namespace Basket
         public int streak = 0;
         public int score = 0;
         public int record = 0;
+		public bool isRecord;
 
 		public MinigameCanvasController minigameCanvasController;
         public GuiMinigameScreen minigameScreen;
@@ -99,6 +100,7 @@ namespace Basket
             score = 0;
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
+			isRecord = false;
         }
 
         public void OnRetry()
@@ -111,7 +113,10 @@ namespace Basket
         {
             score++;
             streak++;
-            if (score > record) record = score;
+            if (score > record) {
+				record = score;
+				isRecord = true;
+			}
 
             if (objBall != null)
             {

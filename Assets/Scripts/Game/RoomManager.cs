@@ -312,13 +312,17 @@ public class RoomManager : Photon.PunBehaviour {
             Resources.UnloadUnusedAssets();
         }
 
-        if (!connected)
+        if (!connected){
             JoinToRoom(GetRoomIdById(Room.Id));
+			bJustOneTime = true;
+		}
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
             Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SALA_00");
             Authentication.AzureServices.SendAction(Room.GamaAction);
         }
+		while(!PhotonNetwork.connected && Room.MaxPlayers>1 ){ yield return null; }
+
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
@@ -490,9 +494,11 @@ public class RoomManager : Photon.PunBehaviour {
 #if TRAZAS
         Debug.LogError(">>> OnReceivedRoomListUpdate");
 #endif
-        if (bJustOneTime) return;
-        bJustOneTime = true;
-        if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
+		if(!_loadingRoom){ // Si está cargando, pospone la conexion con la sala.
+        	if (bJustOneTime) return;
+        	bJustOneTime = true;
+        	if (Room != null) JoinToRoom( GetRoomIdById(Room.Id) );
+		}
     }
 
     string GetRoomIdById(string id, bool forceNew=false) {

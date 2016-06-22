@@ -160,7 +160,8 @@ public class TVBChatController : MonoBehaviour {
 		_channelsGameObjects.Add(userSlot);
 	}
 
-	private void SetChannelSlotValues(GameObject userSlot, string channelName) {
+	private void SetChannelSlotValues(GameObject userSlot, string channelName)
+	{
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
         string friendlyName = GetChannelFriendlyName(channelName);
        
@@ -386,7 +387,7 @@ public class TVBChatController : MonoBehaviour {
 	private void SaveMessagesInLocal(string channel, List<ChatMessage> messages)
 	{
 		List<object> chats;
-		if (!_friendChats.TryGetValue(channel, out chats)) {
+			if (!_friendChats.TryGetValue(channel, out chats)) {
 			chats = new List<object>();
 			_friendChats.Add(channel, chats);
 		}

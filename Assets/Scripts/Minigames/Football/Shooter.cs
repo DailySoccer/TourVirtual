@@ -33,6 +33,7 @@ namespace Football
         public int streak = 0;
         public int score = 0;
         public int record = 0;
+		public bool isRecord;
 
         //public GuiMinigameScreenPopup endMenu;
 		public MinigameCanvasController minigameCanvasController;
@@ -103,6 +104,7 @@ namespace Football
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
 			keeper.Level (0);
+			isRecord = false;
         }
 
         public void OnRetry()
@@ -115,7 +117,10 @@ namespace Football
         {
             score++;
             streak++;
-			if (score > record) record = score;
+			if (score > record) {
+				record = score;
+				isRecord = true;
+			}
 
             keeper.Level(score);
             if (objBall != null) {

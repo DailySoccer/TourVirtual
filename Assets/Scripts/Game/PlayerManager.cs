@@ -49,7 +49,7 @@ public class PlayerManager : Photon.PunBehaviour {
 		// Manually allocate PhotonViewID
 		_viewId = PhotonNetwork.AllocateViewID();
 		if (viewIdOld != -1 && _viewId != viewIdOld) {
-			PhotonNetwork.UnAllocateViewID(viewIdOld);
+		        PhotonNetwork.UnAllocateViewID(viewIdOld);
 		}
 
 		Transform playerTransform;
@@ -94,9 +94,9 @@ public class PlayerManager : Photon.PunBehaviour {
 				PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
 
             }));
-		}
-		// Set the PhotonView
 	}
+		// Set the PhotonView
+    }
 
     public System.Collections.IEnumerator CacheClothes() {
         yield return StartCoroutine(DLCManager.Instance.LoadResource("avatars", (bundle) => {
@@ -311,25 +311,29 @@ public class PlayerManager : Photon.PunBehaviour {
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
         int oldLayer = avatar.layer;
+        var oldRotation = avatar.transform.rotation;
         var oldPosition = avatar.transform.position;
         var oldEscale = avatar.transform.localScale;
 
         avatar.transform.position = new Vector3(0,-1,-1.9f);
         avatar.transform.localScale = Vector3.one;
+        avatar.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = new Color(1, 1, 1, 0.5f);
         camera.cullingMask = LayerMask.GetMask("Model3D");
         camera.transform.position = Vector3.zero;
         camera.transform.rotation = Quaternion.Euler(0, 180, 0);
         camera.targetTexture = rt;
-        camera.clearFlags = CameraClearFlags.SolidColor;
-        camera.backgroundColor = new Color(0, 0, 0, 0);
+        camera.aspect = 320.0f/600.0f;
+
         camera.Render();
         RenderTexture.active = rt;
         Texture2D tex = new Texture2D(w, h, TextureFormat.ARGB32, false);
 
         // Read screen contents into the texture
-        tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+        tex.ReadPixels(new Rect(0, 0, w, h), 0, 0, false);
         tex.Apply();
         byte[] bytes = tex.EncodeToPNG();
         Destroy(tex);
@@ -340,6 +344,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
         avatar.transform.position = oldPosition;
         avatar.transform.localScale = oldEscale;
+        avatar.transform.localRotation = oldRotation;
         MyTools.SetLayerRecursively(avatar, oldLayer);
 
         return bytes;

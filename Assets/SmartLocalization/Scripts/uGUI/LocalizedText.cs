@@ -33,7 +33,7 @@ public class LocalizedText : MonoBehaviour
 	
 	void OnChangeLanguage(LanguageManager languageManager)
 	{
-		textObject.text = LanguageManager.Instance.GetTextValue(localizedKey);
+		textObject.text = LanguageManager.Instance.GetTextValue(localizedKey) ?? localizedKey;
 	}
 }
 }
