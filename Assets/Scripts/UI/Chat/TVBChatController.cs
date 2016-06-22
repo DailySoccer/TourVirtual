@@ -301,17 +301,19 @@ public class TVBChatController : MonoBehaviour {
 		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower () || IsCommunityManagerVersion);
 	}
 
-	private string GetChannelFriendlyName( string theName) {
-		if (ChatManager.Instance.UserName != null) {
-			if (theName.Contains(ChatManager.Instance.UserName)) {
-				return theName.Remove(theName.IndexOf(ChatManager.Instance.UserName), ChatManager.Instance.UserName.Length).Trim(':');
-			}
-		}
+	private string GetChannelFriendlyName(string name)
+	{
+		if (ChatManager.Instance.UserName == null)
+			return name;
 
-		return RoomManager.Instance.RoomDefinitions.ContainsKey(theName) ? ChatManager.ROOM_CHANNEL_NAME : theName;
+		if (name.Contains(ChatManager.Instance.UserName)) 
+			return name.Remove(name.IndexOf(ChatManager.Instance.UserName), ChatManager.Instance.UserName.Length).Trim(':');
+		else
+			return RoomManager.Instance.RoomDefinitions.ContainsKey(name) ? ChatManager.ROOM_CHANNEL_NAME : name;
 	}
 
-	private void CleanMessagesList() {
+	private void CleanMessagesList()
+	{
 		//Debug.Log ("[TVBChatController]: Cleaning...");
 		foreach(GameObject go in _messagesGameObjects) {
 			DestroyImmediate(go);
@@ -319,8 +321,8 @@ public class TVBChatController : MonoBehaviour {
 		_messagesGameObjects.Clear();
 	}
 
-	private List<ChatMessage> GetPreviousMessages(string channelName) {
-
+	private List<ChatMessage> GetPreviousMessages(string channelName)
+	{
 		// Si es un canal publico, no tenemos guardado ningún mensaje.
 		if (ChatManager.Instance.IsPublicChannel(channelName)) {
 			return new List<ChatMessage>();
@@ -342,8 +344,8 @@ public class TVBChatController : MonoBehaviour {
 		return channelMessages;
 	}
 
-	private List<ChatMessage> GetNewRemoteMessages(string channel) {
-
+	private List<ChatMessage> GetNewRemoteMessages(string channel)
+	{
 		List<ChatMessage> channelMessages = new List<ChatMessage>();
 
 		//Si son publicos.
@@ -376,7 +378,8 @@ public class TVBChatController : MonoBehaviour {
 		return channelMessages;
 	}
 
-	void PopulateChannelMessages() {
+	private void PopulateChannelMessages()
+	{
 		List<ChatMessage> theMessages = new List<ChatMessage>();
 		theMessages.AddRange(GetPreviousMessages(currentChannelName));
 		theMessages.AddRange(GetNewRemoteMessages(currentChannelName));
