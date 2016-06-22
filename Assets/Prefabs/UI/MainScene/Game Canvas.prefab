@@ -2425,7 +2425,6 @@ GameObject:
   - 222: {fileID: 22214108}
   - 114: {fileID: 11453760}
   - 114: {fileID: 11434836}
-  - 114: {fileID: 11451184}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -4353,7 +4352,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: X
+  m_Text: '-'
 --- !u!114 &11401374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4571,7 +4570,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11468386}
   m_HandleRect: {fileID: 22449038}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8885,7 +8884,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "X\xBA"
+  m_Text: '-'
 --- !u!114 &11451164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8907,18 +8906,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11451184
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cfb8e722b144b9ea114b608a62702e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedKey: TVB.Chat.CMMEssage
 --- !u!114 &11451594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9082,7 +9069,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: COMMUNITY MANAGER
+  m_Text: Name
 --- !u!114 &11454332
 MonoBehaviour:
   m_ObjectHideFlags: 1
