@@ -334,6 +334,9 @@ public class PopUpWindow : UIScreen {
 
 		//TODO: Traer los datos y meterlos en la ventana
 		LoadingCanvasManager.Show("TVB.Message.LoadingData");
+
+		currentSelectedPack = UserAPI.Contents.Contents[packId];
+
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
 
 	}
