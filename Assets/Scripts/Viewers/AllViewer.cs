@@ -90,7 +90,7 @@ public class AllViewer : MonoBehaviour {
                 break;
             case ContentAPI.AssetType.Video:
                 LoadingCanvasManager.Show();
-                Handheld.PlayFullScreenMovie(url, new Color(0.25f, 0.25f, 0.25f,1), FullScreenMovieControlMode.CancelOnInput);
+                Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.CancelOnInput);
                 LoadingCanvasManager.Hide();
                 enabled = false;
                 break;
@@ -317,7 +317,6 @@ public class AllViewer : MonoBehaviour {
         if (image.sprite != null) { if (image.sprite.texture != null) DestroyImmediate(image.sprite.texture, true); Destroy(image.sprite); image.sprite = null; }
         if (assetbundle != null) assetbundle.Unload(true);
         Resources.UnloadUnusedAssets();
-        Debug.Log(">>> TEXTURAS!!!! " + Resources.FindObjectsOfTypeAll<Texture>().Length);
         if (this.endCallback != null) this.endCallback();
     }
 
