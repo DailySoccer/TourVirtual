@@ -9,7 +9,7 @@ public class AudioButton : MonoBehaviour {
 
 	void Start()
 	{
-		mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
+		//mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
 		myButton = GetComponent<Button> ();
 		myButton.onClick.AddListener (PlaySound);
 	}
@@ -24,19 +24,19 @@ public class AudioButton : MonoBehaviour {
 		switch (SoundDefinition) 
 		{
 			case SoundDefinitions.BUTTON_TICK:
-				mAudioGameController.PlayButtonTick();
+                AudioInGameController.Instance.PlayButtonTick();
 			break;
 			case SoundDefinitions.BUTTON_FORWARD:
-				mAudioGameController.PlayButtonForward();
+                AudioInGameController.Instance.PlayButtonForward();
 			break;
 			case SoundDefinitions.BUTTON_BACKWARD:
-				mAudioGameController.PlayButtonBackward();
+                AudioInGameController.Instance.PlayButtonBackward();
 			break;
 			case SoundDefinitions.BUTTON_ACCEPT:
-				mAudioGameController.PlayButtonAccept();
+                AudioInGameController.Instance.PlayButtonAccept();
 			break;
 		}
 	}
 
-	private AudioInGameController mAudioGameController;
+	//private AudioInGameController mAudioGameController;
 }
