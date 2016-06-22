@@ -310,9 +310,9 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
-        Graphics.SetRenderTarget(rt);
-        GL.Clear(true, true, new Color(0,0,1,0));
-        Graphics.SetRenderTarget(null);
+//        Graphics.SetRenderTarget(rt);
+//        GL.Clear(true, true, new Color(1,0,1,1));
+//        Graphics.SetRenderTarget(null);
 
         int oldLayer = avatar.layer;
         var oldRotation = avatar.transform.rotation;
@@ -325,9 +325,8 @@ public class PlayerManager : Photon.PunBehaviour {
 
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
         camera.targetTexture = rt;
-        camera.clearFlags = CameraClearFlags.Nothing;
-//        camera.clearFlags = CameraClearFlags.SolidColor;
-//        camera.backgroundColor = new Color(0,0,0,0);
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = new Color(0,0,0,0);
 
         camera.cullingMask = LayerMask.GetMask("Model3D");
         camera.transform.position = Vector3.zero;
@@ -342,6 +341,7 @@ public class PlayerManager : Photon.PunBehaviour {
         // Read screen contents into the texture
         tex.ReadPixels(new Rect(0, 0, w, h), 0, 0, false);
         tex.Apply();
+        // Detectado error en ipad, el png sale sin transparencia.
         byte[] bytes = tex.EncodeToPNG();
         Destroy(tex);
 
