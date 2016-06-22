@@ -63,6 +63,7 @@ public class PopUpWindow : UIScreen {
 	public GameObject RankingFanLevelGameObject;
 	public GameObject RankingFanLevelParentList;
 	public GameObject RankingFanLevelSlot;
+	public GameObject RankingShareButton;
 	private List<GameObject> RankingFanLevelSlotGameObjectList = new List<GameObject>();
 
 
@@ -71,8 +72,8 @@ public class PopUpWindow : UIScreen {
 	ClothSlot CurrentVestidorPrenda;
 	AchievementsAPI.Achievement currentAchivementSelected;
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		//StandardTitleText.gameObject.SetActive(true);
 
 		if (ThirdsProfileTitle != null) {
@@ -227,6 +228,7 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.FanLevelRankingTitle");
 				SetupFanRankingListContent();
+				RankingShareButton.SetActive(IsInRanking());
 			break;
 		}
 	}
@@ -433,6 +435,18 @@ public class PopUpWindow : UIScreen {
 		}
 	}
 
+	public bool IsInRanking()
+	{
+		UserAPI.ScoreEntry[] rankingArray = UserAPI.Instance.GetFanRanking();
+		UserAPI.ScoreEntry me = new UserAPI.ScoreEntry();
+
+		foreach (UserAPI.ScoreEntry se in rankingArray)
+		{
+			if (se.IsMe)
+				me = se;
+		}
+		return me.Position != 0;
+	}
 
 	void SetupFanRankingListContent() {
 		UserAPI.ScoreEntry[] scoreArray = UserAPI.Instance.GetFanRanking ();
