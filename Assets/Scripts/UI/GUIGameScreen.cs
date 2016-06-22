@@ -140,7 +140,7 @@ public class GUIGameScreen : GUIScreen
 			return;
 
 		ChatMessage msg = ChatManager.Instance.GetMessagesFromChannel(channelName).LastOrDefault();
-		if (msg != null) {
+		if (msg != null && msg.Sender != ChatManager.Instance.UserName) {
 			_chatNotifier.gameObject.SetActive(true);
 			_chatNotifier.ShowMessage(channelName, msg.Text);
 		}
