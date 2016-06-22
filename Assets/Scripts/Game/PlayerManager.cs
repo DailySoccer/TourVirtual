@@ -310,28 +310,35 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public byte[] RenderModel(GameObject avatar, int w=320, int h=620) {
         RenderTexture rt = RenderTexture.GetTemporary(w, h, 16, RenderTextureFormat.ARGB32);
+        Graphics.SetRenderTarget(rt);
+        GL.Clear(true, true, new Color(0,0,1,0));
+        Graphics.SetRenderTarget(null);
+
         int oldLayer = avatar.layer;
         var oldRotation = avatar.transform.rotation;
         var oldPosition = avatar.transform.position;
         var oldEscale = avatar.transform.localScale;
 
-        avatar.transform.position = new Vector3(0,-1,-1.9f);
+        avatar.transform.position = new Vector3(0,-1,-6f);
         avatar.transform.localScale = Vector3.one;
         avatar.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         var camera = new GameObject("TmpCamera", typeof(Camera)).GetComponent<Camera>();
-        camera.clearFlags = CameraClearFlags.SolidColor;
-        camera.backgroundColor = new Color(1, 1, 1, 0.5f);
+        camera.targetTexture = rt;
+        camera.clearFlags = CameraClearFlags.Nothing;
+//        camera.clearFlags = CameraClearFlags.SolidColor;
+//        camera.backgroundColor = new Color(0,0,0,0);
+
         camera.cullingMask = LayerMask.GetMask("Model3D");
         camera.transform.position = Vector3.zero;
         camera.transform.rotation = Quaternion.Euler(0, 180, 0);
-        camera.targetTexture = rt;
         camera.aspect = 320.0f/600.0f;
-
+        camera.fieldOfView = 20;
         camera.Render();
+
+
         RenderTexture.active = rt;
         Texture2D tex = new Texture2D(w, h, TextureFormat.ARGB32, false);
-
         // Read screen contents into the texture
         tex.ReadPixels(new Rect(0, 0, w, h), 0, 0, false);
         tex.Apply();
