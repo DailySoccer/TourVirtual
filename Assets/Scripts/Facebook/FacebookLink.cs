@@ -58,7 +58,7 @@ public class FacebookLink{
 	}
 	public static FacebookLink ContentUnlockedShare(string pack)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + pack + FileExt));
+		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + ContentShareFilePrefix + pack + FileExt));
 	}
 	public static FacebookLink PointsShare(bool isRecord, string points, GameType game)
 	{
