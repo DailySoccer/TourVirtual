@@ -455,24 +455,41 @@ public class PopUpWindow : UIScreen {
 
 		bool alreadyInList = false;
 
-		for (int i = 0; i < scoreArray.Length; i++) {
-
-			if (RankingFanLevelSlotGameObjectList.Count >= 9) {
-				if (!alreadyInList) {// Si ya hay 9 oposiciones en el ranking y no estoy en la lista..
-					if (scoreArray[i].IsMe) {// Sólo inserto el 10º si soy yo.
-						RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
+		if (IsInRanking())
+		{
+			for (int i = 0; i < scoreArray.Length; i++)
+			{
+				if (RankingFanLevelSlotGameObjectList.Count >= 9)
+				{
+					if (!alreadyInList)
+					{// Si ya hay 9 oposiciones en el ranking y no estoy en la lista..
+						if (scoreArray[i].IsMe)
+						{// Sólo inserto el 10º si soy yo.
+							RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+						}
+					}
+					else
+					{
+						RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
 					}
 				}
-				else {
-					RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
+				else
+				{ // Si hay menos de 9 oposiciones en el ranking
+
+					RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+					if (scoreArray[i].IsMe)
+					{
+						alreadyInList = true;
+					}
 				}
 			}
-			else { // Si hay menos de 9 oposiciones en el ranking
-
-				RankingFanLevelSlotGameObjectList.Add( CreateFanRankingSlot( scoreArray[i], i ));
-				if (scoreArray[i].IsMe) {
-					alreadyInList = true;
-				}
+		}
+		else
+		{
+			int MaxElements = Mathf.Min(10, scoreArray.Length);
+			for (int i = 0; i < MaxElements; i++)
+			{
+				RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
 			}
 		}
 	}
