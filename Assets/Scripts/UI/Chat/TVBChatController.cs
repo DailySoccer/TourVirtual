@@ -294,7 +294,7 @@ public class TVBChatController : MonoBehaviour {
 		//Debug.LogFormat("[TVBChatController]: Existen un total de {0} mensajes sin leer", counter);
 	}
 	
-	private void SetCurrentChannel(string theName) {
+	public void SetCurrentChannel(string theName) {
 		currentChannelName = theName;
 		currentChannelFriendlyName = GetChannelFriendlyName(theName);
 		currentChannelUILabel.text = currentChannelFriendlyName;
