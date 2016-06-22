@@ -208,8 +208,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 	}
 
-	public bool IsPublicChannel(string channel) {
-		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) || channel.Equals(RoomChannel);
+	public bool IsPublicChannel(string channel)
+	{
+		return channel.Equals(RoomChannel) ||  (
+			    channel == ChatManager.CHANNEL_COMMUNITYMANAGER 
+			&& UserName == ChatManager.CHANNEL_COMMUNITYMANAGER);
 	}
 
 
