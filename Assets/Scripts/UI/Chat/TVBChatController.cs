@@ -244,7 +244,7 @@ public class TVBChatController : MonoBehaviour {
 		SetCurrentChannel(chn.realName);
 
 		HideSearchBar();
-		ChatManager.Instance.ChannelSelectedId = chn.realName;
+		ChatManager.Instance.SelectedChannelId = chn.realName;
 #if UNITY_EDITOR
 		Debug.LogFormat("[TVBChatController]: Entrando en el canal [{0}]", chn.realName);
 #endif
@@ -383,33 +383,37 @@ public class TVBChatController : MonoBehaviour {
 		AddMessageSlots(theMessages);
 	}
 
-	void SaveMessagesInLocal(string channel, List<ChatMessage> messages) {
-		foreach( ChatMessage m in messages) {
-			if (!_friendChats.ContainsKey(channel)) {
-				_friendChats.Add(channel, new List<object>());
-			}
+	private void SaveMessagesInLocal(string channel, List<ChatMessage> messages)
+	{
+		List<object> chats;
+		if (!_friendChats.TryGetValue(channel, out chats)) {
+			chats = new List<object>();
+			_friendChats.Add(channel, chats);
+		}
 
+		foreach (ChatMessage m in messages)
+		{
 			m.Readed = false;
-			
-			if (!_friendChats[channel].Contains(m)) {
-				_friendChats[channel].Add(m.toHashTable());
-			}
+			if (!chats.Contains(m)) 
+				chats.Add( m.toHashTable() );
 		}
 
 		SerializeAndSaveChats();
 	}
 
-	void SetMessagesAsReaded(string currentChannelName) {
-		foreach (Dictionary<string, object> hash in _friendChats[currentChannelName]) {
+	void SetMessagesAsReaded(string currentChannelName)
+	{
+		foreach (Dictionary<string, object> hash in _friendChats[currentChannelName]) 
 			hash["readed"] = true;
-		}
 	}
 	
-	void SerializeAndSaveChats() {
-        Dictionary<string, object> data = new Dictionary<string, object>();
-        foreach (var pair in _friendChats)
-            data.Add(pair.Key, pair.Value);
-        string friend_chats = MiniJSON.Json.Serialize(data);
+	void SerializeAndSaveChats()
+	{
+		var data = new Dictionary<string, object>();
+		foreach (var pair in _friendChats)
+			data.Add(pair.Key, pair.Value);
+
+		string friend_chats = MiniJSON.Json.Serialize(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
 	}

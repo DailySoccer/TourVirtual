@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon.Chat;
 using SmartLocalization;
 
-public class ChatMessage {
+public class ChatMessage
+{
 	public string Sender;
 	public string Text;
 	public bool Readed;
@@ -16,7 +17,8 @@ public class ChatMessage {
 	}
 }
 
-public class ChatManager : Photon.PunBehaviour, IChatClientListener {
+public class ChatManager : Photon.PunBehaviour, IChatClientListener
+{
 
 	static public string CHANNEL_COMMUNITYMANAGER = "Community Manager";
 
@@ -36,6 +38,8 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 		}
 	}
 
+	public string RoomChannel { get; private set; }
+
 	public string ChatAppId;                    // set in inspector. Your Chat AppId (don't mix it with Realtime/Turnbased Apps).
 
 	public int MessagesFromHistory = -1;
@@ -43,71 +47,49 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 	public string UserName { get; set; }
 	public ChatClient ChatClient;
 
-	private string _channelSelected;
-	public string ChannelSelectedId {
-		get {
-			return _channelSelected;
-		}
-
-		set {
-			_channelSelected = value;
-		}
-	}
-
-	public string ChannelSelectedName {
-		get {
-			return GetChannelName(_channelSelected);
-		}
-	}
-
-	public List<ChatMessage> Messages {
-		get {
-			return GetMessagesFromChannel(ChannelSelectedId);
-		}
-	}
-
-	public List<ChatMessage> GetMessagesFromChannel(string channelId) {
-		string channelName = GetChannelName(channelId);
-		return History.ContainsKey(channelName) ? History[channelName] : new List<ChatMessage>();
-	}
-
-	public string GetChannelName(string channelId) {
-		return IsPublicChannel(channelId) ? channelId : ChatClient.GetPrivateChannelNameByUser(channelId);
-	}
+	public string SelectedChannelId { get; set; }
 
 	public Dictionary<string, List<ChatMessage>> History = new Dictionary<string, List<ChatMessage>>();
 
-	void Start () {
-	}
 
-	public IEnumerator Connect() {
-		if (string.IsNullOrEmpty(this.UserName)) {
-			UserName = PhotonNetwork.player.name;
-		}
-		
-		ChatClient = new ChatClient(this);
-		ChatClient.Connect(ChatAppId, "1.0", UserName, null);
 
-		while (!ChatClient.CanChat) {
-			yield return null;
+	public List<ChatMessage> Messages {
+		get {
+			return GetMessagesFromChannel(SelectedChannelId);
 		}
 	}
+
+	public List<ChatMessage> GetMessagesFromChannel(string channelId)
+	{
+		List<ChatMessage> msgs;
+		return History.TryGetValue(channelId, out msgs) ? msgs : new List<ChatMessage>();
+	}
+
+
+	//==============================================================================================
+
+	void Start ()
+	{
+	}
+
 
 	/// <summary>To avoid that the Editor becomes unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
-	public void OnApplicationQuit() {
-		if (ChatClient != null) {
+	public void OnApplicationQuit()
+	{
+		if (ChatClient != null) 
 			ChatClient.Disconnect();
-		}
+		
 	}
 	
-	public void Update() {
-		if (ChatClient != null) {
+	public void Update()
+	{
+		if (ChatClient != null) 
 			ChatClient.Service();  // make sure to call this regularly! it limits effort internally, so calling often is ok!
-		}
 	}
 
-	public void SendMessage(string text) {
-		string chn = _channelSelected ?? CHANNEL_COMMUNITYMANAGER;
+	public void SendMessage(string text)
+	{
+		string chn =  SelectedChannelId ?? CHANNEL_COMMUNITYMANAGER;
 #if UNITY_EDITOR
 		Debug.LogError("[SendMessage] in <" + name + ">: Se enviará al canal: " + chn);
 #endif
@@ -162,7 +144,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 			History[channelName].Add(new ChatMessage(senders[i], messages[i] as string, false));
 		}
 
-		if (OnMessagesChange != null /*&& channelName.Equals(ChannelSelectedName)*/) {
+		if (OnMessagesChange != null /*&& channelName.Equals(SelectedChannelId)*/) {
 			OnMessagesChange(channelName);
 		}
 	}
@@ -182,7 +164,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 			History[channelName].Add(new ChatMessage(sender, message as string, false));
 		}
 
-		if (OnMessagesChange != null /*&& channelName.Equals(ChannelSelectedName)*/) {
+		if (OnMessagesChange != null /*&& channelName.Equals(SelectedChannelId)*/) {
 			OnMessagesChange(channelName);
 		}
 	}
@@ -191,22 +173,24 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 //		Debug.Log ("OnStatusUpdate");
 	}
 
-	public override void OnJoinedRoom() {
-		_roomChannel = PhotonNetwork.room.name.Split('#')[0];
+	public override void OnJoinedRoom()
+	{
+		RoomChannel = PhotonNetwork.room.name.Split('#')[0];
 		#if UNITY_EDITOR
 			Debug.Log ("OnJoinedRoom");
-			Debug.LogError (">>> JOINED THE ROOM: " + _roomChannel);
+			Debug.LogError (">>> JOINED THE ROOM: " + RoomChannel);
 		#endif
 
         if (ChatClient != null && ChatClient.CanChat) {
-			ChatClient.Subscribe( new string[] { _roomChannel }, MessagesFromHistory );
+			ChatClient.Subscribe( new [] { RoomChannel }, MessagesFromHistory );
 		}
 
-		ChannelSelectedId = _roomChannel;
+		SelectedChannelId = RoomChannel;
 	}
 	
-	public override void OnLeftRoom() {
-		if (_roomChannel != null) {
+	public override void OnLeftRoom()
+	{
+		if (RoomChannel != null) {
 			/*
 			if (History.ContainsKey(_channelSubscription)) {
 				History[_channelSubscription].Clear();
@@ -218,15 +202,32 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener {
 			*/
 
 			if (ChatClient != null && ChatClient.CanChat) {
-				ChatClient.Unsubscribe( new string[] { _roomChannel } );
+				ChatClient.Unsubscribe( new string[] { RoomChannel } );
 			}
 			//_roomChannel = null;
 		}
 	}
 
 	public bool IsPublicChannel(string channel) {
-		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) || channel.Equals(_roomChannel);
+		return channel.Equals(ChatManager.CHANNEL_COMMUNITYMANAGER) || channel.Equals(RoomChannel);
 	}
 
-	private string _roomChannel;
+
+	public IEnumerator Connect()
+	{
+		if (string.IsNullOrEmpty(this.UserName))
+		{
+			UserName = PhotonNetwork.player.name;
+		}
+
+		ChatClient = new ChatClient(this);
+		ChatClient.Connect(ChatAppId, "1.0", UserName, null);
+
+		while (!ChatClient.CanChat)
+		{
+			yield return null;
+		}
+	}
+
+
 }

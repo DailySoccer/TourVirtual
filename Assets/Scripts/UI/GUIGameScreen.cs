@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-public class GUIGameScreen : GUIScreen {
-	
+public class GUIGameScreen : GUIScreen
+{
 	public Text RoomTitle;
 	public Transform ButtonContainer;
-	public GameObject CommunityManagerMessage;
+	public ChatNotificationController _chatNotifier;
 	
 	public override void Awake () {
 		base.Awake ();
 		RoomManager.Instance.OnSceneReady += HandleOnSceneChange;
 		ChatManager.Instance.OnMessagesChange += Messages_OnChangeHandle;
-		CommunityManagerMessage.SetActive (false);
+		_chatNotifier.gameObject.SetActive (false);
 	}
 	
 	public override void Start () {
@@ -128,18 +130,25 @@ public class GUIGameScreen : GUIScreen {
 		}
 	}
 	
-	void Messages_OnChangeHandle(string channelName) {
-		if (channelName == ChatManager.CHANNEL_COMMUNITYMANAGER) {
-			int msgCount = ChatManager.Instance.GetMessagesFromChannel(channelName).Count;
-			string msg = ChatManager.Instance.GetMessagesFromChannel(channelName)[msgCount -1].Text; 
-			CommunityManagerMessage.SetActive (true);
-			CommunityManagerMessage.GetComponent<CommunityNotificationController>().SetMessage(msg);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="channelName"></param>
+	private void Messages_OnChangeHandle(string channelName)
+	{
+		if(channelName == ChatManager.Instance.RoomChannel)
+			return;
+
+		ChatMessage msg = ChatManager.Instance.GetMessagesFromChannel(channelName).LastOrDefault();
+		if (msg != null) {
+			_chatNotifier.gameObject.SetActive(true);
+			_chatNotifier.ShowMessage(msg.Text);
 		}
 	}
 	
-	GameObject _viewContentButton;
-	GameObject _shopContentButton;
-	GameObject _playContentButton;
+	private GameObject _viewContentButton;
+	private GameObject _shopContentButton;
+	private GameObject _playContentButton;
 	protected AbstractGoTween _viewContentTween;
 	protected AbstractGoTween _shopContentTween;
 	protected AbstractGoTween _playContentTween;
