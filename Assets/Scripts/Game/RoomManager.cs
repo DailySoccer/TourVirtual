@@ -344,6 +344,10 @@ public class RoomManager : Photon.PunBehaviour {
 		if (roomDefinition.Id == "ESTADIO")
 			InitialTutorial.Instance.SartTutorial();
 
+		if (roomDefinition.Id == "VESTIDORLITE")
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.VESTIDOR_THEME, true, true);
+		else
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
 
 	}
 
