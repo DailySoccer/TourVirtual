@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SyncCameraTransform : MonoBehaviour {
+public class SyncCameraTransform : MonoBehaviour
+{
 	
 	public enum CameraStyle
 	{
@@ -68,6 +70,13 @@ public class SyncCameraTransform : MonoBehaviour {
 		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
 
 		_anchorsByStyle = new Dictionary<CameraStyle, CameraAnchor>();
+
+		foreach (CameraAnchor anchor in _anchors) {
+			_anchorsByStyle[anchor.Style] = anchor;
+			anchor.Init();
+		}
+
+		_camera = Camera.main;
 	}
 
 	/// <summary>
@@ -82,33 +91,37 @@ public class SyncCameraTransform : MonoBehaviour {
 	/// <summary>
 	/// 
 	/// </summary>
-	private void Start ()
+	private void OnEnable()
 	{
-		foreach (CameraAnchor anchor in _anchors) {
-			anchor.Init();
-			_anchorsByStyle[anchor.Style] = anchor;
-		}
-
-		if (_camera == null) 
-			_camera = Camera.main;
+		RoomManager.Instance.OnSceneReady += OnRoomReady;
 	}
 
 	
+	/// <summary>
+	/// 
+	/// </summary>
+	private void OnDisable()
+	{
+		RoomManager.Instance.OnSceneReady -= OnRoomReady;
+	}
 
-	// Update is called once per frame
+	/// <summary>
+	/// 
+	/// </summary>
 	private void LateUpdate ()
 	{
 		// UNDONE FRS 160614 esto no debería ser necesario
 		//if (_camera == null && Camera.main != null) 
 		//	_camera = Camera.main;
 
-		if (_camera == null)
+		if ( _camera == null)
 			return;
 
+		
 		CameraAnchor anchor = _anchorsByStyle[Player.Instance.cameraStyle];
 		anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
 
-		SyncWith(anchor);
+		SyncWith(anchor, !_isEnteringNewRoom);
 	}
 
 
@@ -116,7 +129,8 @@ public class SyncCameraTransform : MonoBehaviour {
 	/// 
 	/// </summary>
 	/// <param name="anchor"></param>
-	private void SyncWith(CameraAnchor anchor)
+	/// <param name="smoothTransition"></param>
+	private void SyncWith(CameraAnchor anchor, bool smoothTransition = true)
 	{
 		_camera.transform.rotation = anchor.Transform.rotation;
 		
@@ -148,9 +162,9 @@ public class SyncCameraTransform : MonoBehaviour {
 			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.red);
 		}
 
-		/**/
+/**/
 
-		if (Vector3.SqrMagnitude(_camera.transform.position - targetPosition) > _smoothDistSqrMin)
+		if (smoothTransition && Vector3.SqrMagnitude(_camera.transform.position - targetPosition) > _smoothDistSqrMin)
 			_camera.transform.position = Vector3.SmoothDamp(
 				_camera.transform.position, targetPosition, ref _smoothVelo, _smoothSecs);
 		else
@@ -158,6 +172,28 @@ public class SyncCameraTransform : MonoBehaviour {
 
 	}
 
+	//===============================================
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void OnRoomReady()
+	{
+		StartCoroutine(RoomEnterCourutine());
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator RoomEnterCourutine()
+	{
+		_isEnteringNewRoom = true;
+		yield return RoomEnterYield;
+		_isEnteringNewRoom = false;
+	}
+
+	//=================================================
 
 	[SerializeField] private Camera _camera;
 	[SerializeField] private CameraAnchor[] _anchors;
@@ -172,8 +208,8 @@ public class SyncCameraTransform : MonoBehaviour {
 	[SerializeField, Range(-5f, 5f)] private float _wallSafeDistance = 0f;
 	[SerializeField, Range(0f, 5f)] private float _wallAvoidanceDistMin = 1f;
 
+	private static readonly WaitForSeconds RoomEnterYield = new WaitForSeconds(1f);
 	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
 	private Vector3 _smoothVelo = Vector3.zero;
-
-
+	private bool _isEnteringNewRoom;
 }
