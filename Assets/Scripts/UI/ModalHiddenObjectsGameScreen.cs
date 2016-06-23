@@ -26,17 +26,18 @@ public class ModalHiddenObjectsGameScreen : GUIPopUpScreen {
 		currentScore = objetosEncontrados;
 
 		switch (modalType) {
-		case HiddenObjects.HiddenObjectGameResult.SUCCESS:
-			// TODO: establecer mensajes yield sustituciones
-			ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenSuccess").Replace("@count", objetosEncontrados);
-			shareToFBButton.gameObject.SetActive (true);
+			case HiddenObjects.HiddenObjectGameResult.SUCCESS:
+				// TODO: establecer mensajes yield sustituciones
+				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenSuccess").Replace("@count", objetosEncontrados);
+				shareToFBButton.gameObject.SetActive (true);
 			break;
-		case HiddenObjects.HiddenObjectGameResult.TIME_OUT:
-			ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTimeOut");
-			//sareToFBButton.gameObject.SetActive (true);
+			case HiddenObjects.HiddenObjectGameResult.TIME_OUT:
+				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTimeOut");
+				shareToFBButton.gameObject.SetActive (false);
 			break;
-		case HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO:
-			ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTutorial");
+			case HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO:
+				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTutorial");
+				shareToFBButton.gameObject.SetActive (false);
 			break;		
 		}
 		IsOpen = true;
