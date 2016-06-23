@@ -57,13 +57,15 @@ namespace HiddenObjects {
 
         void OnSuccess() {
             // Mandamos puntuacion al ranking.
-            UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, (int)(RemaingTime * 10f));
+            int score = (int)(RemaingTime * 10f);
+
+            UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, score);
             Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST");
 
 
 			OnGameSuccess ();
 			Stop();
-			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.SUCCESS, numFoundObjects + "/" + numHiddenObjects);
+			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.SUCCESS, score.ToString());
         }
 
         void OnFail() {
