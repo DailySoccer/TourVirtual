@@ -297,14 +297,6 @@ public class RoomManager : Photon.PunBehaviour {
 			player.gameObject.SetActive(false);
 		}
 
-        bool connected = false;
-		if (PhotonNetwork.connectedAndReady) {
-			if (PhotonNetwork.room != null) {
-                connected = true;
-                PhotonNetwork.LeaveRoom();
-			}
-		}
-
 		if (OnSceneChange != null) OnSceneChange();
 		if (Room.SceneName != Application.loadedLevelName) {
             Resources.UnloadUnusedAssets();
@@ -323,23 +315,28 @@ public class RoomManager : Photon.PunBehaviour {
             while (!ao.isDone) yield return null;
             Resources.UnloadUnusedAssets();
         }
+        _loadingRoom = false;
 
-        if (!connected){
-            JoinToRoom(GetRoomIdById(Room.Id));
+		bJustOneTime = false;
+		if (PhotonNetwork.connectedAndReady &&  PhotonNetwork.room != null) 
+			PhotonNetwork.LeaveRoom();
+		else{
+			// Esto es solo para la primera conexion.
 			bJustOneTime = true;
+            JoinToRoom(GetRoomIdById(Room.Id));
 		}
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
             Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SALA_00");
             Authentication.AzureServices.SendAction(Room.GamaAction);
         }
-		while(!PhotonNetwork.connected && Room.MaxPlayers>1 ){ yield return null; }
+
+		while(!_bJoinedRoom ){ yield return null; }
 
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
-        _loadingRoom = false;
 
 		if (roomDefinition.Id == "ESTADIO")
 			InitialTutorial.Instance.SartTutorial();
@@ -455,11 +452,12 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	private void JoinToRoom(string roomid ) {
+		_bJoinedRoom = false;
 #if TRAZAS
         Debug.LogError( ">>> JoinToRoom "+roomid );
 #endif
-        if (Room.MaxPlayers>1)
-            PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
+        if (Room.MaxPlayers>1) PhotonNetwork.JoinOrCreateRoom(roomid, new RoomOptions() { maxPlayers = Room.MaxPlayers }, TypedLobby.Default);
+		else _bJoinedRoom = true;
 	}
 
 	public override void OnConnectedToMaster() {
@@ -482,6 +480,7 @@ public class RoomManager : Photon.PunBehaviour {
     }
 
     public override void OnJoinedRoom() {
+		_bJoinedRoom=true;
 #if TRAZAS
         Debug.LogError(">>> OnJoinedRoom");
 #endif
@@ -508,7 +507,7 @@ public class RoomManager : Photon.PunBehaviour {
 
     public override void OnReceivedRoomListUpdate() {
 #if TRAZAS
-        Debug.LogError(">>> OnReceivedRoomListUpdate");
+        Debug.LogError(">>> OnReceivedRoomListUpdate _loadingRoom = "+_loadingRoom + " bJustOneTime " +bJustOneTime );
 #endif
 		if(!_loadingRoom){ // Si está cargando, pospone la conexion con la sala.
         	if (bJustOneTime) return;
@@ -627,6 +626,7 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 
 	bool _loadingRoom = false;
+	bool _bJoinedRoom=false;
 	
 	const string TAG_DEFAULT = "Default";
 	const string TAG_PLAYER = "Player";
