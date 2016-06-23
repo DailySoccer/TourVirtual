@@ -109,6 +109,7 @@ public class DLCManager : MonoBehaviour {
                 while (waiting) yield return null;
             }
         } while (www != null);
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = true;
     }
 
     WWW current;
