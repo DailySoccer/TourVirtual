@@ -10,9 +10,7 @@ public class AudioInGameController : MonoBehaviour
 	void Awake () { 
 		if (Instance == null)
 			Instance = this;
-	}
-	
-	void Start() {
+
 		if (mAudioManager == null) // Esta comprobacion es necesaria cuando rulamos la escena "jugadas01"
 			mAudioManager = GetComponent<AudioMaster>();
 	}
@@ -23,6 +21,7 @@ public class AudioInGameController : MonoBehaviour
 
         PlayDefinition(soundDef, false);
 	}
+
 	public void PlayDefinition(SoundDefinitions soundDef, bool loop, bool forceRestart = false)
 	{
         if (loop)
@@ -35,8 +34,6 @@ public class AudioInGameController : MonoBehaviour
 	{
 		mAudioManager.CustomPlay(soundDef, volume, pitch);
 	}
-
-
 
 	// --> Menu SFX		
 	public void PlayButtonTick()
@@ -106,6 +103,13 @@ public class AudioInGameController : MonoBehaviour
 	public void StopAllActiveAudios(bool fadingSound)
 	{
 		mAudioManager.StopAll(fadingSound);
+	}
+
+	public void SetMasterVolume(float val) {
+		if (mAudioManager == null) // Esta comprobacion es necesaria cuando rulamos la escena "jugadas01"
+			mAudioManager = GetComponent<AudioMaster>();
+
+		mAudioManager.masterVolume = val;
 	}
 
 	private AudioMaster mAudioManager;

@@ -66,7 +66,7 @@ public class MainManager : Photon.PunBehaviour {
 		set {
 			_soundEnabled = value;
 			//TODO: Setear el AudioMaster a 0 (False) / 1 (True)
-
+			AudioInGameController.Instance.SetMasterVolume(value ? 1f : 0f);
 			MyTools.SetPlayerPrefsBool("SoundEnabled", value);
 			PlayerPrefs.Save();
 		}

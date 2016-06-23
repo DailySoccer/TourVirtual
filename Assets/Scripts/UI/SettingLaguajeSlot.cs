@@ -9,7 +9,7 @@ public class SettingLaguajeSlot : MonoBehaviour {
 
 	public void SetActive(bool isActive) {
 		iconSelected.enabled = isActive;
-		Texto.color = isActive ? new Color(0.239f, 0.286f, 0.392f) : new Color(0.619f, 0.619f, 0.619f);
+		Texto.color = isActive ? new Color(0.00235f, 0.10980f, 0.16862f) : new Color(0.2392f, 0.10980f, 0.16862f);
 	}
 
 }
