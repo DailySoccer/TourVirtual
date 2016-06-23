@@ -74,7 +74,7 @@ public class MovementController : MonoBehaviour {
             else _animator.SetFloat("Forward", -1);
         }
         else{
-            _animator.SetFloat("Speed", 0);
+            if(_animator!=null) _animator.SetFloat("Speed", 0);
         }
 
         rotCamera.x += rotation.x * ROTATE_SPEED;

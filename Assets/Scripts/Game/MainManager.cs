@@ -372,6 +372,7 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
     IEnumerator Connect() {
+        GameObject.Find("Main Camera").GetComponent<Camera>().clearFlags = CameraClearFlags.Skybox;
 		yield return StartCoroutine(CheckForInternetConnection());
 		PhotonNetwork.offlineMode = OfflineMode;
 		// Connect to the main photon server. This is the only IP and port we ever need to set(!)
