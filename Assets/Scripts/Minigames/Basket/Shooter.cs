@@ -111,6 +111,7 @@ namespace Basket
 
         public void OnScore()
         {
+            if(gameState != GameState.Playing) return;
             score++;
             streak++;
             if (score > record) {
