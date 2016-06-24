@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SmartLocalization;
+using SmartLocalization.Editor;
 
 public class GUIGameScreen : GUIScreen
 {
@@ -33,7 +34,9 @@ public class GUIGameScreen : GUIScreen
 	void UpdateRoomTitle() {
 		if (RoomManager.Instance.Room != null) {
 			//PCK.scene.estadio_bernabeu
-			RoomTitle.text = LanguageManager.Instance.GetTextValue(RoomManager.Instance.Room.Pack);
+			LocalizedText LocalizedTextComp = RoomTitle.gameObject.GetComponent<LocalizedText>();
+			if (LocalizedTextComp != null)
+				LocalizedTextComp.SetLocalizedTextKey(RoomManager.Instance.Room.Pack);
 		}
 	}
 	
@@ -41,6 +44,7 @@ public class GUIGameScreen : GUIScreen
 	}
 	
 	void UpdateTitle() {
+		UpdateRoomTitle ();
 		GameObject titleObj = GameObject.Find ("Level Name");
 		if (titleObj != null) {
 			titleObj.GetComponent<Animator>().SetBool("IsOpen", true);
