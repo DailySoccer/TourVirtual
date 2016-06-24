@@ -39,7 +39,7 @@ public class ClothSlot : MonoBehaviour {
 	}
 
 	public void UpdateSelection() {
-		Background.color = CheckSelected () ? new Color (0.082f, 0.109f, 0.168f) : new Color (1f, 1f, 1f);
+		Background.color = CheckSelected () ? new Color (38.0f/255.0f, 109.0f/255.0f, 174.0f/255.0f) : new Color (1.0f, 1.0f, 1.0f);
 	}
 
 	bool CheckSelected() {
