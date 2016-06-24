@@ -34,6 +34,8 @@ public class JoystickController : MonoBehaviour {
    private float _actionRad;
 	
 	private EventTrigger _eventTriggerCache;
+
+	private static float DPI = Screen.dpi != 0 ? 1/Screen.dpi : 1;
 	
 	/*
 	[SerializeField]
@@ -49,7 +51,7 @@ public class JoystickController : MonoBehaviour {
 	public Vector2 joystickValue {
 		get
       {
-         Vector2 val = _touchCurrentPoint - _touchStartPoint;
+         Vector2 val = (_touchCurrentPoint - _touchStartPoint) * DPI;
          val.x += Input.GetAxis(_axisHorizontalName);
          val.y += Input.GetAxis(_axisVerticalName);
          val.x = Mathf.Clamp01((Mathf.Abs(val.x) - _deadRad) / _actionRad) * Mathf.Sign(val.x);
@@ -104,6 +106,8 @@ public class JoystickController : MonoBehaviour {
    {
       _deadRad = _deadZone * _joystickBaseHalfWidth;
       _actionRad = _joystickBaseHalfWidth - _deadRad;
+		_deadRad *= DPI;
+		_actionRad *= DPI;
    }
 
    // Update is called once per frame
@@ -125,7 +129,7 @@ public class JoystickController : MonoBehaviour {
 	
 	private void OnPointerDownHandler(UnityEngine.EventSystems.BaseEventData eventData) {
 		UnityEngine.EventSystems.PointerEventData ev = (UnityEngine.EventSystems.PointerEventData) eventData;
-		_touchCurrentPoint = _touchStartPoint = ev.pressPosition;
+		_touchCurrentPoint = _touchStartPoint = ev.pressPosition ;
 		_deltaTouch = Vector2.zero;
 		_currentTouchId = ev.pointerId;
 		ControlVisible(false);
@@ -167,6 +171,7 @@ public class JoystickController : MonoBehaviour {
 		_touchStartPoint = Vector2.zero;
 		_deltaTouch = Vector2.zero;
 		_touchCurrentPoint = Vector2.zero;
+		DPI = Screen.dpi != 0 ? 1/Screen.dpi : 1;
 	}
 	
 }
