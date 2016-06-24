@@ -32,6 +32,7 @@ namespace Basket
         public int streak = 0;
         public int score = 0;
         public int record = 0;
+		public bool isRecord;
 
 		public MinigameCanvasController minigameCanvasController;
         public GuiMinigameScreen minigameScreen;
@@ -99,6 +100,7 @@ namespace Basket
             score = 0;
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
+			isRecord = false;
         }
 
         public void OnRetry()
@@ -109,9 +111,13 @@ namespace Basket
 
         public void OnScore()
         {
+            if(gameState != GameState.Playing) return;
             score++;
             streak++;
-            if (score > record) record = score;
+            if (score > record) {
+				record = score;
+				isRecord = true;
+			}
 
             if (objBall != null)
             {
@@ -186,7 +192,7 @@ namespace Basket
 #endif
 
         }
-
+        float LastMove=0;
         void FixedUpdate()
         {
             if (gameState == GameState.Playing)
@@ -195,13 +201,17 @@ namespace Basket
                 {
                     ballRigidbody.velocity = Vector3.zero;
                     ballRigidbody.angularVelocity = Vector3.zero;
+                    LastMove=Time.realtimeSinceStartup;
                 }
                 else {
-                    if (ballRigidbody != null && ballRigidbody.velocity.y < 0 && ballRigidbody.position.y < 1.8f)
-                    {
-                        if (ballRigidbody.name != "goal")
-                            OnResetStreak();
-                        OnChargeBall();
+                    if(Mathf.Abs( ballRigidbody.velocity.y)>0.01f)
+                        LastMove=Time.realtimeSinceStartup;
+                    if (ballRigidbody != null ) {
+                        if( Time.realtimeSinceStartup-LastMove>1 || ballRigidbody.velocity.y < 0 && ballRigidbody.position.y < 1.8f){
+                            if (ballRigidbody.name != "goal")
+                                OnResetStreak();
+                            OnChargeBall();
+                        }
                     }
                 }
             }

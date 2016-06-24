@@ -63,14 +63,16 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void OnEnable()
     {
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
+        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+/*
         if (Authentication.AzureServices.IsDeepLinking &&
             Authentication.AzureServices.DeepLinkinParameters != null &&
-            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
-        {
+            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
             DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
         }
-        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+
+*/
         EnableTopMenu(true);
         ShowVestidor();
     }
@@ -102,6 +104,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     break;
 
                 case VestidorState.VESTIDOR:
+                    if (Authentication.AzureServices.IsDeepLinking &&
+                        Authentication.AzureServices.DeepLinkinParameters != null &&
+                        Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
+                        DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
+                        // MainManager.DeepLinkinParameters["idUser"];
+                    }
                     EnableTopMenu(true);
                     cameraAvatarSelector.SetActive(false);
                     SecondPlaneAvatarSelect.SetActive(false);
@@ -210,6 +218,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 
         if (virtualGood == null) return;
+        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
         AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
@@ -312,11 +321,23 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
 
-	public void ShowClothesShop() {
-		if (isCurrentPopUpOpen)
+    public void ShowClothesShop() {
+        /*
+        Debug.LogError(">>>>>>>>> ShowClothesShop!!!! " + Authentication.AzureServices.IsDeepLinking);
+        if (Authentication.AzureServices.IsDeepLinking &&
+            Authentication.AzureServices.DeepLinkinParameters != null &&
+            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
+        {
+            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
+            // MainManager.DeepLinkinParameters["idUser"];
+        }
+        */
+        if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
-		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
-			Invoke("LoadModel", 0.25f);
+        if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+        {
+            Invoke("LoadModel", 0.25f);
+        }
 
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}
@@ -333,28 +354,33 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void LoadModel()
     {
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
-		{
-            MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
-            //Seteamos el Avatar que se muestra en estapantalla
-            PlayerInstance = instance;
-            PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
-            PlayerInstance.GetComponent<SynchNet>().enabled = false;
-            PlayerInstance.transform.localScale = Vector3.one;
-            Camera[] cams = new Camera[Camera.allCamerasCount];
-            Camera.GetAllCameras(cams);
-            Camera best = null;
+        {
+        MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
+        //Seteamos el Avatar que se muestra en estapantalla
+        PlayerInstance = instance;
+        PlayerInstance.GetComponent<Rigidbody>().isKinematic = true;
+        PlayerInstance.GetComponent<SynchNet>().enabled = false;
+        PlayerInstance.transform.localScale = Vector3.one;
+        Camera[] cams = new Camera[Camera.allCamerasCount];
+        Camera.GetAllCameras(cams);
+        Camera best = null;
 
-            foreach ( Camera cam in cams)
-                if( cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
-                    best = cam;
+        foreach (Camera cam in cams)
+            if (cam.name.Contains("[VESTIDOR_LITE]") && cam.isActiveAndEnabled)
+                best = cam;
 
-            var v = best.WorldToViewportPoint(PlayerPosition.position);
-            v.z = 10;
-            PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
-            PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
-            AddParticles();
+        var v = best.WorldToViewportPoint(PlayerPosition.position);
+        v.z = 10;
+        PlayerInstance.transform.position = best.ViewportToWorldPoint(v);
+        PlayerInstance.transform.localRotation = Quaternion.Euler(7.3f, 0, 0);
+        AddParticles();
 
-			PlayerInstance.GetComponent<Animator>().SetTrigger("ChangingClothes");
+        PlayerInstance.GetComponent<Animator>().SetTrigger("ChangingClothes");
+        ParticleSystem pEmitter = particles.GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+        if(pEmitter != null)
+            {
+                pEmitter.Play();
+            }
 
         }, PlayerInstance) );
     }
@@ -362,7 +388,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     Transform particles;
     public void AddParticles()
     {
-        if (particles == null) particles = (GameObject.Instantiate(Particles) as GameObject).transform;
+        if (particles == null) particles = Instantiate(Particles).transform;
         particles.position = PlayerInstance.transform.position;
         PlayerInstance.AddComponent<RotateDrag>();
     }
@@ -392,9 +418,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             currentGUIScreen.OpenWindow();
             currentGUIScreen.IsOpen = true;
         }
-        else {
-            Debug.LogWarning("[CanvasManager]: La guiScreen es null. Estás cerrando todas las screens ? ó quizás no has establecido la primera desde el inspector.");
-        }
+        //else {
+        //    Debug.LogWarning("[CanvasManager]: La guiScreen es null. Estás cerrando todas las screens ? ó quizás no has establecido la primera desde el inspector.");
+        //}
     }
 
     void HideAllScreens()
@@ -547,5 +573,4 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
 		ChangeVestidorState(newVestidorState);
 	}
-
 }

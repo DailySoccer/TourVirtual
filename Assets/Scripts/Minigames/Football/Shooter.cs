@@ -33,6 +33,7 @@ namespace Football
         public int streak = 0;
         public int score = 0;
         public int record = 0;
+		public bool isRecord;
 
         //public GuiMinigameScreenPopup endMenu;
 		public MinigameCanvasController minigameCanvasController;
@@ -103,6 +104,7 @@ namespace Football
             gameState = GameState.WaitStart;
             state = ShotState.Charging;
 			keeper.Level (0);
+			isRecord = false;
         }
 
         public void OnRetry()
@@ -113,9 +115,13 @@ namespace Football
 
         public void OnScore()
         {
+            if(gameState!=GameState.Playing) return;
             score++;
             streak++;
-			if (score > record) record = score;
+			if (score > record) {
+				record = score;
+				isRecord = true;
+			}
 
             keeper.Level(score);
             if (objBall != null) {
@@ -166,7 +172,7 @@ namespace Football
                             {
                                 ChargeBall();
                                 CheckTrigger();
-
+                                keeper.ResetTarget();
                             }
                             else if (state == ShotState.Ready)
                             {
@@ -319,6 +325,14 @@ namespace Football
             worldPoint.y += (offsetY / shotPower);
 
             direction = (worldPoint - shotPoint.transform.position).normalized;
+
+// Proyectar sobre el plano del portero.
+            Plane pln = new Plane( new Vector3(1,0,0),  keeper.transform.position );
+            Ray ray = new Ray(shotPoint.transform.position,direction);
+            float dist=0;
+            if( pln.Raycast(ray,out dist)){
+                keeper.SetTarget(ray.GetPoint(dist).z);                
+            } 
 
             ballRigidbody.velocity = direction * shotPower;
             ballRigidbody.AddTorque(-shotPoint.transform.right * torque);

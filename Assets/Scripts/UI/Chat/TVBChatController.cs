@@ -5,14 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using SmartLocalization;
 
-public class TVBChatController : MonoBehaviour {
-
-#if COMMUNITY_MANAGER 
-	bool IsCommunityManagerVersion = true;
-#else
-	bool IsCommunityManagerVersion = false;
-#endif
-
+public class TVBChatController : MonoBehaviour
+{
 	public GameObject channelSlotPrefab;
 
 	public GameObject messageDatePrefab;
@@ -109,28 +103,27 @@ public class TVBChatController : MonoBehaviour {
 		AddChannelSlot(ChatManager.CHANNEL_COMMUNITYMANAGER);
 		AddChannelSlot(RoomManager.Instance.Room.Id);
 
-		foreach (string channel in _friendChats.Keys) {
+		foreach (string channel in _friendChats.Keys) 
 			AddChannelSlot(channel);
-		}
 	}
 
-	void PopulateChannelsListWithUsers() {
+	void PopulateChannelsListWithUsers()
+	{
 		//CleanPlayerSlotList();
 
-		List<string> connectedUsers = new List<string>();
-		connectedUsers = PhotonNetwork.otherPlayers.Select(p => p.name).ToList<String>();
+		List<string> connectedUsers = PhotonNetwork.otherPlayers.Select(p => p.name).ToList();
 
-		foreach (string privateChannel in connectedUsers) {
+		foreach (string privateChannel in connectedUsers) 
 			AddChannelSlot(privateChannel);
-		}
 	}
 
 	/// <summary>
 	/// Añade un GameObject a la lista Padre de canales del chat.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	void AddChannelSlot(string slotName) {
-		if (_channelsGameObjects.Where(c => c.name == slotName).Count() > 0) {
+	void AddChannelSlot(string slotName)
+	{
+		if (_channelsGameObjects.Any(c => c.name == slotName)) {
 			if (!ChatManager.Instance.IsPublicChannel(slotName)) {
 				UpdateChannelSlot(slotName);
 			}
@@ -140,13 +133,15 @@ public class TVBChatController : MonoBehaviour {
 		}
 	}
 
-	private void UpdateChannelSlot(string chnName) {
-		GameObject userSlot = _channelsGameObjects.Where(c => c.name == chnName).FirstOrDefault();
+	private void UpdateChannelSlot(string chnName)
+	{
+		GameObject userSlot = _channelsGameObjects.FirstOrDefault(c => c.name == chnName);
 		SetChannelSlotValues(userSlot, chnName);
 	}
 
-	private void GenerateChannelSlot(string chnName) {
-		GameObject userSlot = (GameObject)Instantiate(channelSlotPrefab);
+	private void GenerateChannelSlot(string chnName)
+	{
+		GameObject userSlot = Instantiate(channelSlotPrefab);
 		userSlot.name = chnName;
 		
 		userSlot.transform.SetParent(channelsListParent.transform);
@@ -160,9 +155,10 @@ public class TVBChatController : MonoBehaviour {
 		_channelsGameObjects.Add(userSlot);
 	}
 
-	private void SetChannelSlotValues(GameObject userSlot, string channelName) {
+	private void SetChannelSlotValues(GameObject userSlot, string channelName)
+	{
 		TVBChatChannel channel = userSlot.GetComponent<TVBChatChannel>();
-        string friendlyName = GetChannelFriendlyName(channelName);
+        string friendlyName = GetChannelName(channelName);
        
 		channel.realName = channelName;
 		channel.friendlyName = friendlyName;
@@ -170,29 +166,40 @@ public class TVBChatController : MonoBehaviour {
 		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? ChatChannelType.General : ChatChannelType.Private;
 		channel.setup ();
 
-		if (_friendChats.ContainsKey(channelName)) {
-			//Fecha/hora de ultima actualizacion
-			Dictionary<string,object> msg = _friendChats[channelName][_friendChats[channelName].Count-1] as Dictionary<string, object>;
-			DateTime lastMessageDateTime = msg.toChatMessage().GetMessageDate();
-			
-			if (  MyTools.ToShortDateString( lastMessageDateTime.AddDays(1) ) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de ayer ==> "AYER"
-				channel.lastUpdateDate.text = LanguageManager.Instance.GetTextValue("TVB.Chat.Yesterday").ToUpper(); 
-			} else if (MyTools.ToShortDateString(lastMessageDateTime) == MyTools.ToShortDateString(DateTime.Now)) { // Si el mensaje es de hoy   ==> La Hora
-				channel.lastUpdateDate.text = MyTools.ToShortTimeString(lastMessageDateTime);
-			} else { // Resto de mensajes  ==> La Fecha
-				channel.lastUpdateDate.text = MyTools.ToShortDateString(lastMessageDateTime);
-			}
-			
-			//Mensajes no leidos:
-			int unreadedCount = (from Dictionary<string, object> hash in _friendChats[channelName] 
-			             where (bool)hash["readed"] == false
-			             select hash).Count ();
-			channel.GetComponentInChildren<BadgeAlert>().Count = unreadedCount;
-			
-		} else {
+		List<object> chat;
+		if (!_friendChats.TryGetValue(channelName, out chat) || chat.Count == 0)
+		{
 			channel.lastUpdateDate.text = "";
 			channel.GetComponentInChildren<BadgeAlert>().Count = 0;
 		}
+		else
+		{
+			var msg = chat.Last() as Dictionary<string, object>;
+			DateTime lastMessageDateTime = msg.toChatMessage().GetMessageDate();//Fecha/hora de ultima actualizacion 
+
+			if (MyTools.ToShortDateString(lastMessageDateTime.AddDays(1)) == MyTools.ToShortDateString(DateTime.Now))
+			{
+				// Si el mensaje es de ayer ==> "AYER"
+				channel.lastUpdateDate.text = LanguageManager.Instance.GetTextValue("TVB.Chat.Yesterday").ToUpper();
+			}
+			else if (MyTools.ToShortDateString(lastMessageDateTime) == MyTools.ToShortDateString(DateTime.Now))
+			{
+				// Si el mensaje es de hoy   ==> La Hora
+				channel.lastUpdateDate.text = MyTools.ToShortTimeString(lastMessageDateTime);
+			}
+			else
+			{
+				// Resto de mensajes  ==> La Fecha
+				channel.lastUpdateDate.text = MyTools.ToShortDateString(lastMessageDateTime);
+			}
+
+			//Mensajes no leidos:
+			int unreadedCount = (from Dictionary<string, object> hash in _friendChats[channelName]
+				where (bool) hash["readed"] == false
+				select hash).Count();
+			channel.GetComponentInChildren<BadgeAlert>().Count = unreadedCount;
+		}
+
 #if UNITY_EDITOR
 		Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
 #endif
@@ -244,7 +251,7 @@ public class TVBChatController : MonoBehaviour {
 		SetCurrentChannel(chn.realName);
 
 		HideSearchBar();
-		ChatManager.Instance.ChannelSelectedId = chn.realName;
+		ChatManager.Instance.SelectedChannelId = chn.realName;
 #if UNITY_EDITOR
 		Debug.LogFormat("[TVBChatController]: Entrando en el canal [{0}]", chn.realName);
 #endif
@@ -258,14 +265,15 @@ public class TVBChatController : MonoBehaviour {
 	}	
 
 
-	private void Messages_OnChangeHandle (string channel) {
+	private void Messages_OnChangeHandle(string channelId)
+	{
 #if UNITY_EDITOR
-		Debug.LogFormat(" ~ ~ ~ [TVBChatController] Nuevos mensajes en el canal [{0}] [<{1}>]", channel, ChatManager.Instance.IsPublicChannel(channel)? "Público" : "Privado");
+		Debug.LogFormat(" ~ ~ ~ [TVBChatController] Nuevos mensajes en el canal [{0}] [<{1}>]", channelId, ChatManager.Instance.IsPublicChannel(channelId)? "Público" : "Privado");
 #endif
 		// Guardamos en el disco lo no oúblicos
-		if (!ChatManager.Instance.IsPublicChannel(channel)) {
-			SaveMessagesInLocal(channel, GetNewRemoteMessages(channel));
-			//Debug.LogFormat("[TVBChatController]: Guardados en local", channel);
+		if (!ChatManager.Instance.IsPublicChannel(channelId)) {
+			SaveMessagesInLocal(channelId, GetNewRemoteMessages(channelId));
+			//Debug.LogFormat("[TVBChatController]: Guardados en local", channelId);
 		}
 
 		if (currentChannelName == "") {
@@ -293,33 +301,43 @@ public class TVBChatController : MonoBehaviour {
 		//Debug.LogFormat("[TVBChatController]: Existen un total de {0} mensajes sin leer", counter);
 	}
 	
-	private void SetCurrentChannel(string theName) {
+	public void SetCurrentChannel(string theName) {
 		currentChannelName = theName;
-		currentChannelFriendlyName = GetChannelFriendlyName(theName);
+		currentChannelFriendlyName = GetChannelName(theName);
 		currentChannelUILabel.text = currentChannelFriendlyName;
-		ChannelInputBar.SetActive (currentChannelFriendlyName.ToLower () != "Community Manager".ToLower () || IsCommunityManagerVersion);
 	}
 
-	private string GetChannelFriendlyName( string theName) {
-		if (ChatManager.Instance.UserName != null) {
-			if (theName.Contains(ChatManager.Instance.UserName)) {
-				return theName.Remove(theName.IndexOf(ChatManager.Instance.UserName), ChatManager.Instance.UserName.Length).Trim(':');
-			}
+
+	private static string GetChannelName(string channelId)
+	{
+		if(channelId == ChatManager.CHANNEL_COMMUNITYMANAGER)
+			return ChatManager.CHANNEL_COMMUNITYMANAGER;
+
+		if (RoomManager.Instance.RoomDefinitions.ContainsKey(channelId))
+			return ChatManager.ROOM_CHANNEL_NAME;
+
+		if (ChatManager.Instance.UserName != null)
+		{
+			int userNameIndex = channelId.IndexOf(ChatManager.Instance.UserName, StringComparison.Ordinal);
+			if (userNameIndex > 0)
+				return channelId.Remove(userNameIndex, ChatManager.Instance.UserName.Length).Trim(':');
 		}
 
-		return RoomManager.Instance.RoomDefinitions.ContainsKey(theName) ? ChatManager.ROOM_CHANNEL_NAME : theName;
+		return channelId;
 	}
 
-	private void CleanMessagesList() {
+	
+	private void CleanMessagesList()
+	{
 		//Debug.Log ("[TVBChatController]: Cleaning...");
-		foreach(GameObject go in _messagesGameObjects) {
+		foreach(GameObject go in _messagesGameObjects) 
 			DestroyImmediate(go);
-		}
+		
 		_messagesGameObjects.Clear();
 	}
 
-	private List<ChatMessage> GetPreviousMessages(string channelName) {
-
+	private List<ChatMessage> GetPreviousMessages(string channelName)
+	{
 		// Si es un canal publico, no tenemos guardado ningún mensaje.
 		if (ChatManager.Instance.IsPublicChannel(channelName)) {
 			return new List<ChatMessage>();
@@ -341,27 +359,25 @@ public class TVBChatController : MonoBehaviour {
 		return channelMessages;
 	}
 
-	private List<ChatMessage> GetNewRemoteMessages(string channel) {
-
+	private List<ChatMessage> GetNewRemoteMessages(string channelId)
+	{
 		List<ChatMessage> channelMessages = new List<ChatMessage>();
 
 		//Si son publicos.
-		if (ChatManager.Instance.IsPublicChannel(channel)) {
-			//Debug.LogFormat("[TVBChatController]: Hay {0} nuevos mensajes en el canal [{1}] que es Público", channel, ChatManager.Instance.Messages.Count().ToString());
+		if (ChatManager.Instance.IsPublicChannel(channelId)) {
+			//Debug.LogFormat("[TVBChatController]: Hay {0} nuevos mensajes en el canal [{1}] que es Público", channelId, ChatManager.Instance.Messages.Count().ToString());
 			return ChatManager.Instance.Messages;
 		}
 		//Si son privados.
-		List<ChatMessage> messages = new List<ChatMessage>();
-		messages = ChatManager.Instance.GetMessagesFromChannel(GetChannelFriendlyName(channel));
-
-		if (!_friendChats.ContainsKey(channel)) {
-			//Debug.LogFormat("[TVBChatController]: Hay {0} mensajes en el canal [{1}] que es Privado. (Aún no se habían guardado en local)", messages.Count().ToString(), channel);
+		List<ChatMessage> messages = ChatManager.Instance.GetMessagesFromChannel(channelId);
+		if (!_friendChats.ContainsKey(channelId)) {
+			//Debug.LogFormat("[TVBChatController]: Hay {0} mensajes en el canal [{1}] que es Privado. (Aún no se habían guardado en local)", messages.Count().ToString(), channelId);
 
 			return messages;
 		}
 		// Descartamos los que ya estan en local
 		foreach(ChatMessage cht in messages) {
-			bool messageAlreadyInLocal = (	from Dictionary<string, object> hash in _friendChats[channel]
+			bool messageAlreadyInLocal = (	from Dictionary<string, object> hash in _friendChats[channelId]
 											where (string)hash["sender"] == cht.Sender
 							                   && (string)hash["text"] == cht.Text
 											select hash
@@ -371,11 +387,12 @@ public class TVBChatController : MonoBehaviour {
 				channelMessages.Add(cht);
 			}
 		}
-		//Debug.LogFormat("[TVBChatController]: El canal {0} tiene [{1}] mensajes nuevos.", channel, messages.Count().ToString());
+		//Debug.LogFormat("[TVBChatController]: El canal {0} tiene [{1}] mensajes nuevos.", channelId, messages.Count().ToString());
 		return channelMessages;
 	}
 
-	void PopulateChannelMessages() {
+	private void PopulateChannelMessages()
+	{
 		List<ChatMessage> theMessages = new List<ChatMessage>();
 		theMessages.AddRange(GetPreviousMessages(currentChannelName));
 		theMessages.AddRange(GetNewRemoteMessages(currentChannelName));
@@ -383,33 +400,37 @@ public class TVBChatController : MonoBehaviour {
 		AddMessageSlots(theMessages);
 	}
 
-	void SaveMessagesInLocal(string channel, List<ChatMessage> messages) {
-		foreach( ChatMessage m in messages) {
-			if (!_friendChats.ContainsKey(channel)) {
-				_friendChats.Add(channel, new List<object>());
-			}
+	private void SaveMessagesInLocal(string channel, List<ChatMessage> messages)
+	{
+		List<object> chats;
+		if (!_friendChats.TryGetValue(channel, out chats)) {
+			chats = new List<object>();
+			_friendChats.Add(channel, chats);
+		}
 
+		foreach (ChatMessage m in messages)
+		{
 			m.Readed = false;
-			
-			if (!_friendChats[channel].Contains(m)) {
-				_friendChats[channel].Add(m.toHashTable());
-			}
+			if (!chats.Contains(m)) 
+				chats.Add( m.toHashTable() );
 		}
 
 		SerializeAndSaveChats();
 	}
 
-	void SetMessagesAsReaded(string currentChannelName) {
-		foreach (Dictionary<string, object> hash in _friendChats[currentChannelName]) {
+	void SetMessagesAsReaded(string currentChannelName)
+	{
+		foreach (Dictionary<string, object> hash in _friendChats[currentChannelName]) 
 			hash["readed"] = true;
-		}
 	}
 	
-	void SerializeAndSaveChats() {
-        Dictionary<string, object> data = new Dictionary<string, object>();
-        foreach (var pair in _friendChats)
-            data.Add(pair.Key, pair.Value);
-        string friend_chats = MiniJSON.Json.Serialize(data);
+	void SerializeAndSaveChats()
+	{
+		var data = new Dictionary<string, object>();
+		foreach (var pair in _friendChats)
+			data.Add(pair.Key, pair.Value);
+
+		string friend_chats = MiniJSON.Json.Serialize(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
 	}

@@ -244,7 +244,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>False if the client is not yet ready to send messages.</returns>
         public bool PublishMessage(string channelName, object message)
         {
-            if (!this.CanChat)
+            if (!CanChat)
             {
                 // TODO: log error
                 return false;
@@ -252,21 +252,26 @@ namespace ExitGames.Client.Photon.Chat
 
             if (string.IsNullOrEmpty(channelName) || message == null)
             {
-                this.LogWarning("PublishMessage parameters must be non-null and not empty.");
+                LogWarning("PublishMessage parameters must be non-null and not empty.");
                 return false;
             }
 
             Dictionary<byte, object> parameters = new Dictionary<byte, object>
                 {
-                    { (byte)ChatParameterCode.Channel, channelName },
-                    { (byte)ChatParameterCode.Message, message }
+                    { ChatParameterCode.Channel, channelName },
+                    { ChatParameterCode.Message, message }
                 };
 
-			bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, true);
+			bool sent = chatPeer.OpCustom(ChatOperationCode.Publish, parameters, true);
+
 #if UNITY_EDITOR
-			UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]",sent ? "PublishMessage" : "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
+			if(sent)
+				UnityEngine.Debug.Log(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
+			else
+				UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
 #endif
-            return sent;
+
+			return sent;
         }
 
         /// <summary>
@@ -501,19 +506,23 @@ namespace ExitGames.Client.Photon.Chat
         /// </summary>
         /// <param name="userName">Remote user's name or UserId.</param>
         /// <returns>The (locally used) channel name for a private channel.</returns>
-        public string GetPrivateChannelNameByUser(string userName)
+        public string GetChannelIdByUser(string userName)
         {
+/*// UNDONE FRS 160622 De momento no es necesario generar estos ids ya que los nombres se presuponen únicos
             return string.Format("{0}:{1}", this.UserId, userName);
-        }
+/*/
+			return userName;
+/**/
+		}
 
-        /// <summary>
-        /// Simplified access to either private or public channels by name.
-        /// </summary>
-        /// <param name="channelName">Name of the channel to get. For private channels, the channel-name is composed of both user's names.</param>
-        /// <param name="isPrivate">Define if you expect a private or public channel.</param>
-        /// <param name="channel">Out parameter gives you the found channel, if any.</param>
-        /// <returns>True if the channel was found.</returns>
-        public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)
+		/// <summary>
+		/// Simplified access to either private or public channels by name.
+		/// </summary>
+		/// <param name="channelName">Name of the channel to get. For private channels, the channel-name is composed of both user's names.</param>
+		/// <param name="isPrivate">Define if you expect a private or public channel.</param>
+		/// <param name="channel">Out parameter gives you the found channel, if any.</param>
+		/// <returns>True if the channel was found.</returns>
+		public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)
         {
             if (!isPrivate)
             {
@@ -689,44 +698,43 @@ namespace ExitGames.Client.Photon.Chat
             var message = (object)eventData.Parameters[(byte)ChatParameterCode.Message];
             var sender = (string)eventData.Parameters[(byte)ChatParameterCode.Sender];
 
-            string channelName;
-            if (this.UserId != null && this.UserId.Equals(sender))
+            string channelId;
+            if (this.UserId != null && UserId == sender)
             {
                 var target = (string)eventData.Parameters[(byte)ChatParameterCode.UserId];
-                channelName = this.GetPrivateChannelNameByUser(target);
+                channelId = GetChannelIdByUser(target);
             }
             else
             {
-                channelName = this.GetPrivateChannelNameByUser(sender);
+                channelId = GetChannelIdByUser(sender);
             }
 
             ChatChannel channel;
-            if (!this.PrivateChannels.TryGetValue(channelName, out channel))
+            if (!this.PrivateChannels.TryGetValue(channelId, out channel))
             {
-                channel = new ChatChannel(channelName);
-                channel.IsPrivate = true;
-                this.PrivateChannels.Add(channel.Name, channel);
+	            channel = new ChatChannel(channelId) {IsPrivate = true};
+	            PrivateChannels.Add(channel.Name, channel);
             }
 
             channel.Add(sender, message);
-            this.listener.OnPrivateMessage(sender, message, channelName);
+            listener.OnPrivateMessage(sender, message, channelId);
         }
 
         private void HandleChatMessagesEvent(EventData eventData)
         {
             var messages = (object[])eventData.Parameters[(byte)ChatParameterCode.Messages];
             var senders = (string[])eventData.Parameters[(byte)ChatParameterCode.Senders];
-            var channelName = (string)eventData.Parameters[(byte)ChatParameterCode.Channel];
+            var channelId = (string)eventData.Parameters[(byte)ChatParameterCode.Channel];
 
             ChatChannel channel;
-            if (!this.PublicChannels.TryGetValue(channelName, out channel))
+            if (!this.PublicChannels.TryGetValue(channelId, out channel))
             {
                 // TODO: log that channel wasn't found
                 return;
             }
 
             channel.Add(senders, messages);
-            this.listener.OnGetMessages(channelName, senders, messages);
+            this.listener.OnGetMessages(channelId, senders, messages);
         }
 
         private void HandleSubscribeEvent(EventData eventData)

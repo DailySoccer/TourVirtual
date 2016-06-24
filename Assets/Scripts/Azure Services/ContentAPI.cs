@@ -42,6 +42,7 @@ public class ContentAPI
         public string Title;
         public string Description;
         public string PackURL;
+        public string ThumbURL;
         public bool owned;
 
         public Content(string _GUID, string _VirtualGoodID, string _ContenName, string _Title, string _Description, string _PackURL) {
@@ -49,11 +50,13 @@ public class ContentAPI
             VirtualGoodID = _VirtualGoodID;
             ContenName = _ContenName;
             Title = _Title;
-            Description = _Description;            
-            PackURL = DLCManager.Instance.AssetsUrl+"/Contents/" +_ContenName + "/"+_PackURL;
+            Description = _Description;
+            PackURL = DLCManager.Instance.AssetsUrl + "/Contents/" + _ContenName + "/" + _PackURL;
             VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
+            ThumbURL = vg.Thumb;
             if ( vg!=null) {
-                if (vg.count > 0) owned = true;
+                if (vg.count > 0)
+                    owned = true;
             }
         }
     }

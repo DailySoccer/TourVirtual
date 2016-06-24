@@ -293,6 +293,34 @@ public class CanvasManager : MonoBehaviour {
         UIScreensCamera.SetActive(true);
         MainCamera.SetActive(true);
     }
+	public bool IsInRanking()
+	{
+		UserAPI.ScoreEntry[] rankingArray = UserAPI.Instance.GetFanRanking();
+		UserAPI.ScoreEntry me = new UserAPI.ScoreEntry();
+
+		foreach (UserAPI.ScoreEntry se in rankingArray)
+		{
+			if (se.IsMe)
+				me = se;
+		}
+		return me.Position != 0;
+	}
+
+	public void ShareRankingPosition () {
+		UserAPI.ScoreEntry[] rankingArray = UserAPI.Instance.GetFanRanking();
+		UserAPI.ScoreEntry me = new UserAPI.ScoreEntry();
+
+		foreach (UserAPI.ScoreEntry se in rankingArray) {
+			if (se.IsMe)
+				me = se;
+		}
+		if (me.Position == 0)
+		{
+			me.Position = rankingArray.Length;
+		}
+
+		FacebookManager.Instance.ShareToFacebook(FacebookLink.RankingShare(me.Position));
+	}
 
 
     /*

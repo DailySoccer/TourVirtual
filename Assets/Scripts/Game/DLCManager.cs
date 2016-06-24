@@ -109,6 +109,7 @@ public class DLCManager : MonoBehaviour {
                 while (waiting) yield return null;
             }
         } while (www != null);
+
     }
 
     WWW current;
@@ -149,7 +150,7 @@ public class DLCManager : MonoBehaviour {
                 else
                 {
                     bool waiting = true;
-                    Debug.LogError(">>>> " + current.error);
+                    Debug.LogError(definition.Id+"("+keyResource+") >>>> " + current.error);
                     ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () =>
                     {
                         waiting = false;

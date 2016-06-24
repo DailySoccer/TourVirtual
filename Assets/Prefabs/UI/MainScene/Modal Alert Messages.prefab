@@ -84,6 +84,7 @@ GameObject:
   - 114: {fileID: 11424396}
   - 114: {fileID: 11405366}
   - 114: {fileID: 11410858}
+  - 114: {fileID: 11448334}
   m_Layer: 5
   m_Name: Button OK
   m_TagString: Untagged
@@ -153,6 +154,7 @@ GameObject:
   - 222: {fileID: 22270410}
   - 114: {fileID: 11429126}
   - 114: {fileID: 11463134}
+  - 114: {fileID: 11432806}
   m_Layer: 5
   m_Name: Button Close Modal
   m_TagString: Untagged
@@ -310,6 +312,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11432806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 5
 --- !u!114 &11434656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,6 +376,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ACEPTAR
+--- !u!114 &11448334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 5
 --- !u!114 &11448870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,7 +399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e76a3bba3bac420ab9ad4b8f8760ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceNoBlockRayCastValue: 0
 --- !u!114 &11458228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -643,7 +668,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 379, y: -459.999939}
-  m_SizeDelta: {x: 250, y: 75}
+  m_SizeDelta: {x: 250, y: 96}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22458172
 RectTransform:

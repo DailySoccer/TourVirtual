@@ -117,64 +117,67 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 	<data name="API.Achievements" xml:space="preserve">
-		<value>Loading achievements</value>
+		<value>Cargando Logros</value>
 	</data>
 	<data name="API.Contents" xml:space="preserve">
-		<value>Loading contents</value>
+		<value>Cargando Contenidos</value>
 	</data>
 	<data name="API.GamificationStatus" xml:space="preserve">
-		<value>Loading gamification status</value>
+		<value>Cargando Estados de Gamificación</value>
 	</data>
 	<data name="API.MaxScores" xml:space="preserve">
-		<value>Loading max. scores</value>
+		<value>Cargando Puntuaciones Máximas</value>
 	</data>
 	<data name="API.ProfileAvatar" xml:space="preserve">
-		<value>Loading profile avatar</value>
+		<value>Cargando Perfil de Jugador</value>
 	</data>
 	<data name="API.Rankings" xml:space="preserve">
-		<value>Loading rankings</value>
+		<value>Cargando Puntuaciones</value>
 	</data>
 	<data name="API.User" xml:space="preserve">
-		<value>Loading user data</value>
+		<value>Cargando Datos de Usuario</value>
 	</data>
 	<data name="API.VirtualGoods" xml:space="preserve">
-		<value>Loading virtual goods</value>
+		<value>Cargando Bienes Virtuales</value>
 	</data>
 	<data name="PCK.avatars" xml:space="preserve">
-		<value>avatars</value>
+		<value>Modelos</value>
 	</data>
 	<data name="PCK.scene.avatar_select" xml:space="preserve">
-		<value>Avatar selector</value>
+		<value>Selector de Avatar</value>
+	</data>
+	<data name="PCK.scene.cuarto_anfiteatro" xml:space="preserve">
+		<value>Cuarto Anfiteatro</value>
 	</data>
 	<data name="PCK.scene.estadio_bernabeu" xml:space="preserve">
-		<value>Bernabeu's Stadium</value>
+		<value>Zona Técnica</value>
 	</data>
 	<data name="PCK.scene.mejor_club_mundo" xml:space="preserve">
-		<value>World Best Club</value>
+		<value>Mejor Club del Mundo</value>
 	</data>
 	<data name="PCK.scene.minibasket" xml:space="preserve">
-		<value>Basket minigame</value>
+		<value>Tiros Libres</value>
 	</data>
 	<data name="PCK.scene.minifutbol" xml:space="preserve">
-		<value>Soccer minigame</value>
+		<value>Tiros a Puerta</value>
 	</data>
 	<data name="PCK.scene.sala_basket" xml:space="preserve">
-		<value>Basket room</value>
+		<value>Sala Sección de Baloncesto</value>
 	</data>
 	<data name="PCK.scene.sala_prensa" xml:space="preserve">
-		<value>Press room</value>
+		<value>Sala de Prensa</value>
 	</data>
 	<data name="PCK.scene.sala_reyes_europa" xml:space="preserve">
-		<value>King of Europe</value>
+		<value>Sala Reyes de Europa</value>
 	</data>
 	<data name="PCK.scene.sala_sensaciones" xml:space="preserve">
-		<value>Sensation room</value>
+		<value>Sala Sensaciones</value>
 	</data>
 	<data name="PCK.scene.sala_tu_eres_real_madrid" xml:space="preserve">
-		<value>sala_tu_eres_real_madrid</value>
+		<value>Sala Tu Eres El Real Madrid</value>
 	</data>
 	<data name="PCK.scene.vestuarios" xml:space="preserve">
-		<value>vestuarios</value>
+		<value>Vestuarios</value>
 	</data>
 	<data name="TVB.AvatarSelection.AvatarSelection" xml:space="preserve">
 		<value>Selecciona tu Avatar</value>
@@ -224,6 +227,9 @@
 	<data name="TVB.Button.StartVirtualTour" xml:space="preserve">
 		<value>Ir al Tour Virtual</value>
 	</data>
+	<data name="TVB.Caht.Today" xml:space="preserve">
+		<value />
+	</data>
 	<data name="TVB.Chat.CloseButton" xml:space="preserve">
 		<value>Cerrar</value>
 	</data>
@@ -245,6 +251,9 @@
 	<data name="TVB.Chat.Title" xml:space="preserve">
 		<value>Espacio Madridistas</value>
 	</data>
+	<data name="TVB.Chat.Today" xml:space="preserve">
+		<value>Hoy</value>
+	</data>
 	<data name="TVB.Chat.WirteMessagePlaceholder" xml:space="preserve">
 		<value>Escriba un mensaje...</value>
 	</data>
@@ -261,10 +270,10 @@
 		<value>Sólo puedes comprar monedas desde la aplicación oficial del Real Madrid. Toca Aceptar para abrirla o instalarla.</value>
 	</data>
 	<data name="TVB.Error.CantPurchase" xml:space="preserve">
-		<value>Se ha producido un error. Por favor, intentalo otra vez.</value>
+		<value>Se ha producido un error. Por favor, inténtalo otra vez.</value>
 	</data>
 	<data name="TVB.Error.Login" xml:space="preserve">
-		<value>Error al logarse. Por favor, intentalo otra vez.</value>
+		<value>Error al logarse. Por favor, inténtalo otra vez.</value>
 	</data>
 	<data name="TVB.Error.NetError" xml:space="preserve">
 		<value>Se ha detectado un error en la red.</value>
@@ -280,7 +289,7 @@
 Inténtalo mas tarde.</value>
 	</data>
 	<data name="TVB.Error.NoWiFi" xml:space="preserve">
-		<value>No hay Wifi.</value>
+		<value>No hay conexión wifi disponible,  salga de la aplicación para no consumir datos.</value>
 	</data>
 	<data name="TVB.GameScene.ChatSala" xml:space="preserve">
 		<value>Lobby de chat</value>
@@ -367,12 +376,12 @@ Utiliza tu dedo para lanzar el balón y conquista el ranking mundial.</value>
 Has encontrado los @count Objetos Ocultos</value>
 	</data>
 	<data name="TVB.Minigame.HiddenTimeOut" xml:space="preserve">
-		<value>Tiempo agotado!
-Intentalo de nuevo</value>
+		<value>¡Tiempo agotado!
+Inténtalo de nuevo</value>
 	</data>
 	<data name="TVB.Minigame.HiddenTutorial" xml:space="preserve">
-		<value>Demuestras tus dotes de detective y encuenta los objetos escondidos en el Tour.
-Pasea por todas las salas y encuentralos todos.</value>
+		<value>Demuestra tus dotes de detective y encuentra los objetos escondidos en el Tour.
+Pasea por todas las salas y encuéntralos todos.</value>
 	</data>
 	<data name="TVB.Minigame.Ranking" xml:space="preserve">
 		<value>Ranking</value>
@@ -394,6 +403,9 @@ Pasea por todas las salas y encuentralos todos.</value>
 	</data>
 	<data name="TVB.Popup.BuyBy" xml:space="preserve">
 		<value>Comprar por:</value>
+	</data>
+	<data name="TVB.Popup.FanLevelRankingTitle" xml:space="preserve">
+		<value>Ranking de Fans</value>
 	</data>
 	<data name="TVB.Popup.GoodiesShopTitle" xml:space="preserve">
 		<value>Comprar monedas del Real Madrid</value>
@@ -419,11 +431,17 @@ Pasea por todas las salas y encuentralos todos.</value>
 	<data name="TVB.ProfileScreen.GameScoresTitle" xml:space="preserve">
 		<value>JUEGOS</value>
 	</data>
+	<data name="TVB.ProfileScreen.Name" xml:space="preserve">
+		<value>NOMBRE</value>
+	</data>
 	<data name="TVB.ProfileScreen.Points" xml:space="preserve">
 		<value>Puntos</value>
 	</data>
 	<data name="TVB.ProfileScreen.Position" xml:space="preserve">
 		<value>Posicion</value>
+	</data>
+	<data name="TVB.ProfileScreen.SendMessage" xml:space="preserve">
+		<value>Enviar Mensaje</value>
 	</data>
 	<data name="TVB.ProfileScreen.TextAchievements" xml:space="preserve">
 		<value>LOGROS</value>
@@ -432,7 +450,7 @@ Pasea por todas las salas y encuentralos todos.</value>
 		<value>PACKS</value>
 	</data>
 	<data name="TVB.ProfileScreen.TextRankings" xml:space="preserve">
-		<value>RANKING</value>
+		<value>RANKING DE FANS</value>
 	</data>
 	<data name="TVB.Settings.LanguageEnglish" xml:space="preserve">
 		<value>Inglés</value>
@@ -483,7 +501,7 @@ Pasea por todas las salas y encuentralos todos.</value>
 		<value>Accede desde aquí a cualquier sala del Tour Virtual</value>
 	</data>
 	<data name="TVB.Tutorial.ProfileIconDescription" xml:space="preserve">
-		<value>Consulta tus contenidos,  logros desbloqueados y tus estadísticas</value>
+		<value>Consulta tus contenidos desbloqueados, tus logros y tus estadísticas</value>
 	</data>
 	<data name="TVB.Tutorial.SettingsIconDescription" xml:space="preserve">
 		<value>Cambia la configuración de la aplicación</value>

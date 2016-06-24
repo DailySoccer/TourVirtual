@@ -12,6 +12,10 @@ public class FacebookManager : MonoBehaviour
 	//public Image LedShare;
 	#endregion
 
+
+	public static FacebookManager Instance {get; set;}
+
+
 	#region Public methods
 	/// <summary>
 	/// Prompt facebook log in pop up
@@ -32,6 +36,7 @@ public class FacebookManager : MonoBehaviour
 	/// </summary>
 	public void ShareToFacebook(FacebookLink aLink)
 	{
+		Debug.LogError("Intentando compartir en Facebook");
 #if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!_processingThread)
 		{
@@ -45,6 +50,11 @@ public class FacebookManager : MonoBehaviour
 	#region MonoBehaviour methods
 	void Awake()
 	{
+		if (Instance == null) {
+			Instance = this;
+			//Debug.LogError("Iniciando Instancia de FacebookManager");
+		}
+
 		_updateLedLogIn = true;
 		_processedLogIn = true;
 		_processingThread = false;
@@ -59,6 +69,7 @@ public class FacebookManager : MonoBehaviour
 		}
 #endif
 	}
+
 	// Use this for initialization
 	void Start()
 	{

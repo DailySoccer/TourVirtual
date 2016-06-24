@@ -19,7 +19,7 @@ public static class ExtensionMethods
 	public static DateTime GetMessageDate(this ChatMessage msg){
         
 		string msgDateTime = msg.Text.Substring(0, msg.getDateTextSeparatorIndex() );
-        return DateTime.SpecifyKind(DateTime.Parse(msgDateTime), DateTimeKind.Utc);
+        return DateTime.SpecifyKind(DateTime.Parse(msgDateTime), DateTimeKind.Utc).ToLocalTime();
 	}
 
 	public static int getDateTextSeparatorIndex(this ChatMessage cht) {

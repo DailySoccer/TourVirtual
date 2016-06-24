@@ -1,46 +1,42 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
-using FootballStar.Audio;
 
 public class AudioButton : MonoBehaviour {
 	
-	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_MENU;
- 	
+	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_TICK;
+	Button myButton;
+
 	void Start()
 	{
-		mAudioGameController = GameObject.FindGameObjectWithTag("GameModel").GetComponent<AudioInGameController>();
+		//mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
+		myButton = GetComponent<Button> ();
+		myButton.onClick.AddListener (PlaySound);
 	}
 
-	void OnClick()
+
+	void OnDestroy() {
+		GetComponent<Button> ().onClick.RemoveListener(PlaySound);
+	}
+
+	void PlaySound()
 	{
 		switch (SoundDefinition) 
 		{
-			case SoundDefinitions.BUTTON_MENU:
-					mAudioGameController.PlayMenuButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_BACK:
-					mAudioGameController.PlayGoBackButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_STARTPLAYING:
-					mAudioGameController.PlayStartMatchSound();
-				break;
-				case SoundDefinitions.BUTTON_SELECTOR :
-					mAudioGameController.PlaySelectorSound();
-				break;
-				case SoundDefinitions.BUTTON_REPLAY:
-					mAudioGameController.PlayReplayButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_EXITMATCH:
-					mAudioGameController.StopAllActiveAudios(true);
-					mAudioGameController.PlayContinueButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_CONTINUE:
-					mAudioGameController.PlayContinueButtonSound();
-				break;
-				case SoundDefinitions.BUTTON_PLAY:
-					mAudioGameController.PlayMatchStartSound();
-				break;
+			case SoundDefinitions.BUTTON_TICK:
+                AudioInGameController.Instance.PlayButtonTick();
+			break;
+			case SoundDefinitions.BUTTON_FORWARD:
+                AudioInGameController.Instance.PlayButtonForward();
+			break;
+			case SoundDefinitions.BUTTON_BACKWARD:
+                AudioInGameController.Instance.PlayButtonBackward();
+			break;
+			case SoundDefinitions.BUTTON_ACCEPT:
+                AudioInGameController.Instance.PlayButtonAccept();
+			break;
 		}
 	}
-	private AudioInGameController mAudioGameController;
+
+	//private AudioInGameController mAudioGameController;
 }

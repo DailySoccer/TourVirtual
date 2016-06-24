@@ -53,7 +53,6 @@ public class FollowAvatar : MonoBehaviour {
 
 	void HandleOnSceneReady ()	{
 		_followedAvatar = null;
-		
 	}
 	
 	void HandlePointOfInterest() {

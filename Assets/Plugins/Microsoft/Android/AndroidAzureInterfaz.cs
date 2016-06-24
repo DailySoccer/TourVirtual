@@ -38,7 +38,24 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         activity.Call("Logout");
     }
 
-    public override void CheckDeepLinking() { SetDeepLinking( activity.Call<string>("GetDeepLinking") ); }
+    public override void CheckDeepLinking()
+    {
+        string dl = activity.Call<string>("GetDeepLinking");
+        if (string.IsNullOrEmpty(dl)) {
+            try
+            {
+                AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
+                AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
+                dl=uri.Call<string>("toString");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning(ex.Message);
+            }
+        }
+        SetDeepLinking(dl);
+    }
+        
 
     public void OnResponseOK(string response) {
         AsyncOperation.EndOperation(true, response);

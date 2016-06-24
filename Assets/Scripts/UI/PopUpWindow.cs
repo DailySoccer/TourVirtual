@@ -47,7 +47,7 @@ public class PopUpWindow : UIScreen {
 	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
 	private List<GameObject> AchievementsGridSlotGameObjectsList = new List<GameObject>();
-	private AchievementsAPI.Achievement currentAchivementSelected;
+
 
 	public GameObject SingleContent;
 	ThirdProfileController ThirdsProfile;
@@ -60,11 +60,20 @@ public class PopUpWindow : UIScreen {
 
 	public GameObject SettingsGameObject;
 
-	string currentSelectedItemGUID;
-	public ClothSlot CurrentVestidorPrenda;
+	public GameObject RankingFanLevelGameObject;
+	public GameObject RankingFanLevelParentList;
+	public GameObject RankingFanLevelSlot;
+	public GameObject RankingShareButton;
+	private List<GameObject> RankingFanLevelSlotGameObjectList = new List<GameObject>();
 
-    // Use this for initialization
-    void Start () {
+
+	string currentSelectedItemGUID;
+	ContentAPI.Content currentSelectedPack;
+	ClothSlot CurrentVestidorPrenda;
+	AchievementsAPI.Achievement currentAchivementSelected;
+
+	// Use this for initialization
+	void Start () {
 		//StandardTitleText.gameObject.SetActive(true);
 
 		if (ThirdsProfileTitle != null) {
@@ -153,8 +162,9 @@ public class PopUpWindow : UIScreen {
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.Info");
-				DetailedContent2Buttons modalDetail = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
-				if (currentAchivementSelected != null) modalDetail.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+				DetailedContent2Buttons modalDetailInfo = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailInfo.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
 				
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.OK_ONLY;
 
@@ -163,7 +173,11 @@ public class PopUpWindow : UIScreen {
 			case ModalLayout.SINGLE_CONTENT_SHARE:
 				SingleContent.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
-				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");//"COMPARTE TU ADQUISICIÓN";
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.ShareContentTitle");
+				DetailedContent2Buttons modalDetailShare = SingleContent.GetComponentInChildren<DetailedContent2Buttons>();
+				if (currentAchivementSelected != null) 
+					modalDetailShare.Setup (currentAchivementSelected.Name, currentAchivementSelected.Description, currentAchivementSelected.Image, "");
+
 				SingleContentLayOut.CurrentLayout = DetailedContent2ButtonsLayout.SHARE;
 			break;
 					
@@ -210,6 +224,11 @@ public class PopUpWindow : UIScreen {
 			//TODO: Mostrar modal con el fan level
 			case ModalLayout.FANLEVEL_RANKING:
 				Debug.Log ("TODO: Mostrar modal con el fan level");
+				RankingFanLevelGameObject.SetActive (true);
+				StandardTitleText.gameObject.SetActive (true);
+				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.FanLevelRankingTitle");
+				SetupFanRankingListContent();
+				RankingShareButton.SetActive(IsInRanking());
 			break;
 		}
 	}
@@ -260,6 +279,11 @@ public class PopUpWindow : UIScreen {
 			SettingsGameObject.SetActive(false);
 		}
 
+		if (RankingFanLevelSlotGameObjectList != null){
+			CleanARankingFanLevelSlotGameObjectList();
+			RankingFanLevelGameObject.SetActive(false);
+		}
+
 		CloseButton.SetActive (true);
 	}
 
@@ -296,6 +320,7 @@ public class PopUpWindow : UIScreen {
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentSelectedItemGUID = item.Content.GUID;
+		currentSelectedPack = item.Content;
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
@@ -309,6 +334,9 @@ public class PopUpWindow : UIScreen {
 
 		//TODO: Traer los datos y meterlos en la ventana
 		LoadingCanvasManager.Show("TVB.Message.LoadingData");
+
+		currentSelectedPack = UserAPI.Contents.Contents[packId];
+
 		StartCoroutine(UserAPI.Contents.GetContent(packId, PackContentCallBack));
 
 	}
@@ -369,10 +397,11 @@ public class PopUpWindow : UIScreen {
 		}
         AchievementsGridSlotGameObjectsList.Clear ();
 	}
+
 	public void AchievementItemSlot_Click(AchievementSlot item) {
 		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		currentAchivementSelected = item.TheAchivment;
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_INFO);
+		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
 	}
 
 
@@ -409,7 +438,103 @@ public class PopUpWindow : UIScreen {
 		}
 	}
 
+	public bool IsInRanking()
+	{
+		UserAPI.ScoreEntry[] rankingArray = UserAPI.Instance.GetFanRanking();
+		UserAPI.ScoreEntry me = new UserAPI.ScoreEntry();
+
+		foreach (UserAPI.ScoreEntry se in rankingArray)
+		{
+			if (se.IsMe)
+				me = se;
+		}
+		return me.Position != 0;
+	}
+
+	void SetupFanRankingListContent() {
+		UserAPI.ScoreEntry[] scoreArray = UserAPI.Instance.GetFanRanking ();
+
+		RankingFanLevelSlotGameObjectList = new List<GameObject> ();
+
+		bool alreadyInList = false;
+
+		if (IsInRanking())
+		{
+			for (int i = 0; i < scoreArray.Length; i++)
+			{
+				if (RankingFanLevelSlotGameObjectList.Count >= 9)
+				{
+					if (!alreadyInList)
+					{// Si ya hay 9 oposiciones en el ranking y no estoy en la lista..
+						if (scoreArray[i].IsMe)
+						{// Sólo inserto el 10º si soy yo.
+							RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+						}
+					}
+					else
+					{
+						RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+					}
+				}
+				else
+				{ // Si hay menos de 9 oposiciones en el ranking
+
+					RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+					if (scoreArray[i].IsMe)
+					{
+						alreadyInList = true;
+					}
+				}
+			}
+		}
+		else
+		{
+			int MaxElements = Mathf.Min(10, scoreArray.Length);
+			for (int i = 0; i < MaxElements; i++)
+			{
+				RankingFanLevelSlotGameObjectList.Add(CreateFanRankingSlot(scoreArray[i], i));
+			}
+		}
+	}
+
+	private GameObject CreateFanRankingSlot (UserAPI.ScoreEntry scoreArray, int pos) {
+		GameObject slot = Instantiate(RankingFanLevelSlot);
+		slot.transform.SetParent(RankingFanLevelParentList.transform);
+		slot.GetComponent<LevelFanRankingSlot>().SetupSlot(scoreArray.Position.ToString(), scoreArray.Nick, scoreArray.Score.ToString(), scoreArray.IsMe);
+		slot.transform.localScale = Vector3.one;
+		slot.name = "FanLevelRankigPosition_" + pos;
+
+		Debug.LogErrorFormat("{0}) {1} / {2}, Soy yo? : {3}", scoreArray.Position, scoreArray.Nick, scoreArray.Score, scoreArray.IsMe? "Si" : "No" );
+
+		return slot;
+	}
+	
+	void CleanARankingFanLevelSlotGameObjectList() {
+		foreach (GameObject go in RankingFanLevelSlotGameObjectList) {
+			Destroy (go);
+		}
+		RankingFanLevelSlotGameObjectList.Clear ();
+	}
+
 	public void CloseModalScreen() {
 		TheGameCanvas.HideModalScreen ();
+		currentAchivementSelected = null;
+		currentSelectedPack = null;
     }
+
+	public void ShareWithFB() {
+		if (currentAchivementSelected != null) {
+			#if UNITY_EDITOR
+				Debug.LogErrorFormat("Trying to share Achievement with Facebook: achievementID {0} -> Achievement Name<{1}>", currentAchivementSelected.IName, currentAchivementSelected.Name);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.AchievementShare(currentAchivementSelected.IName, currentAchivementSelected.Name));
+		}
+		if (currentSelectedPack != null) {
+			string packId = currentSelectedPack.ContenName.Replace("CONTENT","");
+			#if UNITY_EDITOR
+			Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
+			#endif
+			FacebookManager.Instance.ShareToFacebook(FacebookLink.ContentUnlockedShare(packId));
+		}
+	}
 }
