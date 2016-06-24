@@ -35,7 +35,7 @@ public class JoystickController : MonoBehaviour {
 	
 	private EventTrigger _eventTriggerCache;
 
-	private static float DPI = Screen.dpi != 0 ? 1/Screen.dpi : 1;
+	private static float DPI;
 	
 	/*
 	[SerializeField]
@@ -85,7 +85,9 @@ public class JoystickController : MonoBehaviour {
 		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width / 2;
 
       UpdateJoystickParams();
-		
+
+		DPI = Screen.dpi != 0 ? 1 / Screen.dpi : 1;
+
 		ControlVisible(false);
 	}
 	
@@ -171,7 +173,6 @@ public class JoystickController : MonoBehaviour {
 		_touchStartPoint = Vector2.zero;
 		_deltaTouch = Vector2.zero;
 		_touchCurrentPoint = Vector2.zero;
-		DPI = Screen.dpi != 0 ? 1/Screen.dpi : 1;
 	}
 	
 }
