@@ -184,6 +184,50 @@
 				"SCENE": "scene/minifutbol"
 			},
 			"pack":"PCK.scene.minifutbol"
+		},
+    {
+      "id": "ROOM8",
+      "name": "Valdebebas",
+      "scene": "Hall_Valdebebas",
+      "gui": "GAME",
+      "max_players": 16,
+      "hidden_objects": false,
+      "gamaction":  "VIRTUALTOUR_ACC_SALA_10",
+      "doors": {
+          "PUERTA1": "ESTADIO#PUERTA3",
+      },
+			"bundles": {
+				  "SCENE": "scene/hall_valdebebas"
+			},
+			"pack":"PCK.scene.hall_valdebebas"
+    },
+    { 
+			"id": "MINIBASKET",
+			"name": "Basket Minigame",
+      "scene": "BasketballCourt",
+			"player_visible": false,
+            "max_players": 1,
+			"doors": {
+				"EXIT": "ROOM3#PUERTA3"
+			},
+			"bundles": {
+				"SCENE": "scene/minibasket"
+			},
+			"pack":"PCK.scene.minibasket"
+		},
+        { 
+			"id": "MINIFOOTBALL",
+			"name": "Football Minigame",
+            "scene": "FootballCourt",
+			"player_visible": false,
+            "max_players": 1,
+			"doors": {
+				"EXIT": "ROOM1#PUERTA5"
+			},
+			"bundles": {
+				"SCENE": "scene/minifutbol"
+			},
+			"pack":"PCK.scene.minifutbol"
 		}
 	],
 	"assets": [
