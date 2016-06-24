@@ -27,7 +27,7 @@ public class PurchasedItemSlot : MonoBehaviour {
 	public void SetupSlot(PopUpWindow parentController, ContentAPI.Content item){//string productName, string pictureUrl, string theId) {
 		theParentController = parentController;
 		Content = item;
-		StartCoroutine(MyTools.LoadSpriteFromURL(Content.PackURL, Picture.gameObject));
+		StartCoroutine(MyTools.LoadSpriteFromURL(Content.ThumbURL, Picture.gameObject));
 		PurchasedPackName.text = Content.Description;//productName;
 		TheID = Content.VirtualGoodID;//theId;
 	}

@@ -48,7 +48,6 @@ public class WSAAzureInterfaz : AzureInterfaz {
     }
 
     public override void CheckDeepLinking() { 
-        Debug.LogError(">>>> CheckDeepLinking  " + UnityEngine.WSA.Application.arguments);
         SetDeepLinking(  UnityEngine.WSA.Application.arguments ); 
 
     }
@@ -138,7 +137,6 @@ public class WSAAzureInterfaz : AzureInterfaz {
             pau.PhysicalProperties = PhysicalProperties;
 
 
-            Debug.LogError("Accesories.Count "+(profile["Accesories"] as List<object>).Count);
             var Accesories = new List<ProfileAvatarAccessoryItem>();
             foreach (Dictionary<string, string> item in profile["Accesories"] as List<object>) {
                 Accesories.Add(new ProfileAvatarAccessoryItem() {
@@ -147,7 +145,6 @@ public class WSAAzureInterfaz : AzureInterfaz {
                     Type = item["Type"],
                     Version = item["Version"]
                 });
-                Debug.LogError("ID "+item["IdVirtualGood"]+" Data "+item["Data"]+" Type "+item["Type"]+" Version "+item["Version"]);
             }
             pau.Accesories = Accesories;
 
