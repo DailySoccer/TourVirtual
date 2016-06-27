@@ -170,13 +170,14 @@ MonoBehaviour:
   _anchors:
   - _style: 0
     _transform: {fileID: 493190}
-  _wallLayerName: CameraCollision
-  _smoothSecs: .100000001
   _pitchDegreesMin: -20
   _pitchDegreesMax: 20
-  _smoothDistSqrMin: .100000001
-  _wallSafeDistance: 0
-  _wallAvoidanceDistMin: 1
+  _wallLayerName: CameraCollision
+  _wallSafeDistance: -1
+  _wallCollisionDistMin: 1
+  _wallCollisionRadiusMin: .300000012
+  _smoothSecsMax: .100000001
+  _smoothStopSecs: .100000001
 --- !u!114 &11462548
 MonoBehaviour:
   m_ObjectHideFlags: 1

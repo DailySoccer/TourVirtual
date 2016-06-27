@@ -79,6 +79,8 @@ public class SyncCameraTransform : MonoBehaviour
 		_camera = Camera.main;
 	}
 
+	
+
 	/// <summary>
 	/// 
 	/// </summary>
@@ -88,22 +90,6 @@ public class SyncCameraTransform : MonoBehaviour
 		_anchors = null;
 	}
 
-	/// <summary>
-	/// 
-	/// </summary>
-	private void OnEnable()
-	{
-		RoomManager.Instance.OnSceneReady += OnRoomReady;
-	}
-
-	
-	/// <summary>
-	/// 
-	/// </summary>
-	private void OnDisable()
-	{
-		RoomManager.Instance.OnSceneReady -= OnRoomReady;
-	}
 
 	/// <summary>
 	/// 
@@ -121,7 +107,7 @@ public class SyncCameraTransform : MonoBehaviour
 		CameraAnchor anchor = _anchorsByStyle[Player.Instance.cameraStyle];
 		anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
 
-		SyncWith(anchor, !_isEnteringNewRoom);
+		SyncWith(anchor);
 	}
 
 
@@ -130,7 +116,7 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	/// <param name="anchor"></param>
 	/// <param name="smoothTransition"></param>
-	private void SyncWith(CameraAnchor anchor, bool smoothTransition = true)
+	private void SyncWith(CameraAnchor anchor)
 	{
 		_camera.transform.rotation = anchor.Transform.rotation;
 		
@@ -145,71 +131,86 @@ public class SyncCameraTransform : MonoBehaviour
 		}
 		Debug.DrawLine(nearPos, anchor.Target, Color.magenta);
 /*/
-		Vector3 targetPosition;
+		
 
-		RaycastHit wallInfo;
-		if (anchor.Radius < _wallAvoidanceDistMin 
-			|| !Physics.Raycast(anchor.Target, -anchor.Transform.forward, out wallInfo, 
-			anchor.Distance - _camera.nearClipPlane, LayerMask.GetMask(_wallLayerName)))
+		RaycastHit wallInfo = new RaycastHit();
+		IsCollidingWithWall = anchor.Radius > _wallCollisionDistMin &&
+			Physics.SphereCast(anchor.Target, _wallCollisionRadiusMin, -anchor.Transform.forward, 
+				out wallInfo, anchor.Distance - _camera.nearClipPlane, LayerMask.GetMask(_wallLayerName));
+
+		Vector3 targetPosition;
+		if (!IsCollidingWithWall)
 		{
 			targetPosition = anchor.Transform.position;
+			if (_smoothSecs > 0f)
+				_smoothSecs -= Time.deltaTime*_smoothStopSecs;
+
 			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.green);
 		}
 		else
 		{
 			targetPosition = wallInfo.point
 				- _wallSafeDistance * _camera.nearClipPlane * anchor.Transform.forward;
-			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.red);
+			_smoothSecs = _smoothSecsMax;
+
+			Debug.DrawRay(anchor.Target, wallInfo.point  - anchor.Target, Color.red);
 		}
 
 /**/
 
-		if (smoothTransition && Vector3.SqrMagnitude(_camera.transform.position - targetPosition) > _smoothDistSqrMin)
+		if(_smoothSecs > 0f)
 			_camera.transform.position = Vector3.SmoothDamp(
 				_camera.transform.position, targetPosition, ref _smoothVelo, _smoothSecs);
 		else
 			_camera.transform.position = targetPosition;
-
 	}
 
-	//===============================================
 
-	/// <summary>
-	/// 
-	/// </summary>
-	private void OnRoomReady()
-	{
-		StartCoroutine(RoomEnterCourutine());
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <returns></returns>
-	private IEnumerator RoomEnterCourutine()
-	{
-		_isEnteringNewRoom = true;
-		yield return RoomEnterYield;
-		_isEnteringNewRoom = false;
-	}
 
 	//=================================================
 
+	
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private bool IsCollidingWithWall
+	{
+		get { return _isCollidingWithWall; }
+		set
+		{
+			if (value == _isCollidingWithWall)
+				return;
+			_isCollidingWithWall = value;
+		}
+	}
+
 	[SerializeField] private Camera _camera;
 	[SerializeField] private CameraAnchor[] _anchors;
-	[SerializeField] private string _wallLayerName = "Wall";
-	[SerializeField] private float _smoothSecs = 0.1f;
 
 	private float _pitch;
-	[SerializeField, Range(-90f,  0f)] private float _pitchDegreesMin = -20f;
-	[SerializeField, Range(  0f, 90f)] private float _pitchDegreesMax =  20f;
+	[SerializeField, Range(-90f, 0f)]
+	private float _pitchDegreesMin = -20f;
+	[SerializeField, Range(0f, 90f)]
+	private float _pitchDegreesMax = 20f;
 
-	[SerializeField, Range(0f, 5f)] private float _smoothDistSqrMin = 1f;
-	[SerializeField, Range(-5f, 5f)] private float _wallSafeDistance = 0f;
-	[SerializeField, Range(0f, 5f)] private float _wallAvoidanceDistMin = 1f;
+	[SerializeField] private string _wallLayerName = "Wall";
+	[SerializeField, Range(-5f, 5f)]
+	private float _wallSafeDistance = 0f;
+	[SerializeField, Range(0f, 5f)]
+	private float _wallCollisionDistMin = 1f;
+	[SerializeField, Range(0f, 5f)]
+	private float _wallCollisionRadiusMin = .2f;
+	
+	[SerializeField, Range(0f, 5f)]
+	private float _smoothSecsMax = 0.1f;
+	[SerializeField, Range(0f, 1f)]
+	private float _smoothStopSecs;
 
-	private static readonly WaitForSeconds RoomEnterYield = new WaitForSeconds(1f);
+
 	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
 	private Vector3 _smoothVelo = Vector3.zero;
-	private bool _isEnteringNewRoom;
+	private bool _isCollidingWithWall;
+	private float _smoothSecs; 
+	
 }
