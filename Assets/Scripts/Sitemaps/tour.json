@@ -184,7 +184,23 @@
 				"SCENE": "scene/minifutbol"
 			},
 			"pack":"PCK.scene.minifutbol"
-		}
+		},
+    {
+      "id": "ROOM8",
+      "name": "Valdebebas",
+      "scene": "Hall_Valdebebas",
+      "gui": "GAME",
+      "max_players": 16,
+      "hidden_objects": false,
+      "gamaction":  "VIRTUALTOUR_ACC_SALA_10",
+      "doors": {
+          "PUERTA1": "ESTADIO#PUERTA3",
+      },
+			"bundles": {
+				  "SCENE": "scene/hall_valdebebas"
+			},
+			"pack":"PCK.scene.hall_valdebebas"
+    }
 	],
 	"assets": [
 	]

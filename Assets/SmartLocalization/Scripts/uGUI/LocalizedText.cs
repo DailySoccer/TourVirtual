@@ -9,11 +9,19 @@ using System.Collections;
 public class LocalizedText : MonoBehaviour 
 {
 	public string localizedKey = "INSERT_KEY_HERE";
+	public void SetLocalizedTextKey(string val) {
+		localizedKey = val;
+		OnChangeLanguage(LanguageManager.Instance);
+	}
 	Text textObject;
 	
+	void Awake() {
+		textObject = this.GetComponent<Text>();
+	}
+
 	void Start () 
 	{
-		textObject = this.GetComponent<Text>();
+		//textObject = this.GetComponent<Text>();
 	
 		//Subscribe to the change language event
 		LanguageManager languageManager = LanguageManager.Instance;
