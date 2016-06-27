@@ -198,7 +198,7 @@ public class AudioMaster : MonoBehaviour {
 	    source.Play();
 	    
 		//Set the source as active
-		mActiveAudio.Add(new ClipInfo{Source = source, Volume = gs.Volume * masterVolume, Definition = soundDef});
+		mActiveAudio.Add(new ClipInfo{Source = source, Volume = gs.Volume, Definition = soundDef});
 	    return source;
 	}
 	
