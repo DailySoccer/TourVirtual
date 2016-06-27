@@ -28,6 +28,17 @@ public class MinigameCanvasController : MonoBehaviour {
 
 		// Mostramos la ventana popup con el ranking y el botón de jugar
 		HideAllScreens ();
+		RoomManager.Instance.OnSceneReady += Ready;
+	}
+
+	void Start() {
+		Debug.LogError(" ============>  MINIGAME START <==============");
+
+	}
+
+	void Ready() {
+		Debug.LogError(" ============>  ROOM READY <==============");
+		RoomManager.Instance.OnSceneReady -= Ready;
 		ShowInitialScreen ();
 	}
 
