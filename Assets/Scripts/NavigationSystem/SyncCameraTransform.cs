@@ -47,8 +47,7 @@ public class SyncCameraTransform : MonoBehaviour
 					float.IsNaN(Transform.localRotation.z), 
 					"SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
 				 
-				Transform.localRotation = Quaternion.Euler(-value, 
-					Transform.localRotation.y, Transform.localRotation.z);
+				Transform.localRotation = Quaternion.AngleAxis(-value, Vector3.right);
 
 				Distance = Radius / Mathf.Cos(Mathf.Deg2Rad * value);
 
