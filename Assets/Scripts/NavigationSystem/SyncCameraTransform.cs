@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class SyncCameraTransform : MonoBehaviour
 {
@@ -41,6 +42,11 @@ public class SyncCameraTransform : MonoBehaviour
 				if (Mathf.Approximately(value, _pitchDegrees))
 					return;
 
+				Assert.IsFalse(float.IsNaN(value) && 
+					float.IsNaN(Transform.localRotation.y) &&
+					float.IsNaN(Transform.localRotation.z), 
+					"SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
+				 
 				Transform.localRotation = Quaternion.Euler(-value, 
 					Transform.localRotation.y, Transform.localRotation.z);
 
