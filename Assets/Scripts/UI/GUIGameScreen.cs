@@ -35,8 +35,10 @@ public class GUIGameScreen : GUIScreen
 		if (RoomManager.Instance.Room != null) {
 			//PCK.scene.estadio_bernabeu
 			LocalizedText LocalizedTextComp = RoomTitle.gameObject.GetComponent<LocalizedText>();
-			if (LocalizedTextComp != null)
-				LocalizedTextComp.SetLocalizedTextKey(RoomManager.Instance.Room.Pack);
+			if (LocalizedTextComp != null) {
+				string key = RoomManager.Instance.Room.Pack.ToLower().Contains("estadio") ? RoomManager.Instance.Room.Pack + "#" + RoomManager.Instance.GetEntranceDoor().ToLower() :  RoomManager.Instance.Room.Pack;
+				LocalizedTextComp.SetLocalizedTextKey(key);
+			}
 		}
 	}
 	
