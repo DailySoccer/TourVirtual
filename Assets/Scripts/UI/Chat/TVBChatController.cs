@@ -197,7 +197,10 @@ public class TVBChatController : MonoBehaviour
 			int unreadedCount = (from Dictionary<string, object> hash in _friendChats[channelName]
 				where (bool) hash["readed"] == false
 				select hash).Count();
-			channel.GetComponentInChildren<BadgeAlert>().Count = unreadedCount;
+
+			var badgeAlert = channel.GetComponentInChildren<BadgeAlert>();
+			if(badgeAlert != null)
+				badgeAlert.Count = unreadedCount;
 		}
 
 #if UNITY_EDITOR
