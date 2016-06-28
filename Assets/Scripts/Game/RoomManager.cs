@@ -337,7 +337,7 @@ public class RoomManager : Photon.PunBehaviour {
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
         StartCoroutine(CanvasRootController.Instance.FadeIn(1));
 
-
+		/*
 		if (roomDefinition.Id == "ESTADIO")
 			InitialTutorial.Instance.SartTutorial();
 
@@ -345,6 +345,30 @@ public class RoomManager : Photon.PunBehaviour {
 			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.VESTIDOR_THEME, true, true);
 		else
 			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
+
+		if (roomDefinition.Id == "MINIBASKET" || roomDefinition.Id == "MINIFOOTBALL" )
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true, true);
+		*/
+
+		switch (roomDefinition.Id) {
+		case "ESTADIO":
+			InitialTutorial.Instance.SartTutorial();
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
+			break;
+
+		case "VESTIDORLITE":
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.VESTIDOR_THEME, true, true);
+			break;
+
+		case "MINIBASKET":
+		case "MINIFOOTBALL":
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true, true);
+			break;
+		
+		default:
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
+			break;		
+		}
 
 	}
 

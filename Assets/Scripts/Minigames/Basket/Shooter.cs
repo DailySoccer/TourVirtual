@@ -28,6 +28,10 @@ namespace Basket
 
         public float gameTime = 30.0f;
         float currentTime;
+
+		int lastsecond = 0;
+		int currentSecond = 0;
+
         public int round = 0;
         public int streak = 0;
         public int score = 0;
@@ -95,6 +99,7 @@ namespace Basket
             transform.rotation = Quaternion.identity;
             transform.position = new Vector3(0, 1.85f, -4.69f);
             currentTime = gameTime;
+			lastsecond = (int)gameTime;
             round = 0;
             streak = 0;
             score = 0;
@@ -112,7 +117,10 @@ namespace Basket
         public void OnScore()
         {
             if(gameState != GameState.Playing) return;
+
             score++;
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BASKET_GOAL);
+
             streak++;
             if (score > record) {
 				record = score;
@@ -152,16 +160,27 @@ namespace Basket
         }
 
         public void Play() {
-            if(gameState == GameState.WaitStart)
-                gameState = GameState.Playing;
+            if (gameState == GameState.WaitStart) {
+				gameState = GameState.Playing;
+				AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_START);
+			}
         }
 
-        // Update is called once per frame
+		// Update is called once per frame
         void Update() {
             switch (gameState) {
                 case GameState.Playing:
                     {
                         currentTime -= Time.deltaTime;
+						
+						currentSecond = Mathf.RoundToInt(currentTime);
+						if (lastsecond > currentSecond) {
+							lastsecond = currentSecond;
+							if (lastsecond <= 5 && lastsecond > 0) {
+								AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_COUNTDOWN);
+							}
+						}										
+
                         UpdateBoard();
                         if (currentTime < 0)
                         {
@@ -328,6 +347,8 @@ namespace Basket
 
         void OnFinishGame()
         {
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_END);
+
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeShoots, score);
             Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET");
 

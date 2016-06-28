@@ -29,6 +29,10 @@ namespace Football
 
         public float gameTime = 30.0f;
         float currentTime = 0;
+				
+		int lastsecond = 0;
+		int currentSecond = 0;
+
         public int round = 0;
         public int streak = 0;
         public int score = 0;
@@ -98,6 +102,7 @@ namespace Football
             transform.position = new Vector3(-41.4f, 0, 0);
             transform.rotation = Quaternion.Euler(0, -90, 0);
             currentTime = gameTime;
+			lastsecond = (int)gameTime;
             round = 0;
             streak = 0;
             score = 0;
@@ -115,8 +120,10 @@ namespace Football
 
         public void OnScore()
         {
-            if(gameState!=GameState.Playing) return;
+			if(gameState!=GameState.Playing) return;
+
             score++;
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.FOOTBALL_GOAL);
             streak++;
 			if (score > record) {
 				record = score;
@@ -151,18 +158,27 @@ namespace Football
 
         public void Play()
         {
-            if (gameState == GameState.WaitStart)
-                gameState = GameState.Playing;
+            if (gameState == GameState.WaitStart) {
+				gameState = GameState.Playing;
+				AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_FOOTBALL_START);
+			}
         }
 
         // Update is called once per frame
-        void Update()
-        {
-            switch (gameState)
-            {
+        void Update() {
+            switch (gameState) {
                 case GameState.Playing:
                     {
                         currentTime -= Time.deltaTime;
+
+						currentSecond = Mathf.RoundToInt(currentTime);
+						if (lastsecond > currentSecond) {
+							lastsecond = currentSecond;
+							if (lastsecond <= 5 && lastsecond > 0) {
+								AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_FOOTBALL_COUNTDOWN);
+							}
+						}
+
                         UpdateBoard();
                         if (currentTime < 0){
                             OnFinishGame();
@@ -347,6 +363,7 @@ namespace Football
 
         void OnFinishGame()
         {
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_FOOTBALL_END);
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
             Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL");
 
