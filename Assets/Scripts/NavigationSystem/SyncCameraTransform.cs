@@ -38,11 +38,14 @@ public class SyncCameraTransform : MonoBehaviour
 			get { return _pitchDegrees; }
 			set
 			{
-				value = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
-				if (Mathf.Approximately(value, _pitchDegrees))
-					return;
+				if(float.IsNaN(value)) {
+					Debug.LogError("SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
+					value = 0f;
+				}
 
-				Assert.IsFalse(float.IsNaN(value), "SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
+				value = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
+				if (Mathf.Approximately(value, _pitchDegrees))	
+					return;
 
 				_pitchDegrees = value;
 
@@ -105,6 +108,12 @@ public class SyncCameraTransform : MonoBehaviour
 			return;
 		
 		CameraAnchor anchor = _anchorsByStyle[Player.Instance.cameraStyle];
+
+		if(float.IsNaN(anchor.PitchDegrees)) {
+			Debug.LogError("SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
+			anchor.PitchDegrees = 0f;
+		}
+
 		anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
 
 		SyncWith(anchor);
