@@ -223,7 +223,9 @@ public class PopUpWindow : UIScreen {
 
 			//TODO: Mostrar modal con el fan level
 			case ModalLayout.FANLEVEL_RANKING:
+			#if UNITY_EDITOR
 				Debug.Log ("TODO: Mostrar modal con el fan level");
+			#endif
 				RankingFanLevelGameObject.SetActive (true);
 				StandardTitleText.gameObject.SetActive (true);
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.FanLevelRankingTitle");
@@ -318,7 +320,9 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void PurchasedItemSlot_Click(PurchasedItemSlot item) {
-		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		#if UNITY_EDITOR
+			Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		#endif
 		currentSelectedItemGUID = item.Content.GUID;
 		currentSelectedPack = item.Content;
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
@@ -399,7 +403,9 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void AchievementItemSlot_Click(AchievementSlot item) {
-		Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		#if UNITY_EDITOR
+			Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
+		#endif
 		currentAchivementSelected = item.TheAchivment;
 		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
 	}
@@ -411,8 +417,10 @@ public class PopUpWindow : UIScreen {
 		ThirdsProfile.Setup (dataModel);
     }
 
-	public void SetupFlyerPackContent(ContentAPI.Content content) {	
-		Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
+	public void SetupFlyerPackContent(ContentAPI.Content content) {
+		#if UNITY_EDITOR
+			Debug.Log ("[PopUpWindow] en " + name + "El contenido de esta vitrina está bloqueado");
+		#endif
 
 		LoadingCanvasManager.Show ("TVB.Message.LoadingData");
 
@@ -503,9 +511,9 @@ public class PopUpWindow : UIScreen {
 		slot.GetComponent<LevelFanRankingSlot>().SetupSlot(scoreArray.Position.ToString(), scoreArray.Nick, scoreArray.Score.ToString(), scoreArray.IsMe);
 		slot.transform.localScale = Vector3.one;
 		slot.name = "FanLevelRankigPosition_" + pos;
-
-		Debug.LogErrorFormat("{0}) {1} / {2}, Soy yo? : {3}", scoreArray.Position, scoreArray.Nick, scoreArray.Score, scoreArray.IsMe? "Si" : "No" );
-
+		#if UNITY_EDITOR
+			Debug.LogErrorFormat("{0}) {1} / {2}, Soy yo? : {3}", scoreArray.Position, scoreArray.Nick, scoreArray.Score, scoreArray.IsMe? "Si" : "No" );
+		#endif
 		return slot;
 	}
 	
@@ -532,7 +540,7 @@ public class PopUpWindow : UIScreen {
 		if (currentSelectedPack != null) {
 			string packId = currentSelectedPack.ContenName.Replace("CONTENT","");
 			#if UNITY_EDITOR
-			Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
+				Debug.LogErrorFormat("Trying to share Unlocked Content Pack with Facebook: CONTENT_ID {0}", packId);
 			#endif
 			FacebookManager.Instance.ShareToFacebook(FacebookLink.ContentUnlockedShare(packId));
 		}
