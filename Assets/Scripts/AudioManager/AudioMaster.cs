@@ -1,4 +1,5 @@
-	using UnityEngine;
+using UnityEngine;
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ public class AudioMaster : MonoBehaviour {
 	private AudioSource mActiveVoiceOver; 	// Sonido VoiceOver activo
 	private AudioSource mActiveMusic;		// Musica en reproducción
 
-
+	private const string LOOP_PREFIX = "Loop_";
 	
 	void Awake()
 	{
@@ -171,22 +172,23 @@ public class AudioMaster : MonoBehaviour {
 	// Reproduce un sonido en forma Loop
 	public AudioSource PlayLoop(SoundDefinitions soundDef, bool forceRestart) 
 	{
-		if (!IsPlayingSoundDefinition (soundDef) ) {
-			if (mActiveMusic != null) {
-				Destroy (mActiveMusic.gameObject);
-				mActiveMusic = null;
-			}
-		}
-		else {
+		//AudioSource currentMusic = mActiveMusic;
+
+		if (IsPlayingSoundDefinition (soundDef) ) {
 			if (forceRestart) {
 				StopSound( soundDef );
 			}
 			else {
-				return null;
+				return mActiveMusic;
+			}
+		}
+		else {
+			if (mActiveMusic != null) {
+				StopSound (mActiveMusic);
 			}
 		}			
 		
-		GameObject soundLoc = CreateSoundLocation("Loop_" + soundDef.ToString());
+		GameObject soundLoc = CreateSoundLocation(LOOP_PREFIX + soundDef.ToString());
 
 		//Create the source
 	    AudioSource source = soundLoc.AddComponent<AudioSource>();
@@ -208,7 +210,24 @@ public class AudioMaster : MonoBehaviour {
 		mActiveMusic = PlayLoop(soundDef, forceRestart);
 	    return mActiveMusic;
 	}
-	
+
+
+	public void StopSound(AudioSource audioSource) {
+
+		string name = audioSource.name.Substring(LOOP_PREFIX.Length);
+		SoundDefinitions sDef = SoundDefinitions.NONE_SOUND;
+		foreach (SoundDefinitions def in Enum.GetValues(typeof(SoundDefinitions)))
+		{
+			if (def.ToString() == name) {
+				sDef = def;
+			}
+		}
+		if (sDef != SoundDefinitions.NONE_SOUND)
+			StopSound (sDef);
+		else
+			Debug.LogError("[AudioMaster] is trying to stop an unknow SoundDefinition");
+	}
+
 	// Para y elimina un sonido activo
 	public void StopSound(SoundDefinitions defToStop) 
 	{

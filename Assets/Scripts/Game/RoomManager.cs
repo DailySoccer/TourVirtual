@@ -353,20 +353,20 @@ public class RoomManager : Photon.PunBehaviour {
 		switch (roomDefinition.Id) {
 		case "ESTADIO":
 			InitialTutorial.Instance.SartTutorial();
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
 			break;
 
 		case "VESTIDORLITE":
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.VESTIDOR_THEME, true, true);
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.VESTIDOR_THEME, true);
 			break;
 
 		case "MINIBASKET":
 		case "MINIFOOTBALL":
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true, true);
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true);
 			break;
 		
 		default:
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true, true);
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
 			break;		
 		}
 
