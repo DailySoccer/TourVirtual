@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 using SmartLocalization;
 using UnityEngine.Assertions;
 
@@ -50,8 +51,8 @@ public class ChatNotificationController : MonoBehaviour
 	public void ShowMessage(string channelId, string txt)
 	{
 		ChannelName = GetChannelName(channelId);
-		Message = txt.Split('#')[1];
-		ShowNotification ();
+		Message = txt.Split('#').Last();
+		ShowNotification();
 	}
 	
 	public void ShowNotification()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public static class ExtensionMethods
 {
@@ -16,9 +17,15 @@ public static class ExtensionMethods
 		return new ChatMessage((string)h["sender"], (string)h["text"], (bool)h["readed"]);
 	}
 
-	public static DateTime GetMessageDate(this ChatMessage msg){
-        
-		string msgDateTime = msg.Text.Substring(0, msg.getDateTextSeparatorIndex() );
+	public static DateTime GetMessageDate(this ChatMessage msg)
+	{
+		int separatorIndex = msg.getDateTextSeparatorIndex();
+
+		Debug.Assert(separatorIndex >= 0, "ExtensionMethods::GetMessageDate>> # character not found!!");
+		if (separatorIndex < 0)
+			return DateTime.Now;
+
+		string msgDateTime = msg.Text.Substring(0, separatorIndex);
         return DateTime.SpecifyKind(DateTime.Parse(msgDateTime), DateTimeKind.Utc).ToLocalTime();
 	}
 
