@@ -35,7 +35,7 @@ public class JoystickController : MonoBehaviour {
 	
 	private EventTrigger _eventTriggerCache;
 
-	private static float DPI;
+	private static float DPI = 1;
 	
 	/*
 	[SerializeField]
@@ -46,7 +46,7 @@ public class JoystickController : MonoBehaviour {
 	private UnityEngine.UI.Text debugText;
 	*/
 	
-#region "Getters / Communication interface"
+#region Getters / Communication interface
 	
 	public Vector2 joystickValue {
 		get
@@ -84,9 +84,8 @@ public class JoystickController : MonoBehaviour {
 		AddEventListener(EventTriggerType.Drag, OnPointerDragHandler);
 		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width / 2;
 
-      UpdateJoystickParams();
-
 		DPI = Screen.dpi != 0 ? 1 / Screen.dpi : 1;
+      	UpdateJoystickParams();
 
 		ControlVisible(false);
 	}
@@ -108,8 +107,8 @@ public class JoystickController : MonoBehaviour {
    {
       _deadRad = _deadZone * _joystickBaseHalfWidth;
       _actionRad = _joystickBaseHalfWidth - _deadRad;
-		_deadRad *= DPI;
-		_actionRad *= DPI;
+	  _deadRad *= DPI;
+	  _actionRad *= DPI;
    }
 
    // Update is called once per frame
