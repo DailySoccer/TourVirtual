@@ -144,7 +144,7 @@ public class GUIGameScreen : GUIScreen
 	/// <param name="channelName"></param>
 	private void Messages_OnChangeHandle(string channelName)
 	{
-		if(channelName == ChatManager.Instance.RoomChannel)
+		if(channelName == ChatManager.Instance.RoomId)
 			return;
 
 		ChatMessage msg = ChatManager.Instance.GetMessagesFromChannel(channelName).LastOrDefault();

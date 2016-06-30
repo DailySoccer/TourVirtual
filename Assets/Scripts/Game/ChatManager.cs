@@ -19,9 +19,7 @@ public class ChatMessage
 
 public class ChatManager : Photon.PunBehaviour, IChatClientListener
 {
-
 	static public string CHANNEL_COMMUNITYMANAGER = "Community Manager";
-
 	static public string ROOM_CHANNEL_NAME {
 		get{
 			return LanguageManager.Instance.GetTextValue("TVB.Chat.RoomChannelName");
@@ -38,7 +36,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 	}
 
-	public string RoomChannel { get; private set; }
+	public string RoomId { get; private set; }
 
 	public string ChatAppId;                    // set in inspector. Your Chat AppId (don't mix it with Realtime/Turnbased Apps).
 
@@ -50,8 +48,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	public string SelectedChannelId { get; set; }
 
 	public Dictionary<string, List<ChatMessage>> History = new Dictionary<string, List<ChatMessage>>();
-
-
+	
 
 	public List<ChatMessage> Messages {
 		get {
@@ -65,11 +62,20 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		return History.TryGetValue(channelId, out msgs) ? msgs : new List<ChatMessage>();
 	}
 
+	private HashSet<string> _roomIds;
+
 
 	//==============================================================================================
 
+	private void Awake()
+	{
+		_roomIds = new HashSet<string>();
+	}
+	
 	void Start ()
 	{
+		foreach(KeyValuePair<string, object> pair in RoomManager.Instance.RoomDefinitions)
+			_roomIds.Add(pair.Key);
 	}
 
 
@@ -175,22 +181,24 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 
 	public override void OnJoinedRoom()
 	{
-		RoomChannel = PhotonNetwork.room.name.Split('#')[0];
+		RoomId = PhotonNetwork.room.name.Split('#')[0];
+		_roomIds.Add(RoomId);
+
 		#if UNITY_EDITOR
 			Debug.Log ("OnJoinedRoom");
-			Debug.LogError (">>> JOINED THE ROOM: " + RoomChannel);
+			Debug.LogError (">>> JOINED THE ROOM: " + RoomId);
 		#endif
 
         if (ChatClient != null && ChatClient.CanChat) {
-			ChatClient.Subscribe( new [] { RoomChannel }, MessagesFromHistory );
+			ChatClient.Subscribe( new [] { RoomId }, MessagesFromHistory );
 		}
 
-		SelectedChannelId = RoomChannel;
+		SelectedChannelId = RoomId;
 	}
 	
 	public override void OnLeftRoom()
 	{
-		if (RoomChannel != null) {
+		if (RoomId != null) {
 			/*
 			if (History.ContainsKey(_channelSubscription)) {
 				History[_channelSubscription].Clear();
@@ -202,19 +210,23 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 			*/
 
 			if (ChatClient != null && ChatClient.CanChat) {
-				ChatClient.Unsubscribe( new string[] { RoomChannel } );
+				ChatClient.Unsubscribe( new string[] { RoomId } );
 			}
 			//_roomChannel = null;
 		}
 	}
 
-	public bool IsPublicChannel(string channel)
+	public bool IsPublicChannel(string id)
 	{
-		return channel.Equals(RoomChannel) ||  (
-			    channel == ChatManager.CHANNEL_COMMUNITYMANAGER 
+		return IsRoom(id) || (
+			   id == ChatManager.CHANNEL_COMMUNITYMANAGER 
 			&& UserName == ChatManager.CHANNEL_COMMUNITYMANAGER);
 	}
 
+	public bool IsRoom(string channelId)
+	{
+		return _roomIds.Contains(channelId);
+	}
 
 	public IEnumerator Connect()
 	{
@@ -233,4 +245,5 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	}
 
 
+	
 }
