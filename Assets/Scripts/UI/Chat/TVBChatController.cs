@@ -101,7 +101,7 @@ public class TVBChatController : MonoBehaviour
 
 		//AddChannelSlot("Global");
 		AddChannelSlot(ChatManager.CHANNEL_COMMUNITYMANAGER);
-		AddChannelSlot(RoomManager.Instance.Room.Id);
+		AddChannelSlot(ChatManager.Instance.RoomId);
 
 		foreach (string channel in _friendChats.Keys) 
 			AddChannelSlot(channel);
@@ -121,17 +121,21 @@ public class TVBChatController : MonoBehaviour
 	/// Añade un GameObject a la lista Padre de canales del chat.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	void AddChannelSlot(string slotName)
+	private void AddChannelSlot(string id)
 	{
-		if (_channelsGameObjects.Any(c => c.name == slotName)) {
-			if (!ChatManager.Instance.IsPublicChannel(slotName)) {
-				UpdateChannelSlot(slotName);
-			}
-		} 
-		else {
-			GenerateChannelSlot(slotName);
-		}
+		if(id == ChatManager.Instance.RoomId)
+			foreach(GameObject channel in _channelsGameObjects)
+				if(ChatManager.Instance.IsRoom(channel.name))
+					channel.SetActive(channel.name == id);
+		
+		if (_channelsGameObjects.Any(c => c.name == id))
+			UpdateChannelSlot(id);
+		else
+			GenerateChannelSlot(id);
 	}
+
+	
+
 
 	private void UpdateChannelSlot(string chnName)
 	{
@@ -163,7 +167,8 @@ public class TVBChatController : MonoBehaviour
 		channel.realName = channelName;
 		channel.friendlyName = friendlyName;
 
-		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? ChatChannelType.General : ChatChannelType.Private;
+		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? 
+			ChatChannelType.General : ChatChannelType.Private;
 		channel.setup ();
 
 		List<object> chat;
@@ -314,9 +319,9 @@ public class TVBChatController : MonoBehaviour
 	private static string GetChannelName(string channelId)
 	{
 		if(channelId == ChatManager.CHANNEL_COMMUNITYMANAGER)
-			return ChatManager.CHANNEL_COMMUNITYMANAGER;
+			return channelId;
 
-		if (RoomManager.Instance.RoomDefinitions.ContainsKey(channelId))
+		if (ChatManager.Instance.IsRoom(channelId))
 			return ChatManager.ROOM_CHANNEL_NAME;
 
 		if (ChatManager.Instance.UserName != null)
@@ -411,8 +416,7 @@ public class TVBChatController : MonoBehaviour
 			_friendChats.Add(channel, chats);
 		}
 
-		foreach (ChatMessage m in messages)
-		{
+		foreach (ChatMessage m in messages) {
 			m.Readed = false;
 			if (!chats.Contains(m)) 
 				chats.Add( m.toHashTable() );
@@ -591,4 +595,6 @@ public class TVBChatController : MonoBehaviour
 
 		PopulateChannelsList();
 	}
+
+
 }
