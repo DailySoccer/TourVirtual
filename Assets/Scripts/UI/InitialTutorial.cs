@@ -69,8 +69,8 @@ public class InitialTutorial : MonoBehaviour {
 
 		// ... cerramos la modal
 		_myAnimatorController.SetBool ("IsOpen", false);
-
-		PlayerPrefs.SetInt ("tutorial_done", tutTimes++);
+		tutTimes += 1;
+		PlayerPrefs.SetInt ("tutorial_done", tutTimes);
 	}
 
 	IEnumerator ShowNextScreen() {
