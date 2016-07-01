@@ -440,6 +440,7 @@ public class TVBChatController : MonoBehaviour
 		string friend_chats = MiniJSON.Json.Serialize(data);
 		
 		PlayerPrefs.SetString("friend_chats", friend_chats);
+		PlayerPrefs.Save();
 	}
 	
 	void DeserializeAndLoadChats() {

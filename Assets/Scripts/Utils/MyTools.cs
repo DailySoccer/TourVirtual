@@ -80,6 +80,7 @@ public class MyTools
 	public static void SetPlayerPrefsBool (string name, bool value) {
 		
 		PlayerPrefs.SetInt(name, value ? 1 : 0);
+        PlayerPrefs.Save();
 	}
 	
 	public static bool GetPlayerPrefsBool (string name) {

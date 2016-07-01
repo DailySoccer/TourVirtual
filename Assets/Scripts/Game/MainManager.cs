@@ -291,6 +291,7 @@ public class MainManager : Photon.PunBehaviour {
         StoreInventory.TakeItem(pvi.ItemId, 1);
         PlayerPrefs.SetString("PurchasePendingId", pvi.ItemId);
         PlayerPrefs.SetString("PurchasePendingReceipt", receipt);
+        PlayerPrefs.Save();
         CheckPurchasePending();
     }
 
