@@ -352,7 +352,9 @@ public class RoomManager : Photon.PunBehaviour {
 
 		switch (roomDefinition.Id) {
 		case "ESTADIO":
-			InitialTutorial.Instance.SartTutorial();
+			if (PlayerPrefs.GetInt ("tutorial_done") == 0)
+				InitialTutorial.Instance.SartTutorial();
+
 			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
 			break;
 

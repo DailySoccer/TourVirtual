@@ -13,10 +13,8 @@ public class DebugUIElement : MonoBehaviour {
 	void Update () {
 		//gameObject.SetActive (MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? true : false); 
 		//enabled = MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? true : false; 
-		transform.localScale = MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? Vector3.one : Vector3.zero;
+		//transform.localScale = MainManager.Instance.BuildMode == TourVirtualBuildMode.Debug ? Vector3.one : Vector3.zero;
 	}
-
-
 
 	public void ShowGoodiesShop(){
 		GoodiesShopController.Show ();

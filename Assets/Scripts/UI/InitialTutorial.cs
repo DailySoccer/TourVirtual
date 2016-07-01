@@ -8,6 +8,7 @@ public class InitialTutorial : MonoBehaviour {
 
 	public List<GameObject> OrderedTutorialScreens = new List<GameObject>();
 	Animator _myAnimatorController;
+	int tutTimes;
 
 	int _currentScreenId;
 
@@ -17,6 +18,7 @@ public class InitialTutorial : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		tutTimes = PlayerPrefs.GetInt ("tutorial_done");
 	}
 	
 	// Update is called once per frame
@@ -37,9 +39,6 @@ public class InitialTutorial : MonoBehaviour {
 	}
 
 	public void SartTutorial() {
-		if (PlayerPrefs.GetInt ("tutorial_done") > 0)
-			return;
-
 		Initialize ();
 		StartCoroutine (LaunchTutorial ());
 	}
@@ -70,7 +69,8 @@ public class InitialTutorial : MonoBehaviour {
 
 		// ... cerramos la modal
 		_myAnimatorController.SetBool ("IsOpen", false);
-		PlayerPrefs.SetInt ("tutorial_done", 1);
+
+		PlayerPrefs.SetInt ("tutorial_done", tutTimes++);
 	}
 
 	IEnumerator ShowNextScreen() {
