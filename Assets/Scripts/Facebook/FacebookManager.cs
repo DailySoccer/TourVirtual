@@ -36,11 +36,12 @@ public class FacebookManager : MonoBehaviour
 	/// </summary>
 	public void ShareToFacebook(FacebookLink aLink)
 	{
-		Debug.LogError("Intentando compartir en Facebook");
+		Debug.Log("Intentando compartir en Facebook");
 #if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!_processingThread)
 		{
 			_processingThread = true;
+			Debug.Log("Llamando a la coroutine que comparte el ranking...");
 			StartCoroutine(CheckLogInShare(aLink));
 		}
 #endif
@@ -153,9 +154,11 @@ public class FacebookManager : MonoBehaviour
 	}
 	private IEnumerator CheckLogInShare(FacebookLink aLink)
 	{
+
 #if (UNITY_ANDROID || ANDROID_IOS) && !UNITY_EDITOR
 		if (!FB.IsLoggedIn)
 		{
+			Debug.Log("['"+ this.GetType() + "'] No esoty conectado a FB");
 			PromptLogIn();
 			while (!_processedLogIn)
 			{
@@ -164,6 +167,7 @@ public class FacebookManager : MonoBehaviour
 		}
 		if (FB.IsLoggedIn)
 		{
+			Debug.Log("['"+ this.GetType() + "'] Compartiencdo FB");
 			FB.ShareLink(/*new System.Uri("https://www.unusualwonder.com/")*/aLink.contentURL, aLink.contentTitle, aLink.contentDescription, aLink.photoURL, callback: ShareCallback);
 		}
 #else
