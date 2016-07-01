@@ -7,7 +7,6 @@ using SmartLocalization;
 
 public class VestidorCanvasController_Lite : MonoBehaviour
 {
-
     public enum VestidorState
     {
         NONE,
@@ -20,40 +19,32 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     //////////////////// Control de ventanas Modales//////////////////// 
     public GUIScreen VestidorScreen;
 	public GUIScreen lobbyScreen;
-    public GUIScreen GoodiesShopScreen;
     public GUIScreen AvatarSelectionScreen;
     public GUIScreen PlayTeaserScreen;
-    private GUIScreen currentGUIScreen;
 
+	public GUIPopUpScreen ModalPopUpScreen;
+
+	public GameObject TopMenu;
     public GameObject cameraVestidor;
-    public GameObject SecondPlaneVestidor;
-
-    public GameObject cameraAvatarSelector;
+	public GameObject cameraAvatarSelector;
+	public GameObject SecondPlaneVestidor;    
     public GameObject SecondPlaneAvatarSelect;
+	public GameObject Particles;
+	public GameObject BuyInfoButtom;
 
-    public GUIPopUpScreen ModalPopUpScreen;
-    private PopUpWindow popUpWindow;
+	public Button BotonAceptar;
+
+	private GUIScreen currentGUIScreen;
+	private PopUpWindow popUpWindow;
     private DetailedContent2Buttons modalDetail;
-
-    public GameObject TopMenu;
-
     private bool isCurrentPopUpOpen;
-
     private VestidorState currentVestidorState;
-
-    public GameObject PlayerInstance;
-    public GameObject Particles;
-    public static VestidorCanvasController_Lite Instance { get; private set; }
-
-    public GameObject BuyInfoButtom;
-
-    public UnityEngine.UI.Button BotonAceptar;
-
-	public ClothSlot currentPrenda;
-    AvatarAPI mOldAvatarDesciptor;
-
-	bool IsFirstLaunch;
-    //private VestidorState lastVestidorState;
+    private AvatarAPI mOldAvatarDesciptor;
+	private bool IsFirstLaunch;
+	
+	public GameObject PlayerInstance { get; set; }
+	public ClothSlot currentPrenda { get; set; }
+	public static VestidorCanvasController_Lite Instance { get; private set; }
 
     void Awake()
     {

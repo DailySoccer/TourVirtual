@@ -2345,7 +2345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &183722
 GameObject:
   m_ObjectHideFlags: 1
@@ -2888,8 +2888,8 @@ Transform:
   - {fileID: 22479770}
   - {fileID: 22460798}
   - {fileID: 22440560}
-  - {fileID: 22450184}
   - {fileID: 22471410}
+  - {fileID: 22450184}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!95 &9501442
@@ -3661,20 +3661,17 @@ MonoBehaviour:
   PlayerPosition: {fileID: 22479126}
   VestidorScreen: {fileID: 11438112}
   lobbyScreen: {fileID: 11490770}
-  GoodiesShopScreen: {fileID: 0}
   AvatarSelectionScreen: {fileID: 11486222}
   PlayTeaserScreen: {fileID: 11433942}
-  cameraVestidor: {fileID: 0}
-  SecondPlaneVestidor: {fileID: 198194}
-  cameraAvatarSelector: {fileID: 0}
-  SecondPlaneAvatarSelect: {fileID: 183154}
   ModalPopUpScreen: {fileID: 11431934}
   TopMenu: {fileID: 115382}
-  PlayerInstance: {fileID: 0}
+  cameraVestidor: {fileID: 0}
+  cameraAvatarSelector: {fileID: 0}
+  SecondPlaneVestidor: {fileID: 198194}
+  SecondPlaneAvatarSelect: {fileID: 183154}
   Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
   BuyInfoButtom: {fileID: 141640}
   BotonAceptar: {fileID: 11444050}
-  currentPrenda: {fileID: 0}
 --- !u!114 &11410212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10803,8 +10800,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 182.000305, y: -60}
-  m_SizeDelta: {x: 756, y: 500}
+  m_AnchoredPosition: {x: 175, y: -30}
+  m_SizeDelta: {x: 756, y: 540}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22411052
 RectTransform:
@@ -10821,7 +10818,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2700, y: 0}
+  m_AnchoredPosition: {x: -1500, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22412122
@@ -11000,7 +10997,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.05175781e-05}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22416814
@@ -12005,7 +12002,7 @@ RectTransform:
   m_Children:
   - {fileID: 22471132}
   m_Father: {fileID: 430456}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -12537,8 +12534,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1014}
-  m_SizeDelta: {x: 0, y: 6.10351562e-05}
+  m_AnchoredPosition: {x: 0, y: 900}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22471202
 RectTransform:
@@ -12570,7 +12567,7 @@ RectTransform:
   m_Children:
   - {fileID: 22466538}
   m_Father: {fileID: 430456}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
