@@ -71,6 +71,7 @@ public class InitialTutorial : MonoBehaviour {
 		_myAnimatorController.SetBool ("IsOpen", false);
 		tutTimes += 1;
 		PlayerPrefs.SetInt ("tutorial_done", tutTimes);
+		PlayerPrefs.Save ();
 	}
 
 	IEnumerator ShowNextScreen() {
