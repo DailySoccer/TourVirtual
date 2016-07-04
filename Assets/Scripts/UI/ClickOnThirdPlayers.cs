@@ -43,6 +43,8 @@ public class ClickOnThirdPlayers : MonoBehaviour {
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				if ( Physics.Raycast(ray, out hit, 20.0f, layerMask) ){
 					//if (hit.collider.gameObject.name.Contains("clone"))
+					RemotePlayerHUD rph = hit.collider.gameObject.GetComponentInChildren<RemotePlayerHUD>();
+					if (rph != null)
 						hit.collider.gameObject.GetComponentInChildren<RemotePlayerHUD>().RemotePlayerHUD_ClickHandle();
 				}
 			}

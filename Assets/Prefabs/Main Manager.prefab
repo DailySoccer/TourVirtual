@@ -703,7 +703,7 @@ MonoBehaviour:
   objectByRoom: 2
   numHiddenObjects: 10
   numFoundObjects: 0
-  maxTime: 600
+  maxTime: 10
   prefab: {fileID: 194858, guid: d84537b2d0af0ff4e9196ee95d2eff98, type: 2}
 --- !u!114 &11493680
 MonoBehaviour:
@@ -795,7 +795,11 @@ MonoBehaviour:
     Volume: 1
     Audios:
     - {fileID: 8300000, guid: 35acc6759e4cbe0459e49d30a66fb66d, type: 3}
-  masterVolume: 1
+  - SoundDef: 18
+    Volume: 1
+    Audios:
+    - {fileID: 8300000, guid: 35acc6759e4cbe0459e49d30a66fb66d, type: 3}
+  masterVolume: .5
 --- !u!212 &21289380
 SpriteRenderer:
   m_ObjectHideFlags: 1
