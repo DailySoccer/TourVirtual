@@ -26,7 +26,7 @@ public class FacebookManager : MonoBehaviour
 		if (!FB.IsLoggedIn)
 		{
 			_processedLogIn = false;
-			FB.LogInWithReadPermissions(perms, AuthCallback);
+			FB.LogInWithPublishPermissions(perms, AuthCallback);
 		}
 		_updateLedLogIn = true;
 #endif
