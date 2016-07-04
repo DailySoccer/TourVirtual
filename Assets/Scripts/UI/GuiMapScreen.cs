@@ -14,6 +14,7 @@ public class GuiMapScreen : UIScreen {
 	public GameCanvasManager TheGameCanvasManager;
 
 	public GameObject Selector;
+	public GameObject SelectorValdebebas;
 
 	RectTransform selectorRT;
 
@@ -56,6 +57,8 @@ public class GuiMapScreen : UIScreen {
 		if (IsOpen) {
 
 			//Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
+			Selector.SetActive(true);
+			SelectorValdebebas.SetActive(true);
 
 			if (Selector != null && RoomManager.Instance != null && RoomManager.Instance.Room != null) {
 				GameObject button = null;
@@ -95,7 +98,14 @@ public class GuiMapScreen : UIScreen {
 				case "ROOM7":
 					button = GameObject.Find ("Map SalaDePrensa");
 					break;
+
+				case "ROOM8":
+					button = GameObject.Find ("Map Valdebebas");
+					Selector.SetActive(false);
+					SelectorValdebebas.SetActive(true);
+					break;
 				}
+
 			
 				if (button != null) {
 					Vector3 position = Selector.transform.position;
