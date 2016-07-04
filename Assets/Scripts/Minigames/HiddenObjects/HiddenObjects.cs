@@ -79,8 +79,8 @@ namespace HiddenObjects {
 			            
 			OnGameFail ();
 			Stop();
-			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_HIDDENOBJECTS_FAIL);
 			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.TIME_OUT);
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_HIDDENOBJECTS_FAIL);
         }       
         
         public void Play(ModalHiddenObjectsGameScreen modal) {
