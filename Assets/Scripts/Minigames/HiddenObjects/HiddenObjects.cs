@@ -27,7 +27,10 @@ namespace HiddenObjects {
 
 		ModalHiddenObjectsGameScreen mhogs;
 
-        public float RemaingTime {
+		int lastsecond = 0;
+		int currentSecond = 0;
+		
+		public float RemaingTime {
 			get {
 				//Debug.Log( "[HiddenObjects] in" + name + ": Tiempo restante del minijuego: " + (endTime - startTime).ToString() );
 				return endTime - Time.realtimeSinceStartup;
@@ -77,11 +80,14 @@ namespace HiddenObjects {
 			OnGameFail ();
 			Stop();
 			mhogs.Launch_HiddenObjectModal(HiddenObjectGameResult.TIME_OUT);
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_HIDDENOBJECTS_FAIL);
         }       
         
         public void Play(ModalHiddenObjectsGameScreen modal) {
 			if (mhogs == null) mhogs = modal;
-            
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BUTTON_ACCEPT);
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true);
+
 			if (enabled) return;
 
             enabled = true;
@@ -107,6 +113,7 @@ namespace HiddenObjects {
             ListOfHiddenObjects = finalList;
             startTime = Time.realtimeSinceStartup;
             endTime = startTime + maxTime;
+			lastsecond = (int)endTime;
             numFoundObjects = 0;
             OnSceneReady();
 
@@ -138,10 +145,22 @@ namespace HiddenObjects {
         }
 
         void Update() {
-            if( Time.realtimeSinceStartup > endTime) {
+
+	
+
+			if( Time.realtimeSinceStartup > endTime) {
                 OnFail();
                 return;
             }
+
+			currentSecond = Mathf.RoundToInt(RemaingTime);
+			if (lastsecond > currentSecond) {
+				lastsecond = currentSecond;
+				if (lastsecond <= 5 && lastsecond > 0) {
+					AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_COUNTDOWN);
+				}
+			}
+
 			if (Input.GetMouseButtonDown(0) && Camera.main != null) {
                 Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Physics.RaycastAll( mouse, 20, LayerMask.GetMask("HiddenObject") );
@@ -168,7 +187,8 @@ namespace HiddenObjects {
         }
 
         IEnumerator Pickup(Transform t) {
-            while (t.localScale.x < 1.5f) {
+			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.HIDEN_OBJECT_FOUND);
+			while (t.localScale.x < 1.5f) {
                 float v = Time.deltaTime * 4.0f;
                 t.localScale += new Vector3(v, v, v);
                 yield return null;

@@ -114,7 +114,10 @@ public class SyncCameraTransform : MonoBehaviour
 			anchor.PitchDegrees = 0f;
 		}
 
-		anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
+		if (!Mathf.Approximately(Player.Instance.cameraPitch, 0f))
+			anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
+		else if(!Mathf.Approximately(Player.Instance.cameraRotation, 0f))
+			anchor.PitchDegrees -= anchor.PitchDegrees * _pitchRecoveryForce * Time.deltaTime;
 
 		SyncWith(anchor);
 	}
@@ -202,6 +205,8 @@ public class SyncCameraTransform : MonoBehaviour
 	private float _pitchDegreesMin = -20f;
 	[SerializeField, Range(0f, 90f)]
 	private float _pitchDegreesMax = 20f;
+	[SerializeField, Range(0f, 5f)]
+	private float _pitchRecoveryForce = 1f;
 
 	[SerializeField] private string _wallLayerName = "Wall";
 	[SerializeField, Range(-5f, 5f)]
@@ -220,6 +225,6 @@ public class SyncCameraTransform : MonoBehaviour
 	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
 	private Vector3 _smoothVelo = Vector3.zero;
 	private bool _isCollidingWithWall;
-	private float _smoothSecs; 
+	private float _smoothSecs;
 	
 }
