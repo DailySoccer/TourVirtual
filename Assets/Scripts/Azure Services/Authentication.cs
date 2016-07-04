@@ -35,6 +35,10 @@ public class Authentication : MonoBehaviour {
             StartCoroutine(UserAPI.Instance.Request());
         });
     }
+
+	public void logout() {
+		AzureServices.SignOut ();
+	}
 }
 
 
