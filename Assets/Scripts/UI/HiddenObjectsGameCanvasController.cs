@@ -57,6 +57,14 @@ public class HiddenObjectsGameCanvasController : MonoBehaviour {
 
 
 	public void StartHiddenObjectsGame() {
+
+		if (ModalHiddenObjectsGameScreen.IsGameFinished) {
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MAIN_THEME, true);
+			// Cerramos la modal
+			ModalHiddenObjectsGameScreen.IsOpen = false;
+			return;
+		}
+
 		hiddenObjs.OnGameSuccess += HandleOnGameSuccess;
 		hiddenObjs.OnGameFail += HandleOnGameFail;
 

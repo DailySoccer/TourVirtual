@@ -10,6 +10,7 @@ public class ModalHiddenObjectsGameScreen : GUIPopUpScreen {
 	public Button shareToFBButton;
 	string currentScore;
 
+	public bool IsGameFinished;
 
 	// Use this for initialization
 	void Start () {
@@ -27,15 +28,18 @@ public class ModalHiddenObjectsGameScreen : GUIPopUpScreen {
 
 		switch (modalType) {
 			case HiddenObjects.HiddenObjectGameResult.SUCCESS:
+			IsGameFinished = true;
 				// TODO: establecer mensajes yield sustituciones
 				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenSuccess").Replace("@count", objetosEncontrados);
 				shareToFBButton.gameObject.SetActive (true);
 			break;
 			case HiddenObjects.HiddenObjectGameResult.TIME_OUT:
+			IsGameFinished = true;
 				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTimeOut");
 				shareToFBButton.gameObject.SetActive (false);
 			break;
 			case HiddenObjects.HiddenObjectGameResult.TUTORIAL_INICIO:
+			IsGameFinished = false;
 				ModalText.text = LanguageManager.Instance.GetTextValue("TVB.Minigame.HiddenTutorial");
 				shareToFBButton.gameObject.SetActive (false);
 			break;		

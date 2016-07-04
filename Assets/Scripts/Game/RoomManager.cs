@@ -355,7 +355,11 @@ public class RoomManager : Photon.PunBehaviour {
 			if (PlayerPrefs.GetInt ("tutorial_done") == 0)
 				InitialTutorial.Instance.SartTutorial();
 
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
+			if (!HiddenObjects.HiddenObjects.Instance.enabled)
+				AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
+			else
+				AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true);
+
 			break;
 
 		case "VESTIDORLITE":
@@ -368,7 +372,11 @@ public class RoomManager : Photon.PunBehaviour {
 			break;
 		
 		default:
-			AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
+			if (!HiddenObjects.HiddenObjects.Instance.enabled)
+				AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);
+			else
+				AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MINIGAME_THEME, true);
+
 			break;		
 		}
 
