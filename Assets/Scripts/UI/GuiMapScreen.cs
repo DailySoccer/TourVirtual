@@ -16,6 +16,8 @@ public class GuiMapScreen : UIScreen {
 	public GameObject Selector;
 	public GameObject SelectorValdebebas;
 
+	string currentLocation;
+
 	RectTransform selectorRT;
 
 	public SelectorPosition selectorPosition;
@@ -55,82 +57,84 @@ public class GuiMapScreen : UIScreen {
 		base.Update ();
 
 		if (IsOpen) {
+			if (currentLocation != RoomManager.Instance.Room.Id) {
+				//Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
+				Selector.SetActive (true);
+				SelectorValdebebas.SetActive (false);
 
-			//Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
-			Selector.SetActive(true);
-			SelectorValdebebas.SetActive(true);
-
-			if (Selector != null && RoomManager.Instance != null && RoomManager.Instance.Room != null) {
-				GameObject button = null;
+				if (Selector != null && RoomManager.Instance != null && RoomManager.Instance.Room != null) {
+					GameObject button = null;
 			
-				switch (RoomManager.Instance.Room.Id) {
-				case "ESTADIO": 
-					switch (RoomManager.Instance.GetEntranceDoor ()) {
-					case "PUERTA1":
-					case "PUERTA2":
-						button = GameObject.Find ("Map Grada Alta"); 
+					switch (RoomManager.Instance.Room.Id) {
+					case "ESTADIO": 
+						switch (RoomManager.Instance.GetEntranceDoor ()) {
+						case "PUERTA1":
+						case "PUERTA2":
+							button = GameObject.Find ("Map Grada Alta"); 
+							break;
+						case "PUERTA3":
+						case "PUERTA4":
+						case "PUERTA5":
+							button = GameObject.Find ("Map Estadio");
+							break;
+						}
 						break;
-					case "PUERTA3":
-					case "PUERTA4":
-					case "PUERTA5":
-						button = GameObject.Find ("Map Estadio");
+					case "ROOM1":
+						button = GameObject.Find ("Map Room1");
+						break;
+					case "ROOM2":
+						button = GameObject.Find ("Map Room2");
+						break;
+					case "ROOM3":
+						button = GameObject.Find ("Map Room3");
+						break;
+					case "ROOM4":
+						button = GameObject.Find ("Map Room4");
+						break;
+					case "ROOM5":
+						button = GameObject.Find ("Map Room5");
+						break;
+					case "ROOM6":
+						button = GameObject.Find ("Map Room6");
+						break;
+					case "ROOM7":
+						button = GameObject.Find ("Map SalaDePrensa");
+						break;
+
+					case "ROOM8":
+						button = GameObject.Find ("Map Valdebebas");
+						Selector.SetActive (false);
+						SelectorValdebebas.SetActive (true);
 						break;
 					}
-					break;
-				case "ROOM1":
-					button = GameObject.Find ("Map Room1");
-					break;
-				case "ROOM2":
-					button = GameObject.Find ("Map Room2");
-					break;
-				case "ROOM3":
-					button = GameObject.Find ("Map Room3");
-					break;
-				case "ROOM4":
-					button = GameObject.Find ("Map Room4");
-					break;
-				case "ROOM5":
-					button = GameObject.Find ("Map Room5");
-					break;
-				case "ROOM6":
-					button = GameObject.Find ("Map Room6");
-					break;
-				case "ROOM7":
-					button = GameObject.Find ("Map SalaDePrensa");
-					break;
-
-				case "ROOM8":
-					button = GameObject.Find ("Map Valdebebas");
-					Selector.SetActive(false);
-					SelectorValdebebas.SetActive(true);
-					break;
-				}
 
 			
-				if (button != null) {
-					Vector3 position = Selector.transform.position;
-					RectTransform buttonRT = button.GetComponent<RectTransform> ();  
+					if (button != null) {
+						Vector3 position = Selector.transform.position;
+						RectTransform buttonRT = button.GetComponent<RectTransform> ();  
 
-					switch (selectorPosition) {
-					case SelectorPosition.TOP:
-						position.x = button.transform.position.x;
-						position.y = button.transform.position.y;
-						break;
-					case SelectorPosition.RIGHT:
-						position.x = button.transform.position.x;
-						position.y = button.transform.position.y;			
-						break;
-					case SelectorPosition.LEFT:
-						position.x = button.transform.position.x;
-						position.y = button.transform.position.y;						
-						break;
-					case SelectorPosition.BOTTOM:
-						position.x = button.transform.position.x;
-						position.y = button.transform.position.y + (buttonRT.rect.height);
-						break;				
+						switch (selectorPosition) {
+						case SelectorPosition.TOP:
+							position.x = button.transform.position.x;
+							position.y = button.transform.position.y;
+							break;
+						case SelectorPosition.RIGHT:
+							position.x = button.transform.position.x;
+							position.y = button.transform.position.y;			
+							break;
+						case SelectorPosition.LEFT:
+							position.x = button.transform.position.x;
+							position.y = button.transform.position.y;						
+							break;
+						case SelectorPosition.BOTTOM:
+							position.x = button.transform.position.x;
+							position.y = button.transform.position.y + (buttonRT.rect.height);
+							break;				
+						}
+
+						Selector.transform.position = position;
+						currentLocation = RoomManager.Instance.Room.Id;
 					}
-
-					Selector.transform.position = position;
 				}
 			}
 		}
