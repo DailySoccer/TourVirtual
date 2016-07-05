@@ -24,9 +24,6 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void OnDestroy()
 	{
-		RoomManager.Instance.OnSceneChange -= OnSceneChange;
-		RoomManager.Instance.OnSceneReady -= OnSceneReady;
-
 		_camera = null;
 		_anchorsByType = null;
 	}
