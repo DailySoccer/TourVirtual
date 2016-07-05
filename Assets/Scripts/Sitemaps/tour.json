@@ -26,7 +26,7 @@
             "gamaction":  "VIRTUALTOUR_ACC_SALA_06",
 			"doors": {
 				"PUERTA1": "ROOM7#PUERTA2",
-				"PUERTA2": "ROOM1#PUERTA2",
+				"PUERTA2": "ROOM1#PUERTA1",
 				"PUERTA3": "ROOM7#PUERTA1",
                 "PUERTA4": "ROOM6#PUERTA2",
                 "PUERTA5": "MINIFOOTBALL"
@@ -45,8 +45,8 @@
             "gamaction":  "VIRTUALTOUR_ACC_SALA_01",
             "hidden_objects":  true,
             "doors": {
-                "PUERTA1": "ROOM2#PUERTA1",
-                "PUERTA2": "ESTADIO#PUERTA2"
+                "PUERTA1": "ESTADIO#PUERTA2",
+                "PUERTA2": "ROOM2#PUERTA1"
             },
 			"bundles": {
 				"SCENE": "scene/mejor_club_mundo"
@@ -62,7 +62,7 @@
             "hidden_objects":  true,
             "gamaction":  "VIRTUALTOUR_ACC_SALA_02",
 			"doors": {
-				"PUERTA1": "ROOM1#PUERTA1",
+				"PUERTA1": "ROOM1#PUERTA2",
 				"PUERTA2": "ROOM3#PUERTA1"
 			},
 			"bundles": {
@@ -178,7 +178,7 @@
 			"player_visible": false,
             "max_players": 1,
 			"doors": {
-				"EXIT": "ROOM1#PUERTA5"
+				"EXIT": "ESTADIO#PUERTA5"
 			},
 			"bundles": {
 				"SCENE": "scene/minifutbol"
