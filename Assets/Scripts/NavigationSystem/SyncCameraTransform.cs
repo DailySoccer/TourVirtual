@@ -43,11 +43,6 @@ public class SyncCameraTransform : MonoBehaviour
 
 		CameraAnchor anchor = _anchorsByType[Player.Instance.CameraType];
 
-		if(float.IsNaN(anchor.PitchDegrees)) {
-			Debug.LogError("SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
-			anchor.PitchDegrees = 0f;
-		}
-
 		if (!Mathf.Approximately(Player.Instance.cameraPitch, 0f))
 			anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
 		else if(!Mathf.Approximately(Player.Instance.cameraRotation, 0f))
@@ -81,12 +76,12 @@ public class SyncCameraTransform : MonoBehaviour
 		
 
 		RaycastHit wallInfo = new RaycastHit();
-		IsCollidingWithWall = anchor.Radius > _wallCollisionDistMin &&
+		bool isCollidingWithWall = anchor.Radius > _wallCollisionDistMin &&
 			Physics.SphereCast(anchor.Target, _wallCollisionRadiusMin, -anchor.transform.forward, 
 				out wallInfo, anchor.Distance - _camera.nearClipPlane, LayerMask.GetMask(_wallLayerName));
 
 		Vector3 targetPosition;
-		if (!IsCollidingWithWall)
+		if (!isCollidingWithWall)
 		{
 			targetPosition = anchor.transform.position;
 			if (_smoothSecs > 0f)
@@ -146,19 +141,7 @@ public class SyncCameraTransform : MonoBehaviour
 
 
 
-	/// <summary>
-	/// 
-	/// </summary>
-	private bool IsCollidingWithWall
-	{
-		get { return _isCollidingWithWall; }
-		set
-		{
-			if (value == _isCollidingWithWall)
-				return;
-			_isCollidingWithWall = value;
-		}
-	}
+	
 
 	[SerializeField] private Camera _camera;
 	[SerializeField] private CameraAnchor.Type _defaultAnchorType = CameraAnchor.Type.ThirdPerson;
@@ -186,7 +169,6 @@ public class SyncCameraTransform : MonoBehaviour
 	
 	private Dictionary<CameraAnchor.Type, CameraAnchor> _anchorsByType;
 	private Vector3 _smoothVelo = Vector3.zero;
-	private bool _isCollidingWithWall;
 	private float _smoothSecs;
 	
 }

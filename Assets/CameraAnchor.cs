@@ -47,6 +47,6 @@ public class CameraAnchor : MonoBehaviour
 		horizontalPos.y = 0f;
 
 		Radius = horizontalPos.magnitude;
-		PitchDegrees = -transform.eulerAngles.x;
+		PitchDegrees = 0f; //-transform.eulerAngles.x;
 	}
 }
