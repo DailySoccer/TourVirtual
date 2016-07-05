@@ -1,70 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class SyncCameraTransform : MonoBehaviour
 {
-	
-	public enum CameraStyle
-	{
-		Default = 0,
-		Fps     = 1,
-		Tps     = 2,
-	}
-
-	[Serializable]
-	private class CameraAnchor
-	{
-		public static float PitchDegreesMin;
-		public static float PitchDegreesMax;
-
-		[SerializeField] private CameraStyle _style;
-		public CameraStyle Style { get { return _style; } }
-
-		[SerializeField] private Transform _transform;
-		public Transform Transform { get { return _transform; } }
-
-		public float Radius   { get; private set; }
-		public float Distance { get; private set; }
-		public Vector3 Target {
-			get { return Transform.position + Distance*Transform.forward; }
-		}
-
-		private float _pitchDegrees;
-		public float PitchDegrees
-		{
-			get { return _pitchDegrees; }
-			set
-			{
-				if(float.IsNaN(value)) {
-					Debug.LogError("SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
-					value = 0f;
-				}
-
-				value = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
-				if (Mathf.Approximately(value, _pitchDegrees))	
-					return;
-
-				_pitchDegrees = value;
-
-				Transform.localRotation = Quaternion.AngleAxis(value, -Vector3.right);
-				Distance = Radius / Mathf.Cos(Mathf.Deg2Rad * value);
-			}
-		}
-
-		public void Init()
-		{
-			Vector3 horizontalPos = Transform.localPosition;
-			horizontalPos.y = 0f;
-
-			Radius = horizontalPos.magnitude;
-			PitchDegrees = -Transform.eulerAngles.x;
-		}
-	}
-
-
 	/// <summary>
 	/// 
 	/// </summary>
@@ -72,27 +11,26 @@ public class SyncCameraTransform : MonoBehaviour
 	{
 		CameraAnchor.PitchDegreesMin = _pitchDegreesMin;
 		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
-
-		_anchorsByStyle = new Dictionary<CameraStyle, CameraAnchor>();
-
-		foreach (CameraAnchor anchor in _anchors) {
-			_anchorsByStyle[anchor.Style] = anchor;
-			anchor.Init();
-		}
-
+		
 		_camera = Camera.main;
-	}
 
-	
+		RoomManager.Instance.OnSceneReady += OnSceneReady;
+		RoomManager.Instance.OnSceneChange += OnSceneChange;
+		enabled = false;
+	}
 
 	/// <summary>
 	/// 
 	/// </summary>
 	private void OnDestroy()
 	{
+		RoomManager.Instance.OnSceneChange -= OnSceneChange;
+		RoomManager.Instance.OnSceneReady -= OnSceneReady;
+
 		_camera = null;
-		_anchors = null;
+		_anchorsByType = null;
 	}
+
 
 
 	/// <summary>
@@ -100,14 +38,10 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void LateUpdate ()
 	{
-		// UNDONE FRS 160614 esto no debería ser necesario
-		//if (_camera == null && Camera.main != null) 
-		//	_camera = Camera.main;
+		Assert.IsNotNull(_camera);
+		Assert.IsNotNull(_anchorsByType);
 
-		if ( _camera == null)
-			return;
-		
-		CameraAnchor anchor = _anchorsByStyle[Player.Instance.cameraStyle];
+		CameraAnchor anchor = _anchorsByType[Player.Instance.CameraType];
 
 		if(float.IsNaN(anchor.PitchDegrees)) {
 			Debug.LogError("SyncCameraTransform::PitchDegrees>> Rotation NaN!!");
@@ -122,6 +56,7 @@ public class SyncCameraTransform : MonoBehaviour
 		SyncWith(anchor);
 	}
 
+	//======================================================================================
 
 	/// <summary>
 	/// 
@@ -130,7 +65,7 @@ public class SyncCameraTransform : MonoBehaviour
 	/// <param name="smoothTransition"></param>
 	private void SyncWith(CameraAnchor anchor)
 	{
-		_camera.transform.rotation = anchor.Transform.rotation;
+		_camera.transform.rotation = anchor.transform.rotation;
 		
 /*
 		Vector3 nearPos   = anchor.Transform.position + _camera.nearClipPlane*anchor.Transform.forward;
@@ -147,22 +82,22 @@ public class SyncCameraTransform : MonoBehaviour
 
 		RaycastHit wallInfo = new RaycastHit();
 		IsCollidingWithWall = anchor.Radius > _wallCollisionDistMin &&
-			Physics.SphereCast(anchor.Target, _wallCollisionRadiusMin, -anchor.Transform.forward, 
+			Physics.SphereCast(anchor.Target, _wallCollisionRadiusMin, -anchor.transform.forward, 
 				out wallInfo, anchor.Distance - _camera.nearClipPlane, LayerMask.GetMask(_wallLayerName));
 
 		Vector3 targetPosition;
 		if (!IsCollidingWithWall)
 		{
-			targetPosition = anchor.Transform.position;
+			targetPosition = anchor.transform.position;
 			if (_smoothSecs > 0f)
 				_smoothSecs -= Time.deltaTime*_smoothStopSecs;
 
-			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.Transform.forward, Color.green);
+			Debug.DrawRay(anchor.Target, -(anchor.Distance - _camera.nearClipPlane) * anchor.transform.forward, Color.green);
 		}
 		else
 		{
 			targetPosition = wallInfo.point
-				- _wallSafeDistance * _camera.nearClipPlane * anchor.Transform.forward;
+				- _wallSafeDistance * _camera.nearClipPlane * anchor.transform.forward;
 			_smoothSecs = _smoothSecsMax;
 
 			Debug.DrawRay(anchor.Target, wallInfo.point  - anchor.Target, Color.red);
@@ -178,10 +113,38 @@ public class SyncCameraTransform : MonoBehaviour
 	}
 
 
+	//-------------------------------------------
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void OnSceneReady()
+	{
+		_anchorsByType = new Dictionary<CameraAnchor.Type, CameraAnchor>();
+
+		foreach (CameraAnchor anchor in
+				Player.Instance.GetComponentsInChildren<CameraAnchor>(true))
+		{
+			anchor.transform.parent = transform;
+			_anchorsByType[anchor.AnchorType] = anchor;
+			if (anchor.AnchorType == _defaultAnchorType)
+				_anchorsByType[CameraAnchor.Type.None] = anchor;
+		}
+
+		enabled = true;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void OnSceneChange()
+	{
+		enabled = false;
+	}
 
 	//=================================================
 
-	
+
 
 	/// <summary>
 	/// 
@@ -198,7 +161,7 @@ public class SyncCameraTransform : MonoBehaviour
 	}
 
 	[SerializeField] private Camera _camera;
-	[SerializeField] private CameraAnchor[] _anchors;
+	[SerializeField] private CameraAnchor.Type _defaultAnchorType = CameraAnchor.Type.ThirdPerson;
 
 	private float _pitch;
 	[SerializeField, Range(-90f, 0f)]
@@ -220,9 +183,8 @@ public class SyncCameraTransform : MonoBehaviour
 	private float _smoothSecsMax = 0.1f;
 	[SerializeField, Range(0f, 1f)]
 	private float _smoothStopSecs;
-
-
-	private Dictionary<CameraStyle, CameraAnchor> _anchorsByStyle;
+	
+	private Dictionary<CameraAnchor.Type, CameraAnchor> _anchorsByType;
 	private Vector3 _smoothVelo = Vector3.zero;
 	private bool _isCollidingWithWall;
 	private float _smoothSecs;

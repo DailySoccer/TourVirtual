@@ -2,23 +2,29 @@
 using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
 	public const string TAG_UMA_AVATAR = "UMAAvatar";
-	
+
 	public bool avatarVisible = true;
-	
+
 	public float cameraRotation;
 	private float _cameraPitch;
-	public float cameraPitch {
-		get { return _cameraPitch; } 
+
+	public float cameraPitch
+	{
+		get { return _cameraPitch; }
 		set { _cameraPitch = value; }
 	}
-	
-	[SerializeField]
-	public FollowAvatar.FollowStyle followStyle;
-	[SerializeField]
-	public SyncCameraTransform.CameraStyle cameraStyle;
+
+	[SerializeField] public FollowAvatar.FollowStyle followStyle;
+	[SerializeField] private CameraAnchor.Type _cameraType;
+	public CameraAnchor.Type CameraType {
+		get { return _cameraType; }
+	} 
+
+
 
 	static public Player Instance {
 		get {
