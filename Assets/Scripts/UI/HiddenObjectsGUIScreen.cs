@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class HiddenObjectsGUIScreen : GUIScreen {
+public class HiddenObjectsGUIScreen : MonoBehaviour {
 
 	public MinigameTimerHUD TheTimer;
 	public Text TxTScore;
