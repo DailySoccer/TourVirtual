@@ -9,6 +9,8 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void Awake()
 	{
+		_anchorsByType = new Dictionary<CameraAnchor.Type, CameraAnchor>();
+
 		CameraAnchor.PitchDegreesMin = _pitchDegreesMin;
 		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
 		
@@ -112,7 +114,10 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void OnSceneReady()
 	{
-		_anchorsByType = new Dictionary<CameraAnchor.Type, CameraAnchor>();
+		foreach(var pair in _anchorsByType) 
+			Destroy(pair.Value.gameObject);
+
+		_anchorsByType.Clear();
 
 		foreach (CameraAnchor anchor in
 				Player.Instance.GetComponentsInChildren<CameraAnchor>(true))
