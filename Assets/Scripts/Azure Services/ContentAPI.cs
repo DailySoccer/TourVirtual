@@ -19,7 +19,6 @@ public class ContentAPI
     public class Asset
     {
         public string Title;
-		public string Description;
         public string Body;
         public string AssetUrl;
         public string ThumbnailUrl;
