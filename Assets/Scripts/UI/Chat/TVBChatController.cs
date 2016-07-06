@@ -417,7 +417,7 @@ public class TVBChatController : MonoBehaviour
 		}
 
 		foreach (ChatMessage m in messages) {
-			m.Readed = false;
+			m.Readed = m.Sender == ChatManager.Instance.UserName;
 			if (!chats.Contains(m)) 
 				chats.Add( m.toHashTable() );
 		}
