@@ -4,7 +4,7 @@ namespace Basket
 {
     public class ShotBall : MonoBehaviour
     {
-
+		public bool isScored = false;
 
         public bool isActive { get; private set; }
 

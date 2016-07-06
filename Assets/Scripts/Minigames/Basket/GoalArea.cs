@@ -18,9 +18,13 @@ namespace Basket {
 #endif
         void OnTriggerEnter(Collider other) {
             ShotBall sb = other.GetComponent<ShotBall>();
+
             if (sb != null) {
-                other.name = "goal";
-                OnGoal();
+				if (!sb.isScored) { 
+					sb.isScored = true;
+					other.name = "goal";
+                	OnGoal();
+				}
             }
         }
 
