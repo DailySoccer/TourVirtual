@@ -79,6 +79,11 @@ public class UserAPI {
 	}
 
     public UserAPI() {
+        AsyncOperation.DefaultError = (err)=>{
+            LoadingCanvasManager.Hide();
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NetError") );
+        };
+        
         Ready = false;
         Contents = new ContentAPI();
         Achievements = new AchievementsAPI();

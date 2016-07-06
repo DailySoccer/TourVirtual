@@ -6,6 +6,7 @@ public class AsyncOperation{
 
     static int counter = 0;
     static Dictionary<string, AsyncOperation> Operations = new Dictionary<string, AsyncOperation>();
+    public static RequestEvent DefaultError = (err)=>{};
 
     public static AsyncOperation Create(RequestEvent OnSucess = null, RequestEvent OnError = null) {
         var op = new AsyncOperation((counter++).ToString("X8"), OnSucess, OnError);
@@ -23,11 +24,17 @@ public class AsyncOperation{
 #if NETFX_CORE
             UnityEngine.WSA.Application.InvokeOnAppThread(() => {
 #endif
-            if (success && op.OnSuccess != null) {
-                op.OnSuccess(rest);
-            } else if (!success && op.OnError != null) {
-                UnityEngine.Debug.LogError(">>>>> OnError " + rest);
-                op.OnError(rest);
+            if (success) {
+                if(op.OnSuccess != null) op.OnSuccess(rest);
+            } else if (!success) {
+                // Elimino la capa de carga...
+                if(op.OnError != null){
+                    UnityEngine.Debug.LogError(">>>>> OnError " + rest);
+                    op.OnError(rest);
+                }else{
+                // Error generico.
+                    DefaultError(rest);
+                }
             }
             op.pending = false;
             Operations.Remove(hash);
@@ -52,8 +59,7 @@ public class AsyncOperation{
 
     public bool pending { get; set; }
 
-    public IEnumerator Wait()
-    {
+    public IEnumerator Wait() {
         while (pending) yield return null;
     }
 }
