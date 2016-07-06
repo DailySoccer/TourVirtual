@@ -17,7 +17,6 @@ public class SyncCameraTransform : MonoBehaviour
 		_camera = Camera.main;
 
 		RoomManager.Instance.OnSceneReady += OnSceneReady;
-		RoomManager.Instance.OnSceneChange += OnSceneChange;
 		enabled = false;
 	}
 
@@ -40,7 +39,9 @@ public class SyncCameraTransform : MonoBehaviour
 		Assert.IsNotNull(_camera);
 		Assert.IsNotNull(_anchorsByType);
 
-		CameraAnchor anchor = _anchorsByType[Player.Instance.CameraType];
+		CameraAnchor anchor;
+		if (!_anchorsByType.TryGetValue(Player.Instance.CameraType, out anchor))
+			anchor = _anchorsByType[_defaultAnchorType];
 
 		if (!Mathf.Approximately(Player.Instance.cameraPitch, 0f))
 			anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
@@ -114,30 +115,21 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void OnSceneReady()
 	{
-		foreach(var pair in _anchorsByType) 
-			Destroy(pair.Value.gameObject);
-
-		_anchorsByType.Clear();
-
 		foreach (CameraAnchor anchor in
-				Player.Instance.GetComponentsInChildren<CameraAnchor>(true))
+			Player.Instance.GetComponentsInChildren<CameraAnchor>(true))
 		{
 			anchor.transform.parent = transform;
 			_anchorsByType[anchor.AnchorType] = anchor;
-			if (anchor.AnchorType == _defaultAnchorType)
-				_anchorsByType[CameraAnchor.Type.None] = anchor;
 		}
 
-		enabled = true;
+		if (_anchorsByType.Count > 0)
+		{
+			RoomManager.Instance.OnSceneReady -= OnSceneReady;
+			enabled = true;
+		}
 	}
 
-	/// <summary>
-	/// 
-	/// </summary>
-	private void OnSceneChange()
-	{
-		enabled = false;
-	}
+	
 
 	//=================================================
 
