@@ -370,7 +370,7 @@ public class PopUpWindow : UIScreen {
 
 	public void PurchasedPackContentSlot_Click(PurchasedPackContentSlot item) {
         // Ocultar la lista.
-        AllViewer.Instance.Show(item.content.AssetUrl, item.content.Type, item.content.Title, ()=> { });
+        AllViewer.Instance.Show(item.content.AssetUrl, item.content.Type, item.content.Title, item.content.Body, ()=> { });
     }
 
 
