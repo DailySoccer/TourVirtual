@@ -16,8 +16,8 @@ public class ContentSelectorCaster : MonoBehaviour {
             lastPosition = transform.position;
             lastRotation = transform.rotation;
             // Mirar si estoy en la layer de player.
-            Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
-            var hits = Physics.RaycastAll(transform.position + Vector3.up, transform.forward, maxDistance, contentLayer);
+//            Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
+            var hits = Physics.RaycastAll(transform.position, transform.forward, maxDistance, contentLayer);
 
             if (hits.Length != 0) {
                 RaycastHit best = hits[0];
