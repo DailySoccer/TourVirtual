@@ -82,7 +82,7 @@ public class JoystickController : MonoBehaviour {
 		AddEventListener(EventTriggerType.PointerDown, OnPointerDownHandler);
 		AddEventListener(EventTriggerType.PointerUp, OnPointerUpHandler);
 		AddEventListener(EventTriggerType.Drag, OnPointerDragHandler);
-		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width / 2;
+		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width;
 
 		DPI = Screen.dpi != 0 ? 1 / Screen.dpi : 1;
       	UpdateJoystickParams();
