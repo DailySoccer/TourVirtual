@@ -2,6 +2,8 @@
 #import "UnityAppController.h"
 #import "UI/UnityView.h"
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @interface MyAppController : UnityAppController
 {
 }
