@@ -31,13 +31,9 @@ public class CameraAnchor : MonoBehaviour
 		set
 		{
 			value = Mathf.Clamp(value, PitchDegreesMin, PitchDegreesMax);
-			if (Mathf.Approximately(value, _pitchDegrees))
-				return;
-
-			_pitchDegrees = value;
-
 			transform.localRotation = Quaternion.AngleAxis(value, -Vector3.right);
 			Distance = Radius / Mathf.Cos(Mathf.Deg2Rad * value);
+			_pitchDegrees = value;
 		}
 	}
 

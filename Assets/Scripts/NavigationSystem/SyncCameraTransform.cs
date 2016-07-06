@@ -91,8 +91,7 @@ public class SyncCameraTransform : MonoBehaviour
 		}
 		else
 		{
-			targetPosition = wallInfo.point
-				- _wallSafeDistance * _camera.nearClipPlane * anchor.transform.forward;
+			targetPosition = wallInfo.point + _wallSafeDistance * anchor.transform.forward;
 			_smoothSecs = _smoothSecsMax;
 
 			Debug.DrawRay(anchor.Target, wallInfo.point  - anchor.Target, Color.red);
@@ -149,8 +148,8 @@ public class SyncCameraTransform : MonoBehaviour
 	private float _pitchRecoveryForce = 1f;
 
 	[SerializeField] private string _wallLayerName = "Wall";
-	[SerializeField, Range(-5f, 5f)]
-	private float _wallSafeDistance = 0f;
+	[SerializeField, Range(0f, 1f)]
+	private float _wallSafeDistance = 1f;
 	[SerializeField, Range(0f, 5f)]
 	private float _wallCollisionDistMin = 1f;
 	[SerializeField, Range(0f, 5f)]
