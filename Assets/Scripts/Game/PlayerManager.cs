@@ -27,9 +27,11 @@ public class PlayerManager : Photon.PunBehaviour {
     public Dictionary<string, object> Compliments;
     public Dictionary<string, object> Selector;
 
-	public GameObject PlayerRemoteHUDCanvas;
-
+        public GameObject PlayerRemoteHUDCanvas;
 	GameObject PlayerHUD;
+
+        List<GameObject> Players = new List<GameObject>();
+
 
     void Awake()
     {
@@ -37,10 +39,15 @@ public class PlayerManager : Photon.PunBehaviour {
     }
 
 	public override void OnLeftRoom() {
-	}
+                Debug.LogError("OnLeftRoom");
+                foreach( var player in Players){
+                        Destroy(player);
+                }
+                Players.Clear();
+        }
 
 	public override void OnJoinedRoom() {
-		// PhotonNetwork.Instantiate( "Player Character", Vector3.zero, Quaternion.identity, 0 );
+
 		SpawnPlayer();
 	}
 
@@ -61,40 +68,41 @@ public class PlayerManager : Photon.PunBehaviour {
 		}
 		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
 	}
+
 	[PunRPC]
 	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
-        if (np.isLocal && Player.Instance != null) {
-            StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
-                instance.layer = LayerMask.NameToLayer("Player");
-                instance.GetComponent<SynchNet>().isLocal = true;
-                instance.GetComponent<PhotonView>().viewID = id;
-                if (Player.Instance != null) Player.Instance.Avatar = instance;
-                if (RoomManager.entrada != null)
-                {
-                    instance.transform.position = RoomManager.entrada.position;
-                    instance.transform.rotation = RoomManager.entrada.rotation;
+                if (np.isLocal && Player.Instance != null) {
+                        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
+                        instance.layer = LayerMask.NameToLayer("Player");
+                        instance.GetComponent<SynchNet>().isLocal = true;
+                        instance.GetComponent<PhotonView>().viewID = id;
+                        if (Player.Instance != null) Player.Instance.Avatar = instance;
+                        if (RoomManager.entrada != null)
+                        {
+                        instance.transform.position = RoomManager.entrada.position;
+                        instance.transform.rotation = RoomManager.entrada.rotation;
+                        }
+
+                }));
                 }
+                else {
+                StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
+                        Players.Add(instance);
+                        instance.tag = "AvatarNet";
+                        instance.layer = LayerMask.NameToLayer("Net");
+                        //Código para insertar el HUD de los players remotos
+                        PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
+                                        PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
+                                        PlayerHUD.transform.SetParent(instance.transform);
+                                        PlayerHUD.name = DataModel.Split ('#')[0] + " PlayerHUD";
+                                        PlayerHUD.transform.localScale = Vector3.one * 0.005f;
+                                        PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
 
-            }));
-        }
-        else {
-            StartCoroutine(PlayerManager.Instance.CreateAvatar(selectedModel, (instance) =>{
-                instance.tag = "AvatarNet";
-                instance.layer = LayerMask.NameToLayer("Net");
-                instance.GetComponent<SynchNet>().isLocal = false;
-                instance.GetComponent<PhotonView>().viewID = id;
-                instance.GetComponent<ContentSelectorCaster>().enabled = false;
-
-                //Código para insertar el HUD de los players remotos
-                PlayerHUD =  Instantiate(PlayerRemoteHUDCanvas);
-				PlayerHUD.GetComponent<RemotePlayerHUD>().SetDataModel( DataModel ,selectedModel.Split('#')[2] );
-				PlayerHUD.transform.SetParent(instance.transform);
-				PlayerHUD.name = DataModel.Split ('#')[0] + " PlayerHUD";
-				PlayerHUD.transform.localScale = Vector3.one * 0.005f;
-				PlayerHUD.transform.position = new Vector3(0.0f, 2.2f, PlayerHUD.transform.position.z);
-
-            }));
-	}
+                        instance.GetComponent<SynchNet>().isLocal = false;
+                        instance.GetComponent<PhotonView>().viewID = id;
+                        //instance.GetComponent<ContentSelectorCaster>().enabled = false;
+                }));
+                }
 		// Set the PhotonView
     }
 
