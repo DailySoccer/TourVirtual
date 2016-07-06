@@ -15,8 +15,7 @@
         UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
         return YES;
     }
-    return NO;
-}
+    return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];}
 @end
 
 IMPL_APP_CONTROLLER_SUBCLASS(MyAppController)
