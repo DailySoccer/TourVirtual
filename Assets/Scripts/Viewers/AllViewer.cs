@@ -1,36 +1,45 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class AllViewer : MonoBehaviour {
     public delegate void callback();
+
+	public UIScreen visorCanvas;
+	public Text txtTitle;
+	public Text txtDescription;
+	public Image image;
+	public Canvas[] toHide;
+
     ContentAPI.AssetType currentMode = ContentAPI.AssetType.Binary;
-    Coroutine lastCoroutine;
-    Camera ViewerCamera;
+    
+	Coroutine lastCoroutine;
+    
+	Camera ViewerCamera;
 //    Light ViewerLight;
     GameObject model;
-    Vector2 lastTouch;
+    
     AssetBundle assetbundle;
-
-    bool draggin = false;
-
+    
     callback endCallback;
-
-    Vector2 textureSize;
+    
     Texture2D texture;
-    float zoomSize = 1;
-    Vector2 midScreen;
-    float orthoZoomSpeed = 5f;
-    Vector2 offset = Vector2.zero;
 
-    public UIScreen visorCanvas;
-    public UnityEngine.UI.Text txtTitle;
-    public UnityEngine.UI.Image image;
+	Vector2 lastTouch;
+	Vector2 textureSize;
+	Vector2 midScreen;
+	Vector2 offset = Vector2.zero;
+
+
     RectTransform rectTransform;
 
     bool oldUICameraStatus;
     bool oldMainCameraStatus;
-
-    public Canvas[] toHide;
+	bool draggin = false;
+	
+	float zoomSize = 1;    
+	float orthoZoomSpeed = 5f;
+    
     Canvas canvas;
 
     public static AllViewer Instance { get; private set;  }
@@ -41,7 +50,7 @@ public class AllViewer : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void Show(string url, ContentAPI.AssetType mode, string title="", callback endCallback = null ) {
+    public void Show(string url, ContentAPI.AssetType mode, string title="", string desc="", callback endCallback = null ) {
         this.endCallback = endCallback;
 
         offset = Vector2.zero;
@@ -51,6 +60,7 @@ public class AllViewer : MonoBehaviour {
         //cm.ShowScreen(visorCanvas);
         visorCanvas.IsOpen = true;
         txtTitle.text = title;
+		txtDescription.text = desc;
 
         CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         oldUICameraStatus = cm.UIScreensCamera.GetActive();
