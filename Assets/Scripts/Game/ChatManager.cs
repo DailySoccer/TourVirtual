@@ -115,6 +115,13 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		//Debug.Log (">>> Chat OnConnected");
 		ChatClient.SetOnlineStatus(ChatUserStatus.Online);
 		ChatClient.Subscribe( new string[] { CHANNEL_COMMUNITYMANAGER }, 0 );
+
+		if( !string.IsNullOrEmpty(RoomId) ){
+			if (ChatClient != null && ChatClient.CanChat) {
+				ChatClient.Subscribe( new [] { RoomId }, MessagesFromHistory );
+			}
+		}
+		
 	}
 	
 	public void OnDisconnected() {
