@@ -1315,7 +1315,7 @@ GameObject:
   - 114: {fileID: 11414750}
   - 114: {fileID: 11448674}
   m_Layer: 5
-  m_Name: Button Info
+  m_Name: BuyInfoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,7 +2026,7 @@ GameObject:
   - 222: {fileID: 22262708}
   - 114: {fileID: 11453518}
   m_Layer: 5
-  m_Name: Text
+  m_Name: BuyInfoButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3671,6 +3671,11 @@ MonoBehaviour:
   SecondPlaneAvatarSelect: {fileID: 183154}
   Particles: {fileID: 186344, guid: b0b3887512dff99459865eb12152ef20, type: 2}
   BuyInfoButtom: {fileID: 141640}
+  BuyInfoButtonText: {fileID: 11453518}
+  BuyButtonBase: {fileID: 21300000, guid: e35d31fdfab064ed8803382ca885eb52, type: 3}
+  BuyButtonTextColor: {r: 1, g: 1, b: 1, a: 1}
+  InfoButtonBase: {fileID: 21300000, guid: 42cf3869037974eefada3ade4ce07d3c, type: 3}
+  InfoButtonTextColor: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
   BotonAceptar: {fileID: 11444050}
 --- !u!114 &11410212
 MonoBehaviour:
@@ -3769,7 +3774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
     m_FontSize: 50
@@ -4284,7 +4289,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22498812}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999762
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4661,7 +4666,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22443312}
   m_Direction: 2
   m_Value: 0
-  m_Size: .99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4707,7 +4712,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22450494}
   m_Direction: 2
   m_Value: 0
-  m_Size: .99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6080,7 +6085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
     m_FontSize: 30
@@ -6548,7 +6553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .0823529437, g: .109803922, b: .168627456, a: 1}
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
     m_FontSize: 30
@@ -9144,7 +9149,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22465674}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999821
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -31,6 +31,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public GameObject SecondPlaneAvatarSelect;
 	public GameObject Particles;
 	public GameObject BuyInfoButtom;
+	public Text BuyInfoButtonText;
+	public Sprite BuyButtonBase;
+	public Color BuyButtonTextColor;
+	public Sprite InfoButtonBase;
+	public Color InfoButtonTextColor;
 
 	public Button BotonAceptar;
 
@@ -141,14 +146,22 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		// Actualizamos la lista para que marque como seleccionados las cosas que tengo puestas
 		ClothesListController.Instance.UpdateSelectedSlots ();
 
-        if (currentPrenda != null)
-        {
-            BuyInfoButtom.SetActive(true);
-            if (currentPrenda.virtualGood.count != 0) BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
-            else BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Buy");
-        }
-        else
-            BuyInfoButtom.SetActive(false);
+        if (currentPrenda != null) {
+			BuyInfoButtom.SetActive (true);
+			if (currentPrenda.virtualGood.count != 0) {
+				BuyInfoButtom.GetComponentInChildren<Text> ().text = LanguageManager.Instance.GetTextValue ("TVB.Button.Info");
+				BuyInfoButtom.GetComponent<Image> ().sprite = InfoButtonBase;
+				BuyInfoButtonText.color = InfoButtonTextColor;
+			}
+			else {
+				BuyInfoButtom.GetComponentInChildren<Text> ().text = LanguageManager.Instance.GetTextValue ("TVB.Button.Buy");
+				BuyInfoButtom.GetComponent<Image> ().sprite = BuyButtonBase;
+				BuyInfoButtonText.color = BuyButtonTextColor;
+			}
+		} else {
+			BuyInfoButtom.SetActive (false);
+		}
+
     }
 
 
