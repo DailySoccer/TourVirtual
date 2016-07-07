@@ -24,22 +24,26 @@ void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSign
     
     IdClient = CreateNSString(idclient);
     
-    [[MDPClientHandler sharedInstance]	initWithEnvironment:CreateNSString(enviroment) idClient:IdClient debugMode:true extraQueryParametersSignIn:CreateNSString(extraQueryParametersSignIn) extraQueryParametersSignUp:CreateNSString(extraQueryParametersSignIn)];
+    // SDK Enviroment
+    BOOL debugMode = YES;
+    
+#ifdef DEBUG
+    debugMode = YES;
+#endif
+    
+    [[MDPClientHandler sharedInstance] initWithEnvironment:CreateNSString(enviroment) idClient:IdClient debugMode:debugMode extraQueryParametersCombined:CreateNSString(extraQueryParametersSignIn)];
 }
 
 void _AzureSignIn(){
-    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
-        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignIn];
-    };
     
-    [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock:^ void (NSError *error){
-        if(error){
-            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
-        }else{
-            UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
-        }
-        
-    }];
+    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
+        NSLog(@"Cannot open url");
+    }
+    
 }
 
 void _AzureSignOut(){

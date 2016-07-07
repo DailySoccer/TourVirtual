@@ -122,39 +122,12 @@ public class MainActivity extends UnityPlayerActivity {
         if (enviroment.equals("development")) env = DigitalPlatformClient.DEVELOPMENT;
         else if (enviroment.equals("preproduction")) env = DigitalPlatformClient.PREPRODUCTION;
         else env = DigitalPlatformClient.PRODUCTION;
-        DigitalPlatformClient.init(this, env, this.IDClient, signin, signin);
+        DigitalPlatformClient.init(this, env, this.IDClient, signin);
     }
 
     public void Login(boolean mode) {
 
-/*
-        AuthListener listener = new AuthListener(){
-            @Override
-            public void onResponse() {
-                UnityPlayer.UnitySendMessage("Azure Services", "OnToken", "Ok");
-            }
-            @Override
-            public void onError(DigitalPlatformClientException error){
-                UnityPlayer.UnitySendMessage("Azure Services", "OnToken", "Error");
-            }
-        };
-*/
-        AuthListenerToken listener = new AuthListenerToken() {
-            @Override
-            public void onResponse(String var1) {
-                //UnityPlayer.UnitySendMessage("Azure Services", "OnToken", var1);
-                UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
-
-            }
-
-            @Override
-            public void onError(DigitalPlatformClientException var1) {
-                System.out.println("Start onError " + var1);
-//                UnityPlayer.UnitySendMessage("Azure Services", "OnToken", "Error");
-                UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
-            }
-        };
-        DigitalPlatformClient.getInstance().getAuthHandler().login(this, listener, false);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ this.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} ")));
     }
 
     public void Logout() {
@@ -169,6 +142,9 @@ public class MainActivity extends UnityPlayerActivity {
         UnityPlayer.UnitySendMessage("Azure Services", "OnResponseKO", hash + ":" + err.getCode() + ":" + err.getMessage());
     }
 
+    // ESTO ESTA MAL!!!!
+    // ESTO ESTA MAL!!!!
+    // ESTO ESTA MAL!!!!
     public void GetFanApps(String deviceID, final String hash) {
         ServiceResponseListener<App> callback = new ServiceResponseListener<App>() {
             @Override
@@ -181,8 +157,11 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getFanHandler().getFanApps(this, this.IDClient, deviceID, callback);
+        DigitalPlatformClient.getInstance().getFanHandler().getFanApps(this, deviceID, callback);
     }
+    // ESTO ESTA MAL!!!!
+    // ESTO ESTA MAL!!!!
+    // ESTO ESTA MAL!!!!
 
     public void GetFanMe(final String hash) {
         ServiceResponseListener<Fan> callback = new ServiceResponseListener<Fan>() {
@@ -483,7 +462,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getRankingHandler().getCurrentUserRanking(this, this.IDClient, callback);
+        DigitalPlatformClient.getInstance().getRankingHandler().getCurrentUserRanking(this, callback);
     }
 
     // Virtual Goods
@@ -591,7 +570,7 @@ public class MainActivity extends UnityPlayerActivity {
         };
         ArrayList<String> arr = new ArrayList<String>();
         arr.add(IDVirtualGood);
-        DigitalPlatformClient.getInstance().getPurchasesServiceHandler().postRedeemVirtualGoods(this, this.IDClient, arr, callback);
+        DigitalPlatformClient.getInstance().getPurchasesServiceHandler().postRedeemVirtualGoods(this, arr, callback);
     }
 
     // Achievements
@@ -641,7 +620,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getAchievementsHandler().getAchievements(this, type, this.IDClient, language, callback);
+        DigitalPlatformClient.getInstance().getAchievementsHandler().getAchievements(this, type, language, callback);
     }
 
     public void GetAchievementsEarned(String type, String language, String token, final String hash) {
@@ -725,7 +704,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getContentsHandler().getContentItemsByType(this, type, language, page, callback); // !!!!!
+        DigitalPlatformClient.getInstance().getContentsHandler().getContentItemsByType(this, type, language, page, callback, false); // !!!!!
     }
 
     public void GetContent(String IDContent, final String hash) {
@@ -787,7 +766,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getFanHandler().getGamificationStatus(this, language, this.IDClient, callback);
+        DigitalPlatformClient.getInstance().getFanHandler().getGamificationStatus(this, language, callback);
     }
 
     public void SendAction(String IDAction, final String hash) {
@@ -802,7 +781,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, this.IDClient, IDAction, null, callback);
+        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, IDAction, null, callback);
     }
 
     // InApp Purchases
