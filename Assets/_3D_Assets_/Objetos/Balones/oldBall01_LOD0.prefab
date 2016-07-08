@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 441188}
+  - 114: {fileID: 11457236}
   m_Layer: 0
   m_Name: oldBall01_LOD0
   m_TagString: Untagged
@@ -88,6 +89,24 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 121870}
   m_Mesh: {fileID: 4300000, guid: ddd1daebc8af60943b28059d7e85ed3d, type: 3}
+--- !u!114 &11457236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb67f519dbf30d4c9ce8fddec717c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MIN_ZOOM: .5
+  MAX_ZOOM: 2
+  MAX_PITCH: 30
+  MIN_PITCH: -30
+  ZoomDensity: 25
+  PitchDensity: 25
+  RollDensity: 25
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

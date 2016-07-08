@@ -74,6 +74,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431154}
+  - 114: {fileID: 11435304}
   m_Layer: 0
   m_Name: ligaBasket_LOD0
   m_TagString: Untagged
@@ -238,6 +239,24 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 150162}
   m_Mesh: {fileID: 4300004, guid: 49f76adc100b48447896471c2ebc6597, type: 3}
+--- !u!114 &11435304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb67f519dbf30d4c9ce8fddec717c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MIN_ZOOM: .5
+  MAX_ZOOM: 2
+  MAX_PITCH: 30
+  MIN_PITCH: -30
+  ZoomDensity: 25
+  PitchDensity: 25
+  RollDensity: 25
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
