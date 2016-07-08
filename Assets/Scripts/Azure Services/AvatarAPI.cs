@@ -141,6 +141,6 @@ public class AvatarAPI {
                 }
             }
         }
-        return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat) ? Hair : Hat, Head, tTorso, tLegs, tFeet, Compliment); ;
+        return string.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}", Gender, string.IsNullOrEmpty(Hat) ? Hair : Hat, Head, tTorso, tLegs, tFeet, Compliment);
     }
 }

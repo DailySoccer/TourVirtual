@@ -143,8 +143,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         //if (currentPrenda == prenda) return;
         DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
+		// Nos aseguramos que la prenda clickada es la única que está marcada como clickada
+		foreach (GameObject go in ClothesListController.Instance.currentClothesLsit) {
+			go.GetComponent<ClothSlot> ().isClicked = false;
+		}
+		prenda.isClicked = true;
+
 		// Actualizamos la lista para que marque como seleccionados las cosas que tengo puestas
-		ClothesListController.Instance.UpdateSelectedSlots ();
+		ClothesListController.Instance.UpdateSelectedSlots (tmpAvatar);
 
         if (currentPrenda != null) {
 			BuyInfoButtom.SetActive (true);
@@ -218,13 +224,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         DressVirtualGood(UserAPI.VirtualGoodsDesciptor.GetByGUID(GUID), false);
     }
 
+	AvatarAPI tmpAvatar;
+
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 
         if (virtualGood == null) return;
         Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
-        AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
+		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
             case "HTORSO":
             case "MTORSO":
@@ -296,7 +304,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
         if (temporal) {
             BotonAceptar.interactable = false;
-            UserAPI.AvatarDesciptor.Paste(tmp);
+			tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+			UserAPI.AvatarDesciptor.Paste(tmp);
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         }
         else

@@ -15,7 +15,9 @@ public class ClothSlot : MonoBehaviour {
 	public VirtualGoodsAPI.VirtualGood virtualGood;
 
 	string VirtualGoodSubtype;
-	
+
+	public bool isClicked{ get; set;}
+
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
 
 		VestidorControllerInstance = VestidorCanvasController_Lite.Instance;
@@ -33,47 +35,47 @@ public class ClothSlot : MonoBehaviour {
 			LabelOwned.SetActive (false);
 		}
 
-		UpdateSelection ();
+		UpdateSelection (UserAPI.AvatarDesciptor);
 
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
 	}
 
-	public void UpdateSelection() {
-		Background.color = CheckSelected () ? new Color (38.0f/255.0f, 109.0f/255.0f, 174.0f/255.0f) : new Color (1.0f, 1.0f, 1.0f);
+	public void UpdateSelection(AvatarAPI tmpAvatar) {
+		Background.color = CheckSelected (tmpAvatar) ? new Color (38.0f/255.0f, 109.0f/255.0f, 174.0f/255.0f) : new Color (1.0f, 1.0f, 1.0f);
 	}
 
-	bool CheckSelected() {
+	bool CheckSelected(AvatarAPI tmpAvatar) {
 
-		
 		if (virtualGood == null) {
 			Debug.LogError (">>>>> [ClothSlot] in " + name + ": ClothSlot con VirtualGood NULL. Mi subtipo es: " + VirtualGoodSubtype);
 			return false;
 		}
+		//indexes { Gender, Hair, Hat || Head, Torso, Legs, Feet, Compliment };
 
 		switch (virtualGood.IdSubType) {
 			case "HTORSO":
 			case "MTORSO":
-				return UserAPI.AvatarDesciptor.Torso == virtualGood.GUID;
+			return tmpAvatar.Torso  == virtualGood.GUID && isClicked;
 				break;
 			case "HLEG":
 			case "MLEG":
-				return UserAPI.AvatarDesciptor.Legs == virtualGood.GUID;
+				return tmpAvatar.Legs  == virtualGood.GUID && isClicked;
 				break;
 			case "HSHOE":
 			case "MSHOE":
-			return UserAPI.AvatarDesciptor.Feet == virtualGood.GUID;
+				return tmpAvatar.Feet  == virtualGood.GUID && isClicked;
 				break;
 			case "HCOMPLIMENT":
 			case "MCOMPLIMENT":
-				return UserAPI.AvatarDesciptor.Compliment == virtualGood.GUID;
+				return tmpAvatar.Compliment  == virtualGood.GUID && isClicked;
 				break;
 			case "HHAT":
 			case "MHAT":
-				return UserAPI.AvatarDesciptor.Hat == virtualGood.GUID;
+				return tmpAvatar.Hat == virtualGood.GUID && isClicked;
 				break;
 			case "HPACK":
 			case "MPACK":
-				return UserAPI.AvatarDesciptor.Pack == virtualGood.GUID;
+				return tmpAvatar.Pack == virtualGood.GUID && isClicked;
 				break;
 		}
 		return false;
