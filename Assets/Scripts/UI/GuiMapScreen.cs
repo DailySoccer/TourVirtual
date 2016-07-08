@@ -3,24 +3,14 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum SelectorPosition {
-	TOP,
-	RIGHT,
-	BOTTOM,
-	LEFT
-}
-
 public class GuiMapScreen : UIScreen {
 	public GameCanvasManager TheGameCanvasManager;
 
 	public GameObject Selector;
-	public GameObject SelectorValdebebas;
 
 	string currentLocation;
 
 	RectTransform selectorRT;
-
-	public SelectorPosition selectorPosition;
 
 	public override void Awake () {
 		base.Awake ();
@@ -31,7 +21,6 @@ public class GuiMapScreen : UIScreen {
 	}
 
 	public void HandleRoom(string roomGoto) {
-		//Debug.LogWarning("HandleRoom: " + roomGoto);
 		string[] placeToGo= roomGoto.Split ('#');
 		string room = placeToGo [0];
 		string door = placeToGo.Length > 1 ? placeToGo [1] : "";
@@ -58,9 +47,6 @@ public class GuiMapScreen : UIScreen {
 
 		if (IsOpen) {
 			if (currentLocation != RoomManager.Instance.Room.Id) {
-				//Debug.LogWarning ("Estamos en" + RoomManager.Instance.Room.Id);
-				Selector.SetActive (true);
-				SelectorValdebebas.SetActive (false);
 
 				if (Selector != null && RoomManager.Instance != null && RoomManager.Instance.Room != null) {
 					GameObject button = null;
@@ -68,15 +54,15 @@ public class GuiMapScreen : UIScreen {
 					switch (RoomManager.Instance.Room.Id) {
 					case "ESTADIO": 
 						switch (RoomManager.Instance.GetEntranceDoor ()) {
-						case "PUERTA1":
-						case "PUERTA2":
-							button = GameObject.Find ("Map Grada Alta"); 
-							break;
-						case "PUERTA3":
-						case "PUERTA4":
-						case "PUERTA5":
-							button = GameObject.Find ("Map Estadio");
-							break;
+							case "PUERTA1":
+							case "PUERTA2":
+								button = GameObject.Find ("Map Grada Alta"); 
+								break;
+							case "PUERTA3":
+							case "PUERTA4":
+							case "PUERTA5":
+								button = GameObject.Find ("Map Estadio");
+								break;
 						}
 						break;
 					case "ROOM1":
@@ -102,39 +88,25 @@ public class GuiMapScreen : UIScreen {
 						break;
 
 					case "ROOM8":
-						button = GameObject.Find ("Map Valdebebas");
-						Selector.SetActive (false);
-						SelectorValdebebas.SetActive (true);
+						button = GameObject.Find ("Map Room8");
 						break;
+				
+					case "ROOM9":
+						button = GameObject.Find ("Map Room9");
+					break;
+				
+					case "ROOM10":
+						button = GameObject.Find ("Map Room10");
+					break;
+				}
+
+					if (button == null) {
+						Debug.LogErrorFormat("No se ha encontrado el borón: {0}", RoomManager.Instance.Room.Id);
 					}
 
-			
-					if (button != null) {
-						Vector3 position = Selector.transform.position;
-						RectTransform buttonRT = button.GetComponent<RectTransform> ();  
-
-						switch (selectorPosition) {
-						case SelectorPosition.TOP:
-							position.x = button.transform.position.x;
-							position.y = button.transform.position.y;
-							break;
-						case SelectorPosition.RIGHT:
-							position.x = button.transform.position.x;
-							position.y = button.transform.position.y;			
-							break;
-						case SelectorPosition.LEFT:
-							position.x = button.transform.position.x;
-							position.y = button.transform.position.y;						
-							break;
-						case SelectorPosition.BOTTOM:
-							position.x = button.transform.position.x;
-							position.y = button.transform.position.y + (buttonRT.rect.height);
-							break;				
-						}
-
-						Selector.transform.position = position;
-						currentLocation = RoomManager.Instance.Room.Id;
-					}
+					Selector.transform.SetParent ( button.transform.parent);
+					Selector.transform.position = new Vector3(button.transform.position.x, button.transform.position.y, 0);
+					currentLocation = RoomManager.Instance.Room.Id;
 				}
 			}
 		}
