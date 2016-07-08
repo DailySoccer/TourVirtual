@@ -302,9 +302,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         if (loadmodel) LoadModel();
 
+		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+
         if (temporal) {
             BotonAceptar.interactable = false;
-			tmpAvatar = UserAPI.AvatarDesciptor.Copy();
 			UserAPI.AvatarDesciptor.Paste(tmp);
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         }
