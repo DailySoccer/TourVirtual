@@ -7,8 +7,8 @@ public class TrophyViewer : MonoBehaviour {
 	#region Public members
 	public float MIN_ZOOM = 0.5f;
 	public float MAX_ZOOM = 2;
-	public float MAX_PITCH = 10;
-	public float MIN_PITCH = -10;
+	public float MAX_PITCH = 30;
+	public float MIN_PITCH = -30;
 	[Range(0.01f, 1000)]
 	public float ZoomDensity = 25;
 	[Range(0.01f,1000)]
@@ -26,19 +26,15 @@ public class TrophyViewer : MonoBehaviour {
 	{
 		get
 		{
-			return _clickCount != 1 ? 0 : -_deltaClick1.y;
+			return _clickCount != 1 ? 0 : _deltaClick1.y;
 		}
 	}
 	public float DeltaRoll
 	{
 		get
 		{
-			return _clickCount != 1 ? 0 : _deltaClick1.x;
+			return _clickCount != 1 ? 0 : -_deltaClick1.x;
 		}
-	}
-	public void SetInteraction(bool activate)
-	{
-		_interactionActive = activate;
 	}
 	#endregion
 
@@ -46,13 +42,10 @@ public class TrophyViewer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_renders = gameObject.GetComponentsInChildren<Renderer>();
-		//TODO remove
-		_startTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		SetInteraction(Time.time - _startTime > 10);
 		UpdateClick();
 		UpdateTransform();
 	}
@@ -103,15 +96,12 @@ public class TrophyViewer : MonoBehaviour {
 
 	private void UpdateTransform()
 	{
-		if (_interactionActive)
-		{
-			_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
-			_currentRoll += DeltaRoll / RollDensity;
-			_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
-			transform.rotation = Quaternion.AngleAxis(_currentRoll, Vector3.up) * Quaternion.AngleAxis(_currentPitch, Vector3.right);
-			transform.localScale = Vector3.one * _currentScale;
-			UpdateBounds();
-		}
+		_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
+		_currentRoll += DeltaRoll / RollDensity;
+		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
+		transform.rotation = Quaternion.AngleAxis(_currentRoll, Vector3.up) * Quaternion.AngleAxis(_currentPitch, Vector3.right);
+		transform.localScale = Vector3.one * _currentScale;
+		UpdateBounds();
 	}
 	#endregion
 
@@ -122,9 +112,5 @@ public class TrophyViewer : MonoBehaviour {
 	private Vector2 _lastClick1, _lastClick2;
 	private Vector2 _deltaClick1, _deltaClick2;
 	private int _clickCount;
-	private bool _interactionActive;
-
-	//TODO remove
-	private float _startTime;
 	#endregion
 }
