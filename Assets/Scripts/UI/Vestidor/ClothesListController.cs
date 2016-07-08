@@ -34,7 +34,7 @@ public class ClothesListController : MonoBehaviour {
 
 	VirtualGoodsAPI.VirtualGood tshirts;
 
-	private List<GameObject> currentClothesLsit = new List<GameObject>();
+	public List<GameObject> currentClothesLsit = new List<GameObject>();
 
 	public static ClothesListController Instance { get; private set; }
 
@@ -163,9 +163,9 @@ public class ClothesListController : MonoBehaviour {
 		return ProductType.Complement;
 	}
 
-	public void UpdateSelectedSlots() {
+	public void UpdateSelectedSlots(AvatarAPI tmpAvatar) {
 		foreach (GameObject go in currentClothesLsit) {
-			go.GetComponent<ClothSlot>().UpdateSelection();
+			go.GetComponent<ClothSlot>().UpdateSelection(tmpAvatar);
 		}
 	}
 
