@@ -46,10 +46,13 @@ public class TrophyViewer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_renders = gameObject.GetComponentsInChildren<Renderer>();
+		//TODO remove
+		_startTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		SetInteraction(Time.time - _startTime > 10);
 		UpdateClick();
 		UpdateTransform();
 	}
@@ -120,5 +123,8 @@ public class TrophyViewer : MonoBehaviour {
 	private Vector2 _deltaClick1, _deltaClick2;
 	private int _clickCount;
 	private bool _interactionActive;
+
+	//TODO remove
+	private float _startTime;
 	#endregion
 }
