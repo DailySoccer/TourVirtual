@@ -9,8 +9,6 @@ public class TrophyViewer : MonoBehaviour {
 	public float MAX_ZOOM = 2;
 	public float MAX_PITCH = 10;
 	public float MIN_PITCH = -10;
-	public float PitchSpeed = 5;
-	public float RollSpeed = 20;
 	[Range(0.01f, 1000)]
 	public float ZoomDensity = 25;
 	[Range(0.01f,1000)]
@@ -68,6 +66,16 @@ public class TrophyViewer : MonoBehaviour {
 			Vector2 _minScreen, _maxScreen;
 			_minScreen = Camera.main.WorldToScreenPoint(_minPos);
 			_maxScreen = Camera.main.WorldToScreenPoint(_maxPos);
+			float rangeX, rangeY;
+			rangeX = _maxScreen.x - _minScreen.x;
+			rangeY = _maxScreen.y - _minScreen.y;
+			bool outOfBound = rangeX > Screen.width * 0.8f || rangeY > Screen.height * 0.8f;
+			if (outOfBound)
+			{
+				float scaleCorrection = Mathf.Min(rangeX / (Screen.width * 0.8f), rangeY / (Screen.height * 0.8f));
+				_currentScale *= scaleCorrection;
+				transform.localScale = Vector3.one * _currentScale;
+			}
 		}
 	}
 
@@ -94,9 +102,9 @@ public class TrophyViewer : MonoBehaviour {
 	{
 		if (_interactionActive)
 		{
-			_currentPitch += DeltaPitch / PitchDensity;
+			_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
 			_currentRoll += DeltaRoll / RollDensity;
-			_currentScale = Mathf.Max(0.2f, _currentScale + DeltaZoom / ZoomDensity);
+			_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
 			transform.rotation = Quaternion.AngleAxis(_currentRoll, Vector3.up) * Quaternion.AngleAxis(_currentPitch, Vector3.right);
 			transform.localScale = Vector3.one * _currentScale;
 			UpdateBounds();
@@ -108,7 +116,6 @@ public class TrophyViewer : MonoBehaviour {
 	private Renderer[] _renders;
 	private Vector3 _minPos = Vector3.zero, _maxPos = Vector3.zero;
 	private float _currentScale, _currentPitch, _currentRoll;
-	private float _MAX_SCALE = 1, _MIN_SCALE = 1;
 	private Vector2 _lastClick1, _lastClick2;
 	private Vector2 _deltaClick1, _deltaClick2;
 	private int _clickCount;
