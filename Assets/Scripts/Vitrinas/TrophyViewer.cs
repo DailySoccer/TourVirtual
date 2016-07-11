@@ -6,20 +6,21 @@ public class TrophyViewer : MonoBehaviour {
 
 	#region Public members
 	public float MIN_ZOOM = 0.5f;
-	public float MAX_ZOOM = 2;
+	public float MAX_ZOOM = 5;
 	public float MAX_PITCH = 30;
 	public float MIN_PITCH = -30;
 	[Range(0.01f, 1000)]
-	public float ZoomDensity = 25;
+	public float ZoomDensity = 500;
 	[Range(0.01f,1000)]
-	public float PitchDensity = 25;
+	public float PitchDensity = 10;
 	[Range(0.01f, 1000)]
-	public float RollDensity = 25;
+	public float RollDensity = 10;
 
 	public float DeltaZoom
 	{
 		get {
-			return _clickCount != 2 ? 0 : Mathf.Max(0, -Mathf.Sign(Vector2.Dot(_deltaClick1, _deltaClick2)) * (_deltaClick2 - _deltaClick1).magnitude);
+			float grow = (_lastClick1 - _lastClick2).sqrMagnitude > ((_lastClick1 + _deltaClick1) - (_lastClick2 + _deltaClick2)).sqrMagnitude ? -1 : 1;
+			return _clickCount != 2 ? 0 : Mathf.Max(0, -Mathf.Sign(Vector2.Dot(_deltaClick1, _deltaClick2)) * (_deltaClick2 - _deltaClick1).magnitude) * grow;
 		}
 	}
 	public float DeltaPitch
@@ -57,41 +58,59 @@ public class TrophyViewer : MonoBehaviour {
 		foreach (Renderer ren in _renders)
 		{
 			_minPos = new Vector3(Mathf.Min(_minPos.x, ren.bounds.min.x), Mathf.Min(_minPos.y, ren.bounds.min.y), Mathf.Min(_minPos.z, ren.bounds.min.z));
-			_maxPos = new Vector3(Mathf.Max(_minPos.x, ren.bounds.min.x), Mathf.Max(_minPos.y, ren.bounds.min.y), Mathf.Max(_minPos.z, ren.bounds.min.z));
-			//TODO reajustar si el tamaño sobrepasa límites definidos para la pantalla.
-			Vector2 _minScreen, _maxScreen;
-			_minScreen = Camera.main.WorldToScreenPoint(_minPos);
-			_maxScreen = Camera.main.WorldToScreenPoint(_maxPos);
-			float rangeX, rangeY;
-			rangeX = _maxScreen.x - _minScreen.x;
-			rangeY = _maxScreen.y - _minScreen.y;
-			bool outOfBound = rangeX > Screen.width * 0.8f || rangeY > Screen.height * 0.8f;
-			if (outOfBound)
-			{
-				float scaleCorrection = Mathf.Min(rangeX / (Screen.width * 0.8f), rangeY / (Screen.height * 0.8f));
-				_currentScale *= scaleCorrection;
-				transform.localScale = Vector3.one * _currentScale;
-			}
+			_maxPos = new Vector3(Mathf.Max(_maxPos.x, ren.bounds.max.x), Mathf.Max(_maxPos.y, ren.bounds.max.y), Mathf.Max(_maxPos.z, ren.bounds.max.z));
+		}
+		Vector2 _minScreen, _maxScreen;
+		_minScreen = Camera.main.WorldToScreenPoint(_minPos);
+		_maxScreen = Camera.main.WorldToScreenPoint(_maxPos);
+		float rangeX, rangeY;
+		rangeX = _maxScreen.x - _minScreen.x;
+		rangeY = _maxScreen.y - _minScreen.y;
+		bool outOfBound = rangeX > Screen.width * 0.8f || rangeY > Screen.height * 0.8f;
+		if (outOfBound)
+		{
+			float scaleCorrection = Mathf.Min((Screen.width * 0.8f) / rangeX, (Screen.height * 0.8f) / rangeY);
+			_currentScale *= scaleCorrection;
+			transform.localScale = Vector3.one * _currentScale;
+			_minPos = _maxPos = Vector3.zero;
 		}
 	}
 
 	private void UpdateClick()
 	{
-		_clickCount = Input.touchCount;
-		switch(_clickCount)
+		int currClickCount = Input.touchCount;
+		if (_clickCount == currClickCount)
 		{
-			case 2:
-				_deltaClick2 = Input.touches[1].position - _lastClick2;
-				_lastClick2 = Input.touches[1].position;
-				goto case 1;
-			case 1:
-				_deltaClick1 = Input.touches[0].position - _lastClick1;
-				_lastClick1 = Input.touches[0].position;
-				break;
-			default:
-			_lastClick1 = _lastClick2 = _deltaClick1 = _deltaClick2 = Vector2.zero;
-				break;
+			switch (_clickCount)
+			{
+				case 2:
+					_deltaClick2 = Input.touches[1].position - _lastClick2;
+					_lastClick2 = Input.touches[1].position;
+					goto case 1;
+				case 1:
+					_deltaClick1 = Input.touches[0].position - _lastClick1;
+					_lastClick1 = Input.touches[0].position;
+					break;
+				default:
+					_deltaClick1 = _deltaClick2 = Vector2.zero;
+					break;
+			}
 		}
+		else
+		{
+			switch (currClickCount) {
+				case 2:
+					_lastClick2 = Input.touches[1].position;
+					goto case 1;
+				case 1:
+					_lastClick1 = Input.touches[0].position;
+					goto default;
+				default:
+					_deltaClick1 = _deltaClick2 = Vector2.zero;
+					break;
+			}
+		}
+		_clickCount = currClickCount;
 	}
 
 	private void UpdateTransform()
@@ -99,7 +118,7 @@ public class TrophyViewer : MonoBehaviour {
 		_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
 		_currentRoll += DeltaRoll / RollDensity;
 		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
-		transform.rotation = Quaternion.AngleAxis(_currentRoll, Vector3.up) * Quaternion.AngleAxis(_currentPitch, Vector3.right);
+		transform.rotation = Quaternion.AngleAxis(_currentPitch, Camera.main.transform.right) * Quaternion.AngleAxis(_currentRoll, Camera.main.transform.up);
 		transform.localScale = Vector3.one * _currentScale;
 		UpdateBounds();
 	}
