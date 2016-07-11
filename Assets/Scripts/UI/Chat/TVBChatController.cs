@@ -168,7 +168,8 @@ public class TVBChatController : MonoBehaviour
 		channel.friendlyName = friendlyName;
 
 		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? 
-			ChatChannelType.General : ChatChannelType.Private;
+			( channelName.ToLower().Contains ("community") ? ChatChannelType.Community : ChatChannelType.General ) : 
+			ChatChannelType.Private;
 		channel.setup ();
 
 		List<object> chat;
