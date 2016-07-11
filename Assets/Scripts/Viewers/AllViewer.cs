@@ -126,34 +126,46 @@ public class AllViewer : MonoBehaviour {
         model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
     }
 
-    IEnumerator DownloadImage(string url) {
-        LoadingCanvasManager.Show("TVB.Message.LoadingData");
+	IEnumerator DownloadImage(string url)
+	{
+		LoadingCanvasManager.Show("TVB.Message.LoadingData");
 
-        yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
-		image.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-        LoadingCanvasManager.Hide();
+		yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
+		image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		LoadingCanvasManager.Hide();
 
-        image.SetNativeSize();
-        rectTransform = image.GetComponent<RectTransform>();
-        textureSize = rectTransform.offsetMax - rectTransform.offsetMin;        
-        if (textureSize.x > textureSize.y) {
-            float scale = 1;
-            if (textureSize.x > canvas.pixelRect.width) {
-                scale = canvas.pixelRect.width / textureSize.x;
-                textureSize.x = canvas.pixelRect.width;
-                textureSize.y *= scale;
-            }
-        }
-        else {
-            float scale = 1;
-            if (textureSize.y > canvas.pixelRect.height) {
-                scale = canvas.pixelRect.height / textureSize.y;
-                textureSize.y = canvas.pixelRect.height;
-                textureSize.x *= scale;
-            }
-        }
-        zoomSize = textureSize.x;
-    }
+		image.SetNativeSize();
+		rectTransform = image.GetComponent<RectTransform>();
+		textureSize = rectTransform.offsetMax - rectTransform.offsetMin;
+		if (textureSize.x > textureSize.y)
+		{
+			float scale = 1;
+			if (textureSize.x > canvas.pixelRect.width)
+			{
+				scale = canvas.pixelRect.width / textureSize.x;
+				textureSize.x = canvas.pixelRect.width;
+				textureSize.y *= scale;
+			}
+		}
+		else
+		{
+			float scale = 1;
+			if (textureSize.y > canvas.pixelRect.height)
+			{
+				scale = canvas.pixelRect.height / textureSize.y;
+				textureSize.y = canvas.pixelRect.height;
+				textureSize.x *= scale;
+			}
+		}
+		zoomSize = textureSize.x;
+		float zoom = zoomSize / textureSize.x;
+		if (zoom < 1) zoom = 1;
+		if (rectTransform != null)
+		{
+			rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
+			rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom, textureSize.y * 0.5f * zoom - offset.y);
+		}
+	}
 
 
     void Update() {
@@ -191,7 +203,7 @@ public class AllViewer : MonoBehaviour {
         else
             draggin = false;
 #else
-        if (Input.touchCount == 1) {
+        /*if (Input.touchCount == 1) {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began) {
                 if (Input.GetTouch(0).tapCount == 2) {
@@ -214,7 +226,7 @@ public class AllViewer : MonoBehaviour {
                 lastTouch = touch.position;
             }
         }
-        else
+        else*/
             draggin = false;
 #endif
     }
@@ -222,8 +234,8 @@ public class AllViewer : MonoBehaviour {
     void UpdateImage() {
 #if UNITY_EDITOR
         if( Input.GetMouseButton(0) ) {
-            float dx = canvas.pixelRect.width / 1280.0f;
-            float dy = canvas.pixelRect.height / 720.0f;
+            float dx = canvas.pixelRect.width / Screen.width;
+            float dy = canvas.pixelRect.height / Screen.height;
             if (!draggin) {
                 lastTouch = Input.mousePosition;
                 draggin = true;
