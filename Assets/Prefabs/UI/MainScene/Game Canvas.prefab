@@ -3865,7 +3865,7 @@ GameObject:
   - 225: {fileID: 22583298}
   - 114: {fileID: 11442052}
   - 114: {fileID: 11434666}
-  - 114: {fileID: 11440534}
+  - 114: {fileID: 11409746}
   m_Layer: 5
   m_Name: Chat Screen
   m_TagString: Untagged
@@ -5192,6 +5192,18 @@ MonoBehaviour:
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
+--- !u!114 &11409746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8033307ff9944e01a08a2b808965dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheChatController: {fileID: 11435780}
 --- !u!114 &11409820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7209,7 +7221,7 @@ MonoBehaviour:
   ScreenMainGame: {fileID: 11440928}
   ScreenProfile: {fileID: 11471310}
   ScreenMap: {fileID: 11422392}
-  ScreenChat: {fileID: 11440534}
+  ScreenChat: {fileID: 11409746}
   currentGUIScreen: {fileID: 11440928}
   ModalScreen: {fileID: 0}
   MainCamera: {fileID: 0}
@@ -7700,17 +7712,6 @@ MonoBehaviour:
   _axisHorizontalName: Horizontal
   _axisVerticalName: Vertical
   _deadZone: .100000001
---- !u!114 &11440534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f9b492b313e4251ac9ef91774e4506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11440788
 MonoBehaviour:
   m_ObjectHideFlags: 1

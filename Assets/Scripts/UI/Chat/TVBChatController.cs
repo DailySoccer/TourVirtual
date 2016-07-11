@@ -26,7 +26,7 @@ public class TVBChatController : MonoBehaviour
 	public Button messageSendButton;
 
     public Animator chatAnimator;
-
+	Animator newMsgAnimator;
 	/// <summary>
 	/// El objeto padre de la lista de canales para que los canales generados
 	/// tengan este objeto como padre.
@@ -65,7 +65,6 @@ public class TVBChatController : MonoBehaviour
         }
     }
 
-
     void Start () {
 		ChatManager.Instance.OnMessagesChange += Messages_OnChangeHandle;
 	}
@@ -83,6 +82,10 @@ public class TVBChatController : MonoBehaviour
 		RoomManager.Instance.OnPlayerListChange -= ChannelList_OnChangeHanlde;
 		SetCurrentChannel("");
 		ShowChatScreen(channelsScreen);
+		if (newMsgAnimator == null)
+			newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
+
+		newMsgAnimator.SetBool("IsOpen", false);
 		CleanChannelSlotsList();
 		PopulateChannelsList();
 	}
@@ -222,7 +225,7 @@ public class TVBChatController : MonoBehaviour
 			Button btn = go.GetComponent<Button>();
 			// Desuscribimos el evento de click
 			btn.onClick.RemoveListener( () => ChatChannel_OnClickHandle(go.GetComponent<TVBChatChannel>()) );
-			DestroyImmediate(go);
+			Destroy(go);
 		}
 		_channelsGameObjects.Clear();
 	}
@@ -239,7 +242,8 @@ public class TVBChatController : MonoBehaviour
 	}
 	*/
 	public void NewMessageButton_OnClickHandle() {
-		Animator newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
+		if (newMsgAnimator == null)
+			newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
 
 		CleanChannelSlotsList();
 		if (!newMsgAnimator.GetBool("IsOpen")) {
