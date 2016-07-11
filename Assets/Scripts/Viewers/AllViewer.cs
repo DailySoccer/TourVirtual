@@ -180,7 +180,7 @@ public class AllViewer : MonoBehaviour {
         if (model == null) return;
         model.transform.position += (posTarget - model.transform.position)*0.2f;
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0)) {
+        /*if (Input.GetMouseButton(0)) {
             float dx = canvas.pixelRect.width / 1280.0f;
             float dy = canvas.pixelRect.height / 720.0f;
             if (!draggin) {
@@ -200,7 +200,7 @@ public class AllViewer : MonoBehaviour {
                     posTarget = new Vector3(0, 0, 0.6f);
             }
         }
-        else
+        else*/
             draggin = false;
 #else
         /*if (Input.touchCount == 1) {

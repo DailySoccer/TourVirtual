@@ -43,6 +43,18 @@ public class TrophyViewer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_renders = gameObject.GetComponentsInChildren<Renderer>();
+		if (_cam == null)
+		{
+			GameObject camRef = GameObject.Find("ViewerCamera");
+			if (camRef != null)
+			{
+				_cam = camRef.GetComponent<Camera>();
+			}
+			if (_cam == null)
+			{
+				_cam = Camera.main;
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -60,9 +72,12 @@ public class TrophyViewer : MonoBehaviour {
 			_minPos = new Vector3(Mathf.Min(_minPos.x, ren.bounds.min.x), Mathf.Min(_minPos.y, ren.bounds.min.y), Mathf.Min(_minPos.z, ren.bounds.min.z));
 			_maxPos = new Vector3(Mathf.Max(_maxPos.x, ren.bounds.max.x), Mathf.Max(_maxPos.y, ren.bounds.max.y), Mathf.Max(_maxPos.z, ren.bounds.max.z));
 		}
-		Vector2 _minScreen, _maxScreen;
-		_minScreen = Camera.main.WorldToScreenPoint(_minPos);
-		_maxScreen = Camera.main.WorldToScreenPoint(_maxPos);
+		Vector2 _minScreen = Vector2.zero, _maxScreen = Vector3.zero;
+		if (_cam != null)
+		{
+			_minScreen = _cam.WorldToScreenPoint(_minPos);
+			_maxScreen = _cam.WorldToScreenPoint(_maxPos);
+		}
 		float rangeX, rangeY;
 		rangeX = _maxScreen.x - _minScreen.x;
 		rangeY = _maxScreen.y - _minScreen.y;
@@ -78,6 +93,23 @@ public class TrophyViewer : MonoBehaviour {
 
 	private void UpdateClick()
 	{
+#if UNITY_EDITOR
+		if (Input.GetMouseButton(0))
+		{
+			if (_clickCount == 0)
+			{
+				_lastClick1 = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+			}
+			_clickCount = 1;
+			_deltaClick1 = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - _lastClick1;
+			_lastClick1 += _deltaClick1;
+		}
+		else
+		{
+			_deltaClick1 = Vector2.zero;
+			_clickCount = 0;
+		}
+#else
 		int currClickCount = Input.touchCount;
 		if (_clickCount == currClickCount)
 		{
@@ -111,6 +143,7 @@ public class TrophyViewer : MonoBehaviour {
 			}
 		}
 		_clickCount = currClickCount;
+#endif
 	}
 
 	private void UpdateTransform()
@@ -118,18 +151,22 @@ public class TrophyViewer : MonoBehaviour {
 		_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
 		_currentRoll += DeltaRoll / RollDensity;
 		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
-		transform.rotation = Quaternion.AngleAxis(_currentPitch, Camera.main.transform.right) * Quaternion.AngleAxis(_currentRoll, Camera.main.transform.up);
+		if (_cam != null)
+		{
+			transform.rotation = Quaternion.AngleAxis(_currentPitch, _cam.transform.right) * Quaternion.AngleAxis(_currentRoll, _cam.transform.up);
+		}
 		transform.localScale = Vector3.one * _currentScale;
 		UpdateBounds();
 	}
-	#endregion
+#endregion
 
-	#region Private members
+#region Private members
 	private Renderer[] _renders;
 	private Vector3 _minPos = Vector3.zero, _maxPos = Vector3.zero;
 	private float _currentScale, _currentPitch, _currentRoll;
 	private Vector2 _lastClick1, _lastClick2;
 	private Vector2 _deltaClick1, _deltaClick2;
 	private int _clickCount;
-	#endregion
+	private static Camera _cam;
+#endregion
 }
