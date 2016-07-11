@@ -20,7 +20,7 @@ public class TVBChatController : MonoBehaviour
 	public GameObject ChannelInputBar;
 
 
-	public InputField channelsInputField;
+	//public InputField channelsInputField;
 	public InputField messageInputField;
 
 	public Button messageSendButton;
@@ -73,7 +73,7 @@ public class TVBChatController : MonoBehaviour
 	public void StartChatController() {
 		//Nos aseguramos de que el botón de envio de mensaje está desactivado
 		messageSendButton.interactable = false;
-		channelsInputField.text = "";
+		//channelsInputField.text = "";
 		messageInputField.text = "";
 		GoToChannelsScreen();
 		CleanMessagesList();
@@ -225,7 +225,7 @@ public class TVBChatController : MonoBehaviour
 		}
 		_channelsGameObjects.Clear();
 	}
-
+	/*
 	public void SearchButton_OnClickHandle() {
 
 		Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
@@ -236,7 +236,7 @@ public class TVBChatController : MonoBehaviour
 			HideSearchBar();
 		}
 	}
-
+	*/
 	public void NewMessageButton_OnClickHandle() {
 		Animator newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
 
@@ -577,17 +577,17 @@ public class TVBChatController : MonoBehaviour
 	public void HideSearchBar() {
         foreach (var obj in _channelsGameObjects)
             obj.SetActive(true);
-		channelsInputField.text = "";
-		Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
-		chnlScrnAnimator.SetBool("IsOpen", false);
+		//channelsInputField.text = "";
+		//Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
+		//chnlScrnAnimator.SetBool("IsOpen", false);
 		//PopulateChannelsList();
 	}
-
+	/*
 	public void FilterChannelList() {
         foreach( var obj in _channelsGameObjects)
 		    obj.SetActive( obj.GetComponent<TVBChatChannel>().realName.ToLower().Contains(channelsInputField.text.ToLower()));
 	}
-
+	*/
 	public void ClearPlayerPrefs() {
 		PlayerPrefs.DeleteAll();
 		_friendChats.Clear();
