@@ -254,16 +254,28 @@ MonoBehaviour:
   MAX_ZOOM: 2
   MAX_PITCH: 30
   MIN_PITCH: -30
-  ZoomDensity: 25
-  PitchDensity: 25
-  RollDensity: 25
+  ZoomDensity: 500
+  PitchDensity: 10
+  RollDensity: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: ZoomDensity
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: PitchDensity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: RollDensity
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 197190}
