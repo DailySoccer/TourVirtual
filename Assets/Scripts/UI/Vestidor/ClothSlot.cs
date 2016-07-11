@@ -55,7 +55,7 @@ public class ClothSlot : MonoBehaviour {
 		switch (virtualGood.IdSubType) {
 			case "HTORSO":
 			case "MTORSO":
-			return tmpAvatar.Torso  == virtualGood.GUID && isClicked;
+				return tmpAvatar.Torso  == virtualGood.GUID && isClicked;
 				break;
 			case "HLEG":
 			case "MLEG":

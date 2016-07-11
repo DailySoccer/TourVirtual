@@ -120,7 +120,7 @@ public class VirtualGoodsAPI {
                     vg.count++;                    
                     UserAPI.Instance.Points -= (int)vg.Price;
                     UserAPI.Contents.CheckContent(vg);
-                    if(vg.IdSubType=="CONTENT") Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK");
+					if(vg.IdSubType=="CONTENT") Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK",null,(err)=>{});
                     if (onOk != null) onOk();
                 },(error)=> {
                     LoadingCanvasManager.Hide();
