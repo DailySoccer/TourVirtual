@@ -107,24 +107,29 @@ public class AllViewer : MonoBehaviour {
         }
     }
 
-    // mostrar descarga...
-    IEnumerator DownloadModel(string url) {
-        LoadingCanvasManager.Show("TVB.Message.LoadingData");
+	// mostrar descarga...
+	IEnumerator DownloadModel(string url)
+	{
+		LoadingCanvasManager.Show("TVB.Message.LoadingData");
 
-        WWW www = new WWW(url);
-        yield return www;
-        LoadingCanvasManager.Hide();
-        if (!string.IsNullOrEmpty(www.error)) yield break;
+		WWW www = new WWW(url);
+		yield return www;
+		LoadingCanvasManager.Hide();
+		if (!string.IsNullOrEmpty(www.error)) yield break;
 
-        assetbundle = www.assetBundle;
-        var names = assetbundle.GetAllAssetNames();
-        model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
-        //float size = model.GetComponent<Renderer>().bounds.size.y;
-        MyTools.SetLayerRecursively(model, LayerMask.NameToLayer("Model3D"));
-        posTarget = new Vector3(0, 0, 1.2f);
-        model.transform.position = posTarget;
-        model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
-    }
+		assetbundle = www.assetBundle;
+		var names = assetbundle.GetAllAssetNames();
+		model = GameObject.Instantiate<GameObject>(assetbundle.LoadAsset<GameObject>(names[0]));
+		if (model.GetComponent<TrophyViewer>() == null)
+		{
+			model.AddComponent<TrophyViewer>();
+		}
+		//float size = model.GetComponent<Renderer>().bounds.size.y;
+		MyTools.SetLayerRecursively(model, LayerMask.NameToLayer("Model3D"));
+		posTarget = new Vector3(0, 0, 1.2f);
+		model.transform.position = posTarget;
+		model.transform.rotation = Quaternion.Euler(0, 180, 0) * model.transform.rotation;
+	}
 
 	IEnumerator DownloadImage(string url)
 	{
