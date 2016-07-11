@@ -35,16 +35,65 @@ void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSign
 }
 
 void _AzureSignIn(){
-    
-    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
+//    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+  
+        NSURL *url = [NSURL URLWithString:[@"rmapp://single_sign_on?Parameters={\"ClientId\":\"f5ac1331-0476-4844-b7de-34faab315d7d\",\"TemporaryHash\":\"12345\"}" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
     } else {
         NSLog(@"Cannot open url");
     }
-    
 }
+
+NSMutableDictionary *_DictionaryOfResult(NSURL *url)
+{
+    NSArray *subComponents = [[url absoluteString] componentsSeparatedByString:@"?"];
+    
+    NSString *urlString = subComponents.lastObject;
+    
+    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
+    NSArray *urlComponents = [urlString componentsSeparatedByString:@"&"];
+    
+    for (NSString *keyValuePair in urlComponents)
+    {
+        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
+        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        
+        value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        [queryStringDictionary setObject:value forKey:key];
+    }
+    
+    return queryStringDictionary;
+}
+
+void _ReceivedUrl(NSURL *url)
+{
+    NSDictionary *parameters = _DictionaryOfResult(url);
+    
+    NSString *errorMessage = parameters[@"ErrorMessage"];
+    NSNumber *allowed = parameters[@"Allowed"];
+    
+    if (errorMessage.length) {
+        UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+    } else {
+        
+        
+        if (!allowed.boolValue) {
+            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+        } else {
+            [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
+                if (error) {
+                    UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                } else {
+                    UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
+                }
+            }];
+        }
+    }
+}
+
 
 void _AzureSignOut(){
     [[MDPAuthHandler sharedInstance] cleanUpKeychain];

@@ -4,6 +4,11 @@
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+extern "C" {
+ void _ReceivedUrl(NSURL *url);   
+}
+
+
 @interface MyAppController : UnityAppController
 {
 }
@@ -16,7 +21,12 @@
     if( [[url scheme] isEqualToString:@"rmvt"] ){
         UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
         return YES;
+    }else
+    if( [[url scheme] isEqualToString:@"testsso"] ){
+        _ReceivedUrl(url);
+        return YES;
     }
+    
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];}
 @end
 

@@ -11,7 +11,8 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.applicationinsights.library.ApplicationInsights;
+//import com.microsoft.applicationinsights.library.ApplicationInsights;
+//import com.microsoft.applicationinsights.contracts.User;
 import com.microsoft.mdp.sdk.*;
 
 import com.microsoft.mdp.sdk.auth.AuthListener;
@@ -48,7 +49,6 @@ import com.microsoft.mdp.sdk.model.team.LocaleDescription;
 import com.microsoft.mdp.sdk.service.ServiceResponseListener;
 import com.unity3d.player.UnityPlayerActivity;
 import com.unity3d.player.UnityPlayer;
-import com.microsoft.applicationinsights.contracts.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -117,17 +117,24 @@ public class MainActivity extends UnityPlayerActivity {
     String IDClient;
 
     public void Init(String enviroment, String idClient, String signin) {
+        System.out.println("Unity MainActivity:: Init");
         String env;
         this.IDClient = idClient;
         if (enviroment.equals("development")) env = DigitalPlatformClient.DEVELOPMENT;
         else if (enviroment.equals("preproduction")) env = DigitalPlatformClient.PREPRODUCTION;
         else env = DigitalPlatformClient.PRODUCTION;
-        DigitalPlatformClient.init(this, env, this.IDClient, signin);
+//        DigitalPlatformClient.init(this, env, signin);
+
+        System.out.println("Unity MainActivity:: Init "+signin);
+        DigitalPlatformClient.init(this, DigitalPlatformClient.DEVELOPMENT, "2de184ac-5d93-4069-8d68-ec92d0c70e28","p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");
+
+        System.out.println("Unity MainActivity:: Init OK");
     }
 
     public void Login(boolean mode) {
-
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ this.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} ")));
+        System.out.println("Unity MainActivity:: Login");
+//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ this.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} ")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\"6aa05db7-d992-466a-a5b0-a8b67691b7e6\", \"TemporaryHash\":\"12345\"} ")));
     }
 
     public void Logout() {
