@@ -86,6 +86,7 @@ public class TrophyViewer : MonoBehaviour {
 		{
 			float scaleCorrection = Mathf.Min((Screen.width * 0.8f) / rangeX, (Screen.height * 0.8f) / rangeY);
 			_currentScale *= scaleCorrection;
+			_maxInnerScale = _currentScale;
 			transform.localScale = Vector3.one * _currentScale;
 			_minPos = _maxPos = Vector3.zero;
 		}
@@ -150,7 +151,7 @@ public class TrophyViewer : MonoBehaviour {
 	{
 		_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
 		_currentRoll += DeltaRoll / RollDensity;
-		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, MAX_ZOOM);
+		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, _maxInnerScale != 0 ? _maxInnerScale : MAX_ZOOM);
 		if (_cam != null)
 		{
 			transform.rotation = Quaternion.AngleAxis(_currentPitch, _cam.transform.right) * Quaternion.AngleAxis(_currentRoll, _cam.transform.up);
@@ -164,6 +165,7 @@ public class TrophyViewer : MonoBehaviour {
 	private Renderer[] _renders;
 	private Vector3 _minPos = Vector3.zero, _maxPos = Vector3.zero;
 	private float _currentScale, _currentPitch, _currentRoll;
+	private float _maxInnerScale = 0;
 	private Vector2 _lastClick1, _lastClick2;
 	private Vector2 _deltaClick1, _deltaClick2;
 	private int _clickCount;
