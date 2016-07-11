@@ -94,7 +94,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(true);
                     cameraVestidor.SetActive(false);
                     SecondPlaneVestidor.SetActive(false);
+					BuyInfoButtom.SetActive(false);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraAvatarSelector.GetComponent<Camera>());
+
+					Invoke("LoadModel", 0.25f);
 
                     ShowScreen(AvatarSelectionScreen);
                     break;
@@ -111,10 +114,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(false);
                     cameraVestidor.SetActive(true);
                     SecondPlaneVestidor.SetActive(true);
+					VestidorScreen.GetComponentInChildren<ClothesListController>().ShowTShirtsList();	
+					//BuyInfoButtom.SetActive(true);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
+					Invoke("LoadModel", 0.25f);
+					
                     ShowScreen(VestidorScreen);
                     break;
+
                 case VestidorState.LANDING_PAGE:
 					IsFirstLaunch = true;
 					EnableTopMenu(true);
@@ -122,7 +130,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(false);
                     cameraVestidor.SetActive(true);
                     SecondPlaneVestidor.SetActive(true);
+					BuyInfoButtom.SetActive(false);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
+
+					Invoke("LoadModel", 0.25f);
+
                     ShowScreen(lobbyScreen);
                     break;
             }
@@ -201,8 +213,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		// Lanzamos la modal, solo si está cerrada previamente.
 		ModalPopUpScreen.IsOpen = false;
 		StartCoroutine (ModalCloseBeforeOpenAgain(CurrentModalLayout));
-	}
-	
+	}	
 	
 	IEnumerator ModalCloseBeforeOpenAgain(ModalLayout newModalLayout) {
 		
@@ -216,8 +227,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		VestidorModalManager modalManager = ModalPopUpScreen.GetComponent<VestidorModalManager> ();
 		modalManager.CurrentModalLayout = newModalLayout;
 	}
-
-
 
     public void DressVirtualGood(string GUID)
     {
@@ -326,32 +335,19 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowVestidor()
     {
-        if (isCurrentPopUpOpen)
-            TogglePopUpScreen();
+		if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
         if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
             Invoke("LoadModel", 0.25f);
 
         ChangeVestidorState(MainManager.VestidorMode);
     }
 
-
     public void ShowClothesShop() {
-        /*
-        Debug.LogError(">>>>>>>>> ShowClothesShop!!!! " + Authentication.AzureServices.IsDeepLinking);
-        if (Authentication.AzureServices.IsDeepLinking &&
-            Authentication.AzureServices.DeepLinkinParameters != null &&
-            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
-        {
-            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
-            // MainManager.DeepLinkinParameters["idUser"];
-        }
-        */
-        if (isCurrentPopUpOpen)
+		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
         if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
-        {
-            Invoke("LoadModel", 0.25f);
-        }
+			Invoke("LoadModel", 0.25f);
 
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}
