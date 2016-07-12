@@ -123,6 +123,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
                     ShowScreen(VestidorScreen);
+					
+					//??
+					ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+
                     break;
 
                 case VestidorState.LANDING_PAGE:
@@ -172,13 +176,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         //if (currentPrenda == prenda) return;
         DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
-		// Nos aseguramos que la prenda clickada es la única que está marcada como clickada
-		ClothesListController.Instance.DeselectItems();
-		// Pero hay que asegurarse que la la clickada sigue clickada
-		prenda.isClicked = true;
-
 		// Actualizamos la lista para que marque como seleccionados las cosas que tengo puestas
-		ClothesListController.Instance.UpdateSelectedSlots (tmpAvatar);
+		ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
 
         if (currentPrenda != null) {
 			BuyInfoButtom.SetActive (true);

@@ -16,8 +16,6 @@ public class ClothSlot : MonoBehaviour {
 
 	string VirtualGoodSubtype;
 
-	public bool isClicked{ get; set;}
-
 	public void SetupSlot (VirtualGoodsAPI.VirtualGood item) {
 
 		VestidorControllerInstance = VestidorCanvasController_Lite.Instance;
@@ -55,27 +53,27 @@ public class ClothSlot : MonoBehaviour {
 		switch (virtualGood.IdSubType) {
 			case "HTORSO":
 			case "MTORSO":
-				return tmpAvatar.Torso  == virtualGood.GUID && isClicked;
+				return tmpAvatar.Torso  == virtualGood.GUID;
 				break;
 			case "HLEG":
 			case "MLEG":
-				return tmpAvatar.Legs  == virtualGood.GUID && isClicked;
+				return tmpAvatar.Legs  == virtualGood.GUID;
 				break;
 			case "HSHOE":
 			case "MSHOE":
-				return tmpAvatar.Feet  == virtualGood.GUID && isClicked;
+				return tmpAvatar.Feet  == virtualGood.GUID;
 				break;
 			case "HCOMPLIMENT":
 			case "MCOMPLIMENT":
-				return tmpAvatar.Compliment  == virtualGood.GUID && isClicked;
+				return tmpAvatar.Compliment  == virtualGood.GUID;
 				break;
 			case "HHAT":
 			case "MHAT":
-				return tmpAvatar.Hat == virtualGood.GUID && isClicked;
+				return tmpAvatar.Hat == virtualGood.GUID;
 				break;
 			case "HPACK":
 			case "MPACK":
-				return tmpAvatar.Pack == virtualGood.GUID && isClicked;
+				return tmpAvatar.Pack == virtualGood.GUID;
 				break;
 		}
 		return false;

@@ -32,11 +32,13 @@ public class ClothesListController : MonoBehaviour {
 
 	ProductType currentProductList;
 
-	VirtualGoodsAPI.VirtualGood tshirts;
+	//VirtualGoodsAPI.VirtualGood tshirts;
 
 	public List<GameObject> currentClothesLsit = new List<GameObject>();
 
 	public static ClothesListController Instance { get; private set; }
+
+	AvatarAPI _currentAvatar;
 
 
 	//Virtualgood Item subtypes
@@ -52,8 +54,7 @@ public class ClothesListController : MonoBehaviour {
 	void Awake() {
 		Instance = this;
 	}
-	// Use this for initialization
-	void Start () {
+	void Start() {
         // asignamos las listas;
         try
         {
@@ -80,12 +81,6 @@ public class ClothesListController : MonoBehaviour {
 		currentClothesLsit.Clear ();
 	}
 
-	public void DeselectItems() {
-		foreach (GameObject go in currentClothesLsit) {
-			go.GetComponent<ClothSlot> ().isClicked = false;
-		}
-	}
-
 	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
 
@@ -96,14 +91,12 @@ public class ClothesListController : MonoBehaviour {
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
 			if (pType == GetTVGType (item.IdSubType)) {
 
-				GameObject cloth = Instantiate (Slot);
-					
+				GameObject cloth = Instantiate (Slot);					
 
 				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
 
 				cs.name = item.Description;
-				cs.SetupSlot (item);	
-				
+				cs.SetupSlot (item);
 				// Añadimos el elemento a la lista correspondiente
 				switch (item.IdSubType) {
 				case "MTORSO":
@@ -137,6 +130,8 @@ public class ClothesListController : MonoBehaviour {
 				cloth.transform.localScale = Vector3.one;
 			}
 		}
+		// Actualizamos la/s selección tras cargar la lista.
+		UpdateSelectedSlots ();
 	}
 	
 	ProductType GetTVGType(string vgSubType) {
@@ -153,9 +148,16 @@ public class ClothesListController : MonoBehaviour {
 		return ProductType.Complement;
 	}
 
-	public void UpdateSelectedSlots(AvatarAPI tmpAvatar) {
+
+	public void SetCurrentAvatar(AvatarAPI tmpAvatar) {
+		_currentAvatar = tmpAvatar.Copy ();
+		UpdateSelectedSlots ();
+	}
+
+	public void UpdateSelectedSlots() {
 		foreach (GameObject go in currentClothesLsit) {
-			go.GetComponent<ClothSlot>().UpdateSelection(tmpAvatar);
+			ClothSlot cs = go.GetComponent<ClothSlot>();
+			cs.UpdateSelection (_currentAvatar);
 		}
 	}
 
