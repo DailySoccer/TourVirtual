@@ -10,6 +10,8 @@ public enum DetailedContent2ButtonsLayout {
 	OK_ONLY
 }
 
+
+
 public class DetailedContent2Buttons : MonoBehaviour {
 
     public Text TheName;
@@ -71,7 +73,12 @@ public class DetailedContent2Buttons : MonoBehaviour {
                 CancelButton.SetActive(false);
                 BuyButton.SetActive(false);
                 GotoShopButton.SetActive(false);
-                ShareButton.SetActive(true);
+				#if !(UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID)
+					ShareButton.SetActive(false);
+				#else
+					ShareButton.SetActive(true);
+				#endif
+                
                 break;
             case DetailedContent2ButtonsLayout.OK_ONLY:
                 OKButton.SetActive(true);

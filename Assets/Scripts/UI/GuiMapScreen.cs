@@ -16,7 +16,7 @@ public class GuiMapScreen : UIScreen {
 		base.Awake ();
 	}
 
-	public bool Opened;
+	public bool NeedUpdate;
 
 	public override void Start() {
 		selectorRT = Selector.GetComponent<RectTransform> ();
@@ -43,15 +43,15 @@ public class GuiMapScreen : UIScreen {
 
 		RoomManager.Instance.GotoRoomAtDoor(roomGoto);
 	}
-	public override void UpdateTitle(){
-		Opened = true;
+	public override void UpdateTitle() {
 		base.UpdateTitle ();
+		NeedUpdate = true;
 	}
 
 	public override void Update () {
 		base.Update ();
 
-		if (Opened) {
+		if (NeedUpdate) {
 			string newLocation = RoomManager.Instance.Room.Id + "#" + RoomManager.Instance.GetEntranceDoor ();
 			if (currentLocation != newLocation) {
 
@@ -108,20 +108,22 @@ public class GuiMapScreen : UIScreen {
 					}
 
 					if (button == null) {
-						Debug.LogErrorFormat("No se ha encontrado el borón: {0}", RoomManager.Instance.Room.Id);
+						if (IsOpen)
+							Debug.LogErrorFormat("No se ha encontrado el botón: {0}", RoomManager.Instance.Room.Id);
 					}
-
-					Selector.transform.SetParent ( button.transform.parent);
-					Selector.transform.position = new Vector3(button.transform.position.x, button.transform.position.y, 0);
-					currentLocation = RoomManager.Instance.Room.Id + "#" + RoomManager.Instance.GetEntranceDoor ();
+					else {
+						Selector.transform.SetParent ( button.transform.parent);
+						Selector.transform.position = new Vector3(button.transform.position.x, button.transform.position.y, 0);
+						currentLocation = RoomManager.Instance.Room.Id + "#" + RoomManager.Instance.GetEntranceDoor ();
+						NeedUpdate = false;
+					}
 				}
 			}
-			Opened = true;
 		}
 	}
 
 	public void CloseMap() {
-		Opened = false;
+		//NeedUpdate = false;
 	}
 
 	List<Button> _map;
