@@ -2,25 +2,34 @@
 using UnityEngine.UI;
 
 public enum ChatChannelType {
+	Community,
 	General,
-	Private
+	Private,
+	UserList
 }
 
 //[ExecuteInEditMode]
 public class TVBChatChannel : MonoBehaviour {
 	//public RawImage userAvatar;
 
-	public Image AvatarPicture;
+	//public Image AvatarPicture;
 
 	public Text channelName;
 	public Text lastUpdateDate;
 	public Text  ChannelCounter;
 
+	public Sprite CommunityChannelTypeIcon;
 	public Sprite GeneralChannelTypeIcon;
 	public Sprite PrivateChannelTypeIcon;
 
 	public Image ChannelTypeIcon;
-	public Image ChannelTypeBase;
+
+	public Image ChannelBase;
+	public Color PublicChannelBaseColor;
+	public Color PrivateChannelBaseColor;
+
+	public Sprite ChannelBase_ChannelsSprite;
+	public Sprite ChannelBase_UserListSprite;
 	
 	public ChatChannelType channelType;
 	public string friendlyName { get; set; }
@@ -47,19 +56,29 @@ public class TVBChatChannel : MonoBehaviour {
 
 	public void setup(){
 		switch (channelType) {
-			case ChatChannelType.General:
-				ChannelTypeIcon.sprite = GeneralChannelTypeIcon;
-				ChannelTypeBase.color = new Color(1f,1f,1f);
-				ChannelCounter.color = new Color(0.08f, 0.10f, 0.16f);
-				ChannelTypeIcon.color = new Color(0.08f, 0.10f, 0.16f);
+		case ChatChannelType.Community:
+			ChannelTypeIcon.sprite = CommunityChannelTypeIcon;
+			ChannelBase.sprite = ChannelBase_ChannelsSprite;
+			ChannelBase.color = PublicChannelBaseColor;
 			break;
-			case ChatChannelType.Private:
-				ChannelTypeIcon.sprite = PrivateChannelTypeIcon;
-				ChannelTypeBase.color = new Color(1.0f,0.0f,0.0f);
-				ChannelCounter.color = new Color(1.0f,1.0f,1.0f);
-				ChannelTypeIcon.color = new Color(1.0f,1.0f,1.0f);
+		case ChatChannelType.General:
+			ChannelTypeIcon.sprite = GeneralChannelTypeIcon;
+			ChannelBase.sprite = ChannelBase_ChannelsSprite;
+			ChannelBase.color = PublicChannelBaseColor;
+			break;
+		case ChatChannelType.Private:
+			ChannelTypeIcon.sprite = PrivateChannelTypeIcon;
+			ChannelBase.sprite = ChannelBase_ChannelsSprite;
+			ChannelBase.color = PrivateChannelBaseColor;
+			break;
+		case ChatChannelType.UserList:
+			ChannelTypeIcon.gameObject.SetActive(false);
+			ChannelBase.sprite = ChannelBase_UserListSprite;
+			ChannelBase.color = PrivateChannelBaseColor;
+			lastUpdateDate.gameObject.SetActive(false);
 			break;
 		}
+
 		channelName.text = friendlyName;
 	} 
 
