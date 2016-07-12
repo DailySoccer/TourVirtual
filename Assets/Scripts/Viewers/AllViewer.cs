@@ -236,28 +236,28 @@ public class AllViewer : MonoBehaviour {
 #endif
     }
 
-    void UpdateImage() {
+	void UpdateImage() {
 #if UNITY_EDITOR
-        if( Input.GetMouseButton(0) ) {
-            float dx = canvas.pixelRect.width / Screen.width;
-            float dy = canvas.pixelRect.height / Screen.height;
-            if (!draggin) {
-                lastTouch = Input.mousePosition;
-                draggin = true;
-            }
-            else {
-                Vector2 diff = ((Vector2)Input.mousePosition - lastTouch) ;
-                lastTouch = Input.mousePosition;
-                offset += new Vector2(diff.x / dx, -diff.y / dy);
-            }
-            if (!Input.GetKey(KeyCode.LeftShift)) zoomSize -= 10;
-            if (!Input.GetKey(KeyCode.RightShift)) zoomSize += 10;
-            if (zoomSize < textureSize.x) zoomSize = textureSize.x;
-            if (zoomSize > textureSize.x*4) zoomSize = textureSize.x * 4;
+		if (Input.GetMouseButton(0)) {
+			float dx = canvas.pixelRect.width / Screen.width;
+			float dy = canvas.pixelRect.height / Screen.height;
+			if (!draggin) {
+				lastTouch = Input.mousePosition;
+				draggin = true;
+			}
+			else {
+				Vector2 diff = ((Vector2)Input.mousePosition - lastTouch);
+				lastTouch = Input.mousePosition;
+				offset += new Vector2(diff.x / dx, -diff.y / dy);
+			}
+			if (Input.GetKey(KeyCode.LeftShift)) zoomSize -= 10;
+			if (Input.GetKey(KeyCode.RightShift)) zoomSize += 10;
+			if (zoomSize < textureSize.x) zoomSize = textureSize.x;
+			if (zoomSize > textureSize.x * 4) zoomSize = textureSize.x * 4;
 
-        }
-        else
-            draggin = false;
+		}
+		else
+			draggin = false;
 #else
         // If there are two touches on the device...
         if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
@@ -313,13 +313,16 @@ public class AllViewer : MonoBehaviour {
                 draggin = false;
         }
 #endif
-        float zoom = zoomSize / textureSize.x;
-        if (zoom < 1) zoom = 1;
-        if (rectTransform != null) {
-            rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
-            rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom,  textureSize.y * 0.5f * zoom - offset.y);
-        }
-    }
+		float zoom = zoomSize / textureSize.x;
+		if (zoom < 1) zoom = 1;
+		if (rectTransform != null) {
+			Vector2 texZoomSize = textureSize * zoom;
+			offset.x = Screen.width >= texZoomSize.x ? 0 : Mathf.Clamp(offset.x, -texZoomSize.x * 0.5f + Screen.width * 0.5f, texZoomSize.x * 0.5f - Screen.width * 0.5f);
+			offset.y = Screen.height >= texZoomSize.y ? 0 : Mathf.Clamp(offset.y, -texZoomSize.y * 0.5f + Screen.height * 0.5f, texZoomSize.y * 0.5f - Screen.height * 0.5f);
+			rectTransform.offsetMin = new Vector2(offset.x - texZoomSize.x * 0.5f, -texZoomSize.y * 0.5f - offset.y);
+			rectTransform.offsetMax = new Vector2(offset.x + texZoomSize.x * 0.5f, texZoomSize.y * 0.5f - offset.y);
+		}
+	}
 
     void OnDisable() {
         if (toHide != null){
