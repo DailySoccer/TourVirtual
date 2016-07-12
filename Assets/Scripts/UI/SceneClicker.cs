@@ -7,7 +7,6 @@ public class SceneClicker : MonoBehaviour
 	private void Awake()
 	{
 		_clickMask = LayerMask.GetMask("Net", "Content");
-		_gcm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>();
 	}
 
 	private void OnDestroy()
@@ -37,7 +36,7 @@ public class SceneClicker : MonoBehaviour
 
 	private void Start()
 	{
-		
+		_gcm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>();
 	}
 
 	private void OnJoystickDrag(Vector2 arg1, Vector2 arg2)

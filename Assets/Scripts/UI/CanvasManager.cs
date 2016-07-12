@@ -342,7 +342,7 @@ public class CanvasManager : MonoBehaviour {
 	/// 
 	/// </summary>
 	/// <param name="content"></param>
-	// TODO Sería más correcto que este manager se subscribiera al ClickOnScene
+	// TODO Sería más correcto que este manager se subscribiera al SceneClicker
 	public void OnContentClick(ContentList content)
 	{
 		if(content == ContentManager.Instance.ContentNear)
