@@ -195,11 +195,28 @@
       "gamaction":  "VIRTUALTOUR_ACC_SALA_10",
       "doors": {
           "PUERTA1": "ESTADIO#PUERTA3",
+		  "PUERTA2": "ROOM9#PUERTA1"
       },
 			"bundles": {
 				  "SCENE": "scene/hall_valdebebas"
 			},
 			"pack":"PCK.scene.hall_valdebebas"
+    },
+    {
+      "id": "ROOM9",
+      "name": "Convivencias",
+      "scene": "Conviviencia_Juegos_Valdebebas",
+      "gui": "GAME",
+      "max_players": 16,
+      "hidden_objects": false,
+      "gamaction":  "VIRTUALTOUR_ACC_SALA_11",
+      "doors": {
+          "PUERTA1": "ROOM9#PUERTA2"
+      },
+			"bundles": {
+				  "SCENE": "scene/conviviencia_juegos_valdebebas"
+			},
+			"pack":"PCK.scene.conviviencia_juegos_valdebebas"
     }
 	],
 	"assets": [
