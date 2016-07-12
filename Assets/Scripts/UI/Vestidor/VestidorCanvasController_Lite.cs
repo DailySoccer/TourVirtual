@@ -118,7 +118,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(false);
                     cameraVestidor.SetActive(true);
                     SecondPlaneVestidor.SetActive(true);
-					VestidorScreen.GetComponentInChildren<ClothesListController>().ShowTShirtsList();	
+					//VestidorScreen.GetComponentInChildren<ClothesListController>().ShowTShirtsList();	
 					//BuyInfoButtom.SetActive(true);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
