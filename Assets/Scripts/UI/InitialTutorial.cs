@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Soomla;
 
 public class InitialTutorial : MonoBehaviour {
 
 	public static InitialTutorial Instance { private set; get; }
+
+	public event Action TutorialFinish;
 
 	public List<GameObject> OrderedTutorialScreens = new List<GameObject>();
 	Animator _myAnimatorController;
@@ -22,10 +26,12 @@ public class InitialTutorial : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	}
 
-	void Initialize() {
+	void Initialize()
+	{
 		if (_myAnimatorController == null)
 			_myAnimatorController = GetComponent<Animator> ();
 
@@ -38,26 +44,33 @@ public class InitialTutorial : MonoBehaviour {
 		_currentScreenId = 0;
 	}
 
-	public void SartTutorial() {
+	public void SartTutorial()
+	{
 		Initialize ();
 		StartCoroutine (LaunchTutorial ());
 	}
 
-	IEnumerator LaunchTutorial() {
+	IEnumerator LaunchTutorial()
+	{
 		while (!InOpenState)
 			yield return null;
 
 		StartCoroutine (ShowNextScreen ());
 	}
 
-	public bool InOpenState {
-		get {
+	public bool InOpenState
+	{
+		get
+		{
+			if (_myAnimatorController == null)
+				return false;
 			AnimatorStateInfo animStateInfo = _myAnimatorController.GetCurrentAnimatorStateInfo(0);
 			return animStateInfo.IsName("Open") && animStateInfo.normalizedTime >= 1f;
 		}
 	}
 
-	IEnumerator FinishTutorial() {
+	IEnumerator FinishTutorial()
+	{
 		yield return new WaitForSeconds (0.5f);
 		GameObject lastScreen = OrderedTutorialScreens [_currentScreenId - 1];
 
@@ -72,9 +85,15 @@ public class InitialTutorial : MonoBehaviour {
 		tutTimes += 1;
 		PlayerPrefs.SetInt ("tutorial_done", tutTimes);
 		PlayerPrefs.Save ();
+
+		OnTutorialFinish();
 	}
 
-	IEnumerator ShowNextScreen() {
+	
+
+
+	private IEnumerator ShowNextScreen()
+	{
 		GameObject currentScreen = OrderedTutorialScreens [_currentScreenId];
 
 		while (!currentScreen.GetActive())
@@ -88,11 +107,13 @@ public class InitialTutorial : MonoBehaviour {
 		_currentScreenId++;
 	}
 
-	void ChangeScreenVisibility(GameObject sc, bool visible) {
-		sc.GetComponent<Animator> ().SetBool ("IsOpen", visible);
+	private void ChangeScreenVisibility(GameObject sc, bool visible)
+	{
+		sc.GetComponent<Animator>().SetBool ("IsOpen", visible);
 	}
 
-	public void OkButton_Click() {
+	public void OkButton_Click()
+	{
 		if (_currentScreenId < OrderedTutorialScreens.Count)
 			StartCoroutine (ShowNextScreen ());
 		else {
@@ -102,8 +123,18 @@ public class InitialTutorial : MonoBehaviour {
 		}
 	}
 
-	void ConfigureModal() {
+	private void ConfigureModal()
+	{
 		return;
 	}
 
+
+	protected void OnTutorialFinish()
+	{
+		var e = TutorialFinish;
+		if (e != null)
+			e();
+	}
+
+	
 }

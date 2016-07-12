@@ -27,6 +27,9 @@ public class CanvasManager : MonoBehaviour {
 	public GameObject PlayerClone { get; set; }
 	public UIScreen lastGUIScreen { get; set; }
 	public GUIPopUpScreen currentGUIPopUpScreen { get; set;}
+	
+	[SerializeField] private int _contentScreenId = 9;
+
 
 	/// <summary>
 	/// Intercambia pantallas.	/// 
@@ -48,19 +51,21 @@ public class CanvasManager : MonoBehaviour {
 		}
 	}
 
-	void ShowSecondPlaneScreens(params string[] names) {
+	void ShowSecondPlaneScreens(params string[] names)
+	{
 		HideAllSecondPlaneScreens ();
 
-		foreach(Transform t in SecondPlaneCanvas.transform) {
-			for(int i = 0; i < names.Length; ++i){
-				if (t.name == names[i]) {
+		foreach(Transform t in SecondPlaneCanvas.transform) 
+			for(int i = 0; i < names.Length; ++i)
+			{
+				if (t.name == names[i]) 
 					t.gameObject.SetActive(true);
-				}
 			}
-		}		
+		
 	}
 
-	public void ShowMainGameScreen() {
+	public void ShowMainGameScreen()
+	{
 		HideAllSecondPlaneScreens ();
 		
 		SecondPlaneCanvas.SetActive (false);			
@@ -96,7 +101,8 @@ public class CanvasManager : MonoBehaviour {
 		ShowScreen (ScreenMainGame);
 	}*/
 
-	public void ShowProfileScreen() {
+	public void ShowProfileScreen()
+	{
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
             MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
@@ -121,7 +127,8 @@ public class CanvasManager : MonoBehaviour {
         }) );
 	}
 
-	public void ShowGoodiesShopScreen() {
+	public void ShowGoodiesShopScreen()
+	{
 		GoodiesShopController.Show ();
 	}
 
@@ -144,8 +151,9 @@ public class CanvasManager : MonoBehaviour {
             SetLayerRecursively(child.gameObject, newLayer);
     }
 
-    public void ShowMapScreen() {
-        if (ProfilePlayerInstance != null) {
+    public void ShowMapScreen()
+    {
+		if (ProfilePlayerInstance != null) {
             Destroy(ProfilePlayerInstance);
         }
 			
@@ -153,7 +161,8 @@ public class CanvasManager : MonoBehaviour {
 		ShowScreen(ScreenMap);
     }
 
-	public void ShowChatScreen() {
+	public void ShowChatScreen()
+	{
 		if (ProfilePlayerInstance != null) {
 			Destroy(ProfilePlayerInstance);
 		}
@@ -173,12 +182,14 @@ public class CanvasManager : MonoBehaviour {
 	}
 	*/
 
-	public void ShowVestidorScreen() {	
+	public void ShowVestidorScreen()
+	{
 		RoomManager.Instance.GotoRoom ("VESTIDORLITE");
 		ShowMainGameScreen ();
 	}
 
-	private void ActiveSecondPlaneGUI(params string[] names) {
+	private void ActiveSecondPlaneGUI(params string[] names)
+	{
 		ShowSecondPlaneScreens(names);		
 		SecondPlaneCanvas.SetActive (true);			
 		SecondPlaneCanvas.GetComponent<AsociateWithMainCamera> ().SetCameraToAssociate(UIScreensCamera.GetComponent<Camera>());
@@ -223,8 +234,8 @@ public class CanvasManager : MonoBehaviour {
 		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
 	}
 
-	public void ShowModalScreen(int newModalLayout) {
-
+	public void ShowModalScreen(int newModalLayout)
+	{
 		if (ModalScreen == null) {
 			Debug.LogError("[CanvasManager in " + name + "]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
 			return;
@@ -249,7 +260,8 @@ public class CanvasManager : MonoBehaviour {
 		modalPopUpWindow.CurrentModalLayout = (ModalLayout)newModalLayout;
 	}
 
-	public void HideModalScreen() {
+	public void HideModalScreen()
+	{
 		//if (ModalScreen != null) {
 		ModalScreen.IsOpen = false;
 		ModalScreen.GetComponent<CanvasGroup> ().interactable = false;
@@ -320,7 +332,20 @@ public class CanvasManager : MonoBehaviour {
 		FacebookManager.Instance.ShareToFacebook(FacebookLink.RankingShare(me.Position));
 	}
 
-	public void Launch_Initial_Tutorial() {
-		InitialTutorial.Instance.SartTutorial ();
+	public void Launch_Initial_Tutorial()
+	{
+		InitialTutorial.Instance.SartTutorial();
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="content"></param>
+	// TODO Sería más correcto que este manager se subscribiera al ClickOnScene
+	public void OnContentClick(ContentList content)
+	{
+		if(content == ContentManager.Instance.ContentNear)
+			ShowModalScreen(_contentScreenId);
 	}
 }
