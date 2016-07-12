@@ -20,7 +20,6 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         string environment = "development";
         this.IDClient = "41f64a6e-edf8-4d7d-86cf-6146cc69f978";
 #endif
-        Debug.Log(">>>>>> activity.Call(Init, "+environment+" ,"+ this.IDClient+ " ," + signin+")");
         activity.Call("Init", environment, this.IDClient, signin);
     }
 
