@@ -72,26 +72,18 @@ public class ClothesListController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	}
-
+	 
 	void CleanProductLists() {
-		/*
-		foreach (Transform t in TShirtsList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in ShoesList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in PacksList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in ComplimentsList) {
-			Destroy(t.gameObject);
-		}
-		*/
 		foreach (GameObject go in currentClothesLsit) {
 			Destroy (go);
 		}
 		currentClothesLsit.Clear ();
+	}
+
+	public void DeselectItems() {
+		foreach (GameObject go in currentClothesLsit) {
+			go.GetComponent<ClothSlot> ().isClicked = false;
+		}
 	}
 
 	public void SetupVestidor(ProductType pType) {
@@ -143,8 +135,6 @@ public class ClothesListController : MonoBehaviour {
 				if (item.count > 0) cloth.transform.SetAsFirstSibling();
 				cloth.name = item.Description;
 				cloth.transform.localScale = Vector3.one;
-
-
 			}
 		}
 	}
