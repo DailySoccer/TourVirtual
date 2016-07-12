@@ -7,12 +7,15 @@ public class MinigameModalFinal : MonoBehaviour {
 
 	public Text BestScore;
 	public Text LastScore;
+	public GameObject ShareButton;
 
 	public UserAPI.MiniGame MinigameType = UserAPI.MiniGame.FreeShoots;
 
 	// Use this for initialization
 	void Start () {
-	
+		#if !(UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID)
+			ShareButton.SetActive (false);
+		#endif
 	}
 
 	/*
