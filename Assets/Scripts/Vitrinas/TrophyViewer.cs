@@ -10,11 +10,11 @@ public class TrophyViewer : MonoBehaviour {
 	public float MAX_PITCH = 30;
 	public float MIN_PITCH = -30;
 	[Range(0.01f, 1000)]
-	public float ZoomDensity = 500;
+	public float ZoomDensity = 0.1f;
 	[Range(0.01f,1000)]
-	public float PitchDensity = 10;
+	public float PitchDensity = 0.02f;
 	[Range(0.01f, 1000)]
-	public float RollDensity = 10;
+	public float RollDensity = 0.02f;
 
 	public float DeltaZoom
 	{
@@ -42,6 +42,9 @@ public class TrophyViewer : MonoBehaviour {
 	#region MonoBehaviour methods
 	// Use this for initialization
 	void Start () {
+		PitchDensity *= Screen.dpi;
+		RollDensity *= Screen.dpi;
+		ZoomDensity *= Screen.dpi;
 		_renders = gameObject.GetComponentsInChildren<Renderer>();
 		if (_cam == null)
 		{
