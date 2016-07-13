@@ -213,7 +213,7 @@ public class TVBChatController : MonoBehaviour
 		}
 
 #if UNITY_EDITOR
-		Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
+		//Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
 #endif
 	}
 
@@ -241,21 +241,26 @@ public class TVBChatController : MonoBehaviour
 		}
 	}
 	*/
-	public void NewMessageButton_OnClickHandle() {
+	public void NewMessageButton_OnClickHandle( bool forceClose = false) {
 		if (newMsgAnimator == null)
 			newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
 
-		CleanChannelSlotsList();
-		if (!newMsgAnimator.GetBool("IsOpen")) {
+		if (forceClose)
 			newMsgAnimator.SetBool("IsOpen", true);
-			PopulateChannelsListWithUsers();
-			RoomManager.Instance.OnPlayerListChange += ChannelList_OnChangeHanlde;
-		}
-		else {
+
+		CleanChannelSlotsList();
+		if (newMsgAnimator.GetBool("IsOpen")) {
 			RoomManager.Instance.OnPlayerListChange -= ChannelList_OnChangeHanlde;
 			newMsgAnimator.SetBool("IsOpen", false);
 			HideSearchBar();
 			PopulateChannelsList();
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BUTTON_BACKWARD);
+		}
+		else {
+			newMsgAnimator.SetBool("IsOpen", true);
+			PopulateChannelsListWithUsers();
+			RoomManager.Instance.OnPlayerListChange += ChannelList_OnChangeHanlde;
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BUTTON_FORWARD);
 		}
 	}
 	

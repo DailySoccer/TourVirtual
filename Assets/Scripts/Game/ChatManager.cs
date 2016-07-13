@@ -192,8 +192,8 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		_roomIds.Add(RoomId);
 
 		#if UNITY_EDITOR
-			Debug.Log ("OnJoinedRoom");
-			Debug.LogError (">>> JOINED THE ROOM: " + RoomId);
+			//Debug.Log ("OnJoinedRoom");
+			//Debug.LogError (">>> JOINED THE ROOM: " + RoomId);
 		#endif
 
         if (ChatClient != null && ChatClient.CanChat) {
