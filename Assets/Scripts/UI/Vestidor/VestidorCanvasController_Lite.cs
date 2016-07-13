@@ -157,9 +157,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 				if (tmpAvatar.ToString() != mOldAvatarDesciptor.ToString()) {
 					Invoke("LoadModel", 0.25f);
 				}
-				else {
+				/*else {
 					Debug.LogError ("**--** Renovando el avatar por que ha cambiado");
-				}
+				}*/
 			}
 		}
 	}
@@ -252,7 +252,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 
         if (virtualGood == null) return;
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
+        //Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
 		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
