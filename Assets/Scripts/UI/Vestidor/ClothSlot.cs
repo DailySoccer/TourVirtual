@@ -33,7 +33,7 @@ public class ClothSlot : MonoBehaviour {
 			LabelOwned.SetActive (false);
 		}
 
-		UpdateSelection (UserAPI.AvatarDesciptor);
+		//UpdateSelection (UserAPI.AvatarDesciptor);
 
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
 	}
@@ -53,27 +53,41 @@ public class ClothSlot : MonoBehaviour {
 		switch (virtualGood.IdSubType) {
 			case "HTORSO":
 			case "MTORSO":
-				return tmpAvatar.Torso  == virtualGood.GUID;
+				
+				if (tmpAvatar.Torso  == virtualGood.GUID)
+					return true;
+				return false;
+
 				break;
 			case "HLEG":
 			case "MLEG":
-				return tmpAvatar.Legs  == virtualGood.GUID;
+				if (tmpAvatar.Legs  == virtualGood.GUID)
+					return true;
+				return false;
 				break;
 			case "HSHOE":
 			case "MSHOE":
-				return tmpAvatar.Feet  == virtualGood.GUID;
+				if (tmpAvatar.Compliment  == virtualGood.GUID)
+					return true;
+				return false;
 				break;
 			case "HCOMPLIMENT":
 			case "MCOMPLIMENT":
-				return tmpAvatar.Compliment  == virtualGood.GUID;
+				if (tmpAvatar.Compliment  == virtualGood.GUID)
+					return true;
+				return false;
 				break;
 			case "HHAT":
 			case "MHAT":
-				return tmpAvatar.Hat == virtualGood.GUID;
+				if (tmpAvatar.Hat  == virtualGood.GUID)
+					return true;
+				return false;
 				break;
 			case "HPACK":
 			case "MPACK":
-				return tmpAvatar.Pack == virtualGood.GUID;
+				if (tmpAvatar.Pack  == virtualGood.GUID)
+					return true;
+				return false;
 				break;
 		}
 		return false;

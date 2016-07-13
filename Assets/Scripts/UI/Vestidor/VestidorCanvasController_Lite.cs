@@ -63,6 +63,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
 		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+
+		ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
 /*
         if (Authentication.AzureServices.IsDeepLinking &&
             Authentication.AzureServices.DeepLinkinParameters != null &&
@@ -125,7 +127,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(VestidorScreen);
 					
 					//??
-					ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+					//ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
 
                     break;
 
