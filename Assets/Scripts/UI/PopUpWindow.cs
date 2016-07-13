@@ -43,6 +43,8 @@ public class PopUpWindow : UIScreen {
 	public GameObject PurchasedPackContentSlot;
 	private List<GameObject> PurchasedPackContentGameObjectsList = new List<GameObject>();
 
+	public GameObject SharePurchasedContentButton;
+
 	public GameObject AchievementsGridParent;
 	public GameObject AchievementsGridList;
 	public GameObject AchievementSlot;
@@ -135,6 +137,9 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackContent");
 				// 'currentSelectedItemGUID': Seteado al hacer click sobre un pack comprado
 				SetupPurchasedPackContentList (currentSelectedItemGUID);
+				#if !(UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID)
+					SharePurchasedContentButton.setActive(false);
+				#endif
 			break;
 					
 			case ModalLayout.ACHIEVEMENTS_GRID:

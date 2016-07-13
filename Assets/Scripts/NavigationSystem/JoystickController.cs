@@ -2,12 +2,17 @@
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System;
 
 [RequireComponent(typeof(EventTrigger))]
 public class JoystickController : MonoBehaviour {
 	
 	delegate void ControlTouchEventHandler(BaseEventData data);
-	
+
+	public event Action<Vector2> JoystickDown;
+	public event Action<Vector2> JoystickUp;
+	public event Action<Vector2, Vector2> JoystickDrag;
+
 	[SerializeField]
 	private bool _showJoystick = true;
 	[SerializeField]
@@ -89,6 +94,14 @@ public class JoystickController : MonoBehaviour {
 
 		ControlVisible(false);
 	}
+
+	private void OnDestroy()
+	{
+		JoystickDown = null;
+		JoystickUp   = null;
+		JoystickDrag = null;
+	}
+
 	
 	private void AddEventListener(EventTriggerType type, ControlTouchEventHandler func) {
 		
@@ -128,30 +141,46 @@ public class JoystickController : MonoBehaviour {
 	}
 	
 	
-	private void OnPointerDownHandler(UnityEngine.EventSystems.BaseEventData eventData) {
+	private void OnPointerDownHandler(UnityEngine.EventSystems.BaseEventData eventData)
+	{
 		UnityEngine.EventSystems.PointerEventData ev = (UnityEngine.EventSystems.PointerEventData) eventData;
 		_touchCurrentPoint = _touchStartPoint = ev.pressPosition ;
 		_deltaTouch = Vector2.zero;
 		_currentTouchId = ev.pointerId;
 		ControlVisible(false);
+
+		var e =JoystickDown;
+		if (e != null)
+			e(ev.position);
 	}
 	
-	private void OnPointerUpHandler(UnityEngine.EventSystems.BaseEventData eventData) {
+	private void OnPointerUpHandler(UnityEngine.EventSystems.BaseEventData eventData)
+	{
 		UnityEngine.EventSystems.PointerEventData ev = (UnityEngine.EventSystems.PointerEventData) eventData;
-		if (ev.pointerId == _currentTouchId) {
-			ResetTouchInfo();
-			ControlVisible(false);
-		}
-		
+		if (ev.pointerId != _currentTouchId)
+			return;
+
+		ResetTouchInfo();
+		ControlVisible(false);
+
+		var e = JoystickUp;
+		if (e != null)
+			e(ev.position);
 	}
 	
-	private void OnPointerDragHandler(UnityEngine.EventSystems.BaseEventData eventData) {
+	private void OnPointerDragHandler(UnityEngine.EventSystems.BaseEventData eventData)
+	{
 		UnityEngine.EventSystems.PointerEventData ev = (UnityEngine.EventSystems.PointerEventData) eventData;
-		if (ev.pointerId == _currentTouchId) {
-			ControlVisible(true);
-			_deltaTouch = (ev.position - _touchCurrentPoint) / _joystickBaseHalfWidth;
-			_touchCurrentPoint = ev.position;
-		}
+		if (ev.pointerId != _currentTouchId)
+			return;
+
+		ControlVisible(true);
+		_deltaTouch = (ev.position - _touchCurrentPoint) / _joystickBaseHalfWidth;
+		_touchCurrentPoint = ev.position;
+
+		var e = JoystickDrag;
+		if (e != null)
+			e(ev.position, _deltaTouch);
 	}
 	
 	private void ControlVisible(bool visible) {
@@ -167,7 +196,8 @@ public class JoystickController : MonoBehaviour {
 		}
 	}
 		
-	private void ResetTouchInfo() {
+	private void ResetTouchInfo()
+	{
 		_currentTouchId = null;
 		_touchStartPoint = Vector2.zero;
 		_deltaTouch = Vector2.zero;

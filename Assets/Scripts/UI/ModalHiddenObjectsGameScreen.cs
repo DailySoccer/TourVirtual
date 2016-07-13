@@ -14,12 +14,14 @@ public class ModalHiddenObjectsGameScreen : GUIPopUpScreen {
 
 	// Use this for initialization
 	void Start () {
-	
+		#if !(UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID)
+			shareToFBButton.gameObject.SetActive (false);
+		#endif
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public void Launch_HiddenObjectModal(HiddenObjects.HiddenObjectGameResult modalType, string objetosEncontrados = "10 / 10", bool startGameAfterClose = false) {

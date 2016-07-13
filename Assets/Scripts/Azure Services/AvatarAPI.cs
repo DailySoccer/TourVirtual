@@ -119,8 +119,9 @@ public class AvatarAPI {
             }
         }
     }
-    public override string ToString() {
-        string tTorso = Torso;
+
+	public override string ToString() {
+		string tTorso = Torso;
         string tLegs = Legs;
         string tFeet = Feet;
 
