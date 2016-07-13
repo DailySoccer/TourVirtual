@@ -65,8 +65,8 @@ public class ClothesListController : MonoBehaviour {
 
             ShowTShirtsList();
         }
-        catch {
-            Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>");
+        catch (UnityException e){
+            Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>: " + e.Message);
         }
 	}
 	

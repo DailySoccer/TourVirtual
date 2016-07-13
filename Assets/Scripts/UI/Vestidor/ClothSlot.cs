@@ -45,7 +45,7 @@ public class ClothSlot : MonoBehaviour {
 	bool CheckSelected(AvatarAPI tmpAvatar) {
 
 		if (virtualGood == null) {
-			Debug.LogError (">>>>> [ClothSlot] in " + name + ": ClothSlot con VirtualGood NULL. Mi subtipo es: " + VirtualGoodSubtype);
+			//Debug.LogError (">>>>> [ClothSlot] in " + name + ": ClothSlot con VirtualGood NULL. Mi subtipo es: " + VirtualGoodSubtype);
 			return false;
 		}
 		//indexes { Gender, Hair, Hat || Head, Torso, Legs, Feet, Compliment };
