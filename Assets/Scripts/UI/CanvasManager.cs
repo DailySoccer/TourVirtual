@@ -27,9 +27,29 @@ public class CanvasManager : MonoBehaviour {
 	public GameObject PlayerClone { get; set; }
 	public UIScreen lastGUIScreen { get; set; }
 	public GUIPopUpScreen currentGUIPopUpScreen { get; set;}
-	
-	[SerializeField] private int _contentScreenId = 9;
 
+
+	protected virtual void Awake()
+	{
+		_sceneClicker = GetComponentInChildren<SceneClicker>();
+	}
+
+	protected virtual void OnDestroy()
+	{
+		_sceneClicker = null;
+	}
+
+	protected virtual void OnEnable()
+	{
+		if (_sceneClicker != null)
+			_sceneClicker.SceneClick += OnSceneClick;
+	}
+
+	protected virtual void OnDisable()
+	{
+		if(_sceneClicker != null)
+			_sceneClicker.SceneClick -= OnSceneClick;
+	}
 
 	/// <summary>
 	/// Intercambia pantallas.	/// 
@@ -227,6 +247,8 @@ public class CanvasManager : MonoBehaviour {
 		}
 	}
 	public string[] CurrentPlayerDataModelSelected;
+	private SceneClicker _sceneClicker;
+
 	public void ShowOTherPlayerInfo(string[] dataModel) {
 		//Configuramos las modal...
 		CurrentPlayerDataModelSelected  = dataModel;
@@ -234,6 +256,8 @@ public class CanvasManager : MonoBehaviour {
 		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
 	}
 
+
+	// TODO FRS 160714 El argumento debería ser de tipo ModalLayout
 	public void ShowModalScreen(int newModalLayout)
 	{
 		if (ModalScreen == null) {
@@ -341,11 +365,23 @@ public class CanvasManager : MonoBehaviour {
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <param name="content"></param>
-	// TODO Sería más correcto que este manager se subscribiera al SceneClicker
-	public void OnContentClick(ContentList content)
+	/// <param name="clickedGo"></param>
+	public void OnSceneClick(GameObject clickedGo)
 	{
-		if(content == ContentManager.Instance.ContentNear)
-			ShowModalScreen(_contentScreenId);
+		if (clickedGo.layer == LayerMask.NameToLayer("Content"))
+		{
+			var contentList = clickedGo.GetComponent<ContentList>();
+			if (contentList == ContentManager.Instance.ContentNear
+				&& !ContentManager.Instance.ContentNear.ContentKey.Contains("JUEGO"))
+				ShowModalScreen((int)ModalLayout.PACK_FLYER);
+		}
+		else
+		{
+			RemotePlayerHUD hud = clickedGo.GetComponentInChildren<RemotePlayerHUD>();
+			//if (hit.collider.gameObject.name.Contains("base"))
+			if (hud != null)
+				hud.RemotePlayerHUD_ClickHandle();
+		}
+		
 	}
 }

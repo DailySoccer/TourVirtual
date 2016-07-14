@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
 
-public enum ModalLayout {
+public enum ModalLayout
+{
 	BLANK,
 	PURCHASED_PACKS_GRID,
 	PURCHASED_PACK_CONTENT_LIST,

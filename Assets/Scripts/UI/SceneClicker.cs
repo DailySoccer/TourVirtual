@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 public class SceneClicker : MonoBehaviour
 {
+	public event Action<GameObject> SceneClick;
 
 	private void Awake()
 	{
@@ -51,32 +53,25 @@ public class SceneClicker : MonoBehaviour
 
 	private void OnJoystickUp(Vector2 pos)
 	{
-		_canClick &= _gcm.currentGUIPopUpScreen == null
+		_canClick &= Camera.main != null
+			    || _gcm.currentGUIPopUpScreen == null
 				|| !_gcm.ModalScreen.IsOpen
 				|| !InitialTutorial.Instance.InOpenState;
 
-		if(_canClick)
-			OnSceneClick();
+		if (_canClick)
+		{
+#if !UNITY_EDITOR
+			CastClick(Input.GetTouch(0).position);
+#else
+			CastClick(Input.mousePosition);
+#endif
+		}
 
 		_canClick = false;
 	}
 
 
-	// TODO Hud y GCM deberían suscribirse a este evento y coger el hit.transform.gameObject bajo demanda.
-	public void OnSceneClick()
-	{
-		print("SceneClicker::OnSceneClick");
 
-		if (Camera.main == null)
-			return;
-
-#if !UNITY_EDITOR
-		CastClick(Input.GetTouch(0).position);
-		
-#else
-		CastClick(Input.mousePosition);
-#endif
-	}
 	
 
 	/// <summary>
@@ -88,22 +83,15 @@ public class SceneClicker : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(inputPos);
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit, 20.0f, _clickMask))
-		{
-			if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Content"))
-			{
-				_gcm.OnContentClick(hit.transform.GetComponent<ContentList>());
-			}
-			else
-			{
-				RemotePlayerHUD hud = hit.collider.gameObject.GetComponentInChildren<RemotePlayerHUD>();
-				//if (hit.collider.gameObject.name.Contains("base"))
-				if (hud != null)
-					hud.RemotePlayerHUD_ClickHandle();
-			}
-		}
+			OnSceneClick(hit.transform.gameObject);
 	}
 
-
+	private void OnSceneClick(GameObject clickedGo)
+	{
+		var e = SceneClick;
+		if (e != null)
+			e(clickedGo);
+	}
 	
 	private GameCanvasManager _gcm;
 	private int _clickMask;

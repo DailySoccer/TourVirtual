@@ -11,8 +11,10 @@ public class GameCanvasManager : CanvasManager
 
 	private BadgeAlert badgeAlert;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+
 		_mainManagerInstance = MainManager.Instance;
 		
 		// Get Language Settings
@@ -35,7 +37,9 @@ public class GameCanvasManager : CanvasManager
 		_mainManagerInstance.OnMessagesUnreadedEvent += OnUnreadedMessages;
 	}
 
-	void OnEnable() {
+	protected override void OnEnable()
+	{
+		base.OnEnable();
 		ShowScreen(currentGUIScreen);
 	}
 
