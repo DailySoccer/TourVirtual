@@ -71,11 +71,9 @@ public class SceneClicker : MonoBehaviour
 			return;
 
 #if !UNITY_EDITOR
-		//CastClick(Touch.position);
 		CastClick(Input.GetTouch(0).position);
 		
 #else
-		//CastClick(Input.GetTouch(0).position);
 		CastClick(Input.mousePosition);
 #endif
 	}
