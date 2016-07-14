@@ -319,8 +319,26 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     currentPrenda = null;
                     UserAPI.AvatarDesciptor.Pack = null;
                 }
-                else
+                else {
                     UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
+
+
+					var mypack = PlayerManager.Instance.GetPackDescriptor(UserAPI.AvatarDesciptor.Pack);
+					if(mypack!=null) {
+						foreach( var cloth in mypack)
+						{
+							switch (cloth.Key)
+							{
+							case "torso":
+								UserAPI.AvatarDesciptor.Torso = null;
+								break;
+							case "piernas":
+								UserAPI.AvatarDesciptor.Legs = null;
+								break;
+							}
+						}
+					}
+				}
                 break;
         }
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
