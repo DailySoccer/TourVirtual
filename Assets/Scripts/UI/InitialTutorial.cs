@@ -22,7 +22,6 @@ public class InitialTutorial : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		tutTimes = PlayerPrefs.GetInt ("tutorial_done");
 	}
 	
 	// Update is called once per frame
@@ -30,8 +29,9 @@ public class InitialTutorial : MonoBehaviour {
 	{
 	}
 
-	void Initialize()
+	void ResetTutorial()
 	{
+		_currentScreenId = 0;
 		if (_myAnimatorController == null)
 			_myAnimatorController = GetComponent<Animator> ();
 
@@ -40,13 +40,15 @@ public class InitialTutorial : MonoBehaviour {
 		foreach (GameObject screen in OrderedTutorialScreens) {
 			screen.GetComponent<Animator>().SetBool("IsOpen", false);
 		}
-		
-		_currentScreenId = 0;
+
+		foreach (GameObject screen in OrderedTutorialScreens) {
+			screen.SetActive(false);
+		}
 	}
 
 	public void SartTutorial()
 	{
-		Initialize ();
+		ResetTutorial ();
 		StartCoroutine (LaunchTutorial ());
 	}
 
@@ -82,8 +84,8 @@ public class InitialTutorial : MonoBehaviour {
 
 		// ... cerramos la modal
 		_myAnimatorController.SetBool ("IsOpen", false);
-		tutTimes += 1;
-		PlayerPrefs.SetInt ("tutorial_done", tutTimes);
+
+		PlayerPrefs.SetInt ("tutorial_done", PlayerPrefs.GetInt ("tutorial_done") + 1);
 		PlayerPrefs.Save ();
 
 		OnTutorialFinish();
@@ -92,18 +94,17 @@ public class InitialTutorial : MonoBehaviour {
 	
 
 
-	private IEnumerator ShowNextScreen()
-	{
+	private IEnumerator ShowNextScreen() {
 		GameObject currentScreen = OrderedTutorialScreens [_currentScreenId];
-
-		while (!currentScreen.GetActive())
+		currentScreen.SetActive (true);
+		while (!currentScreen.GetActive()) {
 			yield return null;
+		}
 
 		if (_currentScreenId > 0)
 			ChangeScreenVisibility (OrderedTutorialScreens [_currentScreenId - 1], false);
 
 		ChangeScreenVisibility (currentScreen, true);
-
 		_currentScreenId++;
 	}
 
