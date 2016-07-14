@@ -67,7 +67,7 @@ public class MainManager : Photon.PunBehaviour {
 			_soundEnabled = value;
 			//TODO: Setear el AudioMaster a 0 (False) / 1 (True)
 			AudioInGameController.Instance.SetMasterVolume(value ? 1f : 0f);
-			MyTools.SetPlayerPrefsBool("SoundEnabled", value);
+			MyTools.SetPlayerPrefsBool("sound", value);
 			PlayerPrefs.Save();
 		}
 	}
@@ -109,7 +109,7 @@ public class MainManager : Photon.PunBehaviour {
         if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
             LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
-            PlayerPrefs.SetString("CurrentLanguaje", newSubLang);
+			PlayerPrefs.SetString("languaje", newSubLang);
             PlayerPrefs.Save();
 
         } else {
@@ -138,8 +138,8 @@ public class MainManager : Photon.PunBehaviour {
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
-		SoundEnabled = MyTools.GetPlayerPrefsBool("SoundEnabled");
-		CurrentLanguage = PlayerPrefs.GetString ("CurrentLanguage", "en");
+		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
+		CurrentLanguage = PlayerPrefs.GetString ("languaje", "en");
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
 	}
