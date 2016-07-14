@@ -39,17 +39,17 @@ public class SceneClicker : MonoBehaviour
 		_gcm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>();
 	}
 
-	private void OnJoystickDrag(Vector2 arg1, Vector2 arg2)
+	private void OnJoystickDrag(Vector2 pos, Vector2 deltaPos)
 	{
 		_canClick = false;
 	}
 
-	private void OnJoystickDown(Vector2 obj)
+	private void OnJoystickDown(Vector2 pos)
 	{
 		_canClick = true;
 	}
 
-	private void OnJoystickUp(Vector2 obj)
+	private void OnJoystickUp(Vector2 pos)
 	{
 		_canClick &= _gcm.currentGUIPopUpScreen == null
 				|| !_gcm.ModalScreen.IsOpen
