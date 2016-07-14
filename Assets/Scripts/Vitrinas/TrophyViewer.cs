@@ -10,7 +10,7 @@ public class TrophyViewer : MonoBehaviour {
 	public float MAX_PITCH = 30;
 	public float MIN_PITCH = -30;
 	[Range(0.01f, 1000)]
-	public float ZoomDensity = 0.1f;
+	public float ZoomDensity = 1f;
 	[Range(0.01f,1000)]
 	public float PitchDensity = 0.02f;
 	[Range(0.01f, 1000)]
