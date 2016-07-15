@@ -5,7 +5,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 extern "C" {
- void _ReceivedUrl(NSURL *url);   
+    void _ReceivedUrl(NSURL *url);
 }
 
 
@@ -19,12 +19,12 @@ extern "C" {
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     // OJO que llegara el tema del SS.
     if( [[url scheme] isEqualToString:@"rmvt"] ){
-        UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
-        return YES;
-    }else
-    if( [[url scheme] isEqualToString:@"testsso"] ){
-        _ReceivedUrl(url);
-        return YES;
+        if( [[url host] isEqualToString:@"sso"] ){
+            _ReceivedUrl(url);
+        }else{
+            UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
+            return YES;
+        }
     }
     
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];}

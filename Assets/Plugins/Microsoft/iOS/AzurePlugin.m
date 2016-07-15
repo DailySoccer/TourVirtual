@@ -35,9 +35,8 @@ void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSign
 }
 
 void _AzureSignIn(){
-//    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-  
-        NSURL *url = [NSURL URLWithString:[@"rmapp://single_sign_on?Parameters={\"ClientId\":\"f5ac1331-0476-4844-b7de-34faab315d7d\",\"TemporaryHash\":\"12345\"}" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
     } else {
@@ -85,6 +84,7 @@ void _ReceivedUrl(NSURL *url)
         } else {
             [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
                 if (error) {
+                    NSLog( @"%@", error.localizedDescription);
                     UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
                 } else {
                     UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
