@@ -3223,6 +3223,69 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!1 &1175053279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 174284, guid: 5006a4777e2e32d4081de0af156f8402, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1175053282}
+  - 33: {fileID: 1175053281}
+  - 23: {fileID: 1175053280}
+  m_Layer: 0
+  m_Name: cartelAcceso
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1175053280
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2305376, guid: 5006a4777e2e32d4081de0af156f8402,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1175053279}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 526cbdda51f64c04282600cde08ad8d1, type: 2}
+  - {fileID: 2100000, guid: 37450ed682e547a47bdcd7b48c94067f, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1175053281
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3386918, guid: 5006a4777e2e32d4081de0af156f8402,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1175053279}
+  m_Mesh: {fileID: 4300000, guid: 6aa337b26898fbe418322223488b0fb8, type: 3}
+--- !u!4 &1175053282
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 418882, guid: 5006a4777e2e32d4081de0af156f8402, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1175053279}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: -4.35300016, y: 2.75600004, z: -18.5760002}
+  m_LocalScale: {x: 16.0396729, y: .861629605, z: 4.01492882}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1001 &1208170235
 Prefab:
   m_ObjectHideFlags: 0
@@ -3892,7 +3955,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1461620760}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Collider_camara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3949,7 +4012,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 487496, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 429150, guid: 0bb2f0b212ebb4926b5af6dfdb4d71de, type: 2}
       propertyPath: m_LocalRotation.y
@@ -4152,6 +4215,10 @@ Prefab:
     - target: {fileID: 400000, guid: a0ef8df867b29304eb007b3ec752377d, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a0ef8df867b29304eb007b3ec752377d, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: a0ef8df867b29304eb007b3ec752377d, type: 3}
@@ -5351,7 +5418,7 @@ Prefab:
     - target: {fileID: 2300022, guid: ea6d6f204c68d14438c7ebbd3cb0f73e, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 1515ce8e846c79b4d820c3fd52f7a838, type: 2}
+      objectReference: {fileID: 2100000, guid: b738f5ead5ca805448aa2aecad012fb7, type: 2}
     - target: {fileID: 2300038, guid: ea6d6f204c68d14438c7ebbd3cb0f73e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -5407,7 +5474,7 @@ Prefab:
     - target: {fileID: 2300058, guid: ea6d6f204c68d14438c7ebbd3cb0f73e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 526cbdda51f64c04282600cde08ad8d1, type: 2}
+      objectReference: {fileID: 2100000, guid: a4afc6b90cd1f23429c3f2e39ca930ed, type: 2}
     - target: {fileID: 2300028, guid: ea6d6f204c68d14438c7ebbd3cb0f73e, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
