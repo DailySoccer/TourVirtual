@@ -11,34 +11,36 @@ public enum ProductType {
 }
 
 public class ClothesListController : MonoBehaviour {
-
+	
 	public GameObject Slot;
-
+	
 	public GameObject TShirtsListWrapperParent;
 	public VestidorTab TShirtsTab;
 	private Transform TShirtsList;
-
+	
 	public GameObject ComplimentsListWrapperParent;
 	public VestidorTab ComplimentsTab;
 	private Transform ComplimentsList;
-
+	
 	public GameObject ShoesListWrapperParent;
 	public VestidorTab ShoesTab;
 	private Transform ShoesList;
-
+	
 	public GameObject PacksListWrapperParent;
 	public VestidorTab PacksTab;
 	private Transform PacksList;
-
+	
 	ProductType currentProductList;
-
-	VirtualGoodsAPI.VirtualGood tshirts;
-
+	
+	//VirtualGoodsAPI.VirtualGood tshirts;
+	
 	public List<GameObject> currentClothesLsit = new List<GameObject>();
-
+	
 	public static ClothesListController Instance { get; private set; }
-
-
+	
+	AvatarAPI _currentAvatar;
+	
+	
 	//Virtualgood Item subtypes
 	enum SubType {
 		TORSO, 
@@ -47,71 +49,54 @@ public class ClothesListController : MonoBehaviour {
 		HAT,
 		PACK
 	};
-
-
+	
+	
 	void Awake() {
 		Instance = this;
 	}
-	// Use this for initialization
-	void Start () {
-        // asignamos las listas;
-        try
-        {
-            TShirtsList = GameObject.FindGameObjectWithTag("TShirtsList").transform;
-            ComplimentsList = GameObject.FindGameObjectWithTag("ComplimentsList").transform;
-            ShoesList = GameObject.FindGameObjectWithTag("ShoesList").transform;
-            PacksList = GameObject.FindGameObjectWithTag("PacksList").transform;
-
-            ShowTShirtsList();
-        }
-        catch {
-            Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>");
-        }
+	void Start() {
+		// asignamos las listas;
+		try
+		{
+			TShirtsList = GameObject.FindGameObjectWithTag("TShirtsList").transform;
+			ComplimentsList = GameObject.FindGameObjectWithTag("ComplimentsList").transform;
+			ShoesList = GameObject.FindGameObjectWithTag("ShoesList").transform;
+			PacksList = GameObject.FindGameObjectWithTag("PacksList").transform;
+			
+			ShowTShirtsList();
+		}
+		catch (UnityException e){
+			Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>: " + e.Message);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
-
+	
 	void CleanProductLists() {
-		/*
-		foreach (Transform t in TShirtsList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in ShoesList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in PacksList) {
-			Destroy(t.gameObject);
-		}
-		foreach (Transform t in ComplimentsList) {
-			Destroy(t.gameObject);
-		}
-		*/
 		foreach (GameObject go in currentClothesLsit) {
 			Destroy (go);
 		}
 		currentClothesLsit.Clear ();
 	}
-
+	
 	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
-
-        if (UserAPI.VirtualGoodsDesciptor == null) return;
-
+		
+		if (UserAPI.VirtualGoodsDesciptor == null) return;
+		
 		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
-
+			
 			VirtualGoodsAPI.VirtualGood item = (VirtualGoodsAPI.VirtualGood)vg.Value;
 			if (pType == GetTVGType (item.IdSubType)) {
-
-				GameObject cloth = Instantiate (Slot);
-					
-
-				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
-
-				cs.name = item.Description;
-				cs.SetupSlot (item);	
 				
+				GameObject cloth = Instantiate (Slot);					
+				
+				ClothSlot cs = cloth.GetComponent<ClothSlot> ();
+				
+				cs.name = item.Description;
+				cs.SetupSlot (item);
 				// Añadimos el elemento a la lista correspondiente
 				switch (item.IdSubType) {
 				case "MTORSO":
@@ -143,10 +128,10 @@ public class ClothesListController : MonoBehaviour {
 				if (item.count > 0) cloth.transform.SetAsFirstSibling();
 				cloth.name = item.Description;
 				cloth.transform.localScale = Vector3.one;
-
-
 			}
 		}
+		// Actualizamos la/s selección tras cargar la lista.
+		UpdateSelectedSlots ();
 	}
 	
 	ProductType GetTVGType(string vgSubType) {
@@ -162,13 +147,20 @@ public class ClothesListController : MonoBehaviour {
 		// Si es algun otro tipo que no conozco, asumo que es un complemento
 		return ProductType.Complement;
 	}
-
-	public void UpdateSelectedSlots(AvatarAPI tmpAvatar) {
+	
+	
+	public void SetCurrentAvatar(AvatarAPI tmpAvatar) {
+		_currentAvatar = tmpAvatar.Copy ();
+		UpdateSelectedSlots ();
+	}
+	
+	public void UpdateSelectedSlots() {
 		foreach (GameObject go in currentClothesLsit) {
-			go.GetComponent<ClothSlot>().UpdateSelection(tmpAvatar);
+			ClothSlot cs = go.GetComponent<ClothSlot>();
+			cs.UpdateSelection (_currentAvatar);
 		}
 	}
-
+	
 	public void ShowTShirtsList() {
 		HideAllLists();
 		TShirtsListWrapperParent.SetActive (true);
@@ -176,7 +168,7 @@ public class ClothesListController : MonoBehaviour {
 		SetupVestidor (ProductType.TShirt);
 		currentProductList = ProductType.TShirt;
 	}
-
+	
 	public void ShowComplementsList() {
 		HideAllLists();
 		ComplimentsListWrapperParent.SetActive (true);
@@ -184,7 +176,7 @@ public class ClothesListController : MonoBehaviour {
 		SetupVestidor (ProductType.Complement);
 		currentProductList = ProductType.Complement;
 	}
-
+	
 	public void ShowShoesList() {
 		HideAllLists();
 		ShoesListWrapperParent.SetActive (true);
@@ -192,7 +184,7 @@ public class ClothesListController : MonoBehaviour {
 		SetupVestidor (ProductType.Shoe);
 		currentProductList = ProductType.Shoe;
 	}
-
+	
 	public void ShowPacksList() {
 		HideAllLists();
 		PacksListWrapperParent.SetActive (true);
@@ -200,16 +192,16 @@ public class ClothesListController : MonoBehaviour {
 		SetupVestidor (ProductType.Pack);
 		currentProductList = ProductType.Pack;
 	}
-
+	
 	private void HideAllLists() {
 		TShirtsListWrapperParent.SetActive(false);
 		ComplimentsListWrapperParent.SetActive(false);
 		ShoesListWrapperParent.SetActive(false);
 		PacksListWrapperParent.SetActive(false);
-
+		
 		DeactivateAllTabs ();
 	}
-
+	
 	private void DeactivateAllTabs() {
 		TShirtsTab.IsTabActive = false;
 		ComplimentsTab.IsTabActive = false;
