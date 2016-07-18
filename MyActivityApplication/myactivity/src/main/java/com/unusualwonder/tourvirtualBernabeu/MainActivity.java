@@ -11,8 +11,8 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-//import com.microsoft.applicationinsights.library.ApplicationInsights;
-//import com.microsoft.applicationinsights.contracts.User;
+import com.microsoft.applicationinsights.library.ApplicationInsights;
+import com.microsoft.applicationinsights.contracts.User;
 import com.microsoft.mdp.sdk.*;
 
 import com.microsoft.mdp.sdk.auth.AuthListener;
@@ -62,6 +62,7 @@ public class MainActivity extends UnityPlayerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         /*
         Intent intent = getIntent();
         deeplinking = "";
@@ -98,13 +99,51 @@ public class MainActivity extends UnityPlayerActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         deeplinking = "";
-        System.out.println("Unity MainActivity:: onNewIntent");
         if (intent != null) {
             String action = intent.getAction();
             Uri data = intent.getData();
             if (data != null) {
-                deeplinking = data.toString();
-                System.out.println("Unity MainActivity:: onNewIntent "+deeplinking);
+                if (data.getScheme().equals("rmvt")) {
+                    if( !data.getHost().equals("sso")) {
+                        deeplinking = data.toString();
+                        System.out.println("Unity MainActivity:: onNewIntent " + deeplinking);
+                    }
+                    else {
+                        String authCode = data.getQueryParameter("AuthorizationCode");
+                        Boolean allowed = Boolean.valueOf(data.getQueryParameter("Allowed"));
+                        if(allowed){
+                            DigitalPlatformClient.getInstance().getSingleSignOnHandler().getSSOTokenWithAuthorizationCode(this, authCode, new ServiceResponseListener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                System.out.println("Unity MainActivity:: onResponse 1 " + response);
+                                                DigitalPlatformClient.getInstance().getAuthHandler().loginWithAuthorizationCode(MainActivity.this, "RMTV12345", response, new ServiceResponseListener<Boolean>() {
+                                                    @Override
+                                        public void onResponse(Boolean response) {
+                                            System.out.println("Unity MainActivity:: onResponse 2 " + response);
+                                            if(response){
+                                                UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
+                                            }else{
+                                                UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                                            }
+                                        }
+                                        @Override
+                                        public void onError(DigitalPlatformClientException e) {
+                                            System.out.println("Unity MainActivity:: onError 2 " );
+                                            UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+
+                                        }
+                                    });
+                                }
+                                @Override
+                                public void onError(DigitalPlatformClientException e) {
+                                    UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                                }
+                            });
+                        }else {
+                            UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                        }
+                    }
+                }
             }
         }
     }
@@ -114,27 +153,27 @@ public class MainActivity extends UnityPlayerActivity {
     }
 
     static Gson gson = new Gson();
-    String IDClient;
+    static String IDClient;
 
     public void Init(String enviroment, String idClient, String signin) {
-        System.out.println("Unity MainActivity:: Init");
+
+        System.out.println("Unity MainActivity:: Init " + enviroment+" "+idClient);
         String env;
-        this.IDClient = idClient;
+        MainActivity.IDClient = idClient;
         if (enviroment.equals("development")) env = DigitalPlatformClient.DEVELOPMENT;
         else if (enviroment.equals("preproduction")) env = DigitalPlatformClient.PREPRODUCTION;
         else env = DigitalPlatformClient.PRODUCTION;
-//        DigitalPlatformClient.init(this, env, signin);
-
-        System.out.println("Unity MainActivity:: Init "+signin);
-        DigitalPlatformClient.init(this, DigitalPlatformClient.DEVELOPMENT, "2de184ac-5d93-4069-8d68-ec92d0c70e28","p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");
-
-        System.out.println("Unity MainActivity:: Init OK");
+        DigitalPlatformClient.init(this, env, MainActivity.IDClient, signin);
     }
 
     public void Login(boolean mode) {
         System.out.println("Unity MainActivity:: Login");
-//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ this.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} ")));
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\"6aa05db7-d992-466a-a5b0-a8b67691b7e6\", \"TemporaryHash\":\"12345\"} ")));
+        Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ MainActivity.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} "));
+
+        if(!getPackageManager().queryIntentActivities(myintent,0).isEmpty())
+            startActivity(myintent);
+        else
+            UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "NOAPP");
     }
 
     public void Logout() {
@@ -788,7 +827,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, IDAction, null, callback);
+        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, MainActivity.IDClient, IDAction, callback); // Esta al reves que en REST.
     }
 
     // InApp Purchases
@@ -805,7 +844,7 @@ public class MainActivity extends UnityPlayerActivity {
             }
         };
         Purchase p = new Purchase();
-        p.setIdClient(this.IDClient);
+        p.setIdClient(MainActivity.IDClient);
         p.setIdProduct(IDProduct);
         p.setReceipt(receipt);
         DigitalPlatformClient.getInstance().getPurchasesServiceHandler().postPurchase(this, p, callback);

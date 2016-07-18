@@ -36,10 +36,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.github.microsoft.telemetry-client-for-android:SharedTelemetryContracts:2.0.0'
+    compile 'com.github.microsoft.telemetry-client-for-android:AndroidCll:2.0.0'
     compile project(':mdp')
-//    compile project(':applicationinsights-android-1.0-beta.4')
     compile project(':unity-classes')
 }

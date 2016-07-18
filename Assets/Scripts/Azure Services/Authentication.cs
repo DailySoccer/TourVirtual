@@ -32,6 +32,7 @@ public class Authentication : MonoBehaviour {
     public void Init() {
         AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
         AzureServices.SignIn((success) => {
+            // Decidir que pasa aqui si no he consguido hacer login.
             StartCoroutine(UserAPI.Instance.Request());
         });
     }

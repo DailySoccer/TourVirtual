@@ -722,7 +722,7 @@ void _GamificationStatus(char* language, char* _hash){
         }
     }];
 }
-
+// OJO!!!! Si no funcionan correctamente pasar en contextData en IDClient
 void _SendAction(char* IDAction, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     [[[MDPClientHandler sharedInstance] getUserActionsHandler] postUserActionWithActionId:CreateNSString(IDAction) contextData:nil completionBlock:^(NSError *error) {
