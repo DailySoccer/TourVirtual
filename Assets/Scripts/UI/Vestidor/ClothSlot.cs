@@ -44,7 +44,7 @@ public class ClothSlot : MonoBehaviour {
 
 	bool CheckSelected(AvatarAPI tmpAvatar) {
 
-		if (virtualGood == null) {
+		if (virtualGood == null || tmpAvatar == null) {
 			//Debug.LogError (">>>>> [ClothSlot] in " + name + ": ClothSlot con VirtualGood NULL. Mi subtipo es: " + VirtualGoodSubtype);
 			return false;
 		}
@@ -67,7 +67,7 @@ public class ClothSlot : MonoBehaviour {
 				break;
 			case "HSHOE":
 			case "MSHOE":
-				if (tmpAvatar.Compliment  == virtualGood.GUID)
+				if (tmpAvatar.Feet == virtualGood.GUID)
 					return true;
 				return false;
 				break;
