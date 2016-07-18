@@ -30,9 +30,9 @@ public class SceneClicker : MonoBehaviour
 	{
 		foreach (var joystick in GetComponentsInChildren<JoystickController>())
 		{
-			joystick.JoystickDown -= OnJoystickDown;
-			joystick.JoystickUp -= OnJoystickUp;
-			joystick.JoystickDrag -= OnJoystickDrag;
+			joystick.JoystickDown	-= OnJoystickDown;
+			joystick.JoystickUp		-= OnJoystickUp;
+			joystick.JoystickDrag	-= OnJoystickDrag;
 		}
 	}
 
