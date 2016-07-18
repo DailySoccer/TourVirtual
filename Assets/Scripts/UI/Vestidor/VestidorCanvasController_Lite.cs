@@ -45,6 +45,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     private bool isCurrentPopUpOpen;
     private VestidorState currentVestidorState;
     private AvatarAPI mOldAvatarDesciptor;
+	private AvatarAPI tmpAvatar;
+
 	private bool IsFirstLaunch;
 	
 	public GameObject PlayerInstance { get; set; }
@@ -60,6 +62,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+
+		ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
 /*
         if (Authentication.AzureServices.IsDeepLinking &&
             Authentication.AzureServices.DeepLinkinParameters != null &&
@@ -67,7 +72,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
             // MainManager.DeepLinkinParameters["idUser"];
         }
-
 */
         EnableTopMenu(true);
         ShowVestidor();
@@ -86,6 +90,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 #endif
         if (newState != currentVestidorState)
         {
+			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
+				InvokeAvatarIfNeeded();
+			}
+
             switch (newState)
             {
                 case VestidorState.SELECT_AVATAR:
@@ -94,6 +102,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(true);
                     cameraVestidor.SetActive(false);
                     SecondPlaneVestidor.SetActive(false);
+					BuyInfoButtom.SetActive(false);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraAvatarSelector.GetComponent<Camera>());
 
                     ShowScreen(AvatarSelectionScreen);
@@ -111,10 +120,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(false);
                     cameraVestidor.SetActive(true);
                     SecondPlaneVestidor.SetActive(true);
+					//VestidorScreen.GetComponentInChildren<ClothesListController>().ShowTShirtsList();	
+					//BuyInfoButtom.SetActive(true);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
                     ShowScreen(VestidorScreen);
+					
+					//??
+					//ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+
                     break;
+
                 case VestidorState.LANDING_PAGE:
 					IsFirstLaunch = true;
 					EnableTopMenu(true);
@@ -122,14 +138,33 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneAvatarSelect.SetActive(false);
                     cameraVestidor.SetActive(true);
                     SecondPlaneVestidor.SetActive(true);
+					BuyInfoButtom.SetActive(false);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
-                    ShowScreen(lobbyScreen);
+					
+					InvokeAvatarIfNeeded();
+									
+					ShowScreen(lobbyScreen);
                     break;
             }
 		//	lastVestidorState = currentVestidorState == VestidorState.NONE ? newState : currentVestidorState;
             currentVestidorState = newState;
         }
     }
+
+	void InvokeAvatarIfNeeded() {
+		if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
+			if (PlayerInstance == null)
+				Invoke("LoadModel", 0.25f);
+			else {
+				if (tmpAvatar.ToString() != mOldAvatarDesciptor.ToString()) {
+					Invoke("LoadModel", 0.25f);
+				}
+				/*else {
+					Debug.LogError ("**--** Renovando el avatar por que ha cambiado");
+				}*/
+			}
+		}
+	}
 
     void EnableTopMenu(bool val)
     {
@@ -143,14 +178,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         //if (currentPrenda == prenda) return;
         DressVirtualGood( currentPrenda.virtualGood,true, currentPrenda.virtualGood.count == 0);
 
-		// Nos aseguramos que la prenda clickada es la única que está marcada como clickada
-		foreach (GameObject go in ClothesListController.Instance.currentClothesLsit) {
-			go.GetComponent<ClothSlot> ().isClicked = false;
-		}
-		prenda.isClicked = true;
-
 		// Actualizamos la lista para que marque como seleccionados las cosas que tengo puestas
-		ClothesListController.Instance.UpdateSelectedSlots (tmpAvatar);
+		ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
 
         if (currentPrenda != null) {
 			BuyInfoButtom.SetActive (true);
@@ -194,15 +223,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public void OpenModalScreen() {
 		
 		if (ModalPopUpScreen == null) {
-			Debug.LogError("[VestidorCanvasController in " + name + "]: \"ModalPopUpScreen\" es null.");
+			//Debug.LogError("[VestidorCanvasController in " + name + "]: \"ModalPopUpScreen\" es null.");
 			return;
 		}
 		
 		// Lanzamos la modal, solo si está cerrada previamente.
 		ModalPopUpScreen.IsOpen = false;
 		StartCoroutine (ModalCloseBeforeOpenAgain(CurrentModalLayout));
-	}
-	
+	}	
 	
 	IEnumerator ModalCloseBeforeOpenAgain(ModalLayout newModalLayout) {
 		
@@ -217,20 +245,16 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		modalManager.CurrentModalLayout = newModalLayout;
 	}
 
-
-
     public void DressVirtualGood(string GUID)
     {
         DressVirtualGood(UserAPI.VirtualGoodsDesciptor.GetByGUID(GUID), false);
     }
 
-	AvatarAPI tmpAvatar;
-
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 
         if (virtualGood == null) return;
-        Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
+        //Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
 		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
@@ -295,8 +319,26 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     currentPrenda = null;
                     UserAPI.AvatarDesciptor.Pack = null;
                 }
-                else
+                else {
                     UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
+
+
+					var mypack = PlayerManager.Instance.GetPackDescriptor(UserAPI.AvatarDesciptor.Pack);
+					if(mypack!=null) {
+						foreach( var cloth in mypack)
+						{
+							switch (cloth.Key)
+							{
+							case "torso":
+								UserAPI.AvatarDesciptor.Torso = null;
+								break;
+							case "piernas":
+								UserAPI.AvatarDesciptor.Legs = null;
+								break;
+							}
+						}
+					}
+				}
                 break;
         }
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
@@ -319,49 +361,36 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             ModalPopUpScreen.IsOpen = isCurrentPopUpOpen;
             ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = isCurrentPopUpOpen;
         }
-        else {
+        /*else {
             Debug.LogError("[VestidorCanvas]: La ModalPopUpScreen es null. Quizás no se ha establecido en el inspector.");
-        }
+        }*/
     }
 
     public void ShowVestidor()
     {
-        if (isCurrentPopUpOpen)
-            TogglePopUpScreen();
-        if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+		if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
+        /*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
             Invoke("LoadModel", 0.25f);
-
+		*/
         ChangeVestidorState(MainManager.VestidorMode);
     }
 
-
     public void ShowClothesShop() {
-        /*
-        Debug.LogError(">>>>>>>>> ShowClothesShop!!!! " + Authentication.AzureServices.IsDeepLinking);
-        if (Authentication.AzureServices.IsDeepLinking &&
-            Authentication.AzureServices.DeepLinkinParameters != null &&
-            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood"))
-        {
-            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
-            // MainManager.DeepLinkinParameters["idUser"];
-        }
-        */
-        if (isCurrentPopUpOpen)
+		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
-        if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
-        {
-            Invoke("LoadModel", 0.25f);
-        }
-
+        /*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+			Invoke("LoadModel", 0.25f);
+		*/
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}
 
 	public void ShowLandingPage() {
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
-		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+		/*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
 			Invoke("LoadModel", 0.25f);
-		
+		*/
 		ChangeVestidorState (VestidorState.LANDING_PAGE);
 	}
 
@@ -483,7 +512,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 							UserAPI.VirtualGoodsDesciptor.FilterBySex();
 							UserAPI.Instance.Nick = nick;
 							Authentication.AzureServices.CreateProfileAvatar( UserAPI.AvatarDesciptor.GetProperties(), (res) =>{
-								Debug.LogError("CreateProfileAvatar "+res);
+								//Debug.LogError("CreateProfileAvatar "+res);
 								UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
 									LoadingCanvasManager.Hide();
 									ModalNickInput.Close();
@@ -512,6 +541,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                 // Por si tiene algo de prueba...
                 PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+
+				mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+
                 UserAPI.Instance.UpdateAvatar();
                 UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
                     LoadingCanvasManager.Hide();
@@ -520,8 +552,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 });
             }
         }
-
-
     }
 
     public void CancelThisAvatar() {
@@ -579,8 +609,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public void showLastVestidorState() {
 		HideAllScreens();
 
-		if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+		/*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
 			Invoke("LoadModel", 0.25f);
+		 */
 		// Forzamos el cambio del vestidor state para volver a su estado anterior
 		VestidorState newVestidorState = currentVestidorState;
 		currentVestidorState = VestidorState.NONE;

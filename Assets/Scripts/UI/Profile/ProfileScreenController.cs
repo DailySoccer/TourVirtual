@@ -24,6 +24,8 @@ public class ProfileScreenController : MonoBehaviour {
 	bool alreadyOpen;
 
 	GUIScreen screen;
+	Color oldColor;
+	UnityEngine.Rendering.AmbientMode oldMode;
 
 	
 	// Use this for initialization
@@ -39,9 +41,15 @@ public class ProfileScreenController : MonoBehaviour {
 			UpdateData ();
 			alreadyOpen = true;
 			Debug.LogError("UPDATING PROFILE");
+			oldMode = RenderSettings.ambientMode; 
+			RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+			oldColor = RenderSettings.ambientLight;
+			RenderSettings.ambientLight = new Color32(90,95,107,255);
 		}
 		else if (screen.InCloseState && alreadyOpen) {
 			alreadyOpen = false;
+			RenderSettings.ambientMode = oldMode; 
+			RenderSettings.ambientLight = oldColor;
 			Debug.LogError("NOT UPDATING PROFILE");
 		}
 	}

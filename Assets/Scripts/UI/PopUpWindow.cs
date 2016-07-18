@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
 
-public enum ModalLayout {
+public enum ModalLayout
+{
 	BLANK,
 	PURCHASED_PACKS_GRID,
 	PURCHASED_PACK_CONTENT_LIST,
@@ -42,6 +43,8 @@ public class PopUpWindow : UIScreen {
 	public GameObject PurchasedPackContentList;
 	public GameObject PurchasedPackContentSlot;
 	private List<GameObject> PurchasedPackContentGameObjectsList = new List<GameObject>();
+
+	public GameObject SharePurchasedContentButton;
 
 	public GameObject AchievementsGridParent;
 	public GameObject AchievementsGridList;
@@ -135,6 +138,9 @@ public class PopUpWindow : UIScreen {
 				StandardTitleText.text = LanguageManager.Instance.GetTextValue ("TVB.Popup.PackContent");
 				// 'currentSelectedItemGUID': Seteado al hacer click sobre un pack comprado
 				SetupPurchasedPackContentList (currentSelectedItemGUID);
+				#if !(UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID)
+					SharePurchasedContentButton.setActive(false);
+				#endif
 			break;
 					
 			case ModalLayout.ACHIEVEMENTS_GRID:

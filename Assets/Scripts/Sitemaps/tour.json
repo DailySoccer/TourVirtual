@@ -194,14 +194,49 @@
       "hidden_objects": false,
       "gamaction":  "VIRTUALTOUR_ACC_SALA_10",
       "doors": {
-          "PUERTA1": "ESTADIO#PUERTA3",
+          "PUERTA1": "ROOM7#PUERTA2",
+		  "PUERTA2": "ROOM9#PUERTA1",
+		  "PUERTA3": "ROOM10#PUERTA1",
       },
 			"bundles": {
 				  "SCENE": "scene/hall_valdebebas"
 			},
 			"pack":"PCK.scene.hall_valdebebas"
+    },
+    {
+      "id": "ROOM9",
+      "name": "Convivencias",
+      "scene": "Convivencia_Juegos_Valdebebas",
+      "gui": "GAME",
+      "max_players": 16,
+      "hidden_objects": false,
+      "gamaction":  "VIRTUALTOUR_ACC_SALA_11",
+      "doors": {
+          "PUERTA1": "ROOM8#PUERTA2",
+          "PUERTA2": "ROOM10#PUERTA1"
+      },
+			"bundles": {
+				  "SCENE": "scene/convivencia_juegos_valdebebas"
+			},
+			"pack":"PCK.scene.convivencia_juegos_valdebebas"
+    },
+    {
+      "id": "ROOM10",
+      "name": "Habitacion de Jugadores",
+      "scene": "Habitacion_Valdebebas",
+      "gui": "GAME",
+      "max_players": 16,
+      "hidden_objects": false,
+      "gamaction":  "VIRTUALTOUR_ACC_SALA_12",
+      "doors": {
+          "PUERTA1": "ROOM8#PUERTA3"
+      },
+			"bundles": {
+				  "SCENE": "scene/habitacion_valdebebas"
+			},
+			"pack":"PCK.scene.habitacion_valdebebas"
     }
-	],
+    ],
 	"assets": [
 	]
 }

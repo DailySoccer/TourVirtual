@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameCanvasManager : CanvasManager 
-{
+public class GameCanvasManager : CanvasManager
+{ 
 	private MainManager _mainManagerInstance;
 
 	private Toggle _soundsToggle;
@@ -11,7 +11,10 @@ public class GameCanvasManager : CanvasManager
 
 	private BadgeAlert badgeAlert;
 
-	void Awake() {
+	protected override void Awake()
+	{
+		base.Awake();
+
 		_mainManagerInstance = MainManager.Instance;
 		
 		// Get Language Settings
@@ -34,10 +37,17 @@ public class GameCanvasManager : CanvasManager
 		_mainManagerInstance.OnMessagesUnreadedEvent += OnUnreadedMessages;
 	}
 
-	void OnEnable() {
+	protected override void OnEnable()
+	{
+		base.OnEnable();
 		ShowScreen(currentGUIScreen);
 	}
+
+	
+
 	private void OnUnreadedMessages(int counter) {
 		badgeAlert.Count = counter;
 	}
+
+
 }

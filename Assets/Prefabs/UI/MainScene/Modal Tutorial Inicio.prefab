@@ -33,7 +33,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &112332
 GameObject:
   m_ObjectHideFlags: 1
@@ -543,20 +543,19 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'La mitad izquierda de la pantalla funciona como PAD Virtual.
-
-    Utilizalo para moverte por el Tour'
+  m_Text: "<color=\"#59add5\"><size=46>MU\xC9VETE CON EL PAD</size></color>\npulsando
+    en el lado izquierdo de la pantalla"
 --- !u!114 &11410070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -613,19 +612,20 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: 65e8fdf3bc73547cb83fdb72432ad62e, type: 3}
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "La mitad derecha de la pantalla es el control de c\xE1mara.\nUtil\xEDzala
-    para mirar a tu alrededor"
+  m_Text: '<color="#59add5"><size=46>MIRA A TU ALREDEDOR</size></color>
+
+    pulsando en el lado derecho de la pantalla'
 --- !u!114 &11418804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 198942}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -1323,8 +1323,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1512, y: -1750}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1492, y: 0}
+  m_SizeDelta: {x: -.000122070312, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22406200
 RectTransform:
@@ -1344,7 +1344,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -5, y: 90}
   m_SizeDelta: {x: 960, y: 450}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22406616
@@ -1381,7 +1381,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -240, y: 32}
+  m_AnchoredPosition: {x: -240, y: 64}
   m_SizeDelta: {x: 231, y: 182}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22415328
@@ -1398,9 +1398,9 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 380, y: 100}
-  m_Pivot: {x: .5, y: 0}
+  m_AnchoredPosition: {x: .000122070312, y: -30}
+  m_SizeDelta: {x: 440, y: 150}
+  m_Pivot: {x: .5, y: 1}
 --- !u!224 &22420280
 RectTransform:
   m_ObjectHideFlags: 1
@@ -1466,9 +1466,9 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 380, y: 100}
-  m_Pivot: {x: .5, y: 0}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: 440, y: 150}
+  m_Pivot: {x: .5, y: 1}
 --- !u!224 &22426402
 RectTransform:
   m_ObjectHideFlags: 1
@@ -1573,7 +1573,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -300}
+  m_AnchoredPosition: {x: -5, y: -212}
   m_SizeDelta: {x: 228, y: 96}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22454822
@@ -1593,7 +1593,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -5, y: 90}
   m_SizeDelta: {x: 960, y: 450}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22459428
@@ -1699,7 +1699,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 240, y: 31.9999084}
+  m_AnchoredPosition: {x: 240, y: 64}
   m_SizeDelta: {x: 231, y: 182}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22491022

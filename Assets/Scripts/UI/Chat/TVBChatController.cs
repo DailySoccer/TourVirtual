@@ -20,13 +20,13 @@ public class TVBChatController : MonoBehaviour
 	public GameObject ChannelInputBar;
 
 
-	public InputField channelsInputField;
+	//public InputField channelsInputField;
 	public InputField messageInputField;
 
 	public Button messageSendButton;
 
     public Animator chatAnimator;
-
+	Animator newMsgAnimator;
 	/// <summary>
 	/// El objeto padre de la lista de canales para que los canales generados
 	/// tengan este objeto como padre.
@@ -65,7 +65,6 @@ public class TVBChatController : MonoBehaviour
         }
     }
 
-
     void Start () {
 		ChatManager.Instance.OnMessagesChange += Messages_OnChangeHandle;
 	}
@@ -73,7 +72,7 @@ public class TVBChatController : MonoBehaviour
 	public void StartChatController() {
 		//Nos aseguramos de que el botón de envio de mensaje está desactivado
 		messageSendButton.interactable = false;
-		channelsInputField.text = "";
+		//channelsInputField.text = "";
 		messageInputField.text = "";
 		GoToChannelsScreen();
 		CleanMessagesList();
@@ -83,6 +82,10 @@ public class TVBChatController : MonoBehaviour
 		RoomManager.Instance.OnPlayerListChange -= ChannelList_OnChangeHanlde;
 		SetCurrentChannel("");
 		ShowChatScreen(channelsScreen);
+		if (newMsgAnimator == null)
+			newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
+
+		newMsgAnimator.SetBool("IsOpen", false);
 		CleanChannelSlotsList();
 		PopulateChannelsList();
 	}
@@ -168,7 +171,8 @@ public class TVBChatController : MonoBehaviour
 		channel.friendlyName = friendlyName;
 
 		channel.channelType = ChatManager.Instance.IsPublicChannel (channelName) ? 
-			ChatChannelType.General : ChatChannelType.Private;
+			( channelName.ToLower().Contains ("community") ? ChatChannelType.Community : ChatChannelType.General ) : 
+			ChatChannelType.Private;
 		channel.setup ();
 
 		List<object> chat;
@@ -209,7 +213,7 @@ public class TVBChatController : MonoBehaviour
 		}
 
 #if UNITY_EDITOR
-		Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
+		//Debug.LogError("[" + this.name + "] >>> Creado slot de chat: " + channelName + " A.K.A. >>>" + friendlyName + "<<<");
 #endif
 	}
 
@@ -221,11 +225,11 @@ public class TVBChatController : MonoBehaviour
 			Button btn = go.GetComponent<Button>();
 			// Desuscribimos el evento de click
 			btn.onClick.RemoveListener( () => ChatChannel_OnClickHandle(go.GetComponent<TVBChatChannel>()) );
-			DestroyImmediate(go);
+			Destroy(go);
 		}
 		_channelsGameObjects.Clear();
 	}
-
+	/*
 	public void SearchButton_OnClickHandle() {
 
 		Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
@@ -236,21 +240,27 @@ public class TVBChatController : MonoBehaviour
 			HideSearchBar();
 		}
 	}
+	*/
+	public void NewMessageButton_OnClickHandle( bool forceClose = false) {
+		if (newMsgAnimator == null)
+			newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
 
-	public void NewMessageButton_OnClickHandle() {
-		Animator newMsgAnimator = GameObject.FindGameObjectWithTag("NewMessageButton").GetComponent<Animator>();
+		if (forceClose)
+			newMsgAnimator.SetBool("IsOpen", true);
 
 		CleanChannelSlotsList();
-		if (!newMsgAnimator.GetBool("IsOpen")) {
-			newMsgAnimator.SetBool("IsOpen", true);
-			PopulateChannelsListWithUsers();
-			RoomManager.Instance.OnPlayerListChange += ChannelList_OnChangeHanlde;
-		}
-		else {
+		if (newMsgAnimator.GetBool("IsOpen")) {
 			RoomManager.Instance.OnPlayerListChange -= ChannelList_OnChangeHanlde;
 			newMsgAnimator.SetBool("IsOpen", false);
 			HideSearchBar();
 			PopulateChannelsList();
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BUTTON_BACKWARD);
+		}
+		else {
+			newMsgAnimator.SetBool("IsOpen", true);
+			PopulateChannelsListWithUsers();
+			RoomManager.Instance.OnPlayerListChange += ChannelList_OnChangeHanlde;
+			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.BUTTON_FORWARD);
 		}
 	}
 	
@@ -577,17 +587,17 @@ public class TVBChatController : MonoBehaviour
 	public void HideSearchBar() {
         foreach (var obj in _channelsGameObjects)
             obj.SetActive(true);
-		channelsInputField.text = "";
-		Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
-		chnlScrnAnimator.SetBool("IsOpen", false);
+		//channelsInputField.text = "";
+		//Animator chnlScrnAnimator = GameObject.FindGameObjectWithTag("ChatSearchBar").GetComponent<Animator>();
+		//chnlScrnAnimator.SetBool("IsOpen", false);
 		//PopulateChannelsList();
 	}
-
+	/*
 	public void FilterChannelList() {
         foreach( var obj in _channelsGameObjects)
 		    obj.SetActive( obj.GetComponent<TVBChatChannel>().realName.ToLower().Contains(channelsInputField.text.ToLower()));
 	}
-
+	*/
 	public void ClearPlayerPrefs() {
 		PlayerPrefs.DeleteAll();
 		_friendChats.Clear();

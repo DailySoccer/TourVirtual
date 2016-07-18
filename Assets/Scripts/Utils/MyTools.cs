@@ -87,7 +87,7 @@ public class MyTools
 		return PlayerPrefs.GetInt(name) == 1 ? true : false;
 	}
 	
-	public static bool GePlayerPrefsBool (string name, bool defaultValue) {
+	public static bool GetPlayerPrefsBool (string name, bool defaultValue) {
 		if (PlayerPrefs.HasKey(name)) {
 			return GetPlayerPrefsBool(name);
 		}
