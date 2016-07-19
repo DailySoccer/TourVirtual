@@ -74,7 +74,7 @@ public class AllViewer : MonoBehaviour {
             case ContentAPI.AssetType.Photo:
 				image.sprite = null;				
                 lastCoroutine = StartCoroutine(DownloadImage(url));
-                midScreen = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height) * 0.5f;
+                midScreen = new Vector2(Screen.width, Screen.height) * 0.5f;
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
                 canvas.worldCamera = null;
                 break;
@@ -139,10 +139,25 @@ public class AllViewer : MonoBehaviour {
 		image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		LoadingCanvasManager.Hide();
 
+		Transform refTrans = image.transform;
+		do
+		{
+			refTrans.localScale = Vector3.one;
+			refTrans = refTrans.parent;
+		} while (refTrans != transform && refTrans != null);
+		transform.localScale = Vector3.one;
+		
 		image.SetNativeSize();
 		rectTransform = image.GetComponent<RectTransform>();
 		textureSize = rectTransform.offsetMax - rectTransform.offsetMin;
-		if (textureSize.x > textureSize.y)
+		if (textureSize.x > Screen.width || textureSize.y > Screen.height)
+		{
+			float scaleX, scaleY;
+			scaleX = Screen.width / textureSize.x;
+			scaleY = Screen.height / textureSize.y;
+			textureSize *= Mathf.Min(scaleX, scaleY);
+		}
+		/*if (textureSize.x > textureSize.y)
 		{
 			float scale = 1;
 			if (textureSize.x > canvas.pixelRect.width)
@@ -161,7 +176,7 @@ public class AllViewer : MonoBehaviour {
 				textureSize.y = canvas.pixelRect.height;
 				textureSize.x *= scale;
 			}
-		}
+		}*/
 		zoomSize = textureSize.x;
 		float zoom = zoomSize / textureSize.x;
 		if (zoom < 1) zoom = 1;
@@ -239,8 +254,8 @@ public class AllViewer : MonoBehaviour {
 	void UpdateImage() {
 #if UNITY_EDITOR
 		if (Input.GetMouseButton(0)) {
-			float dx = canvas.pixelRect.width / Screen.width;
-			float dy = canvas.pixelRect.height / Screen.height;
+			float dx = 1;// canvas.pixelRect.width / Screen.width;
+			float dy = 1;// canvas.pixelRect.height / Screen.height;
 			if (!draggin) {
 				lastTouch = Input.mousePosition;
 				draggin = true;
@@ -301,8 +316,8 @@ public class AllViewer : MonoBehaviour {
                 else
                 if (Input.GetTouch(0).phase == TouchPhase.Moved && draggin)
                 {
-                    float dx = canvas.pixelRect.width / 1280.0f;
-                    float dy = canvas.pixelRect.height / 720.0f;
+                    float dx = 1;//canvas.pixelRect.width / Screen.width;
+                    float dy = 1;//canvas.pixelRect.height / Screen.height;
                     Touch touch = Input.GetTouch(0);
                     Vector3 diff = Input.GetTouch(0).position - lastTouch;
                     lastTouch = Input.GetTouch(0).position;
