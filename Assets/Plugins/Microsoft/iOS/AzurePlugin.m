@@ -24,23 +24,76 @@ void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSign
     
     IdClient = CreateNSString(idclient);
     
-    [[MDPClientHandler sharedInstance]	initWithEnvironment:CreateNSString(enviroment) idClient:IdClient debugMode:true extraQueryParametersSignIn:CreateNSString(extraQueryParametersSignIn) extraQueryParametersSignUp:CreateNSString(extraQueryParametersSignIn)];
+    // SDK Enviroment
+    BOOL debugMode = YES;
+    
+#ifdef DEBUG
+    debugMode = YES;
+#endif
+    
+    [[MDPClientHandler sharedInstance] initWithEnvironment:CreateNSString(enviroment) idClient:IdClient debugMode:debugMode extraQueryParametersCombined:CreateNSString(extraQueryParametersSignIn)];
 }
 
 void _AzureSignIn(){
-    [MDPAuthHandler sharedInstance].showUserSelectionScreenBlock = ^(MDPAuthHandler *authHandler) {
-        [[MDPAuthHandler sharedInstance] userSelectedOption:MDPAuthHandlerUserSelectionOptionSignIn];
-    };
+    NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"rmapp://single_sign_on?Parameters={\"ClientId\":\"%@\",\"TemporaryHash\":\"12345\"}",IdClient] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    [[MDPAuthHandler sharedInstance] getAccesTokenWithCompletionBlock:^ void (NSError *error){
-        if(error){
-            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
-        }else{
-            UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
-        }
-        
-    }];
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
+        NSLog(@"Cannot open url");
+    }
 }
+
+NSMutableDictionary *_DictionaryOfResult(NSURL *url)
+{
+    NSArray *subComponents = [[url absoluteString] componentsSeparatedByString:@"?"];
+    
+    NSString *urlString = subComponents.lastObject;
+    
+    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
+    NSArray *urlComponents = [urlString componentsSeparatedByString:@"&"];
+    
+    for (NSString *keyValuePair in urlComponents)
+    {
+        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
+        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        
+        value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        [queryStringDictionary setObject:value forKey:key];
+    }
+    
+    return queryStringDictionary;
+}
+
+void _ReceivedUrl(NSURL *url)
+{
+    NSDictionary *parameters = _DictionaryOfResult(url);
+    
+    NSString *errorMessage = parameters[@"ErrorMessage"];
+    NSNumber *allowed = parameters[@"Allowed"];
+    
+    if (errorMessage.length) {
+        UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+    } else {
+        
+        
+        if (!allowed.boolValue) {
+            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+        } else {
+            [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
+                if (error) {
+                    NSLog( @"%@", error.localizedDescription);
+                    UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                } else {
+                    UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
+                }
+            }];
+        }
+    }
+}
+
 
 void _AzureSignOut(){
     [[MDPAuthHandler sharedInstance] cleanUpKeychain];
@@ -669,7 +722,7 @@ void _GamificationStatus(char* language, char* _hash){
         }
     }];
 }
-
+// OJO!!!! Si no funcionan correctamente pasar en contextData en IDClient
 void _SendAction(char* IDAction, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     [[[MDPClientHandler sharedInstance] getUserActionsHandler] postUserActionWithActionId:CreateNSString(IDAction) contextData:nil completionBlock:^(NSError *error) {
