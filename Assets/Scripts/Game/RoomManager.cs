@@ -327,8 +327,8 @@ public class RoomManager : Photon.PunBehaviour {
 		}
 
         if ( !string.IsNullOrEmpty(Room.GamaAction)){
-			Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SALA_00",null,(err)=>{ Debug.LogError("ERROr1: "+err);});
-			Authentication.AzureServices.SendAction(Room.GamaAction,null,(err)=>{Debug.LogError("ERROr2: "+err);});
+			UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_00",null,(err)=>{ Debug.LogError("ERROr1: "+err);});
+			UserAPI.Instance.SendAction(Room.GamaAction,null,(err)=>{Debug.LogError("ERROr2: "+err);});
         }
 
 		while(!_bJoinedRoom ){ yield return null; }

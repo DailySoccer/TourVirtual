@@ -119,7 +119,6 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void SetState(ModalLayout newPopUpLayout) {
-
 		ResetWindow ();
 
 		switch (newPopUpLayout) {
@@ -191,8 +190,8 @@ public class PopUpWindow : UIScreen {
 				SetupThirdProfileContent(TheGameCanvas.CurrentPlayerDataModelSelected);
 				ThirdsProfileTitle.SetActive (true);
 				ProfileScreenController.SetActive (true);
-			break;			
-				
+			break;
+
 			case ModalLayout.PACK_FLYER:
 				// Coger el id del pack asociado a la vitrina
 				string packId = ContentManager.Instance.ContentNear.ContentKey;

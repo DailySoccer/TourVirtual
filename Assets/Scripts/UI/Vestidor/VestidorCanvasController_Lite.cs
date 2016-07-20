@@ -378,6 +378,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
     public void ShowClothesShop() {
+        if( Authentication.Instance.CheckOffline()) return;
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
         /*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
@@ -439,6 +440,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowGoodiesShop()
     {
+        if( Authentication.Instance.CheckOffline()) return;
 #if UNITY_WSA
         ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.CantBuyOnWindows"), () => { Authentication.AzureServices.OpenURL("rmapp://You"); });
 #else
