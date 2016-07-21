@@ -99,7 +99,7 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
-        yield return Authentication.AzureServices.GetFanApps();
+        yield return Authentication.AzureServices.GetFanApps((ret)=>{},(err)=>{});
 
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;

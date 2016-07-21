@@ -104,7 +104,7 @@ public class MainActivity extends UnityPlayerActivity {
             Uri data = intent.getData();
             if (data != null) {
                 if (data.getScheme().equals("rmvt")) {
-                    if( !data.getHost().equals("sso")) {
+                    if( data.getHost().equals("editavatar")) {
                         deeplinking = data.toString();
                         System.out.println("Unity MainActivity:: onNewIntent " + deeplinking);
                     }
@@ -115,11 +115,9 @@ public class MainActivity extends UnityPlayerActivity {
                             DigitalPlatformClient.getInstance().getSingleSignOnHandler().getSSOTokenWithAuthorizationCode(this, authCode, new ServiceResponseListener<String>() {
                                             @Override
                                             public void onResponse(String response) {
-                                                System.out.println("Unity MainActivity:: onResponse 1 " + response);
                                                 DigitalPlatformClient.getInstance().getAuthHandler().loginWithAuthorizationCode(MainActivity.this, "RMTV12345", response, new ServiceResponseListener<Boolean>() {
                                                     @Override
                                         public void onResponse(Boolean response) {
-                                            System.out.println("Unity MainActivity:: onResponse 2 " + response);
                                             if(response){
                                                 UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
                                             }else{
@@ -128,7 +126,6 @@ public class MainActivity extends UnityPlayerActivity {
                                         }
                                         @Override
                                         public void onError(DigitalPlatformClientException e) {
-                                            System.out.println("Unity MainActivity:: onError 2 " );
                                             UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
 
                                         }

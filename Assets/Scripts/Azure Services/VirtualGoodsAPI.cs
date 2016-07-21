@@ -35,7 +35,6 @@ public class VirtualGoodsAPI {
         VirtualGoods = new Dictionary<string, VirtualGood>();
         bool needRequest = true;
         int page = 1;
-
         while (needRequest) {
             yield return Authentication.AzureServices.GetVirtualGoods("AVATARVG", page, null, false, (res) => {
                 Dictionary<string, object> virtualgoods = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
@@ -46,14 +45,15 @@ public class VirtualGoodsAPI {
                             string guid = vg["IdVirtualGood"] as string;
                             string subtype = vg["IdSubType"] as string;
                             string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
-                            float value = 0.0f;
+                            float val = 0.0f;
                             if( vg.ContainsKey("Price") )
-                                value = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
+                                val = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
                             string thburl = vg["ThumbnailUrl"] as string;
                             string imgurl = vg["PictureUrl"] as string;
 
-                            VirtualGood tmp = new VirtualGood(guid, subtype, desc, value, thburl, imgurl);
-                            VirtualGoods.Add(guid, tmp);
+                            VirtualGood tmp = new VirtualGood(guid, subtype, desc, val, thburl, imgurl);
+                            if(!VirtualGoods.ContainsKey(guid))
+                                VirtualGoods.Add(guid, tmp);
                         }
                     }
                     // Vemos si tiene que seguir paginando.

@@ -369,10 +369,11 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
-        if(!UserAPI.Instance.Online)
+        if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+        }
         // Mira si hay alguna compra pendiente.
         CheckPurchasePending();
         // Contro de mismo usuario.
