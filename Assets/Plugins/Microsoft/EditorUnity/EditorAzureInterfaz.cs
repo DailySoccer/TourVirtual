@@ -101,6 +101,9 @@ public class EditorAzureInterfaz : AzureInterfaz
             if (GUI.Button(new Rect(320, Screen.height - 150, 150, 25), "Token ")) {
                 StartCoroutine(GetAccessToken(urlCode));
             }
+            if (GUI.Button(new Rect(520, Screen.height - 150, 150, 25), "Error ")) {
+                if (OnSignIn != null) OnSignIn(false);
+            }
             GUI.Label(new Rect(320, Screen.height - 125, 300, 25), "URL Response: http://localhost/?code=XXX");
             urlCode = GUI.TextField(new Rect(320, Screen.height - 100, 300, 25), urlCode);
         }

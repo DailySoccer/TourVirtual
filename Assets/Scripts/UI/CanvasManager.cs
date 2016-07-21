@@ -123,6 +123,8 @@ public class CanvasManager : MonoBehaviour {
 
 	public void ShowProfileScreen()
 	{
+		if( Authentication.Instance.CheckOffline()) return;
+
 		if (ProfilePlayerInstance != null) Destroy(ProfilePlayerInstance);
         StartCoroutine( PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance)=>{
             MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
@@ -149,6 +151,7 @@ public class CanvasManager : MonoBehaviour {
 
 	public void ShowGoodiesShopScreen()
 	{
+		 if( Authentication.Instance.CheckOffline()) return;
 		GoodiesShopController.Show ();
 	}
 
@@ -204,6 +207,7 @@ public class CanvasManager : MonoBehaviour {
 
 	public void ShowVestidorScreen()
 	{
+		 if( Authentication.Instance.CheckOffline()) return;
 		RoomManager.Instance.GotoRoom ("VESTIDORLITE");
 		ShowMainGameScreen ();
 	}
@@ -260,13 +264,15 @@ public class CanvasManager : MonoBehaviour {
 	// TODO FRS 160714 El argumento debería ser de tipo ModalLayout
 	public void ShowModalScreen(int newModalLayout)
 	{
+
 		if (ModalScreen == null) {
-			Debug.LogError("[CanvasManager in " + name + "]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
+//			Debug.LogError("[CanvasManager in " + name + "]: La guiModalScreen es null. Quizás no has establecido la primera desde el inspector.");
 			return;
 		}
 
 		// Lanzamos la modal, solo si está cerrada previamente.
 		HideModalScreen ();
+		if( Authentication.Instance.CheckOffline() || (ModalLayout)newModalLayout!=ModalLayout.SETTINGS || (ModalLayout)newModalLayout!=ModalLayout.BLANK) return;
 		StartCoroutine (ModalCloseBeforeOpenAgain(newModalLayout));
 	}
 

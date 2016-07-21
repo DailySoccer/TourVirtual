@@ -15,6 +15,16 @@ public class AvatarAPI {
     public string Compliment;
     public string Pack;
 
+    public void Random(){
+        int idx = UnityEngine.Random.Range(0, 2);
+        Gender = idx==1?"Man":"Woman";
+        List<object> heads = PlayerManager.Instance.Selector[Gender] as List<object>;
+        idx = UnityEngine.Random.Range(0, heads.Count);
+        Dictionary<string, object> headesc = heads[idx] as Dictionary<string,object>;
+        Hair = headesc["Hair"] as string;
+        Head = headesc["Head"] as string;   
+    }
+
     public AvatarAPI Copy()
     {
         return new AvatarAPI()

@@ -55,7 +55,7 @@ public class ProfileScreenController : MonoBehaviour {
 	}
 
 	void UpdateData() {
-
+		if(!UserAPI.Instance.Online) return;
 		penaltiesScore.text 	= UserAPI.Instance.GetScore (UserAPI.MiniGame.FreeKicks).ToString();// (1000 * Time.deltaTime).ToString();
 		BasketScore.text		= UserAPI.Instance.GetScore (UserAPI.MiniGame.FreeShoots).ToString();//(1000 * Time.deltaTime).ToString();
 		HiddenObjectsScore.text = UserAPI.Instance.GetScore (UserAPI.MiniGame.HiddenObjects).ToString();//(1000 * Time.deltaTime).ToString();

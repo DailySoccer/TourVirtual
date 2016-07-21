@@ -179,21 +179,25 @@ public class MainManager : Photon.PunBehaviour {
             if (PlayerManager.Instance != null)
                 yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
         }
-        if (!UserAPI.Instance.Online) {
+        UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
 
-            UserAPI.Instance.CallOnUserLogin();
-            yield break;
-        }
-        //        DeepLinking("rmvt://editavatar?idUser=iduser&idVirtualGood=1");
-        // DeepLinking("rmvt://editavatar?idUser=d1c9f805-054a-4420-a1af-30d37b75dff7&idVirtualGood=e94d896c-8daa-42f3-9210-cbc80217d00e");
         Authentication.Instance.Init();
         Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
-
+/*
+        if (!UserAPI.Instance.Online) {
+            if(Authentication.AzureServices is EditorAzureInterfaz)
+                (Authentication.AzureServices as EditorAzureInterfaz).AccessToken = "offline";
+            UserAPI.Instance.CallOnUserLogin();
+//            yield break;
+        }else{
+            Authentication.Instance.Init();
+            Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
+        }
+        */
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
         {
-            UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
             StartCoroutine(CheckForInternetConnection());
         }
         //		else StartCoroutine(Connect ());
@@ -365,6 +369,10 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
+        if(!UserAPI.Instance.Online)
+            UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
+            UserAPI.AvatarDesciptor.Random();
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         // Mira si hay alguna compra pendiente.
         CheckPurchasePending();
         // Contro de mismo usuario.

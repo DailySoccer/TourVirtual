@@ -350,7 +350,7 @@ namespace Basket
 			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_END);
 
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeShoots, score);
-			Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET",null,(err)=>{});
+			UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET",null,(err)=>{});
 
             currentTime = 0;
             gameState = GameState.Finished;
