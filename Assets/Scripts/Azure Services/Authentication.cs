@@ -36,8 +36,10 @@ public class Authentication : MonoBehaviour {
             if(!success) {
                 UserAPI.Instance.Online=false; // Si da error de logeo, como si fuera offline
                 //MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+                #if UNITY_EDITOR
                 if(AzureServices is EditorAzureInterfaz)
                     (AzureServices as EditorAzureInterfaz).AccessToken = "offline";
+                #endif
                 UserAPI.Instance.CallOnUserLogin();
                 return;
             }
