@@ -69,8 +69,8 @@ typedef void (^MDPPlayersHandlerResponseBlock)(NSArray *response, NSError *error
 /*
  Get the paginated list of player tweets.
  */
-+ (void)getPlayerTweetsWithIdTeam:(NSString *)idTem
-                         idPlayer:(NSString *)idTeam
++ (void)getPlayerTweetsWithIdTeam:(NSString *)idTeam
+                         idPlayer:(NSString *)idPlayer
                                ct:(uint)ct
                          language:(NSString *)language
                   completionBlock:(void(^)(MDPPagedTweetModel *content, NSError *error))completionBlock;

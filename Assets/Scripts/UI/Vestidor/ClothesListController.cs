@@ -84,7 +84,7 @@ public class ClothesListController : MonoBehaviour {
 	public void SetupVestidor(ProductType pType) {
 		CleanProductLists ();
 
-        if (UserAPI.VirtualGoodsDesciptor == null) return;
+        if (UserAPI.VirtualGoodsDesciptor == null || UserAPI.VirtualGoodsDesciptor.VirtualGoods == null) return;
 
 		foreach (var vg in UserAPI.VirtualGoodsDesciptor.VirtualGoods) {
 

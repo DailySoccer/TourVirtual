@@ -51,6 +51,19 @@
 #define MDPEventTypeTechnical                                       @"Technical"
 
 
+// NavigationEvent
+#define MDPTriggeredBy                                              @"Mdp.TriggeredBy"
+#define MDPFromView                                                 @"Mdp.FromView"
+#define MDPFromSection                                              @"Mdp.FromSection"
+#define MDPFromSubsection                                           @"Mdp.FromSubsection"
+#define MDPFromParams                                               @"Mdp.FromParams"
+#define MDPFromPosition                                             @"Mdp.FromPosition"
+#define MDPToView                                                   @"Mdp.ToView"
+#define MDPToSection                                                @"Mdp.ToSection"
+#define MDPToSubsection                                             @"Mdp.ToSubsection"
+#define MDPToParams                                                 @"Mdp.ToParams"
+
+
 #pragma mark - Interface
 @interface MDPLogHandler : MDPServiceHandler
 

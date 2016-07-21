@@ -365,7 +365,7 @@ namespace Football
         {
 			AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_FOOTBALL_END);
             UserAPI.Instance.SetScore(UserAPI.MiniGame.FreeKicks, score);
-			Authentication.AzureServices.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL",null,(err)=>{});
+			UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL",null,(err)=>{});
 
             currentTime = 0;
             gameState = GameState.Finished;

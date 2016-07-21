@@ -101,7 +101,6 @@ public class UserAPI {
         LoadingContentText.SetText("API.User");
         yield return Authentication.AzureServices.GetFanApps();
 
-
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
@@ -154,7 +153,6 @@ public class UserAPI {
 		},(err)=>{
 			PlayerManager.Instance.SelectedModel = "";
 			MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
-
 		});
 
         LoadingContentText.SetText("API.GamificationStatus");
@@ -191,7 +189,6 @@ public class UserAPI {
         LoadingCanvasManager.Hide();
     }
 	
-
     public void UpdateAvatar() {
         if (Online) {
 //            Authentication.AzureServices.SetProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
@@ -261,6 +258,7 @@ public class UserAPI {
 
     ScoreEntry[][] HighScores = new ScoreEntry[3][];
     public void SetScore(MiniGame game, int score) {
+        if (!Online) return;
         Authentication.AzureServices.SendScore( MiniGameID[(int)game], score, (res) => {
             if (score > HighScore[(int)game])
                 HighScore[(int)game] = score;
@@ -292,5 +290,10 @@ public class UserAPI {
         },(err)=> {
             if (onRanking != null) onRanking();
         });
+    }
+
+    public void SendAction(string IDAction, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null){
+        if (!Online) return;
+        Authentication.AzureServices.SendAction(IDAction,OnSucess, OnError);
     }
 }
