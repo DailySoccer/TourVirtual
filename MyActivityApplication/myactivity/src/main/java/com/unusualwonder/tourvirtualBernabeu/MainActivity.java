@@ -173,6 +173,12 @@ public class MainActivity extends UnityPlayerActivity {
             UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "NOAPP");
     }
 
+    public void OpenURL(String url){
+        Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if(!getPackageManager().queryIntentActivities(myintent,0).isEmpty())
+            startActivity(myintent);
+    }
+
     public void Logout() {
         DigitalPlatformClient.getInstance().getAuthHandler().logout(this);
     }
@@ -824,7 +830,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, MainActivity.IDClient, IDAction, callback); // Esta al reves que en REST.
+        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, null, IDAction, callback); // Esta al reves que en REST.
     }
 
     // InApp Purchases
