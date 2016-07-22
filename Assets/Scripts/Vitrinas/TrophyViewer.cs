@@ -14,7 +14,7 @@ public class TrophyViewer : MonoBehaviour {
 	[Range(0.01f,1000)]
 	public float PitchDensity = 0.02f;
 	[Range(0.01f, 1000)]
-	public float RollDensity = 0.02f;
+	public float YawDensity = 0.02f;
 
 	public float DeltaZoom
 	{
@@ -30,7 +30,7 @@ public class TrophyViewer : MonoBehaviour {
 			return _clickCount != 1 ? 0 : _deltaClick1.y;
 		}
 	}
-	public float DeltaRoll
+	public float DeltaYaw
 	{
 		get
 		{
@@ -43,9 +43,10 @@ public class TrophyViewer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		PitchDensity *= Screen.dpi;
-		RollDensity *= Screen.dpi;
+		YawDensity *= Screen.dpi;
 		ZoomDensity *= Screen.dpi;
 		_renders = gameObject.GetComponentsInChildren<Renderer>();
+		_currentYaw = transform.rotation.eulerAngles.y;
 		if (_cam == null)
 		{
 			GameObject camRef = GameObject.Find("ViewerCamera");
@@ -58,6 +59,7 @@ public class TrophyViewer : MonoBehaviour {
 				_cam = Camera.main;
 			}
 		}
+
 	}
 	
 	// Update is called once per frame
@@ -153,11 +155,11 @@ public class TrophyViewer : MonoBehaviour {
 	private void UpdateTransform()
 	{
 		_currentPitch = Mathf.Clamp(_currentPitch + DeltaPitch / PitchDensity, MIN_PITCH, MAX_PITCH);
-		_currentRoll += DeltaRoll / RollDensity;
+		_currentYaw += DeltaYaw / YawDensity;
 		_currentScale = Mathf.Clamp(_currentScale + DeltaZoom / ZoomDensity, MIN_ZOOM, _maxInnerScale != 0 ? _maxInnerScale : MAX_ZOOM);
 		if (_cam != null)
 		{
-			transform.rotation = Quaternion.AngleAxis(_currentPitch, _cam.transform.right) * Quaternion.AngleAxis(_currentRoll, _cam.transform.up);
+			transform.rotation = Quaternion.AngleAxis(_currentPitch, _cam.transform.right) * Quaternion.AngleAxis(_currentYaw, _cam.transform.up);
 		}
 		transform.localScale = Vector3.one * _currentScale;
 		UpdateBounds();
@@ -167,7 +169,7 @@ public class TrophyViewer : MonoBehaviour {
 #region Private members
 	private Renderer[] _renders;
 	private Vector3 _minPos = Vector3.zero, _maxPos = Vector3.zero;
-	private float _currentScale, _currentPitch, _currentRoll;
+	private float _currentScale, _currentPitch, _currentYaw;
 	private float _maxInnerScale = 0;
 	private Vector2 _lastClick1, _lastClick2;
 	private Vector2 _deltaClick1, _deltaClick2;
