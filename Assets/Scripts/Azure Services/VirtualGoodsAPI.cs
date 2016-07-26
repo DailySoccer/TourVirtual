@@ -136,7 +136,7 @@ public class VirtualGoodsAPI {
                 {
                     if (vg.Price > UserAPI.Instance.Points) {
                         LoadingCanvasManager.Hide();
-                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"), () => {
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoCredit"), (mode) => {
                             GoodiesShopController.Show();
                         });
                         return;

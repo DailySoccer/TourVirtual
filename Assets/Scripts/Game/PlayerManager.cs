@@ -2,6 +2,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+
+/*
+UnAllocateViewID() should be called after the PhotonView was destroyed (GameObject.Destroy()). ViewID: 1002 still found in: View (0)1002 on BaseMale(Clone) 
+NetworkingPeer:OnEvent(EventData)
+ExitGames.Client.Photon.PeerBase:DeserializeMessageAndCallback(Byte[])
+ExitGames.Client.Photon.EnetPeer:DispatchIncomingCommands()
+ExitGames.Client.Photon.PhotonPeer:DispatchIncomingCommands()
+PhotonHandler:Update()
+*/
 public class PlayerManager : Photon.PunBehaviour {
 
 	static public PlayerManager Instance {

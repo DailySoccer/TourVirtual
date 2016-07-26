@@ -40,7 +40,7 @@ void _AzureSignIn(){
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
     } else {
-        NSLog(@"Cannot open url");
+        UnitySendMessage("Azure Services", "OnSignInEvent", "NOAPP");
     }
 }
 

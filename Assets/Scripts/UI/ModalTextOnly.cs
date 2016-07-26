@@ -6,7 +6,7 @@ public class ModalTextOnly : MonoBehaviour {
 
 	public static ModalTextOnly Instance { get; private set; }
 	public GUIPopUpScreen thisModal;
-    public delegate void callback();
+    public delegate void callback(bool mode);
 	private callback okCallback;
 
 	public Text TheText;
@@ -34,8 +34,8 @@ public class ModalTextOnly : MonoBehaviour {
 		Instance.thisModal.IsOpen = true;
 	}
 
-	public static void CloseModal() {
-        if (Instance.okCallback != null) Instance.okCallback();
+	public static void CloseModal(bool mode) {
+        if (Instance.okCallback != null) Instance.okCallback(mode);
         Instance.thisModal.IsOpen = false;
 	}
 

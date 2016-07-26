@@ -53,7 +53,16 @@ public class Authentication : MonoBehaviour {
 
     public bool CheckOffline(){
         if(UserAPI.Instance.Online) return false;
-        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialApp"));
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialApp"),(mode)=>{
+            if(mode){
+                #if UNITY_ANDROID
+                    Application.OpenURL("market://details?id=com.mcentric.mcclient.MyMadrid");
+                #elif UNITY_IPHONE
+                    Application.OpenURL("itms-apps://itunes.apple.com/app/id1107624540");
+                #endif
+                // Abrir tienda.
+            }
+        });
         return true;
     }
 }

@@ -154,14 +154,14 @@ public class MainManager : Photon.PunBehaviour {
 #endif
 
         if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), () => {
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), (mode) => {
                 Application.Quit();
             });
             return;
         }
 
         if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork) {
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoWiFi"), () => {
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoWiFi"), (mode) => {
                 StartCoroutine( Continue() );
             });
             return;
@@ -316,7 +316,7 @@ public class MainManager : Photon.PunBehaviour {
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
             }, (errorcode) => {
                 LoadingCanvasManager.Hide();
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),()=> { Application.Quit(); });
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });
                 // Errores no esperados por parte de la plataforma.
                 /*
                 if(errorcode == "412") {

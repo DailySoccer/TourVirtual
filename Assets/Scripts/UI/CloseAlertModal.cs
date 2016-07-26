@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CloseAlertModal : MonoBehaviour {
 
-	public void CloseModal() {
-		ModalTextOnly.CloseModal ();
+	public void CloseModal(bool mode) {
+		ModalTextOnly.CloseModal (mode);
 	}
 }

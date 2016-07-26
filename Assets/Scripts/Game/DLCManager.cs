@@ -103,7 +103,7 @@ public class DLCManager : MonoBehaviour {
             else {
                 bool waiting = true;
                 Debug.LogError(">>>> " + www.error);
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => {
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), (mode) => {
                     waiting = false;
                 });
                 while (waiting) yield return null;
@@ -151,7 +151,7 @@ public class DLCManager : MonoBehaviour {
                 {
                     bool waiting = true;
                     Debug.LogError(definition.Id+"("+keyResource+") >>>> " + current.error);
-                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () =>
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), (mode) =>
                     {
                         waiting = false;
                     });
@@ -192,7 +192,7 @@ public class DLCManager : MonoBehaviour {
                         }
                     }
 					else {
-                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), () => {
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"), (mode) => {
                             Application.Quit();
                         });
                         // throw new Exception("WWW download had an error:" + www.error);
