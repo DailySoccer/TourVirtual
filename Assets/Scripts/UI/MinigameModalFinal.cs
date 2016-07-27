@@ -35,16 +35,13 @@ public class MinigameModalFinal : MonoBehaviour {
 	public void UpdateData () {
 		BestScore.text = "-";
 		LastScore.text = "-";
-
-		if (UserAPI.Instance == null)
-			BestScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), "0");
-		else
-			BestScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), UserAPI.Instance.GetScore (MinigameType).ToString());
-		
-		if (MinigameType == UserAPI.MiniGame.FreeShoots) {
-			LastScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.YourScore"), GameObject.Find("Shooter").GetComponent<Basket.Shooter>().score);
-		} else {
-			LastScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.YourScore"), GameObject.Find("Shooter").GetComponent<Football.Shooter>().score);
-		}
+		int best = 0;
+		int score = 0;
+		if (UserAPI.Instance != null) 						best  = UserAPI.Instance.GetScore (MinigameType);
+		if (MinigameType == UserAPI.MiniGame.FreeShoots) 	score = GameObject.Find("Shooter").GetComponent<Basket.Shooter>().score;
+		else 												score = GameObject.Find("Shooter").GetComponent<Football.Shooter>().score;
+		if(score>best) { best=score; UserAPI.Instance.SetScore (MinigameType,score); }
+		LastScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.YourScore"), score.ToString() );
+		BestScore.text = string.Format("{0} \n <size=86>{1}</size>", LanguageManager.Instance.GetTextValue("TVB.Minigame.BestScore"), best.ToString() );
 	}
 }

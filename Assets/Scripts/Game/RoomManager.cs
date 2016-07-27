@@ -554,7 +554,8 @@ public class RoomManager : Photon.PunBehaviour {
         var rooms = PhotonNetwork.GetRoomList();
         if (!forceNew) {
             foreach (var room in rooms) {
-                if (room.name.Contains(id)) // Encuentro una sala para esta ID con sitio, pues entro!
+				string[] pair = room.name.Split('#');
+                if (pair[0]==id) // Encuentro una sala para esta ID con sitio, pues entro!
                     if (room.playerCount < room.maxPlayers - 2)
                         return room.name;
             }
