@@ -109,7 +109,7 @@ public class MainManager : Photon.PunBehaviour {
         if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
             LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
-			PlayerPrefs.SetString("languaje", newSubLang);
+			PlayerPrefs.SetString("language", newSubLang);
             PlayerPrefs.Save();
 
         } else {
@@ -139,7 +139,7 @@ public class MainManager : Photon.PunBehaviour {
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
 		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
-		CurrentLanguage = PlayerPrefs.GetString ("languaje", "en");
+		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
 	}
