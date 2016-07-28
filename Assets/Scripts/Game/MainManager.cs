@@ -214,11 +214,11 @@ public class MainManager : Photon.PunBehaviour {
     void OnApplicationFocus(bool focusStatus) {
         if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
-
         }
     }
 
     public void OnDeepLinking() {
+        /*
         if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.
             LoadingCanvasManager.Hide();
             Authentication.AzureServices.SignOut();
@@ -231,11 +231,12 @@ public class MainManager : Photon.PunBehaviour {
                 
             });
         }else {
+            */
             if (RoomManager.Instance != null) {
                 if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
                 else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
             }
-        }
+//        }
     }
 
     void InitializeStore() {
@@ -369,10 +370,11 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
-        if(!UserAPI.Instance.Online)
+        if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+        }
         // Mira si hay alguna compra pendiente.
         CheckPurchasePending();
         // Contro de mismo usuario.

@@ -141,8 +141,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneVestidor.SetActive(true);
 					BuyInfoButtom.SetActive(false);
                     gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
-					
-					InvokeAvatarIfNeeded();
+//					InvokeAvatarIfNeeded();
 									
 					ShowScreen(lobbyScreen);
                     break;
@@ -154,15 +153,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
 	void InvokeAvatarIfNeeded() {
 		if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
-			if (PlayerInstance == null)
+			if (PlayerInstance == null){
 				Invoke("LoadModel", 0.25f);
+            }
 			else {
 				if (tmpAvatar.ToString() != mOldAvatarDesciptor.ToString()) {
 					Invoke("LoadModel", 0.25f);
 				}
-				/*else {
-					Debug.LogError ("**--** Renovando el avatar por que ha cambiado");
-				}*/
 			}
 		}
 	}
@@ -224,7 +221,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public void OpenModalScreen() {
 		
 		if (ModalPopUpScreen == null) {
-			//Debug.LogError("[VestidorCanvasController in " + name + "]: \"ModalPopUpScreen\" es null.");
 			return;
 		}
 		
@@ -255,7 +251,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
 
         if (virtualGood == null) return;
-        //Debug.LogError(">>>>>>>>>>>>>>>>>>>>>>>>>>> DressVirtualGood "+virtualGood.GUID );
 
 		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
         switch (virtualGood.IdSubType) {
@@ -343,7 +338,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 break;
         }
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-        if (loadmodel) LoadModel();
+        if (loadmodel) {
+            LoadModel();
+        }
 
 		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
 
@@ -362,9 +359,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             ModalPopUpScreen.IsOpen = isCurrentPopUpOpen;
             ModalPopUpScreen.GetComponent<CanvasGroup>().interactable = isCurrentPopUpOpen;
         }
-        /*else {
-            Debug.LogError("[VestidorCanvas]: La ModalPopUpScreen es null. Quizás no se ha establecido en el inspector.");
-        }*/
     }
 
     public void ShowVestidor()
@@ -497,7 +491,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         HideAllScreens ();
 
 		if (IsFirstLaunch && currentVestidorState != VestidorState.LANDING_PAGE)
-			ShowLandingPage ();//ChangeVestidorState (VestidorState.LANDING_PAGE);
+			ShowLandingPage ();
 		else {
 			IsFirstLaunch = false;
 			RoomManager.Instance.GotoPreviousRoom ();
@@ -515,7 +509,6 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 							UserAPI.VirtualGoodsDesciptor.FilterBySex();
 							UserAPI.Instance.Nick = nick;
 							Authentication.AzureServices.CreateProfileAvatar( UserAPI.AvatarDesciptor.GetProperties(), (res) =>{
-								//Debug.LogError("CreateProfileAvatar "+res);
 								UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
 									LoadingCanvasManager.Hide();
 									ModalNickInput.Close();

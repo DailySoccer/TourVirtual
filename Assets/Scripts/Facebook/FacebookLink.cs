@@ -4,6 +4,8 @@ using System.Collections;
 public class FacebookLink{
 
 	#region Constants
+
+	private const string AppLinkUrl = "https://fb.me/1117430255009743";
 #if DEV
 	public static string source = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets/Facebook/";
 #elif PRE
@@ -35,7 +37,9 @@ public class FacebookLink{
 	public string contentTitle;
 	public string contentDescription;
 	public System.Uri photoURL;
-#endregion
+	
+
+	#endregion
 
 #region Public methods
 	public FacebookLink()
@@ -54,19 +58,19 @@ public class FacebookLink{
 	}
 	public static FacebookLink AchievementShare(string achievementID, string achievementName)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Logro conseguido", "¡He conseguido el logro " + achievementName + "!", new System.Uri(source + AchievementShareLink + achievementID + FileExt));
+		return new FacebookLink(new System.Uri(AppLinkUrl), "Logro conseguido", "¡He conseguido el logro " + achievementName + "!", new System.Uri(source + AchievementShareLink + achievementID + FileExt));
 	}
 	public static FacebookLink ContentUnlockedShare(string pack)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + ContentShareFilePrefix + pack + FileExt));
+		return new FacebookLink(new System.Uri(AppLinkUrl), "Contenido desbloqueado", "He desbloqueado contenido nuevo.", new System.Uri(source + ContentShareLink + ContentShareFilePrefix + pack + FileExt));
 	}
 	public static FacebookLink PointsShare(bool isRecord, string points, GameType game)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", new System.Uri(source + PointsShareLink + PointsShareFilePrefix + game + (isRecord ? PointsShareFileSuffixRecord : PointsShareFileSuffixNormal) + FileExt));
+		return new FacebookLink(new System.Uri(AppLinkUrl), isRecord ? "Récord" : "Puntuación", "He conseguido " + (isRecord ? "un record de " : string.Empty) + points + " puntos en el juego " + game + ".", new System.Uri(source + PointsShareLink + PointsShareFilePrefix + game + (isRecord ? PointsShareFileSuffixRecord : PointsShareFileSuffixNormal) + FileExt));
 	}
 	public static FacebookLink RankingShare(int rankPos)
 	{
-		return new FacebookLink(new System.Uri("https://www.unusualwonder.com/"), "Clasificación", "He conseguido el puesto " + rankPos + ".", new System.Uri(source + RankingShareFile + FileExt));
+		return new FacebookLink(new System.Uri(AppLinkUrl), "Clasificación", "He conseguido el puesto " + rankPos + ".", new System.Uri(source + RankingShareFile + FileExt));
 	}
 #endregion
 }

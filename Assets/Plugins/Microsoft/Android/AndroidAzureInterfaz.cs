@@ -37,6 +37,7 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         activity.Call("Logout");
     }
 
+    public override void OpenURL(string url) { activity.Call("OpenURL", url); }
     public override void CheckDeepLinking()
     {
         string dl = activity.Call<string>("GetDeepLinking");

@@ -33,6 +33,8 @@ public class AzureInterfaz : MonoBehaviour
             IsDeepLinking = false;
             return;
         }
+        System.Uri uri = new System.Uri(url);
+        if( uri.Host!="editavatar") return;
 
         url = WWW.UnEscapeURL(url);
         DeepLinkingURL = url;

@@ -104,7 +104,7 @@ public class MainActivity extends UnityPlayerActivity {
             Uri data = intent.getData();
             if (data != null) {
                 if (data.getScheme().equals("rmvt")) {
-                    if( !data.getHost().equals("sso")) {
+                    if( data.getHost().equals("editavatar")) {
                         deeplinking = data.toString();
                         System.out.println("Unity MainActivity:: onNewIntent " + deeplinking);
                     }
@@ -115,11 +115,9 @@ public class MainActivity extends UnityPlayerActivity {
                             DigitalPlatformClient.getInstance().getSingleSignOnHandler().getSSOTokenWithAuthorizationCode(this, authCode, new ServiceResponseListener<String>() {
                                             @Override
                                             public void onResponse(String response) {
-                                                System.out.println("Unity MainActivity:: onResponse 1 " + response);
                                                 DigitalPlatformClient.getInstance().getAuthHandler().loginWithAuthorizationCode(MainActivity.this, "RMTV12345", response, new ServiceResponseListener<Boolean>() {
                                                     @Override
                                         public void onResponse(Boolean response) {
-                                            System.out.println("Unity MainActivity:: onResponse 2 " + response);
                                             if(response){
                                                 UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
                                             }else{
@@ -128,7 +126,6 @@ public class MainActivity extends UnityPlayerActivity {
                                         }
                                         @Override
                                         public void onError(DigitalPlatformClientException e) {
-                                            System.out.println("Unity MainActivity:: onError 2 " );
                                             UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
 
                                         }
@@ -174,6 +171,12 @@ public class MainActivity extends UnityPlayerActivity {
             startActivity(myintent);
         else
             UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "NOAPP");
+    }
+
+    public void OpenURL(String url){
+        Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if(!getPackageManager().queryIntentActivities(myintent,0).isEmpty())
+            startActivity(myintent);
     }
 
     public void Logout() {
@@ -827,7 +830,7 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, MainActivity.IDClient, IDAction, callback); // Esta al reves que en REST.
+        DigitalPlatformClient.getInstance().getUserActionsHandler().postUserAction(this, null, IDAction, callback); // Esta al reves que en REST.
     }
 
     // InApp Purchases

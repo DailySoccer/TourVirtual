@@ -24,17 +24,21 @@ public class AsyncOperation{
 #if NETFX_CORE
             UnityEngine.WSA.Application.InvokeOnAppThread(() => {
 #endif
-            if (success) {
-                if(op.OnSuccess != null) op.OnSuccess(rest);
-            } else if (!success) {
-                // Elimino la capa de carga...
-                if(op.OnError != null){
-                    UnityEngine.Debug.LogError(">>>>> OnError " + rest);
-                    op.OnError(rest);
-                }else{
-                // Error generico.
-                    DefaultError(rest);
+            try{
+                if (success) {
+                    if(op.OnSuccess != null) op.OnSuccess(rest);
+                } else if (!success) {
+                    // Elimino la capa de carga...
+                     UnityEngine.Debug.LogError(">>>>> OnError " + rest);
+                    if(op.OnError != null){
+                        op.OnError(rest);
+                    }else{
+                    // Error generico.
+                        DefaultError(rest);
+                    }
                 }
+            }catch(System.Exception e){
+                UnityEngine.Debug.LogError(">>>>> Error processing response " + e);
             }
             op.pending = false;
             Operations.Remove(hash);

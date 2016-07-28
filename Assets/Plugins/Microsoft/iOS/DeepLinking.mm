@@ -22,8 +22,10 @@ extern "C" {
         if( [[url host] isEqualToString:@"sso"] ){
             _ReceivedUrl(url);
         }else{
-            UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
-            return YES;
+            if( [[url host] isEqualToString:@"editavatar"] ){
+                UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
+                return YES;
+            }
         }
     }
     

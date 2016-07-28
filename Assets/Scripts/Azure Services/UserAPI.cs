@@ -89,18 +89,18 @@ public class UserAPI {
         Achievements = new AchievementsAPI();
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
     }
-
+/*
     public bool CheckIsOtherUser() {
         return Authentication.AzureServices.IsDeepLinking && Authentication.AzureServices.DeepLinkinParameters != null && Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idUser") && Authentication.AzureServices.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID;
     }
-
+*/
 
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
-        yield return Authentication.AzureServices.GetFanApps();
-
+// Aclarar con Microsoft que llamada es esta.
+//        yield return Authentication.AzureServices.GetFanApps((ret)=>{},(err)=>{});
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
@@ -108,9 +108,8 @@ public class UserAPI {
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
 		
-		//UpdateNick ("Pokemos");
-		//UpdateNick ("Gazmoño");
-
+// Esto ya no es necesario, ya se encarga el SSO.
+/*
         if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
         if (CheckIsOtherUser()) { // USUARIO DISTINTO
             LoadingCanvasManager.Hide();
@@ -120,17 +119,16 @@ public class UserAPI {
             });
             yield break;
         }
+*/
         LoadingContentText.SetText("API.VirtualGoods");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         LoadingContentText.SetText("API.Achievements");
-
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         LoadingContentText.SetText("API.Contents");
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
-
         LoadingContentText.SetText("API.ProfileAvatar");
         yield return Authentication.AzureServices.GetProfileAvatar((res) => {
-            if (string.IsNullOrEmpty(res) || res == "null") {
+            if (string.IsNullOrEmpty(res) || res == "null" || res == "{}") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
@@ -151,6 +149,7 @@ public class UserAPI {
 //            PlayerManager.Instance.SelectedModel = "";
 //            MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 		},(err)=>{
+            Debug.LogError(">>>>> ProfileAvatar "+err);
 			PlayerManager.Instance.SelectedModel = "";
 			MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 		});
@@ -170,6 +169,7 @@ public class UserAPI {
         //        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.FreeKicks));
         //        yield return Authentication.Instance.StartCoroutine(GetRanking(MiniGame.HiddenObjects));
         LoadingContentText.SetText("API.MaxScores");
+        // ERROR: 6:Invalid response received
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
