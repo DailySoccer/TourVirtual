@@ -43,9 +43,6 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 		int maxAchivs;
 		int achivs = user.GetAchievements (out maxAchivs);
-
-
-
 		//TODO: parseamos los datos a sus variables.
 		return user.Nick + "#" + user.Level + "#" + 
 			user.GetScore (UserAPI.MiniGame.FreeKicks).ToString() + "#" +
@@ -57,7 +54,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 
 	public void SetDataModel(string data, string head) {
 		//TODO: parseamos los datos a sus variables.
-
+		if(string.IsNullOrEmpty(data)) return;
 		/// Orden de los datos: Cara, nombre, nivelFan, ptos. Futbol, ptos. Basket, ptos. HiddenObjects, num. Packs, num. logros";
 		dataModel = (head + "#" + data).Split ('#');
 		Name.text = dataModel [(int)PlayerDataModel.NOMBRE];// + " PlayerHUD";
@@ -113,7 +110,7 @@ public class RemotePlayerHUD : MonoBehaviour {
 	}
 
 	public void RemotePlayerHUD_ClickHandle() {
-		Debug.Log("Solicitado el perfil del usuario: " + dataModel[(int)PlayerDataModel.NOMBRE]);
+		if(dataModel==null) return;
 		canvasManager.ShowOTherPlayerInfo (dataModel);
 	}
 }

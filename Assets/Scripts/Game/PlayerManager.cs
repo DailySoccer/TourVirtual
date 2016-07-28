@@ -57,7 +57,6 @@ public class PlayerManager : Photon.PunBehaviour {
         }
 
 	public override void OnJoinedRoom() {
-
 		SpawnPlayer();
 	}
 
@@ -76,6 +75,7 @@ public class PlayerManager : Photon.PunBehaviour {
 		else {
 			playerTransform = transform;
 		}
+                if( !UserAPI.Instance.Online ) DataModel = UserAPI.Instance.Nick + "#0#0#0#0#0/0#0/0#";
 		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
 	}
 
