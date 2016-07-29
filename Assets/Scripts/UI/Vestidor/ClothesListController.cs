@@ -62,8 +62,10 @@ public class ClothesListController : MonoBehaviour {
             ComplimentsList = GameObject.FindGameObjectWithTag("ComplimentsList").transform;
             ShoesList = GameObject.FindGameObjectWithTag("ShoesList").transform;
             PacksList = GameObject.FindGameObjectWithTag("PacksList").transform;
+			
+			if( MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR )
+            	ShowTShirtsList();
 
-            ShowTShirtsList();
         }
         catch (UnityException e){
             Debug.LogError("<<<<< ERROR!!!! MIRARA ESTO!!!!! >>>>>: " + e.Message);

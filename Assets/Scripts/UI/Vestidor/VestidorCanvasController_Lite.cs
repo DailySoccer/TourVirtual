@@ -513,6 +513,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 									LoadingCanvasManager.Hide();
 									ModalNickInput.Close();
 									HideAllScreens();
+                                    MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 									if (Authentication.AzureServices.IsDeepLinking) {
 										Authentication.AzureServices.OpenURL("rmapp://You");
 										Application.Quit();

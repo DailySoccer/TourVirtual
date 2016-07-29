@@ -53,8 +53,8 @@ public class ContentAPI
             Description = _Description;
             PackURL = DLCManager.Instance.AssetsUrl + "/Contents/" + _ContenName + "/" + _PackURL;
             VirtualGoodsAPI.VirtualGood vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(_VirtualGoodID);
-            ThumbURL = vg.Thumb;
             if ( vg!=null) {
+                ThumbURL = vg.Thumb;
                 if (vg.count > 0)
                     owned = true;
             }

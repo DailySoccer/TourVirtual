@@ -35,7 +35,7 @@ public class ClothSlot : MonoBehaviour {
 
 		//UpdateSelection (UserAPI.AvatarDesciptor);
 
-		StartCoroutine(MyTools.LoadSpriteFromURL (item.Image, Picture.gameObject));
+		StartCoroutine(MyTools.LoadSpriteFromURL (item.Thumb, Picture.gameObject));
 	}
 
 	public void UpdateSelection(AvatarAPI tmpAvatar) {
