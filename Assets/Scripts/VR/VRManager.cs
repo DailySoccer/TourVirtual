@@ -3,6 +3,9 @@ using System.Collections;
 
 public class VRManager : MonoBehaviour {
 
+	/// <summary>
+	/// Singleton reference.
+	/// </summary>
 	public static VRManager Instance
 	{
 		get
@@ -12,11 +15,19 @@ public class VRManager : MonoBehaviour {
 		private set { }
 	}
 
+	/// <summary>
+	/// Is VR mode on?
+	/// </summary>
 	public static bool VRModeON
 	{
 		get { return _instance != null && _instance.gameObject.activeSelf; }
 	}
 
+	/// <summary>
+	/// Set VR mode.
+	/// </summary>
+	/// <param name="on">True to activate VR mode, false to deactivate it.</param>
+	/// <returns></returns>
 	public static bool SetVR(bool on)
 	{
 		if (_instance != null)
@@ -33,10 +44,5 @@ public class VRManager : MonoBehaviour {
 		{
 			_instance = this;
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
