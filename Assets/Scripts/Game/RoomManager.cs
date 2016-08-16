@@ -608,7 +608,7 @@ public class RoomManager : Photon.PunBehaviour {
 
     public override void OnDisconnectedFromPhoton() {
         Debug.LogError("OnDisconnectedFromPhoton");
-        if (!PhotonHandler.AppQuits) {
+        if (!PhotonHandler.AppQuits && !MainManager.Instance.OfflineMode) {
             if (!PhotonNetwork.connected)
                 PhotonNetwork.ConnectUsingSettings("v0.1"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
         }

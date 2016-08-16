@@ -93,7 +93,7 @@ public class CanvasRootController : MonoBehaviour {
 	void OnLevelReady() {
 		//GameObject canvas;
 		//VR edit ('if' statement)
-		if (!VRManager.VRModeON)
+		if (!MainManager.Instance.VRMode)
 		{
 			switch (_roomManager.Room.Gui)
 			{

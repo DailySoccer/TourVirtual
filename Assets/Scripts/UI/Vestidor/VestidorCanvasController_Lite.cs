@@ -480,6 +480,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		BackToRoom ();
     }
 
+    public void SetVRMode()
+    {
+        BackToRoom();
+        MainManager.Instance.SetVRMode();
+    }
+
     public void BackToRoom()
     {
         if (Authentication.AzureServices.IsDeepLinking) {

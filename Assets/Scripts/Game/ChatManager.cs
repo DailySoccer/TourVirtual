@@ -126,7 +126,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	
 	public void OnDisconnected() {
 		//Debug.Log (">>> Chat OnDisconnected");
-        if (!PhotonHandler.AppQuits)
+        if (!PhotonHandler.AppQuits && !MainManager.Instance.OfflineMode)
             ChatClient.Connect(ChatAppId, "1.0", UserName, null);
 	}
 	
@@ -251,6 +251,8 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 	}
 
-
+	public void MyDisconnect(){
+		ChatClient.Disconnect();
+	}
 	
 }

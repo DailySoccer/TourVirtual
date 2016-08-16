@@ -21,13 +21,10 @@ public class MainManager : Photon.PunBehaviour {
 
 	public delegate void MessagesUnreadedEvent(int counter);
 	public event MessagesUnreadedEvent OnMessagesUnreadedEvent;
-
 	public string PlayerName;
-
     public GoodiesShopController GoodiesShopConntroller;
-
     public bool InternetConnection = false;
-
+    public bool VRMode = false;
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
 	[SerializeField]
@@ -117,7 +114,6 @@ public class MainManager : Photon.PunBehaviour {
 		}
 
     }
-
     void Awake() {
         Application.targetFrameRate = 30;
 
@@ -418,5 +414,16 @@ public class MainManager : Photon.PunBehaviour {
             }
 		}
 	}
+
+    public void SetVRMode(){
+        VRMode = true;
+        OfflineMode = true;
+        if (PhotonNetwork.connected){
+            PhotonNetwork.Disconnect();
+    		PhotonNetwork.offlineMode = true;
+        }
+        ChatManager.Instance.MyDisconnect();
+    }
+
 	TourEventHandler _tourEventHandler;
 }
