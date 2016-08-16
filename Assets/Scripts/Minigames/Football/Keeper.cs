@@ -58,6 +58,8 @@ namespace Football
                     else {
                         pos = transform.position + Vector3.forward * fvel;
                     }
+                    if (pos.z < -3.5f) { pos.z = -3.5f;}
+                    if (pos.z >  3.5f) { pos.z =  3.5f;}
                 }
             }
             transform.position = pos;
