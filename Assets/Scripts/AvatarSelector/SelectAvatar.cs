@@ -56,7 +56,8 @@ public class SelectAvatar : MonoBehaviour {
             UserAPI.VirtualGoodsDesciptor.FilterBySex();
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
-            if (thePlayer != null) thePlayer.Avatar = instance;
+            if (thePlayer != null)
+				thePlayer.SetAvatar(instance);
 
             RoomManager roomManager = RoomManager.Instance;
             if (roomManager != null) {

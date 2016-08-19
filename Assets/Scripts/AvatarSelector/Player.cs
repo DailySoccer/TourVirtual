@@ -1,82 +1,108 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+	public const string TagUmaAvatar = "UMAAvatar";
 
-	public const string TAG_UMA_AVATAR = "UMAAvatar";
+	public event Action<GameObject> AvatarChange;
+	public bool AvatarVisible = true;
+	public float CameraRotation;
+	public float CameraPitch { get; set; }
 
-	public bool avatarVisible = true;
-
-	public float cameraRotation;
-	private float _cameraPitch;
-
-	public float cameraPitch
+	public FollowAvatar.FollowStyle FollowStyle;
+	
+	public CameraAnchor.Type CameraType
 	{
-		get { return _cameraPitch; }
-		set { _cameraPitch = value; }
-	}
-
-	[SerializeField] public FollowAvatar.FollowStyle followStyle;
-	[SerializeField] private CameraAnchor.Type _cameraType;
-	public CameraAnchor.Type CameraType {
 		get { return _cameraType; }
+		set { _cameraType = value; }
 	} 
 
 
 
-	static public Player Instance {
-		get {
+	public static Player Instance
+	{
+		get
+		{
 			RefreshPlayer();
 			return _player;
 		}
 	}
 
-	public GameObject Avatar {
-		get {
+	public void SetAvatar(GameObject value)
+	{
+		if (_avatar == null) 
 			RefreshAvatar();
 
-			return _avatar ?? Instance.gameObject;
+		if (_avatar != null)
+			Destroy(Avatar);
+		
+		value.tag = TagUmaAvatar;
+		value.transform.SetParent(transform);
+		value.transform.position = transform.position;
+
+		Avatar = value;
+	}
+
+	public GameObject Avatar
+	{
+		get
+		{
+			RefreshAvatar(); // FRS No sé por qué está esto así, pero es un sobrecoste.
+			return _avatar ?? gameObject;
 		}
-		set {
-			if (_avatar == null) 
-				RefreshAvatar();
-
-			if (_avatar != null)
-				Destroy(_avatar);
-
-			_avatar = value;
-			_avatar.tag = TAG_UMA_AVATAR;
-			_avatar.transform.SetParent(transform);
-			_avatar.transform.position = transform.position;
-			//_umaAvatar.AddComponent<AudioListener>();
+		private set
+		{
+			if (value != _avatar)
+			{
+				_avatar = value;
+				OnAvatarChange(_avatar);
+			}
 		}
 	}
 
-	void Start() {
+
+	private void Start()
+	{
 		RefreshPlayer();
 		RefreshAvatar();
 
 		// Por defecto, mantenemos al player desactivado
-		if (_player != null) {
+		if (_player != null)
 			_player.gameObject.SetActive(false);
-		}
 	}
 
-	private static void RefreshPlayer() {
+	private static void RefreshPlayer()
+	{
 		GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-		if (playerObj != null) {
+		if (playerObj != null) 
 			_player = playerObj.GetComponent<Player>();
-		}
 	}
 	
-	private void RefreshAvatar() {
-		GameObject avatarObj = GameObject.FindGameObjectWithTag(TAG_UMA_AVATAR);
-		if (avatarObj != null) {
-			_avatar = avatarObj;
-			_avatar.GetComponentInChildren<Renderer>().enabled = avatarVisible;
-		}
+	private void RefreshAvatar()
+	{
+		Avatar = GameObject.FindGameObjectWithTag(TagUmaAvatar);
 	}
-	
+
+
+
+	private void OnAvatarChange(GameObject avatar)
+	{
+		if (avatar != null)
+		{
+			var avatarRenderer = avatar.GetComponentInChildren<Renderer>();
+			if (avatarRenderer != null)
+				avatarRenderer.enabled = AvatarVisible;
+		}
+
+		var e = AvatarChange;
+		if (e != null)
+			e(avatar);
+	}
+
+
+	[SerializeField]
+	private CameraAnchor.Type _cameraType;
 	private static Player _player;
 	private GameObject _avatar;
 }

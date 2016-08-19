@@ -483,7 +483,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void SetVRMode()
     {
         BackToRoom();
-        MainManager.Instance.SetVRMode();
+        MainManager.Instance.SetVrMode();
     }
 
     public void BackToRoom()

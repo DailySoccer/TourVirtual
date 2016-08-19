@@ -13,7 +13,7 @@ public class Portal : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (other.tag != Player.TagUmaAvatar)
 			return;
         // Debug.Log ("Enter: Portal: " + PortalID);
 
@@ -28,7 +28,7 @@ public class Portal : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (other.tag != Player.TagUmaAvatar)
 			return;
 
 		// Debug.Log ("Exit: Portal: " + PortalID );

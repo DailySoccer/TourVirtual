@@ -3,6 +3,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System;
+using System.Linq;
+using Org.BouncyCastle.Security.Certificates;
 
 [RequireComponent(typeof(EventTrigger))]
 public class JoystickController : MonoBehaviour {
@@ -21,13 +23,8 @@ public class JoystickController : MonoBehaviour {
 	private Transform _joystickBase;
 	[SerializeField]
 	private Transform _joystickStick;
-    [SerializeField]
-    public string _axisHorizontalName;
-    [SerializeField]
-    public string _axisVerticalName;
-   [SerializeField]
-   [Range(0, 0.999f)]
-   private float _deadZone = 0.01f;
+	[SerializeField, Range(0, 0.999f)]
+	private float _deadZone = 0.01f;
 
     private int? _currentTouchId = null;
 	private Vector2 _touchStartPoint = Vector2.zero;
@@ -53,26 +50,28 @@ public class JoystickController : MonoBehaviour {
 	
 #region Getters / Communication interface
 	
-	public Vector2 joystickValue {
+	public Vector2 Value
+	{
 		get
-      {
-         Vector2 val = (_touchCurrentPoint - _touchStartPoint) * DPI;
-         val.x += Input.GetAxis(_axisHorizontalName);
-         val.y += Input.GetAxis(_axisVerticalName);
-         val.x = Mathf.Clamp01((Mathf.Abs(val.x) - _deadRad) / _actionRad) * Mathf.Sign(val.x);
-         val.y = Mathf.Clamp01((Mathf.Abs(val.y) - _deadRad) / _actionRad) * Mathf.Sign(val.y);
+		{
+			Vector2 val = (_touchCurrentPoint - _touchStartPoint) * DPI / _actionRad;
+			val.x = Mathf.Abs(val.x) < _deadRad ? 0f :
+				Mathf.Clamp(val.x, -1f, 1f);
+			val.y = Mathf.Abs(val.y) < _deadRad ? 0f :
+				Mathf.Clamp(val.y, -1f, 1f);
 
-         return val;
-      }
+			return val;
+		}
 	}
 	
-	public Vector2 deltaTouchValue {
-		get {
-            Vector2 val = _deltaTouch;
-                val.x += Input.GetAxis(_axisHorizontalName);
-                val.y += Input.GetAxis(_axisVerticalName);
-            return val; }
-	}
+	// UNDONE FRS 160817
+	//public Vector2 DeltaTouchValue {
+	//	get {
+ //           Vector2 val = _deltaTouch;
+ //               val.x += Input.GetAxis(_axisHorizontalName);
+ //               val.y += Input.GetAxis(_axisVerticalName);
+ //           return val; }
+	//}
 	
 	public float speed {
 		get { return _deltaTouch.magnitude/Time.deltaTime; }
@@ -80,17 +79,20 @@ public class JoystickController : MonoBehaviour {
 	
 #endregion
 
-	// Use this for initialization
-	void Start () {
+	private void Awake()
+	{
+		DPI = Mathf.Approximately(Screen.dpi, 0f) ? 1f : 1f / Screen.dpi;
+		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width;
+		UpdateJoystickParams();
+	}
+
+	private void Start ()
+	{
 		_eventTriggerCache = GetComponent<EventTrigger>();
 		
 		AddEventListener(EventTriggerType.PointerDown, OnPointerDownHandler);
 		AddEventListener(EventTriggerType.PointerUp, OnPointerUpHandler);
 		AddEventListener(EventTriggerType.Drag, OnPointerDragHandler);
-		_joystickBaseHalfWidth = _joystickBase.GetComponent<RectTransform>().rect.width;
-
-		DPI = Screen.dpi != 0 ? 1 / Screen.dpi : 1;
-      	UpdateJoystickParams();
 
 		ControlVisible(false);
 	}
@@ -106,11 +108,13 @@ public class JoystickController : MonoBehaviour {
 	private void AddEventListener(EventTriggerType type, ControlTouchEventHandler func) {
 		
 		UnityAction<BaseEventData> callback = new UnityAction<BaseEventData>(func);
-		
-		EventTrigger.Entry entry = new EventTrigger.Entry();
-		
-		entry.eventID = type;
-		entry.callback = new EventTrigger.TriggerEvent();
+
+		var entry = new EventTrigger.Entry
+		{
+			eventID = type,
+			callback = new EventTrigger.TriggerEvent()
+		};
+
 		entry.callback.AddListener(callback);
 		
 		_eventTriggerCache.triggers.Add(entry);
@@ -118,28 +122,30 @@ public class JoystickController : MonoBehaviour {
 
    private void UpdateJoystickParams()
    {
-      _deadRad = _deadZone * _joystickBaseHalfWidth;
-      _actionRad = _joystickBaseHalfWidth - _deadRad;
-	  _deadRad *= DPI;
-	  _actionRad *= DPI;
+      _deadRad   = (_deadZone * _joystickBaseHalfWidth) * DPI;
+      _actionRad = (_joystickBaseHalfWidth - _deadRad) * DPI;
    }
 
    // Update is called once per frame
-   void Update () {
-      //debugText.text = string.Format(" ID: {0} ", _currentTouchId);
+   void Update ()
+	{
+		//debugText.text = string.Format(" ID: {0} ", _currentTouchId);
 
-      UpdateJoystickParams();
+#if UNITY_EDITOR
+		UpdateJoystickParams();
+#endif
 
 		if(_currentTouchId.HasValue) {
 			//debugImage.color = new Color(color.r, color.g, color.b, 0.5f);
 			
 			_joystickBase.transform.position = _touchStartPoint;
-			_joystickStick.transform.position = _touchStartPoint + joystickValue * _joystickBaseHalfWidth;
+			_joystickStick.transform.position = _touchStartPoint + Value * _joystickBaseHalfWidth;
 		} /*else {
 			debugImage.color = new Color(color.r, color.g, color.b, 0.2f);
 		}*/
 	}
-	
+
+
 	
 	private void OnPointerDownHandler(UnityEngine.EventSystems.BaseEventData eventData)
 	{
@@ -189,11 +195,10 @@ public class JoystickController : MonoBehaviour {
 		
 		_joystickBase.GetComponent<Image>().enabled = isVisible;
 		_joystickStick.GetComponent<Image>().enabled = isVisible;
-		
-		if(!visible) {
-			_joystickBase.GetComponent<RectTransform>().position = Vector2.zero;
-			_joystickStick.GetComponent<RectTransform>().position = Vector2.zero;
-		}
+
+		if (visible) return;
+		_joystickBase.GetComponent<RectTransform>().position = Vector2.zero;
+		_joystickStick.GetComponent<RectTransform>().position = Vector2.zero;
 	}
 		
 	private void ResetTouchInfo()

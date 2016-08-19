@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
 using Soomla.Store;
+using UnityEngine.Assertions;
 
 public enum TourVirtualBuildMode {
 	Debug,
@@ -13,7 +14,7 @@ public enum TourVirtualBuildMode {
 
 public class MainManager : Photon.PunBehaviour {
 
-	static public MainManager Instance { get; private set; }
+	public static MainManager Instance { get; private set; }
 
 	public delegate void ChangeEvent();
 	public event ChangeEvent OnLanguageChange;
@@ -24,8 +25,25 @@ public class MainManager : Photon.PunBehaviour {
 	public string PlayerName;
     public GoodiesShopController GoodiesShopConntroller;
     public bool InternetConnection = false;
-    public bool VRMode = false;
+
+	[SerializeField] private bool _isVrModeEnabled;
+	public bool IsVrModeEnabled
+	{
+		get { return _isVrModeEnabled; }
+		private set
+		{
+			_cardboard.VRModeEnabled = value;
+			Player.Instance.CameraType = value ? 
+				  CameraAnchor.Type.VirtualReality 
+				: CameraAnchor.Type.Default;
+
+			_isVrModeEnabled = value;
+		}
+	}
+
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
+
+	[SerializeField] private Cardboard _cardboard;
 
 	[SerializeField]
 	private string _currentLanguage;
@@ -138,6 +156,17 @@ public class MainManager : Photon.PunBehaviour {
 		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
+
+	    if (_cardboard == null)
+		    _cardboard = FindObjectOfType<Cardboard>();
+
+		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
+	    IsVrModeEnabled = false;
+    }
+
+	private void OnDestroy()
+	{
+		_cardboard = null;
 	}
 
     void Start() {
@@ -206,8 +235,15 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     }
 
+#if UNITY_EDITOR
+	private void Update()
+	{
+		IsVrModeEnabled = _isVrModeEnabled;
+	}
+#endif
 
-    void OnApplicationFocus(bool focusStatus) {
+
+	void OnApplicationFocus(bool focusStatus) {
         if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
         }
@@ -415,8 +451,8 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-    public void SetVRMode(){
-        VRMode = true;
+    public void SetVrMode(){
+        IsVrModeEnabled = true;
         OfflineMode = true;
         if (PhotonNetwork.connected){
             PhotonNetwork.Disconnect();

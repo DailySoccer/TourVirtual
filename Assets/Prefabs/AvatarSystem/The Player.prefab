@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 446972}
   - 114: {fileID: 11462548}
   - 114: {fileID: 11419488}
+  - 114: {fileID: 11479616}
   m_Layer: 0
   m_Name: The Player
   m_TagString: Player
@@ -147,6 +148,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b921ade84bb4a8c8f99c5ec3c5f54c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11479616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327ca18dfbbbf4d4eae617bbfc7e4225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 11462548}
+  _movementTouch: {fileID: 0}
+  _rotationTouch: {fileID: 0}
+  _yawSpeed: 60
+  _pitchSpeed: 20
+  _joystickThreshold: .300000012
+  _facingSpeed: .0120000001
+  _movementSpeed: 5
+  _movementHorizontalAxis: Horizontal
+  _movementVerticalAxis: Vertical
+  _rotationHorizontalAxis: Horizontal2
+  _rotationVerticalAxis: Vertical2
 --- !u!114 &11486054
 MonoBehaviour:
   m_ObjectHideFlags: 1
