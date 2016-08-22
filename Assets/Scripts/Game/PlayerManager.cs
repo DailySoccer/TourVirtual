@@ -36,25 +36,27 @@ public class PlayerManager : Photon.PunBehaviour {
     public Dictionary<string, object> Packs;
     public Dictionary<string, object> Compliments;
     public Dictionary<string, object> Selector;
+    public GameObject PlayerRemoteHUDCanvas;
 
-        public GameObject PlayerRemoteHUDCanvas;
 	GameObject PlayerHUD;
 
-        List<GameObject> Players = new List<GameObject>();
+	List<GameObject> Players = new List<GameObject>();
 
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
     }
 
-	public override void OnLeftRoom() {
-                Debug.LogError("OnLeftRoom");
-                foreach( var player in Players){
-                        Destroy(player);
-                }
-                Players.Clear();
-        }
+	public override void OnLeftRoom()
+	{
+		Debug.LogError("OnLeftRoom");
+
+		foreach( var player in Players)
+			Destroy(player);
+		
+		Players.Clear();
+	}
 
 	public override void OnJoinedRoom() {
 		SpawnPlayer();
