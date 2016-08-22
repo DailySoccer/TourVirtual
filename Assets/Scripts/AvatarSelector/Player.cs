@@ -33,9 +33,6 @@ public class Player : MonoBehaviour
 	{
 		if (_avatar == null) 
 			RefreshAvatar();
-
-		if (_avatar != null)
-			Destroy(Avatar);
 		
 		value.tag = TagUmaAvatar;
 		value.transform.SetParent(transform);
@@ -55,6 +52,9 @@ public class Player : MonoBehaviour
 		{
 			if (value != _avatar)
 			{
+				if (_avatar != null)
+					Destroy(_avatar);
+
 				_avatar = value;
 				OnAvatarChange(_avatar);
 			}
@@ -81,7 +81,8 @@ public class Player : MonoBehaviour
 	
 	private void RefreshAvatar()
 	{
-		Avatar = GameObject.FindGameObjectWithTag(TagUmaAvatar);
+		if(gameObject.activeSelf)
+			Avatar = GameObject.FindWithTag(TagUmaAvatar);
 	}
 
 
