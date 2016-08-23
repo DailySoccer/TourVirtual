@@ -3,8 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System;
-using System.Linq;
-using Org.BouncyCastle.Security.Certificates;
+
 
 [RequireComponent(typeof(EventTrigger))]
 public class JoystickController : MonoBehaviour {

@@ -1,8 +1,8 @@
 using UnityEngine;
-using System.Collections;
-using UnityEditor;
 
-public class FollowAvatar : MonoBehaviour {
+
+public class FollowAvatar : MonoBehaviour
+{
 
 	public enum FollowStyle {
 		RigidStickAndFaceOnStop,
