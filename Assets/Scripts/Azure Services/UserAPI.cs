@@ -258,7 +258,11 @@ public class UserAPI {
 
     ScoreEntry[][] HighScores = new ScoreEntry[3][];
     public void SetScore(MiniGame game, int score) {
-        if (!Online) return;
+        if (!Online) {
+            if (score > HighScore[(int)game])
+                HighScore[(int)game] = score;
+            return;
+        }
         Authentication.AzureServices.SendScore( MiniGameID[(int)game], score, (res) => {
             if (score > HighScore[(int)game])
                 HighScore[(int)game] = score;
