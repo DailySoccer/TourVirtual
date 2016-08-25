@@ -12,10 +12,13 @@ public class Player : MonoBehaviour
 
 	public FollowAvatar.FollowStyle FollowStyle;
 	
-	public CameraAnchor.Type CameraType
+	public CameraAnchor.Type CameraType 
 	{
 		get { return _cameraType; }
-		set { _cameraType = value; }
+		set {
+			AvatarVisible = value != CameraAnchor.Type.VirtualReality;
+			_cameraType = value;
+		}
 	} 
 
 
@@ -91,19 +94,17 @@ public class Player : MonoBehaviour
 	{
 		if (avatar != null)
 		{
-			var avatarRenderer = avatar.GetComponentInChildren<Renderer>();
-			if (avatarRenderer != null)
-				avatarRenderer.enabled = AvatarVisible;
+			foreach(Renderer r in avatar.GetComponentsInChildren<Renderer>(true) )
+				r.enabled = AvatarVisible;
 		}
-
+	
 		var e = AvatarChange;
 		if (e != null)
 			e(avatar);
 	}
 
 
-	[SerializeField]
-	private CameraAnchor.Type _cameraType;
+	[SerializeField] private CameraAnchor.Type _cameraType;
 	private static Player _player;
 	private GameObject _avatar;
 }

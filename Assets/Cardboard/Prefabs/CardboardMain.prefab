@@ -48,7 +48,7 @@ GameObject:
   - 114: {fileID: 11493826}
   m_Layer: 0
   m_Name: CardboardMain
-  m_TagString: Untagged
+  m_TagString: Cardboard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackRotation: 1
-  trackPosition: 1
+  trackPosition: 0
   target: {fileID: 0}
   updateEarly: 0
 --- !u!114 &11400012
@@ -516,8 +516,8 @@ MonoBehaviour:
   electronicDisplayStabilization: 0
   autoUntiltHead: 1
   UseUnityRemoteInput: 0
-  screenSize: 0
-  deviceType: 0
+  screenSize: 1
+  deviceType: 1
   stereoScreenScale: 1
 --- !u!114 &11419380
 MonoBehaviour:

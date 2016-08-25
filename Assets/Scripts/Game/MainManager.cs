@@ -33,6 +33,8 @@ public class MainManager : Photon.PunBehaviour {
 		private set
 		{
 			_cardboard.VRModeEnabled = value;
+			_cardboard.GetComponentInChildren<CardboardHead>().trackRotation = value;
+
 			Player.Instance.CameraType = value ? 
 				  CameraAnchor.Type.VirtualReality 
 				: CameraAnchor.Type.Default;
@@ -158,7 +160,7 @@ public class MainManager : Photon.PunBehaviour {
 			SetNewLangManager(_currentLanguage);
 
 	    if (_cardboard == null)
-		    _cardboard = FindObjectOfType<Cardboard>();
+		    _cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<Cardboard>();
 
 		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
     }
@@ -422,7 +424,8 @@ public class MainManager : Photon.PunBehaviour {
         StartCoroutine( Connect ());
 	}
 
-    IEnumerator Connect() {
+    IEnumerator Connect()
+	{
         GameObject.Find("Main Camera").GetComponent<Camera>().clearFlags = CameraClearFlags.Skybox;
 		yield return StartCoroutine(CheckForInternetConnection());
 		PhotonNetwork.offlineMode = OfflineMode;
