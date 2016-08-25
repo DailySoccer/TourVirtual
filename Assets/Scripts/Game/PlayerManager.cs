@@ -49,7 +49,6 @@ public class PlayerManager : Photon.PunBehaviour {
     }
 
 	public override void OnLeftRoom() {
-                Debug.LogError("OnLeftRoom");
                 foreach( var player in Players){
                         Destroy(player);
                 }

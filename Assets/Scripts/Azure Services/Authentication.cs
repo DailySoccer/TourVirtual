@@ -31,7 +31,8 @@ public class Authentication : MonoBehaviour {
     };
 
     public void Init() {
-        AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
+        //AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
+        AzureServices.Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");        
         AzureServices.SignIn((success) => {
             if(!success) {
                 UserAPI.Instance.Online=false; // Si da error de logeo, como si fuera offline

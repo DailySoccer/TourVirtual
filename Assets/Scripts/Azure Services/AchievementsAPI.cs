@@ -49,7 +49,7 @@ public class AchievementsAPI{
                     TotalAchievements++;
                 }
             }
-        });
+        },(err)=>{Debug.LogError(">>>> Error: GetAchievements "+err);});
 
         // Consulta mis logros.
         yield return Authentication.Instance.StartCoroutine(AwaitAchievementEarned(false));
@@ -62,7 +62,9 @@ public class AchievementsAPI{
 
         while (needRequest) {            
             yield return Authentication.AzureServices.GetAchievementsEarned("VIRTUALTOUR", token, (res) => {
-                Dictionary<string, object> myachievements = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
+                var pp = MiniJSON.Json.Deserialize(res);
+                Debug.LogError(">>>> Ok: IdAchievement 1 "+res );
+                Dictionary<string, object> myachievements = pp as Dictionary<string, object>;
                 if (myachievements != null)
                 {
                     List<object> myresults = myachievements["Results"] as List<object>;
@@ -88,7 +90,7 @@ public class AchievementsAPI{
                             token = myachievements.ContainsKey("ContinuationTokenB64")?myachievements["ContinuationTokenB64"] as string:"";
                     }
                 }
-            });
+            },(err)=>{Debug.LogError(">>>> Error: GetAchievementsEarned "+err);});
         }
         
     }
