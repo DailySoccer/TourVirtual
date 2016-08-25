@@ -53,6 +53,9 @@ public class JoystickController : MonoBehaviour {
 	{
 		get
 		{
+			if (!isActiveAndEnabled)
+				return Vector2.zero;
+
 			Vector2 val = (_touchCurrentPoint - _touchStartPoint) * DPI / _actionRad;
 			val.x = Mathf.Abs(val.x) < _deadRad ? 0f :
 				Mathf.Clamp(val.x, -1f, 1f);

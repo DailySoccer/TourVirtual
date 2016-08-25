@@ -57,7 +57,6 @@ public class SyncCameraTransform : MonoBehaviour
 	/// 
 	/// </summary>
 	/// <param name="anchor"></param>
-	/// <param name="smoothTransition"></param>
 	private void SyncWith(CameraAnchor anchor)
 	{
 		_camera.transform.rotation = anchor.transform.rotation;
