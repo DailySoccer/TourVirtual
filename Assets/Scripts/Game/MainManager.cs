@@ -161,7 +161,6 @@ public class MainManager : Photon.PunBehaviour {
 		    _cardboard = FindObjectOfType<Cardboard>();
 
 		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
-	    IsVrModeEnabled = false;
     }
 
 	private void OnDestroy()
@@ -169,7 +168,8 @@ public class MainManager : Photon.PunBehaviour {
 		_cardboard = null;
 	}
 
-    void Start() {
+    void Start()
+	{
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");
@@ -178,7 +178,7 @@ public class MainManager : Photon.PunBehaviour {
 #endif
 #endif
 
-        if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
+		if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), (mode) => {
                 Application.Quit();
             });
@@ -239,6 +239,14 @@ public class MainManager : Photon.PunBehaviour {
 	private void Update()
 	{
 		IsVrModeEnabled = _isVrModeEnabled;
+	}
+#else
+	private bool _InitVROff = false;
+	void Update(){
+		if(!_InitVROff){
+			_InitVROff = true;
+			IsVrModeEnabled = false;
+		}
 	}
 #endif
 
