@@ -13,7 +13,7 @@ public class FacebookManager : MonoBehaviour
 	#endregion
 
 
-	public static FacebookManager Instance {get; set;}
+	public static FacebookManager Instance {get; private set;}
 
 
 	#region Public methods

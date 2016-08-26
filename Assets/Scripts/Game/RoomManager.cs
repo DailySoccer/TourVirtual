@@ -352,7 +352,7 @@ public class RoomManager : Photon.PunBehaviour {
 
 		switch (roomDefinition.Id) {
 		case "ESTADIO":
-			if (PlayerPrefs.GetInt ("tutorial_done") == 0)
+			if (PlayerPrefs.GetInt ("tutorial_done") == 0 && !MainManager.Instance.IsVrModeEnabled)
 				InitialTutorial.Instance.SartTutorial();
 
 			if (!HiddenObjects.HiddenObjects.Instance.enabled)
