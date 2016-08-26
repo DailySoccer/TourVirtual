@@ -172,6 +172,7 @@ public class UserAPI {
         // ERROR: 6:Invalid response received
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeShoots));
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.FreeKicks));
+        // ERROR al solicitar la puntuacion del minijuego de HiddenObjects
         yield return Authentication.Instance.StartCoroutine(GetMaxScore(MiniGame.HiddenObjects));
 
         yield return Authentication.AzureServices.GetFanRanking((res) => {
@@ -277,7 +278,7 @@ public class UserAPI {
             }
             else
                 HighScore[(int)game] = 0;
-        });
+        },(err)=>{Debug.LogError("ERR: GetMaxScore("+game+") "+err);});
     }
 
     public void GetRanking(MiniGame game, callback onRanking) {

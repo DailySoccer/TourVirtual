@@ -36,27 +36,24 @@ public class PlayerManager : Photon.PunBehaviour {
     public Dictionary<string, object> Packs;
     public Dictionary<string, object> Compliments;
     public Dictionary<string, object> Selector;
-    public GameObject PlayerRemoteHUDCanvas;
 
+        public GameObject PlayerRemoteHUDCanvas;
 	GameObject PlayerHUD;
 
-	List<GameObject> Players = new List<GameObject>();
+        List<GameObject> Players = new List<GameObject>();
 
 
-    private void Awake()
+    void Awake()
     {
         Instance = this;
     }
 
-	public override void OnLeftRoom()
-	{
-		Debug.LogError("OnLeftRoom");
-
-		foreach( var player in Players)
-			Destroy(player);
-		
-		Players.Clear();
-	}
+	public override void OnLeftRoom() {
+                foreach( var player in Players){
+                        Destroy(player);
+                }
+                Players.Clear();
+        }
 
 	public override void OnJoinedRoom() {
 		SpawnPlayer();
@@ -88,7 +85,7 @@ public class PlayerManager : Photon.PunBehaviour {
                         instance.layer = LayerMask.NameToLayer("Player");
                         instance.GetComponent<SynchNet>().isLocal = true;
                         instance.GetComponent<PhotonView>().viewID = id;
-                        if (Player.Instance != null) Player.Instance.SetAvatar(instance);
+                        if (Player.Instance != null) Player.Instance.Avatar = instance;
                         if (RoomManager.entrada != null)
                         {
                         instance.transform.position = RoomManager.entrada.position;
