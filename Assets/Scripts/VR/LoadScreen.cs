@@ -2,18 +2,22 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class LoadScreen : MonoBehaviour {
+public class LoadScreen : MonoBehaviour
+{
 
 	public float DistanceToCamera = 1.5f;
 	public Canvas LoadScreenCanvas;
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 		MainManager.Instance.OnVRModeSwitch -= VRSwitch;
 		MainManager.Instance.OnVRModeSwitch += VRSwitch;
 	}
-	private void VRSwitch() {
+	private void VRSwitch()
+	{
 		if (MainManager.Instance.IsVrModeEnabled)
 		{
+			CanvasRootController.Instance.OldLayerMask = transform.GetComponent<Camera>().cullingMask;
 			CanvasRootController.Instance.UIScreensCamera = transform.GetComponent<Camera>();
 			LoadScreenCanvas.renderMode = RenderMode.WorldSpace;
 			LoadScreenCanvas.transform.SetParent(transform);
