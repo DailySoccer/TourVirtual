@@ -92,7 +92,7 @@ public class FollowAvatar : MonoBehaviour
 			}
 		}
 		
-		if (_followedAvatar != null )
+		if ( _followedAvatar != null )
 		{
 			
 			// MOVIMIENTO
@@ -154,25 +154,25 @@ public class FollowAvatar : MonoBehaviour
 		
 		
 		
-		if (!isMoving && Player.Instance.CameraRotation == 0) {
+		if (!isMoving && Player.Instance.CameraRotationSpeed == 0) {
 			timeNotMoving += Time.deltaTime;
 		} else {
-			if (Player.Instance.CameraRotation != 0) {
+			if (Player.Instance.CameraRotationSpeed != 0) {
 				timeNotMoving = -TIME_TO_FACE_CAMERA_AFTER_ROTATION;
 			}
 			timeNotMoving = Mathf.Min(0f, timeNotMoving);
 		}
 		
-		if (isMoving && angleForwardPlayerCam < ANGLE_TO_FACE_CAMERA_WALKING && Player.Instance.CameraRotation == 0) {
+		if (isMoving && angleForwardPlayerCam < ANGLE_TO_FACE_CAMERA_WALKING && Player.Instance.CameraRotationSpeed == 0) {
 			timeWalking += Time.deltaTime;
 		} else {
-			if (Player.Instance.CameraRotation != 0) {
+			if (Player.Instance.CameraRotationSpeed != 0) {
 				timeWalking = -TIME_TO_FACE_CAMERA_AFTER_ROTATION;
 			}
 			timeWalking = isMoving? 0 : Mathf.Min(0f, timeWalking);
 		}
 		
-		transform.Rotate(Vector3.up, Player.Instance.CameraRotation * Time.deltaTime);
+		transform.Rotate(Vector3.up, Player.Instance.CameraRotationSpeed * Time.deltaTime);
 		
 		if (timeNotMoving > TIME_STOP_TO_FACE_CAMERA)
 		{
@@ -219,7 +219,7 @@ public class FollowAvatar : MonoBehaviour
 		}
 		else
 		{
-			transform.Rotate(Vector3.up, Player.Instance.CameraRotation * Time.deltaTime);
+			transform.Rotate(Vector3.up, Player.Instance.CameraRotationSpeed * Time.deltaTime);
 		}
 
 		
@@ -231,26 +231,26 @@ public class FollowAvatar : MonoBehaviour
 		/*
 		
 		
-		if (!isMoving && Player.Instance.CameraRotation == 0) {
+		if (!isMoving && Player.Instance.CameraRotationSpeed == 0) {
 			timeNotMoving += Time.deltaTime;
 		} else {
-			if (Player.Instance.CameraRotation != 0) {
+			if (Player.Instance.CameraRotationSpeed != 0) {
 				timeNotMoving = -TIME_TO_FACE_CAMERA_AFTER_ROTATION;
 			}
 			timeNotMoving = Mathf.Min(0f, timeNotMoving);
 		}
 		
-		if (isMoving && angleForwardPlayerCam < ANGLE_TO_FACE_CAMERA_WALKING && Player.Instance.CameraRotation == 0) {
+		if (isMoving && angleForwardPlayerCam < ANGLE_TO_FACE_CAMERA_WALKING && Player.Instance.CameraRotationSpeed == 0) {
 			timeWalking += Time.deltaTime;
 		} else {
-			if (Player.Instance.CameraRotation != 0) {
+			if (Player.Instance.CameraRotationSpeed != 0) {
 				timeWalking = -TIME_TO_FACE_CAMERA_AFTER_ROTATION;
 			}
 			timeWalking = isMoving? 0 : Mathf.Min(0f, timeWalking);
 		}
 		
 		
-		transform.Rotate(Vector3.up, Player.Instance.CameraRotation * Time.deltaTime);
+		transform.Rotate(Vector3.up, Player.Instance.CameraRotationSpeed * Time.deltaTime);
 		
 		if (timeNotMoving > TIME_STOP_TO_FACE_CAMERA) {
 			if (_thePointOfInterest == null) {

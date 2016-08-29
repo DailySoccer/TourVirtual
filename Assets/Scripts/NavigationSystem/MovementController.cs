@@ -43,7 +43,11 @@ public class MovementController : MonoBehaviour
 	{
 	}
 
-	
+
+	private void OnGUI()
+	{
+		GUI.Label(new Rect(0f, 0f, 100f, 100f), _movement.ToString());
+	}
 
     // Update is called once per frame
     private void Update ()
@@ -51,8 +55,10 @@ public class MovementController : MonoBehaviour
 	    if (_avatar == null)
 		    return;
 
-        Vector2 rotCamera = Vector2.zero;
-        float currentfacingSpeed = _facingSpeed;
+	    _player.CameraRotationSpeed = 0f;
+		_player.CameraPitchSpeed = 0f;
+
+		float currentfacingSpeed = _facingSpeed;
 
 	    _movement = _movementTouch.Value;
 	    _movement.x += Input.GetAxis(_movementHorizontalAxis);
@@ -61,9 +67,7 @@ public class MovementController : MonoBehaviour
 		_movement.y = Mathf.Clamp(_movement.y, -1f, 1f);
 
 		if (MainManager.Instance.IsVrModeEnabled && Input.touchCount == 1)
-		{
 			_movement.y = 1;
-		}
 
 		_rotation = _rotationTouch.Value;
 		_rotation.x += Input.GetAxis(_rotationHorizontalAxis);
@@ -76,7 +80,7 @@ public class MovementController : MonoBehaviour
 		  || Mathf.Abs(_movement.y) >= _joystickThreshold) )
 		{
             currentfacingSpeed = 0.46f;
-            rotCamera.x = _movement.x * _yawSpeed;
+			_player.CameraRotationSpeed = _movement.x * _yawSpeedMax;
             _animator.SetFloat("Speed", Mathf.Abs(_movement.y));
 
             if (_movement.y > 0)
@@ -88,17 +92,20 @@ public class MovementController : MonoBehaviour
 		{
 			_animator.SetFloat("Speed", 0);
         }
+		
+		if (!MainManager.Instance.IsVrModeEnabled)
+		{
+			_player.CameraRotationSpeed += _rotation.x * _yawSpeedMax;
+			_player.CameraPitchSpeed     = _rotation.y * _pitchSpeedMax;
 
-        rotCamera.x += _rotation.x * _yawSpeed;
-        rotCamera.y = _rotation.y * _pitchSpeed;
-
-        _player.CameraRotation = rotCamera.x;
-        _player.CameraPitch = rotCamera.y;
-
-        if(Camera.main!=null)
-            _avatar.rotation = 
-                Quaternion.Slerp(_avatar.rotation, 
-				Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0), currentfacingSpeed);
+			_avatar.rotation =
+			    Quaternion.Slerp(_avatar.rotation,
+				    Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f), currentfacingSpeed);
+	    }
+		else
+		{
+			_avatar.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+	    }
     }
 
 
@@ -143,9 +150,9 @@ public class MovementController : MonoBehaviour
 	private JoystickController _rotationTouch;
 
 	[SerializeField]
-	private float _yawSpeed = 180f;
+	private float _yawSpeedMax = 180f;
 	[SerializeField]
-	private float _pitchSpeed = 90;
+	private float _pitchSpeedMax = 90;
 	[SerializeField]
 	private float _joystickThreshold = 0.3f;
 	[SerializeField]
