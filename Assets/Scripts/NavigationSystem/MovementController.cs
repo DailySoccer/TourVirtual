@@ -60,9 +60,6 @@ public class MovementController : MonoBehaviour
 	    _movement.x = Mathf.Clamp(_movement.x, -1f, 1f);
 		_movement.y = Mathf.Clamp(_movement.y, -1f, 1f);
 
-		if (MainManager.Instance.IsVrModeEnabled && Input.touchCount == 1)
-			_movement.y = 1;
-
 		_rotation = _rotationTouch.Value;
 		_rotation.x += Input.GetAxis(_rotationHorizontalAxis);
 		_rotation.y += Input.GetAxis(_rotationVerticalAxis);

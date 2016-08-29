@@ -17,7 +17,18 @@ public class CanvasRootController : MonoBehaviour {
 
 	private string _currentScreen;
 	private RoomManager _roomManager;
-	public int oldLayerMask;
+	private int _oldLayerMask = -2;
+	public int OldLayerMask
+	{
+		get { return _oldLayerMask; }
+		set
+		{
+			if (_oldLayerMask == -2)
+			{
+				_oldLayerMask = value;
+			}
+		}
+	}
 
 	// Use this for initialization
 	void Awake() {
@@ -45,11 +56,15 @@ public class CanvasRootController : MonoBehaviour {
 		}
 		if(SecondPlaneCanvas!=null) SecondPlaneCanvas.SetActive(false);
 	}
-
 	public IEnumerator FadeOut (int waitSeconds) {
 		LoadingCanvas.SetActive(true);
-		oldLayerMask = UIScreensCamera.cullingMask;
 		UIScreensCamera.cullingMask = LayerMask.GetMask("UI");
+		Camera[] childCameras = UIScreensCamera.GetComponentsInChildren<Camera>();
+		foreach (Camera cam in childCameras)
+		{
+			cam.cullingMask = UIScreensCamera.cullingMask;
+		}
+		Debug.LogWarning("culling mask to UI");
 
 		Animator animator = LoadingCanvas.GetComponentInChildren<Animator>();
 		animator.speed = (waitSeconds > 0) ? 1.0f / (float)waitSeconds : 0;
@@ -72,12 +87,18 @@ public class CanvasRootController : MonoBehaviour {
 
 		UIScreen screen = LoadingCanvas.GetComponentInChildren<UIScreen>();
 		screen.IsOpen = false;
-
+		
 		while (!screen.InCloseState) {
 			yield return null;
 		}
 
-		UIScreensCamera.cullingMask = oldLayerMask;
+		UIScreensCamera.cullingMask = OldLayerMask;
+		Camera[] childCameras = UIScreensCamera.GetComponentsInChildren<Camera>();
+		foreach (Camera cam in childCameras)
+		{
+			cam.cullingMask = UIScreensCamera.cullingMask;
+		}
+		Debug.LogWarning("culling mask to old value");
 		LoadingCanvas.SetActive(false);
 	}
 
