@@ -17,6 +17,7 @@ public class CanvasRootController : MonoBehaviour {
 
 	private string _currentScreen;
 	private RoomManager _roomManager;
+	public int oldLayerMask;
 
 	// Use this for initialization
 	void Awake() {
@@ -47,6 +48,8 @@ public class CanvasRootController : MonoBehaviour {
 
 	public IEnumerator FadeOut (int waitSeconds) {
 		LoadingCanvas.SetActive(true);
+		oldLayerMask = UIScreensCamera.cullingMask;
+		UIScreensCamera.cullingMask = LayerMask.GetMask("UI");
 
 		Animator animator = LoadingCanvas.GetComponentInChildren<Animator>();
 		animator.speed = (waitSeconds > 0) ? 1.0f / (float)waitSeconds : 0;
@@ -74,6 +77,7 @@ public class CanvasRootController : MonoBehaviour {
 			yield return null;
 		}
 
+		UIScreensCamera.cullingMask = oldLayerMask;
 		LoadingCanvas.SetActive(false);
 	}
 
