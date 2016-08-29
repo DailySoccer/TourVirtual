@@ -42,13 +42,7 @@ public class MovementController : MonoBehaviour
 	private void Start ()
 	{
 	}
-
-
-	private void OnGUI()
-	{
-		GUI.Label(new Rect(0f, 0f, 100f, 100f), _movement.ToString());
-	}
-
+	
     // Update is called once per frame
     private void Update ()
     {
