@@ -47,9 +47,9 @@ public class SyncCameraTransform : MonoBehaviour
 		if (!_anchorsByType.TryGetValue(Player.Instance.CameraType, out anchor))
 			anchor = _anchorsByType[_defaultAnchorType];
 
-		if (!Mathf.Approximately(Player.Instance.CameraPitch, 0f))
-			anchor.PitchDegrees += Player.Instance.CameraPitch * Time.deltaTime;
-		else if(!Mathf.Approximately(Player.Instance.CameraRotation, 0f))
+		if (!Mathf.Approximately(Player.Instance.CameraPitchSpeed, 0f))
+			anchor.PitchDegrees += Player.Instance.CameraPitchSpeed * Time.deltaTime;
+		else if(!Mathf.Approximately(Player.Instance.CameraRotationSpeed, 0f))
 			anchor.PitchDegrees -= anchor.PitchDegrees * _pitchRecoveryForce * Time.deltaTime;
 
 		SyncWith(anchor);

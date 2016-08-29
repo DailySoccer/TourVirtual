@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
 
 	public event Action<GameObject> AvatarChange;
 	public bool AvatarVisible = true;
-	public float CameraRotation;
-	public float CameraPitch { get; set; }
+	public float CameraRotationSpeed;
+	public float CameraPitchSpeed { get; set; }
 
 	public FollowAvatar.FollowStyle FollowStyle;
 	
