@@ -9,7 +9,9 @@ public class ContentSelectorCaster : MonoBehaviour {
     GameObject oldContent;
     void Start() {
         contentLayer = LayerMask.GetMask("Content");
-    }
+		MainManager.Instance.OnVRModeSwitch -= OnVRSwitch;
+		MainManager.Instance.OnVRModeSwitch += OnVRSwitch;
+	}
 
     void FixedUpdate() {
         if (transform.position != lastPosition || transform.rotation != lastRotation) {
@@ -50,5 +52,10 @@ public class ContentSelectorCaster : MonoBehaviour {
             }
         }
     }
+
+	private void OnVRSwitch()
+	{
+		enabled = !MainManager.Instance.IsVrModeEnabled;
+	}
 
 }

@@ -19,6 +19,7 @@ public class MainManager : Photon.PunBehaviour {
 	public delegate void ChangeEvent();
 	public event ChangeEvent OnLanguageChange;
 	public event ChangeEvent OnInternetConnection;
+	public event ChangeEvent OnVRModeSwitch;
 
 	public delegate void MessagesUnreadedEvent(int counter);
 	public event MessagesUnreadedEvent OnMessagesUnreadedEvent;
@@ -40,6 +41,10 @@ public class MainManager : Photon.PunBehaviour {
 				: CameraAnchor.Type.Default;
 
 			_isVrModeEnabled = value;
+			if(OnVRModeSwitch != null)
+			{
+				OnVRModeSwitch();
+			}
 		}
 	}
 
