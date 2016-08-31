@@ -18,6 +18,9 @@ public class MovementController : MonoBehaviour
 		if(_player == null)
 			_player = GetComponent<Player>();
 
+		if (_camera == null)
+			_camera = Camera.main;
+
 		//Assert.IsNotNull(_player	, "MovementController::Awake>> Player Null!!");
 		//Assert.IsNotNull(_animator	, "MovementController::Awake>> Animator Null!!");
 		//Assert.IsNotNull(_movementTouch, "MovementController::Awake>> Movement joystick Null!!");
@@ -31,6 +34,7 @@ public class MovementController : MonoBehaviour
 	{
 		_player.AvatarChange -= OnAvatarChange;
 
+		_camera = null;
 		_player = null;
 		_animator = null;
 		_movementTouch = null;
@@ -71,7 +75,6 @@ public class MovementController : MonoBehaviour
 		  || Mathf.Abs(_movement.y) >= _joystickThreshold) )
 		{
             currentfacingSpeed = 0.46f;
-			_player.CameraRotationSpeed = _movement.x * _yawSpeedMax;
             _animator.SetFloat("Speed", Mathf.Abs(_movement.y));
 
             if (_movement.y > 0)
@@ -86,18 +89,28 @@ public class MovementController : MonoBehaviour
 		
 		if (!MainManager.Instance.IsVrModeEnabled)
 		{
-			_player.CameraRotationSpeed += _rotation.x * _yawSpeedMax;
-			_player.CameraPitchSpeed     = _rotation.y * _pitchSpeedMax;
+			_player.CameraRotationSpeed = (_movement.x + _rotation.x) * _yawSpeedMax;
+			_player.CameraPitchSpeed    = _rotation.y * _pitchSpeedMax;
 
 			_avatar.rotation =
 			    Quaternion.Slerp(_avatar.rotation,
-				    Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f), currentfacingSpeed);
-	    }
-		else
-		{
-			_avatar.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+				    Quaternion.Euler(0f, _camera.transform.rotation.eulerAngles.y, 0f), currentfacingSpeed);
 	    }
     }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	private void FixedUpdate()
+	{
+		if (!MainManager.Instance.IsVrModeEnabled)
+			return;
+
+		Vector3 nextPos = _avatar.position + Time.fixedDeltaTime * _movementSpeed *
+			(_movement.x * _camera.transform.right + _movement.y * _camera.transform.forward);
+
+		_avatar.GetComponent<Rigidbody>().MovePosition(nextPos);
+	}
 
 
 	/// <summary>
@@ -136,6 +149,8 @@ public class MovementController : MonoBehaviour
 	[SerializeField]
 	private Player _player;
 	[SerializeField]
+	private Camera _camera;
+	[SerializeField]
 	private JoystickController _movementTouch;
 	[SerializeField]
 	private JoystickController _rotationTouch;
@@ -158,6 +173,4 @@ public class MovementController : MonoBehaviour
 	[SerializeField] private string _movementVerticalAxis;
 	[SerializeField] private string _rotationHorizontalAxis;
 	[SerializeField] private string _rotationVerticalAxis;
-	
-	
 }
