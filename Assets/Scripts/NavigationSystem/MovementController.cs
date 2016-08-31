@@ -71,7 +71,6 @@ public class MovementController : MonoBehaviour
 		  || Mathf.Abs(_movement.y) >= _joystickThreshold) )
 		{
             currentfacingSpeed = 0.46f;
-			_player.CameraRotationSpeed = _movement.x * _yawSpeedMax;
             _animator.SetFloat("Speed", Mathf.Abs(_movement.y));
 
             if (_movement.y > 0)
@@ -86,7 +85,7 @@ public class MovementController : MonoBehaviour
 		
 		if (!MainManager.Instance.IsVrModeEnabled)
 		{
-			_player.CameraRotationSpeed += _rotation.x * _yawSpeedMax;
+			_player.CameraRotationSpeed = (_movement.x + _rotation.x) * _yawSpeedMax;
 			_player.CameraPitchSpeed     = _rotation.y * _pitchSpeedMax;
 
 			_avatar.rotation =
