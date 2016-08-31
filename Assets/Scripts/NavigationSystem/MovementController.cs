@@ -106,8 +106,16 @@ public class MovementController : MonoBehaviour
 		if (!MainManager.Instance.IsVrModeEnabled)
 			return;
 
+		Vector3 forwardHead = _camera.transform.forward;
+		forwardHead.y = 0f;
+		forwardHead.Normalize();
+
+		Vector3 rightHead = _camera.transform.right;
+		rightHead.y = 0f;
+		rightHead.Normalize();
+
 		Vector3 nextPos = _avatar.position + Time.fixedDeltaTime * _movementSpeed *
-			(_movement.x * _camera.transform.right + _movement.y * _camera.transform.forward);
+			(_movement.x * rightHead + _movement.y * forwardHead);
 
 		_avatar.GetComponent<Rigidbody>().MovePosition(nextPos);
 	}
