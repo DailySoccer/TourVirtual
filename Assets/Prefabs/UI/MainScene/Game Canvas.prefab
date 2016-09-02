@@ -10,7 +10,6 @@ GameObject:
   - 224: {fileID: 22416282}
   - 222: {fileID: 22248416}
   - 114: {fileID: 11401374}
-  - 114: {fileID: 11445736}
   - 114: {fileID: 11447596}
   - 114: {fileID: 11448476}
   m_Layer: 5
@@ -4498,7 +4497,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11468386}
   m_HandleRect: {fileID: 22449038}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7709,8 +7708,6 @@ MonoBehaviour:
   _showAlways: 0
   _joystickBase: {fileID: 22499326}
   _joystickStick: {fileID: 22456170}
-  _axisHorizontalName: Horizontal
-  _axisVerticalName: Vertical
   _deadZone: .100000001
 --- !u!114 &11440788
 MonoBehaviour:
@@ -7798,7 +7795,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22468014}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999762
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8299,24 +8296,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11445736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327ca18dfbbbf4d4eae617bbfc7e4225, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ROTATE_SPEED: 60
-  PITCH_SPEED: 20
-  JOYSTICK_THRESHOLD: .300000012
-  FACING_SPEED: .0120000001
-  movementSpeed: 5
-  movementJoystick: {fileID: 11440328}
-  rotationJoystick: {fileID: 11480888}
 --- !u!114 &11445806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11625,8 +11604,6 @@ MonoBehaviour:
   _showAlways: 0
   _joystickBase: {fileID: 22497962}
   _joystickStick: {fileID: 22436752}
-  _axisHorizontalName: Horizontal2
-  _axisVerticalName: Vertical2
   _deadZone: .200000003
 --- !u!114 &11480978
 MonoBehaviour:
@@ -16254,7 +16231,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: .000122070312}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: 1}
 --- !u!224 &22450762
@@ -17682,7 +17659,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 8.67843628e-05}
+  m_AnchoredPosition: {x: 0, y: -.000244140625}
   m_SizeDelta: {x: -420, y: 0}
   m_Pivot: {x: .5, y: 0}
 --- !u!224 &22487460
