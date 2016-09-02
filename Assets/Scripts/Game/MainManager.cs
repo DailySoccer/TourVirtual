@@ -469,13 +469,17 @@ public class MainManager : Photon.PunBehaviour {
 
     public void SetVrMode(){
         IsVrModeEnabled = true;
+        GameObject.Find("Cardboard").GetComponent<Cardboard>().OnBackButton += ()=>{
+            IsVrModeEnabled = false;
+        };
+/*        
         OfflineMode = true;
         if (PhotonNetwork.connected){
             PhotonNetwork.Disconnect();
     		PhotonNetwork.offlineMode = true;
         }
         ChatManager.Instance.MyDisconnect();
+*/
     }
-
 	TourEventHandler _tourEventHandler;
 }
