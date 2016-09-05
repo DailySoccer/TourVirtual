@@ -660,7 +660,7 @@ public class RoomManager : Photon.PunBehaviour {
 		return _doorToEnter;
 	}
 
-	bool _loadingRoom = false;
+	public bool _loadingRoom = false;
 	bool _bJoinedRoom=false;
 	
 	const string TAG_DEFAULT = "Default";

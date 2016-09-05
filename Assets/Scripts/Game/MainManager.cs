@@ -467,11 +467,15 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
+    public Texture m_VRIcon;
+    void OnGUI(){
+        if( IsVrModeEnabled /*&& !RoomManager.Instance._loadingRoom*/ && GUI.Button( new Rect(8,8,64,64), m_VRIcon, GUIStyle.none)){
+            IsVrModeEnabled = false;    
+        }
+    }
+
     public void SetVrMode(){
         IsVrModeEnabled = true;
-        GameObject.Find("Cardboard").GetComponent<Cardboard>().OnBackButton += ()=>{
-            IsVrModeEnabled = false;
-        };
 /*        
         OfflineMode = true;
         if (PhotonNetwork.connected){

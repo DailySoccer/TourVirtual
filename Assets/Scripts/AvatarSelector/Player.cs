@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 	{
 		get
 		{
-			RefreshAvatar(); // FRS No sé por qué está esto así, pero es un sobrecoste.
+			RefreshAvatar(); // FRS No sï¿½ por quï¿½ estï¿½ esto asï¿½, pero es un sobrecoste.
 			return _avatar ?? gameObject;
 		}
 		private set
@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
 
 	private void Start()
 	{
+		MainManager.Instance.OnVRModeSwitch+=OnVRVRModeSwitch;
 		RefreshPlayer();
 		RefreshAvatar();
 
@@ -101,6 +102,10 @@ public class Player : MonoBehaviour
 		var e = AvatarChange;
 		if (e != null)
 			e(avatar);
+	}
+	
+	void OnVRVRModeSwitch(){
+		OnAvatarChange(_avatar);
 	}
 
 

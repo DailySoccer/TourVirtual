@@ -272,9 +272,9 @@ public class CanvasManager : MonoBehaviour {
 
 		// Lanzamos la modal, solo si está cerrada previamente.
 		HideModalScreen ();
-		if( Authentication.Instance.CheckOffline() 
-			&& ((ModalLayout) newModalLayout!=ModalLayout.SETTINGS || (ModalLayout)newModalLayout!=ModalLayout.BLANK) )
-			return;
+		if(((ModalLayout) newModalLayout!=ModalLayout.SETTINGS && (ModalLayout)newModalLayout!=ModalLayout.BLANK))
+			if( Authentication.Instance.CheckOffline()) 
+				return;
 
 		StartCoroutine (ModalCloseBeforeOpenAgain(newModalLayout));
 	}

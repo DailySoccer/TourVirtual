@@ -7,9 +7,11 @@ public class LoadScreen : MonoBehaviour
 
 	public float DistanceToCamera = 1.5f;
 	public Canvas[] ScreenCanvases;
+	public Transform oldParent;
 	// Use this for initialization
 	void Start()
 	{
+		oldParent = ScreenCanvases[0].transform.parent;
 		MainManager.Instance.OnVRModeSwitch -= VRSwitch;
 		MainManager.Instance.OnVRModeSwitch += VRSwitch;
 	}
@@ -31,6 +33,7 @@ public class LoadScreen : MonoBehaviour
 			ScreenCanvases[0].transform.localRotation = Quaternion.identity;
 			ScreenCanvases[0].transform.localPosition = new Vector3(0, 0, DistanceToCamera);
 
+
 			//Game canvas
 			ScreenCanvases[1].renderMode = RenderMode.WorldSpace;
 			ScreenCanvases[1].transform.SetParent(transform);
@@ -47,6 +50,20 @@ public class LoadScreen : MonoBehaviour
 			{
 				jc.enabled = false;
 			}
+		}
+		else
+		{
+			ScreenCanvases[0].renderMode = RenderMode.ScreenSpaceOverlay;
+			ScreenCanvases[0].transform.SetParent(oldParent);
+			
+			ScreenCanvases[1].renderMode = RenderMode.ScreenSpaceOverlay;
+			ScreenCanvases[1].transform.SetParent(oldParent);
+			JoystickController[] joysticks = ScreenCanvases[1].transform.GetComponentsInChildren<JoystickController>();
+			foreach (JoystickController jc in joysticks)
+			{
+				jc.enabled = true;
+			}
+			
 		}
 	}
 }
