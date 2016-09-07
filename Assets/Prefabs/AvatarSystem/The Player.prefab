@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvatarVisible: 1
-  CameraRotation: 0
+  CameraRotationSpeed: 0
   FollowStyle: 1
   _cameraType: 2
 --- !u!114 &11470108
@@ -161,10 +161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 11462548}
+  _camera: {fileID: 0}
   _movementTouch: {fileID: 0}
   _rotationTouch: {fileID: 0}
-  _yawSpeed: 60
-  _pitchSpeed: 20
+  _yawSpeedMax: 90
+  _pitchSpeedMax: 45
   _joystickThreshold: .300000012
   _facingSpeed: .0120000001
   _movementSpeed: 5
@@ -223,6 +224,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _yawSpeedMax
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _pitchSpeedMax
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
