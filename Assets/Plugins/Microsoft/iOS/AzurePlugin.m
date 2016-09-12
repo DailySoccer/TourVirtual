@@ -123,10 +123,20 @@ NSMutableArray *GetLocalization(NSSet * levelNames){
     return ret;
 }
 
-void _GetFanApps(char* appID, char* deviceID,char* _hash){
+void _PostFanApps(char* appID, char* _deviceID,char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    NSString *res = [NSString stringWithFormat:@"%@:OK", hash ];
-    UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+    __block NSString* deveiceID = CreateNSString(_deviceID);
+
+    [[[MDPClientHandler sharedInstance] getFanHandler] postAppsWithDeviceId:deviceID enablePushNotifications:NO deviceType:MDPFanModelDeviceType.MDPAppItemModelDeviceTypePhone platformVersion:@"Unknow"
+            completionBlock:^(MDPFanHandlerResponseBlock *content, NSError *error) {
+        if (error) {
+            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );            
+        } else {
+            NSString *res = [NSString stringWithFormat:@"%@:OK", hash];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+        }
+    }
 }
 
 void _GetFanMe(char* _hash){

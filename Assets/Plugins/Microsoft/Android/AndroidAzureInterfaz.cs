@@ -66,9 +66,9 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
 #endregion
 
-    public override Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+    public override Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
-        activity.Call("GetFanApps", SystemInfo.deviceUniqueIdentifier, op.Hash);
+        activity.Call("PostFanApps", SystemInfo.deviceUniqueIdentifier, op.Hash);
         return StartCoroutine( op.Wait() );
     }
 

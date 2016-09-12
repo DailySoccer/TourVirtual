@@ -148,7 +148,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 
     public void OnGetMessages(string channelId, string[] senders, object[] messages)
 	{
-		// Debug.Log (string.Format ("OnGetMessages [{0}]", channelId));
+		Debug.Log (string.Format ("OnGetMessages [{0}]", channelId));
 	    List<ChatMessage> channelHistory;
 	    if (!History.TryGetValue(channelId, out channelHistory)) {
 		    channelHistory = new List<ChatMessage>();
@@ -163,7 +163,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	}
 	
 	public void OnPrivateMessage(string sender, object message, string channelName) {
-//		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelId, sender, message));
+		Debug.Log (string.Format ("OnPrivateMessage [{0}]: {1}: {2}", channelName, sender, message));
 		if (!History.ContainsKey(channelName)) {
 			History.Add(channelName, new List<ChatMessage>());
 

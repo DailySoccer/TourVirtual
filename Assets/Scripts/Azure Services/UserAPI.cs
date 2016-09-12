@@ -99,8 +99,13 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
+
+        UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, 100);
+
 // Aclarar con Microsoft que llamada es esta.
-//        yield return Authentication.AzureServices.GetFanApps((ret)=>{},(err)=>{});
+        yield return Authentication.AzureServices.PostFanApps((ok)=>{Debug.LogError("PostFanApps OK: "+ok); },(err)=>{ Debug.LogError("PostFanApps ERROR: "+err); });
+// Evento añadido el dia 9/9/16 por peticion de microsoft.        
+        UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");

@@ -56,10 +56,10 @@ public class IOSAzureInterfaz : AzureInterfaz {
     }
     
     [DllImport ("__Internal")]
-    private static extern void _GetFanApps(string appID, string deviceID,string hash);
-    public override Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+    private static extern void _PostFanApps(string appID, string deviceID,string hash);
+    public override Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
-        _GetFanApps( Application.bundleIdentifier, SystemInfo.deviceUniqueIdentifier, op.Hash);
+        _PostFanApps( Application.bundleIdentifier, SystemInfo.deviceUniqueIdentifier, op.Hash);
         return StartCoroutine( op.Wait() );
     }
     
