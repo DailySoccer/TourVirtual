@@ -8,8 +8,8 @@ public class AsyncOperation{
     static Dictionary<string, AsyncOperation> Operations = new Dictionary<string, AsyncOperation>();
     public static RequestEvent DefaultError = (err)=>{};
 
-    public static AsyncOperation Create(RequestEvent OnSucess = null, RequestEvent OnError = null) {
-        var op = new AsyncOperation((counter++).ToString("X8"), OnSucess, OnError);
+    public static AsyncOperation Create(RequestEvent OnSucess = null, RequestEvent OnError = null,string sufix="") {
+        var op = new AsyncOperation((counter++).ToString("X8") + sufix, OnSucess, OnError);
         Operations.Add(op.Hash, op);
         return op;
     }
@@ -29,7 +29,7 @@ public class AsyncOperation{
                     if(op.OnSuccess != null) op.OnSuccess(rest);
                 } else if (!success) {
                     // Elimino la capa de carga...
-                     UnityEngine.Debug.LogError(">>>>> OnError " + rest);
+                     UnityEngine.Debug.LogError(">>>>> OnError("+hash+") " + rest);
                     if(op.OnError != null){
                         op.OnError(rest);
                     }else{

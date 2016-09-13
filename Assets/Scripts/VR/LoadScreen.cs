@@ -35,6 +35,8 @@ public class LoadScreen : MonoBehaviour
 			ScreenCanvases[0].transform.localPosition = new Vector3(0, 0, DistanceToCamera);
 
 			//Game canvas
+			ScreenCanvases[1].gameObject.SetActive(false);
+			/*
 			ScreenCanvases[1].renderMode = RenderMode.WorldSpace;
 			ScreenCanvases[1].transform.SetParent(transform);
 //			oldScale = ScreenCanvases[1].transform.localScale.x;
@@ -50,6 +52,7 @@ public class LoadScreen : MonoBehaviour
 			{
 				jc.enabled = false;
 			}
+			*/
 		}
 		else
 		{
@@ -57,7 +60,10 @@ public class LoadScreen : MonoBehaviour
 			transform.localRotation = Quaternion.identity;
 			ScreenCanvases[0].renderMode = RenderMode.ScreenSpaceOverlay;
 			ScreenCanvases[0].transform.SetParent(oldParent);
-			
+			// Si esta activo el GUI de game, lo reactivo.
+			if( RoomManager.Instance!=null && RoomManager.Instance.Room!=null && RoomManager.Instance.Room.Gui==RoomDefinition.GUI_GAME)
+				ScreenCanvases[1].gameObject.SetActive(true);
+			/*
 			ScreenCanvases[1].renderMode = RenderMode.ScreenSpaceOverlay;
 			ScreenCanvases[1].transform.SetParent(oldParent);
 			JoystickController[] joysticks = ScreenCanvases[1].transform.GetComponentsInChildren<JoystickController>();
@@ -65,7 +71,7 @@ public class LoadScreen : MonoBehaviour
 			{
 				jc.enabled = true;
 			}
-			
+			*/
 		}
 	}
 }

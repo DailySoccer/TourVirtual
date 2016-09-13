@@ -13,7 +13,7 @@ using SmartLocalization;
 public class UserAPI {
 #if UNITY_EDITOR
    //TODO: put this value to 'true'
-    public bool Online = true;
+    public bool Online = false;
 #else
 	public bool Online = true;
 #endif
@@ -99,8 +99,6 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
-
-        UserAPI.Instance.SetScore(UserAPI.MiniGame.HiddenObjects, 100);
 
 // Aclarar con Microsoft que llamada es esta.
         yield return Authentication.AzureServices.PostFanApps((ok)=>{Debug.LogError("PostFanApps OK: "+ok); },(err)=>{ Debug.LogError("PostFanApps ERROR: "+err); });

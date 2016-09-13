@@ -118,10 +118,8 @@ public class CanvasRootController : MonoBehaviour {
 	void OnLevelReady() {
 		//GameObject canvas;
 		//VR edit ('if' statement)
-		//if (!MainManager.Instance.IsVrModeEnabled)
-		//{
-			switch (_roomManager.Room.Gui)
-			{
+//		if (!MainManager.Instance.IsVrModeEnabled) {
+			switch (_roomManager.Room.Gui) {
 				case RoomDefinition.GUI_GAME: // Game Scene
 														//canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
 					GameObject goCanvasGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas");
@@ -133,7 +131,7 @@ public class CanvasRootController : MonoBehaviour {
 					goCanvasMiniGame.SetActive(true);
 					break;
 			}
-		//}
+//		}
 		//VR edit END
 	}
 }
