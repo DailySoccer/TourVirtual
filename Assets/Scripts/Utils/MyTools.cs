@@ -84,7 +84,12 @@ public class MyTools
 	}
 	
 	public static bool GetPlayerPrefsBool (string name) {
-		return PlayerPrefs.GetInt(name) == 1 ? true : false;
+        try{
+		    return PlayerPrefs.GetInt(name) == 1 ? true : false;
+        }catch(System.Exception e){
+            Debug.LogError("ERROR: GetPlayerPrefsBool "+e);
+        }
+        return true;
 	}
 	
 	public static bool GetPlayerPrefsBool (string name, bool defaultValue) {

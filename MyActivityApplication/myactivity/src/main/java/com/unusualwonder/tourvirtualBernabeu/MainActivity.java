@@ -208,7 +208,7 @@ public class MainActivity extends UnityPlayerActivity {
 
         AppItem appItem = new AppItem();
         appItem.setEnaBlePushNotifications(false);
-        appItem.setPushNotificationHandler(null);
+        appItem.setPushNotificationHandler("");
         appItem.setType(0);
         appItem.setPlatformVersion("1.0.6");
         DigitalPlatformClient.getInstance().getFanHandler().postApps(this, deviceID,appItem, callback);

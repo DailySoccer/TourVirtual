@@ -87,7 +87,7 @@ public class MainManager : Photon.PunBehaviour {
 		}
 		set {
 			_soundEnabled = value;
-			//TODO: Setear el AudioMaster a 0 (False) / 1 (True)
+			//TODO: Setear el AudioMaster a 0 (False) / 1 (True)            
 			AudioInGameController.Instance.SetMasterVolume(value ? 1f : 0f);
 			MyTools.SetPlayerPrefsBool("sound", value);
 			PlayerPrefs.Save();
@@ -158,8 +158,6 @@ public class MainManager : Photon.PunBehaviour {
 
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
-
-		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
@@ -177,6 +175,7 @@ public class MainManager : Photon.PunBehaviour {
 
     void Start()
 	{
+		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");
