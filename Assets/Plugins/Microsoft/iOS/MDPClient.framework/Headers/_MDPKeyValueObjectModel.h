@@ -25,6 +25,7 @@ extern const struct MDPKeyValueObjectModelAttributes {
 
 extern const struct MDPKeyValueObjectModelRelationships {
 	__unsafe_unretained NSString *basketLineUpPlayerPosition;
+	__unsafe_unretained NSString *basketLiveMatchPeriod;
 	__unsafe_unretained NSString *basketLiveMatchPlayerStatisticsPosition;
 	__unsafe_unretained NSString *bookingPeriod;
 	__unsafe_unretained NSString *competitionMatchLeg;
@@ -47,6 +48,7 @@ extern const struct MDPKeyValueObjectModelRelationships {
 } MDPKeyValueObjectModelRelationships;
 
 @class MDPBasketLineUpPlayerModel;
+@class MDPBasketLiveMatchModel;
 @class MDPBasketLiveMatchPlayerStatisticsModel;
 @class MDPBookingModel;
 @class MDPCompetitionMatchModel;
@@ -108,6 +110,10 @@ extern const struct MDPKeyValueObjectModelRelationships {
 @property (nonatomic, strong) NSSet *basketLineUpPlayerPosition;
 
 - (NSMutableSet*)basketLineUpPlayerPositionSet;
+
+@property (nonatomic, strong) NSSet *basketLiveMatchPeriod;
+
+- (NSMutableSet*)basketLiveMatchPeriodSet;
 
 @property (nonatomic, strong) NSSet *basketLiveMatchPlayerStatisticsPosition;
 
@@ -192,6 +198,13 @@ extern const struct MDPKeyValueObjectModelRelationships {
 - (void)removeBasketLineUpPlayerPosition:(NSSet*)value_;
 - (void)addBasketLineUpPlayerPositionObject:(MDPBasketLineUpPlayerModel*)value_;
 - (void)removeBasketLineUpPlayerPositionObject:(MDPBasketLineUpPlayerModel*)value_;
+@end
+
+@interface _MDPKeyValueObjectModel (BasketLiveMatchPeriodCoreDataGeneratedAccessors)
+- (void)addBasketLiveMatchPeriod:(NSSet*)value_;
+- (void)removeBasketLiveMatchPeriod:(NSSet*)value_;
+- (void)addBasketLiveMatchPeriodObject:(MDPBasketLiveMatchModel*)value_;
+- (void)removeBasketLiveMatchPeriodObject:(MDPBasketLiveMatchModel*)value_;
 @end
 
 @interface _MDPKeyValueObjectModel (BasketLiveMatchPlayerStatisticsPositionCoreDataGeneratedAccessors)
@@ -358,6 +371,9 @@ extern const struct MDPKeyValueObjectModelRelationships {
 
 - (NSMutableSet*)primitiveBasketLineUpPlayerPosition;
 - (void)setPrimitiveBasketLineUpPlayerPosition:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveBasketLiveMatchPeriod;
+- (void)setPrimitiveBasketLiveMatchPeriod:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveBasketLiveMatchPlayerStatisticsPosition;
 - (void)setPrimitiveBasketLiveMatchPlayerStatisticsPosition:(NSMutableSet*)value;

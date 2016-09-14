@@ -20,7 +20,9 @@ extern const struct MDPBasketLiveMatchModelAttributes {
 	__unsafe_unretained NSString *idMatch;
 	__unsafe_unretained NSString *idSeason;
 	__unsafe_unretained NSString *idStadium;
+	__unsafe_unretained NSString *ingestionDateTime;
 	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *matchDay;
 	__unsafe_unretained NSString *occupancyRate;
 	__unsafe_unretained NSString *seasonName;
 	__unsafe_unretained NSString *stadiumName;
@@ -33,6 +35,7 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 	__unsafe_unretained NSString *boxscorePerQuarter;
 	__unsafe_unretained NSString *homeTeam;
 	__unsafe_unretained NSString *matchOfficials;
+	__unsafe_unretained NSString *period;
 } MDPBasketLiveMatchModelRelationships;
 
 @class MDPBasketTeamDataModel;
@@ -41,6 +44,7 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 @class MDPBasketBoxscoreModel;
 @class MDPBasketTeamDataModel;
 @class MDPMatchOfficialModel;
+@class MDPKeyValueObjectModel;
 
 @interface _MDPBasketLiveMatchModel : NSManagedObject
 
@@ -76,9 +80,17 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 
 //- (BOOL)validateIdStadium:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSDate* ingestionDateTime;
+
+//- (BOOL)validateIngestionDateTime:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* matchDay;
+
+//- (BOOL)validateMatchDay:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* occupancyRate;
 
@@ -119,6 +131,10 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 @property (nonatomic, strong) NSSet *matchOfficials;
 
 - (NSMutableSet*)matchOfficialsSet;
+
+@property (nonatomic, strong) MDPKeyValueObjectModel *period;
+
+//- (BOOL)validatePeriod:(id*)value_ error:(NSError**)error_;
 
 @end
 
@@ -176,8 +192,14 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 - (int64_t)primitiveIdStadiumValue;
 - (void)setPrimitiveIdStadiumValue:(int64_t)value_;
 
+- (NSDate*)primitiveIngestionDateTime;
+- (void)setPrimitiveIngestionDateTime:(NSDate*)value;
+
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSString*)primitiveMatchDay;
+- (void)setPrimitiveMatchDay:(NSString*)value;
 
 - (NSNumber*)primitiveOccupancyRate;
 - (void)setPrimitiveOccupancyRate:(NSNumber*)value;
@@ -208,5 +230,8 @@ extern const struct MDPBasketLiveMatchModelRelationships {
 
 - (NSMutableSet*)primitiveMatchOfficials;
 - (void)setPrimitiveMatchOfficials:(NSMutableSet*)value;
+
+- (MDPKeyValueObjectModel*)primitivePeriod;
+- (void)setPrimitivePeriod:(MDPKeyValueObjectModel*)value;
 
 @end

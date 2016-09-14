@@ -13,6 +13,8 @@
 #import "MDPPagedSubscriptionConfigurationBasicInfoModel.h"
 #import "MDPPagedVideosModel.h"
 #import "MDPVideoModel.h"
+#import "MDPExtendedSearchModel.h"
+#import "MDPVideoPackSearchModel.h"
 
 
 #pragma mark  - Response
@@ -85,14 +87,8 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  MainActors: Collection of string
  MatchEventTypes: Collection of string
  */
-+ (void)searchVideosByCriteriaWithCompetition:(NSString *)competition
-                                          season:(NSString *)season
-                                      mainActors:(NSArray *)mainActors
-                                 matchEventTypes:(NSArray *)matchEventTypes
-                                             top:(NSInteger)top
-                                            skip:(NSInteger)skip
-                                   searchText:(NSString *)searchText
-                                 completionBlock:(MDPVideoHandlerResponseBlock)completionBlock;
++ (void)searchVideosByCriteriaWithExtendedSearch:(MDPExtendedSearchModel *)extendedSearch
+                                 completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
  Get the most played videos
@@ -133,15 +129,8 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
 /*
  Gets the video packs by search metadata.
  */
-+ (void)searchVideoPackByMetadataWithSeason:(NSString *)season
-                            videoTypes:(NSArray *)videoTypes
-                            matchEventTypes:(NSArray *)matchEventTypes
-                            competitionType:(NSString *)competitionType
-                                 mainActors:(NSArray *)mainActors
-                                   language:(NSString *)language
-                                        top:(NSInteger)top
-                                       skip:(NSInteger)skip
-                            completionBlock:(void(^)(MDPPagedSubscriptionConfigurationBasicInfoModel *content, NSError *error))completionBlock;
++ (void)searchVideoPackByMetadataWithVideoPackSearch:(MDPVideoPackSearchModel *)videoPackSearchModel
+                                     completionBlock:(void(^)(MDPPagedSubscriptionConfigurationBasicInfoModel *content, NSError *error))completionBlock;
 
 /*
  Gets the videos recommended to the user

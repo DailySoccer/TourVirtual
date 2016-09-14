@@ -30,11 +30,15 @@ typedef void (^MDPCountriesHandlerResponseBlock)(NSArray *response, NSError *err
                      completionBlock:(MDPCountriesHandlerResponseBlock)completionBlock;
 
 /*
- Listens to MDPCountryModel objects. Return the elements order for countries
+ Gets database objects
  */
+// MDPCountryModel. Return the elements order for countries
 + (NSMutableDictionary *)countriesWithLanguage:(NSString *)language;
 
 + (NSMutableDictionary *)countryWithLanguage:(NSString *)language countryCode:(NSString *)countryCode;
+
+// MDPStateModel
++ (NSMutableDictionary *)statesWithLanguage:(NSString *)language countryCode:(NSString *)countryCode;
 
 @end
 

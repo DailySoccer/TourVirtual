@@ -128,6 +128,7 @@ typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *erro
 
 /*
  Gets the calendar for a team between to dates.
+ Parameters NSDate have a locale en_US
  */
 + (void)getMatchesByDateRangeWithFrom:(NSDate *)from
                                    to:(NSDate *)to
