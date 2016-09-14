@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,6 +24,7 @@ import com.microsoft.mdp.sdk.model.achievements.Achievement;
 import com.microsoft.mdp.sdk.model.achievements.AchievementConfiguration;
 import com.microsoft.mdp.sdk.model.achievements.PagedAchievements;
 import com.microsoft.mdp.sdk.model.apps.App;
+import com.microsoft.mdp.sdk.model.apps.AppItem;
 import com.microsoft.mdp.sdk.model.contents.Asset;
 import com.microsoft.mdp.sdk.model.contents.CompactContent;
 import com.microsoft.mdp.sdk.model.contents.Content;
@@ -191,14 +193,11 @@ public class MainActivity extends UnityPlayerActivity {
         UnityPlayer.UnitySendMessage("Azure Services", "OnResponseKO", hash + ":" + err.getCode() + ":" + err.getMessage());
     }
 
-    // ESTO ESTA MAL!!!!
-    // ESTO ESTA MAL!!!!
-    // ESTO ESTA MAL!!!!
-    public void GetFanApps(String deviceID, final String hash) {
-        ServiceResponseListener<App> callback = new ServiceResponseListener<App>() {
+    public void PostFanApps(String deviceID, final String hash) {
+        ServiceResponseListener<String> callback = new ServiceResponseListener<String>() {
             @Override
-            public void onResponse(App res) {
-                SendOkResponse(hash, gson.toJson(res));
+            public void onResponse(String res) {
+                SendOkResponse(hash, res);
             }
 
             @Override
@@ -206,11 +205,14 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getFanHandler().getFanApps(this, deviceID, callback);
+
+        AppItem appItem = new AppItem();
+        appItem.setEnaBlePushNotifications(false);
+        appItem.setPushNotificationHandler("");
+        appItem.setType(0);
+        appItem.setPlatformVersion("1.0.6");
+        DigitalPlatformClient.getInstance().getFanHandler().postApps(this, deviceID,appItem, callback);
     }
-    // ESTO ESTA MAL!!!!
-    // ESTO ESTA MAL!!!!
-    // ESTO ESTA MAL!!!!
 
     public void GetFanMe(final String hash) {
         ServiceResponseListener<Fan> callback = new ServiceResponseListener<Fan>() {

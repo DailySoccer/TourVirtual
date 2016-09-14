@@ -100,7 +100,8 @@ public class UserAPI {
 
         LoadingContentText.SetText("API.User");
 // Aclarar con Microsoft que llamada es esta.
-//        yield return Authentication.AzureServices.GetFanApps((ret)=>{},(err)=>{});
+        yield return Authentication.AzureServices.PostFanApps();
+        UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");

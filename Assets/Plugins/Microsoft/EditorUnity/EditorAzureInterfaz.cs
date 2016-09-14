@@ -151,7 +151,7 @@ public class EditorAzureInterfaz : AzureInterfaz
     }
 #endregion
 
-    public override Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
+    public override Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null)
     {
         HTTPRequest request = SendRequest(HTTPMethods.Get, string.Format("api/v1/fan/me/Apps/{0}/{1}", this.IDClient, SystemInfo.deviceUniqueIdentifier));
         var op = AsyncOperation.Create(OnSucess, OnError);

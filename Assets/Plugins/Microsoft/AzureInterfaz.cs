@@ -55,8 +55,7 @@ public class AzureInterfaz : MonoBehaviour
     }
     
 // No se para que es esto.
-    public virtual Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
-
+    public virtual Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
     // Profile
     public virtual Coroutine GetFanMe(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
     public virtual Coroutine GetProfileAvatar(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }

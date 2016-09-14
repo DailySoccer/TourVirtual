@@ -66,27 +66,27 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
 #endregion
 
-    public override Coroutine GetFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
-        activity.Call("GetFanApps", SystemInfo.deviceUniqueIdentifier, op.Hash);
+    public override Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError, "PostFanApps");
+        activity.Call("PostFanApps", SystemInfo.deviceUniqueIdentifier, op.Hash);
         return StartCoroutine( op.Wait() );
     }
 
 // Profile ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetFanMe(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError, "GetFanMe");
         activity.Call("GetFanMe", op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetProfileAvatar(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError, "GetProfileAvatar");
         activity.Call("GetProfileAvatar", op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 	public override Coroutine CreateProfileAvatar(object profile, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-		var op = AsyncOperation.Create(OnSucess, OnError);
+		var op = AsyncOperation.Create(OnSucess, OnError,"CreateProfileAvatar");
 		activity.Call("CreateProfileAvatar", MiniJSON.Json.Serialize(profile), op.Hash);
 		return StartCoroutine(op.Wait());
 	}
@@ -98,109 +98,109 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
 */
     public override Coroutine CheckAlias(string nick, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"CheckAlias");
         activity.Call("CheckAlias", nick, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine UpdateAlias(string nick, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"UpdateAlias");
         activity.Call("UpdateAlias", nick, op.Hash);
         return StartCoroutine(op.Wait());
     }
     
     public override Coroutine SendAvatarImage(byte[] bitmap, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"SendAvatarImage");
         activity.Call("SendAvatarImage", bitmap, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // Scores ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine SendScore(string IDMinigame, int score, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"SendScore");
         activity.Call("SendScore", IDMinigame, score, op.Hash);
         return StartCoroutine(op.Wait());
         
     }
 
     public override Coroutine GetMaxScore(string IDMinigame, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetMaxScore");
         activity.Call("GetMaxScore", IDMinigame, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetRanking(string IDMinigame, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetRanking");
         activity.Call("GetRanking", IDMinigame, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetFanRanking(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetFanRanking");
         activity.Call("GetFanRanking", op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // Virtual Goods ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetVirtualGoods(string type, int page, string subtype = null, bool onlyPurchasables = false, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetVirtualGoods");
         activity.Call("GetVirtualGoods", type, page, MainLanguage, subtype, onlyPurchasables, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetVirtualGoodsPurchased(string type, string token = null, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetVirtualGoodsPurchased");
         activity.Call("GetVirtualGoodsPurchased", type, MainLanguage, token, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine PurchaseVirtualGood(string IDVirtualGood, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"PurchaseVirtualGood");
         activity.Call("PurchaseVirtualGood", IDVirtualGood, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // Achievements ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetAchievements(string type, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetAchievements");
         activity.Call("GetAchievements", type, MainLanguage, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetAchievementsEarned(string type, string token = null, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetAchievementsEarned");
         activity.Call("GetAchievementsEarned", type, MainLanguage, token, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // Contents ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GetContents(string type, int page, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetContents");
         activity.Call("GetContents", type, page, MainLanguage, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
     public override Coroutine GetContent(string IDContent, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GetContent");
         activity.Call("GetContent", IDContent, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // Gamificación ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine GamificationStatus(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"GamificationStatus");
         activity.Call("GamificationStatus", MainLanguage, op.Hash);
         return StartCoroutine(op.Wait());
     }
     public override Coroutine SendAction(string IDAction, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"SendAction");
         activity.Call("SendAction", IDAction, op.Hash);
         return StartCoroutine(op.Wait());
     }
 
 // InApp Purchases ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine InAppPurchase(string IDProduct, string Receipt, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-        var op = AsyncOperation.Create(OnSucess, OnError);
+        var op = AsyncOperation.Create(OnSucess, OnError,"InAppPurchase");
         activity.Call("InAppPurchase", IDProduct, Receipt, op.Hash);
         return StartCoroutine(op.Wait());
     }
