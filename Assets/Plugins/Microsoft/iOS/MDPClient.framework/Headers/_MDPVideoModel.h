@@ -28,6 +28,7 @@ extern const struct MDPVideoModelAttributes {
 	__unsafe_unretained NSString *matchMinute;
 	__unsafe_unretained NSString *place;
 	__unsafe_unretained NSString *playCount;
+	__unsafe_unretained NSString *publicationMethods;
 	__unsafe_unretained NSString *recordingDate;
 	__unsafe_unretained NSString *searchCount;
 	__unsafe_unretained NSString *season;
@@ -48,12 +49,16 @@ extern const struct MDPVideoModelAttributes {
 } MDPVideoModelAttributes;
 
 extern const struct MDPVideoModelRelationships {
+	__unsafe_unretained NSString *location;
 	__unsafe_unretained NSString *pagedVideosItems;
 	__unsafe_unretained NSString *pagedVideosRequest;
+	__unsafe_unretained NSString *publicationChannels;
 } MDPVideoModelRelationships;
 
+@class MDPGeoJsonPointModel;
 @class MDPPagedVideosModel;
 @class MDPPagedVideosRequestModel;
+@class MDPVideoPublicationChannelModel;
 
 @interface _MDPVideoModel : NSManagedObject
 
@@ -124,6 +129,10 @@ extern const struct MDPVideoModelRelationships {
 - (void)setPlayCountValue:(int64_t)value_;
 
 //- (BOOL)validatePlayCount:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSData* publicationMethods;
+
+//- (BOOL)validatePublicationMethods:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* recordingDate;
 
@@ -201,6 +210,10 @@ extern const struct MDPVideoModelRelationships {
 
 //- (BOOL)validateVideoTypes:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPGeoJsonPointModel *location;
+
+//- (BOOL)validateLocation:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) MDPPagedVideosModel *pagedVideosItems;
 
 //- (BOOL)validatePagedVideosItems:(id*)value_ error:(NSError**)error_;
@@ -209,6 +222,17 @@ extern const struct MDPVideoModelRelationships {
 
 //- (BOOL)validatePagedVideosRequest:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSSet *publicationChannels;
+
+- (NSMutableSet*)publicationChannelsSet;
+
+@end
+
+@interface _MDPVideoModel (PublicationChannelsCoreDataGeneratedAccessors)
+- (void)addPublicationChannels:(NSSet*)value_;
+- (void)removePublicationChannels:(NSSet*)value_;
+- (void)addPublicationChannelsObject:(MDPVideoPublicationChannelModel*)value_;
+- (void)removePublicationChannelsObject:(MDPVideoPublicationChannelModel*)value_;
 @end
 
 @interface _MDPVideoModel (CoreDataGeneratedPrimitiveAccessors)
@@ -263,6 +287,9 @@ extern const struct MDPVideoModelRelationships {
 
 - (int64_t)primitivePlayCountValue;
 - (void)setPrimitivePlayCountValue:(int64_t)value_;
+
+- (NSData*)primitivePublicationMethods;
+- (void)setPrimitivePublicationMethods:(NSData*)value;
 
 - (NSDate*)primitiveRecordingDate;
 - (void)setPrimitiveRecordingDate:(NSDate*)value;
@@ -321,10 +348,16 @@ extern const struct MDPVideoModelRelationships {
 - (NSData*)primitiveVideoTypes;
 - (void)setPrimitiveVideoTypes:(NSData*)value;
 
+- (MDPGeoJsonPointModel*)primitiveLocation;
+- (void)setPrimitiveLocation:(MDPGeoJsonPointModel*)value;
+
 - (MDPPagedVideosModel*)primitivePagedVideosItems;
 - (void)setPrimitivePagedVideosItems:(MDPPagedVideosModel*)value;
 
 - (MDPPagedVideosRequestModel*)primitivePagedVideosRequest;
 - (void)setPrimitivePagedVideosRequest:(MDPPagedVideosRequestModel*)value;
+
+- (NSMutableSet*)primitivePublicationChannels;
+- (void)setPrimitivePublicationChannels:(NSMutableSet*)value;
 
 @end

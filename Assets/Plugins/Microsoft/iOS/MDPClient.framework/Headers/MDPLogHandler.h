@@ -15,25 +15,27 @@
 #define expirationCookieBetweenBackgroundAndForeground              30*60   // 30 minutes in seconds
 
 // Properties: custom events
-#define MDPUserId                                                   @"Mdp.UserId"
-#define MDPClientId                                                 @"Mdp.ClientId"
 #define MDPAppVersion                                               @"Mdp.AppVersion"
-#define MDPLanguage                                                 @"Mdp.Language"
+#define MDPClientId                                                 @"Mdp.ClientId"
 #define MDPCurrentSport                                             @"Mdp.CurrentSport"
-#define MDPEventTime                                                @"Mdp.EventTime"
-#define MDPEventName                                                @"Mdp.Apps.%@.%@"   // Mdp.Apps.{Platform}.<EventName>
-#define MDPEventLevel                                               @"Mdp.EventLevel"
-#define MDPEventType                                                @"Mdp.EventType"
-#define MDPEventMessageEvent                                        @"Mdp.MessageEvent"
-#define MDPNavigationSection                                        @"Mdp.NavigationSection"
-#define MDPNavigationSubSection                                     @"Mdp.NavigationSubSection"
-#define MDPModule                                                   @"Mdp.Module"
-#define MDPMethodName                                               @"Mdp.MethodName"
-#define MDPLineNumber                                               @"Mdp.LineNumber"
 #define MDPDestinationNavigation                                    @"Mdp.DestinationNavigation"
-#define MDPPurchaseStep                                             @"Mdp.PurchaseStep"
-#define MDPPurchaseOrderId                                          @"Mdp.OrderId"
+#define MDPEventLevel                                               @"Mdp.EventLevel"
+#define MDPEventMessageEvent                                        @"Mdp.MessageEvent"
+#define MDPEventName                                                @"Mdp.Apps.%@.%@"   // Mdp.Apps.{Platform}.<EventName>
+#define MDPEventTime                                                @"Mdp.EventTime"
+#define MDPEventType                                                @"Mdp.EventType"
+#define MDPLanguage                                                 @"Mdp.Language"
+#define MDPLineNumber                                               @"Mdp.LineNumber"
+#define MDPMethodName                                               @"Mdp.MethodName"
+#define MDPModule                                                   @"Mdp.Module"
 #define MDPPurchaseId                                               @"Mdp.PurchaseId"
+#define MDPPurchaseOrderId                                          @"Mdp.OrderId"
+#define MDPPurchaseStep                                             @"Mdp.PurchaseStep"
+#define MDPEventSequence                                            @"Mdp.EventSequence"
+#define MDPTicks                                                    @"Mdp.Ticks"
+#define MDPUserId                                                   @"Mdp.UserId"
+#define MDPSessionId                                                @"Mdp.SessionId"
+
 
 #define MDPCurrentSportFootball                                     @"Football"
 #define MDPCurrentSportBasketBall                                   @"Basketball"
@@ -50,7 +52,6 @@
 #define MDPEventTypeBusiness                                        @"Business"
 #define MDPEventTypeTechnical                                       @"Technical"
 
-
 // NavigationEvent
 #define MDPTriggeredBy                                              @"Mdp.TriggeredBy"
 #define MDPFromView                                                 @"Mdp.FromView"
@@ -62,6 +63,41 @@
 #define MDPToSection                                                @"Mdp.ToSection"
 #define MDPToSubsection                                             @"Mdp.ToSubsection"
 #define MDPToParams                                                 @"Mdp.ToParams"
+#define MDPNavigationSection                                        @"Mdp.NavigationSection"
+
+// ADImpresion
+#define MDPAdAction                                                 @"Mdp.AdAction"
+#define MDPAdType                                                   @"Mdp.AdType"
+#define MDPIdAdvertisement                                          @"Mdp.IdAdvertisement"
+#define MDPAdPosition                                               @"Mdp.AdPosition"
+#define MDPOrderId                                                  @"Mdp.OrderId"
+#define MDPView                                                     @"Mdp.View"
+#define MDPSection                                                  @"Mdp.Section"
+#define MDPSubsection                                               @"Mdp.SubSection"
+#define MDPParams                                                   @"Mdp.Params"
+#define MDPAdMultipleOrder                                          @"Mdp.AdMultipleOrder"
+
+// Videos
+#define MDPVideoAction                                              @"Mdp.VideoAction"
+#define MDPVideoType                                                @"Mdp.VideoType"
+#define MDPVideoURL                                                 @"Mdp.VideoURL"
+#define MDPVideoId                                                  @"Mdp.VideoId"
+#define MDPContentVideoType                                         @"Mdp.ContentVideoType"
+#define MDPCompetitionType                                          @"Mdp.CompetitionType"
+#define MDPIdCompetition                                            @"Mdp.IdCompetition"
+#define MDPIdSeason                                                 @"Mdp.IdSeason"
+#define MDPIdMatch                                                  @"Mdp.IdMatch"
+#define MDPVideoLanguage                                            @"Mdp.VideoLanguage"
+#define MDPSeason                                                   @"Mdp.Season"
+#define MDPIdMatch                                                  @"Mdp.IdMatch"
+#define MDPMainActors                                               @"Mdp.MainActors"
+#define MDPMatchEventTypes                                          @"Mdp.MatchEventTypes"
+#define MDPCamera                                                   @"Mdp.Camera"
+#define MDPIdSubscription                                           @"Mdp.IdSubscription"
+#define MDPChannelName                                              @"Mdp.ChannelName"
+#define MDPEventId                                                  @"Mdp.EventId"
+#define MDPVideoName                                                @"Mdp.VideoName"
+#define MDPIdAdvertisement                                          @"Mdp.IdAdvertisement"
 
 
 #pragma mark - Interface
@@ -71,15 +107,28 @@
 
 + (instancetype)sharedInstance;
 
+#pragma mark - Sequence
+// Gets sequence
+- (NSInteger)sequenceGenerated;
+
+// Increases sequence in 1
+- (void)increaseSequence;
+
+// Generates a new cookie with a randon userId
+- (void)generateNewCookie;
+
+// Regenerates a cookie, if the userId is nill, it generates a randon userId
+- (void)regenerateCookie;
+
+- (void)changeUserId:(NSString *)userId;
+- (NSString *)sessionIdGenerated;
+
 /*
  Returns a cookie that should have the format:
  ai_session={SessionId}|{Session Acquisition}|{Session Expiration};ai_user={UserId}|{User Expiration}
  */
 - (NSString *)cookie;
 + (NSString *)cookieName;
-- (void)generateNewCookie;
-- (void)changeUserId:(NSString *)userId;
-
 
 /*
  Send messages, custom events: AppInsights

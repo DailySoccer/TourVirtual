@@ -26,6 +26,7 @@ extern const struct MDPHomeModelIdService{
     __unsafe_unretained NSString *customButtons;
     __unsafe_unretained NSString *purchase_virtualgood;
     __unsafe_unretained NSString *subscription_single;
+    __unsafe_unretained NSString *subscription_purchaseable;
 }MDPHomeModelIdService;
 
 #pragma mark - SportType
@@ -85,5 +86,18 @@ typedef NS_ENUM(NSInteger, MDPHomeModelSegmentedSelectorComponentType) {
 - (NSArray *)multipleAdvertisementItems;
 
 - (NSArray *)arrayIdSubscriptionForLanguage:(NSString *)language;
+
+// Subscription Placeholder
+- (NSString *)availabilityDateTime;
+
+- (NSString *)imageNotPurchasedForLanguage:(NSString *)language;
+
+- (NSString *)imagePurchasedForLanguage:(NSString *)language;
+
+- (NSString *)urlRedirectUserNotPurchasedForLanguage:(NSString *)language;
+
+- (NSString *)urlRedirectUserPurchasedForLanguage:(NSString *)language;
+
+- (NSString *)idSubscription;
 
 @end

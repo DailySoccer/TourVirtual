@@ -40,6 +40,7 @@ typedef void (^MDPFanHandlerResponseBlock)(NSArray *response, NSError *error);
 
 /**
  Updates current user profile. This method updates the entire profile to update a specific field use PATCH verb
+ Parameters NSDate have a locale en_US
  */
 + (void)putFanWithName:(NSString *)name
                surname:(NSString *)surname
@@ -69,6 +70,7 @@ noCommunications:(BOOL)noCommunications
 
 /*
  Updates and gets current user profile
+ Parameters NSDate have a locale en_US
  */
 + (void)putAndGetFanWithName:(NSString *)name
                      surname:(NSString *)surname
@@ -326,6 +328,10 @@ Search users by suggestion
 
 /////////////////////////////////////////////////////////////////////////////
 
+/*
+ Updates the isActivePaidFan in BD
+ */
++ (void)updateCacheFanWithIsActivePaidFan :(BOOL)isActivePaidFan;
 
 /*
  Updates the language in BD

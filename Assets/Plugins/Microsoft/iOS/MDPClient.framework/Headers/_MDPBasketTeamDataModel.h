@@ -69,15 +69,15 @@ extern const struct MDPBasketTeamDataModelRelationships {
 
 //- (BOOL)validateBasketLiveMatchHomeTeam:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *lineUp;
+@property (nonatomic, strong) NSOrderedSet *lineUp;
 
-- (NSMutableSet*)lineUpSet;
+- (NSMutableOrderedSet*)lineUpSet;
 
 @end
 
 @interface _MDPBasketTeamDataModel (LineUpCoreDataGeneratedAccessors)
-- (void)addLineUp:(NSSet*)value_;
-- (void)removeLineUp:(NSSet*)value_;
+- (void)addLineUp:(NSOrderedSet*)value_;
+- (void)removeLineUp:(NSOrderedSet*)value_;
 - (void)addLineUpObject:(MDPBasketLineUpPlayerModel*)value_;
 - (void)removeLineUpObject:(MDPBasketLineUpPlayerModel*)value_;
 @end
@@ -111,7 +111,7 @@ extern const struct MDPBasketTeamDataModelRelationships {
 - (MDPBasketLiveMatchModel*)primitiveBasketLiveMatchHomeTeam;
 - (void)setPrimitiveBasketLiveMatchHomeTeam:(MDPBasketLiveMatchModel*)value;
 
-- (NSMutableSet*)primitiveLineUp;
-- (void)setPrimitiveLineUp:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveLineUp;
+- (void)setPrimitiveLineUp:(NSMutableOrderedSet*)value;
 
 @end
