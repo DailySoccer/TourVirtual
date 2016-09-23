@@ -29,10 +29,10 @@ public class Authentication : MonoBehaviour {
         "9ca1aacd-9104-404d-87bb-909a64957c4c",
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
-
+    bool inicialized=false;
     public void Init() {
         //AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
-        AzureServices.Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");        
+        if(!inicialized) {inicialized=true;AzureServices.Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");}        
         AzureServices.SignIn((success) => {
             if(!success) {
                 UserAPI.Instance.Online=false; // Si da error de logeo, como si fuera offline
@@ -61,6 +61,7 @@ public class Authentication : MonoBehaviour {
                 #elif UNITY_IPHONE
                     Application.OpenURL("itms-apps://itunes.apple.com/app/id1107624540");
                 #endif
+                Application.Quit();
                 // Abrir tienda.
             }
         });

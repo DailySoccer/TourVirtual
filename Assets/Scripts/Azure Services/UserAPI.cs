@@ -13,7 +13,7 @@ using SmartLocalization;
 public class UserAPI {
 #if UNITY_EDITOR
    //TODO: put this value to 'true'
-    public bool Online = true;
+    public bool Online = false;
 #else
 	public bool Online = true;
 #endif
@@ -81,7 +81,7 @@ public class UserAPI {
     public UserAPI() {
         AsyncOperation.DefaultError = (err)=>{
             LoadingCanvasManager.Hide();
-            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NetError") );
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NetError")+" (ERR:1)" );
         };
         
         Ready = false;
@@ -99,8 +99,10 @@ public class UserAPI {
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
+
 // Aclarar con Microsoft que llamada es esta.
-        yield return Authentication.AzureServices.PostFanApps();
+        yield return Authentication.AzureServices.PostFanApps((ok)=>{Debug.LogError("PostFanApps OK: "+ok); },(err)=>{ Debug.LogError("PostFanApps ERROR: "+err); });
+// Evento añadido el dia 9/9/16 por peticion de microsoft.        
         UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;

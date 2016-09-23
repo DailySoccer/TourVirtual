@@ -211,12 +211,15 @@ public class MainManager : Photon.PunBehaviour {
     }
 
 
-    void OnApplicationFocus(bool focusStatus) {
+void OnApplicationFocus(bool focusStatus) {
         if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
+            // Ver si estoy como invitado
+            if( !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
+                Authentication.Instance.Init();
+            }
         }
     }
-
     public void OnDeepLinking() {
         /*
         if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.

@@ -54,6 +54,10 @@ public class IOSAzureInterfaz : AzureInterfaz {
     public override void OpenURL(string url){
 		_OpenURL (url);
     }
+
+    [DllImport ("__Internal")]
+    private static extern bool _CheckApp(string url);
+    public override bool CheckApp(string url) { return _CheckApp(url); }
     
     [DllImport ("__Internal")]
     private static extern void _PostFanApps(string appID, string deviceID,string hash);

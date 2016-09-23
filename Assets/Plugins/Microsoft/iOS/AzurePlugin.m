@@ -112,6 +112,12 @@ void _OpenURL(char* url){
     }
 }
 
+bool _CheckApp(char* url){
+    NSString *customURL = CreateNSString(url);
+    return  [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:customURL]];
+}
+
+
 NSMutableArray *GetLocalization(NSSet * levelNames){
     NSMutableArray *ret = [[NSMutableArray alloc]init];
     for( MDPLocaleDescriptionModel *loc in levelNames){

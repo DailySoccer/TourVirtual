@@ -130,7 +130,7 @@ public class ContentAPI
                     callback(ParseContent(res));
         },(res)=> {
             LoadingCanvasManager.Hide();
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
+            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError")+" (ERR:2)");
         });
     }
 

@@ -18,6 +18,8 @@ public class AzureInterfaz : MonoBehaviour
     public virtual void SignOut() { }
     public virtual void OpenURL(string url) { Application.OpenURL(url); }
 
+    public virtual bool CheckApp(string url) { return false; }
+
     public bool IsDeepLinking = false;
     public string DeepLinkingURL;
     public Dictionary<string, object> DeepLinkinParameters;
@@ -56,6 +58,7 @@ public class AzureInterfaz : MonoBehaviour
     
 // No se para que es esto.
     public virtual Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
+
     // Profile
     public virtual Coroutine GetFanMe(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
     public virtual Coroutine GetProfileAvatar(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
