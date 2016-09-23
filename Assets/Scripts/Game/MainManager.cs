@@ -260,6 +260,10 @@ public class MainManager : Photon.PunBehaviour {
 	void OnApplicationFocus(bool focusStatus) {
         if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
+            // Ver si estoy como invitado
+            if( !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
+                Authentication.Instance.Init();
+            }
         }
     }
 
@@ -459,7 +463,7 @@ public class MainManager : Photon.PunBehaviour {
 				yield return new WaitForSeconds(3);
                 time++;
                 if (time == 10) {
-                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError"));
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError")+" (ERR:6)");
                 }
 
             }

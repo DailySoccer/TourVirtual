@@ -38,6 +38,7 @@ public class AndroidAzureInterfaz : AzureInterfaz {
     }
 
     public override void OpenURL(string url) { activity.Call("OpenURL", url); }
+    public override bool CheckApp(string url) { return activity.Call<bool>("CheckApp",url);}
     public override void CheckDeepLinking()
     {
         string dl = activity.Call<string>("GetDeepLinking");

@@ -21,6 +21,7 @@ public class ModalNickInput : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Instance.TheNick.text = UserAPI.Instance.Nick;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +50,6 @@ public class ModalNickInput : MonoBehaviour {
 
 	public static void Close() {
         Instance.thisModal.IsOpen = false;
-		Instance.TheNick.text = "";
+		Instance.TheNick.text = UserAPI.Instance.Nick;
 	}
 }

@@ -81,7 +81,7 @@ public class UserAPI {
     public UserAPI() {
         AsyncOperation.DefaultError = (err)=>{
             LoadingCanvasManager.Hide();
-            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NetError") );
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.NetError")+" (ERR:1)" );
         };
         
         Ready = false;

@@ -165,6 +165,11 @@ public class MainActivity extends UnityPlayerActivity {
         DigitalPlatformClient.init(this, env, MainActivity.IDClient, signin);
     }
 
+    public boolean CheckApp(String url){
+        Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        return !getPackageManager().queryIntentActivities(myintent,0).isEmpty();
+    }
+
     public void Login(boolean mode) {
         System.out.println("Unity MainActivity:: Login");
         Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse("rmapp://single_sign_on?Parameters={\"ClientId\":\""+ MainActivity.IDClient +"\", \"TemporaryHash\":\"RMTV12345\"} "));
