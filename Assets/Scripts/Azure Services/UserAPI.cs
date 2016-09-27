@@ -17,6 +17,7 @@ public class UserAPI {
 #else
 	public bool Online = true;
 #endif
+    public bool errorLogin;
 
     public bool Ready { get; set;  }
 

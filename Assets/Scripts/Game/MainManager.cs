@@ -181,8 +181,19 @@ public class MainManager : Photon.PunBehaviour {
         }
         UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
 
-        Authentication.Instance.Init();
-        Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
+        if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
+          Authentication.Instance.Init();
+          Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
+        }else{
+            ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
+                if(mode)
+                    Authentication.Instance.OpenMarket();
+                else
+                    UserAPI.Instance.Online=false;
+                    HandleOnUserLogin();
+            });
+            //
+        }
 /*
         if (!UserAPI.Instance.Online) {
             if(Authentication.AzureServices is EditorAzureInterfaz)
@@ -377,7 +388,16 @@ void OnApplicationFocus(bool focusStatus) {
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+            if(UserAPI.Instance.errorLogin){
+                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
+                    Continue2();
+                });
+                return;
+            }
         }
+        Continue2();
+	}
+    void Continue2(){
         // Mira si hay alguna compra pendiente.
         CheckPurchasePending();
         // Contro de mismo usuario.
