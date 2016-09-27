@@ -35,6 +35,7 @@ public class Authentication : MonoBehaviour {
         if(!inicialized) {inicialized=true;AzureServices.Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");}        
         AzureServices.SignIn((success) => {
             if(!success) {
+                UserAPI.Instance.errorLogin=true;
                 UserAPI.Instance.Online=false; // Si da error de logeo, como si fuera offline
                 //MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
                 #if UNITY_EDITOR
@@ -43,7 +44,8 @@ public class Authentication : MonoBehaviour {
                 #endif
                 UserAPI.Instance.CallOnUserLogin();
                 return;
-            }
+            }else
+                UserAPI.Instance.errorLogin=false;
             StartCoroutine(UserAPI.Instance.Request());
         });
     }
@@ -56,17 +58,23 @@ public class Authentication : MonoBehaviour {
         if(UserAPI.Instance.Online) return false;
         ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialApp"),(mode)=>{
             if(mode){
-                #if UNITY_ANDROID
-                    Application.OpenURL("market://details?id=com.mcentric.mcclient.MyMadrid");
-                #elif UNITY_IPHONE
-                    Application.OpenURL("itms-apps://itunes.apple.com/app/id1107624540");
-                #endif
-                Application.Quit();
-                // Abrir tienda.
+                OpenMarket();
             }
         });
         return true;
     }
+
+    public void OpenMarket(){
+        #if UNITY_ANDROID
+            Application.OpenURL("market://details?id=com.mcentric.mcclient.MyMadrid");
+        #elif UNITY_IPHONE
+            Application.OpenURL("itms-apps://itunes.apple.com/app/id1107624540");
+        #endif
+        Application.Quit();
+        // Abrir tienda.
+    }
+
+
 }
 
 
