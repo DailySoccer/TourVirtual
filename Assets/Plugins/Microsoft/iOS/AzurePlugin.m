@@ -155,9 +155,9 @@ void _GetFanMe(char* _hash){
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
-                [jobject setObject:content.idUser forKey:@"IdUser"];
-                [jobject setObject:content.alias forKey:@"Alias"];
-                [jobject setObject:content.language forKey:@"Language"];
+                if(content.idUser!=nil) [jobject setObject:content.idUser forKey:@"IdUser"];
+                if(content.alias!=nil) [jobject setObject:content.alias forKey:@"Alias"];
+                if(content.language!=nil) [jobject setObject:content.language forKey:@"Language"];
             }
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];

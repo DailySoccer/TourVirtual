@@ -222,35 +222,22 @@ public class MainManager : Photon.PunBehaviour {
     }
 
 
-void OnApplicationFocus(bool focusStatus) {
+	void OnApplicationFocus(bool focusStatus) {
         if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
             Authentication.AzureServices.CheckDeepLinking();
             // Ver si estoy como invitado
-            if( !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
+            if( !UserAPI.Instance.errorLogin && !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
+                // Se queda en bucle. Parece que no se inicializa bien.
                 Authentication.Instance.Init();
             }
         }
     }
+
     public void OnDeepLinking() {
-        /*
-        if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.
-            LoadingCanvasManager.Hide();
-            Authentication.AzureServices.SignOut();
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () => {
-                Authentication.AzureServices.SignIn();
-                if (RoomManager.Instance != null) {
-                    if(RoomManager.Instance.Room.Id!= "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
-                    else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
-                }
-                
-            });
-        }else {
-            */
-            if (RoomManager.Instance != null) {
-                if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
-                else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
-            }
-//        }
+        if (RoomManager.Instance != null && UserAPI.Instance.Online && !UserAPI.Instance.errorLogin ) {
+            if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
+            else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
+        }
     }
 
     void InitializeStore() {

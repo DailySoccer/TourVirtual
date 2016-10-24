@@ -15,7 +15,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
         string environment = "preproduction";
 #else
         this.IDClient = "17525b4e-8a03-4950-a5cd-dcdc6004aaaf";
-        string environment = "development";
+        string environment = "qa";
 #endif
         _AzureInit(environment, this.IDClient, signin );
     }
