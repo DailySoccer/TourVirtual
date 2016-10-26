@@ -147,7 +147,7 @@ void _PostFanApps(char* appID, char* _deviceID,char* _hash){
 
 void _GetFanMe(char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    [[[MDPClientHandler sharedInstance] getFanHandler] getFanWithUseCache:YES completionBlock:^(MDPFanModel *content, NSError *error) {
+    [[[MDPClientHandler sharedInstance] getFanHandler] getFanWithUseCache:NO completionBlock:^(MDPFanModel *content, NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
