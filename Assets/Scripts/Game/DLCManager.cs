@@ -83,22 +83,36 @@ public class DLCManager : MonoBehaviour {
 		AssetResources.Clear();
 	}
 
+    int GetVersionInInt(string version){
+        string[] subs = version.Split('.');    
+    return int.Parse(subs[0])*10000 + int.Parse( subs[1])*100 + int.Parse(subs[2]);
+    }
     public System.Collections.IEnumerator LoadVersion()
     {
         WWW www;
         do {
+            bool error=false;
             www = new WWW(BaseUrl + "assetbundles.json");
             yield return www;
             if (string.IsNullOrEmpty(www.error)) {
                 Dictionary<string, object> jsonMap = MiniJSON.Json.Deserialize(www.text) as Dictionary<string, object>;
+                int minVersion = 10011;
+                if( jsonMap.ContainsKey("minVersion") ) minVersion = GetVersionInInt( jsonMap["minVersion"] as string );
+                int current = GetVersionInInt(Application.version);
+                if( current < minVersion ) {
+                    error = true;
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.InvalidVersion"), (mode) => {
+                        Application.Quit();
+                    });
+                }
+
                 List<object> assets = jsonMap[KEY_ASSETS] as List<object>;
-                foreach (Dictionary<string, object> asset in assets)
-                {
+                foreach (Dictionary<string, object> asset in assets) {
                     AssetDefinition assetDefinition = AssetDefinition.LoadFromJSON(asset);
                     if (!assetDefinition.Id.Contains("content"))
                         AssetDefinitions.Add(assetDefinition.Id, assetDefinition);
                 }
-                www = null;
+                if(!error) www = null;
             }
             else {
                 bool waiting = true;
@@ -132,23 +146,20 @@ public class DLCManager : MonoBehaviour {
 		AssetDefinition definition = AssetDefinitions[keyResource];
 
 		// Ignoramos las versiones 0...
-		if (definition.Version > 0)
-        {
+		if (definition.Version > 0) {
             currentName = LanguageManager.Instance.GetTextValue("PCK." + definition.Id.Replace('/', '.'));
             // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
             do {
                 current = WWW.LoadFromCacheOrDownload(BaseUrl + definition.Id, definition.Version);
                 yield return current;
-                if (string.IsNullOrEmpty(current.error))
-                {
+                if (string.IsNullOrEmpty(current.error)) {
                     AssetBundle bundle = current.assetBundle;
                     //bundle.LoadAllAssets();
                     AssetResources[keyResource] = bundle;
                     if (callback != null) callback(bundle);
                     current = null;
                 }
-                else
-                {
+                else {
                     bool waiting = true;
                     Debug.LogError(definition.Id+"("+keyResource+") >>>> " + current.error);
                     ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NetError")+" (ERR:4)", (mode) =>
@@ -175,7 +186,7 @@ public class DLCManager : MonoBehaviour {
 			AssetDefinition definition = AssetDefinitions[key];
             if (definition.Id != "scene/vestidor" && definition.Id != "avatars") continue;
             // Ignoramos las versiones 0...
-            if (definition.Version > 0){
+            if ( !Application.CanStreamedLevelBeLoaded(definition.Id=="scene/vestidor"?"VestidorLite":definition.Id) ) {
                 currentName = LanguageManager.Instance.GetTextValue("PCK." + definition.Id.Replace('/', '.'));
                 // Load the AssetBundle file from Cache if it exists with the same version or download and store it in the cache
                 LoadingBar.Instance.Show();
