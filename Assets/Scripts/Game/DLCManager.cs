@@ -52,10 +52,10 @@ public class DLCManager : MonoBehaviour {
         AssetsUrl = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets";
 #else
 #if PRE
-            AssetsUrl = "https://az879424.vo.msecnd.net/virtualtour-assets";
+            AssetsUrl = "https://rmglweprstacdntour.blob.core.windows.net/virtualtour-assets";
 #else
 #if PRO
-                AssetsUrl = "https://az878819.vo.msecnd.net/virtualtour-assets";
+                AssetsUrl = "https://rmglwepdstacdntour.blob.core.windows.net/virtualtour-assets";
 #else
                 AssetsUrl = "https://rmdevcdntour.blob.core.windows.net/virtualtour-assets";
 #endif
