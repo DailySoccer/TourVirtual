@@ -906,7 +906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &141344
 GameObject:
   m_ObjectHideFlags: 1
@@ -1177,6 +1177,7 @@ GameObject:
   - 223: {fileID: 22399830}
   - 114: {fileID: 11414246}
   - 114: {fileID: 11471474}
+  - 114: {fileID: 11475072}
   m_Layer: 5
   m_Name: Modal Contents
   m_TagString: CanvasLayer
@@ -6230,6 +6231,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11475072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c2cf4d01991c4e9ea411f5dfabb06a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModalScreen: {fileID: 11410166}
 --- !u!114 &11476200
 MonoBehaviour:
   m_ObjectHideFlags: 1

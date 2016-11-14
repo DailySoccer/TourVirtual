@@ -34,8 +34,14 @@ public class EditorAzureInterfaz : AzureInterfaz
         Application.OpenURL(url);
     }
 
-    public override void SignOut() { }
-
+    IEnumerator _SignOut(AsyncOperation op) {
+        yield return  new WaitForSeconds(2); 
+        AsyncOperation.EndOperation(true, op.Hash + ":TimeOut");
+    }
+    public override Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { 
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        return StartCoroutine(_SignOut(op));
+    }
     // Tools
     protected static string KEY_ACCESS_TOKEN = "access_token";
     protected static string KEY_REFRESH_TOKEN = "refresh_token";

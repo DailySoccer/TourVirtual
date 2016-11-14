@@ -199,7 +199,7 @@ public class RoomManager : Photon.PunBehaviour {
             if ( !string.IsNullOrEmpty(RoomStart) ) {
                 string roomKey = GetRoomKey(RoomStart);
                 if (RoomDefinitions.ContainsKey(roomKey)) {
-                    if(!Authentication.AzureServices.IsDeepLinking && MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
+                    if(!DeepLinkingManager.IsEditAvatar && MainManager.VestidorMode != VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
                         MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.LANDING_PAGE;
                     _doorToEnter = GetDoorKey(RoomStart);
                     ToRoom(RoomDefinitions[roomKey] as RoomDefinition);

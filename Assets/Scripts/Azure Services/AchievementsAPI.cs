@@ -63,7 +63,6 @@ public class AchievementsAPI{
         while (needRequest) {            
             yield return Authentication.AzureServices.GetAchievementsEarned("VIRTUALTOUR", token, (res) => {
                 var pp = MiniJSON.Json.Deserialize(res);
-                Debug.LogError(">>>> Ok: IdAchievement 1 "+res );
                 Dictionary<string, object> myachievements = pp as Dictionary<string, object>;
                 if (myachievements != null)
                 {

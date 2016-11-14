@@ -62,7 +62,7 @@ public class SelectAvatar : MonoBehaviour {
             RoomManager roomManager = RoomManager.Instance;
             if (roomManager != null) {
                 // Si venimos por Deep
-                if (Authentication.AzureServices.IsDeepLinking) {
+                if (DeepLinkingManager.IsEditAvatar) {
                     // De momento no puedo hacer que se vista, ergo, sale direcatamente.
                     // roomManager.GotoRoom("VESTIDORLITE");
                     Authentication.AzureServices.OpenURL("rmapp://You");

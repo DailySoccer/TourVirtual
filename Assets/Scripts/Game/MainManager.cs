@@ -168,13 +168,11 @@ public class MainManager : Photon.PunBehaviour {
 		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
     }
 
-	private void OnDestroy()
-	{
+	private void OnDestroy() {
 		_cardboard = null;
 	}
 
-    void Start()
-	{
+    void Start() {
 		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
@@ -183,7 +181,6 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
 #endif
 #endif
-
 		if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), (mode) => {
                 Application.Quit();
@@ -201,7 +198,6 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     IEnumerator Continue() {
-
         yield return new WaitForEndOfFrame();
         if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
@@ -213,32 +209,21 @@ public class MainManager : Photon.PunBehaviour {
         UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
         if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
           Authentication.Instance.Init();
-          Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
         }else{
             ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
                 if(mode)
                     Authentication.Instance.OpenMarket();
-                else
+                else{
                     UserAPI.Instance.Online=false;
+                    Debug.Log(">>>> HandleOnUserLogin 1");
                     HandleOnUserLogin();
+                }
             });
-            //
         }
-/*
-        if (!UserAPI.Instance.Online) {
-            if(Authentication.AzureServices is EditorAzureInterfaz)
-                (Authentication.AzureServices as EditorAzureInterfaz).AccessToken = "offline";
-            UserAPI.Instance.CallOnUserLogin();
-//            yield break;
-        }else{
-            Authentication.Instance.Init();
-            Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
-        }
-        */
+
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
-        if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
-        {
+        if (UserAPI.Instance != null ){
             StartCoroutine(CheckForInternetConnection());
         }
         //		else StartCoroutine(Connect ());
@@ -252,53 +237,18 @@ public class MainManager : Photon.PunBehaviour {
     }
 
 #if UNITY_EDITOR
-	private void Update()
-	{
+	private void Update() {
 		IsVrModeEnabled = _isVrModeEnabled;
 	}
 #else
 	private bool _InitVROff = false;
-	void Update(){
+	void Update() {
 		if(!_InitVROff){
 			_InitVROff = true;
 			IsVrModeEnabled = false;
 		}
 	}
 #endif
-
-
-	void OnApplicationFocus(bool focusStatus) {
-        if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
-            Authentication.AzureServices.CheckDeepLinking();
-            // Ver si estoy como invitado
-            if( !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
-                Authentication.Instance.Init();
-            }
-        }
-    }
-
-    public void OnDeepLinking() {
-        /*
-        if (UserAPI.Instance.CheckIsOtherUser()) { // DeepLinking me dice USUARIO DISTINTO.
-            LoadingCanvasManager.Hide();
-            Authentication.AzureServices.SignOut();
-            ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), () => {
-                Authentication.AzureServices.SignIn();
-                if (RoomManager.Instance != null) {
-                    if(RoomManager.Instance.Room.Id!= "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
-                    else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
-                }
-                
-            });
-        }else {
-            */
-            if (RoomManager.Instance != null) {
-                if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
-                else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
-            }
-//        }
-    }
-
     void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 

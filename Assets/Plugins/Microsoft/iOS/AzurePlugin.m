@@ -94,6 +94,9 @@ void _ReceivedUrl(NSURL *url)
     }
 }
 
+bool _AzureIsLoggedin(){
+    return false;
+}
 
 void _AzureSignOut(){
     [[MDPAuthHandler sharedInstance] cleanUpKeychain];
