@@ -13,49 +13,23 @@ public class AzureInterfaz : MonoBehaviour
     public string       MainLanguage = "es-es";
 
     public virtual void Init(string signin) { Debug.LogError(">>>>> AzureInterfaz.Init");  }
+
+    public virtual bool IsLoggedin() { return false; }
     // LogIn
     public virtual void SignIn(AzureEvent OnSignInEvent=null) { }
-    public virtual void SignOut() { }
+    public virtual Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
     public virtual void OpenURL(string url) { Application.OpenURL(url); }
 
     public virtual bool CheckApp(string url) { return false; }
 
-    public bool IsDeepLinking = false;
-    public string DeepLinkingURL;
-    public Dictionary<string, object> DeepLinkinParameters;
-
     public delegate void DeepLinkingDelegate();
-    public event DeepLinkingDelegate OnDeepLinking;
+    public delegate bool CheckUserIDDelegate(string host);
 
+    public virtual string CheckDeepLinking() { return null; }
 
-    public virtual void CheckDeepLinking() { }
-
-    public void SetDeepLinking(string url) {
-        if (string.IsNullOrEmpty(url)) {
-            IsDeepLinking = false;
-            return;
-        }
-        System.Uri uri = new System.Uri(url);
-        if( uri.Host!="editavatar") return;
-
-        url = WWW.UnEscapeURL(url);
-        DeepLinkingURL = url;
-        var pair = url.Split('?');
-
-        DeepLinkinParameters = new Dictionary<string, object>();        
-        if (pair.Length == 2) {
-            var pars = pair[1].Split('&');
-            foreach (var p in pars) {
-                var par = p.Split('=');
-                if (par.Length == 2) {
-                    DeepLinkinParameters.Add(par[0], par[1]);
-                }
-            }
-        }
-        IsDeepLinking = true;
-        if(OnDeepLinking!=null) OnDeepLinking();
+    void Awake() {
+        Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");
     }
-    
 // No se para que es esto.
     public virtual Coroutine PostFanApps(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) { return null; }
 

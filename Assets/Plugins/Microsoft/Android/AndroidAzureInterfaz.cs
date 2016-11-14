@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+﻿    #if UNITY_ANDROID
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -18,44 +18,44 @@ public class AndroidAzureInterfaz : AzureInterfaz {
         this.clientId = "b992508b-b9ed-49fb-998d-6f8cdb810b8a";
 #else
         string environment = "development";
+//        string environment = "qa";
         this.IDClient = "41f64a6e-edf8-4d7d-86cf-6146cc69f978";
 #endif
         activity.Call("Init", environment, this.IDClient, signin);
     }
 
-    public override void SignIn(AzureEvent OnSignIn=null) {
-        if(OnSignIn!=null) this.OnSignIn = OnSignIn;
-        activity.Call("Login", false);
+    public override bool IsLoggedin() { 
+        return  activity.Call<bool>("IsLoggedin");
     }
 
+    public override void SignIn(AzureEvent OnSignIn=null) {
+        if(OnSignIn!=null) this.OnSignIn = OnSignIn;
+        if(IsLoggedin()) {
+            Invoke("QuickSigIn", 1);
+        }
+        else {
+            activity.Call("Login", false);
+        }
+    }
+
+    void QuickSigIn(){
+          OnSignIn(true);
+    }
 
     public void OnSignInEvent(string success) {
         if(OnSignIn!=null) OnSignIn(success=="OK");
     }
 
-    public override void SignOut() {
+    public override Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError,"SignOut");
         activity.Call("Logout");
+        GameObject.Find("Azure Services").SendMessage("OnResponseOK", op.Hash + ":Logout");
+        return StartCoroutine(op.Wait());
     }
 
     public override void OpenURL(string url) { activity.Call("OpenURL", url); }
     public override bool CheckApp(string url) { return activity.Call<bool>("CheckApp",url);}
-    public override void CheckDeepLinking()
-    {
-        string dl = activity.Call<string>("GetDeepLinking");
-        if (string.IsNullOrEmpty(dl)) {
-            try
-            {
-                AndroidJavaObject intent = activity.Call<AndroidJavaObject>("getIntent");
-                AndroidJavaObject uri = intent.Call<AndroidJavaObject>("getData");
-                dl=uri.Call<string>("toString");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning(ex.Message);
-            }
-        }
-        SetDeepLinking(dl);
-    }
+    public override string CheckDeepLinking() { return activity.Call<string>("GetDeepLinking"); }
         
 
     public void OnResponseOK(string response) {

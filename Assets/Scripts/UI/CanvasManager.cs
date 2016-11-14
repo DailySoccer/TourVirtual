@@ -9,7 +9,7 @@ public class CanvasManager : MonoBehaviour {
 	public UIScreen ScreenChat;
 	public UIScreen currentGUIScreen;
 
-	public GUIPopUpScreen ModalScreen;
+//	public GUIPopUpScreen ModalScreen;
 	
 	public GameObject MainCamera;
 	public GameObject UIScreensCamera;
@@ -257,11 +257,12 @@ public class CanvasManager : MonoBehaviour {
 		//Configuramos las modal...
 		CurrentPlayerDataModelSelected  = dataModel;
 		//.. y la mostramos
-		ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
+		ModalContents.Instance.ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
 	}
 
 
 	// TODO FRS 160714 El argumento debería ser de tipo ModalLayout
+	/*
 	public void ShowModalScreen(int newModalLayout)
 	{
 
@@ -301,7 +302,7 @@ public class CanvasManager : MonoBehaviour {
 		ModalScreen.GetComponent<PopUpWindow>().SetState(ModalLayout.BLANK);
 		//}
 	}
-	
+*/	
 	public void ShowPopUpScreen(GUIPopUpScreen guiPopUpScreen) {
 		if (currentGUIPopUpScreen != null) {
 			currentGUIPopUpScreen.IsOpen = false;
@@ -382,7 +383,7 @@ public class CanvasManager : MonoBehaviour {
 			var contentList = clickedGo.GetComponent<ContentList>();
 			if (contentList == ContentManager.Instance.ContentNear
 				&& !ContentManager.Instance.ContentNear.ContentKey.Contains("JUEGO"))
-				ShowModalScreen((int)ModalLayout.PACK_FLYER);
+				ModalContents.Instance.ShowModalScreen((int)ModalLayout.PACK_FLYER);
 		}
 		else
 		{

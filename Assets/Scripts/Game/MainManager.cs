@@ -183,7 +183,6 @@ public class MainManager : Photon.PunBehaviour {
 
         if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
           Authentication.Instance.Init();
-          Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
         }else{
             ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
                 if(mode)
@@ -194,17 +193,6 @@ public class MainManager : Photon.PunBehaviour {
             });
             //
         }
-/*
-        if (!UserAPI.Instance.Online) {
-            if(Authentication.AzureServices is EditorAzureInterfaz)
-                (Authentication.AzureServices as EditorAzureInterfaz).AccessToken = "offline";
-            UserAPI.Instance.CallOnUserLogin();
-//            yield break;
-        }else{
-            Authentication.Instance.Init();
-            Authentication.AzureServices.OnDeepLinking += OnDeepLinking;
-        }
-        */
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
         if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
@@ -219,25 +207,6 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
 #endif
 #endif
-    }
-
-
-	void OnApplicationFocus(bool focusStatus) {
-        if (focusStatus && !Authentication.AzureServices.IsDeepLinking) {
-            Authentication.AzureServices.CheckDeepLinking();
-            // Ver si estoy como invitado
-            if( !UserAPI.Instance.errorLogin && !UserAPI.Instance.Online && Authentication.AzureServices.CheckApp("rmapp://single_sign_on")) {
-                // Se queda en bucle. Parece que no se inicializa bien.
-                Authentication.Instance.Init();
-            }
-        }
-    }
-
-    public void OnDeepLinking() {
-        if (RoomManager.Instance != null && UserAPI.Instance.Online && !UserAPI.Instance.errorLogin ) {
-            if (RoomManager.Instance.Room.Id != "VESTIDORLITE") RoomManager.Instance.GotoRoom("VESTIDORLITE");
-            else FindObjectOfType<VestidorCanvasController_Lite>().ShowClothesShop();
-        }
     }
 
     void InitializeStore() {

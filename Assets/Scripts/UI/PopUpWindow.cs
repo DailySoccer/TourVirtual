@@ -200,7 +200,7 @@ public class PopUpWindow : UIScreen {
 			
 				if (content == null) {
 					// Ha sucedido un error inesperado
-					TheGameCanvas.HideModalScreen();
+					ModalContents.Instance.HideModalScreen();
 					ModalTextOnly.ShowText("Ha ocurrido un error con el Pack: \"" + packId + "\" y no se puede mostrar el contenido solicitado");
 					return;
 				}
@@ -330,7 +330,7 @@ public class PopUpWindow : UIScreen {
 		#endif
 		currentSelectedItemGUID = item.Content.GUID;
 		currentSelectedPack = item.Content;
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
+		ModalContents.Instance.ShowModalScreen ((int)ModalLayout.PURCHASED_PACK_CONTENT_LIST);
 		//SetupPurchasedPackContentList (item.Content.GUID);
 	}
 
@@ -412,7 +412,7 @@ public class PopUpWindow : UIScreen {
 			Debug.Log("[" + item.name + " in " + name + "]: Ha detectado un click");
 		#endif
 		currentAchivementSelected = item.TheAchivment;
-		TheGameCanvas.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
+		ModalContents.Instance.ShowModalScreen ((int)ModalLayout.SINGLE_CONTENT_SHARE);
 	}
 
 
@@ -530,7 +530,7 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void CloseModalScreen() {
-		TheGameCanvas.HideModalScreen ();
+		ModalContents.Instance.HideModalScreen ();
 		currentAchivementSelected = null;
 		currentSelectedPack = null;
     }

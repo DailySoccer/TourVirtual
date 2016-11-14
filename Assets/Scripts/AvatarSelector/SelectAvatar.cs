@@ -56,12 +56,12 @@ public class SelectAvatar : MonoBehaviour {
             UserAPI.VirtualGoodsDesciptor.FilterBySex();
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
-            if (thePlayer != null) thePlayer.Avatar = instance;
+    		if (thePlayer != null) thePlayer.Avatar = instance;
 
             RoomManager roomManager = RoomManager.Instance;
             if (roomManager != null) {
                 // Si venimos por Deep
-                if (Authentication.AzureServices.IsDeepLinking) {
+                if (DeepLinkingManager.IsEditAvatar) {
                     // De momento no puedo hacer que se vista, ergo, sale direcatamente.
                     // roomManager.GotoRoom("VESTIDORLITE");
                     Authentication.AzureServices.OpenURL("rmapp://You");

@@ -55,7 +55,7 @@ public class SceneClicker : MonoBehaviour
 	{
 		_canClick &= Camera.main != null
 			    || _gcm.currentGUIPopUpScreen == null
-				|| !_gcm.ModalScreen.IsOpen
+				|| !ModalContents.Instance.ModalScreen.IsOpen
 				|| !InitialTutorial.Instance.InOpenState;
 
 		if (_canClick)

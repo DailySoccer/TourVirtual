@@ -42,7 +42,7 @@ public class PackFlyerModal : MonoBehaviour {
         LoadingCanvasManager.Show("TVB.Message.Buying");
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(TheContent.VirtualGoodID, false, () => {
             LoadingCanvasManager.Hide();
-            GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<GameCanvasManager>().ShowModalScreen(9);
+            ModalContents.Instance.ShowModalScreen(9);
         });
 
     }

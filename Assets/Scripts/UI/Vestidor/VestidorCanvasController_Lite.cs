@@ -60,35 +60,22 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     // Use this for initialization
     void OnEnable()
     {
+        Debug.Log(">>> IsEditAvatar "+DeepLinkingManager.IsEditAvatar);
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
 		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
 
 		if(ClothesListController.Instance != null)
 			ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
-/*
-        if (Authentication.AzureServices.IsDeepLinking &&
-            Authentication.AzureServices.DeepLinkinParameters != null &&
-            Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
-            DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
-            // MainManager.DeepLinkinParameters["idUser"];
-        }
-*/
         EnableTopMenu(true);
         ShowVestidor();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
     }
 
-    public void ChangeVestidorState(VestidorState newState)
-    {
-
-#if !PRE && !PRO
-//        if (MainManager.IsDeepLinking) ModalTextOnly.ShowText(MainManager.DeepLinkingURL);
-#endif
+    public void ChangeVestidorState(VestidorState newState) {
         if (newState != currentVestidorState)
         {
 			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
@@ -110,10 +97,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     break;
 
                 case VestidorState.VESTIDOR:
-                    if (Authentication.AzureServices.IsDeepLinking &&
-                        Authentication.AzureServices.DeepLinkinParameters != null &&
-                        Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idVirtualGood")) {
-                        DressVirtualGood(Authentication.AzureServices.DeepLinkinParameters["idVirtualGood"] as string);
+                    if (DeepLinkingManager.IsEditAvatar &&
+                        DeepLinkingManager.Parameters != null &&
+                        DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
+                        DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
                         // MainManager.DeepLinkinParameters["idUser"];
                     }
                     EnableTopMenu(true);
@@ -436,7 +423,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         if( Authentication.Instance.CheckOffline()) return;
 #if UNITY_WSA
-        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.CantBuyOnWindows"), () => { Authentication.AzureServices.OpenURL("rmapp://You"); });
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.CantBuyOnWindows"), (state) => { Authentication.AzureServices.OpenURL("rmapp://You"); });
 #else
         GoodiesShopController.Show ();
 #endif
@@ -482,7 +469,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void BackToRoom()
     {
-        if (Authentication.AzureServices.IsDeepLinking) {
+        if (DeepLinkingManager.IsEditAvatar) {
 			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
@@ -514,7 +501,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 									ModalNickInput.Close();
 									HideAllScreens();
                                     MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
-									if (Authentication.AzureServices.IsDeepLinking) {
+									if (DeepLinkingManager.IsEditAvatar) {
 										Authentication.AzureServices.OpenURL("rmapp://You");
 										Application.Quit();
 										return;
@@ -555,19 +542,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         HideAllScreens();
-        if (Authentication.AzureServices.IsDeepLinking)
-        {
+        if (DeepLinkingManager.IsEditAvatar) {
             Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
             return;
         } else {
 			BackToRoom();
 		}
-    }
-
-    public void SetLanguage(string lang)
-    {
-        MainManager.Instance.ChangeLanguage(lang);
     }
 
     public void showModalOnlyText(string t)
@@ -600,6 +581,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     {
         Debug.Log(">>>>OnGoShop");
         // currentPrenda
+    }
+
+    public void Opciones(){
+        ModalContents.Instance.ShowModalScreen(10);
     }
 
 

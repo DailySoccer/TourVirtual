@@ -67,33 +67,53 @@ NSMutableDictionary *_DictionaryOfResult(NSURL *url)
     return queryStringDictionary;
 }
 
-void _ReceivedUrl(NSURL *url)
-{
-    NSDictionary *parameters = _DictionaryOfResult(url);
-    
-    NSString *errorMessage = parameters[@"ErrorMessage"];
-    NSNumber *allowed = parameters[@"Allowed"];
-    
-    if (errorMessage.length) {
-        UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
-    } else {
-        
-        
-        if (!allowed.boolValue) {
-            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
-        } else {
-            [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
-                if (error) {
-                    NSLog( @"%@", error.localizedDescription);
+NSString* _deepLink = @"";
+
+char* _CheckDeepLinking(){
+    NSLog( @"_CheckDeepLinking %@", _deepLink );
+    return cStringCopy([_deepLink UTF8String]);
+}
+
+void _ReceivedUrl(NSURL *url) {
+    NSLog( @"_ReceivedUrl %@", [url absoluteString] );
+    if( [[url scheme] isEqualToString:@"rmvt"] ){
+        if( [[url host] isEqualToString:@"sso"] ){
+            NSDictionary *parameters = _DictionaryOfResult(url);
+            
+            NSString *errorMessage = parameters[@"ErrorMessage"];
+            NSNumber *allowed = parameters[@"Allowed"];
+            
+            if (errorMessage.length) {
+                 NSLog( @"OnSignInEvent KO %@", errorMessage  );
+                UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+            } else {
+                
+                
+                if (!allowed.boolValue) {
                     UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
                 } else {
-                    UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
+                    [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
+                        if (error) {
+                            NSLog( @"OnSignInEvent KO %@", error.localizedDescription);
+                            UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
+                        } else {
+                            UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
+                        }
+                    }];
                 }
-            }];
+            }
+        }else{
+            _deepLink = [url absoluteString];
         }
     }
 }
 
+
+bool _AzureIsLoggedin(){
+    NSString *token = [[MDPAuthHandler sharedInstance] getToken];
+    NSLog(@">>>> _AzureIsLoggedin %@",token);
+    return token!=nil;
+}
 
 void _AzureSignOut(){
     [[MDPAuthHandler sharedInstance] cleanUpKeychain];
@@ -132,17 +152,17 @@ NSMutableArray *GetLocalization(NSSet * levelNames){
 void _PostFanApps(char* appID, char* _deviceID,char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     NSString* deviceID = CreateNSString(_deviceID);
-
+    
     [[[MDPClientHandler sharedInstance] getFanHandler] postAppsWithDeviceId:deviceID enablePushNotifications:NO pushNotificationHandler:@"" deviceType:0 platformVersion:@"Unknow" completionBlock:^(NSArray *content, NSError *error ) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
-            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );            
+            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
         } else {
             NSString *res = [NSString stringWithFormat:@"%@:OK", hash];
             UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
         }
     }];
-  
+    
 }
 
 void _GetFanMe(char* _hash){
@@ -155,7 +175,7 @@ void _GetFanMe(char* _hash){
         } else {
             NSMutableDictionary* jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
-                if(content.idUser!=nil) [jobject setObject:content.idUser forKey:@"IdUser"];
+                if(content.idUser!=nil) { IdUser = content.idUser; [jobject setObject:content.idUser forKey:@"IdUser"]; }
                 if(content.alias!=nil) [jobject setObject:content.alias forKey:@"Alias"];
                 if(content.language!=nil) [jobject setObject:content.language forKey:@"Language"];
             }
@@ -172,8 +192,14 @@ void _GetProfileAvatar(char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     [[[MDPClientHandler sharedInstance] getFanHandler] getProfileAvatarWithIdUser:IdUser completionBlock:^(MDPProfileAvatarModel *content, NSError *error) {
         if (error) {
-            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
-            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            // NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            // UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
+            NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
         } else {
             NSMutableDictionary*jobject = [[NSMutableDictionary alloc] init];
             if(content!=nil){
@@ -203,6 +229,7 @@ void _GetProfileAvatar(char* _hash){
                 }
                 [jobject setObject:jArray forKey:@"Accesories"];
             }
+            
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -342,13 +369,23 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
     [[[MDPClientHandler sharedInstance] getScoresHandler] getFanMaxScoreWithIdGame:CreateNSString(IDMinigame) completionBlock:^(MDPFanMaxScoreModel *content, NSError *error) {
         if (error) {
-            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
-            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            //            NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
+            //            UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
+            
+            NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
+            NSInteger zeroVal = 0;
+            [jobject setObject: [NSNumber numberWithInteger:zeroVal] forKey:@"Score"];
+            NSError	*error		= nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *res = [NSString stringWithFormat:@"%@:%@", hash, jsonString ];
+            UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
             
         } else {
             NSMutableDictionary *jobject = [[NSMutableDictionary alloc] init];
+            NSInteger zeroVal = 0;
             if(content!=nil) [jobject setObject:content.score forKey:@"Score"];
-            else [jobject setObject: (NSInteger) 0 forKey:@"Score"];
+            else [jobject setObject: [NSNumber numberWithInteger:zeroVal] forKey:@"Score"];
             NSError	*error		= nil;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jobject options:0 error:&error];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

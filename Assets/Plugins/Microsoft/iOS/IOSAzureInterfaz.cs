@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #if UNITY_IOS
@@ -19,13 +18,16 @@ public class IOSAzureInterfaz : AzureInterfaz {
 #endif
         _AzureInit(environment, this.IDClient, signin );
     }
-    
+    [DllImport ("__Internal")]
+    private static extern bool _AzureIsLoggedin();
+ 
     // LogIn
     [DllImport ("__Internal")]
     private static extern void _AzureSignIn();
     public override void SignIn(AzureEvent OnSignInEvent) {
-        this.OnSignIn = OnSignInEvent;
-	    _AzureSignIn();
+        if(OnSignInEvent!=null) this.OnSignIn = OnSignInEvent;
+        if(_AzureIsLoggedin()) this.OnSignIn(true);
+	    else _AzureSignIn();
     }
     
     public void OnSignInEvent(string success) {
@@ -34,11 +36,15 @@ public class IOSAzureInterfaz : AzureInterfaz {
     
     [DllImport ("__Internal")]
     private static extern void _AzureSignOut();
-    public override void SignOut() {
-	    _AzureSignOut();
+    public override Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _AzureSignOut();
+        return StartCoroutine(op.Wait());
     }
     
-    public override void CheckDeepLinking() { }
+    [DllImport ("__Internal")]
+    private static extern string _CheckDeepLinking();
+    public override string CheckDeepLinking() { return _CheckDeepLinking(); }
 
     public void OnResponseOK(string response) {
         AsyncOperation.EndOperation(true, response);

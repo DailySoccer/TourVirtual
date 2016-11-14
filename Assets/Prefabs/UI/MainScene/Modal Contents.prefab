@@ -888,7 +888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &141344
 GameObject:
   m_ObjectHideFlags: 1
@@ -1141,6 +1141,7 @@ GameObject:
   - 223: {fileID: 22399830}
   - 114: {fileID: 11414246}
   - 114: {fileID: 11471474}
+  - 114: {fileID: 11474056}
   m_Layer: 5
   m_Name: Modal Contents
   m_TagString: CanvasLayer
@@ -5781,6 +5782,7 @@ MonoBehaviour:
   PurchasedPackContentList: {fileID: 122944}
   PurchasedPackContentSlot: {fileID: 192538, guid: 328c8d8ddf5a74742892fe28ddccabe1,
     type: 2}
+  SharePurchasedContentButton: {fileID: 0}
   AchievementsGridParent: {fileID: 199964}
   AchievementsGridList: {fileID: 178270}
   AchievementSlot: {fileID: 164602, guid: 0e6325377db8645e09e3b06e53c9edba, type: 2}
@@ -5971,6 +5973,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11474056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0cda3d33dbf4c2e9eec41f05040fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModalScreen: {fileID: 11410166}
 --- !u!114 &11474792
 MonoBehaviour:
   m_ObjectHideFlags: 1

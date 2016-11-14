@@ -1408,7 +1408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &146104
 GameObject:
   m_ObjectHideFlags: 1
@@ -4068,7 +4068,6 @@ MonoBehaviour:
   ScreenMap: {fileID: 0}
   ScreenChat: {fileID: 0}
   currentGUIScreen: {fileID: 11486222}
-  ModalScreen: {fileID: 0}
   MainCamera: {fileID: 0}
   UIScreensCamera: {fileID: 0}
   SecondPlaneCanvas: {fileID: 152938}
@@ -4289,7 +4288,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22498812}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999821
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4666,7 +4665,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22443312}
   m_Direction: 2
   m_Value: 0
-  m_Size: .99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4712,7 +4711,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22450494}
   m_Direction: 2
   m_Value: 0
-  m_Size: .99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5022,12 +5021,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowScreen
-        m_Mode: 2
+      - m_Target: {fileID: 11410200}
+        m_MethodName: Opciones
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UIScreen, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9150,7 +9149,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22465674}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999702
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -17,18 +17,8 @@ extern "C" {
 @implementation MyAppController
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    // OJO que llegara el tema del SS.
-    if( [[url scheme] isEqualToString:@"rmvt"] ){
-        if( [[url host] isEqualToString:@"sso"] ){
-            _ReceivedUrl(url);
-        }else{
-            if( [[url host] isEqualToString:@"editavatar"] ){
-                UnitySendMessage("Azure Services", "SetDeepLinking", [[url absoluteString] cStringUsingEncoding:[NSString defaultCStringEncoding]] );
-                return YES;
-            }
-        }
-    }
-    
+    NSLog( @"openURL %@", [url absoluteString] );
+    _ReceivedUrl(url);
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];}
 @end
 

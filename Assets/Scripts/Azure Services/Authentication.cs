@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using SmartLocalization;
-
 public class Authentication : MonoBehaviour {
     public static AzureInterfaz AzureServices;
 	static public Authentication Instance { get; private set;  }
@@ -29,32 +28,39 @@ public class Authentication : MonoBehaviour {
         "9ca1aacd-9104-404d-87bb-909a64957c4c",
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
-    bool inicialized=false;
     public void Init() {
-        //AzureServices.Init("p=B2C_1_SignInSignUp_TourVirtual&nonce=defaultNonce&scope=openid");        
-        if(!inicialized) {inicialized=true;AzureServices.Init("p=B2C_1_SignInSignUp&nonce=defaultNonce&scope=openid");}        
-        AzureServices.SignIn((success) => {
-            if(!success) {
-                UserAPI.Instance.errorLogin=true;
-                UserAPI.Instance.Online=false; // Si da error de logeo, como si fuera offline
-                //MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
-                #if UNITY_EDITOR
-                if(AzureServices is EditorAzureInterfaz)
-                    (AzureServices as EditorAzureInterfaz).AccessToken = "offline";
-                #endif
-                UserAPI.Instance.CallOnUserLogin();
-                return;
-            }else
-                UserAPI.Instance.errorLogin=false;
-            StartCoroutine(UserAPI.Instance.Request());
-        });
+        AzureServices.SignIn(OnSignIn);
     }
 
-	public void logout() {
-		AzureServices.SignOut ();
+    public void OnSignIn(bool success) {
+        if (!success) {
+            UserAPI.Instance.errorLogin = true;
+            UserAPI.Instance.Online = false; // Si da error de logeo, como si fuera offline
+                                             //MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
+#if UNITY_EDITOR
+            if (AzureServices is EditorAzureInterfaz)
+                (AzureServices as EditorAzureInterfaz).AccessToken = "offline";
+#endif
+            UserAPI.Instance.CallOnUserLogin();
+            return;
+        }
+        else
+            UserAPI.Instance.errorLogin = false;
+        StartCoroutine(UserAPI.Instance.Request());
+    }
+
+    public void logout() {
+        ModalContents.Instance.HideModalScreen();
+        LoadingCanvasManager.Show();
+        LoadingContentText.SetText("API.VirtualGoods");
+        UserAPI.Instance.UserID=null;
+		AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
 	}
 
     public bool CheckOffline(){
+#if UNITY_EDITOR
+        return false;
+#else
         if(UserAPI.Instance.Online) return false;
         ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialApp"),(mode)=>{
             if(mode){
@@ -62,6 +68,7 @@ public class Authentication : MonoBehaviour {
             }
         });
         return true;
+#endif
     }
 
     public void OpenMarket(){
@@ -72,9 +79,7 @@ public class Authentication : MonoBehaviour {
         #endif
         Application.Quit();
         // Abrir tienda.
-    }
-
-
+    }    
 }
 
 

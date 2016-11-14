@@ -21,7 +21,7 @@ public class UserAPI {
 
     public bool Ready { get; set;  }
 
-    public string   UserID      { get; private set; }
+    public string   UserID      { get; set; }
     public string   Nick        { get; set; }
     public int      Points      { get; set; } // Tokens
     public int      Level       { get; set; } // Nivel de usuario
@@ -90,11 +90,22 @@ public class UserAPI {
         Achievements = new AchievementsAPI();
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
     }
-/*
+
     public bool CheckIsOtherUser() {
-        return Authentication.AzureServices.IsDeepLinking && Authentication.AzureServices.DeepLinkinParameters != null && Authentication.AzureServices.DeepLinkinParameters.ContainsKey("idUser") && Authentication.AzureServices.DeepLinkinParameters["idUser"] as string != UserAPI.Instance.UserID;
+        
+        if( DeepLinkingManager.Parameters != null &&
+            DeepLinkingManager.Parameters.ContainsKey("idUser") && 
+            DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID ){
+            LoadingCanvasManager.Hide();
+            UserAPI.Instance.UserID=null;
+            Authentication.AzureServices.SignOut( (ret)=>{},(ret)=>{} );
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), (val)=> {
+                Authentication.AzureServices.SignIn();
+            });
+            return true;
+        }
+        return false;
     }
-*/
 
     public IEnumerator Request() {
         LoadingCanvasManager.Show();
@@ -111,19 +122,12 @@ public class UserAPI {
             UserID = hs["IdUser"] as string;
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
-		
-// Esto ya no es necesario, ya se encarga el SSO.
-/*
-        if (string.IsNullOrEmpty(UserAPI.Instance.UserID)) yield break;;
-        if (CheckIsOtherUser()) { // USUARIO DISTINTO
-            LoadingCanvasManager.Hide();
-            Authentication.AzureServices.SignOut();
-            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), ()=> {
-                Authentication.AzureServices.SignIn();
-            });
+
+// Mira si los usuarios son distintos.
+        if (string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
             yield break;
         }
-*/
+
         LoadingContentText.SetText("API.VirtualGoods");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         LoadingContentText.SetText("API.Achievements");
@@ -145,7 +149,7 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 				}catch(System.Exception e){
-                    Debug.LogError(">>>>>>> ERROR REST ProfileAvatar " + e );
+                    Debug.LogError("∫>>> ERROR REST ProfileAvatar " + e );
                     PlayerManager.Instance.SelectedModel = "";
 					MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 				}
@@ -190,7 +194,9 @@ public class UserAPI {
         });
 
         PlayerManager.Instance.DataModel = RemotePlayerHUD.GetDataModel(this);
-        if (OnUserLogin != null) OnUserLogin();
+        if (OnUserLogin != null) {
+            OnUserLogin();
+        }
         LoadingCanvasManager.Hide();
     }
 	
@@ -207,10 +213,8 @@ public class UserAPI {
     public void UpdateNick(string nick, callback onok = null, callback onerror=null) {
         if (!Online) return;
         Authentication.AzureServices.CheckAlias(nick, (res) => {
-			Debug.Log (">>>> UpdateNick: CheckAlias "+nick + " >> res: " + res.ToString());
             if (res == "true") {
                 Authentication.AzureServices.UpdateAlias(nick, (res2) => {
-					Debug.Log (">>>> UpdateNick: UpdateAlias: Ok "+nick + " >> res2: " + res2);
                     if (onok != null) onok();
 				},(err)=>{
 					Debug.Log (">>>> UpdateNick: Error3 "+nick);
