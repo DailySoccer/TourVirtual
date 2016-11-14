@@ -64,19 +64,9 @@ public class MainActivity extends UnityPlayerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*
-        Intent intent = getIntent();
-        deeplinking = "";
-        if( intent!=null) {
-            String action = intent.getAction();
-            Uri data = intent.getData();
-            System.out.println("Unity > MainActivity.onCreate "+action+" "+data);
-            if( data!=null) deeplinking = data.toString();
-        }
-        */
+        CheckIntent(getIntent());
     }
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -93,20 +83,22 @@ public class MainActivity extends UnityPlayerActivity {
         if (DigitalPlatformClient.getInstance().getAuthHandler() != null)
             DigitalPlatformClient.getInstance().getAuthHandler().onActivityResult(this, requestCode, resultCode, data);
     }
-
-
-    String deeplinking = "";
-
+*/
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        CheckIntent(intent);
+    }
+
+    protected String deeplinking = "";
+    protected void CheckIntent(Intent intent){
         deeplinking = "";
         if (intent != null) {
             String action = intent.getAction();
             Uri data = intent.getData();
             if (data != null) {
                 if (data.getScheme().equals("rmvt")) {
-                    if( data.getHost().equals("editavatar")) {
+                    if( !data.getHost().equals("sso")) {
                         deeplinking = data.toString();
                         System.out.println("Unity MainActivity:: onNewIntent " + deeplinking);
                     }
@@ -147,16 +139,12 @@ public class MainActivity extends UnityPlayerActivity {
         }
     }
 
-    public String GetDeepLinking() {
-        return deeplinking;
-    }
+    public String GetDeepLinking() { String tmp = deeplinking; deeplinking=""; return tmp; }
 
     static Gson gson = new Gson();
     static String IDClient;
 
     public void Init(String enviroment, String idClient, String signin) {
-
-        System.out.println("Unity MainActivity:: Init " + enviroment+" "+idClient);
         String env;
         MainActivity.IDClient = idClient;
         if (enviroment.equals("development")) env = DigitalPlatformClient.DEVELOPMENT;
@@ -165,7 +153,18 @@ public class MainActivity extends UnityPlayerActivity {
         DigitalPlatformClient.init(this, env, MainActivity.IDClient, signin);
     }
 
+    public boolean IsLoggedin() {
+        boolean val = false;
+        try {
+            val = DigitalPlatformClient.getInstance().getAuthHandler().getAccessToken() != null;
+        }catch (Exception e) {
+
+        }
+        return val;
+    }
+
     public boolean CheckApp(String url){
+
         Intent myintent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         return !getPackageManager().queryIntentActivities(myintent,0).isEmpty();
     }
