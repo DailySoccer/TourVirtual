@@ -21,12 +21,9 @@ static NSString* CreateNSString(const char* string){
 }
 
 void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSignIn){
-    
     IdClient = CreateNSString(idclient);
-    
     // SDK Enviroment
     BOOL debugMode = YES;
-    
 #ifdef DEBUG
     debugMode = YES;
 #endif
@@ -53,8 +50,7 @@ NSMutableDictionary *_DictionaryOfResult(NSURL *url)
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [urlString componentsSeparatedByString:@"&"];
     
-    for (NSString *keyValuePair in urlComponents)
-    {
+    for (NSString *keyValuePair in urlComponents) {
         NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
         NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
         NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
@@ -74,6 +70,9 @@ char* _CheckDeepLinking(){
     return cStringCopy([_deepLink UTF8String]);
 }
 
+bool _logedin = false;
+
+// rmvt://editavatar?idUser=%257BIDUSER%257D
 void _ReceivedUrl(NSURL *url) {
     NSLog( @"_ReceivedUrl %@", [url absoluteString] );
     if( [[url scheme] isEqualToString:@"rmvt"] ){
@@ -95,6 +94,7 @@ void _ReceivedUrl(NSURL *url) {
                     [[[MDPClientHandler sharedInstance] getSingleSignOnHandler] getTokenCacheByAuthorizationCodeWithAuthorizationCode:parameters[@"AuthorizationCode"] password:@"12345" completionBlock:^(NSError *error){
                         if (error) {
                             NSLog( @"OnSignInEvent KO %@", error.localizedDescription);
+                            _logedin=true;
                             UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
                         } else {
                             UnitySendMessage("Azure Services", "OnSignInEvent", "OK");
@@ -110,12 +110,22 @@ void _ReceivedUrl(NSURL *url) {
 
 
 bool _AzureIsLoggedin(){
-    NSString *token = [[MDPAuthHandler sharedInstance] getToken];
-    NSLog(@">>>> _AzureIsLoggedin %@",token);
-    return token!=nil;
+    return _logedin;
+}
+
+// Montar llamada asincrona desde unity.
+void _AzureCheckLogin(char* _hash){
+    __block NSString* hash = CreateNSString(_hash);
+    [[[MDPClientHandler sharedInstance] getLanguagesHandler] getLanguagesWithLanguage:@"es-es" completionBlock:^(NSArray *response, NSError *error){
+        if (error) _logedin=false;
+        else _logedin=true;
+        NSString *res = [NSString stringWithFormat:@"%@:OK", hash];
+        UnitySendMessage("Azure Services", "OnResponseOK", [res UTF8String] );
+    }];
 }
 
 void _AzureSignOut(){
+    _logedin=false;
     [[MDPAuthHandler sharedInstance] cleanUpKeychain];
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [storage cookies]) {

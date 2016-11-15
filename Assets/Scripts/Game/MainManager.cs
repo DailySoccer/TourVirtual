@@ -44,19 +44,7 @@ public class MainManager : Photon.PunBehaviour {
 			}
 		}
 	}
-	/*
-	[SerializeField]
-	private bool _musicEnabled;
-	public bool MusicEnabled {
-		get {return _musicEnabled;}
-		set {
-			_musicEnabled = value;
-			//TODO: guardar valor en archivo de configuracion
-			PlayerPrefs.SetString("MusicEnabled", value);
-			PlayerPrefs.Save();
-		}
-	}
-	 */
+
 	[SerializeField]
 	private bool _soundEnabled;
 	public bool SoundEnabled {
@@ -96,8 +84,7 @@ public class MainManager : Photon.PunBehaviour {
 	public void ChangeLanguage(string lang) {
         Authentication.AzureServices.MainLanguage = lang;
         var sublang = "es";
-        try
-        {
+        try{
             sublang = lang.Split('-')[0];
         }
         catch { }
@@ -115,7 +102,6 @@ public class MainManager : Photon.PunBehaviour {
         } else {
 			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
-
     }
 
     void Awake() {
@@ -147,12 +133,11 @@ public class MainManager : Photon.PunBehaviour {
     void Start() {
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
-        LoadingCanvasManager.Show("TVB.Message.LoadingData");
-        InitializeStore();
-        LoadingCanvasManager.Hide();
+//        LoadingCanvasManager.Show("TVB.Message.LoadingData");
+//        InitializeStore();
+//        LoadingCanvasManager.Hide();
 #endif
 #endif
-
         if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), (mode) => {
                 Application.Quit();
@@ -170,7 +155,6 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     IEnumerator Continue() {
-
         yield return new WaitForEndOfFrame();
         if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
@@ -180,7 +164,9 @@ public class MainManager : Photon.PunBehaviour {
                 yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
         }
         UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
-
+#if UNITY_IOS
+        yield return (Authentication.AzureServices as IOSAzureInterfaz).AzureCheckLogin();
+#endif          
         if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
           Authentication.Instance.Init();
         }else{
@@ -195,11 +181,7 @@ public class MainManager : Photon.PunBehaviour {
         }
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
-        if (UserAPI.Instance != null /* && UserAPI.Instance.Online*/ )
-        {
-            StartCoroutine(CheckForInternetConnection());
-        }
-        //		else StartCoroutine(Connect ());
+        if (UserAPI.Instance != null ) StartCoroutine(CheckForInternetConnection());
 #if !TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");

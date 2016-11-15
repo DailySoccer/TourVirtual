@@ -20,14 +20,25 @@ public class IOSAzureInterfaz : AzureInterfaz {
     }
     [DllImport ("__Internal")]
     private static extern bool _AzureIsLoggedin();
+    [DllImport ("__Internal")]
+    private static extern void _AzureCheckLogin(string hash);
+    public Coroutine AzureCheckLogin(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+        var op = AsyncOperation.Create(OnSucess, OnError);
+        _AzureCheckLogin(op.Hash);
+        return StartCoroutine( op.Wait() );
+    }
  
     // LogIn
     [DllImport ("__Internal")]
     private static extern void _AzureSignIn();
     public override void SignIn(AzureEvent OnSignInEvent) {
         if(OnSignInEvent!=null) this.OnSignIn = OnSignInEvent;
-        if(_AzureIsLoggedin()) this.OnSignIn(true);
+        if(_AzureIsLoggedin()) Invoke("QuickSigIn", 1);
 	    else _AzureSignIn();
+    }
+
+    void QuickSigIn(){
+          OnSignIn(true);
     }
     
     public void OnSignInEvent(string success) {
@@ -39,6 +50,7 @@ public class IOSAzureInterfaz : AzureInterfaz {
     public override Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError);
         _AzureSignOut();
+        GameObject.Find("Azure Services").SendMessage("OnResponseOK", op.Hash + ":Logout");
         return StartCoroutine(op.Wait());
     }
     
