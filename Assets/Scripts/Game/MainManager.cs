@@ -176,9 +176,9 @@ public class MainManager : Photon.PunBehaviour {
 		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
-        LoadingCanvasManager.Show("TVB.Message.LoadingData");
-        InitializeStore();
-        LoadingCanvasManager.Hide();
+//        LoadingCanvasManager.Show("TVB.Message.LoadingData");
+//        InitializeStore();
+//        LoadingCanvasManager.Hide();
 #endif
 #endif
 		if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
@@ -207,6 +207,9 @@ public class MainManager : Photon.PunBehaviour {
                 yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
         }
         UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
+#if UNITY_IOS
+        yield return (Authentication.AzureServices as IOSAzureInterfaz).AzureCheckLogin();
+#endif          
         if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
           Authentication.Instance.Init();
         }else{

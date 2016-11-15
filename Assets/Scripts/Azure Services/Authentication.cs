@@ -52,7 +52,9 @@ public class Authentication : MonoBehaviour {
     public void logout() {
         ModalContents.Instance.HideModalScreen();
         LoadingCanvasManager.Show();
-        LoadingContentText.SetText("API.VirtualGoods");
+        // Logging out...
+        // Cerrando sesión...
+        LoadingContentText.SetText("TVB.Message.LoggingOut");
         UserAPI.Instance.UserID=null;
 		AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
 	}
