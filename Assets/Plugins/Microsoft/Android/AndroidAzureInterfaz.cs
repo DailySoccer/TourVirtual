@@ -11,11 +11,11 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 
     public override void Init(string signin) {
 #if PRO
-        this.clientId = "1416e63a-8998-4243-99f7-8c9ebf516157";
         string environment = "production";
+        this.IDClient = "1416e63a-8998-4243-99f7-8c9ebf516157";
 #elif PRE
         string environment = "preproduction";
-        this.clientId = "b992508b-b9ed-49fb-998d-6f8cdb810b8a";
+        this.IDClient = "b992508b-b9ed-49fb-998d-6f8cdb810b8a";
 #else
         string environment = "development";
 //        string environment = "qa";
