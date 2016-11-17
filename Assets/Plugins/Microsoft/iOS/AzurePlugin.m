@@ -22,13 +22,10 @@ static NSString* CreateNSString(const char* string){
 
 void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSignIn){
     IdClient = CreateNSString(idclient);
+    NSString* env = CreateNSString(enviroment);
     // SDK Enviroment
-    BOOL debugMode = NO;
-#ifdef DEBUG
-    debugMode = YES;
-#endif
-    
-    [[MDPClientHandler sharedInstance] initWithEnvironment:CreateNSString(enviroment) idClient:IdClient debugMode:debugMode extraQueryParametersCombined:CreateNSString(extraQueryParametersSignIn)];
+    BOOL debugMode = [env isEqualToString: @"qa"] || [env isEqualToString: @"development"];
+    [[MDPClientHandler sharedInstance] initWithEnvironment:env idClient:IdClient debugMode:debugMode extraQueryParametersCombined:CreateNSString(extraQueryParametersSignIn)];
 }
 
 void _AzureSignIn(){
@@ -83,7 +80,7 @@ void _ReceivedUrl(NSURL *url) {
             NSNumber *allowed = parameters[@"Allowed"];
             
             if (errorMessage.length) {
-                 NSLog( @"OnSignInEvent KO %@", errorMessage  );
+                NSLog( @"OnSignInEvent KO %@", errorMessage  );
                 UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
             } else {
                 
