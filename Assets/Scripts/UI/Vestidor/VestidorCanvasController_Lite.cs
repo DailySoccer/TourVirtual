@@ -467,6 +467,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		BackToRoom ();
     }
 
+    public void SetVRMode()
+    {
+        BackToRoom();
+        MainManager.Instance.SetVrMode();
+    }
+
     public void BackToRoom()
     {
         if (DeepLinkingManager.IsEditAvatar) {
@@ -549,6 +555,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         } else {
 			BackToRoom();
 		}
+    }
+    
+    public void SetLanguage(string lang)
+    {
+        MainManager.Instance.ChangeLanguage(lang);
     }
 
     public void showModalOnlyText(string t)
