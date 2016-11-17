@@ -14,10 +14,10 @@ public class EditorAzureInterfaz : AzureInterfaz
     public override void Init(string signin) {
 #if PRO
         this.WebApiBaseAddress = "https://api.realmadrid.com/";
-        this.clientId = "1416e63a-8998-4243-99f7-8c9ebf516157";
+        this.IDClient = "1416e63a-8998-4243-99f7-8c9ebf516157";
 #elif PRE
         this.WebApiBaseAddress = "https://apipre.realmadrid.com/";
-        this.clientId = "b992508b-b9ed-49fb-998d-6f8cdb810b8a";
+        this.IDClient = "b992508b-b9ed-49fb-998d-6f8cdb810b8a";
 #else
         this.WebApiBaseAddress = "https://eu-rm-dev-web-api.azurewebsites.net/";
         this.IDClient = "41f64a6e-edf8-4d7d-86cf-6146cc69f978";

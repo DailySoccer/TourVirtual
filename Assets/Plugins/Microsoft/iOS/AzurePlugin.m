@@ -23,7 +23,7 @@ static NSString* CreateNSString(const char* string){
 void _AzureInit(char* enviroment, char* idclient, char* extraQueryParametersSignIn){
     IdClient = CreateNSString(idclient);
     // SDK Enviroment
-    BOOL debugMode = YES;
+    BOOL debugMode = NO;
 #ifdef DEBUG
     debugMode = YES;
 #endif
