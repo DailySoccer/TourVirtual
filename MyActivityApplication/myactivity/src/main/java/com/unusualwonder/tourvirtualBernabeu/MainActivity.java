@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 //import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
@@ -100,15 +101,17 @@ public class MainActivity extends UnityPlayerActivity {
                 if (data.getScheme().equals("rmvt")) {
                     if( !data.getHost().equals("sso")) {
                         deeplinking = data.toString();
-                        System.out.println("Unity MainActivity:: onNewIntent " + deeplinking);
+                        Log.e("Unity", "MainActivity:: onNewIntent " + deeplinking);
                     }
                     else {
                         String authCode = data.getQueryParameter("AuthorizationCode");
                         Boolean allowed = Boolean.valueOf(data.getQueryParameter("Allowed"));
                         if(allowed){
+                            Log.e("Unity", "MainActivity:: getSSOTokenWithAuthorizationCode " + authCode);
                             DigitalPlatformClient.getInstance().getSingleSignOnHandler().getSSOTokenWithAuthorizationCode(this, authCode, new ServiceResponseListener<String>() {
                                             @Override
                                             public void onResponse(String response) {
+                                                Log.e("Unity", "MainActivity:: loginWithAuthorizationCode " + response);
                                                 DigitalPlatformClient.getInstance().getAuthHandler().loginWithAuthorizationCode(MainActivity.this, "RMTV12345", response, new ServiceResponseListener<Boolean>() {
                                                     @Override
                                         public void onResponse(Boolean response) {
@@ -120,6 +123,7 @@ public class MainActivity extends UnityPlayerActivity {
                                         }
                                         @Override
                                         public void onError(DigitalPlatformClientException e) {
+                                            Log.e("Unity", "MainActivity:: onError(1) " + e.getMessage());
                                             UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
 
                                         }
@@ -127,6 +131,7 @@ public class MainActivity extends UnityPlayerActivity {
                                 }
                                 @Override
                                 public void onError(DigitalPlatformClientException e) {
+                                    Log.e("Unity", "MainActivity:: onError(2) " + e.getMessage());
                                     UnityPlayer.UnitySendMessage("Azure Services", "OnSignInEvent", "KO");
                                 }
                             });

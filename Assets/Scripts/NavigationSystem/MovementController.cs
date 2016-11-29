@@ -57,8 +57,9 @@ public class MovementController : MonoBehaviour
 		_player.CameraPitchSpeed = 0f;
 
 		float currentfacingSpeed = _facingSpeed;
+		if (!MainManager.Instance.IsVrModeEnabled) _movement = _movementTouch.Value;
+		else _movement = Vector2.zero;
 
-	    _movement = _movementTouch.Value;
 	    _movement.x += Input.GetAxis(_movementHorizontalAxis);
 		_movement.y += Input.GetAxis(_movementVerticalAxis);
 	    _movement.x = Mathf.Clamp(_movement.x, -1f, 1f);
@@ -70,17 +71,14 @@ public class MovementController : MonoBehaviour
 		_rotation.x = Mathf.Clamp(_rotation.x, -1f, 1f);
 		_rotation.y = Mathf.Clamp(_rotation.y, -1f, 1f);
 
-		if (Camera.main != null && 
+		if (!MainManager.Instance.IsVrModeEnabled && Camera.main != null && 
 			(Mathf.Abs(_movement.x) >= _joystickThreshold 
-		  || Mathf.Abs(_movement.y) >= _joystickThreshold) )
-		{
+		  || Mathf.Abs(_movement.y) >= _joystickThreshold) ) {
             currentfacingSpeed = 0.46f;
             _animator.SetFloat("Speed", Mathf.Abs(_movement.y));
 
-            if (_movement.y > 0)
-				_animator.SetFloat("Forward", 1);
-            else
-				_animator.SetFloat("Forward", -1);
+            if (_movement.y > 0) _animator.SetFloat("Forward", 1);
+            else _animator.SetFloat("Forward", -1);
         }
         else
 		{
@@ -101,8 +99,7 @@ public class MovementController : MonoBehaviour
 	/// <summary>
 	/// 
 	/// </summary>
-	private void FixedUpdate()
-	{
+	private void FixedUpdate() {
 		if (!MainManager.Instance.IsVrModeEnabled)
 			return;
 
@@ -114,11 +111,11 @@ public class MovementController : MonoBehaviour
 		rightHead.y = 0f;
 		rightHead.Normalize();
 
-		Vector3 nextPos = _avatar.position + Time.fixedDeltaTime * _movementSpeed *
-			(_movement.x * rightHead + _movement.y * forwardHead);
+		Vector3 nextPos = _avatar.position + Time.fixedDeltaTime * _movementSpeed * (_movement.x * rightHead + _movement.y * forwardHead);
 
 		_avatar.GetComponent<Rigidbody>().MovePosition(nextPos);
 	}
+
 
 
 	/// <summary>
