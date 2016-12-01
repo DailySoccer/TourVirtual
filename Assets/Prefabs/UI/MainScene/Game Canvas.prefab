@@ -4498,8 +4498,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11468386}
   m_HandleRect: {fileID: 22449038}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: .999999762
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5644,7 +5644,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11431920}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowModalScreen
         m_Mode: 3
         m_Arguments:
@@ -6103,9 +6103,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11431920}
-        m_MethodName: ShowModalScreen
-        m_Mode: 3
+      - m_Target: {fileID: 0}
+        m_MethodName: OpenOptions
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7797,7 +7797,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22468014}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: .999999762
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
