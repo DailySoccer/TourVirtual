@@ -125,12 +125,12 @@ public class MainManager : Photon.PunBehaviour {
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
 		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
-		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
-		if (CurrentLanguage != string.Empty)
-			SetNewLangManager(_currentLanguage);
 	}
 
     void Start() {
+		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
+		if (CurrentLanguage != string.Empty)
+			SetNewLangManager(_currentLanguage);
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
 //        LoadingCanvasManager.Show("TVB.Message.LoadingData");
@@ -164,7 +164,7 @@ public class MainManager : Photon.PunBehaviour {
                 yield return StartCoroutine(PlayerManager.Instance.CacheClothes());
         }
         UserAPI.Instance.OnUserLogin += HandleOnUserLogin;
-#if UNITY_IOS
+#if UNITY_IOS && !UNITY_EDITOR
         yield return (Authentication.AzureServices as IOSAzureInterfaz).AzureCheckLogin();
 #endif          
         if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){

@@ -1,5 +1,4 @@
-﻿#if UNITY_4_6 || UNITY_5_1 || UNITY_5_2
-namespace SmartLocalization.Editor
+﻿namespace SmartLocalization.Editor
 {
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,14 +20,10 @@ public class LocalizedText : MonoBehaviour
 
 	void Start () 
 	{
-		//textObject = this.GetComponent<Text>();
-	
-		//Subscribe to the change language event
-		LanguageManager languageManager = LanguageManager.Instance;
-		languageManager.OnChangeLanguage += OnChangeLanguage;
+		LanguageManager.Instance.OnChangeLanguage += OnChangeLanguage;
 		
 		//Run the method one first time
-		OnChangeLanguage(languageManager);
+		OnChangeLanguage(LanguageManager.Instance);
 	}
 	
 	void OnDestroy()
@@ -42,8 +37,7 @@ public class LocalizedText : MonoBehaviour
 	void OnChangeLanguage(LanguageManager languageManager)
 	{
 		if (textObject != null) 
-			textObject.text = LanguageManager.Instance.GetTextValue(localizedKey) ?? localizedKey;
+			textObject.text = languageManager.GetTextValue(localizedKey) ?? localizedKey;
 	}
 }
 }
-#endif

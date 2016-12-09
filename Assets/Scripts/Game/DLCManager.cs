@@ -98,7 +98,11 @@ public class DLCManager : MonoBehaviour {
                 Dictionary<string, object> jsonMap = MiniJSON.Json.Deserialize(www.text) as Dictionary<string, object>;
                 int minVersion = 10011;
                 if( jsonMap.ContainsKey("minVersion") ) minVersion = GetVersionInInt( jsonMap["minVersion"] as string );
+                #if UNITY_EDITOR
+                int current = GetVersionInInt("1.0.20");
+                #else
                 int current = GetVersionInInt(Application.version);
+                #endif
                 if( current < minVersion ) {
                     error = true;
                     ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.InvalidVersion"), (mode) => {
