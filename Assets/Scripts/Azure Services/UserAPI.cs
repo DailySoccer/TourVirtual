@@ -197,6 +197,36 @@ public class UserAPI {
         if (OnUserLogin != null) {
             OnUserLogin();
         }
+/*
+        Debug.LogError(">>>> TEST Acciones de Gamificacion");        
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_DESBLO_ALL_PACK",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_DESBLO_ALL_PACK "+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_DESBLO_PACK",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_DESBLO_PACK "+err);});
+
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SCORE_BASKET",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SCORE_BASKET "+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SCORE_GOAL",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SCORE_GOAL "+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SCORE_QUEST",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SCORE_QUEST "+err);});
+
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_00",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_00 "+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_01",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_01 "+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_02",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_02"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_03",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_03"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_04",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_04"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_05",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_05"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_06",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_06"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_07",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_07"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_08",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_08"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_09",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_09"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_10",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_10"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_11",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_11"+err);});
+        UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_SALA_12",null,(err)=>{ Debug.LogError(">>>> ERROr1: VIRTUALTOUR_ACC_SALA_12"+err);});
+        Debug.LogError(">>>> FIN Acciones de Gamificacion");        
+
+        Debug.LogError(">>>> TEST Puntuaciones de juegos");
+        SetScore(MiniGame.FreeKicks,10);   
+        SetScore(MiniGame.FreeShoots,10);   
+        SetScore(MiniGame.HiddenObjects,10);   
+        Debug.LogError(">>>> FIN Puntuaciones de juegos");        
+*/
         LoadingCanvasManager.Hide();
     }
 	

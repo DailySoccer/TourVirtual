@@ -129,13 +129,14 @@ public class MainManager : Photon.PunBehaviour {
 
 	public void SetNewLangManager(string newSubLang, string newLang = "") {
         if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
+            Debug.LogError(">>>> LanguageManager.Instance.ChangeLanguage: " + newLang + " / " + newSubLang);
             LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
 			PlayerPrefs.SetString("language", newSubLang);
             PlayerPrefs.Save();
 
         } else {
-			Debug.LogWarning("El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
+			Debug.LogError(">>>> El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
 
     }
@@ -158,9 +159,6 @@ public class MainManager : Photon.PunBehaviour {
 
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
-		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
-		if (CurrentLanguage != string.Empty)
-			SetNewLangManager(_currentLanguage);
 
 	    if (_cardboard == null)
 		    _cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<Cardboard>();
@@ -173,6 +171,10 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
     void Start() {
+		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
+		if (CurrentLanguage != string.Empty)
+			SetNewLangManager(_currentLanguage);
+            
 		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)

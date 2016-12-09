@@ -16,7 +16,10 @@ public class PackFlyerModal : MonoBehaviour {
 		//packurl y thumburl
 		StartCoroutine(MyTools.LoadSpriteFromURL(content.PackURL, FlyerThumbnail.gameObject));
         var vg = UserAPI.VirtualGoodsDesciptor.GetByGUID(content.VirtualGoodID);
-		Price.text = vg.Price.ToString(); //LanguageManager.Instance.GetTextValue("TVB.Button.Buy") + " <size=\"50\">" + vg.Price.ToString() + "</size>";
+		if(vg!=null)
+			Price.text = vg.Price.ToString(); //LanguageManager.Instance.GetTextValue("TVB.Button.Buy") + " <size=\"50\">" + vg.Price.ToString() + "</size>";
+		else
+			Debug.LogError(">>>> No se ha encontrado el VG "+content.VirtualGoodID+" asociado al Contenido "+content.GUID);
 	}
 
 	public void AddContentToList(string contentTitle) {
