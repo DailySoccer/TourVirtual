@@ -201,7 +201,7 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 
 // InApp Purchases ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine InAppPurchase(string IDProduct, string Receipt, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
-// FPA: 02/01/17
+// FER: 02/01/17
 // Hack para evitar la validacion de las compras InApp.
 #if FAKE_PURCHASES
         OnSucess("ok");

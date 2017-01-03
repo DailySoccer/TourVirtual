@@ -67,7 +67,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     // FER: 02/01/17
 	// Carga el precio en el teaser.
 		PriceInApp.text = GoodiesShopController.Instance.item7.text;
-        if(VirtualGoodsAPI.HasPurchase7) BuyInAppBtn.interactable = false;
+        if(VirtualGoodsAPI.HasPurchase7 || !UserAPI.Instance.Online) BuyInAppBtn.interactable = false;
         Debug.Log(">>> IsEditAvatar "+DeepLinkingManager.IsEditAvatar);
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
