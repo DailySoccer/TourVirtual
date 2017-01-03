@@ -205,7 +205,7 @@ public class PopUpWindow : UIScreen {
 					return;
 				}
 
-				if (content.owned) {
+				if (content.owned || VirtualGoodsAPI.HasPurchase7) {
 					// El contenido está comprado, asique mostramos la lista de contenidos
 					currentSelectedItemGUID = content.GUID;
 					SetState(ModalLayout.PURCHASED_PACK_CONTENT_LIST);
@@ -294,7 +294,7 @@ public class PopUpWindow : UIScreen {
 		CloseButton.SetActive (true);
 	}
 
-	/// <summary>
+		/// <summary>
 	/// Rellena la lista de packs obtenidos
 	/// </summary>
 	public void SetupPurchasedGridContent() {
@@ -303,7 +303,9 @@ public class PopUpWindow : UIScreen {
 		foreach (var c in UserAPI.Contents.Contents) {	
 			ContentAPI.Content content = (c.Value as ContentAPI.Content);
 			// TODO: rellenar el contenido de cada lista
-			if (content.owned) {
+// FER: 02/01/17
+// Mira si tengo todos los contenidos.
+			if (content.owned || VirtualGoodsAPI.HasPurchase7) {
 				GameObject slot = Instantiate (PurchasedPacksGridSlot);
 				slot.transform.SetParent(PurchasedPacksGridList.transform);
 				slot.GetComponent<PurchasedItemSlot> ().SetupSlot (this, content/*.Title, content.ThumbURL, content.VirtualGoodID*/);

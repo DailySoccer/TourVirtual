@@ -18,11 +18,16 @@ public class GoodiesShopController : MonoBehaviour {
     public UnityEngine.UI.Text item4;
     public UnityEngine.UI.Text item5;
     public UnityEngine.UI.Text item6;
+    public UnityEngine.UI.Text item7;
+
+    public GameObject purchase7;
 
 	void Awake () {
 		Instance = this;
 		thisModal.IsOpen = false;
 		thisModal = GetComponent<GUIPopUpScreen> ();
+
+        purchase7.SetActive(false);
 	}
 
 	// Use this for initialization
@@ -63,7 +68,8 @@ public class GoodiesShopController : MonoBehaviour {
     public void ItemsRefresh(List<MarketItem> items)
     {
         foreach (var item in items){
-            if (item.ProductId.Contains("10000"))       item6.text = item.MarketPriceAndCurrency;
+            if (item.ProductId.Contains("all"))         item7.text = item.MarketPriceAndCurrency;
+            else if (item.ProductId.Contains("10000"))  item6.text = item.MarketPriceAndCurrency;
             else if (item.ProductId.Contains("3600"))   item5.text = item.MarketPriceAndCurrency;
             else if (item.ProductId.Contains("1600"))   item4.text = item.MarketPriceAndCurrency;
             else if (item.ProductId.Contains("700"))    item3.text = item.MarketPriceAndCurrency;
@@ -92,11 +98,15 @@ public class GoodiesShopController : MonoBehaviour {
         }
     }
 
-    IEnumerator Buy(string id)
+     IEnumerator Buy(string id)
     {
-        LoadingCanvasManager.Show("TVB.Message.Buying");
-        yield return null;
-        StoreInventory.BuyItem(id);
+        if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
+            // Compra pendiente.
+        }else{
+            LoadingCanvasManager.Show("TVB.Message.Buying");
+            yield return null;
+            StoreInventory.BuyItem(id);
+        }
 
     }
 }

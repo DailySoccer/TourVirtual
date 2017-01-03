@@ -30,12 +30,11 @@ public class MainManager : Photon.PunBehaviour {
 
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
-	[SerializeField]
 	private string _currentLanguage;
 	public string CurrentLanguage {
 		get {return _currentLanguage;} 
 		set{
-			if (!_currentLanguage.Equals(value)) {
+			if ( _currentLanguage!=value ) {
 				_currentLanguage = value;
 
 				if (OnLanguageChange != null) {
@@ -45,7 +44,6 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-	[SerializeField]
 	private bool _soundEnabled;
 	public bool SoundEnabled {
 		get {
@@ -60,13 +58,11 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
-	[SerializeField]
 	private int _unreadedChatMessages;
 	public int UnreadedChatMessages {
-		get {return _unreadedChatMessages;}
+//		get {return _unreadedChatMessages;}
 		set {
-			_unreadedChatMessages = value;
-			OnMessagesUnreadedEvent(_unreadedChatMessages);
+            if(OnMessagesUnreadedEvent!=null)  OnMessagesUnreadedEvent(_unreadedChatMessages);
 		}
 	}
 
@@ -124,10 +120,11 @@ public class MainManager : Photon.PunBehaviour {
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
-		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 	}
 
     void Start() {
+   		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
+
 		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
@@ -235,6 +232,7 @@ public class MainManager : Photon.PunBehaviour {
         string signature = "";
         extras.TryGetValue("signature", out signature);
         extras.TryGetValue("originalJson", out originalJson);
+        
         originalJson = originalJson.Replace("\"", "\\\"");
         receipt = "{ \"RESPONSE_CODE\":0, \"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \"" + signature + "\"}";
 
@@ -242,30 +240,40 @@ public class MainManager : Photon.PunBehaviour {
         // Leer fichero, convertir a B64 y enviar.
         extras.TryGetValue("receiptBase64", out receipt);
 #endif
-        //        var tmp = BestHTTP.JSON.Json.Decode(originalJson) as Dictionary<string, object>;
-        //        tmp.Add("developerPayload", payload);
-        //        originalJson = BestHTTP.JSON.Json.Encode(tmp).Replace("\"", "\\\"");
-        StoreInventory.TakeItem(pvi.ItemId, 1);
         PlayerPrefs.SetString("PurchasePendingId", pvi.ItemId);
         PlayerPrefs.SetString("PurchasePendingReceipt", receipt);
         PlayerPrefs.Save();
+        StoreInventory.TakeItem(pvi.ItemId, 1);
         CheckPurchasePending();
     }
 
+  // FER: 02/01/17
+	// Montamos un callback despues de la compra de un inapp.
+    public delegate void PurchaseCallback();
+    public PurchaseCallback OnPurchaseInApp;
     public void CheckPurchasePending()
     {
         if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
             var ItemId = PlayerPrefs.GetString("PurchasePendingId");
             var Receipt = PlayerPrefs.GetString("PurchasePendingReceipt");
-
-            Debug.LogError("Compra-> " + Receipt);
             LoadingCanvasManager.Show();
             Authentication.AzureServices.InAppPurchase(ItemId, Receipt, (res) => {
                 LoadingCanvasManager.Hide();
-                int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
-                UserAPI.Instance.Points += value;
+                if(ItemId.Contains("coins_")){
+                    int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
+                    UserAPI.Instance.Points += value;
+                }else{
+                    if(ItemId.Contains("all")){
+                        // Aqui se desbloquea la compra de todos los contenidos.
+                        VirtualGoodsAPI.HasPurchase7=true;
+                    }
+                }
+                
                 PlayerPrefs.DeleteKey("PurchasePendingId");
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
+                PlayerPrefs.Save();
+                if(OnPurchaseInApp!=null) OnPurchaseInApp();
+                OnPurchaseInApp=null;
             }, (errorcode) => {
                 LoadingCanvasManager.Hide();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });
@@ -282,7 +290,7 @@ public class MainManager : Photon.PunBehaviour {
     }
 
     public void OnMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
-        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
+        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying")+"(Cancel)");
         LoadingCanvasManager.Hide();
     }
 
