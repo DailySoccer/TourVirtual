@@ -6,7 +6,7 @@ using Soomla.Store;
 
 public class TourStoreAssets : IStoreAssets{
     public int GetVersion() {
-        return 5;
+        return 6;
     }
 
     public VirtualCurrency[] GetCurrencies() {
@@ -20,7 +20,8 @@ public class TourStoreAssets : IStoreAssets{
             MONEDAS700_PACK,
             MONEDAS1600_PACK,
             MONEDAS3600_PACK,
-            MONEDAS10000_PACK
+            MONEDAS10000_PACK,
+            UNLOCK_ALL_CONTET_PACK
         };
     }
 
@@ -76,5 +77,12 @@ static string prefix="win";
         "10000 monedas",
         prefix+"_rmvt_pack_coins_10000",
         new PurchaseWithMarket(prefix+"_rmvt_pack_coins_10000", 0)
+    );
+
+       public static VirtualGood UNLOCK_ALL_CONTET_PACK = new SingleUseVG(
+        "Unlock all content",
+        "Unlock all content",
+        prefix+"_rmvt_pack_all",
+        new PurchaseWithMarket(prefix+"_rmvt_pack_all", 0)
     );
 }

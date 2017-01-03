@@ -38,6 +38,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public Color InfoButtonTextColor;
 
 	public Button BotonAceptar;
+    // FER: 02/01/17
+	// Para poder desactivar el boton y cargar el precio del paquete.
+    public Button BuyInAppBtn;
+    public Text PriceInApp;
 
 	private GUIScreen currentGUIScreen;
 	private PopUpWindow popUpWindow;
@@ -60,6 +64,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     // Use this for initialization
     void OnEnable()
     {
+    // FER: 02/01/17
+	// Carga el precio en el teaser.
+		PriceInApp.text = GoodiesShopController.Instance.item7.text;
+        if(VirtualGoodsAPI.HasPurchase7) BuyInAppBtn.interactable = false;
         Debug.Log(">>> IsEditAvatar "+DeepLinkingManager.IsEditAvatar);
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
         mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
@@ -611,4 +619,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
 		ChangeVestidorState(newVestidorState);
 	}
+    // FER: 02/01/17
+	// Compra de todos los contenidos.
+    public void BuyInApp() {
+        MainManager.Instance.OnPurchaseInApp = ()=>{;
+            BuyInAppBtn.interactable = false;
+        };
+		GoodiesShopController.Instance.Product_ClickHandle("_rmvt_pack_all");
+    }
 }

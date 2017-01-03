@@ -31,6 +31,8 @@ public class VirtualGoodsAPI {
         return null;
     }
 
+    public static bool HasPurchase7{ get; set; }
+
     public System.Collections.IEnumerator AwaitRequest(){
         VirtualGoods = new Dictionary<string, VirtualGood>();
         bool needRequest = true;
@@ -46,7 +48,7 @@ public class VirtualGoodsAPI {
                             string subtype = vg["IdSubType"] as string;
                             string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                             float val = 0.0f;
-                            if( vg.ContainsKey("Price") )
+                            if( vg.ContainsKey("Price") && (vg["Price"] as List<object>).Count>0 )
                                 val = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
                             string thburl = vg["ThumbnailUrl"] as string;
                             string imgurl = vg["PictureUrl"] as string;
@@ -65,6 +67,10 @@ public class VirtualGoodsAPI {
                 }
             });
         }
+        VirtualGoodsAPI.HasPurchase7 = false;
+        // FAKE
+//        VirtualGoodsAPI.HasPurchase7 = true;
+        // FAKE
         needRequest = true;
         string token = null;
         while (needRequest) {
@@ -75,6 +81,7 @@ public class VirtualGoodsAPI {
                     foreach (Dictionary<string, object> vg in myresults) {
                         string guid = vg["IdVirtualGood"] as string;
                         if (VirtualGoods.ContainsKey(guid)) {
+                            if(guid == PURCHASE7_GUID ) VirtualGoodsAPI.HasPurchase7 = true;
                             VirtualGood myvg = (VirtualGood)VirtualGoods[guid];
                             myvg.count++;
                         }
@@ -148,4 +155,5 @@ public class VirtualGoodsAPI {
             }
         }
     }
+    const string PURCHASE7_GUID = "a8cdaa7e-bd46-4e93-9bc3-17732dd69b25";
 }

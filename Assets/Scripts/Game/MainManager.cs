@@ -129,7 +129,6 @@ public class MainManager : Photon.PunBehaviour {
 
 	public void SetNewLangManager(string newSubLang, string newLang = "") {
         if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
-            Debug.LogError(">>>> LanguageManager.Instance.ChangeLanguage: " + newLang + " / " + newSubLang);
             LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
 			PlayerPrefs.SetString("language", newSubLang);
@@ -298,6 +297,7 @@ public class MainManager : Photon.PunBehaviour {
         string signature = "";
         extras.TryGetValue("signature", out signature);
         extras.TryGetValue("originalJson", out originalJson);
+
         originalJson = originalJson.Replace("\"", "\\\"");
         receipt = "{ \"RESPONSE_CODE\":0, \"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \"" + signature + "\"}";
 
@@ -305,30 +305,40 @@ public class MainManager : Photon.PunBehaviour {
         // Leer fichero, convertir a B64 y enviar.
         extras.TryGetValue("receiptBase64", out receipt);
 #endif
-        //        var tmp = BestHTTP.JSON.Json.Decode(originalJson) as Dictionary<string, object>;
-        //        tmp.Add("developerPayload", payload);
-        //        originalJson = BestHTTP.JSON.Json.Encode(tmp).Replace("\"", "\\\"");
-        StoreInventory.TakeItem(pvi.ItemId, 1);
         PlayerPrefs.SetString("PurchasePendingId", pvi.ItemId);
         PlayerPrefs.SetString("PurchasePendingReceipt", receipt);
         PlayerPrefs.Save();
+
+        StoreInventory.TakeItem(pvi.ItemId, 1);
         CheckPurchasePending();
     }
-
+	// FER: 02/01/17
+	// Montamos un callback despues de la compra de un inapp.
+    public delegate void PurchaseCallback();
+    public PurchaseCallback OnPurchaseInApp;
     public void CheckPurchasePending()
     {
         if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
             var ItemId = PlayerPrefs.GetString("PurchasePendingId");
             var Receipt = PlayerPrefs.GetString("PurchasePendingReceipt");
-
-            Debug.LogError("Compra-> " + Receipt);
             LoadingCanvasManager.Show();
             Authentication.AzureServices.InAppPurchase(ItemId, Receipt, (res) => {
                 LoadingCanvasManager.Hide();
-                int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
-                UserAPI.Instance.Points += value;
+                if(ItemId.Contains("coins_")){
+                    int value = int.Parse(ItemId.Substring(ItemId.IndexOf("coins_") + 6));
+                    UserAPI.Instance.Points += value;
+                }else{
+                    if(ItemId.Contains("all")){
+                        // Aqui se desbloquea la compra de todos los contenidos.
+                        VirtualGoodsAPI.HasPurchase7=true;
+                    }
+                }
+                
                 PlayerPrefs.DeleteKey("PurchasePendingId");
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
+                PlayerPrefs.Save();
+                if(OnPurchaseInApp!=null) OnPurchaseInApp();
+                OnPurchaseInApp=null;
             }, (errorcode) => {
                 LoadingCanvasManager.Hide();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });

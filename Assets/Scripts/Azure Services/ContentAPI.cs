@@ -64,14 +64,15 @@ public class ContentAPI
     public Dictionary<string, Content> Contents;
     public int TotalContents;
 
-
+// FER: 02/01/17
+// Mira si tengo todos los contenidos.
     public int GetOwned() {
 		if (Contents == null)
 			return -1;
 
         int owend = 0;
         foreach (var pair in Contents)
-            if (pair.Value.owned)
+            if (pair.Value.owned || VirtualGoodsAPI.HasPurchase7 )
                 owend++;
         return owend;
     }

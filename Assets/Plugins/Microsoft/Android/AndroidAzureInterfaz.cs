@@ -1,5 +1,5 @@
-﻿    #if UNITY_ANDROID
-
+﻿#if UNITY_ANDROID
+//#define FAKE_PURCHASES
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -201,10 +201,19 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 
 // InApp Purchases ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override Coroutine InAppPurchase(string IDProduct, string Receipt, AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
+// FPA: 02/01/17
+// Hack para evitar la validacion de las compras InApp.
+#if FAKE_PURCHASES
+        OnSucess("ok");
+        return null;
+#else
         var op = AsyncOperation.Create(OnSucess, OnError,"InAppPurchase");
         activity.Call("InAppPurchase", IDProduct, Receipt, op.Hash);
         return StartCoroutine(op.Wait());
+#endif
     }
+
+
 }
 
 #endif

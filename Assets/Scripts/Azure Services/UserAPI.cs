@@ -188,8 +188,10 @@ public class UserAPI {
                 List<object> scores = MiniJSON.Json.Deserialize(res) as List<object>;
                 FanRanking = new ScoreEntry[scores.Count];
                 int cnt = 0;
-                foreach (Dictionary<string, object> entry in scores)
+                foreach (Dictionary<string, object> entry in scores){
 					FanRanking[cnt++] = new ScoreEntry((int)(long)entry["Position"], entry["Alias"] as string, (int)(long)entry["GamingScore"], (bool)entry["IsCurrentUser"] );
+                }
+
             }
         });
 
