@@ -728,6 +728,7 @@ public class MainActivity extends UnityPlayerActivity {
                             jitem.put("IdContent", itm.getIdContent());
                             jitem.put("Title", itm.getTitle());
                             jitem.put("Description", itm.getDescription());
+                            //Log.e("Unity", ">>>> MainActivity:: GetContents             title " + itm.getTitle() );
 
                             ArrayList links = new ArrayList();
                             if (itm.getLinks() != null) {
@@ -765,7 +766,8 @@ public class MainActivity extends UnityPlayerActivity {
                 SendErrorResponse(hash, err);
             }
         };
-        DigitalPlatformClient.getInstance().getContentsHandler().getContentItemsByType(this, type, language, page, callback, false); // !!!!!
+//        Log.e("Unity", ">>>> MainActivity:: GetContents lang " + language + " page " + page);
+        DigitalPlatformClient.getInstance().getContentsHandler().getContentItemsByType(this, type, language, page, callback, true);
     }
 
     public void GetContent(String IDContent, final String hash) {

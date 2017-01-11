@@ -78,7 +78,6 @@ public class ContentAPI
     }
 
     public Content GetContentByID(string id){
-        
         foreach (var pair in Contents){
             if (pair.Value.ContenName == id)
                 return pair.Value;
@@ -216,8 +215,12 @@ public class ContentAPI
 									string packURL = asset.ContainsKey("AssetUrl")?asset["AssetUrl"] as string:"";
 									string thumbnailUrl = asset.ContainsKey("ThumbnailUrl")?asset["ThumbnailUrl"] as string:"";
                                     Content tmp = new Content(guid, internalID, contenidoID, title, desc, packURL.Substring(7));
-		                            Contents.Add(guid, tmp);
-		                            TotalContents++;
+                                    if( !Contents.ContainsKey(guid) ){
+		                                Contents.Add(guid, tmp);
+		                                TotalContents++;
+                                    }
+                                    else
+                                        Debug.LogError(">>>> " + contenidoID + " con GUID "+ guid + " está repetido." );
                                 }else
                                 {
                                     Debug.LogError(">>>> " + contenidoID + " Sin assets "+ title + " LANG "+ Authentication.AzureServices.MainLanguage);

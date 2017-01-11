@@ -116,29 +116,40 @@ public class MainManager : Photon.PunBehaviour {
 	}
 
 	public void ChangeLanguage(string lang) {
-        Authentication.AzureServices.MainLanguage = lang;
-        var sublang = "es";
-        try
-        {
-            sublang = lang.Split('-')[0];
-        }
-        catch { }
-
-		SetNewLangManager (sublang, lang);
+        var sublang = lang;
+        if(sublang.Contains("-")) sublang = sublang.Split('-')[0];
+		SetNewLangManager (sublang);
 	}
 
-	public void SetNewLangManager(string newSubLang, string newLang = "") {
+	void SetNewLangManager(string newSubLang, string newLang = "") {
         if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
             LanguageManager.Instance.ChangeLanguage(newSubLang);
 			CurrentLanguage = newSubLang;
 			PlayerPrefs.SetString("language", newSubLang);
             PlayerPrefs.Save();
-
+//
+            string nml = "en-us";
+            switch(newSubLang){
+//                case "ar": nml = "ar-sa"; break;
+                case "en": nml = "en-us"; break;
+                case "es": nml = "es-es"; break;
+//                case "fr": nml = "fr-fr"; break;
+//                case "id": nml = "id-id"; break;
+//                case "ja": nml = "ja-jp"; break;
+//                case "pt": nml = "pt-pt"; break;
+//                case "zh": nml = "zh-cn"; break;
+                default: nml = "en-us"; break;
+            }
+            if(Authentication.AzureServices.MainLanguage != nml){
+                Authentication.AzureServices.MainLanguage = nml;
+                StartCoroutine( UserAPI.Instance.UpdateByLanguage());
+            }
         } else {
 			Debug.LogError(">>>> El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
 		}
-
     }
+    
+
     void Awake() {
         Application.targetFrameRate = 30;
 

@@ -114,8 +114,12 @@ public class AllViewer : MonoBehaviour {
 
 		WWW www = new WWW(url);
 		yield return www;
-		LoadingCanvasManager.Hide();
-		if (!string.IsNullOrEmpty(www.error)) yield break;
+        LoadingCanvasManager.Hide();
+        if (!string.IsNullOrEmpty(www.error)) {
+            // Hack por problemas con los nombres de los directorios.
+            Debug.LogError(">>>> Se ha producido un error en la descarga del contenido "+www.error+" > "+url+" <" );
+            yield break;
+        }
 
 		assetbundle = www.assetBundle;
 		var names = assetbundle.GetAllAssetNames();
