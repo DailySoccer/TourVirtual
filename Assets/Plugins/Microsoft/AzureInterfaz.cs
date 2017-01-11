@@ -10,7 +10,7 @@ public class AzureInterfaz : MonoBehaviour
 
     protected string    IDClient;
     protected string    WebApiBaseAddress;
-    public string       MainLanguage = "es-es";
+    public string       MainLanguage = "en-us";
 
     public virtual void Init(string signin) { Debug.LogError(">>>>> AzureInterfaz.Init");  }
 

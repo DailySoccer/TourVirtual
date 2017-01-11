@@ -118,7 +118,7 @@ public class UserAPI {
         UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
         yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
-			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"es-es");
+			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"en-us");
             UserID = hs["IdUser"] as string;
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
@@ -197,6 +197,17 @@ public class UserAPI {
         if (OnUserLogin != null) {
             OnUserLogin();
         }
+        LoadingCanvasManager.Hide();
+    }
+
+     public IEnumerator UpdateByLanguage() {
+        LoadingCanvasManager.Show();
+        LoadingContentText.SetText("API.VirtualGoods");
+        yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
+        LoadingContentText.SetText("API.Achievements");
+        yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
+        LoadingContentText.SetText("API.Contents");
+        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());     
         LoadingCanvasManager.Hide();
     }
 	
