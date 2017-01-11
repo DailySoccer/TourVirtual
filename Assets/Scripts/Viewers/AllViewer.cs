@@ -114,8 +114,23 @@ public class AllViewer : MonoBehaviour {
 
 		WWW www = new WWW(url);
 		yield return www;
-		LoadingCanvasManager.Hide();
-		if (!string.IsNullOrEmpty(www.error)) yield break;
+		if (!string.IsNullOrEmpty(www.error)) {
+            // Hack por problemas con los nombres de los directorios.
+            if(www.error.Contains("404") && url.Contains("ios")){
+                url = url.Replace("ios","iOS");
+                www = new WWW(url);
+                yield return www;
+                if (!string.IsNullOrEmpty(www.error)) {
+    		        LoadingCanvasManager.Hide();
+                    yield break;
+                }
+            }else{
+                Debug.LogError(">>>> Se ha producido un error en la descarga del contenido "+www.error+" > "+url+" <" );
+		        LoadingCanvasManager.Hide();
+                yield break;
+            }
+        }
+        LoadingCanvasManager.Hide();
 
 		assetbundle = www.assetBundle;
 		var names = assetbundle.GetAllAssetNames();
@@ -137,7 +152,7 @@ public class AllViewer : MonoBehaviour {
 
 		yield return StartCoroutine(MyTools.LoadSpriteFromURL(url, image.gameObject));
 		image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		LoadingCanvasManager.Hide();
+		
 
 		Transform refTrans = image.transform;
 		do
@@ -185,6 +200,7 @@ public class AllViewer : MonoBehaviour {
 			rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
 			rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom, textureSize.y * 0.5f * zoom - offset.y);
 		}
+        LoadingCanvasManager.Hide();
 	}
 
 
