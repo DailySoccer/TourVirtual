@@ -107,7 +107,9 @@ public class UserAPI {
         return false;
     }
 
+    bool requesting=true;
     public IEnumerator Request() {
+        requesting=true;
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
@@ -198,16 +200,19 @@ public class UserAPI {
             OnUserLogin();
         }
         LoadingCanvasManager.Hide();
+     requesting=false;
     }
 
      public IEnumerator UpdateByLanguage() {
+        if(requesting) yield break;
         LoadingCanvasManager.Show();
         LoadingContentText.SetText("API.VirtualGoods");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         LoadingContentText.SetText("API.Achievements");
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         LoadingContentText.SetText("API.Contents");
-        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());     
+        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
+        VirtualGoodsDesciptor.FilterBySex();
         LoadingCanvasManager.Hide();
     }
 	

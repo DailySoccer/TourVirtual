@@ -61,8 +61,6 @@ public class DLCManager : MonoBehaviour {
 #endif
 #endif
 #endif
-
-
     }
 
     void Start () {

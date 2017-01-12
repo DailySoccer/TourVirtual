@@ -95,6 +95,7 @@ public class VirtualGoodsAPI {
     }
 
     public void FilterBySex( ) {
+        if( string.IsNullOrEmpty( UserAPI.AvatarDesciptor.Gender)) return;
         Dictionary<string, VirtualGood> tmp = new Dictionary<string, VirtualGood>();
         foreach (var pair in VirtualGoods) {
 			char stype = (pair.Value as VirtualGood).IdSubType[0];
