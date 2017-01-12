@@ -567,7 +567,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     
     public void SetLanguage(string lang)
     {
-        MainManager.Instance.ChangeLanguage(lang);
+                MainManager.Instance.ChangeLanguage(lang);
     }
 
     public void showModalOnlyText(string t)

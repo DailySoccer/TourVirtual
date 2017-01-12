@@ -98,18 +98,19 @@ public class VirtualGoodsAPI {
     }
 
     public void FilterBySex( ) {
+        if( string.IsNullOrEmpty( UserAPI.AvatarDesciptor.Gender)) return;
         Dictionary<string, VirtualGood> tmp = new Dictionary<string, VirtualGood>();
         foreach (var pair in VirtualGoods) {
-			char stype = (pair.Value as VirtualGood).IdSubType[0];
-			if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
-				if (stype == 'H' || stype == 'U' || stype == 'C' ){
-					VirtualGood vg = pair.Value as VirtualGood;
+            char stype = (pair.Value as VirtualGood).IdSubType[0];
+            if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
+                if (stype == 'H' || stype == 'U' || stype == 'C' ){
+                    VirtualGood vg = pair.Value as VirtualGood;
                     tmp.Add(pair.Key, pair.Value);
-				}
+                }
             }
             else {
-				if (stype == 'M' || stype == 'U' || stype == 'C' )
-					tmp.Add(pair.Key, pair.Value);
+                if (stype == 'M' || stype == 'U' || stype == 'C' )
+                    tmp.Add(pair.Key, pair.Value);
             }
         }
         VirtualGoods = tmp;

@@ -106,8 +106,9 @@ public class UserAPI {
         }
         return false;
     }
-
+    bool requesting=true;
     public IEnumerator Request() {
+        requesting=true;
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
@@ -149,7 +150,7 @@ public class UserAPI {
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 				}catch(System.Exception e){
-                    Debug.LogError("∫>>> ERROR REST ProfileAvatar " + e );
+                    Debug.LogError(">>> ERROR REST ProfileAvatar " + e );
                     PlayerManager.Instance.SelectedModel = "";
 					MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
 				}
@@ -230,16 +231,19 @@ public class UserAPI {
         Debug.LogError(">>>> FIN Puntuaciones de juegos");        
 */
         LoadingCanvasManager.Hide();
+        requesting=false;
     }
 
      public IEnumerator UpdateByLanguage() {
+        if(requesting) yield break;
         LoadingCanvasManager.Show();
         LoadingContentText.SetText("API.VirtualGoods");
         yield return Authentication.Instance.StartCoroutine( VirtualGoodsDesciptor.AwaitRequest() );
         LoadingContentText.SetText("API.Achievements");
         yield return Authentication.Instance.StartCoroutine( Achievements.AwaitRequest());
         LoadingContentText.SetText("API.Contents");
-        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());     
+        yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
+        VirtualGoodsDesciptor.FilterBySex();     
         LoadingCanvasManager.Hide();
     }
 	

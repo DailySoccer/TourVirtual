@@ -135,14 +135,12 @@ public class ContentAPI
     }
 
     List<Asset> ParseContent(string res) {
-        Debug.LogError("res " + res);
         List<Asset> ret = new List<Asset>();
         Dictionary<string, object> contents = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
         List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
         List<object>.Enumerator bodies = (contents["Body"] as List<object>).GetEnumerator();
         var contenidoID = contents["SourceId"] as string;
-        while (assets.MoveNext())
-        {
+        while (assets.MoveNext()) {
             bodies.MoveNext();
             var asset = assets.Current as Dictionary<string, object>;
             var body = bodies.Current as Dictionary<string, object>;

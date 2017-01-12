@@ -230,7 +230,6 @@ public class MainManager : Photon.PunBehaviour {
                     Authentication.Instance.OpenMarket();
                 else{
                     UserAPI.Instance.Online=false;
-                    Debug.Log(">>>> HandleOnUserLogin 1");
                     HandleOnUserLogin();
                 }
             });

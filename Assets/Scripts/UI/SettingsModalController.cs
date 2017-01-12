@@ -10,6 +10,7 @@ public class SettingsModalController : MonoBehaviour {
 	void OnEnable () {
 		Languajes.Refresh ();
 		Audio.Refresh ();
+		transform.Find("VR Option").gameObject.SetActive(Application.loadedLevelName!="VestidorLite");
 	}
 	
 	// Update is called once per frame
