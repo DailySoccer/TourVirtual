@@ -60,7 +60,12 @@ public class AllViewer : MonoBehaviour {
         //cm.ShowScreen(visorCanvas);
         visorCanvas.IsOpen = true;
         txtTitle.text = title;
-		txtDescription.text = desc;
+        if(desc!="*"){
+            txtDescription.transform.parent.gameObject.SetActive(true);
+		    txtDescription.text = desc;
+        }
+        else
+            txtDescription.transform.parent.gameObject.SetActive(false);
 
         CanvasManager cm = GameObject.FindGameObjectWithTag("GameCanvasManager").GetComponent<CanvasManager>();
         oldUICameraStatus = cm.UIScreensCamera.GetActive();
