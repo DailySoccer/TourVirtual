@@ -182,7 +182,7 @@ public class MainActivity extends UnityPlayerActivity {
     }
 
     public void Logout() {
-        DigitalPlatformClient.getInstance().getAuthHandler().logout(this);
+        DigitalPlatformClient.getInstance().getAuthHandler().logOut(this);
     }
 
     void SendOkResponse(String hash, String res) {
@@ -361,7 +361,7 @@ public class MainActivity extends UnityPlayerActivity {
             ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
             pau.setPhysicalProperties(lPhysicalProperties);
             pau.setAccesories(lAccesories);
-            DigitalPlatformClient.getInstance().getFanHandler().updateProfileAvatar(this, pau, callback);
+            DigitalPlatformClient.getInstance().getFanHandler().createProfileAvatar(this, pau, callback);
 
         } catch (IOException e) {
             System.out.println("Unity > SetProfileAvatar.IOException ");
