@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿
+// Android: Attempt to invoke virtual method 'java.lang.String com.microsoft.mdp.sdk.network.NetworkHandler.unauthorizedGet(java.lang.String)' on a null object reference
+// iOS: OnSignInEvent KO No se ha podido completar la operación. Unnable to do exportTokenCacheStore.
+
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;

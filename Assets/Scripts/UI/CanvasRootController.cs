@@ -18,16 +18,9 @@ public class CanvasRootController : MonoBehaviour {
 	private string _currentScreen;
 	private RoomManager _roomManager;
 	private int _oldLayerMask = -2;
-	public int OldLayerMask
-	{
+	public int OldLayerMask {
 		get { return _oldLayerMask; }
-		set
-		{
-			if (_oldLayerMask == -2)
-			{
-				_oldLayerMask = value;
-			}
-		}
+		set	{ _oldLayerMask = value; }
 	}
 
 	// Use this for initialization

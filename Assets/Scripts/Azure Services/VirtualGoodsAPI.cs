@@ -52,7 +52,6 @@ public class VirtualGoodsAPI {
                                 val = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
                             string thburl = vg["ThumbnailUrl"] as string;
                             string imgurl = vg["PictureUrl"] as string;
-
                             VirtualGood tmp = new VirtualGood(guid, subtype, desc, val, thburl, imgurl);
                             if(!VirtualGoods.ContainsKey(guid))
                                 VirtualGoods.Add(guid, tmp);
