@@ -261,7 +261,7 @@ void _SetProfileAvatar(char* json, char* _hash){
         [paum addAccesoryWithIdVirtualGood:item[@"IdVirtualGood"] type:item[@"Type"] version:item[@"Version"] data:item[@"Data"]];
     }
     
-    [[[MDPClientHandler sharedInstance] getFanHandler] updateProfileAvatarWithProfileAvatarUpdateable:paum completionBlock:^(NSError *error) {
+    [[[MDPClientHandler sharedInstance] getFanHandler] createProfileAvatarWithProfileAvatarUpdateable:paum completionBlock:^(NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
@@ -346,7 +346,7 @@ void _SendAvatarImage(int length, Byte* array, char* _hash){
 
 void _SendScore(char* IDMinigame, int score, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    [[[MDPClientHandler sharedInstance] getScoreRankingHandler] postScoreWithIdGame:CreateNSString(IDMinigame) idScore:score completionBlock:^(NSArray *response, NSError *error) {
+    [[[MDPClientHandler sharedInstance] getScoresHandler] postScoreWithIdGame:CreateNSString(IDMinigame) idScore:score completionBlock:^(NSArray *response, NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
@@ -404,7 +404,7 @@ void _GetMaxScore(char* IDMinigame, char* _hash){
 
 void _GetRanking(char* IDMinigame, char* _hash){
     __block NSString* hash = CreateNSString(_hash);
-    [[[MDPClientHandler sharedInstance] getScoreRankingHandler] getTopScoresWithIdGame:CreateNSString(IDMinigame) completionBlock:^(NSArray *response, NSError *error) {
+    [[[MDPClientHandler sharedInstance] getScoresHandler] getTopScoresWithIdGame:CreateNSString(IDMinigame) completionBlock:^(NSArray *response, NSError *error) {
         if (error) {
             NSString *res = [NSString stringWithFormat:@"%@:%d:%@", hash, [error code], [error localizedDescription ] ];
             UnitySendMessage("Azure Services", "OnResponseKO", [res UTF8String] );
