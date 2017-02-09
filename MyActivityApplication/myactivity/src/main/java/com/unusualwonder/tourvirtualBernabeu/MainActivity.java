@@ -12,7 +12,8 @@ import android.util.Log;
 //import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.reflect.TypeToken;
+import com.microsoft.aad.adal.AuthenticationCallback;
 import com.microsoft.applicationinsights.library.ApplicationInsights;
 import com.microsoft.applicationinsights.contracts.User;
 import com.microsoft.mdp.sdk.*;
@@ -190,9 +191,22 @@ public class MainActivity extends UnityPlayerActivity {
             startActivity(myintent);
     }
 
-    public void Logout() {
-        DigitalPlatformClient.getInstance().getAuthHandler().logout(this);
+    public void Logout(final String hash) {
+        AuthenticationCallback<Boolean> callback = new AuthenticationCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean res) {
+                SendOkResponse(hash, "Ok");
+            }
+
+            @Override
+            public void onError(Exception err) {
+                UnityPlayer.UnitySendMessage("Azure Services", "OnResponseKO", hash + ":-1:" + err.getMessage());
+            }
+        };
+        DigitalPlatformClient.getInstance().finish(this, callback);
+        //DigitalPlatformClient.getInstance().getAuthHandler().logOut(this, callback );
     }
+
 
     void SendOkResponse(String hash, String res) {
         UnityPlayer.UnitySendMessage("Azure Services", "OnResponseOK", hash + ":" + res);
@@ -371,7 +385,7 @@ public class MainActivity extends UnityPlayerActivity {
             ProfileAvatarUpdateable pau = new ProfileAvatarUpdateable();
             pau.setPhysicalProperties(lPhysicalProperties);
             pau.setAccesories(lAccesories);
-            DigitalPlatformClient.getInstance().getFanHandler().updateProfileAvatar(this, pau, callback);
+            DigitalPlatformClient.getInstance().getFanHandler().createProfileAvatar(this, pau, callback);
 
         } catch (IOException e) {
             System.out.println("Unity > SetProfileAvatar.IOException ");

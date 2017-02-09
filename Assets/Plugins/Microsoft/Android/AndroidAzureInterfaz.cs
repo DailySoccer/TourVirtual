@@ -48,8 +48,7 @@ public class AndroidAzureInterfaz : AzureInterfaz {
 
     public override Coroutine SignOut(AsyncOperation.RequestEvent OnSucess = null, AsyncOperation.RequestEvent OnError = null) {
         var op = AsyncOperation.Create(OnSucess, OnError,"SignOut");
-        activity.Call("Logout");
-        GameObject.Find("Azure Services").SendMessage("OnResponseOK", op.Hash + ":Logout");
+        activity.Call("Logout", op.Hash);
         return StartCoroutine(op.Wait());
     }
 

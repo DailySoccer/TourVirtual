@@ -96,6 +96,7 @@ public class DLCManager : MonoBehaviour {
             www = new WWW(BaseUrl + "assetbundles.json");
             yield return www;
             if (string.IsNullOrEmpty(www.error)) {
+                Debug.LogError(">>>>> "+www.text);
                 Dictionary<string, object> jsonMap = MiniJSON.Json.Deserialize(www.text) as Dictionary<string, object>;
                 int minVersion = 10011;
                 if( jsonMap.ContainsKey("minVersion") ) minVersion = GetVersionInInt( jsonMap["minVersion"] as string );
