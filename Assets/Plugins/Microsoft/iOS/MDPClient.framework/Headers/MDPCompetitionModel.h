@@ -8,6 +8,17 @@
 
 #import "_MDPCompetitionModel.h"
 
+
+#pragma mark Competition Type
+typedef NS_ENUM(NSUInteger, MDPCompetitionModelCompetitionType) {
+    MDPCompetitionModelCompetitionTypeLeague            = 0,
+    MDPCompetitionModelCompetitionTypeRounds            = 1,
+    MDPCompetitionModelCompetitionTypeLeagueAndRounds   = 2,
+    MDPCompetitionModelCompetitionTypeGroupsAndRounds   = 3,
+};
+
+
+#pragma mark - Interface
 @interface MDPCompetitionModel : _MDPCompetitionModel
 
 + (NSArray *)competitionItemsWithIdSeason:(NSString *)idSeason idTeam:(NSString *)idTeam managedObjectContext:(NSManagedObjectContext *)context;

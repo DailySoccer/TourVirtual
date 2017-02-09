@@ -28,14 +28,20 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 	__unsafe_unretained NSString *checkInTypeContents;
 	__unsafe_unretained NSString *checkInTypeDescriptionCheckInType;
 	__unsafe_unretained NSString *competition;
+	__unsafe_unretained NSString *fanAchievementConfigurationDescription;
+	__unsafe_unretained NSString *fanAchievementConfigurationLevel;
 	__unsafe_unretained NSString *fanOfferBody;
 	__unsafe_unretained NSString *fanOfferImageUrl;
 	__unsafe_unretained NSString *fanOfferTitle;
+	__unsafe_unretained NSString *fanVirtualGoodConfigurationDescription;
+	__unsafe_unretained NSString *fanVirtualGoodConfigurationUrl;
 	__unsafe_unretained NSString *fanVirtualGoodDescriptionFanVirtualGood;
 	__unsafe_unretained NSString *fanVirtualGoodUrl;
+	__unsafe_unretained NSString *favoriteSubscriptionDescriptionFavoriteSubscription;
 	__unsafe_unretained NSString *gamificationLevelName;
 	__unsafe_unretained NSString *groupDescriptionGroup;
 	__unsafe_unretained NSString *groupThreadDescriptionGroupThread;
+	__unsafe_unretained NSString *imageFavoriteSubscription;
 	__unsafe_unretained NSString *languageDescriptionLanguage;
 	__unsafe_unretained NSString *matchDescriptionMatch;
 	__unsafe_unretained NSString *menuFrameUrl;
@@ -54,6 +60,10 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 	__unsafe_unretained NSString *subscriptionConfigurationTitle;
 	__unsafe_unretained NSString *subscriptionConfigurationTypeName;
 	__unsafe_unretained NSString *tanInfoName;
+	__unsafe_unretained NSString *thumbnailImageFavoriteSubscription;
+	__unsafe_unretained NSString *titleFavoriteSubscription;
+	__unsafe_unretained NSString *videoDescriptionLocalized;
+	__unsafe_unretained NSString *videoTitleLocalized;
 	__unsafe_unretained NSString *virtualGoodResultsVirtualGood;
 	__unsafe_unretained NSString *virtualGoodTypeDescriptionVirtualGoodType;
 	__unsafe_unretained NSString *virtualGoodUrl;
@@ -68,14 +78,20 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @class MDPCheckInTypeModel;
 @class MDPCheckInTypeModel;
 @class MDPCompetitionModel;
+@class MDPFanAchievementConfigurationModel;
+@class MDPFanAchievementConfigurationModel;
 @class MDPFanOfferModel;
 @class MDPFanOfferModel;
 @class MDPFanOfferModel;
+@class MDPFanVirtualGoodConfigurationModel;
+@class MDPFanVirtualGoodConfigurationModel;
 @class MDPFanVirtualGoodModel;
 @class MDPFanVirtualGoodModel;
+@class MDPFavoriteSubscriptionModel;
 @class MDPGamificationLevelBasicInfoModel;
 @class MDPGroupModel;
 @class MDPGroupThreadModel;
+@class MDPFavoriteSubscriptionModel;
 @class MDPLanguageModel;
 @class MDPMatchModel;
 @class MDPMenuModel;
@@ -94,6 +110,10 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @class MDPSubscriptionConfigurationModel;
 @class MDPSubscriptionConfigurationTypeModel;
 @class MDPTagInfoModel;
+@class MDPFavoriteSubscriptionModel;
+@class MDPFavoriteSubscriptionModel;
+@class MDPVideoModel;
+@class MDPVideoModel;
 @class MDPVirtualGoodModel;
 @class MDPVirtualGoodTypeModel;
 @class MDPVirtualGoodModel;
@@ -148,6 +168,14 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 
 - (NSMutableSet*)competitionSet;
 
+@property (nonatomic, strong) MDPFanAchievementConfigurationModel *fanAchievementConfigurationDescription;
+
+//- (BOOL)validateFanAchievementConfigurationDescription:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFanAchievementConfigurationModel *fanAchievementConfigurationLevel;
+
+//- (BOOL)validateFanAchievementConfigurationLevel:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) MDPFanOfferModel *fanOfferBody;
 
 //- (BOOL)validateFanOfferBody:(id*)value_ error:(NSError**)error_;
@@ -160,6 +188,14 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 
 //- (BOOL)validateFanOfferTitle:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPFanVirtualGoodConfigurationModel *fanVirtualGoodConfigurationDescription;
+
+//- (BOOL)validateFanVirtualGoodConfigurationDescription:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFanVirtualGoodConfigurationModel *fanVirtualGoodConfigurationUrl;
+
+//- (BOOL)validateFanVirtualGoodConfigurationUrl:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSSet *fanVirtualGoodDescriptionFanVirtualGood;
 
 - (NSMutableSet*)fanVirtualGoodDescriptionFanVirtualGoodSet;
@@ -167,6 +203,10 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @property (nonatomic, strong) NSSet *fanVirtualGoodUrl;
 
 - (NSMutableSet*)fanVirtualGoodUrlSet;
+
+@property (nonatomic, strong) MDPFavoriteSubscriptionModel *favoriteSubscriptionDescriptionFavoriteSubscription;
+
+//- (BOOL)validateFavoriteSubscriptionDescriptionFavoriteSubscription:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPGamificationLevelBasicInfoModel *gamificationLevelName;
 
@@ -179,6 +219,10 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @property (nonatomic, strong) MDPGroupThreadModel *groupThreadDescriptionGroupThread;
 
 //- (BOOL)validateGroupThreadDescriptionGroupThread:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFavoriteSubscriptionModel *imageFavoriteSubscription;
+
+//- (BOOL)validateImageFavoriteSubscription:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSSet *languageDescriptionLanguage;
 
@@ -251,6 +295,22 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 @property (nonatomic, strong) NSSet *tanInfoName;
 
 - (NSMutableSet*)tanInfoNameSet;
+
+@property (nonatomic, strong) MDPFavoriteSubscriptionModel *thumbnailImageFavoriteSubscription;
+
+//- (BOOL)validateThumbnailImageFavoriteSubscription:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFavoriteSubscriptionModel *titleFavoriteSubscription;
+
+//- (BOOL)validateTitleFavoriteSubscription:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSSet *videoDescriptionLocalized;
+
+- (NSMutableSet*)videoDescriptionLocalizedSet;
+
+@property (nonatomic, strong) NSSet *videoTitleLocalized;
+
+- (NSMutableSet*)videoTitleLocalizedSet;
 
 @property (nonatomic, strong) NSSet *virtualGoodResultsVirtualGood;
 
@@ -392,6 +452,20 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 - (void)removeTanInfoNameObject:(MDPTagInfoModel*)value_;
 @end
 
+@interface _MDPLocaleDescriptionModel (VideoDescriptionLocalizedCoreDataGeneratedAccessors)
+- (void)addVideoDescriptionLocalized:(NSSet*)value_;
+- (void)removeVideoDescriptionLocalized:(NSSet*)value_;
+- (void)addVideoDescriptionLocalizedObject:(MDPVideoModel*)value_;
+- (void)removeVideoDescriptionLocalizedObject:(MDPVideoModel*)value_;
+@end
+
+@interface _MDPLocaleDescriptionModel (VideoTitleLocalizedCoreDataGeneratedAccessors)
+- (void)addVideoTitleLocalized:(NSSet*)value_;
+- (void)removeVideoTitleLocalized:(NSSet*)value_;
+- (void)addVideoTitleLocalizedObject:(MDPVideoModel*)value_;
+- (void)removeVideoTitleLocalizedObject:(MDPVideoModel*)value_;
+@end
+
 @interface _MDPLocaleDescriptionModel (VirtualGoodResultsVirtualGoodCoreDataGeneratedAccessors)
 - (void)addVirtualGoodResultsVirtualGood:(NSSet*)value_;
 - (void)removeVirtualGoodResultsVirtualGood:(NSSet*)value_;
@@ -451,6 +525,12 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 - (NSMutableSet*)primitiveCompetition;
 - (void)setPrimitiveCompetition:(NSMutableSet*)value;
 
+- (MDPFanAchievementConfigurationModel*)primitiveFanAchievementConfigurationDescription;
+- (void)setPrimitiveFanAchievementConfigurationDescription:(MDPFanAchievementConfigurationModel*)value;
+
+- (MDPFanAchievementConfigurationModel*)primitiveFanAchievementConfigurationLevel;
+- (void)setPrimitiveFanAchievementConfigurationLevel:(MDPFanAchievementConfigurationModel*)value;
+
 - (MDPFanOfferModel*)primitiveFanOfferBody;
 - (void)setPrimitiveFanOfferBody:(MDPFanOfferModel*)value;
 
@@ -460,11 +540,20 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 - (MDPFanOfferModel*)primitiveFanOfferTitle;
 - (void)setPrimitiveFanOfferTitle:(MDPFanOfferModel*)value;
 
+- (MDPFanVirtualGoodConfigurationModel*)primitiveFanVirtualGoodConfigurationDescription;
+- (void)setPrimitiveFanVirtualGoodConfigurationDescription:(MDPFanVirtualGoodConfigurationModel*)value;
+
+- (MDPFanVirtualGoodConfigurationModel*)primitiveFanVirtualGoodConfigurationUrl;
+- (void)setPrimitiveFanVirtualGoodConfigurationUrl:(MDPFanVirtualGoodConfigurationModel*)value;
+
 - (NSMutableSet*)primitiveFanVirtualGoodDescriptionFanVirtualGood;
 - (void)setPrimitiveFanVirtualGoodDescriptionFanVirtualGood:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveFanVirtualGoodUrl;
 - (void)setPrimitiveFanVirtualGoodUrl:(NSMutableSet*)value;
+
+- (MDPFavoriteSubscriptionModel*)primitiveFavoriteSubscriptionDescriptionFavoriteSubscription;
+- (void)setPrimitiveFavoriteSubscriptionDescriptionFavoriteSubscription:(MDPFavoriteSubscriptionModel*)value;
 
 - (MDPGamificationLevelBasicInfoModel*)primitiveGamificationLevelName;
 - (void)setPrimitiveGamificationLevelName:(MDPGamificationLevelBasicInfoModel*)value;
@@ -474,6 +563,9 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 
 - (MDPGroupThreadModel*)primitiveGroupThreadDescriptionGroupThread;
 - (void)setPrimitiveGroupThreadDescriptionGroupThread:(MDPGroupThreadModel*)value;
+
+- (MDPFavoriteSubscriptionModel*)primitiveImageFavoriteSubscription;
+- (void)setPrimitiveImageFavoriteSubscription:(MDPFavoriteSubscriptionModel*)value;
 
 - (NSMutableSet*)primitiveLanguageDescriptionLanguage;
 - (void)setPrimitiveLanguageDescriptionLanguage:(NSMutableSet*)value;
@@ -528,6 +620,18 @@ extern const struct MDPLocaleDescriptionModelRelationships {
 
 - (NSMutableSet*)primitiveTanInfoName;
 - (void)setPrimitiveTanInfoName:(NSMutableSet*)value;
+
+- (MDPFavoriteSubscriptionModel*)primitiveThumbnailImageFavoriteSubscription;
+- (void)setPrimitiveThumbnailImageFavoriteSubscription:(MDPFavoriteSubscriptionModel*)value;
+
+- (MDPFavoriteSubscriptionModel*)primitiveTitleFavoriteSubscription;
+- (void)setPrimitiveTitleFavoriteSubscription:(MDPFavoriteSubscriptionModel*)value;
+
+- (NSMutableSet*)primitiveVideoDescriptionLocalized;
+- (void)setPrimitiveVideoDescriptionLocalized:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveVideoTitleLocalized;
+- (void)setPrimitiveVideoTitleLocalized:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveVirtualGoodResultsVirtualGood;
 - (void)setPrimitiveVirtualGoodResultsVirtualGood:(NSMutableSet*)value;

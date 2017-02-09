@@ -23,6 +23,11 @@
 #import "MDPFanContactModel.h"
 #import "MDPFanOfferModel.h"
 #import "MDPPagedFanOffersModel.h"
+#import "MDPPagedCheckInsModel.h"
+#import "MDPPagedFriendsModel.h"
+#import "MDPPublicGamificationStatusModel.h"
+#import "MDPPagedFanGamingScoreHistoryModel.h"
+#import "MDPLinkedMemberInfoModel.h"
 
 
 #pragma mark  - Response
@@ -58,8 +63,8 @@ typedef void (^MDPFanHandlerResponseBlock)(NSArray *response, NSError *error);
                   city:(NSString *)city
                  state:(NSString *)state
              stateCode:(NSString *)stateCode
-                 title:(int)title
-        preferredSport:(int)preferredSport
+                 title:(MDPFanModelTitle)title
+        preferredSport:(MDPFanModelPreferredSport)preferredSport
                  penya:(NSString *)penya
        sendInfoToStore:(BOOL)sendInfoToStore
 noCommunications:(BOOL)noCommunications
@@ -244,14 +249,9 @@ noCommunications:(BOOL)noCommunications
                    completionBlock:(void(^)(MDPProfileAvatarModel *content, NSError *error))completionBlock;
 
 /*
- Creates a profile avatar for a user.
+ Creates or Updates a user profile avatar.
  */
 + (void)createProfileAvatarWithProfileAvatarUpdateable:(MDPProfileAvatarUpdateableModel *)profileAvatarUpdateable completionBlock:(void(^)(NSError *error))completionBlock;
-
-/*
- Updates the profile avatar of a user.
- */
-+ (void)updateProfileAvatarWithProfileAvatarUpdateable:(MDPProfileAvatarUpdateableModel *)profileAvatarUpdateable completionBlock:(void(^)(NSError *error))completionBlock;
 
 /*
  Deletes the profile avatar of the user that is doing the request.
@@ -287,7 +287,7 @@ noCommunications:(BOOL)noCommunications
 
 /*
 */
-+ (void)putConvertGuestWithIdGuest:(NSString *)idGuest
++ (void)putConvertGuestToFanWithIdGuest:(NSString *)idGuest
                     completionBlock:(void (^)(NSError *error))completionBlock;
 
 /*
@@ -325,6 +325,73 @@ Search users by suggestion
 + (void)getOfferDetailsWithIdOfferType:(NSString *)idOfferType
                        completionBlock:(void (^)(MDPFanOfferModel *content, NSError *error))completionBlock;
 
+/*
+ Gets current user friend achievements
+ */
++ (void)getUserAchievementsWithIdUserFriend:(NSString *)idUserFriend
+                                         ct:(NSString *)ct
+                                   language:(NSString *)language
+                            completionBlock:(void (^)(MDPPagedAchievementsModel *content, NSError *error))completionBlock;
+
+/*
+ Gets current user friend virtualgoods
+ */
++ (void)getUserVirtualGoodsWithIdUserFriend:(NSString *)idUserFriend
+                                         ct:(NSString *)ct
+                                   language:(NSString *)language
+                            completionBlock:(void (^)(MDPPagedFanVirtualGoodsModel *content, NSError *error))completionBlock;
+
+/*
+ Gets current user friend checkins
+ */
++ (void)getUserCheckInsWithIdUserFriend:(NSString *)idUserFriend
+                                     ct:(NSString *)ct
+                        completionBlock:(void(^)(MDPPagedCheckInsModel *content, NSError *error))completionBlock;
+
+/*
+ Gets current user friend friends
+ */
++ (void)getUserFriendsWithIdUserFriend:(NSString *)idUserFriend
+                                    ct:(NSString *)ct
+                       completionBlock:(void(^)(MDPPagedFriendsModel *content, NSError *error))completionBlock;
+
+/*
+ Gets the profile avatar of other user.
+ */
++ (void)getUserProfileAvatarWithIdUserFriend:(NSString *)idUserFriend
+                             completionBlock:(void(^)(MDPProfileAvatarModel *content, NSError *error))completionBlock;
+
+/*
+ Gets other user public gamification status.
+ */
++ (void)getUserPublicGamificationStatusWithIdUserFriend:(NSString *)idUserFriend
+                                               language:(NSString *)language
+                                        completionBlock:(void(^)(MDPPublicGamificationStatusModel *content, NSError *error))completionBlock;
+
+/*
+ Gets the gaming score history of the user.
+ */
++ (void)getGamingScoreHistoryWithCt:(NSString *)ct
+                           language:(NSString *)language
+                    completionBlock:(void(^)(MDPPagedFanGamingScoreHistoryModel *content, NSError *error))completionBlock;
+
+/*
+ Gets current user achievements
+ */
++ (void)getAchievementsByIdClientWithLanguage:(NSString *)language
+                              completionBlock:(MDPFanHandlerResponseBlock)completionBlock;
+
+/*
+ Registers an request for email verfication for a registered user.
+ */
++ (void)requestVerificationCodeWithAppId:(NSString *)appId
+                        completionBlock:(void(^)(NSString *status, NSError *error))completionBlock;
+
+/*
+ Indicates if fan account is verified.
+ */
++ (void)isAccountVerifiedWithCompletionBlock:(void(^)(BOOL status, NSError *error))completionBlock;
+
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -339,40 +406,75 @@ Search users by suggestion
 + (void)updateCacheFanWithLanguage:(NSString *)language;
 
 /*
+ Updates Fan with LinkMemberInfo is linked is YES
+ */
++ (void)updateCacheFanWithLinkMemberInfo:(MDPLinkedMemberInfoModel *)memberInfo;
+
+/*
+ Changes the Points value in GamificationStatusModel for a UserId
+ 
+    Sum if valueToUpdate is positive
+    Rest if valueToUpdate is negative
+ */
++ (void)updatePointsInGamificationStatusWithValue:(long)valueToUpdate idUser:(NSString *)idUser;
+
+/*
  Listens to MDPAchievementModel objects
  */
-+ (NSFetchedResultsController *)achievementFetchedResultsControllerWithType:(NSString *)type
-                                                                   delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)achievementFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                         type:(NSString *)type
+                                                                     delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 
 /*
  Listens to MDPFanVirtualGoodModel objects
  */
-+ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithIdUser:(NSString *)idUser delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
-+ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithId:(NSString *)idVirtualGood
-                                                                      typeId:(NSString *)idType
-                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                              id:(NSString *)idVirtualGood
+                                                                          typeId:(NSString *)idType
+                                                                        delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 /*
  Find Achievements
  */
-+ (MDPAchievementModel *)achievementWithIdAchievement:(NSString *)idAchievement level:(uint)level;
++ (MDPAchievementModel *)achievementWithIdUser:(NSString *)idUser idAchievement:(NSString *)idAchievement level:(uint)level;
 
 
 /*
  Listens to GamificationStatusModel objects
  */
-+ (NSFetchedResultsController *)gamificationStatusFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
+// if idUser is nill, it returns all the gamificationStatus
++ (NSFetchedResultsController *)gamificationStatusFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                            delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 /*
  Listens to FanModel object
  */
-+ (NSFetchedResultsController *)fanFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanFetchedResultsControllerWithIdUser:(NSString *)idUser delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
-+ (NSFetchedResultsController *)fanFetchedResultsControllerWithIdVirtualGood:(NSString *)idVirtualGood
-                                                                        type:(NSString *)idType
-                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                        idVirtualGood:(NSString *)idVirtualGood
+                                                                 type:(NSString *)idType
+                                                             delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
+/*
+ Listens to PublicGamificationStatusModel objects
+ */
++ (NSFetchedResultsController *)publicGamificationStatusFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                                  delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
+/*
+ Fetchs FanContact
+ */
++ (NSFetchedResultsController *)fanContactFetchedResultsControllerWithIdUser:(NSString *)idUser delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
+
+/*
+ Converts FanContactModel to FriendModel
+ */
++ (MDPFriendModel *)getFriendModelFromFanContact:(MDPFanContactModel *)fanContactModel;
 
 @end
 

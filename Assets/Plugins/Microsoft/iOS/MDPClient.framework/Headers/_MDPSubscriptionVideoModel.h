@@ -26,6 +26,7 @@ extern const struct MDPSubscriptionVideoModelAttributes {
 	__unsafe_unretained NSString *recordingDate;
 	__unsafe_unretained NSString *section;
 	__unsafe_unretained NSString *source;
+	__unsafe_unretained NSString *stars;
 	__unsafe_unretained NSString *subscriptionId;
 	__unsafe_unretained NSString *thumbnailUrl;
 	__unsafe_unretained NSString *title;
@@ -92,6 +93,10 @@ extern const struct MDPSubscriptionVideoModelAttributes {
 @property (nonatomic, strong) NSString* source;
 
 //- (BOOL)validateSource:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDecimalNumber* stars;
+
+//- (BOOL)validateStars:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* subscriptionId;
 
@@ -179,6 +184,9 @@ extern const struct MDPSubscriptionVideoModelAttributes {
 
 - (NSString*)primitiveSource;
 - (void)setPrimitiveSource:(NSString*)value;
+
+- (NSDecimalNumber*)primitiveStars;
+- (void)setPrimitiveStars:(NSDecimalNumber*)value;
 
 - (NSString*)primitiveSubscriptionId;
 - (void)setPrimitiveSubscriptionId:(NSString*)value;

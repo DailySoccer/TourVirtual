@@ -11,9 +11,9 @@
 
 #pragma mark Sport Type
 typedef NS_ENUM(NSInteger, MDPGroupModelGroupType) {
-    MDPGroupModelGroupTypePrivate            = 1,
-    MDPGroupModelGroupTypeCommunity          = 2,
-    MDPGroupModelGroupTypeReservedName       = 3,
+    MDPGroupModelGroupTypePrivate           = 1,
+    MDPGroupModelGroupTypeCommunity         = 2,
+    MDPGroupModelGroupTypeReserved          = 3,
 } ;
 
 

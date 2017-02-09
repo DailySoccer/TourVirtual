@@ -14,10 +14,11 @@
 
 + (instancetype)insertIfNotExistsAchievementWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (NSFetchedResultsController *)achievementFetchedResultsControllerWithType:(NSString *)type
++ (NSFetchedResultsController *)achievementFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                         type:(NSString *)type
                                                        managedObjectContext:(NSManagedObjectContext *)context
                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
-+ (instancetype)achievementWithIdAchievement:(NSString *)idAchievement level:(uint)level managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)achievementWithIdUser:(NSString *)idUser idAchievement:(NSString *)idAchievement level:(uint)level managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

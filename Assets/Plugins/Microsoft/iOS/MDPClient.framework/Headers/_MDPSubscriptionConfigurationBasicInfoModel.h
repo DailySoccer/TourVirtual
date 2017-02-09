@@ -13,11 +13,15 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPSubscriptionConfigurationBasicInfoModelAttributes {
+	__unsafe_unretained NSString *allowedCountries;
 	__unsafe_unretained NSString *callType;
+	__unsafe_unretained NSString *dRMEnabled;
 	__unsafe_unretained NSString *expirationType;
+	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *fixedExpirationDate;
 	__unsafe_unretained NSString *highlight;
 	__unsafe_unretained NSString *highlightInCategory;
+	__unsafe_unretained NSString *idLicenseTemplate;
 	__unsafe_unretained NSString *idSubscription;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *name;
@@ -26,6 +30,7 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelAttributes {
 	__unsafe_unretained NSString *relatedChildrenSubscriptions;
 	__unsafe_unretained NSString *relatedParentsSubscriptions;
 	__unsafe_unretained NSString *renewable;
+	__unsafe_unretained NSString *templateType;
 	__unsafe_unretained NSString *type;
 	__unsafe_unretained NSString *videosAssociated;
 } MDPSubscriptionConfigurationBasicInfoModelAttributes;
@@ -50,6 +55,10 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 @interface _MDPSubscriptionConfigurationBasicInfoModel : NSManagedObject
 
+@property (nonatomic, strong) NSData* allowedCountries;
+
+//- (BOOL)validateAllowedCountries:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSNumber* callType;
 
 @property (atomic) int16_t callTypeValue;
@@ -58,6 +67,14 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 //- (BOOL)validateCallType:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSNumber* dRMEnabled;
+
+@property (atomic) BOOL dRMEnabledValue;
+- (BOOL)dRMEnabledValue;
+- (void)setDRMEnabledValue:(BOOL)value_;
+
+//- (BOOL)validateDRMEnabled:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSNumber* expirationType;
 
 @property (atomic) uint16_t expirationTypeValue;
@@ -65,6 +82,14 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 - (void)setExpirationTypeValue:(uint16_t)value_;
 
 //- (BOOL)validateExpirationType:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* favorite;
+
+@property (atomic) int64_t favoriteValue;
+- (int64_t)favoriteValue;
+- (void)setFavoriteValue:(int64_t)value_;
+
+//- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* fixedExpirationDate;
 
@@ -85,6 +110,10 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 - (void)setHighlightInCategoryValue:(BOOL)value_;
 
 //- (BOOL)validateHighlightInCategory:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* idLicenseTemplate;
+
+//- (BOOL)validateIdLicenseTemplate:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* idSubscription;
 
@@ -129,6 +158,14 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 - (void)setRenewableValue:(BOOL)value_;
 
 //- (BOOL)validateRenewable:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* templateType;
+
+@property (atomic) uint16_t templateTypeValue;
+- (uint16_t)templateTypeValue;
+- (void)setTemplateTypeValue:(uint16_t)value_;
+
+//- (BOOL)validateTemplateType:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* type;
 
@@ -209,17 +246,32 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 @interface _MDPSubscriptionConfigurationBasicInfoModel (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSData*)primitiveAllowedCountries;
+- (void)setPrimitiveAllowedCountries:(NSData*)value;
+
 - (NSNumber*)primitiveCallType;
 - (void)setPrimitiveCallType:(NSNumber*)value;
 
 - (int16_t)primitiveCallTypeValue;
 - (void)setPrimitiveCallTypeValue:(int16_t)value_;
 
+- (NSNumber*)primitiveDRMEnabled;
+- (void)setPrimitiveDRMEnabled:(NSNumber*)value;
+
+- (BOOL)primitiveDRMEnabledValue;
+- (void)setPrimitiveDRMEnabledValue:(BOOL)value_;
+
 - (NSNumber*)primitiveExpirationType;
 - (void)setPrimitiveExpirationType:(NSNumber*)value;
 
 - (uint16_t)primitiveExpirationTypeValue;
 - (void)setPrimitiveExpirationTypeValue:(uint16_t)value_;
+
+- (NSNumber*)primitiveFavorite;
+- (void)setPrimitiveFavorite:(NSNumber*)value;
+
+- (int64_t)primitiveFavoriteValue;
+- (void)setPrimitiveFavoriteValue:(int64_t)value_;
 
 - (NSDate*)primitiveFixedExpirationDate;
 - (void)setPrimitiveFixedExpirationDate:(NSDate*)value;
@@ -235,6 +287,9 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 - (BOOL)primitiveHighlightInCategoryValue;
 - (void)setPrimitiveHighlightInCategoryValue:(BOOL)value_;
+
+- (NSString*)primitiveIdLicenseTemplate;
+- (void)setPrimitiveIdLicenseTemplate:(NSString*)value;
 
 - (NSString*)primitiveIdSubscription;
 - (void)setPrimitiveIdSubscription:(NSString*)value;
@@ -268,6 +323,12 @@ extern const struct MDPSubscriptionConfigurationBasicInfoModelRelationships {
 
 - (BOOL)primitiveRenewableValue;
 - (void)setPrimitiveRenewableValue:(BOOL)value_;
+
+- (NSNumber*)primitiveTemplateType;
+- (void)setPrimitiveTemplateType:(NSNumber*)value;
+
+- (uint16_t)primitiveTemplateTypeValue;
+- (void)setPrimitiveTemplateTypeValue:(uint16_t)value_;
 
 - (NSString*)primitiveType;
 - (void)setPrimitiveType:(NSString*)value;

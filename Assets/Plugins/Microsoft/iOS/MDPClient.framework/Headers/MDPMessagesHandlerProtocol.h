@@ -11,6 +11,7 @@
 
 #import "MDPPagedMessagesModel.h"
 #import "MDPMessageModel.h"
+#import "MDPPagedOpenThreadsModel.h"
 
 
 #pragma mark - Response
@@ -44,6 +45,94 @@ typedef void (^MDPMessagesHandlerResponseBlock)(NSArray *response, NSError *erro
                                      ct:(NSString *)ct
                         completionBlock:(void(^)(MDPPagedMessagesModel *content, NSError *error))completionBlock;
 
+/*
+ Gets the open threads with current user's friends.
+ */
++ (void)getOpenThreadsWithCt:(NSInteger)ct
+             completionBlock:(void(^)(MDPPagedOpenThreadsModel *content, NSError *error))completionBlock;
+
+/*
+ Fetchs
+ */
++ (NSFetchedResultsController *)messagesFetchedResultsControllerWithIdThread:(NSString *)idThread delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (NSFetchedResultsController *)openThreadFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 @end
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

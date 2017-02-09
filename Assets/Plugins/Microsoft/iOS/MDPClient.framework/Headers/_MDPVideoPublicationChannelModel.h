@@ -13,10 +13,12 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPVideoPublicationChannelModelAttributes {
+	__unsafe_unretained NSString *contentKeyId;
 	__unsafe_unretained NSString *encrypted;
 	__unsafe_unretained NSString *idVideoPublicationChannel;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *method;
+	__unsafe_unretained NSString *spId;
 	__unsafe_unretained NSString *url;
 	__unsafe_unretained NSString *urlDash;
 	__unsafe_unretained NSString *urlHDS;
@@ -36,6 +38,10 @@ extern const struct MDPVideoPublicationChannelModelUserInfo {
 @class MDPVideoModel;
 
 @interface _MDPVideoPublicationChannelModel : NSManagedObject
+
+@property (nonatomic, strong) NSString* contentKeyId;
+
+//- (BOOL)validateContentKeyId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* encrypted;
 
@@ -61,6 +67,10 @@ extern const struct MDPVideoPublicationChannelModelUserInfo {
 
 //- (BOOL)validateMethod:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSString* spId;
+
+//- (BOOL)validateSpId:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSString* url;
 
 //- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
@@ -85,20 +95,16 @@ extern const struct MDPVideoPublicationChannelModelUserInfo {
 
 //- (BOOL)validateUrlSmoothStreaming:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *videoPublicationChannels;
+@property (nonatomic, strong) MDPVideoModel *videoPublicationChannels;
 
-- (NSMutableSet*)videoPublicationChannelsSet;
+//- (BOOL)validateVideoPublicationChannels:(id*)value_ error:(NSError**)error_;
 
-@end
-
-@interface _MDPVideoPublicationChannelModel (VideoPublicationChannelsCoreDataGeneratedAccessors)
-- (void)addVideoPublicationChannels:(NSSet*)value_;
-- (void)removeVideoPublicationChannels:(NSSet*)value_;
-- (void)addVideoPublicationChannelsObject:(MDPVideoModel*)value_;
-- (void)removeVideoPublicationChannelsObject:(MDPVideoModel*)value_;
 @end
 
 @interface _MDPVideoPublicationChannelModel (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString*)primitiveContentKeyId;
+- (void)setPrimitiveContentKeyId:(NSString*)value;
 
 - (NSNumber*)primitiveEncrypted;
 - (void)setPrimitiveEncrypted:(NSNumber*)value;
@@ -118,6 +124,9 @@ extern const struct MDPVideoPublicationChannelModelUserInfo {
 - (NSString*)primitiveMethod;
 - (void)setPrimitiveMethod:(NSString*)value;
 
+- (NSString*)primitiveSpId;
+- (void)setPrimitiveSpId:(NSString*)value;
+
 - (NSString*)primitiveUrl;
 - (void)setPrimitiveUrl:(NSString*)value;
 
@@ -136,7 +145,7 @@ extern const struct MDPVideoPublicationChannelModelUserInfo {
 - (NSString*)primitiveUrlSmoothStreaming;
 - (void)setPrimitiveUrlSmoothStreaming:(NSString*)value;
 
-- (NSMutableSet*)primitiveVideoPublicationChannels;
-- (void)setPrimitiveVideoPublicationChannels:(NSMutableSet*)value;
+- (MDPVideoModel*)primitiveVideoPublicationChannels;
+- (void)setPrimitiveVideoPublicationChannels:(MDPVideoModel*)value;
 
 @end

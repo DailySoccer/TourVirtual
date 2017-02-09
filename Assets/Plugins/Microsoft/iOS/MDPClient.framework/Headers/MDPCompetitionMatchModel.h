@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, MDPCompetitionMatchModelSportType) {
 #pragma mark - Interface
 @interface MDPCompetitionMatchModel : _MDPCompetitionMatchModel
 
++ (instancetype)competitionMatchWithIdSeason:(NSString *)idSeason idCompetition:(NSString *)idCompetition idMatch:(NSString *)idMatch managedObjectContext:(NSManagedObjectContext *)context;
+
 
 + (instancetype)insertIfNotExistsCompetitionMatchWithCallType:(MDPCompetitionMatchModelCallType)callType
                                                    dictionary:(NSDictionary *)dictionary

@@ -25,6 +25,7 @@ extern const struct MDPPlayerModelAttributes {
 	__unsafe_unretained NSString *internationalDebut;
 	__unsafe_unretained NSString *jerseyNum;
 	__unsafe_unretained NSString *joinDate;
+	__unsafe_unretained NSString *language;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *nationality;
@@ -121,6 +122,10 @@ extern const struct MDPPlayerModelRelationships {
 @property (nonatomic, strong) NSDate* joinDate;
 
 //- (BOOL)validateJoinDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* language;
+
+//- (BOOL)validateLanguage:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
@@ -305,6 +310,9 @@ extern const struct MDPPlayerModelRelationships {
 
 - (NSDate*)primitiveJoinDate;
 - (void)setPrimitiveJoinDate:(NSDate*)value;
+
+- (NSString*)primitiveLanguage;
+- (void)setPrimitiveLanguage:(NSString*)value;
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;

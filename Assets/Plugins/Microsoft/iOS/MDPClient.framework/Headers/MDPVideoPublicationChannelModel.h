@@ -12,6 +12,6 @@
 #pragma mark - Interface
 @interface MDPVideoPublicationChannelModel : _MDPVideoPublicationChannelModel
 
-+ (instancetype)insertIfNotExistsVideoPublicationChannelWithDictionary:(NSDictionary *)dictionary  managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

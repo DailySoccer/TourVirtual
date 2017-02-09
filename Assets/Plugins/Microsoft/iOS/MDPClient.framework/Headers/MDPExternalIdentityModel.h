@@ -11,12 +11,14 @@
 
 #pragma mark  - AdNavigationType
 typedef NS_ENUM(NSInteger, MDPExternalIdentityModelIdentityProviderType) {
-    MDPExternalIdentityModelIdentityProviderTypeFacebook     = 0,
-    MDPExternalIdentityModelIdentityProviderTypeTwitter      = 1,
-    MDPExternalIdentityModelIdentityProviderTypeGoogle       = 2,
-    MDPExternalIdentityModelIdentityProviderTypeMicrosoft    = 3,
-    MDPExternalIdentityModelIdentityProviderTypeLinkedIn     = 4,
-    MDPExternalIdentityModelIdentityProviderTypeAmazon       = 5,
+    MDPExternalIdentityModelIdentityProviderTypeFacebook    = 0,
+    MDPExternalIdentityModelIdentityProviderTypeTwitter     = 1,
+    MDPExternalIdentityModelIdentityProviderTypeGoogle      = 2,
+    MDPExternalIdentityModelIdentityProviderTypeMicrosoft   = 3,
+    MDPExternalIdentityModelIdentityProviderTypeLinkedIn    = 4,
+    MDPExternalIdentityModelIdentityProviderTypeAmazon      = 5,
+    MDPExternalIdentityModelIdentityProviderTypeMail        = 6,
+    MDPExternalIdentityModelIdentityProviderTypeWhatsApp    = 7,
 };
 
 

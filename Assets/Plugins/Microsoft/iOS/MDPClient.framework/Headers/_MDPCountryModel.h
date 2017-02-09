@@ -13,13 +13,19 @@
 #import "NSManagedObject+MDPManagedObject.h"
 
 extern const struct MDPCountryModelAttributes {
+	__unsafe_unretained NSString *alias;
 	__unsafe_unretained NSString *countryCode;
 	__unsafe_unretained NSString *descriptionCountry;
 	__unsafe_unretained NSString *language;
 	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *prefix;
 } MDPCountryModelAttributes;
 
 @interface _MDPCountryModel : NSManagedObject
+
+@property (nonatomic, strong) NSData* alias;
+
+//- (BOOL)validateAlias:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* countryCode;
 
@@ -37,9 +43,16 @@ extern const struct MDPCountryModelAttributes {
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSString* prefix;
+
+//- (BOOL)validatePrefix:(id*)value_ error:(NSError**)error_;
+
 @end
 
 @interface _MDPCountryModel (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSData*)primitiveAlias;
+- (void)setPrimitiveAlias:(NSData*)value;
 
 - (NSString*)primitiveCountryCode;
 - (void)setPrimitiveCountryCode:(NSString*)value;
@@ -52,5 +65,8 @@ extern const struct MDPCountryModelAttributes {
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSString*)primitivePrefix;
+- (void)setPrimitivePrefix:(NSString*)value;
 
 @end

@@ -20,4 +20,6 @@
 
 + (NSMutableDictionary *)countryWithLanguage:(NSString *)language countryCode:(NSString *)countryCode managedObjectContext:(NSManagedObjectContext *)context ;
 
++ (NSMutableDictionary *)countriesPrefixWithLanguage:(NSString *)language managedObjectContext:(NSManagedObjectContext *)context;
+
 @end

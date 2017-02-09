@@ -22,11 +22,13 @@ extern const struct MDPAssetModelAttributes {
 extern const struct MDPAssetModelRelationships {
 	__unsafe_unretained NSString *compactContentAsset;
 	__unsafe_unretained NSString *contentAssets;
+	__unsafe_unretained NSString *favoriteContentAsset;
 	__unsafe_unretained NSString *matchEventAsset;
 } MDPAssetModelRelationships;
 
 @class MDPCompactContentModel;
 @class MDPContentModel;
+@class MDPFavoriteContentModel;
 @class MDPMatchEventModel;
 
 @interface _MDPAssetModel : NSManagedObject
@@ -58,6 +60,10 @@ extern const struct MDPAssetModelRelationships {
 @property (nonatomic, strong) NSSet *contentAssets;
 
 - (NSMutableSet*)contentAssetsSet;
+
+@property (nonatomic, strong) MDPFavoriteContentModel *favoriteContentAsset;
+
+//- (BOOL)validateFavoriteContentAsset:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPMatchEventModel *matchEventAsset;
 
@@ -101,6 +107,9 @@ extern const struct MDPAssetModelRelationships {
 
 - (NSMutableSet*)primitiveContentAssets;
 - (void)setPrimitiveContentAssets:(NSMutableSet*)value;
+
+- (MDPFavoriteContentModel*)primitiveFavoriteContentAsset;
+- (void)setPrimitiveFavoriteContentAsset:(MDPFavoriteContentModel*)value;
 
 - (MDPMatchEventModel*)primitiveMatchEventAsset;
 - (void)setPrimitiveMatchEventAsset:(MDPMatchEventModel*)value;

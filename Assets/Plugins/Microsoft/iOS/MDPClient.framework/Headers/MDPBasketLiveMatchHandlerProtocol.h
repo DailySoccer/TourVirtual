@@ -12,6 +12,13 @@
 #import "MDPBasketLiveMatchModel.h"
 #import "MDPBasketLiveMatchTeamStatisticsModel.h"
 #import "MDPBasketLiveMatchPlayerStatisticsModel.h"
+#import "MDPBasketSeasonCompetitionTeamStatisticsModel.h"
+#import "MDPBasketSeasonPlayerStatisticsModel.h"
+
+
+#pragma mark  - Response
+typedef void (^MDPBasketLiveMatchHandlerResponseBlock)(NSArray *response, NSError *error);
+
 
 
 #pragma mark - MDPBasketLiveMatchHandlerProtocol
@@ -26,6 +33,15 @@
                                         language:(NSString *)language
                                  completionBlock:(void(^)(MDPBasketLiveMatchModel *content, NSError *error))completionBlock;
 
+/*
+ Gets a team statistics in a specified match. A team statistic is identified by four fields: id of the season, competition, team, and the id of the match.
+ */
++ (void)getBasketLiveMatchTeamStatisticsWithIdSeason:(NSString *)idSeason
+                                       idCompetition:(NSString *)idCompetition
+                                             idMatch:(NSString *)idMatch
+                                              idTeam:(NSString *)idTeam
+                                            language:(NSString *)language
+                                     completionBlock:(void(^)(MDPBasketLiveMatchTeamStatisticsModel *content, NSError *error))completionBlock;
 
 /*
  Gets a player statistics in a specified match. A player statistic is identified by two fields: id of the player, and the id of the match.
@@ -37,16 +53,35 @@
                                               language:(NSString *)language
                                        completionBlock:(void(^)(MDPBasketLiveMatchPlayerStatisticsModel *content, NSError *error))completionBlock;
 
+/*
+ Gets a collection of statisitics for a player by season. A statistic is identified by two fields. Id of the season and id of the player.
+ */
++ (void)getLiveBasketSeasonPlayerStatWithIdSeason:(NSString *)idSeason
+                                         idPlayer:(NSString *)idPlayer
+                                  completionBlock:(void(^)(MDPBasketSeasonPlayerStatisticsModel *content, NSError *error))completionBlock;
 
 /*
- Gets a team statistics in a specified match. A team statistic is identified by four fields: id of the season, competition, team, and the id of the match.
+ Gets a collection of statisitics by season and competition. A team statistic is identified by two fields. Id of season and id of the competition.
  */
-+ (void)getBasketLiveMatchTeamStatisticsWithIdSeason:(NSString *)idSeason
-                                           idCompetition:(NSString *)idCompetition
-                                                 idMatch:(NSString *)idMatch
-                                                  idTeam:(NSString *)idTeam
-                                                language:(NSString *)language
-                                          completionBlock:(void(^)(MDPBasketLiveMatchTeamStatisticsModel *content, NSError *error))completionBlock;
++ (void)getLiveBasketSeasonCompetitionStatWithIdSeason:(NSString *)idSeason
+                                         idCompetition:(NSString *)idCompetition
+                                       completionBlock:(MDPBasketLiveMatchHandlerResponseBlock)completionBlock;
+
+/*
+ Gets a player statistics in a specified season and competition.
+ */
++ (void)getTeamPlayerStatsBySeasonAndCompetitionWithIdSeason:(NSString *)idSeason
+                                               idCompetition:(NSString *)idCompetition
+                                                      idTeam:(NSString *)idTeam
+                                             completionBlock:(void(^)(NSArray *content, NSError *error))completionBlock;
+
+/*
+ Gets a team statistics in a specified season and competition.
+ */
++ (void)getTeamStatsBySeasonAndCompetitionWithIdSeason:(NSString *)idSeason
+                                         idCompetition:(NSString *)idCompetition
+                                                idTeam:(NSString *)idTeam
+                                       completionBlock:(void(^)(MDPBasketSeasonCompetitionTeamStatisticsModel *content, NSError *error))completionBlock;
 
 @end
 

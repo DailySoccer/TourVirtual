@@ -55,7 +55,7 @@ typedef void (^MDPPlayersHandlerResponseBlock)(NSArray *response, NSError *error
                         completionBlock:(void(^)(NSError *error))completionBlock;
 
 /*
-  Get the preferred players identified by a sport
+  Get the list preferred players selected by the user for a sport.
  */
 + (void)getPreferredPlayersWithSport:(MDPPreferredPlayerModelSportType)sportType
                       completionBlock:(MDPPlayersHandlerResponseBlock)completionBlock;

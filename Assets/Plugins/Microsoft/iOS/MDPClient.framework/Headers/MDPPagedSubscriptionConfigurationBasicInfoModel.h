@@ -15,6 +15,6 @@
 
 + (instancetype)insertWithDictionary:(NSDictionary *)dictionary callType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (MDPPagedSubscriptionConfigurationBasicInfoModel *)pagedSubscriptionConfigurationBasicInfoWithCallType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
++ (NSArray *)pagedSubscriptionConfigurationBasicInfoWithCallType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

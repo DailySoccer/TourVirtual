@@ -21,6 +21,7 @@ extern const struct MDPCompetitionMatchModelAttributes {
 	__unsafe_unretained NSString *callType;
 	__unsafe_unretained NSString *competitionName;
 	__unsafe_unretained NSString *date;
+	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *group;
 	__unsafe_unretained NSString *homeTeamBadgeThumbnailUrl;
 	__unsafe_unretained NSString *homeTeamBadgeUrl;
@@ -100,6 +101,14 @@ extern const struct MDPCompetitionMatchModelRelationships {
 @property (nonatomic, strong) NSDate* date;
 
 //- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* favorite;
+
+@property (atomic) int64_t favoriteValue;
+- (int64_t)favoriteValue;
+- (void)setFavoriteValue:(int64_t)value_;
+
+//- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* group;
 
@@ -263,6 +272,12 @@ extern const struct MDPCompetitionMatchModelRelationships {
 
 - (NSDate*)primitiveDate;
 - (void)setPrimitiveDate:(NSDate*)value;
+
+- (NSNumber*)primitiveFavorite;
+- (void)setPrimitiveFavorite:(NSNumber*)value;
+
+- (int64_t)primitiveFavoriteValue;
+- (void)setPrimitiveFavoriteValue:(int64_t)value_;
 
 - (NSString*)primitiveGroup;
 - (void)setPrimitiveGroup:(NSString*)value;

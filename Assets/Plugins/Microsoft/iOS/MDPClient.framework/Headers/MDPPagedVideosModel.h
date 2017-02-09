@@ -17,7 +17,17 @@
                             callType:(MDPVideoModelCallType)callType
                 managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (MDPPagedVideosModel *)pagedVideosWithCallType:(MDPVideoModelCallType)callType
-                                   managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary
+                          idPlayList:(NSString *)idPlaylist
+                managedObjectContext:(NSManagedObjectContext *)context;
+
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary
+                      idSubscription:(NSString *)idSubscription
+                managedObjectContext:(NSManagedObjectContext *)context;
+
+
+
++ (NSArray *)pagedVideosWithCallType:(MDPVideoModelCallType)callType
+                managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

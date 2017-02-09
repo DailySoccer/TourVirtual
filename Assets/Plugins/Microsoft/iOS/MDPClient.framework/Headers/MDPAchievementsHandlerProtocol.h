@@ -44,12 +44,25 @@ Gets a achievement configuration type by his id
                       completionBlock:(void(^)(MDPAchievementConfigurationTypeModel *content, NSError *error))completionBlock;
 
 /*
+ Gets the list of achievements availables for a client app.
+ */
++ (void)getAchievementConfigurationsByIdClientWithLanguage:(NSString *)language
+                                           completionBlock:(MDPAchievementsHandlerResponseBlock)completionBlock;
+
+/*
+ Gets the list of achievements of a determinate type availables for a client app with info about fan has the achievements.
+ */
++ (void)getFanAchievementsConfigurationWithType:(NSString *)achievementConfigurationType
+                                       language:(NSString *)language
+                                completionBlock:(MDPAchievementsHandlerResponseBlock)completionBlock;
+
+
+/*
  Listens to MDPAchievementConfigurationModel objects
  */
 + (NSFetchedResultsController *)achievementConfigurationFetchedResultsControllerWithIdType:(NSString *)idType delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 + (MDPAchievementConfigurationModel *)achievementConfigurationWithIdAchievement:(NSString *)idAchievement level:(NSNumber *)level delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
-
 
 /*
  Find achievementConfiguration

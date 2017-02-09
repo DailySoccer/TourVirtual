@@ -9,6 +9,10 @@
 #ifndef MDPClient_MDPFriendsHandlerProtocol_h
 #define MDPClient_MDPFriendsHandlerProtocol_h
 
+#import "MDPPagedFriendsModel.h"
+#import "MDPPagedFriendTimelineModel.h"
+
+
 #pragma mark - Response
 typedef void (^MDPFriendsHandlerResponseBlock)(NSArray *response, NSError *error);
 
@@ -25,7 +29,7 @@ typedef NS_ENUM(NSInteger, MDPFriendsGiftType) {
 /*
  Get fan friends.
  */
-+ (void)getFriendsWithCompletionBlock:(MDPFriendsHandlerResponseBlock)completionBlock;
++ (void)getFriendsWithCt:(NSString *)ct completionBlock:(void(^)(MDPPagedFriendsModel *content, NSError *error))completionBlock;
 
 /*
  Send a new frienship invitation
@@ -56,6 +60,42 @@ Invite a contact to the platform through his email.
                               type:(MDPFriendsGiftType)type
                      idVirtualGood:(NSString *)idVirtualGood
                    completionBlock:(void(^)(NSError *error))completionBlock;
+
+/*
+ Search fan friends by name and alias.
+ */
++ (void)searchFriendsWithSearchText:(NSString *)searchText
+                                top:(NSNumber *)top
+                    completionBlock:(MDPFriendsHandlerResponseBlock)completionBlock;
+
+/*
+ Gets a list of friends ordered by XP.
+ */
++ (void)getFriendsRankingWithCompletionBlock:(MDPFriendsHandlerResponseBlock)completionBlock;
+
+/*
+ Gets the list of the user's friend's most recent timeline paged.
+ */
++ (void)getFriendsTimelineWithCt:(NSString *)ct
+                       language:(NSString *)language
+                completionBlock:(void(^)(MDPPagedFriendTimelineModel *response, NSError *error))completionBlock;
+
+/*
+ Gets fan friends identifiers
+ */
++ (void)getUserFriendsIdenfiersWithCompletionBlock:(MDPFriendsHandlerResponseBlock)completionBlock;
+
+
+/*
+ Delete all friends from DataBase
+ */
++ (void)deleteAllFriends;
+
+
+/*
+ Fetchs
+ */
++ (NSFetchedResultsController *)friendsFetchedResultsControllerWithIdUser:(NSString *)idUser delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end
 

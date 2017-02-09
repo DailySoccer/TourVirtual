@@ -54,6 +54,7 @@ typedef NS_ENUM(NSInteger, MDPNetworkConstantsHandlerEnvironment)
 + (NSString *)environment;
 + (MDPNetworkConstantsHandlerEnvironment)environmentValue;
 + (NSString *)webAPIBaseUrl;
++ (NSString *)webAPIBaseUrlEventHUB;
 + (NSString *)webAPISingleSignOnBaseUrl;
 + (BOOL)mockData;
 

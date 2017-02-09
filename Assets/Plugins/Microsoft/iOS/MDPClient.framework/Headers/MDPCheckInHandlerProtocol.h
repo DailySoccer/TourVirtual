@@ -53,7 +53,7 @@ typedef void (^MDPCheckInHandlerResponseBlock)(NSArray *response, NSError *error
 /*
  Listens to MDPCheckInModel objects. Return the elements order for checkin date
  */
-+ (NSFetchedResultsController *)checkInFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)checkInFetchedResultsControllerWithIdUser:(NSString *)idUser delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 + (NSFetchedResultsController *)checkInTypeFetchedResultsControllerWithDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

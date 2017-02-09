@@ -12,8 +12,12 @@
 #pragma mark - Interface
 @interface MDPMessageModel : _MDPMessageModel
 
++ (instancetype)messageWithIdThread:(NSString *)idThread idSender:(NSString *)idSender idMessage:(NSString *)idMessage managedObjectContext:(NSManagedObjectContext *)context;
+
 + (instancetype)messageWithIdMessage:(NSString *)idMessage managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertIfNotExistsMessageWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
+
++ (NSFetchedResultsController *)messagesFetchedResultsControllerWithThread:(NSString *)idThread managedObjectContext:(NSManagedObjectContext *)context delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

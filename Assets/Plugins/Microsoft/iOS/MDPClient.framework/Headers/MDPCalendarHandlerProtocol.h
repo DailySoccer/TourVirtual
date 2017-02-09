@@ -12,6 +12,9 @@
 #import "MDPCompetitionMatchModel.h"
 #import "MDPCompetitionModel.h"
 #import "MDPMatchStatusModel.h"
+#import "MDPPagedCompactCompetitionMatchesModel.h"
+#import "MDPCompactCompetitionMatchModel.h"
+
 
 #pragma mark  - Response
 typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *error);
@@ -177,6 +180,26 @@ typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *erro
                                     country:(NSString *)country
                             completionBlock:(void (^)(NSArray *previousMatches, NSArray *nextMatches, NSError *error))completionBlock;
 
+/*
+ Gets all matches between two teams for a season or a competition.
+ */
++ (void)searchMatchesWithIdTeam1:(NSString *)idTeam1
+                         idTeam2:(NSString *)idTeam2
+                        idSeason:(NSString *)idSeason
+                   idCompetition:(NSString *)idCompetition
+                        language:(NSString *)language
+                             top:(NSNumber *)top
+                            skip:(NSNumber *)skip
+                 completionBlock:(void (^)(MDPPagedCompactCompetitionMatchesModel *response, NSError *error))completionBlock;
+
+/*
+ Get an entity with data of the requested match.
+ */
++ (void)getMatchWithIdSeason:(NSString *)idSeason
+               idCompetition:(NSString *)idCompetition
+                     idMatch:(NSString *)idMatch
+                    language:(NSString *)language
+             completionBlock:(void (^)(MDPCompactCompetitionMatchModel *content, NSError *error))completionBlock;
 
 /*
  Fetch Competitions for one team
@@ -203,6 +226,10 @@ typedef void (^MDPCalendarHandlerResponseBlock)(NSArray *response, NSError *erro
                                                                          matchDay:(NSString *)matchDay
                                                                           idGroup:(NSString *)idGroup
                                                                          delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (MDPCompetitionMatchModel *)competitionMatchWithIdSeason:(NSString *)idSeason
+                                             idCompetition:(NSString *)idCompetition
+                                                   idMatch:(NSString *)idMatch;
 
 @end
 

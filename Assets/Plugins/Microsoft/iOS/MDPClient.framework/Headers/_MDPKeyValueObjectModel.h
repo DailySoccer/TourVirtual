@@ -28,9 +28,13 @@ extern const struct MDPKeyValueObjectModelRelationships {
 	__unsafe_unretained NSString *basketLiveMatchPeriod;
 	__unsafe_unretained NSString *basketLiveMatchPlayerStatisticsPosition;
 	__unsafe_unretained NSString *bookingPeriod;
+	__unsafe_unretained NSString *compactCompetitionMatchLeg;
+	__unsafe_unretained NSString *compactCompetitionMatchPeriod;
+	__unsafe_unretained NSString *compactCompetitionMatchStage;
 	__unsafe_unretained NSString *competitionMatchLeg;
 	__unsafe_unretained NSString *competitionMatchPeriod;
 	__unsafe_unretained NSString *competitionMatchStage;
+	__unsafe_unretained NSString *favoriteMatchStage;
 	__unsafe_unretained NSString *footballLiveMatchPeriod;
 	__unsafe_unretained NSString *footballMatchPlayerPosition;
 	__unsafe_unretained NSString *goalPeriod;
@@ -51,9 +55,13 @@ extern const struct MDPKeyValueObjectModelRelationships {
 @class MDPBasketLiveMatchModel;
 @class MDPBasketLiveMatchPlayerStatisticsModel;
 @class MDPBookingModel;
+@class MDPCompactCompetitionMatchModel;
+@class MDPCompactCompetitionMatchModel;
+@class MDPCompactCompetitionMatchModel;
 @class MDPCompetitionMatchModel;
 @class MDPCompetitionMatchModel;
 @class MDPCompetitionMatchModel;
+@class MDPFavoriteMatchModel;
 @class MDPFootballLiveMatchModel;
 @class MDPFootballMatchPlayerModel;
 @class MDPGoalModel;
@@ -123,6 +131,18 @@ extern const struct MDPKeyValueObjectModelRelationships {
 
 - (NSMutableSet*)bookingPeriodSet;
 
+@property (nonatomic, strong) MDPCompactCompetitionMatchModel *compactCompetitionMatchLeg;
+
+//- (BOOL)validateCompactCompetitionMatchLeg:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPCompactCompetitionMatchModel *compactCompetitionMatchPeriod;
+
+//- (BOOL)validateCompactCompetitionMatchPeriod:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPCompactCompetitionMatchModel *compactCompetitionMatchStage;
+
+//- (BOOL)validateCompactCompetitionMatchStage:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSSet *competitionMatchLeg;
 
 - (NSMutableSet*)competitionMatchLegSet;
@@ -134,6 +154,10 @@ extern const struct MDPKeyValueObjectModelRelationships {
 @property (nonatomic, strong) NSSet *competitionMatchStage;
 
 - (NSMutableSet*)competitionMatchStageSet;
+
+@property (nonatomic, strong) NSSet *favoriteMatchStage;
+
+- (NSMutableSet*)favoriteMatchStageSet;
 
 @property (nonatomic, strong) NSSet *footballLiveMatchPeriod;
 
@@ -240,6 +264,13 @@ extern const struct MDPKeyValueObjectModelRelationships {
 - (void)removeCompetitionMatchStage:(NSSet*)value_;
 - (void)addCompetitionMatchStageObject:(MDPCompetitionMatchModel*)value_;
 - (void)removeCompetitionMatchStageObject:(MDPCompetitionMatchModel*)value_;
+@end
+
+@interface _MDPKeyValueObjectModel (FavoriteMatchStageCoreDataGeneratedAccessors)
+- (void)addFavoriteMatchStage:(NSSet*)value_;
+- (void)removeFavoriteMatchStage:(NSSet*)value_;
+- (void)addFavoriteMatchStageObject:(MDPFavoriteMatchModel*)value_;
+- (void)removeFavoriteMatchStageObject:(MDPFavoriteMatchModel*)value_;
 @end
 
 @interface _MDPKeyValueObjectModel (FootballLiveMatchPeriodCoreDataGeneratedAccessors)
@@ -381,6 +412,15 @@ extern const struct MDPKeyValueObjectModelRelationships {
 - (NSMutableSet*)primitiveBookingPeriod;
 - (void)setPrimitiveBookingPeriod:(NSMutableSet*)value;
 
+- (MDPCompactCompetitionMatchModel*)primitiveCompactCompetitionMatchLeg;
+- (void)setPrimitiveCompactCompetitionMatchLeg:(MDPCompactCompetitionMatchModel*)value;
+
+- (MDPCompactCompetitionMatchModel*)primitiveCompactCompetitionMatchPeriod;
+- (void)setPrimitiveCompactCompetitionMatchPeriod:(MDPCompactCompetitionMatchModel*)value;
+
+- (MDPCompactCompetitionMatchModel*)primitiveCompactCompetitionMatchStage;
+- (void)setPrimitiveCompactCompetitionMatchStage:(MDPCompactCompetitionMatchModel*)value;
+
 - (NSMutableSet*)primitiveCompetitionMatchLeg;
 - (void)setPrimitiveCompetitionMatchLeg:(NSMutableSet*)value;
 
@@ -389,6 +429,9 @@ extern const struct MDPKeyValueObjectModelRelationships {
 
 - (NSMutableSet*)primitiveCompetitionMatchStage;
 - (void)setPrimitiveCompetitionMatchStage:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveFavoriteMatchStage;
+- (void)setPrimitiveFavoriteMatchStage:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveFootballLiveMatchPeriod;
 - (void)setPrimitiveFootballLiveMatchPeriod:(NSMutableSet*)value;

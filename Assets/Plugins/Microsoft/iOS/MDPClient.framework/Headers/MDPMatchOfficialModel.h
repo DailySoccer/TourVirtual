@@ -22,6 +22,6 @@ typedef NS_ENUM(NSInteger, MDPMatchOfficialModelMatchOfficialType) {
 #pragma mark - Interface
 @interface MDPMatchOfficialModel : _MDPMatchOfficialModel
 
-+ (instancetype)insertIfNotExistsMatchOfficialWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

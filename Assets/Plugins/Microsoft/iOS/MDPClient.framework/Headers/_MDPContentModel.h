@@ -18,6 +18,7 @@ extern const struct MDPContentModelAttributes {
 	__unsafe_unretained NSString *contentType;
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *descriptionContent;
+	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *hasGamification;
 	__unsafe_unretained NSString *hashTag;
 	__unsafe_unretained NSString *highLight;
@@ -31,6 +32,7 @@ extern const struct MDPContentModelAttributes {
 	__unsafe_unretained NSString *orderInHighLight;
 	__unsafe_unretained NSString *published;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *resourceId;
 	__unsafe_unretained NSString *sourceId;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *visible;
@@ -64,11 +66,7 @@ extern const struct MDPContentModelRelationships {
 
 //- (BOOL)validateCommentsIdThread:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSNumber* contentType;
-
-@property (atomic) uint16_t contentTypeValue;
-- (uint16_t)contentTypeValue;
-- (void)setContentTypeValue:(uint16_t)value_;
+@property (nonatomic, strong) NSString* contentType;
 
 //- (BOOL)validateContentType:(id*)value_ error:(NSError**)error_;
 
@@ -79,6 +77,14 @@ extern const struct MDPContentModelRelationships {
 @property (nonatomic, strong) NSString* descriptionContent;
 
 //- (BOOL)validateDescriptionContent:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* favorite;
+
+@property (atomic) int64_t favoriteValue;
+- (int64_t)favoriteValue;
+- (void)setFavoriteValue:(int64_t)value_;
+
+//- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* hasGamification;
 
@@ -151,6 +157,10 @@ extern const struct MDPContentModelRelationships {
 @property (nonatomic, strong) NSDate* publishedDate;
 
 //- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* resourceId;
+
+//- (BOOL)validateResourceId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* sourceId;
 
@@ -236,17 +246,20 @@ extern const struct MDPContentModelRelationships {
 - (NSString*)primitiveCommentsIdThread;
 - (void)setPrimitiveCommentsIdThread:(NSString*)value;
 
-- (NSNumber*)primitiveContentType;
-- (void)setPrimitiveContentType:(NSNumber*)value;
-
-- (uint16_t)primitiveContentTypeValue;
-- (void)setPrimitiveContentTypeValue:(uint16_t)value_;
+- (NSString*)primitiveContentType;
+- (void)setPrimitiveContentType:(NSString*)value;
 
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
 
 - (NSString*)primitiveDescriptionContent;
 - (void)setPrimitiveDescriptionContent:(NSString*)value;
+
+- (NSNumber*)primitiveFavorite;
+- (void)setPrimitiveFavorite:(NSNumber*)value;
+
+- (int64_t)primitiveFavoriteValue;
+- (void)setPrimitiveFavoriteValue:(int64_t)value_;
 
 - (NSNumber*)primitiveHasGamification;
 - (void)setPrimitiveHasGamification:(NSNumber*)value;
@@ -301,6 +314,9 @@ extern const struct MDPContentModelRelationships {
 
 - (NSDate*)primitivePublishedDate;
 - (void)setPrimitivePublishedDate:(NSDate*)value;
+
+- (NSString*)primitiveResourceId;
+- (void)setPrimitiveResourceId:(NSString*)value;
 
 - (NSString*)primitiveSourceId;
 - (void)setPrimitiveSourceId:(NSString*)value;

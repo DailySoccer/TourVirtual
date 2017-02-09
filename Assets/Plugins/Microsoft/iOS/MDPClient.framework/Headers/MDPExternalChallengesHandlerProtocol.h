@@ -28,11 +28,6 @@ typedef void (^MDPExternalChallengesHandlerResponseBlock)(NSArray *response, NSE
                                                   completionBlock:(void(^)(NSError *error))completionBlock;
 
 /*
- Gets an external challenge participationb by his idExternalChallenge
- */
-+ (void)getExternalChallengeParticipationByIdWithIdExternalChallenge:(NSString *)idExternalChallenge
-                                                     completionBlock:(void(^)(MDPExternalChallengeModel *content, NSError *error))completionBlock;
-/*
  Get all the ExternalChallenges
  */
 + (void)getExternalChallengesWithCompletionBlock:(MDPExternalChallengesHandlerResponseBlock)completionBlock;

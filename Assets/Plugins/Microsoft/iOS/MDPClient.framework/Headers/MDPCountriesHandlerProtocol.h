@@ -34,6 +34,7 @@ typedef void (^MDPCountriesHandlerResponseBlock)(NSArray *response, NSError *err
  */
 // MDPCountryModel. Return the elements order for countries
 + (NSMutableDictionary *)countriesWithLanguage:(NSString *)language;
++ (NSMutableDictionary *)countriesPrefixWithLanguage:(NSString *)language;
 
 + (NSMutableDictionary *)countryWithLanguage:(NSString *)language countryCode:(NSString *)countryCode;
 

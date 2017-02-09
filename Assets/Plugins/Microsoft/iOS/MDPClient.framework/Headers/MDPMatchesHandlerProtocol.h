@@ -13,6 +13,9 @@
 #import "MDPMatchModel.h"
 #import "MDPTimelineModel.h"
 #import "MDPPagedMatchSubscriptionInformationModel.h"
+#import "MDPPagedFavoriteMatchModel.h"
+#import "MDPVideoAdInformationModel.h"
+#import "MDPFavoriteModel.h"
 
 
 #pragma mark VideoAdType
@@ -66,13 +69,13 @@ Get all the Master Data for a sport type and language.
 /*
  Gets for a specific match and country its related advertisement
  */
-+ (void)getMatchVideoAdXmlWithIdSeason:(NSString *)idSeason
-                         idCompetition:(NSString *)idCompetition
-                               idMatch:(NSString *)idMatch
-                               country:(NSString *)country
-                           videoAdType:(MDPMatchesVideoAdType)videoAdType
-                             videoType:(MDPMatchesAssetVideoType)videoType
-                       completionBlock:(void (^)(NSString *content, NSError *error))completionBlock;
++ (void)getMatchVideoAdWithIdSeason:(NSString *)idSeason
+                      idCompetition:(NSString *)idCompetition
+                            idMatch:(NSString *)idMatch
+                            country:(NSString *)country
+                        videoAdType:(MDPMatchesVideoAdType)videoAdType
+                          videoType:(MDPMatchesAssetVideoType)videoType
+                    completionBlock:(void (^)(MDPVideoAdInformationModel *content, NSError *error))completionBlock;
 
 /*
  Gets all the match subscriptions.The results are returned paginated.
@@ -100,6 +103,133 @@ Get all the Master Data for a sport type and language.
                                           country:(NSString *)country
                                   completionBlock:(void (^)(BOOL content, NSError *error))completionBlock;
 
+/*
+ Add match as part of user's favorite matches
+ */
++ (void)postFavoriteMatchWithIdSeason:(NSString *)idSeason
+                        idCompetition:(NSString *)idCompetition
+                              idMatch:(NSString *)idMatch
+                      completionBlock:(void (^)(NSError *error))completionBlock;
+
+/*
+ Remove match as part of user's favorite matches
+ */
++ (void)deleteFavoriteMatchWithIdSeason:(NSString *)idSeason
+                          idCompetition:(NSString *)idCompetition
+                                idMatch:(NSString *)idMatch
+                        completionBlock:(void (^)(NSError *error))completionBlock;
+
+/*
+ Gets the list of paginated user's favorite matches
+ */
++ (void)getPagedFavoriteMatchWithPageSize:(NSNumber *)pageSize
+                                 language:(NSString *)language
+                                       ct:(NSString *)ct
+                          completionBlock:(void (^)(MDPPagedFavoriteMatchModel *content, NSError *error))completionBlock;
+
+/*
+ Gets the requested advertisements types for a given match on VMAP form
+ */
++ (void)getMatchVideoAdsVmapXmlWithIdSeason:(NSString *)idSeason
+                              idCompetition:(NSString *)idCompetition
+                                    idMatch:(NSString *)idMatch
+                                    country:(NSString *)country
+                                videoAdType:(uint)videoAdType
+                                  videoType:(uint)videoType
+                            completionBlock:(void (^)(NSString *url, NSString *, NSError *error))completionBlock;
+
+/*
+ Get user's favorite match by identifier
+ */
++ (void)getFavoriteMatchWithIdSeason:(NSString *)idSeason
+                       idCompetition:(NSString *)idCompetition
+                             idMatch:(NSString *)idMatch
+                     completionBlock:(void (^)(MDPFavoriteModel *content, NSError *error))completionBlock;
+
+
+#pragma mark - Delete all Favorite Matches
++ (void)deleteAllFavoriteMatches;
+
+
+#pragma mark - Fetchs
++ (NSFetchedResultsController *)favoriteMatchesFetchedResultsControllerDelegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 @end
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

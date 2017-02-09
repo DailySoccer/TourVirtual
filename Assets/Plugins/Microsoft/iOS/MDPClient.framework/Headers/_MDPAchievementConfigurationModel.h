@@ -24,15 +24,18 @@ extern const struct MDPAchievementConfigurationModelAttributes {
 	__unsafe_unretained NSString *level;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *points;
+	__unsafe_unretained NSString *url;
 	__unsafe_unretained NSString *virtualGoods;
 } MDPAchievementConfigurationModelAttributes;
 
 extern const struct MDPAchievementConfigurationModelRelationships {
+	__unsafe_unretained NSString *achievementConfigurationRequest;
 	__unsafe_unretained NSString *descriptionAchievementConfiguration;
 	__unsafe_unretained NSString *levelName;
 	__unsafe_unretained NSString *rules;
 } MDPAchievementConfigurationModelRelationships;
 
+@class MDPAchievementConfigurationRequestModel;
 @class MDPLocaleDescriptionModel;
 @class MDPLocaleDescriptionModel;
 @class MDPRuleConfigurationModel;
@@ -95,9 +98,17 @@ extern const struct MDPAchievementConfigurationModelRelationships {
 
 //- (BOOL)validatePoints:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSString* url;
+
+//- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSData* virtualGoods;
 
 //- (BOOL)validateVirtualGoods:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSSet *achievementConfigurationRequest;
+
+- (NSMutableSet*)achievementConfigurationRequestSet;
 
 @property (nonatomic, strong) NSSet *descriptionAchievementConfiguration;
 
@@ -111,6 +122,13 @@ extern const struct MDPAchievementConfigurationModelRelationships {
 
 - (NSMutableSet*)rulesSet;
 
+@end
+
+@interface _MDPAchievementConfigurationModel (AchievementConfigurationRequestCoreDataGeneratedAccessors)
+- (void)addAchievementConfigurationRequest:(NSSet*)value_;
+- (void)removeAchievementConfigurationRequest:(NSSet*)value_;
+- (void)addAchievementConfigurationRequestObject:(MDPAchievementConfigurationRequestModel*)value_;
+- (void)removeAchievementConfigurationRequestObject:(MDPAchievementConfigurationRequestModel*)value_;
 @end
 
 @interface _MDPAchievementConfigurationModel (DescriptionAchievementConfigurationCoreDataGeneratedAccessors)
@@ -178,8 +196,14 @@ extern const struct MDPAchievementConfigurationModelRelationships {
 - (int64_t)primitivePointsValue;
 - (void)setPrimitivePointsValue:(int64_t)value_;
 
+- (NSString*)primitiveUrl;
+- (void)setPrimitiveUrl:(NSString*)value;
+
 - (NSData*)primitiveVirtualGoods;
 - (void)setPrimitiveVirtualGoods:(NSData*)value;
+
+- (NSMutableSet*)primitiveAchievementConfigurationRequest;
+- (void)setPrimitiveAchievementConfigurationRequest:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveDescriptionAchievementConfiguration;
 - (void)setPrimitiveDescriptionAchievementConfiguration:(NSMutableSet*)value;

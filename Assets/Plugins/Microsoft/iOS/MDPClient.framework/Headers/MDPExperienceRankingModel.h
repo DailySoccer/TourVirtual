@@ -12,13 +12,15 @@
 #pragma mark - Interface
 @interface MDPExperienceRankingModel : _MDPExperienceRankingModel
 
-+ (NSArray *)experienceRankingWithIdClient:(NSString *)idClient managedObjectContext:(NSManagedObjectContext *)context;
++ (NSArray *)experienceRankingWithIdClient:(NSString *)idClient
+                      managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (instancetype)experienceRankingWithIdClient:(NSString *)idClient idUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)experienceRankingWithIdClient:(NSString *)idClient
+                                       idUser:(NSString *)idUser
+                         managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertWithDictionary:(NSDictionary *)dictionary
                             idClient:(NSString *)idClient
-                              idUser:(NSString *)idUser
                 managedObjectContext:(NSManagedObjectContext *)context;
 
 @end

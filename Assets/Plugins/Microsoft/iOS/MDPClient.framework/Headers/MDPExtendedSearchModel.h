@@ -19,7 +19,8 @@
                                 top:(NSInteger)top
                                skip:(NSInteger)skip
                          searchText:(NSString *)searchText
-                           language:(NSString *)language;
+                           language:(NSString *)language
+                      searchModeAll:(BOOL)searchModeAll;
 
 - (NSString *)competition;
 
@@ -36,5 +37,7 @@
 - (NSString *)searchText;
 
 - (NSString *)language;
+
+- (BOOL)isSearchModeAll;
 
 @end

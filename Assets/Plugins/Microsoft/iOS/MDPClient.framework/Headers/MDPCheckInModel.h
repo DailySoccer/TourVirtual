@@ -14,7 +14,7 @@
 
 + (instancetype)insertWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (NSFetchedResultsController *)checkInFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
-                                                                               delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)checkInFetchedResultsControllerWithIdUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context
+                                                                 delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

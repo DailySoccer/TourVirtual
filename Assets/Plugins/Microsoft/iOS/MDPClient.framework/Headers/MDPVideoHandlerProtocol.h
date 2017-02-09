@@ -15,6 +15,7 @@
 #import "MDPVideoModel.h"
 #import "MDPExtendedSearchModel.h"
 #import "MDPVideoPackSearchModel.h"
+#import "MDPMatchSubscriptionInformationModel.h"
 
 
 #pragma mark  - Response
@@ -29,7 +30,6 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  */
 + (void)getVideosWithTop:(NSInteger)top
                     skip:(NSInteger)skip
-                   count:(BOOL)count
          completionBlock:(MDPVideoHandlerResponseBlock)completionBlock;
 
 /*
@@ -58,9 +58,9 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  Gets the videos by search text.
  */
 + (void)getVideosBySearchTextWithText:(NSString *)text
+                        searchModeAll:(BOOL)searchModeAll
                                   top:(NSInteger)top
                                  skip:(NSInteger)skip
-                                count:(BOOL)count
                       completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
@@ -69,7 +69,6 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
 + (void)getMoreLikeThisWithId:(NSString *)identifier
                           top:(NSInteger)top
                          skip:(NSInteger)skip
-                        count:(BOOL)count
               completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
@@ -95,7 +94,6 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  */
 + (void)getMostPlayedVideosWithTop:(NSInteger)top
                               skip:(NSInteger)skip
-                             count:(BOOL)count
                    completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
@@ -103,7 +101,6 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  */
 + (void)getMostSearchedVideosWithTop:(NSInteger)top
                                 skip:(NSInteger)skip
-                               count:(BOOL)count
                      completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
@@ -111,20 +108,7 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
  */
 + (void)getMostValuedVideosWithTop:(NSInteger)top
                               skip:(NSInteger)skip
-                             count:(BOOL)count
                    completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
-
-/*
- Gets the virtual tickets by search metadata.
- */
-+ (void)getVirtualTicketsBySearchMetadataWithIdSeason:(NSString *)idSeason
-                                        idCompetition:(NSString *)idCompetition
-                                                title:(NSString *)title
-                                             language:(NSString *)language
-                                                  top:(NSInteger)top
-                                                 skip:(NSInteger)skip
-                                                count:(BOOL)count
-                                      completionBlock:(void(^)(MDPPagedSubscriptionConfigurationBasicInfoModel *content, NSError *error))completionBlock;
 
 /*
  Gets the video packs by search metadata.
@@ -133,12 +117,13 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
                                      completionBlock:(void(^)(MDPPagedSubscriptionConfigurationBasicInfoModel *content, NSError *error))completionBlock;
 
 /*
- Gets the videos recommended to the user
+ Gets the videos recommended to the user. 
+ If we send “target=user”, the method returns recommended videos for the user. if another value is specified or this parameter is not sent in the url, return the videos based on the global information video
  */
-+ (void)getRecommendedVideosWithTop:(NSInteger)top
-                               skip:(NSInteger)skip
-                              count:(BOOL)count
-                    completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
++ (void)getRecommendedVideosWithTarget:(NSString *)target
+                                   top:(NSInteger)top
+                                  skip:(NSInteger)skip
+                       completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
 
 /*
  Gets videos by proximity to geographic coordinates
@@ -156,6 +141,30 @@ typedef void (^MDPVideoHandlerResponseBlock)(NSArray *response, NSError *error);
 + (void)getMostRecentVideosWithTop:(NSInteger)top
                               skip:(NSInteger)skip
                    completionBlock:(void(^)(MDPPagedVideosModel *content, NSError *error))completionBlock;
+
+/*
+ Gets the virtual tickets by search metadata.
+ */
++ (void)getVirtualTicketsBySearchMetadataWithSeason:(NSString *)season
+                                    competitionType:(NSString *)competitiontype
+                                      recordingDate:(NSDate *)recordingDate
+                                           language:(NSString *)language
+                                                top:(NSInteger)top
+                                               skip:(NSInteger)skip
+                                    completionBlock:(void(^)(NSArray *content, NSError *error))completionBlock;
+
+/*
+ Get a CDN token for a video.
+ */
++ (void)getVideoTokenWithUrl:(NSString *)url
+             completionBlock:(void(^)(NSString *CDNToken, NSError *error))completionBlock;
+
+/*
+ Gets list of live events from Azure Search index
+ */
++ (void)getLiveEventsWithTop:(NSNumber *)top
+                        skip:(NSNumber *)skip
+             completionBlock:(void(^)(NSArray *content, NSError *error))completionBlock;
 
 @end
 

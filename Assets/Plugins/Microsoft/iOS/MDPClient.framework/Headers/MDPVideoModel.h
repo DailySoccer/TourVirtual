@@ -24,18 +24,39 @@ typedef NS_ENUM(NSUInteger, MDPVideoModelCallType) {
     MDPVideoModelCallTypeRecommendedVideos                          = 11,
     MDPVideoModelCallTypeBygeolocation                              = 12,
     MDPVideoModelCallTypeMostRecentVideos                           = 13,
+    MDPVideoModelCallTypeVideoPlayList                              = 14,
+    MDPVideoModelCallTypeSubscriptionVideos                         = 15,
 };
 
 
 #pragma mark - Interface
 @interface MDPVideoModel : _MDPVideoModel
 
++ (NSArray *)videosWithCallType:(MDPVideoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
+
 + (instancetype)insertIfNotExistsVideosWithCallType:(MDPVideoModelCallType)callType
                                          dictionary:(NSDictionary *)dictionary
                                managedObjectContext:(NSManagedObjectContext *)context;
 
++ (instancetype)insertWithIdPlayList:(NSString *)idPlaylist
+                          dictionary:(NSDictionary *)dictionary
+                managedObjectContext:(NSManagedObjectContext *)context;
+
 + (MDPVideoModel *)videosWithIdVideo:(NSString *)idVideo
                 managedObjectContext:(NSManagedObjectContext *)context;
+
++ (MDPVideoModel *)videoWithIdPlaylist:(NSString *)idPlaylist
+                               idVideo:(NSString *)idVideo
+                  managedObjectContext:(NSManagedObjectContext *)context;
+
++ (instancetype)insertWithIdSubscription:(NSString *)idSubscription
+                              dictionary:(NSDictionary *)dictionary
+                    managedObjectContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)videosWithIdPlaylist:(NSString *)idPlaylist
+            managedObjectContext:(NSManagedObjectContext *)context;
+
+
 
 //+ (NSArray *)videosWithManagedObjectContext:(NSManagedObjectContext *)context;
 
@@ -54,4 +75,86 @@ typedef NS_ENUM(NSUInteger, MDPVideoModelCallType) {
 
 - (NSArray *)videoTypesString;
 
++ (NSFetchedResultsController *)videosFetchedResultsControllerWithIdPlaylist:(NSString *)idPlaylist
+                                                        managedObjectContext:(NSManagedObjectContext *)context
+                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (NSFetchedResultsController *)videosFetchResultsControllerWithIdSubscription:(NSString *)idSubscription
+                                                          managedObjectContext:(NSManagedObjectContext *)context
+                                                                      delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (NSFetchedResultsController *)videosFetchedResultsControllerWithIdsSubscription:(NSArray *)idsSubscription
+                                                             managedObjectContext:(NSManagedObjectContext *)context
+                                                                         delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

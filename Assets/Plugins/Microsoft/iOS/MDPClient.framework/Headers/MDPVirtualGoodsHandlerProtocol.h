@@ -49,7 +49,7 @@ Gets the paginated list of availables virtual good types.
 /*
  Gets available highlight virtual goods for a type.
  */
-+ (void)getVirtualGoodsHighLightByTypeWithCt:(uint)ct
++ (void)getHighLightVirtualGoodsByTypeWithCt:(uint)ct
                                       idType:(NSString *)idType
                                    idSubType:(NSString *)idSubType
                                     language:(NSString *)language
@@ -62,6 +62,14 @@ Gets the paginated list of availables virtual good types.
 + (void)getVirtualGoodByIdWithIdVirtualGood:(NSString *)idVirtualGood
                                 purchasable:(BOOL)purchasable
                             completionBlock:(void(^)(MDPVirtualGoodModel *content, NSError *error))completionBlock;
+
+/*
+ Gets available virtual goods for a type.
+ */
++ (void)getFanVirtualGoodsWithIdType:(NSString *)idType language:(NSString *)language
+                           idSubType:(NSString *)idSubType
+                    onlyPurchasables:(BOOL)onlyPurchasables
+                     completionBlock:(MDPVirtualGoodsHandlerResponseBlock)completionBlock;
 
 
 /*

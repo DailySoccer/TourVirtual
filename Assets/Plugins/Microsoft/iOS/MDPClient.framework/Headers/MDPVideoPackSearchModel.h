@@ -39,4 +39,6 @@
 
 - (NSInteger)skip;
 
+- (NSDictionary *)convertVideoPackSearchToDictionary;
+
 @end

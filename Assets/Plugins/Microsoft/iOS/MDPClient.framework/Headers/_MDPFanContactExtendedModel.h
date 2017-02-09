@@ -18,7 +18,10 @@ extern const struct MDPFanContactExtendedModelAttributes {
 	__unsafe_unretained NSString *city;
 	__unsafe_unretained NSString *friends;
 	__unsafe_unretained NSString *groups;
+	__unsafe_unretained NSString *isActiveMember;
+	__unsafe_unretained NSString *isActivePaidFan;
 	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *messagesThreadId;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *penya;
 	__unsafe_unretained NSString *preferenceSport;
@@ -69,9 +72,29 @@ extern const struct MDPFanContactExtendedModelRelationships {
 
 //- (BOOL)validateGroups:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSNumber* isActiveMember;
+
+@property (atomic) BOOL isActiveMemberValue;
+- (BOOL)isActiveMemberValue;
+- (void)setIsActiveMemberValue:(BOOL)value_;
+
+//- (BOOL)validateIsActiveMember:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* isActivePaidFan;
+
+@property (atomic) BOOL isActivePaidFanValue;
+- (BOOL)isActivePaidFanValue;
+- (void)setIsActivePaidFanValue:(BOOL)value_;
+
+//- (BOOL)validateIsActivePaidFan:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* messagesThreadId;
+
+//- (BOOL)validateMessagesThreadId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* name;
 
@@ -149,8 +172,23 @@ extern const struct MDPFanContactExtendedModelRelationships {
 - (int64_t)primitiveGroupsValue;
 - (void)setPrimitiveGroupsValue:(int64_t)value_;
 
+- (NSNumber*)primitiveIsActiveMember;
+- (void)setPrimitiveIsActiveMember:(NSNumber*)value;
+
+- (BOOL)primitiveIsActiveMemberValue;
+- (void)setPrimitiveIsActiveMemberValue:(BOOL)value_;
+
+- (NSNumber*)primitiveIsActivePaidFan;
+- (void)setPrimitiveIsActivePaidFan:(NSNumber*)value;
+
+- (BOOL)primitiveIsActivePaidFanValue;
+- (void)setPrimitiveIsActivePaidFanValue:(BOOL)value_;
+
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSString*)primitiveMessagesThreadId;
+- (void)setPrimitiveMessagesThreadId:(NSString*)value;
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;

@@ -21,9 +21,11 @@ extern const struct MDPRuleConfigurationModelAttributes {
 
 extern const struct MDPRuleConfigurationModelRelationships {
 	__unsafe_unretained NSString *achievementConfigurationRules;
+	__unsafe_unretained NSString *fanAchievementConfigurationRules;
 } MDPRuleConfigurationModelRelationships;
 
 @class MDPAchievementConfigurationModel;
+@class MDPFanAchievementConfigurationModel;
 
 @interface _MDPRuleConfigurationModel : NSManagedObject
 
@@ -55,6 +57,10 @@ extern const struct MDPRuleConfigurationModelRelationships {
 
 //- (BOOL)validateAchievementConfigurationRules:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPFanAchievementConfigurationModel *fanAchievementConfigurationRules;
+
+//- (BOOL)validateFanAchievementConfigurationRules:(id*)value_ error:(NSError**)error_;
+
 @end
 
 @interface _MDPRuleConfigurationModel (CoreDataGeneratedPrimitiveAccessors)
@@ -79,5 +85,8 @@ extern const struct MDPRuleConfigurationModelRelationships {
 
 - (MDPAchievementConfigurationModel*)primitiveAchievementConfigurationRules;
 - (void)setPrimitiveAchievementConfigurationRules:(MDPAchievementConfigurationModel*)value;
+
+- (MDPFanAchievementConfigurationModel*)primitiveFanAchievementConfigurationRules;
+- (void)setPrimitiveFanAchievementConfigurationRules:(MDPFanAchievementConfigurationModel*)value;
 
 @end

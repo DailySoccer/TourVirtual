@@ -18,6 +18,7 @@ extern const struct MDPMatchModelAttributes {
 	__unsafe_unretained NSString *competitionName;
 	__unsafe_unretained NSString *country;
 	__unsafe_unretained NSString *date;
+	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *idCompetition;
 	__unsafe_unretained NSString *idGroup;
 	__unsafe_unretained NSString *idMatch;
@@ -39,6 +40,7 @@ extern const struct MDPMatchModelRelationships {
 	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *descriptionMatch;
 	__unsafe_unretained NSString *homeTeam;
+	__unsafe_unretained NSString *matchMemberSellMatch;
 	__unsafe_unretained NSString *premiumStatistics;
 	__unsafe_unretained NSString *statistics;
 } MDPMatchModelRelationships;
@@ -48,6 +50,7 @@ extern const struct MDPMatchModelRelationships {
 @class MDPMediaContentModel;
 @class MDPLocaleDescriptionModel;
 @class MDPLiveMatchTeamModel;
+@class MDPMemberSellMatchModel;
 @class MDPMatchStatisticModel;
 @class MDPMatchStatisticModel;
 
@@ -72,6 +75,14 @@ extern const struct MDPMatchModelRelationships {
 @property (nonatomic, strong) NSDate* date;
 
 //- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* favorite;
+
+@property (atomic) int64_t favoriteValue;
+- (int64_t)favoriteValue;
+- (void)setFavoriteValue:(int64_t)value_;
+
+//- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* idCompetition;
 
@@ -161,6 +172,10 @@ extern const struct MDPMatchModelRelationships {
 
 //- (BOOL)validateHomeTeam:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSSet *matchMemberSellMatch;
+
+- (NSMutableSet*)matchMemberSellMatchSet;
+
 @property (nonatomic, strong) NSSet *premiumStatistics;
 
 - (NSMutableSet*)premiumStatisticsSet;
@@ -190,6 +205,13 @@ extern const struct MDPMatchModelRelationships {
 - (void)removeDescriptionMatch:(NSSet*)value_;
 - (void)addDescriptionMatchObject:(MDPLocaleDescriptionModel*)value_;
 - (void)removeDescriptionMatchObject:(MDPLocaleDescriptionModel*)value_;
+@end
+
+@interface _MDPMatchModel (MatchMemberSellMatchCoreDataGeneratedAccessors)
+- (void)addMatchMemberSellMatch:(NSSet*)value_;
+- (void)removeMatchMemberSellMatch:(NSSet*)value_;
+- (void)addMatchMemberSellMatchObject:(MDPMemberSellMatchModel*)value_;
+- (void)removeMatchMemberSellMatchObject:(MDPMemberSellMatchModel*)value_;
 @end
 
 @interface _MDPMatchModel (PremiumStatisticsCoreDataGeneratedAccessors)
@@ -222,6 +244,12 @@ extern const struct MDPMatchModelRelationships {
 
 - (NSDate*)primitiveDate;
 - (void)setPrimitiveDate:(NSDate*)value;
+
+- (NSNumber*)primitiveFavorite;
+- (void)setPrimitiveFavorite:(NSNumber*)value;
+
+- (int64_t)primitiveFavoriteValue;
+- (void)setPrimitiveFavoriteValue:(int64_t)value_;
 
 - (NSString*)primitiveIdCompetition;
 - (void)setPrimitiveIdCompetition:(NSString*)value;
@@ -288,6 +316,9 @@ extern const struct MDPMatchModelRelationships {
 
 - (MDPLiveMatchTeamModel*)primitiveHomeTeam;
 - (void)setPrimitiveHomeTeam:(MDPLiveMatchTeamModel*)value;
+
+- (NSMutableSet*)primitiveMatchMemberSellMatch;
+- (void)setPrimitiveMatchMemberSellMatch:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitivePremiumStatistics;
 - (void)setPrimitivePremiumStatistics:(NSMutableSet*)value;

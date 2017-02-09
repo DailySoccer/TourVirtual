@@ -16,14 +16,17 @@ extern const struct MDPCompactContentModelAttributes {
 	__unsafe_unretained NSString *compactContentType;
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *descriptionCompactContent;
+	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *hashTag;
 	__unsafe_unretained NSString *highLight;
 	__unsafe_unretained NSString *idContent;
 	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *lastUpdateDate;
 	__unsafe_unretained NSString *linkId;
 	__unsafe_unretained NSString *orderInDay;
 	__unsafe_unretained NSString *orderInHighLight;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *resourceId;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *visible;
 } MDPCompactContentModelAttributes;
@@ -52,6 +55,14 @@ extern const struct MDPCompactContentModelRelationships {
 
 //- (BOOL)validateDescriptionCompactContent:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSNumber* favorite;
+
+@property (atomic) int64_t favoriteValue;
+- (int64_t)favoriteValue;
+- (void)setFavoriteValue:(int64_t)value_;
+
+//- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) NSString* hashTag;
 
 //- (BOOL)validateHashTag:(id*)value_ error:(NSError**)error_;
@@ -71,6 +82,10 @@ extern const struct MDPCompactContentModelRelationships {
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
 //- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* lastUpdateDate;
+
+//- (BOOL)validateLastUpdateDate:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* linkId;
 
@@ -95,6 +110,10 @@ extern const struct MDPCompactContentModelRelationships {
 @property (nonatomic, strong) NSDate* publishedDate;
 
 //- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* resourceId;
+
+//- (BOOL)validateResourceId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* title;
 
@@ -147,6 +166,12 @@ extern const struct MDPCompactContentModelRelationships {
 - (NSString*)primitiveDescriptionCompactContent;
 - (void)setPrimitiveDescriptionCompactContent:(NSString*)value;
 
+- (NSNumber*)primitiveFavorite;
+- (void)setPrimitiveFavorite:(NSNumber*)value;
+
+- (int64_t)primitiveFavoriteValue;
+- (void)setPrimitiveFavoriteValue:(int64_t)value_;
+
 - (NSString*)primitiveHashTag;
 - (void)setPrimitiveHashTag:(NSString*)value;
 
@@ -161,6 +186,9 @@ extern const struct MDPCompactContentModelRelationships {
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSDate*)primitiveLastUpdateDate;
+- (void)setPrimitiveLastUpdateDate:(NSDate*)value;
 
 - (NSString*)primitiveLinkId;
 - (void)setPrimitiveLinkId:(NSString*)value;
@@ -179,6 +207,9 @@ extern const struct MDPCompactContentModelRelationships {
 
 - (NSDate*)primitivePublishedDate;
 - (void)setPrimitivePublishedDate:(NSDate*)value;
+
+- (NSString*)primitiveResourceId;
+- (void)setPrimitiveResourceId:(NSString*)value;
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;

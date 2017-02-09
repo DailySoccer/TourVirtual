@@ -26,6 +26,21 @@ typedef NS_ENUM(NSUInteger, MDPContentModelContentType) {
 };
 
 
+#pragma mark - ContentTypeNames
+#define kContentTypeNameNews                @"News"
+#define kContentTypeNameVideos              @"Videos"
+#define kContentTypeNameFootBallNews        @"FootBallNews"
+#define kContentTypeNameBasketNews          @"BasketNews"
+#define kContentTypeNameFootBallVideos      @"FootBallVideos"
+#define kContentTypeNameBasketVideos        @"BasketVideos"
+#define kContentTypeNameGamesWindows        @"GamesWindows"
+#define kContentTypeNameGamesWP             @"GamesWP"
+#define kContentTypeNameGamesIOS            @"GamesIOS"
+#define kContentTypeNameGamesAndroid        @"GamesAndroid"
+#define kContentTypeNameResource            @"Resource"
+#define kContentTypeNameLaDecima            @"LaDecima"
+
+
 #pragma mark - Interface
 @interface MDPContentModel : _MDPContentModel
 

@@ -25,6 +25,7 @@ typedef void (^MDPIdentityHandlerResponseBlock)(NSArray *response, NSError *erro
 + (void)postExternalIdentityWithIdentityProvider:(MDPExternalIdentityModelIdentityProviderType)identityProvider
                                       identityId:(NSString *)identityId
                                    identityAlias:(NSString *)identityAlias
+                               identityUserToken:(NSString *)identityUserToken
                                  completionBlock:(void(^)(MDPExternalIdentityModel *content, NSError *error))completionBlock;
 
 
@@ -46,6 +47,20 @@ typedef void (^MDPIdentityHandlerResponseBlock)(NSArray *response, NSError *erro
  */
 + (void)getCheckAliasWithAlias:(NSString *)alias
                completionBlock:(void(^)(BOOL isAvailable, NSError *error))completionBlock;
+
+/*
+ Updates the identity user token.
+ */
++ (void)putIdentityUserTokenWithIdentityProvider:(MDPExternalIdentityModelIdentityProviderType)identityProvider
+                               identityUserToken:(NSString *)identityUserToken
+                                 completionBlock:(void(^)(NSError *error))completionBlock;
+
+/*
+ Search an external identity (FaceBook, twitter, etc.) based on identity alias.
+ */
++ (void)searchExternalIdentitiesWithIdentityProvide:(NSInteger)identityProvider
+                                      identityAlias:(NSArray *)identityAlias
+                                    completionBlock:(MDPIdentityHandlerResponseBlock)completionBlock;
 
 @end
 

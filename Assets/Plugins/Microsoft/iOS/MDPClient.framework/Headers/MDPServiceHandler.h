@@ -10,6 +10,17 @@
 @import CoreData;
 
 
+#pragma mark - Error
+extern const struct MDPServiceHandlerErrorStrings {
+    __unsafe_unretained NSString *domain;
+    __unsafe_unretained NSString *wrongParameters;
+} MDPServiceHandlerErrorStrings;
+
+typedef NS_ENUM(NSUInteger, MDPServiceHandlerErrorCode){
+    MDPServiceHandlerErrorCodeWrongParameters = 10,
+};
+
+
 #pragma mark - Interface
 @interface MDPServiceHandler : NSObject
 + (NSManagedObjectContext *)mainManagedObjectContext;

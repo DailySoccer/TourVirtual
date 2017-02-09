@@ -16,4 +16,8 @@
 
 + (instancetype)insertIfNotExistsFanContactWithDictionary:(NSDictionary *)dictionary idUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context;
 
++ (NSFetchedResultsController *)fanContactFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                        managedObjectContext:(NSManagedObjectContext *)context
+                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 @end

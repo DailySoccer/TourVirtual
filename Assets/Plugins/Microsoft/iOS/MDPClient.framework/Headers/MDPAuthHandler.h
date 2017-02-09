@@ -52,6 +52,11 @@ typedef void (^MDPAuthHandlerShowUserSelectionScreenBlock)(MDPAuthHandler *authH
  */
 - (void)tokenSilentShowingUIIfNeededWithCompletionBlock:(void (^)(NSString *token, NSError *error))completionBlock;
 
+
+- (void)receivedLoginUrl:(NSURL *)url;
+
+- (void)logout;
+
 #pragma mark Token Cache
 - (NSString *)exportTokenCacheStoreWithPassword:(NSString *)password;
 - (BOOL)importTokenCacheStore:(NSString *)cache password:(NSString *)password;
@@ -65,9 +70,6 @@ typedef void (^MDPAuthHandlerShowUserSelectionScreenBlock)(MDPAuthHandler *authH
 @property (nonatomic) BOOL enableTesting;
 @property (copy) NSString *testToken;
 
-
-#pragma mark Clean previous token
-- (void)cleanPreviousTokenRequest;
 
 #pragma mark Store Cache
 - (void)importStoredCache;

@@ -16,7 +16,7 @@ extern const struct MDPBasketLineUpPlayerModelAttributes {
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *playerId;
 	__unsafe_unretained NSString *playerName;
-	__unsafe_unretained NSString *tShirtNumber;
+	__unsafe_unretained NSString *shirtNumber;
 } MDPBasketLineUpPlayerModelAttributes;
 
 extern const struct MDPBasketLineUpPlayerModelRelationships {
@@ -41,9 +41,9 @@ extern const struct MDPBasketLineUpPlayerModelRelationships {
 
 //- (BOOL)validatePlayerName:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* tShirtNumber;
+@property (nonatomic, strong) NSString* shirtNumber;
 
-//- (BOOL)validateTShirtNumber:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateShirtNumber:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPBasketTeamDataModel *basketTeamDataLineUp;
 
@@ -66,8 +66,8 @@ extern const struct MDPBasketLineUpPlayerModelRelationships {
 - (NSString*)primitivePlayerName;
 - (void)setPrimitivePlayerName:(NSString*)value;
 
-- (NSString*)primitiveTShirtNumber;
-- (void)setPrimitiveTShirtNumber:(NSString*)value;
+- (NSString*)primitiveShirtNumber;
+- (void)setPrimitiveShirtNumber:(NSString*)value;
 
 - (MDPBasketTeamDataModel*)primitiveBasketTeamDataLineUp;
 - (void)setPrimitiveBasketTeamDataLineUp:(MDPBasketTeamDataModel*)value;

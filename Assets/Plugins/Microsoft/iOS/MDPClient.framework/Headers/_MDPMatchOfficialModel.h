@@ -49,28 +49,14 @@ extern const struct MDPMatchOfficialModelRelationships {
 
 //- (BOOL)validateOfficialType:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *basketLiveMatchMatchOfficials;
+@property (nonatomic, strong) MDPBasketLiveMatchModel *basketLiveMatchMatchOfficials;
 
-- (NSMutableSet*)basketLiveMatchMatchOfficialsSet;
+//- (BOOL)validateBasketLiveMatchMatchOfficials:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *footBallLiveMatchMatchOfficials;
+@property (nonatomic, strong) MDPFootballLiveMatchModel *footBallLiveMatchMatchOfficials;
 
-- (NSMutableSet*)footBallLiveMatchMatchOfficialsSet;
+//- (BOOL)validateFootBallLiveMatchMatchOfficials:(id*)value_ error:(NSError**)error_;
 
-@end
-
-@interface _MDPMatchOfficialModel (BasketLiveMatchMatchOfficialsCoreDataGeneratedAccessors)
-- (void)addBasketLiveMatchMatchOfficials:(NSSet*)value_;
-- (void)removeBasketLiveMatchMatchOfficials:(NSSet*)value_;
-- (void)addBasketLiveMatchMatchOfficialsObject:(MDPBasketLiveMatchModel*)value_;
-- (void)removeBasketLiveMatchMatchOfficialsObject:(MDPBasketLiveMatchModel*)value_;
-@end
-
-@interface _MDPMatchOfficialModel (FootBallLiveMatchMatchOfficialsCoreDataGeneratedAccessors)
-- (void)addFootBallLiveMatchMatchOfficials:(NSSet*)value_;
-- (void)removeFootBallLiveMatchMatchOfficials:(NSSet*)value_;
-- (void)addFootBallLiveMatchMatchOfficialsObject:(MDPFootballLiveMatchModel*)value_;
-- (void)removeFootBallLiveMatchMatchOfficialsObject:(MDPFootballLiveMatchModel*)value_;
 @end
 
 @interface _MDPMatchOfficialModel (CoreDataGeneratedPrimitiveAccessors)
@@ -90,10 +76,10 @@ extern const struct MDPMatchOfficialModelRelationships {
 - (uint16_t)primitiveOfficialTypeValue;
 - (void)setPrimitiveOfficialTypeValue:(uint16_t)value_;
 
-- (NSMutableSet*)primitiveBasketLiveMatchMatchOfficials;
-- (void)setPrimitiveBasketLiveMatchMatchOfficials:(NSMutableSet*)value;
+- (MDPBasketLiveMatchModel*)primitiveBasketLiveMatchMatchOfficials;
+- (void)setPrimitiveBasketLiveMatchMatchOfficials:(MDPBasketLiveMatchModel*)value;
 
-- (NSMutableSet*)primitiveFootBallLiveMatchMatchOfficials;
-- (void)setPrimitiveFootBallLiveMatchMatchOfficials:(NSMutableSet*)value;
+- (MDPFootballLiveMatchModel*)primitiveFootBallLiveMatchMatchOfficials;
+- (void)setPrimitiveFootBallLiveMatchMatchOfficials:(MDPFootballLiveMatchModel*)value;
 
 @end

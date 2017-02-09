@@ -11,15 +11,26 @@
 
 #pragma mark Call Type
 typedef NS_ENUM(NSUInteger, MDPSubscriptionConfigBasicInfoModelCallType) {
-    MDPSubscriptionConfigBasicInfoModelCallTypeSubscriptionsHandler                             = 1,
-    MDPSubscriptionConfigBasicInfoModelCallTypeVirtualTicketsBySearchMetadata                   = 2,
-    MDPSubscriptionConfigBasicInfoModelCallTypeSearchVideoPackByMetadata                        = 3,
+    MDPSubscriptionConfigBasicInfoModelCallTypeSubscriptionsHandler                     = 1,
+    MDPSubscriptionConfigBasicInfoModelCallTypeVirtualTicketsBySearchMetadata           = 2,
+    MDPSubscriptionConfigBasicInfoModelCallTypeSearchVideoPackByMetadata                = 3,
+    MDPSubscriptionConfigBasicInfoModelCallTypeFanSubscriptionsBySearchMetadata         = 4,
+};
 
+
+#pragma mark LicenseTemplateType
+typedef NS_ENUM(NSUInteger, MDPSubscriptionConfigBasicInfoModelLicenseTemplateType) {
+    MDPSubscriptionConfigBasicInfoModelLicenseTemplateTypePersistent                        = 0,
+    MDPSubscriptionConfigBasicInfoModelLicenseTemplateTypeNonPersistent                     = 1,
 };
 
 
 #pragma mark - Interface
 @interface MDPSubscriptionConfigurationBasicInfoModel : _MDPSubscriptionConfigurationBasicInfoModel
+
++ (NSArray *)allSubscriptionConfigurationBasicInfoWithIdSubscription:(NSString *)idSubscription managedObjectContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)subscriptionConfigurationBasicInfoWithCallType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;
 
 #pragma mark - General Insert
 + (instancetype)insertIfNotExistsSubscriptionConfigurationBasicInfoWithDictionary:(NSDictionary *)dictionary callType:(MDPSubscriptionConfigBasicInfoModelCallType)callType managedObjectContext:(NSManagedObjectContext *)context;

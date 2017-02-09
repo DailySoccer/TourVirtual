@@ -28,15 +28,17 @@ typedef NS_ENUM(NSInteger, MDPFanModelFanCardType ) {
 
 #pragma mark - PreferredSport
 typedef NS_ENUM(NSInteger, MDPFanModelPreferredSport) {
-    MDPFanModelPreferredSportFootball    = 0,
-    MDPFanModelPreferredSportBasketball  = 1,
-    MDPFanModelPreferredSportBoth        = 2,
+    MDPFanModelPreferredSportUnknown        = -1,
+    MDPFanModelPreferredSportFootball       = 0,
+    MDPFanModelPreferredSportBasketball     = 1,
+    MDPFanModelPreferredSportBoth           = 2,
 } ;
 
 #pragma mark - Title
 typedef NS_ENUM(NSInteger, MDPFanModelTitle) {
-    MDPFanModelTitleMr                   = 0,
-    MDPFanModelTitleMss                  = 1,
+    MDPFanModelTitleUnknown             = - 1,
+    MDPFanModelTitleMr                  = 0,
+    MDPFanModelTitleMss                 = 1,
 } ;
 
 #pragma mark - Device Types
@@ -58,13 +60,14 @@ typedef NS_ENUM(NSInteger, MDPFanModelFanType) {
 #pragma mark - Interface
 @interface MDPFanModel : _MDPFanModel
 
-+ (MDPFanModel *)fanWithManagedObjectContext:(NSManagedObjectContext *)context;
++ (MDPFanModel *)fanWithIdUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertIfNotExistsFanWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
 + (BOOL)deleteAllExceptFanWithIdUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (NSFetchedResultsController *)fanFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
-                                                                           delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                 managedObjectContext:(NSManagedObjectContext *)context
+                                                             delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

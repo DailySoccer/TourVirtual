@@ -24,7 +24,7 @@ extern const struct MDPCheckInTypeModelRelationships {
 	__unsafe_unretained NSString *contents;
 	__unsafe_unretained NSString *descriptionCheckInType;
 	__unsafe_unretained NSString *location;
-	__unsafe_unretained NSString *pagedCheckInTypeModelResults;
+	__unsafe_unretained NSString *pagedCheckInTypeResults;
 } MDPCheckInTypeModelRelationships;
 
 @class MDPLocaleDescriptionModel;
@@ -74,9 +74,9 @@ extern const struct MDPCheckInTypeModelRelationships {
 
 //- (BOOL)validateLocation:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) MDPPagedCheckInTypeModel *pagedCheckInTypeModelResults;
+@property (nonatomic, strong) MDPPagedCheckInTypeModel *pagedCheckInTypeResults;
 
-//- (BOOL)validatePagedCheckInTypeModelResults:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validatePagedCheckInTypeResults:(id*)value_ error:(NSError**)error_;
 
 @end
 
@@ -126,7 +126,7 @@ extern const struct MDPCheckInTypeModelRelationships {
 - (MDPLocationModel*)primitiveLocation;
 - (void)setPrimitiveLocation:(MDPLocationModel*)value;
 
-- (MDPPagedCheckInTypeModel*)primitivePagedCheckInTypeModelResults;
-- (void)setPrimitivePagedCheckInTypeModelResults:(MDPPagedCheckInTypeModel*)value;
+- (MDPPagedCheckInTypeModel*)primitivePagedCheckInTypeResults;
+- (void)setPrimitivePagedCheckInTypeResults:(MDPPagedCheckInTypeModel*)value;
 
 @end

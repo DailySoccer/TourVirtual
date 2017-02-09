@@ -17,12 +17,19 @@ extern const struct MDPFriendModelAttributes {
 	__unsafe_unretained NSString *avatarThumbnailUrl;
 	__unsafe_unretained NSString *avatarUrl;
 	__unsafe_unretained NSString *friendShipDate;
+	__unsafe_unretained NSString *gamingScore;
 	__unsafe_unretained NSString *idUser;
 	__unsafe_unretained NSString *idUserFriend;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *messagesThreadId;
 	__unsafe_unretained NSString *name;
 } MDPFriendModelAttributes;
+
+extern const struct MDPFriendModelRelationships {
+	__unsafe_unretained NSString *pagedFriendsResults;
+} MDPFriendModelRelationships;
+
+@class MDPPagedFriendsModel;
 
 @interface _MDPFriendModel : NSManagedObject
 
@@ -41,6 +48,14 @@ extern const struct MDPFriendModelAttributes {
 @property (nonatomic, strong) NSDate* friendShipDate;
 
 //- (BOOL)validateFriendShipDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* gamingScore;
+
+@property (atomic) int64_t gamingScoreValue;
+- (int64_t)gamingScoreValue;
+- (void)setGamingScoreValue:(int64_t)value_;
+
+//- (BOOL)validateGamingScore:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* idUser;
 
@@ -62,6 +77,10 @@ extern const struct MDPFriendModelAttributes {
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPPagedFriendsModel *pagedFriendsResults;
+
+//- (BOOL)validatePagedFriendsResults:(id*)value_ error:(NSError**)error_;
+
 @end
 
 @interface _MDPFriendModel (CoreDataGeneratedPrimitiveAccessors)
@@ -78,6 +97,12 @@ extern const struct MDPFriendModelAttributes {
 - (NSDate*)primitiveFriendShipDate;
 - (void)setPrimitiveFriendShipDate:(NSDate*)value;
 
+- (NSNumber*)primitiveGamingScore;
+- (void)setPrimitiveGamingScore:(NSNumber*)value;
+
+- (int64_t)primitiveGamingScoreValue;
+- (void)setPrimitiveGamingScoreValue:(int64_t)value_;
+
 - (NSString*)primitiveIdUser;
 - (void)setPrimitiveIdUser:(NSString*)value;
 
@@ -92,5 +117,8 @@ extern const struct MDPFriendModelAttributes {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+- (MDPPagedFriendsModel*)primitivePagedFriendsResults;
+- (void)setPrimitivePagedFriendsResults:(MDPPagedFriendsModel*)value;
 
 @end

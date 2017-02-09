@@ -18,6 +18,7 @@ extern const struct MDPCompetitionModelAttributes {
 	__unsafe_unretained NSString *idTeam;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *processRanking;
+	__unsafe_unretained NSString *type;
 	__unsafe_unretained NSString *videoPlatformName;
 } MDPCompetitionModelAttributes;
 
@@ -52,6 +53,14 @@ extern const struct MDPCompetitionModelRelationships {
 - (void)setProcessRankingValue:(BOOL)value_;
 
 //- (BOOL)validateProcessRanking:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* type;
+
+@property (atomic) int16_t typeValue;
+- (int16_t)typeValue;
+- (void)setTypeValue:(int16_t)value_;
+
+//- (BOOL)validateType:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* videoPlatformName;
 
@@ -89,6 +98,12 @@ extern const struct MDPCompetitionModelRelationships {
 
 - (BOOL)primitiveProcessRankingValue;
 - (void)setPrimitiveProcessRankingValue:(BOOL)value_;
+
+- (NSNumber*)primitiveType;
+- (void)setPrimitiveType:(NSNumber*)value;
+
+- (int16_t)primitiveTypeValue;
+- (void)setPrimitiveTypeValue:(int16_t)value_;
 
 - (NSString*)primitiveVideoPlatformName;
 - (void)setPrimitiveVideoPlatformName:(NSString*)value;

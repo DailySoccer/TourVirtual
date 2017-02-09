@@ -18,4 +18,12 @@
                                                           dictionary:(NSDictionary *)dictionary
                                                 managedObjectContext:(NSManagedObjectContext *)context;
 
++ (NSFetchedResultsController *)subscriptionVideoFetchedResultsControllerWithSubscriptionId:(NSString *)subscriptionId
+                                                                       managedObjectContext:(NSManagedObjectContext *)context
+                                                                                   delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (NSFetchedResultsController *)subscriptionVideoFetchedResultsControllerWithIdsSubscription:(NSArray *)idsSubscription
+                                                                        managedObjectContext:(NSManagedObjectContext *)context
+                                                                                    delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
 @end

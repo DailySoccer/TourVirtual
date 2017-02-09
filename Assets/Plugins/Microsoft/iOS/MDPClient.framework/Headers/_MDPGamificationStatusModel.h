@@ -16,6 +16,7 @@ extern const struct MDPGamificationStatusModelAttributes {
 	__unsafe_unretained NSString *achievements;
 	__unsafe_unretained NSString *challenges;
 	__unsafe_unretained NSString *checkIns;
+	__unsafe_unretained NSString *friendListLastUpdate;
 	__unsafe_unretained NSString *friends;
 	__unsafe_unretained NSString *gamingScore;
 	__unsafe_unretained NSString *groups;
@@ -53,6 +54,10 @@ extern const struct MDPGamificationStatusModelAttributes {
 - (void)setCheckInsValue:(int64_t)value_;
 
 //- (BOOL)validateCheckIns:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* friendListLastUpdate;
+
+//- (BOOL)validateFriendListLastUpdate:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* friends;
 
@@ -143,6 +148,9 @@ extern const struct MDPGamificationStatusModelAttributes {
 
 - (int64_t)primitiveCheckInsValue;
 - (void)setPrimitiveCheckInsValue:(int64_t)value_;
+
+- (NSDate*)primitiveFriendListLastUpdate;
+- (void)setPrimitiveFriendListLastUpdate:(NSDate*)value;
 
 - (NSNumber*)primitiveFriends;
 - (void)setPrimitiveFriends:(NSNumber*)value;

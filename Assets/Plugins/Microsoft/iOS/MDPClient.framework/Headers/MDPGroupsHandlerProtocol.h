@@ -32,7 +32,7 @@ typedef void (^MDPGroupsHandlerResponseBlock)(NSArray *response, NSError *error)
 /*
  Creates a new group.
  */
-+ (void)postNewGroupWithGroupType:(NSInteger)groupType
++ (void)postNewGroupWithGroupType:(MDPGroupModelGroupType)groupType
                              name:(NSString *)name
                           country:(NSString *)country description:(NSArray *)localeDescription
                   completionBlock:(void(^)(NSString *idGroup, NSError *error))completionBlock;
@@ -131,13 +131,6 @@ typedef void (^MDPGroupsHandlerResponseBlock)(NSArray *response, NSError *error)
  */
 + (void)requestJoinGroupWithIdGroup:(NSString *)idGroup
                     completionBlock:(void(^)(NSError *error))completionBlock;
-
-
-
-
-
-
-
 
 /*
  Converts a group member into a group administrator.

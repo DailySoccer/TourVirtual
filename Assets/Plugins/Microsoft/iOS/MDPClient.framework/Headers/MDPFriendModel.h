@@ -12,8 +12,10 @@
 #pragma mark - Interface
 @interface MDPFriendModel : _MDPFriendModel
 
-+ (NSArray *)friendsWithManagedObjectContext:(NSManagedObjectContext *)context;
++ (MDPFriendModel *)friendsWithIdUser:(NSString *)idUser idUserFriend:(NSString *)idUserFriend managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (instancetype)insertIfNotExistsCompetitionWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertIfNotExistsFriendWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
+
++ (NSFetchedResultsController *)friendsFetchedResultsControllerWithIdUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

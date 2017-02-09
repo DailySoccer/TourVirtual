@@ -16,8 +16,6 @@
 + (NSArray *)keyValueObjectWithSportType:(int)sportType managedObjectContext:(NSManagedObjectContext *)context;
 + (NSArray *)keyValueObjectWithIdSeason:(NSString *)idSeason idCompetition:(NSString *)idCompetition sportType:(MDPCompetitionMatchModelSportType)sportType idTeam:(NSString *)idTeam managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (instancetype)insertIfNotExistsKeyValueObjectWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
-
 + (instancetype)insertWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertIfNotExistsKeyValueObjectWithIdSeason:(NSString *)idSeason

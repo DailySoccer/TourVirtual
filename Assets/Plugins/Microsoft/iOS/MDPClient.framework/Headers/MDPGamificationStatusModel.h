@@ -12,11 +12,13 @@
 #pragma mark  - Interface
 @interface MDPGamificationStatusModel : _MDPGamificationStatusModel
 
-+ (MDPGamificationStatusModel *)fanGamificationStatusWithManagedObjectContext:(NSManagedObjectContext *)context;
++ (MDPGamificationStatusModel *)gamificationStatusWithIdUser:(NSString *)idUser managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertIfNotExistsGamificationStatusWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (NSFetchedResultsController *)gamificationStatusFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
-                                                                                          delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+// if idUser is nill, it returns all the gamificationStatus
++ (NSFetchedResultsController *)gamificationStatusFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                managedObjectContext:(NSManagedObjectContext *)context
+                                                                            delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

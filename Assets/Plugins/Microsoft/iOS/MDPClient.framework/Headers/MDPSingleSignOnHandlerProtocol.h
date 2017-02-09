@@ -11,7 +11,7 @@
 
 
 #pragma mark - Response
-typedef void (^MDPsingleSignOnHandlerResponseBlock)(NSArray *response, NSError *error);
+typedef void (^MDPSingleSignOnHandlerResponseBlock)(NSArray *response, NSError *error);
 
 
 #pragma mark - Error
@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, MDPSingleSignOnHandlerErrorCode){
                                               completionBlock:(void (^)(NSError *))completionBlock;
 
 /*
- Stores a token cache for an user and for an App which user has granted to access his token. The token cache is loaded from request's body.
+ Stores a token cache for an user and an App which user has granted to access his token. The token cache is loaded from request's body.
  */
 + (void)postTokenWithPassword:(NSString *)password
            idClientThirdParty:(NSString *)idClientThirdParty

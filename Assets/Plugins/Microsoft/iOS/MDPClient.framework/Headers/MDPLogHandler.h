@@ -38,7 +38,7 @@
 
 
 #define MDPCurrentSportFootball                                     @"Football"
-#define MDPCurrentSportBasketBall                                   @"Basketball"
+#define MDPCurrentSportBasket                                       @"Basket"
 
 // Event level
 #define MDPEventLevelVerbose                                        @"Verbose"

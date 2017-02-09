@@ -21,10 +21,12 @@ extern const struct MDPPagedVideosModelAttributes {
 extern const struct MDPPagedVideosModelRelationships {
 	__unsafe_unretained NSString *items;
 	__unsafe_unretained NSString *pagedVideosRequest;
+	__unsafe_unretained NSString *subscriptionVideosRequest;
 } MDPPagedVideosModelRelationships;
 
 @class MDPVideoModel;
 @class MDPPagedVideosRequestModel;
+@class MDPSubscriptionVideosRequestModel;
 
 @interface _MDPPagedVideosModel : NSManagedObject
 
@@ -48,19 +50,23 @@ extern const struct MDPPagedVideosModelRelationships {
 
 //- (BOOL)validateTotalCount:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSSet *items;
+@property (nonatomic, strong) NSOrderedSet *items;
 
-- (NSMutableSet*)itemsSet;
+- (NSMutableOrderedSet*)itemsSet;
 
 @property (nonatomic, strong) MDPPagedVideosRequestModel *pagedVideosRequest;
 
 //- (BOOL)validatePagedVideosRequest:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) MDPSubscriptionVideosRequestModel *subscriptionVideosRequest;
+
+//- (BOOL)validateSubscriptionVideosRequest:(id*)value_ error:(NSError**)error_;
+
 @end
 
 @interface _MDPPagedVideosModel (ItemsCoreDataGeneratedAccessors)
-- (void)addItems:(NSSet*)value_;
-- (void)removeItems:(NSSet*)value_;
+- (void)addItems:(NSOrderedSet*)value_;
+- (void)removeItems:(NSOrderedSet*)value_;
 - (void)addItemsObject:(MDPVideoModel*)value_;
 - (void)removeItemsObject:(MDPVideoModel*)value_;
 @end
@@ -82,10 +88,13 @@ extern const struct MDPPagedVideosModelRelationships {
 - (int64_t)primitiveTotalCountValue;
 - (void)setPrimitiveTotalCountValue:(int64_t)value_;
 
-- (NSMutableSet*)primitiveItems;
-- (void)setPrimitiveItems:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveItems;
+- (void)setPrimitiveItems:(NSMutableOrderedSet*)value;
 
 - (MDPPagedVideosRequestModel*)primitivePagedVideosRequest;
 - (void)setPrimitivePagedVideosRequest:(MDPPagedVideosRequestModel*)value;
+
+- (MDPSubscriptionVideosRequestModel*)primitiveSubscriptionVideosRequest;
+- (void)setPrimitiveSubscriptionVideosRequest:(MDPSubscriptionVideosRequestModel*)value;
 
 @end

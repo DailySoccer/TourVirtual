@@ -30,7 +30,7 @@
 /*
  Allows a user to redeem subscriptions.
  */
-+ (void)postRedeemSubscriptionsWithIdsubscription:(NSString *)idSubscription
++ (void)postRedeemSubscriptionWithIdsubscription:(NSString *)idSubscription
                                   completionBlock:(void(^)(NSError *error))completionBlock;
 
 @end

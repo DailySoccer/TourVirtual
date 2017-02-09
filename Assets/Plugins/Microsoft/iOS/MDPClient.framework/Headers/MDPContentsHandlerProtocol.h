@@ -16,6 +16,9 @@
 #import "MDPContentLinkModel.h"
 #import "MDPPagedCompactContentModel.h"
 #import "MDPCompactContentModel.h"
+#import "MDPVideoAdInformationModel.h"
+#import "MDPFavoriteModel.h"
+#import "MDPPagedFavoriteContentModel.h"
 
 
 #pragma mark VideoAdType
@@ -34,7 +37,7 @@ typedef NS_ENUM(NSUInteger, MDPContentAssetVideoType) {
 };
 
 // #pragma mark - Response
-// typedef void (^MDPContentsHandlerResponseBlock)(NSArray *response, NSError *error);
+ typedef void (^MDPContentsHandlerResponseBlock)(NSArray *response, NSError *error);
 
 
 #pragma mark - MDPContentsHandlerProtocol
@@ -77,19 +80,116 @@ typedef NS_ENUM(NSUInteger, MDPContentAssetVideoType) {
 /*
  Gets for a specific content type and country its related advertisement
  */
-+ (void)getVideoAdXmlWithType:(NSString *)type
++ (void)getVideoAdWithType:(NSString *)type
                       country:(NSString *)country
                   videoAdType:(MDPContentVideoAdType)videoAdType
                     videoType:(MDPContentAssetVideoType)videoType
-              completionBlock:(void(^)(NSString *xml, NSError *error))completionBlock;
+              completionBlock:(void(^)(MDPVideoAdInformationModel *xml, NSError *error))completionBlock;
+
+/*
+ Add content as part of user's favorite content
+ */
++ (void)postFavoriteContentWithIdContent:(NSString *)idContent
+                         completionBlock:(void(^)(NSError *error))completionBlock;
+
+/*
+ Remove content as part of user's favorite content
+ */
++ (void)deleteFavoriteContentWithIdContent:(NSString *)idContent
+                           completionBlock:(void(^)(NSError *error))completionBlock;
+
+/*
+ Gets the list of paginated user's favorite content items
+ */
++ (void)getPagedFavoriteContentWithPageSize:(NSNumber *)pageSize
+                                         ct:(NSString *)ct
+                            completionBlock:(void(^)(MDPPagedFavoriteContentModel *content, NSError *error))completionBlock;
+
+/*
+ Gets for a specific content type and country its related advertisements in VMAP format
+ */
++ (void)getVideoVmapWithType:(NSString *)type
+                     country:(NSString *)country
+                 videoAdType:(NSUInteger)videoAdType
+                   videoType:(NSUInteger)videoType
+             completionBlock:(void(^)(NSString *url, NSString *xml, NSError *error))completionBlock;
+
+/*
+ Get user's favorite content by identifier
+ */
++ (void)getFavoriteContentWithIdContent:(NSString *)idContent
+                        completionBlock:(void(^)(MDPFavoriteModel *content, NSError *error))completionBlock;
 
 
-#pragma mark - Get Content
+#pragma mark - Gets Content
 + (MDPContentModel *)contentWithIdContent:(NSString *)idContent;
+
++ (void)deleteAllFavoriteContents;
+
++ (NSFetchedResultsController *)favoriteNewsFetchedResultsControllerWithFilters:(NSArray *)filters delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
++ (NSFetchedResultsController *)favoriteVideosFetchedResultsControllerWithFilters:(NSArray *)filters delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

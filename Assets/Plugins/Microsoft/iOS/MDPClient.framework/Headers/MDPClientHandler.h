@@ -45,10 +45,13 @@
 #import "MDPGroupsHandlerProtocol.h"
 #import "MDPStoreProductsHandlerProtocol.h"
 #import "MDPRankingHandlerProtocol.h"
-#import "MDPScoreRankingHandlerProtocol.h"
 #import "MDPScoresHandlerProtocol.h"
 #import "MDPSingleSignOnHandlerProtocol.h"
 #import "MDPPaidFansHandlerProtocol.h"
+#import "MDPUserVideoRatingModel.h"
+#import "MDPVideoPlayListHandlerProtocol.h"
+#import "MDPVideoRatingHandlerProtocol.h"
+#import "MDPMembersServiceHandlerProtocol.h"
 #import "MDPNetworkConstantsHandler.h"
 
 
@@ -123,43 +126,45 @@ extraQueryParametersCombined:(NSString *)extraQueryParametersCombined;
 
 
 #pragma mark - Handlers
-- (Class <MDPLanguagesHandlerProtocol>)getLanguagesHandler;
-- (Class <MDPIdentityHandlerProtocol>)getIdentityHandler;
-- (Class <MDPVirtualGoodsHandlerProtocol>)getVirtualGoodsHandler;
-- (Class <MDPAdvertisementHandlerProtocol>)getAdvertisementHandler;
-- (Class <MDPPenyasHandlerProtocol>)getPenyasHandler;
-- (Class <MDPCalendarHandlerProtocol>)getCalendarHandler;
-- (Class <MDPTeamHandlerProtocol>)getTeamsHandler;
-- (Class <MDPNotificationsHandlerProtocol>)getNotificationsHandler;
-- (Class <MDPUserActionsHandlerProtocol>)getUserActionsHandler;
 - (Class <MDPAchievementsHandlerProtocol>)getAchivementsHandler;
-- (Class <MDPPlatformNotificationsHandlerProtocol>)getPlatformNotificationsHandler;
-- (Class <MDPContentsHandlerProtocol>)getContentsHandler;
-- (Class <MDPConfigurationHandlerProtocol>)getConfigurationHandler;
-- (Class <MDPCountriesHandlerProtocol>)getCountriesHandler;
-- (Class <MDPCheckInHandlerProtocol>)getCheckinHandler;
+- (Class <MDPAdvertisementHandlerProtocol>)getAdvertisementHandler;
+- (Class <MDPAppsHandlerProtocol>)getAppsHandler;
 - (Class <MDPBasketLiveMatchHandlerProtocol>)getBasketLiveMatchHandler;
-- (Class <MDPTagsHandlerProtocol>)getTagsHandler;
+- (Class <MDPCalendarHandlerProtocol>)getCalendarHandler;
+- (Class <MDPCheckInHandlerProtocol>)getCheckinHandler;
+- (Class <MDPCommentsHandlerProtocol>)getCommentsHandler;
+- (Class <MDPConfigurationHandlerProtocol>)getConfigurationHandler;
+- (Class <MDPContentsHandlerProtocol>)getContentsHandler;
+- (Class <MDPCountriesHandlerProtocol>)getCountriesHandler;
+- (Class <MDPExternalChallengesHandlerProtocol>)getExternalChallengesHandler;
 - (Class <MDPFanHandlerProtocol>)getFanHandler;
 - (Class <MDPFootballLiveMatchHandlerProtocol>)getFootballLiveMatchHandler;
-- (Class <MDPVideoHandlerProtocol>)getVideoHandler;
-- (Class <MDPExternalChallengesHandlerProtocol>)getExternalChallengesHandler;
-- (Class <MDPAppsHandlerProtocol>)getAppsHandler;
-- (Class <MDPMatchesHandlerProtocol>)getMatchesHandler;
-- (Class <MDPPlayersHandlerProtocol>)getPlayersHandler;
-- (Class <MDPResourcesHandlerProtocol>)getResourcesHandler;
-- (Class <MDPPurchasesHandlerProtocol>)getPurchasesHandler;
 - (Class <MDPFriendsHandlerProtocol>)getFriendsHandler;
-- (Class <MDPMessagesHandlerProtocol>)getMessagesHandler;
-- (Class <MDPSubscriptionsHandlerProtocol>)getSubscriptionsHandler;
-- (Class <MDPInvitationsHandlerProtocol>)getInvitationsHandler;
-- (Class <MDPCommentsHandlerProtocol>)getCommentsHandler;
 - (Class <MDPGroupsHandlerProtocol>)getGroupsHandler;
-- (Class <MDPStoreProductsHandlerProtocol>)getStoreProductsHandler;
+- (Class <MDPIdentityHandlerProtocol>)getIdentityHandler;
+- (Class <MDPInvitationsHandlerProtocol>)getInvitationsHandler;
+- (Class <MDPLanguagesHandlerProtocol>)getLanguagesHandler;
+- (Class <MDPMatchesHandlerProtocol>)getMatchesHandler;
+- (Class <MDPMembersServiceHandlerProtocol>)getMembersHandler;
+- (Class <MDPMessagesHandlerProtocol>)getMessagesHandler;
+- (Class <MDPNotificationsHandlerProtocol>)getNotificationsHandler;
+- (Class <MDPPaidFansHandlerProtocol>)getPaidFansHandler;
+- (Class <MDPPenyasHandlerProtocol>)getPenyasHandler;
+- (Class <MDPPlatformNotificationsHandlerProtocol>)getPlatformNotificationsHandler;
+- (Class <MDPPlayersHandlerProtocol>)getPlayersHandler;
+- (Class <MDPPurchasesHandlerProtocol>)getPurchasesHandler;
 - (Class <MDPRankingHandlerProtocol>)getRankingHandler;
-- (Class <MDPScoreRankingHandlerProtocol>)getScoreRankingHandler;
+- (Class <MDPResourcesHandlerProtocol>)getResourcesHandler;
 - (Class <MDPScoresHandlerProtocol>)getScoresHandler;
 - (Class <MDPSingleSignOnHandlerProtocol>)getSingleSignOnHandler;
-- (Class <MDPPaidFansHandlerProtocol>)getPaidFansHandler;
+- (Class <MDPStoreProductsHandlerProtocol>)getStoreProductsHandler;
+- (Class <MDPSubscriptionsHandlerProtocol>)getSubscriptionsHandler;
+- (Class <MDPTagsHandlerProtocol>)getTagsHandler;
+- (Class <MDPTeamHandlerProtocol>)getTeamsHandler;
+- (Class <MDPUserActionsHandlerProtocol>)getUserActionsHandler;
+- (Class <MDPVideoHandlerProtocol>)getVideoHandler;
+- (Class <MDPVideoPlayListHandlerProtocol>)getVideoPlaylistHandler;
+- (Class <MDPVideoRatingHandlerProtocol>)getVideoRatingHandler;
+- (Class <MDPVirtualGoodsHandlerProtocol>)getVirtualGoodsHandler;
 
 @end

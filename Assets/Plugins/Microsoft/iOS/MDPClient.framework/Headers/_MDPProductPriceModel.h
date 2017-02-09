@@ -20,11 +20,15 @@ extern const struct MDPProductPriceModelAttributes {
 } MDPProductPriceModelAttributes;
 
 extern const struct MDPProductPriceModelRelationships {
+	__unsafe_unretained NSString *fanVirtualGoodConfigurationPrice;
+	__unsafe_unretained NSString *priceFavoriteSubscription;
 	__unsafe_unretained NSString *subscriptionConfigurationBasicInfoModelPrice;
 	__unsafe_unretained NSString *subscriptionConfigurationPrice;
 	__unsafe_unretained NSString *virtualGoodPrice;
 } MDPProductPriceModelRelationships;
 
+@class MDPFanVirtualGoodConfigurationModel;
+@class MDPFavoriteSubscriptionModel;
 @class MDPSubscriptionConfigurationBasicInfoModel;
 @class MDPSubscriptionConfigurationModel;
 @class MDPVirtualGoodModel;
@@ -54,6 +58,14 @@ extern const struct MDPProductPriceModelRelationships {
 - (void)setUserTypeValue:(int16_t)value_;
 
 //- (BOOL)validateUserType:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFanVirtualGoodConfigurationModel *fanVirtualGoodConfigurationPrice;
+
+//- (BOOL)validateFanVirtualGoodConfigurationPrice:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MDPFavoriteSubscriptionModel *priceFavoriteSubscription;
+
+//- (BOOL)validatePriceFavoriteSubscription:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MDPSubscriptionConfigurationBasicInfoModel *subscriptionConfigurationBasicInfoModelPrice;
 
@@ -88,6 +100,12 @@ extern const struct MDPProductPriceModelRelationships {
 
 - (int16_t)primitiveUserTypeValue;
 - (void)setPrimitiveUserTypeValue:(int16_t)value_;
+
+- (MDPFanVirtualGoodConfigurationModel*)primitiveFanVirtualGoodConfigurationPrice;
+- (void)setPrimitiveFanVirtualGoodConfigurationPrice:(MDPFanVirtualGoodConfigurationModel*)value;
+
+- (MDPFavoriteSubscriptionModel*)primitivePriceFavoriteSubscription;
+- (void)setPrimitivePriceFavoriteSubscription:(MDPFavoriteSubscriptionModel*)value;
 
 - (MDPSubscriptionConfigurationBasicInfoModel*)primitiveSubscriptionConfigurationBasicInfoModelPrice;
 - (void)setPrimitiveSubscriptionConfigurationBasicInfoModelPrice:(MDPSubscriptionConfigurationBasicInfoModel*)value;

@@ -11,7 +11,12 @@
 
 #pragma mark - Interface
 @interface MDPCompactContentModel : _MDPCompactContentModel
+
++ (instancetype)compactContentWithId:(NSString *)idContent managedObjectContext:(NSManagedObjectContext *)context;
+
 + (instancetype)insertIfNotExistsCompactContentWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
+
+- (NSString *)getFavoriteCountString;
 
 @end
 

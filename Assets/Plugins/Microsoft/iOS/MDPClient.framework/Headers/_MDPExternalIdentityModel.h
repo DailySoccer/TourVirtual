@@ -16,6 +16,7 @@ extern const struct MDPExternalIdentityModelAttributes {
 	__unsafe_unretained NSString *identityAlias;
 	__unsafe_unretained NSString *identityId;
 	__unsafe_unretained NSString *identityProvider;
+	__unsafe_unretained NSString *identityUserToken;
 	__unsafe_unretained NSString *lastUpdateAt;
 } MDPExternalIdentityModelAttributes;
 
@@ -31,11 +32,15 @@ extern const struct MDPExternalIdentityModelAttributes {
 
 @property (nonatomic, strong) NSNumber* identityProvider;
 
-@property (atomic) uint16_t identityProviderValue;
-- (uint16_t)identityProviderValue;
-- (void)setIdentityProviderValue:(uint16_t)value_;
+@property (atomic) int16_t identityProviderValue;
+- (int16_t)identityProviderValue;
+- (void)setIdentityProviderValue:(int16_t)value_;
 
 //- (BOOL)validateIdentityProvider:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* identityUserToken;
+
+//- (BOOL)validateIdentityUserToken:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
@@ -54,8 +59,11 @@ extern const struct MDPExternalIdentityModelAttributes {
 - (NSNumber*)primitiveIdentityProvider;
 - (void)setPrimitiveIdentityProvider:(NSNumber*)value;
 
-- (uint16_t)primitiveIdentityProviderValue;
-- (void)setPrimitiveIdentityProviderValue:(uint16_t)value_;
+- (int16_t)primitiveIdentityProviderValue;
+- (void)setPrimitiveIdentityProviderValue:(int16_t)value_;
+
+- (NSString*)primitiveIdentityUserToken;
+- (void)setPrimitiveIdentityUserToken:(NSString*)value;
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;

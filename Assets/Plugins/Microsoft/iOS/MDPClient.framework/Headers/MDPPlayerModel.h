@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, MDPPlayerModelSportType) {
 #pragma mark - Interface
 @interface MDPPlayerModel : _MDPPlayerModel
 
-+ (MDPPlayerModel *)playerWithIdTeam:(NSString *)idTeam idPlayer:(NSString *)idPlayer managedObjectContext:(NSManagedObjectContext *)context;
++ (MDPPlayerModel *)playerWithIdTeam:(NSString *)idTeam idPlayer:(NSString *)idPlayer language:(NSString *)language managedObjectContext:(NSManagedObjectContext *)context;
 
 + (instancetype)insertIfNotExistsPlayerWithDictionary:(NSDictionary *)dictionary managedObjectContext:(NSManagedObjectContext *)context;
 

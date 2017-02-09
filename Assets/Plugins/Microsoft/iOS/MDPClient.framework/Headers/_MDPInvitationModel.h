@@ -17,7 +17,6 @@ extern const struct MDPInvitationModelAttributes {
 	__unsafe_unretained NSString *groupName;
 	__unsafe_unretained NSString *idInvitation;
 	__unsafe_unretained NSString *idUser;
-	__unsafe_unretained NSString *idUserHost;
 	__unsafe_unretained NSString *lastUpdateAt;
 	__unsafe_unretained NSString *pending;
 	__unsafe_unretained NSString *requestDate;
@@ -51,10 +50,6 @@ extern const struct MDPInvitationModelRelationships {
 @property (nonatomic, strong) NSString* idUser;
 
 //- (BOOL)validateIdUser:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* idUserHost;
-
-//- (BOOL)validateIdUserHost:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSDate* lastUpdateAt;
 
@@ -102,9 +97,6 @@ extern const struct MDPInvitationModelRelationships {
 
 - (NSString*)primitiveIdUser;
 - (void)setPrimitiveIdUser:(NSString*)value;
-
-- (NSString*)primitiveIdUserHost;
-- (void)setPrimitiveIdUserHost:(NSString*)value;
 
 - (NSDate*)primitiveLastUpdateAt;
 - (void)setPrimitiveLastUpdateAt:(NSDate*)value;

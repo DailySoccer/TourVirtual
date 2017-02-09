@@ -12,7 +12,8 @@
 #pragma mark - Interface
 @interface MDPFanVirtualGoodModel : _MDPFanVirtualGoodModel
 
-+ (MDPFanVirtualGoodModel *)fanVirtualGoodWithId:(NSString *)idVirtualGood
++ (MDPFanVirtualGoodModel *)fanVirtualGoodWithIdUser:(NSString *)idUser
+                                                  id:(NSString *)idVirtualGood
                                         language:(NSString *)language
                             managedObjectContext:(NSManagedObjectContext *)context;
 
@@ -23,10 +24,12 @@
                                                      language:(NSString *)language
                                          managedObjectContext:(NSManagedObjectContext *)context;
 
-+ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithManagedObjectContext:(NSManagedObjectContext *)context
-                                                                                      delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
++ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                            managedObjectContext:(NSManagedObjectContext *)context
+                                                                        delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
-+ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithId:(NSString *)idVirtualGood
++ (NSFetchedResultsController *)fanVirtualGoodFetchedResultsControllerWithIdUser:(NSString *)idUser
+                                                                              id:(NSString *)idVirtualGood
                                                                       typeId:(NSString *)idType
                                                         managedObjectContext:(NSManagedObjectContext *)context
                                                                     delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
