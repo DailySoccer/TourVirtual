@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &113128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 442220}
+  - 137: {fileID: 13757334}
+  m_Layer: 0
+  m_Name: MTorso05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442220
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113128}
+  m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 1.6894677e-16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!137 &13757334
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113128}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_Mesh: {fileID: 4300000, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  m_Bones:
+  - {fileID: 400036, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400026, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400048, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400046, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400044, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400024, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400000, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400016, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400006, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400004, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400022, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400042, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400010, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400030, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400032, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  - {fileID: 400012, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 400004, guid: fbd0885f87740214080dd13ac669d5cc, type: 3}
+  m_AABB:
+    m_Center: {x: -.00235491991, y: .199126825, z: .119492039}
+    m_Extent: {x: .56714195, y: .341721177, z: .288911819}
+  m_DirtyAABB: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 113128}
+  m_IsPrefabParent: 1
