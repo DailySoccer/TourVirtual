@@ -111,6 +111,10 @@ public class UserAPI {
         }
         return false;
     }
+    
+    
+    
+    
     bool requesting=true;
     public IEnumerator Request() {
         requesting=true;
@@ -149,6 +153,9 @@ public class UserAPI {
             }
             else {
 				try{
+
+                Debug.Log("UserAPI::Request>> " + res);
+                
                 AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
                 PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
 
