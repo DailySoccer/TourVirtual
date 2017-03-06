@@ -157,7 +157,9 @@ public class PlayerManager : Photon.PunBehaviour {
 #if CORUTINES
             StartCoroutine(RenderAvatar(lastInstance, section, bundle, anmTime, callback));
 #else
-            RenderAvatar(lastInstance, section, bundle, anmTime, callback);
+
+			Debug.Log("PlayerManager::CreateAvatar>> Sections=" + section.stringArrayToString());
+			RenderAvatar(lastInstance, section, bundle, anmTime, callback);
 #endif
         }));
     }
@@ -167,6 +169,9 @@ public class PlayerManager : Photon.PunBehaviour {
 #else
     void RenderAvatar(GameObject lastInstance, string[] section, AssetBundle bundle, float anmTime, callback callback) {
 #endif
+
+		
+
         string bodyID = !string.IsNullOrEmpty(section[3]) ? section[3] : ((Bodies[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
         string legsID = !string.IsNullOrEmpty(section[4]) ? section[4] : ((Legs[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
         string feetID = !string.IsNullOrEmpty(section[5]) ? section[5] : ((Feet[section[0]] as List<object>)[0] as Dictionary<string, object>)["id"] as string;
