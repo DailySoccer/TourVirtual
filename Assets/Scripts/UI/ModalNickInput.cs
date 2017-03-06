@@ -7,6 +7,8 @@ public class ModalNickInput : MonoBehaviour {
 	
 	public Text TheNick;
 	public Button ButtonOK;
+	Text ButtonOKText;
+	Color ButtonOKTextColor;
 	GUIPopUpScreen thisModal;
 	public delegate void callback(string _nick);
 	
@@ -17,6 +19,9 @@ public class ModalNickInput : MonoBehaviour {
 		thisModal = GetComponent<GUIPopUpScreen> ();
 		thisModal.IsOpen = false;
 		ButtonOK.enabled = false;
+		ButtonOKText = ButtonOK.transform.GetChild(0).GetComponent<Text>();
+		ButtonOKTextColor = ButtonOKText.color;
+		EvaluateNick();
 	}
 	
 	// Use this for initialization
@@ -31,6 +36,7 @@ public class ModalNickInput : MonoBehaviour {
 	
 	public void EvaluateNick() {
 		Instance.ButtonOK.enabled = Instance.TheNick.text.Length >= 3;
+		Instance.ButtonOKText.color = Instance.TheNick.text.Length >= 3 ? ButtonOKTextColor : new Color(ButtonOKTextColor.r, ButtonOKTextColor.g, ButtonOKTextColor.b, ButtonOK.colors.disabledColor.a);
 	}
 	
 	public void AcceptNick() {
