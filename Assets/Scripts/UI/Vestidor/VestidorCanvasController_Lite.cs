@@ -245,10 +245,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 
-        if (virtualGood == null) return;
+        if (virtualGood == null)
+			return;
 
 		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
-        switch (virtualGood.IdSubType) {
+        switch (virtualGood.IdSubType) 
+		{
             case "HTORSO":
             case "MTORSO":
                 if (UserAPI.AvatarDesciptor.Torso == virtualGood.GUID)
