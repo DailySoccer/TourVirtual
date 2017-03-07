@@ -131,7 +131,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
     public Dictionary<string, object> GetPackDescriptor(string GUID)
     {
-        return GetDescriptor( Packs[UserAPI.AvatarDesciptor.Gender] as List<object>, GUID);
+        return GetDescriptor( Packs[UserAPI.AvatarDescriptor.Gender] as List<object>, GUID);
     }
 
 

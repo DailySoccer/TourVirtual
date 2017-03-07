@@ -70,8 +70,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         if((VirtualGoodsAPI.HasPurchase7 || !UserAPI.Instance.Online) && BuyInAppBtn!=null) BuyInAppBtn.interactable = false;
         Debug.Log(">>> IsEditAvatar "+DeepLinkingManager.IsEditAvatar);
         if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
-        mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
-		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+        mOldAvatarDesciptor = UserAPI.AvatarDescriptor.Copy();
+		tmpAvatar = UserAPI.AvatarDescriptor.Copy();
 
 		if(ClothesListController.Instance != null)
 			ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
@@ -83,8 +83,13 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     void Update() {
     }
 
-    public void ChangeVestidorState(VestidorState newState) {
-        if (newState != currentVestidorState)
+    public void ChangeVestidorState(VestidorState newState)
+	{
+		Debug.Log("VestidorCanvasController_Lite::ChangeVestidorState>> " +
+		          "New State=" + newState + "; " +
+				  "Current State=" + currentVestidorState);
+
+		if (newState != currentVestidorState)
         {
 			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
 				InvokeAvatarIfNeeded();
@@ -244,89 +249,92 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
+		Debug.Log("VestidorCanvasController_Lite::DressVirtualGood>> LoadModel=" + loadmodel);
 
-        if (virtualGood == null)
+
+		if(virtualGood == null)
 			return;
 
-		AvatarAPI tmp = UserAPI.AvatarDesciptor.Copy();
+		AvatarAPI tmp = UserAPI.AvatarDescriptor.Copy();
         switch (virtualGood.IdSubType) 
 		{
             case "HTORSO":
             case "MTORSO":
-                if (UserAPI.AvatarDesciptor.Torso == virtualGood.GUID)
+                if (UserAPI.AvatarDescriptor.Torso == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Torso = null;
+                    UserAPI.AvatarDescriptor.Torso = null;
                 }
                 else
-                    UserAPI.AvatarDesciptor.Torso = virtualGood.GUID;
-                UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Torso = virtualGood.GUID;
+                UserAPI.AvatarDescriptor.Pack = null;
                 break;
             case "HLEG":
             case "MLEG":
-                if (UserAPI.AvatarDesciptor.Legs == virtualGood.GUID)
+                if (UserAPI.AvatarDescriptor.Legs == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Legs = null;
+                    UserAPI.AvatarDescriptor.Legs = null;
                 }
                 else
-                    UserAPI.AvatarDesciptor.Legs = virtualGood.GUID;
-                UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Legs = virtualGood.GUID;
+                UserAPI.AvatarDescriptor.Pack = null;
                 break;
             case "HSHOE":
             case "MSHOE":
-			if (UserAPI.AvatarDesciptor.Feet == virtualGood.GUID) {
+			if (UserAPI.AvatarDescriptor.Feet == virtualGood.GUID)
+			{
                     currentPrenda = null;
-					UserAPI.AvatarDesciptor.Feet = null;
+					UserAPI.AvatarDescriptor.Feet = null;
 			}
 			else
-                    UserAPI.AvatarDesciptor.Feet = virtualGood.GUID;
-                //                    UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Feet = virtualGood.GUID;
+                //                    UserAPI.AvatarDescriptor.Pack = null;
                 break;
             case "HCOMPLIMENT":
             case "MCOMPLIMENT":
-                if (UserAPI.AvatarDesciptor.Compliment == virtualGood.GUID)
+                if (UserAPI.AvatarDescriptor.Compliment == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Compliment = null;
+                    UserAPI.AvatarDescriptor.Compliment = null;
                 }
                 else
-                    UserAPI.AvatarDesciptor.Compliment = virtualGood.GUID;
-                //                    UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Compliment = virtualGood.GUID;
+                //                    UserAPI.AvatarDescriptor.Pack = null;
                 break;
             case "HHAT":
             case "MHAT":
-                if (UserAPI.AvatarDesciptor.Hat == virtualGood.GUID)
+                if (UserAPI.AvatarDescriptor.Hat == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Hat = null;
+                    UserAPI.AvatarDescriptor.Hat = null;
                 }
                 else
-                    UserAPI.AvatarDesciptor.Hat = virtualGood.GUID;
-                //                    UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Hat = virtualGood.GUID;
+                //                    UserAPI.AvatarDescriptor.Pack = null;
                 break;
             case "HPACK":
             case "MPACK":
-                if (UserAPI.AvatarDesciptor.Pack == virtualGood.GUID)
+                if (UserAPI.AvatarDescriptor.Pack == virtualGood.GUID)
                 {
                     currentPrenda = null;
-                    UserAPI.AvatarDesciptor.Pack = null;
+                    UserAPI.AvatarDescriptor.Pack = null;
                 }
                 else {
-                    UserAPI.AvatarDesciptor.Pack = virtualGood.GUID;
+                    UserAPI.AvatarDescriptor.Pack = virtualGood.GUID;
 
 
-					var mypack = PlayerManager.Instance.GetPackDescriptor(UserAPI.AvatarDesciptor.Pack);
+					var mypack = PlayerManager.Instance.GetPackDescriptor(UserAPI.AvatarDescriptor.Pack);
 					if(mypack!=null) {
 						foreach( var cloth in mypack)
 						{
 							switch (cloth.Key)
 							{
 							case "torso":
-								UserAPI.AvatarDesciptor.Torso = null;
+								UserAPI.AvatarDescriptor.Torso = null;
 								break;
 							case "piernas":
-								UserAPI.AvatarDesciptor.Legs = null;
+								UserAPI.AvatarDescriptor.Legs = null;
 								break;
 							}
 						}
@@ -334,17 +342,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 				}
                 break;
         }
-        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
         if (loadmodel) {
             LoadModel();
         }
 
-		tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+		tmpAvatar = UserAPI.AvatarDescriptor.Copy();
 
         if (temporal) {
             BotonAceptar.interactable = false;
-			UserAPI.AvatarDesciptor.Paste(tmp);
-            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+			UserAPI.AvatarDescriptor.Paste(tmp);
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
         }
         else
             BotonAceptar.interactable = true;
@@ -378,7 +386,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}
 
-	public void ShowLandingPage() {
+	public void ShowLandingPage()
+	{
+		Debug.Log("VestidorCanvasController_Lite::ShowLandingPage");
+
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
 		/*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
@@ -389,7 +400,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void LoadModel()
     {
-        StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
+		Debug.Log("VestidorCanvasController_Lite::LoadModel");
+		
+		StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
         {
         MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));
         //Seteamos el Avatar que se muestra en estapantalla
@@ -485,6 +498,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void BackToRoom()
     {
+		Debug.Log("VestidorCanvasController_Lite::BackToRoom");
+
         if (DeepLinkingManager.IsEditAvatar) {
 			Authentication.AzureServices.OpenURL("rmapp://You");
             Application.Quit();
@@ -511,7 +526,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                         UserAPI.Instance.UpdateNick(nick, () => {
 							UserAPI.VirtualGoodsDesciptor.FilterBySex();
 							UserAPI.Instance.Nick = nick;
-							Authentication.AzureServices.CreateProfileAvatar( UserAPI.AvatarDesciptor.GetProperties(), (res) =>{
+							Authentication.AzureServices.CreateProfileAvatar( UserAPI.AvatarDescriptor.GetProperties(), (res) =>{
 								UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
 									LoadingCanvasManager.Hide();
 									ModalNickInput.Close();
@@ -540,9 +555,9 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             else {
                 LoadingCanvasManager.Show("TVB.Message.UpdatingAvatar");
                 // Por si tiene algo de prueba...
-                PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+                PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
 
-				mOldAvatarDesciptor = UserAPI.AvatarDesciptor.Copy();
+				mOldAvatarDesciptor = UserAPI.AvatarDescriptor.Copy();
 
                 UserAPI.Instance.UpdateAvatar();
                 UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
@@ -555,8 +570,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
     public void CancelThisAvatar() {
-        UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
-        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+        UserAPI.AvatarDescriptor.Paste(mOldAvatarDesciptor);
+        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
         HideAllScreens();
         if (DeepLinkingManager.IsEditAvatar) {
             Authentication.AzureServices.OpenURL("rmapp://You");

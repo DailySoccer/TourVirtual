@@ -33,7 +33,7 @@ public class ClothSlot : MonoBehaviour {
 			LabelOwned.SetActive (false);
 		}
 
-		//UpdateSelection (UserAPI.AvatarDesciptor);
+		//UpdateSelection (UserAPI.AvatarDescriptor);
 
 		StartCoroutine(MyTools.LoadSpriteFromURL (item.Thumb, Picture.gameObject));
 	}

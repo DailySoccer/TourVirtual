@@ -69,7 +69,7 @@ public class UserAPI {
     public static AchievementsAPI Achievements { get; private set; }
     public static ContentAPI Contents { get; private set; }
 
-    public static AvatarAPI AvatarDesciptor =  new AvatarAPI();
+    public static AvatarAPI AvatarDescriptor =  new AvatarAPI();
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
 
     static UserAPI instance;
@@ -116,7 +116,8 @@ public class UserAPI {
     
     
     bool requesting=true;
-    public IEnumerator Request() {
+    public IEnumerator Request()
+	{
         requesting=true;
         LoadingCanvasManager.Show();
 
@@ -154,10 +155,12 @@ public class UserAPI {
             else {
 				try{
 
-                Debug.Log("UserAPI::Request>> " + res);
                 
-                AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
-                PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
+                
+                AvatarDescriptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
+                PlayerManager.Instance.SelectedModel = AvatarDescriptor.ToString();
+
+				Debug.Log("UserAPI::Request>> Avatar Descriptor =  " + AvatarDescriptor);
 
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
@@ -261,8 +264,8 @@ public class UserAPI {
 	
     public void UpdateAvatar() {
         if (Online) {
-//            Authentication.AzureServices.SetProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
-            Authentication.AzureServices.CreateProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
+//            Authentication.AzureServices.SetProfileAvatar(AvatarDescriptor.GetProperties(), (res) => {
+            Authentication.AzureServices.CreateProfileAvatar(AvatarDescriptor.GetProperties(), (res) => {
             },(err)=>{
 				Debug.LogError("Error UpdateAvatar " + err);
 			});

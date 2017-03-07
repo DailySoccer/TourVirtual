@@ -19,7 +19,7 @@ public class AvatarPicture : MonoBehaviour {
 	}
 
 	public IEnumerator SetAvatarPictureWhenInitializeAPI() {
-		while (UserAPI.AvatarDesciptor.Head == null) {
+		while (UserAPI.AvatarDescriptor.Head == null) {
 			yield return null;
 		}
 		SetAvatarPicture ();
@@ -29,7 +29,7 @@ public class AvatarPicture : MonoBehaviour {
 		if (Avatar.sprite != null) {
 			if (UserAPI.Instance != null) {
 				string cara = "";
-				Avatar.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(UserAPI.AvatarDesciptor.Head);
+				Avatar.sprite = MainManager.Instance.GetComponent<AvatarPictureManager>().GetAvatarPicture(UserAPI.AvatarDescriptor.Head);
 			}
 		}
 	}

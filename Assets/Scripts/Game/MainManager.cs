@@ -222,9 +222,12 @@ public class MainManager : Photon.PunBehaviour {
 #if UNITY_IOS
         yield return (Authentication.AzureServices as IOSAzureInterfaz).AzureCheckLogin();
 #endif          
-        if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
+        if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on"))
+		{
           Authentication.Instance.Init();
-        }else{
+        }
+		else
+		{
             ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
                 if(mode)
                     Authentication.Instance.OpenMarket();
@@ -407,8 +410,8 @@ public class MainManager : Photon.PunBehaviour {
     void HandleOnUserLogin () {
         if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
-            UserAPI.AvatarDesciptor.Random();
-            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+            UserAPI.AvatarDescriptor.Random();
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
             if(UserAPI.Instance.errorLogin){
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
                     Continue2();
