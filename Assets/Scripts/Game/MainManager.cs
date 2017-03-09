@@ -115,38 +115,46 @@ public class MainManager : Photon.PunBehaviour {
 
 	}
 
-	public void ChangeLanguage(string lang) {
-        var sublang = lang;
+	public void ChangeLanguage(string lang)
+	{
+		Debug.Log("MainManager::ChangeLanguage>> Language=" + lang);
+
+		var sublang = lang;
         if(sublang.Contains("-")) sublang = sublang.Split('-')[0];
 		SetNewLangManager (sublang);
 	}
 
-	void SetNewLangManager(string newSubLang, string newLang = "") {
-        if (LanguageManager.Instance.IsLanguageSupported(newSubLang)) {
-            LanguageManager.Instance.ChangeLanguage(newSubLang);
-			CurrentLanguage = newSubLang;
-			PlayerPrefs.SetString("language", newSubLang);
-            PlayerPrefs.Save();
-//
-            string nml = "en-us";
-            switch(newSubLang){
-//                case "ar": nml = "ar-sa"; break;
-                case "en": nml = "en-us"; break;
-                case "es": nml = "es-es"; break;
-//                case "fr": nml = "fr-fr"; break;
-//                case "id": nml = "id-id"; break;
-//                case "ja": nml = "ja-jp"; break;
-//                case "pt": nml = "pt-pt"; break;
-//                case "zh": nml = "zh-cn"; break;
-                default: nml = "en-us"; break;
-            }
-            if(Authentication.AzureServices.MainLanguage != nml){
-                Authentication.AzureServices.MainLanguage = nml;
-                StartCoroutine( UserAPI.Instance.UpdateByLanguage());
-            }
-        } else {
-			Debug.LogError(">>>> El lenguaje seleccionado no está soportado aún: " + newLang + " / " + newSubLang);
+	void SetNewLangManager(string newSubLang, string newLang = "")
+	{
+		Debug.Log("MainManager::SetNewLangManager>> SubLanguage=" + newSubLang + " Language=" + newLang);  
+
+		if (!LanguageManager.Instance.IsLanguageSupported(newSubLang))
+			newSubLang = LanguageManager.Instance.defaultLanguage;	 
+		
+        LanguageManager.Instance.ChangeLanguage(newSubLang);
+		CurrentLanguage = newSubLang;
+		PlayerPrefs.SetString("language", newSubLang);
+        PlayerPrefs.Save();
+
+		// HACK Esto habría que pedírselo a alguna entidad
+		string nml;
+		switch (newSubLang)
+		{
+			case "ar": nml = "ar-sa"; break;
+			case "es": nml = "es-es"; break;
+			case "fr": nml = "fr-fr"; break;
+			case "id": nml = "id-id"; break;
+			case "ja": nml = "ja-jp"; break;
+			case "pt": nml = "pt-pt"; break;
+			case "zh": nml = "zh-cn"; break;
+			default: nml = "en-us"; break;
 		}
+
+		if(Authentication.AzureServices.MainLanguage != nml){
+			Authentication.AzureServices.MainLanguage = nml;
+			StartCoroutine( UserAPI.Instance.UpdateByLanguage());
+        }
+
     }
     
 
@@ -180,7 +188,10 @@ public class MainManager : Photon.PunBehaviour {
 		_cardboard = null;
 	}
 
-    void Start() {
+    public void Start()
+	{
+		Debug.Log("MainManager::Start");
+
 		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
@@ -209,8 +220,11 @@ public class MainManager : Photon.PunBehaviour {
         StartCoroutine( Continue() );
     }
 
-    IEnumerator Continue() {
+	
+    IEnumerator Continue()
+	{
         yield return new WaitForEndOfFrame();
+
         if (DLCManager.Instance != null) {
             // Descargar el fichero de versiones.
             yield return StartCoroutine(DLCManager.Instance.LoadVersion());

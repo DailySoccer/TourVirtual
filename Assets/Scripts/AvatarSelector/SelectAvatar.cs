@@ -13,14 +13,14 @@ public class SelectAvatar : MonoBehaviour {
 	public void OnNextButton() {
 		shownModel++;
         if (shownModel >= maxModel) shownModel = 0;
-        UpdateAvatarDesciptor();
+        UpdateAvatarDescriptor();
         StartCoroutine( LoadModel() );
 	}
 	
 	public void OnPreviousButton() {
 		shownModel--;
         if (shownModel < 0) shownModel = maxModel - 1;
-        UpdateAvatarDesciptor();
+        UpdateAvatarDescriptor();
         StartCoroutine( LoadModel() );
 	}
 
@@ -37,7 +37,7 @@ public class SelectAvatar : MonoBehaviour {
         }
         UserAPI.AvatarDescriptor.Gender = gender;
         maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDescriptor.Gender] as List<object>).Count;
-        UpdateAvatarDesciptor();
+        UpdateAvatarDescriptor();
         StartCoroutine(LoadModel());
     }
 
@@ -94,7 +94,9 @@ public class SelectAvatar : MonoBehaviour {
 		}
     }
 
-    void UpdateAvatarDesciptor() {
+    void UpdateAvatarDescriptor()
+	{
+		Debug.Log("SelectAvatar::UpdateAvatarDescriptor>> AvatarDescriptor>>" + UserAPI.AvatarDescriptor);
         // Pillar los descriptores de cara y pelo de algun sitio
         Dictionary<string, object> headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDescriptor.Gender] as List<object>)[shownModel] as Dictionary<string,object>;
         UserAPI.AvatarDescriptor.Hair = headesc["Hair"] as string;

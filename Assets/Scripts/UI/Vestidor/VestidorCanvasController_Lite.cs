@@ -48,7 +48,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     private DetailedContent2Buttons modalDetail;
     private bool isCurrentPopUpOpen;
     private VestidorState currentVestidorState;
-    private AvatarAPI mOldAvatarDesciptor;
+    private AvatarAPI mOldAvatarDescriptor;
 	private AvatarAPI tmpAvatar;
 
 	private bool IsFirstLaunch;
@@ -62,39 +62,45 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         Instance = this;
     }
     // Use this for initialization
-    void OnEnable()
+
+
+    private void OnEnable()
     {
-    // FER: 02/01/17
-	// Carga el precio en el teaser.
-        if(PriceInApp!=null && GoodiesShopController.Instance!=null) PriceInApp.text = GoodiesShopController.Instance.item7.text;
-        if((VirtualGoodsAPI.HasPurchase7 || !UserAPI.Instance.Online) && BuyInAppBtn!=null) BuyInAppBtn.interactable = false;
-        Debug.Log(">>> IsEditAvatar "+DeepLinkingManager.IsEditAvatar);
-        if (BuyInfoButtom != null) BuyInfoButtom.SetActive(false);
-        mOldAvatarDesciptor = UserAPI.AvatarDescriptor.Copy();
+	    Init();
+    }
+
+	public void Init()
+	{
+		Debug.Log("VestidorCanvasController_Lite::Init");
+		// FER: 02/01/17
+		// Carga el precio en el teaser.
+		if(PriceInApp != null && GoodiesShopController.Instance != null)
+			PriceInApp.text = GoodiesShopController.Instance.item7.text;
+		if((VirtualGoodsAPI.HasPurchase7 || !UserAPI.Instance.Online) && BuyInAppBtn != null)
+			BuyInAppBtn.interactable = false;
+		Debug.Log(">>> IsEditAvatar " + DeepLinkingManager.IsEditAvatar);
+		if(BuyInfoButtom != null)
+			BuyInfoButtom.SetActive(false);
+		mOldAvatarDescriptor = UserAPI.AvatarDescriptor.Copy();
 		tmpAvatar = UserAPI.AvatarDescriptor.Copy();
 
 		if(ClothesListController.Instance != null)
-			ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
-        EnableTopMenu(true);
-        ShowVestidor();
-    }
+			ClothesListController.Instance.SetCurrentAvatar(tmpAvatar);
+		EnableTopMenu(true);
+		ShowVestidor();
+	}
 
-    // Update is called once per frame
-    void Update() {
-    }
-
-    public void ChangeVestidorState(VestidorState newState)
+	public void ChangeVestidorState(VestidorState newState)
 	{
 		Debug.Log("VestidorCanvasController_Lite::ChangeVestidorState>> " +
 		          "New State=" + newState + "; " +
 				  "Current State=" + currentVestidorState);
 
 		if (newState != currentVestidorState)
-        {
-			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
+	    {
+			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) 
 				InvokeAvatarIfNeeded();
-			}
-
+										
             switch (newState)
             {
                 case VestidorState.SELECT_AVATAR:
@@ -109,13 +115,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(AvatarSelectionScreen);
                     break;
 
-                case VestidorState.VESTIDOR:
-                    if (DeepLinkingManager.IsEditAvatar &&
+                case VestidorState.VESTIDOR: 
+
+					if (DeepLinkingManager.IsEditAvatar &&
                         DeepLinkingManager.Parameters != null &&
-                        DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
-                        DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
+                        DeepLinkingManager.Parameters.ContainsKey("idVirtualGood"))
+					{
+						DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
                         // MainManager.DeepLinkinParameters["idUser"];
-                    }
+                    }	  
                     EnableTopMenu(true);
                     cameraAvatarSelector.SetActive(false);
                     SecondPlaneAvatarSelect.SetActive(false);
@@ -151,16 +159,19 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         }
     }
 
-	void InvokeAvatarIfNeeded() {
-		if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
-			if (PlayerInstance == null){
+	void InvokeAvatarIfNeeded()
+	{
+		Debug.Log("VestidorCanvasController_Lite::InvokeAvatarIfNeeded>> VestidorMode=" + MainManager.VestidorMode);
+
+		if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) 
+		{
+			Debug.Log("VestidorCanvasController_Lite::InvokeAvatarIfNeeded>> PlayerInstance=" + PlayerInstance);
+			Debug.Log("VestidorCanvasController_Lite::InvokeAvatarIfNeeded>> " +
+			          "Temp Avatar=" + tmpAvatar + "; " +
+			          "Avatar Descriptor=" + mOldAvatarDescriptor);	 
+
+			if (PlayerInstance == null || tmpAvatar.ToString() != mOldAvatarDescriptor.ToString())
 				Invoke("LoadModel", 0.25f);
-            }
-			else {
-				if (tmpAvatar.ToString() != mOldAvatarDesciptor.ToString()) {
-					Invoke("LoadModel", 0.25f);
-				}
-			}
 		}
 	}
 
@@ -250,8 +261,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     public void DressVirtualGood(VirtualGoodsAPI.VirtualGood virtualGood, bool loadmodel = true, bool temporal=false)
     {
 		Debug.Log("VestidorCanvasController_Lite::DressVirtualGood>> LoadModel=" + loadmodel);
-
-
+										   
 		if(virtualGood == null)
 			return;
 
@@ -386,6 +396,27 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		ChangeVestidorState (VestidorState.VESTIDOR);
 	}
 
+    public void Refresh()
+    {	
+	    Debug.Log("VestidorCanvasController_Lite::Refresh");
+		
+	    if (Authentication.Instance.CheckOffline())						  
+			return;
+	    							 
+	    if (isCurrentPopUpOpen)
+			TogglePopUpScreen();
+		/*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
+			Invoke("LoadModel", 0.25f);
+		*/
+
+		//HACK FRS 170309 Asumiendo que esta función sólo se usa para volver del DeepLinking
+		// Actualizamos el descriptor (por si ha cambiado durante DeepLinking), para que se refresque.
+		currentVestidorState = VestidorState.NONE;
+	    Destroy(PlayerInstance);
+	    PlayerInstance = null;
+	    Init();
+    }
+
 	public void ShowLandingPage()
 	{
 		Debug.Log("VestidorCanvasController_Lite::ShowLandingPage");
@@ -518,7 +549,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void AcceptThisAvatar()
     {
-        if (UserAPI.Instance != null) {
+        if (UserAPI.Instance != null) 
+		{
             if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR) {
                 ModalNickInput.Show((nick) => {
                     if (nick != "<EMPTY>") {
@@ -557,7 +589,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 // Por si tiene algo de prueba...
                 PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
 
-				mOldAvatarDesciptor = UserAPI.AvatarDescriptor.Copy();
+				mOldAvatarDescriptor = UserAPI.AvatarDescriptor.Copy();
 
                 UserAPI.Instance.UpdateAvatar();
                 UserAPI.Instance.SendAvatar(PlayerManager.Instance.RenderModel(PlayerInstance), () => {
@@ -570,7 +602,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
     public void CancelThisAvatar() {
-        UserAPI.AvatarDescriptor.Paste(mOldAvatarDesciptor);
+        UserAPI.AvatarDescriptor.Paste(mOldAvatarDescriptor);
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
         HideAllScreens();
         if (DeepLinkingManager.IsEditAvatar) {

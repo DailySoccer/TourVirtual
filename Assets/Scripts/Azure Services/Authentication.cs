@@ -28,12 +28,18 @@ public class Authentication : MonoBehaviour {
         "9ca1aacd-9104-404d-87bb-909a64957c4c",
         "9c45010a-eb1c-4b51-9c2c-e2339b824e21"
     };
-    public void Init() {
+    public void Init()
+	{
+		Debug.Log("Authentication::Init");
         AzureServices.SignIn(OnSignIn);
     }
 
-    public void OnSignIn(bool success) {
-        if (!success) {
+    public void OnSignIn(bool success)
+	{
+		Debug.Log("Authentication::OnSignIn>> Success=" + success);
+
+		if (!success) 
+		{
             UserAPI.Instance.errorLogin = true;
             UserAPI.Instance.Online = false; // Si da error de logeo, como si fuera offline
                                              //MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR;
@@ -46,7 +52,8 @@ public class Authentication : MonoBehaviour {
         }
         else
             UserAPI.Instance.errorLogin = false;
-        StartCoroutine(UserAPI.Instance.Request());
+
+        StartCoroutine(UserAPI.Instance.Request());	 
     }
 
     public void logout() {
