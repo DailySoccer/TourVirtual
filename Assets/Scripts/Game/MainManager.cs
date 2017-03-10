@@ -424,8 +424,8 @@ public class MainManager : Photon.PunBehaviour {
     void HandleOnUserLogin () {
         if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
-            UserAPI.AvatarDescriptor.Random();
-            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
+            UserAPI.AvatarDesciptor.Random();
+            PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
             if(UserAPI.Instance.errorLogin){
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
                     Continue2();
