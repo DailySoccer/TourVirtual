@@ -13,14 +13,14 @@ public class SelectAvatar : MonoBehaviour {
 	public void OnNextButton() {
 		shownModel++;
         if (shownModel >= maxModel) shownModel = 0;
-        UpdateAvatarDescriptor();
+        UpdateAvatarDesciptor();
         StartCoroutine( LoadModel() );
 	}
 	
 	public void OnPreviousButton() {
 		shownModel--;
         if (shownModel < 0) shownModel = maxModel - 1;
-        UpdateAvatarDescriptor();
+        UpdateAvatarDesciptor();
         StartCoroutine( LoadModel() );
 	}
 
@@ -35,9 +35,9 @@ public class SelectAvatar : MonoBehaviour {
                 FemaleButton.IsTabActive = true;
                 break;
         }
-        UserAPI.AvatarDescriptor.Gender = gender;
-        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDescriptor.Gender] as List<object>).Count;
-        UpdateAvatarDescriptor();
+        UserAPI.AvatarDesciptor.Gender = gender;
+        maxModel = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as List<object>).Count;
+        UpdateAvatarDesciptor();
         StartCoroutine(LoadModel());
     }
 
@@ -94,18 +94,16 @@ public class SelectAvatar : MonoBehaviour {
 		}
     }
 
-    void UpdateAvatarDescriptor()
-	{
-		Debug.Log("SelectAvatar::UpdateAvatarDescriptor>> AvatarDescriptor>>" + UserAPI.AvatarDescriptor);
+    void UpdateAvatarDesciptor() {
         // Pillar los descriptores de cara y pelo de algun sitio
-        Dictionary<string, object> headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDescriptor.Gender] as List<object>)[shownModel] as Dictionary<string,object>;
-        UserAPI.AvatarDescriptor.Hair = headesc["Hair"] as string;
-        UserAPI.AvatarDescriptor.Head = headesc["Head"] as string;
-        UserAPI.AvatarDescriptor.Torso = "";
-        UserAPI.AvatarDescriptor.Legs = "";
-        UserAPI.AvatarDescriptor.Feet = "";
-        UserAPI.AvatarDescriptor.Compliment = "";
-        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDescriptor.ToString();
+        Dictionary<string, object> headesc = (PlayerManager.Instance.Selector[UserAPI.AvatarDesciptor.Gender] as List<object>)[shownModel] as Dictionary<string,object>;
+        UserAPI.AvatarDesciptor.Hair = headesc["Hair"] as string;
+        UserAPI.AvatarDesciptor.Head = headesc["Head"] as string;
+        UserAPI.AvatarDesciptor.Torso = "";
+        UserAPI.AvatarDesciptor.Legs = "";
+        UserAPI.AvatarDesciptor.Feet = "";
+        UserAPI.AvatarDesciptor.Compliment = "";
+        PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
     }
 
     void Start() {

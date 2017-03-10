@@ -209,9 +209,7 @@ public class RoomManager : Photon.PunBehaviour {
 		yield return null;
 	}
 		
-	public void GotoPreviousRoom()
-	{
-		Debug.Log("RoomManager::GoToPreviousRoom");
+	public void GotoPreviousRoom() {
 
 		if (!string.IsNullOrEmpty(IdLastDoorOfVisitedRoom))
 			GotoRoomAtDoor (IdLastVisitedRoom + "#" + IdLastDoorOfVisitedRoom);

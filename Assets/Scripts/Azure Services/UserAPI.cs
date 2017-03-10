@@ -7,7 +7,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
-using System;
 
 // TODO:    No funciona el ranking global personal.
 //          Tenemos un problema con los niveles si coincide justo la xp con la division entre niveles.
@@ -70,7 +69,7 @@ public class UserAPI {
     public static AchievementsAPI Achievements { get; private set; }
     public static ContentAPI Contents { get; private set; }
 
-    public static AvatarAPI AvatarDescriptor =  new AvatarAPI();
+    public static AvatarAPI AvatarDesciptor =  new AvatarAPI();
     public static VirtualGoodsAPI VirtualGoodsDesciptor { get; private set; }
 
     static UserAPI instance;
@@ -97,44 +96,23 @@ public class UserAPI {
         VirtualGoodsDesciptor = new VirtualGoodsAPI();
     }
 
-    public bool CheckIsOtherUser()
-	{	
+    public bool CheckIsOtherUser() {
+        
         if( DeepLinkingManager.Parameters != null &&
             DeepLinkingManager.Parameters.ContainsKey("idUser") && 
-            DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID )
-		{
-			Debug.Log("UserAPI::CheckIsOtherUser>> " +
-			          "DeepLinking User=" + DeepLinkingManager.Parameters["idUser"] + "; " +
-					  "UserAPI User=" + Instance.UserID);
-
-			LoadingCanvasManager.Hide();
-
-            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"),
-	            val => 
-				{
-				/*
-					UserAPI.Instance.UserID = null;
-					Authentication.AzureServices.SignOut(
-						ret => {
-							Authentication.AzureServices.SignIn();
-						}, ret => { });
-				/*/
-					Application.Quit();
-				/**/
-				} );
-			return true;
-		}
-		return false;
+            DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID ){
+            LoadingCanvasManager.Hide();
+            UserAPI.Instance.UserID=null;
+            Authentication.AzureServices.SignOut( (ret)=>{},(ret)=>{} );
+            ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), (val)=> {
+                Authentication.AzureServices.SignIn();
+            });
+            return true;
+        }
+        return false;
     }
-    
-    
-    
-    
     bool requesting=true;
-    public IEnumerator Request()
-	{
-		Debug.Log("UserAPI::REQUEST");
-
+    public IEnumerator Request() {
         requesting=true;
         LoadingCanvasManager.Show();
 
@@ -144,24 +122,15 @@ public class UserAPI {
         yield return Authentication.AzureServices.PostFanApps((ok)=>{Debug.LogError("PostFanApps OK: "+ok); },(err)=>{ Debug.LogError("PostFanApps ERROR: "+err); });
 // Evento añadido el dia 9/9/16 por peticion de microsoft.        
         UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
-        yield return Authentication.AzureServices.GetFanMe(res => 
-		{
-			Debug.Log("UserAPI::Request>> FanMe=" + res);
-
+        yield return Authentication.AzureServices.GetFanMe((res) => {
             Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
 			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"en-us");
             UserID = hs["IdUser"] as string;
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
+        });
 
-			Debug.Log("UserAPI::Request>> UserID=" + UserID);
-			Debug.Log("UserAPI::Request>> Nick=" + Nick);
-
-		}, err => {
-			Debug.LogError("UserAPI::Request>> FanMe Error=" + err); 
-		});
-
-		// Mira si los usuarios son distintos.
-		if (string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
+// Mira si los usuarios son distintos.
+        if (string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
             yield break;
         }
 
@@ -172,7 +141,7 @@ public class UserAPI {
         LoadingContentText.SetText("API.Contents");
         yield return Authentication.Instance.StartCoroutine( Contents.AwaitRequest());
         LoadingContentText.SetText("API.ProfileAvatar");
-        yield return Authentication.AzureServices.GetProfileAvatar(res => {
+        yield return Authentication.AzureServices.GetProfileAvatar((res) => {
             if (string.IsNullOrEmpty(res) || res == "null" || res == "{}") {
                 // Es la primera vez que entra el usuario!!!
                 PlayerManager.Instance.SelectedModel = "";
@@ -180,13 +149,8 @@ public class UserAPI {
             }
             else {
 				try{
-
-                
-                
-                AvatarDescriptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
-                PlayerManager.Instance.SelectedModel = AvatarDescriptor.ToString();
-
-				Debug.Log("UserAPI::Request>> AvatarDescriptor=  " + AvatarDescriptor);
+                AvatarDesciptor.Parse(MiniJSON.Json.Deserialize(res) as Dictionary<string, object>);
+                PlayerManager.Instance.SelectedModel = AvatarDesciptor.ToString();
 
                 VirtualGoodsDesciptor.FilterBySex();
                 MainManager.VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
@@ -290,8 +254,8 @@ public class UserAPI {
 	
     public void UpdateAvatar() {
         if (Online) {
-//            Authentication.AzureServices.SetProfileAvatar(AvatarDescriptor.GetProperties(), (res) => {
-            Authentication.AzureServices.CreateProfileAvatar(AvatarDescriptor.GetProperties(), (res) => {
+//            Authentication.AzureServices.SetProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
+            Authentication.AzureServices.CreateProfileAvatar(AvatarDesciptor.GetProperties(), (res) => {
             },(err)=>{
 				Debug.LogError("Error UpdateAvatar " + err);
 			});
