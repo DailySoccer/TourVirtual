@@ -646,13 +646,19 @@ public class RoomManager : Photon.PunBehaviour {
 	}
 	
 	public RoomDefinition FindRoomBySceneName(string sceneName) {
-		string roomId = null;
-		foreach(RoomDefinition room in RoomDefinitions.Values) {
-			if (room.SceneName == sceneName) {
-				roomId = room.Id;
+		try{
+//			string roomId = null;
+			foreach(RoomDefinition room in RoomDefinitions.Values) {
+				if (room.SceneName == sceneName) {
+//					roomId = room.Id;
+					return room;
+				}
 			}
+//			return roomId != null ? RoomDefinitions[roomId] as RoomDefinition : null;
+			return null;
+		}catch{
+			return null;
 		}
-		return roomId != null ? RoomDefinitions[roomId] as RoomDefinition : null;
 	}
 	
 	string _doorToEnter;

@@ -103,9 +103,10 @@ public class UserAPI {
             DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID ){
             LoadingCanvasManager.Hide();
             UserAPI.Instance.UserID=null;
-            Authentication.AzureServices.SignOut( (ret)=>{},(ret)=>{} );
+
             ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), (val)=> {
-                Authentication.AzureServices.SignIn();
+                Authentication.AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
+//                Authentication.AzureServices.SignIn();
             });
             return true;
         }
