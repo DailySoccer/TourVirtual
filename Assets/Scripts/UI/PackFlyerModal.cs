@@ -54,7 +54,7 @@ public class PackFlyerModal : MonoBehaviour {
 
     }
 
-   // FER: 02/01/17
+    // FER: 02/01/17
 	// Compra de todos los contenidos.   
 	public void BuyInApp() {
 		MainManager.Instance.OnPurchaseInApp = ()=>{

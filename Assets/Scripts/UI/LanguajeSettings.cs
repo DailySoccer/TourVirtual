@@ -11,7 +11,6 @@ public class LanguajeSettings : MonoBehaviour {
 		string currentLang = MainManager.Instance.CurrentLanguage;
 		foreach ( SettingLaguajeSlot lang in LanguajeSlots) {
 			lang.SetActive (lang.name.ToLower() == currentLang.ToLower());
-			Debug.Log("Languaje [" + lang.name + "] => " + (lang.name.ToLower() == currentLang.ToLower() ? "Activado" : "Desactivado")); 
 		}
 	}
 

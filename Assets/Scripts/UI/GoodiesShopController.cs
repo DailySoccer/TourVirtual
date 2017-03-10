@@ -51,9 +51,6 @@ public class GoodiesShopController : MonoBehaviour {
 #else
         GoodiesShopController.Show ();
 #endif
-
-
-
     }
 
     public static void CloseModal() {
@@ -75,8 +72,10 @@ public class GoodiesShopController : MonoBehaviour {
             else if (item.ProductId.Contains("700"))    item3.text = item.MarketPriceAndCurrency;
             else if (item.ProductId.Contains("375"))    item2.text = item.MarketPriceAndCurrency;
             else if (item.ProductId.Contains("100"))    item1.text = item.MarketPriceAndCurrency;
-            else Debug.LogError("Producto raro " + item.ProductId);
+            else Debug.LogError(">>>> Producto raro " + item.ProductId);
         }
+
+//        purchase7.SetActive(!VirtualGoodsAPI.HasPurchase7);
     }
 
     public void Product_ClickHandle(string iapId) {

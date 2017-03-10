@@ -78,7 +78,6 @@ public class ContentAPI
     }
 
     public Content GetContentByID(string id){
-        
         foreach (var pair in Contents){
             if (pair.Value.ContenName == id)
                 return pair.Value;
@@ -136,14 +135,12 @@ public class ContentAPI
     }
 
     List<Asset> ParseContent(string res) {
-        Debug.LogError("res " + res);
         List<Asset> ret = new List<Asset>();
         Dictionary<string, object> contents = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
         List<object>.Enumerator assets = (contents["Assets"] as List<object>).GetEnumerator();
         List<object>.Enumerator bodies = (contents["Body"] as List<object>).GetEnumerator();
         var contenidoID = contents["SourceId"] as string;
-        while (assets.MoveNext())
-        {
+        while (assets.MoveNext()) {
             bodies.MoveNext();
             var asset = assets.Current as Dictionary<string, object>;
             var body = bodies.Current as Dictionary<string, object>;
@@ -216,8 +213,12 @@ public class ContentAPI
 									string packURL = asset.ContainsKey("AssetUrl")?asset["AssetUrl"] as string:"";
 									string thumbnailUrl = asset.ContainsKey("ThumbnailUrl")?asset["ThumbnailUrl"] as string:"";
                                     Content tmp = new Content(guid, internalID, contenidoID, title, desc, packURL.Substring(7));
-		                            Contents.Add(guid, tmp);
-		                            TotalContents++;
+                                    if( !Contents.ContainsKey(guid) ){
+		                                Contents.Add(guid, tmp);
+		                                TotalContents++;
+                                    }
+                                    else
+                                        Debug.LogError(">>>> " + contenidoID + " con GUID "+ guid + " está repetido." );
                                 }else
                                 {
                                     Debug.LogError(">>>> " + contenidoID + " Sin assets "+ title + " LANG "+ Authentication.AzureServices.MainLanguage);

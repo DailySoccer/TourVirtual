@@ -38,7 +38,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 	public Color InfoButtonTextColor;
 
 	public Button BotonAceptar;
-     // FER: 02/01/17
+    // FER: 02/01/17
 	// Para poder desactivar el boton y cargar el precio del paquete.
     public Button BuyInAppBtn;
     public Text PriceInApp;
@@ -557,6 +557,11 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         } else {
 			BackToRoom();
 		}
+    }
+    
+    public void SetLanguage(string lang)
+    {
+                MainManager.Instance.ChangeLanguage(lang);
     }
 
     public void showModalOnlyText(string t)

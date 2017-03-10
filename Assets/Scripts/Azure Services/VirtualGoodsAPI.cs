@@ -48,11 +48,10 @@ public class VirtualGoodsAPI {
                             string subtype = vg["IdSubType"] as string;
                             string desc = ((vg["Description"] as List<object>)[0] as Dictionary<string, object>)["Description"] as string;
                             float val = 0.0f;
-                            if( vg.ContainsKey("Price") && (vg["Price"] as List<object>).Count > 0 )
+                            if( vg.ContainsKey("Price") && (vg["Price"] as List<object>).Count>0 )
                                 val = float.Parse((((vg["Price"] as List<object>)[0] as Dictionary<string, object>)["Price"]).ToString());
                             string thburl = vg["ThumbnailUrl"] as string;
                             string imgurl = vg["PictureUrl"] as string;
-
                             VirtualGood tmp = new VirtualGood(guid, subtype, desc, val, thburl, imgurl);
                             if(!VirtualGoods.ContainsKey(guid))
                                 VirtualGoods.Add(guid, tmp);
@@ -68,6 +67,9 @@ public class VirtualGoodsAPI {
             });
         }
         VirtualGoodsAPI.HasPurchase7 = false;
+        // FAKE
+//        VirtualGoodsAPI.HasPurchase7 = true;
+        // FAKE
         needRequest = true;
         string token = null;
         while (needRequest) {
@@ -98,16 +100,16 @@ public class VirtualGoodsAPI {
         if( string.IsNullOrEmpty( UserAPI.AvatarDesciptor.Gender)) return;
         Dictionary<string, VirtualGood> tmp = new Dictionary<string, VirtualGood>();
         foreach (var pair in VirtualGoods) {
-			char stype = (pair.Value as VirtualGood).IdSubType[0];
-			if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
-				if (stype == 'H' || stype == 'U' || stype == 'C' ){
-					VirtualGood vg = pair.Value as VirtualGood;
+            char stype = (pair.Value as VirtualGood).IdSubType[0];
+            if (UserAPI.AvatarDesciptor.Gender == "Man" ) {
+                if (stype == 'H' || stype == 'U' || stype == 'C' ){
+                    VirtualGood vg = pair.Value as VirtualGood;
                     tmp.Add(pair.Key, pair.Value);
-				}
+                }
             }
             else {
-				if (stype == 'M' || stype == 'U' || stype == 'C' )
-					tmp.Add(pair.Key, pair.Value);
+                if (stype == 'M' || stype == 'U' || stype == 'C' )
+                    tmp.Add(pair.Key, pair.Value);
             }
         }
         VirtualGoods = tmp;
