@@ -11,7 +11,7 @@ GameObject:
   - 222: {fileID: 22266024}
   - 114: {fileID: 11499140}
   - 114: {fileID: 11482286}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Flag Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 222: {fileID: 22257206}
   - 114: {fileID: 11471990}
   - 114: {fileID: 11495388}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: User Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - 222: {fileID: 22284354}
   - 114: {fileID: 11472164}
   - 114: {fileID: 11475802}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fan Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,8 @@ GameObject:
   - 114: {fileID: 11427100}
   - 114: {fileID: 11418822}
   - 114: {fileID: 11482612}
-  m_Layer: 0
+  - 65: {fileID: 6551390}
+  m_Layer: 8
   m_Name: Remote Player HUD Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +85,7 @@ GameObject:
   - 222: {fileID: 22214426}
   - 114: {fileID: 11482074}
   - 114: {fileID: 11461164}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fan Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +106,7 @@ GameObject:
   - 225: {fileID: 22538506}
   - 114: {fileID: 11447016}
   - 114: {fileID: 11403378}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +142,7 @@ GameObject:
   - 222: {fileID: 22242668}
   - 114: {fileID: 11414274}
   - 114: {fileID: 11452330}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: User Data Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +159,7 @@ GameObject:
   - 224: {fileID: 22445352}
   - 222: {fileID: 22285300}
   - 114: {fileID: 11441178}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Flag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +177,7 @@ GameObject:
   - 222: {fileID: 22272374}
   - 114: {fileID: 11481046}
   - 114: {fileID: 11413570}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,6 +197,18 @@ Transform:
   - {fileID: 22422488}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!65 &6551390
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134088}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 235, y: 55, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11400700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -520,7 +533,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 25
     m_Alignment: 6
     m_RichText: 1
     m_HorizontalOverflow: 0
