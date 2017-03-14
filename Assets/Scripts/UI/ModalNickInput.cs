@@ -14,18 +14,17 @@ public class ModalNickInput : MonoBehaviour {
 	public delegate void callback(string _nick);
 	
 	public static ModalNickInput Instance { get; private set; }
-
+	
 	callback okCallback;
-
+	
 	void Awake () {
 		Instance = this;
 		thisModal = GetComponent<GUIPopUpScreen> ();
 		thisModal.IsOpen = false;
-		ButtonOK.interactable = false;
-		buttonOKText = ButtonOK.transform.GetChild(0).GetComponent<Text>();
-		buttonOKTextColor = buttonOKText.color;
-		colorDisabled = new Color (buttonOKTextColor.r, buttonOKTextColor.g, buttonOKTextColor.b, ButtonOK.colors.disabledColor.a);
-		EvaluateNick();
+		ButtonOK.gameObject.SetActive(false);
+		//buttonOKText = ButtonOK.transform.GetChild(0).GetComponent<Text>();		
+		//buttonOKTextColor = buttonOKText.color;
+		//colorDisabled = new Color (buttonOKTextColor.r, buttonOKTextColor.g, buttonOKTextColor.b, ButtonOK.colors.disabledColor.a);
 	}
 	
 	// Use this for initialization
@@ -33,16 +32,13 @@ public class ModalNickInput : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {	
+	void Update () {
+		//buttonOKText.color =  colorDisabled;
+		//ButtonOK.image.color = colorDisabled;
 	}
-
+	
 	public void EvaluateNick() {
-		Instance.ButtonOK.interactable = Instance.TheNick.text.Length >= 3;
-		if (Instance.TheNick.text.Length >= 3) {
-			Instance.buttonOKText.color =  buttonOKTextColor;
-		} else {
-			Instance.buttonOKText.color =  colorDisabled;
-		}
+		//Instance.ButtonOK.interactable = Instance.TheNick.text.Length >= 3;
 	}
 	
 	public void AcceptNick() {
