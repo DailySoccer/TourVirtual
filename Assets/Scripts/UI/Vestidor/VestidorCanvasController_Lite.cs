@@ -82,8 +82,10 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     // Update is called once per frame
     private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Escape))
-			CancelThisAvatar();
+		//if(Input.GetKeyDown(KeyCode.Escape) && 
+		//	DeepLinkingManager.IsEditAvatar &&
+		//    DeepLinkingManager.Parameters != null)
+		//	CancelThisAvatar();
     }
 
     public void ChangeVestidorState(VestidorState newState) {
