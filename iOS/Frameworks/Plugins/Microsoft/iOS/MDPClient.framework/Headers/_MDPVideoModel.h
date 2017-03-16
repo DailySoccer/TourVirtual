@@ -1,0 +1,456 @@
+//
+//  _MDPVideoModel.m
+//  MDPClient
+//
+//  Created automatically with Mogenerator Templates.
+//  Copyright (c) 2014 Microsoft. All rights reserved.
+//
+
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to MDPVideoModel.h instead.
+
+@import CoreData;
+#import "NSManagedObject+MDPManagedObject.h"
+
+extern const struct MDPVideoModelAttributes {
+	__unsafe_unretained NSString *areaDepartment;
+	__unsafe_unretained NSString *callType;
+	__unsafe_unretained NSString *camera;
+	__unsafe_unretained NSString *competitionType;
+	__unsafe_unretained NSString *contentKeyId;
+	__unsafe_unretained NSString *descriptionVideo;
+	__unsafe_unretained NSString *encrypted;
+	__unsafe_unretained NSString *eventDateTime;
+	__unsafe_unretained NSString *expurgateDate;
+	__unsafe_unretained NSString *idPlaylist;
+	__unsafe_unretained NSString *idVideo;
+	__unsafe_unretained NSString *ingestionDateTime;
+	__unsafe_unretained NSString *language;
+	__unsafe_unretained NSString *lastUpdateAt;
+	__unsafe_unretained NSString *mainActors;
+	__unsafe_unretained NSString *matchEventTypes;
+	__unsafe_unretained NSString *matchMinute;
+	__unsafe_unretained NSString *place;
+	__unsafe_unretained NSString *playCount;
+	__unsafe_unretained NSString *publicationMethods;
+	__unsafe_unretained NSString *recordingDate;
+	__unsafe_unretained NSString *searchCount;
+	__unsafe_unretained NSString *season;
+	__unsafe_unretained NSString *section;
+	__unsafe_unretained NSString *source;
+	__unsafe_unretained NSString *stars;
+	__unsafe_unretained NSString *starsSampleCount;
+	__unsafe_unretained NSString *subscriptionId;
+	__unsafe_unretained NSString *thumbnailUrl;
+	__unsafe_unretained NSString *title;
+	__unsafe_unretained NSString *url;
+	__unsafe_unretained NSString *urlDash;
+	__unsafe_unretained NSString *urlHDS;
+	__unsafe_unretained NSString *urlHLS;
+	__unsafe_unretained NSString *urlProgressive;
+	__unsafe_unretained NSString *urlSmoothStreaming;
+	__unsafe_unretained NSString *videoLength;
+	__unsafe_unretained NSString *videoTypes;
+} MDPVideoModelAttributes;
+
+extern const struct MDPVideoModelRelationships {
+	__unsafe_unretained NSString *descriptionLocalized;
+	__unsafe_unretained NSString *location;
+	__unsafe_unretained NSString *pagedVideosItems;
+	__unsafe_unretained NSString *pagedVideosRequest;
+	__unsafe_unretained NSString *publicationChannels;
+	__unsafe_unretained NSString *titleLocalized;
+} MDPVideoModelRelationships;
+
+@class MDPLocaleDescriptionModel;
+@class MDPGeoJsonPointModel;
+@class MDPPagedVideosModel;
+@class MDPPagedVideosRequestModel;
+@class MDPVideoPublicationChannelModel;
+@class MDPLocaleDescriptionModel;
+
+@interface _MDPVideoModel : NSManagedObject
+
+@property (nonatomic, strong) NSString* areaDepartment;
+
+//- (BOOL)validateAreaDepartment:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* callType;
+
+@property (atomic) int16_t callTypeValue;
+- (int16_t)callTypeValue;
+- (void)setCallTypeValue:(int16_t)value_;
+
+//- (BOOL)validateCallType:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* camera;
+
+//- (BOOL)validateCamera:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* competitionType;
+
+//- (BOOL)validateCompetitionType:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* contentKeyId;
+
+//- (BOOL)validateContentKeyId:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* descriptionVideo;
+
+//- (BOOL)validateDescriptionVideo:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* encrypted;
+
+@property (atomic) BOOL encryptedValue;
+- (BOOL)encryptedValue;
+- (void)setEncryptedValue:(BOOL)value_;
+
+//- (BOOL)validateEncrypted:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* eventDateTime;
+
+//- (BOOL)validateEventDateTime:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* expurgateDate;
+
+//- (BOOL)validateExpurgateDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* idPlaylist;
+
+//- (BOOL)validateIdPlaylist:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* idVideo;
+
+//- (BOOL)validateIdVideo:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* ingestionDateTime;
+
+//- (BOOL)validateIngestionDateTime:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* language;
+
+//- (BOOL)validateLanguage:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* lastUpdateAt;
+
+//- (BOOL)validateLastUpdateAt:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSData* mainActors;
+
+//- (BOOL)validateMainActors:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSData* matchEventTypes;
+
+//- (BOOL)validateMatchEventTypes:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* matchMinute;
+
+//- (BOOL)validateMatchMinute:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* place;
+
+//- (BOOL)validatePlace:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* playCount;
+
+@property (atomic) int64_t playCountValue;
+- (int64_t)playCountValue;
+- (void)setPlayCountValue:(int64_t)value_;
+
+//- (BOOL)validatePlayCount:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSData* publicationMethods;
+
+//- (BOOL)validatePublicationMethods:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDate* recordingDate;
+
+//- (BOOL)validateRecordingDate:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* searchCount;
+
+@property (atomic) int64_t searchCountValue;
+- (int64_t)searchCountValue;
+- (void)setSearchCountValue:(int64_t)value_;
+
+//- (BOOL)validateSearchCount:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* season;
+
+//- (BOOL)validateSeason:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* section;
+
+//- (BOOL)validateSection:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* source;
+
+//- (BOOL)validateSource:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSDecimalNumber* stars;
+
+//- (BOOL)validateStars:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* starsSampleCount;
+
+@property (atomic) int64_t starsSampleCountValue;
+- (int64_t)starsSampleCountValue;
+- (void)setStarsSampleCountValue:(int64_t)value_;
+
+//- (BOOL)validateStarsSampleCount:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* subscriptionId;
+
+//- (BOOL)validateSubscriptionId:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* thumbnailUrl;
+
+//- (BOOL)validateThumbnailUrl:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* title;
+
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* url;
+
+//- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* urlDash;
+
+//- (BOOL)validateUrlDash:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* urlHDS;
+
+//- (BOOL)validateUrlHDS:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* urlHLS;
+
+//- (BOOL)validateUrlHLS:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* urlProgressive;
+
+//- (BOOL)validateUrlProgressive:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* urlSmoothStreaming;
+
+//- (BOOL)validateUrlSmoothStreaming:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* videoLength;
+
+//- (BOOL)validateVideoLength:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSData* videoTypes;
+
+//- (BOOL)validateVideoTypes:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSSet *descriptionLocalized;
+
+- (NSMutableSet*)descriptionLocalizedSet;
+
+@property (nonatomic, strong) MDPGeoJsonPointModel *location;
+
+//- (BOOL)validateLocation:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSSet *pagedVideosItems;
+
+- (NSMutableSet*)pagedVideosItemsSet;
+
+@property (nonatomic, strong) NSSet *pagedVideosRequest;
+
+- (NSMutableSet*)pagedVideosRequestSet;
+
+@property (nonatomic, strong) NSSet *publicationChannels;
+
+- (NSMutableSet*)publicationChannelsSet;
+
+@property (nonatomic, strong) NSSet *titleLocalized;
+
+- (NSMutableSet*)titleLocalizedSet;
+
+@end
+
+@interface _MDPVideoModel (DescriptionLocalizedCoreDataGeneratedAccessors)
+- (void)addDescriptionLocalized:(NSSet*)value_;
+- (void)removeDescriptionLocalized:(NSSet*)value_;
+- (void)addDescriptionLocalizedObject:(MDPLocaleDescriptionModel*)value_;
+- (void)removeDescriptionLocalizedObject:(MDPLocaleDescriptionModel*)value_;
+@end
+
+@interface _MDPVideoModel (PagedVideosItemsCoreDataGeneratedAccessors)
+- (void)addPagedVideosItems:(NSSet*)value_;
+- (void)removePagedVideosItems:(NSSet*)value_;
+- (void)addPagedVideosItemsObject:(MDPPagedVideosModel*)value_;
+- (void)removePagedVideosItemsObject:(MDPPagedVideosModel*)value_;
+@end
+
+@interface _MDPVideoModel (PagedVideosRequestCoreDataGeneratedAccessors)
+- (void)addPagedVideosRequest:(NSSet*)value_;
+- (void)removePagedVideosRequest:(NSSet*)value_;
+- (void)addPagedVideosRequestObject:(MDPPagedVideosRequestModel*)value_;
+- (void)removePagedVideosRequestObject:(MDPPagedVideosRequestModel*)value_;
+@end
+
+@interface _MDPVideoModel (PublicationChannelsCoreDataGeneratedAccessors)
+- (void)addPublicationChannels:(NSSet*)value_;
+- (void)removePublicationChannels:(NSSet*)value_;
+- (void)addPublicationChannelsObject:(MDPVideoPublicationChannelModel*)value_;
+- (void)removePublicationChannelsObject:(MDPVideoPublicationChannelModel*)value_;
+@end
+
+@interface _MDPVideoModel (TitleLocalizedCoreDataGeneratedAccessors)
+- (void)addTitleLocalized:(NSSet*)value_;
+- (void)removeTitleLocalized:(NSSet*)value_;
+- (void)addTitleLocalizedObject:(MDPLocaleDescriptionModel*)value_;
+- (void)removeTitleLocalizedObject:(MDPLocaleDescriptionModel*)value_;
+@end
+
+@interface _MDPVideoModel (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString*)primitiveAreaDepartment;
+- (void)setPrimitiveAreaDepartment:(NSString*)value;
+
+- (NSNumber*)primitiveCallType;
+- (void)setPrimitiveCallType:(NSNumber*)value;
+
+- (int16_t)primitiveCallTypeValue;
+- (void)setPrimitiveCallTypeValue:(int16_t)value_;
+
+- (NSString*)primitiveCamera;
+- (void)setPrimitiveCamera:(NSString*)value;
+
+- (NSString*)primitiveCompetitionType;
+- (void)setPrimitiveCompetitionType:(NSString*)value;
+
+- (NSString*)primitiveContentKeyId;
+- (void)setPrimitiveContentKeyId:(NSString*)value;
+
+- (NSString*)primitiveDescriptionVideo;
+- (void)setPrimitiveDescriptionVideo:(NSString*)value;
+
+- (NSNumber*)primitiveEncrypted;
+- (void)setPrimitiveEncrypted:(NSNumber*)value;
+
+- (BOOL)primitiveEncryptedValue;
+- (void)setPrimitiveEncryptedValue:(BOOL)value_;
+
+- (NSDate*)primitiveEventDateTime;
+- (void)setPrimitiveEventDateTime:(NSDate*)value;
+
+- (NSDate*)primitiveExpurgateDate;
+- (void)setPrimitiveExpurgateDate:(NSDate*)value;
+
+- (NSString*)primitiveIdPlaylist;
+- (void)setPrimitiveIdPlaylist:(NSString*)value;
+
+- (NSString*)primitiveIdVideo;
+- (void)setPrimitiveIdVideo:(NSString*)value;
+
+- (NSDate*)primitiveIngestionDateTime;
+- (void)setPrimitiveIngestionDateTime:(NSDate*)value;
+
+- (NSString*)primitiveLanguage;
+- (void)setPrimitiveLanguage:(NSString*)value;
+
+- (NSDate*)primitiveLastUpdateAt;
+- (void)setPrimitiveLastUpdateAt:(NSDate*)value;
+
+- (NSData*)primitiveMainActors;
+- (void)setPrimitiveMainActors:(NSData*)value;
+
+- (NSData*)primitiveMatchEventTypes;
+- (void)setPrimitiveMatchEventTypes:(NSData*)value;
+
+- (NSString*)primitiveMatchMinute;
+- (void)setPrimitiveMatchMinute:(NSString*)value;
+
+- (NSString*)primitivePlace;
+- (void)setPrimitivePlace:(NSString*)value;
+
+- (NSNumber*)primitivePlayCount;
+- (void)setPrimitivePlayCount:(NSNumber*)value;
+
+- (int64_t)primitivePlayCountValue;
+- (void)setPrimitivePlayCountValue:(int64_t)value_;
+
+- (NSData*)primitivePublicationMethods;
+- (void)setPrimitivePublicationMethods:(NSData*)value;
+
+- (NSDate*)primitiveRecordingDate;
+- (void)setPrimitiveRecordingDate:(NSDate*)value;
+
+- (NSNumber*)primitiveSearchCount;
+- (void)setPrimitiveSearchCount:(NSNumber*)value;
+
+- (int64_t)primitiveSearchCountValue;
+- (void)setPrimitiveSearchCountValue:(int64_t)value_;
+
+- (NSString*)primitiveSeason;
+- (void)setPrimitiveSeason:(NSString*)value;
+
+- (NSString*)primitiveSection;
+- (void)setPrimitiveSection:(NSString*)value;
+
+- (NSString*)primitiveSource;
+- (void)setPrimitiveSource:(NSString*)value;
+
+- (NSDecimalNumber*)primitiveStars;
+- (void)setPrimitiveStars:(NSDecimalNumber*)value;
+
+- (NSNumber*)primitiveStarsSampleCount;
+- (void)setPrimitiveStarsSampleCount:(NSNumber*)value;
+
+- (int64_t)primitiveStarsSampleCountValue;
+- (void)setPrimitiveStarsSampleCountValue:(int64_t)value_;
+
+- (NSString*)primitiveSubscriptionId;
+- (void)setPrimitiveSubscriptionId:(NSString*)value;
+
+- (NSString*)primitiveThumbnailUrl;
+- (void)setPrimitiveThumbnailUrl:(NSString*)value;
+
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
+
+- (NSString*)primitiveUrl;
+- (void)setPrimitiveUrl:(NSString*)value;
+
+- (NSString*)primitiveUrlDash;
+- (void)setPrimitiveUrlDash:(NSString*)value;
+
+- (NSString*)primitiveUrlHDS;
+- (void)setPrimitiveUrlHDS:(NSString*)value;
+
+- (NSString*)primitiveUrlHLS;
+- (void)setPrimitiveUrlHLS:(NSString*)value;
+
+- (NSString*)primitiveUrlProgressive;
+- (void)setPrimitiveUrlProgressive:(NSString*)value;
+
+- (NSString*)primitiveUrlSmoothStreaming;
+- (void)setPrimitiveUrlSmoothStreaming:(NSString*)value;
+
+- (NSString*)primitiveVideoLength;
+- (void)setPrimitiveVideoLength:(NSString*)value;
+
+- (NSData*)primitiveVideoTypes;
+- (void)setPrimitiveVideoTypes:(NSData*)value;
+
+- (NSMutableSet*)primitiveDescriptionLocalized;
+- (void)setPrimitiveDescriptionLocalized:(NSMutableSet*)value;
+
+- (MDPGeoJsonPointModel*)primitiveLocation;
+- (void)setPrimitiveLocation:(MDPGeoJsonPointModel*)value;
+
+- (NSMutableSet*)primitivePagedVideosItems;
+- (void)setPrimitivePagedVideosItems:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitivePagedVideosRequest;
+- (void)setPrimitivePagedVideosRequest:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitivePublicationChannels;
+- (void)setPrimitivePublicationChannels:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveTitleLocalized;
+- (void)setPrimitiveTitleLocalized:(NSMutableSet*)value;
+
+@end
