@@ -9,6 +9,52 @@
 		<type fullname="PurchasedItemSlot">
 			<method name="PurchasedItemSlot_ClickHandle"/>
 		</type>
+		<type fullname="ChatNotificationController">
+			<method name="HideNotification"/>
+		</type>
+		<type fullname="GoodiesShopController">
+			<method name="Product_ClickHandle"/>
+			<method name="Product_ClickHandle"/>
+			<method name="Product_ClickHandle"/>
+			<method name="Product_ClickHandle"/>
+			<method name="Product_ClickHandle"/>
+			<method name="CloseGoodiesShop"/>
+			<method name="Product_ClickHandle"/>
+			<method name="Product_ClickHandle"/>
+		</type>
+		<type fullname="GameCanvasManager">
+			<method name="ShareRankingPosition"/>
+			<method name="ShowMainGameScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowGoodiesShopScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowMainGameScreen"/>
+			<method name="ShowGoodiesShopScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowVestidorScreen"/>
+			<method name="ShowMainGameScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowProfileScreen"/>
+			<method name="Launch_Initial_Tutorial"/>
+			<method name="ShowMapScreen"/>
+			<method name="ShowProfileScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowScreen"/>
+			<method name="ShowChatScreen"/>
+			<method name="ShowProfileScreen"/>
+		</type>
+		<type fullname="AllViewer">
+			<method name="Close"/>
+		</type>
+		<type fullname="ModalHiddenObjectsGameScreen">
+			<method name="ShareScoreWithFB"/>
+		</type>
 		<type fullname="GuiMapScreen">
 			<method name="HandleRoom"/>
 			<method name="HandleRoom"/>
@@ -23,74 +69,31 @@
 			<method name="HandleRoom"/>
 			<method name="HandleRoom"/>
 		</type>
-		<type fullname="GameCanvasManager">
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowMainGameScreen"/>
-			<method name="ShowVestidorScreen"/>
-			<method name="ShowGoodiesShopScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowMainGameScreen"/>
-			<method name="ShowChatScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowGoodiesShopScreen"/>
-			<method name="Launch_Initial_Tutorial"/>
-			<method name="ShowMainGameScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShareRankingPosition"/>
-			<method name="ShowScreen"/>
-			<method name="ShowMapScreen"/>
-			<method name="ShowProfileScreen"/>
-			<method name="ShowProfileScreen"/>
-			<method name="ShowProfileScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-			<method name="ShowScreen"/>
-		</type>
-		<type fullname="PackFlyerModal">
-			<method name="Buy"/>
-			<method name="BuyInApp"/>
-		</type>
-		<type fullname="PopUpWindow">
-			<method name="ShareWithFB"/>
-			<method name="CloseModalScreen"/>
-			<method name="ShareWithFB"/>
-			<method name="CloseModalScreen"/>
-		</type>
 		<type fullname="TVBChatController">
 			<method name="NewMessageButton_OnClickHandle"/>
-			<method name="SendChatMessage"/>
 			<method name="NewMessageButton_OnClickHandle"/>
-			<method name="ClearPlayerPrefs"/>
+			<method name="GoToChannelsScreen"/>
 			<method name="SendChatMessage"/>
 			<method name="MessageTextChange"/>
-			<method name="GoToChannelsScreen"/>
+			<method name="ClearPlayerPrefs"/>
+			<method name="SendChatMessage"/>
 			<method name="NewMessageButton_OnClickHandle"/>
-		</type>
-		<type fullname="RemotePlayerHUD">
-			<method name="RemotePlayerHUD_ClickHandle"/>
-			<method name="RemotePlayerHUD_ClickHandle"/>
 		</type>
 		<type fullname="DebugUIElement">
 			<method name="Launch_Initial_Tutorial"/>
 			<method name="ShowGoodiesShop"/>
 		</type>
-		<type fullname="GoodiesShopController">
-			<method name="Product_ClickHandle"/>
-			<method name="Product_ClickHandle"/>
-			<method name="Product_ClickHandle"/>
-			<method name="CloseGoodiesShop"/>
-			<method name="Product_ClickHandle"/>
-			<method name="Product_ClickHandle"/>
-			<method name="Product_ClickHandle"/>
-			<method name="Product_ClickHandle"/>
+		<type fullname="PackFlyerModal">
+			<method name="BuyInApp"/>
+			<method name="Buy"/>
 		</type>
-		<type fullname="LanguajeSettings">
-			<method name="SetLanguage"/>
-			<method name="SetLanguage"/>
+		<type fullname="ModalContents">
+			<method name="ShowModalScreen"/>
+			<method name="OpenOptions"/>
+			<method name="OpenOptions"/>
+			<method name="ShowModalScreen"/>
+			<method name="ShowModalScreen"/>
+			<method name="ShowModalScreen"/>
 		</type>
 		<type fullname="CloseAlertModal">
 			<method name="CloseModal"/>
@@ -99,36 +102,33 @@
 			<method name="CloseModal"/>
 			<method name="CloseModal"/>
 		</type>
-		<type fullname="InitialTutorial">
-			<method name="OkButton_Click"/>
-		</type>
-		<type fullname="ModalContents">
-			<method name="ShowModalScreen"/>
-			<method name="ShowModalScreen"/>
-			<method name="ShowModalScreen"/>
-			<method name="OpenOptions"/>
-			<method name="OpenOptions"/>
-			<method name="ShowModalScreen"/>
-		</type>
-		<type fullname="ChatNotificationController">
-			<method name="HideNotification"/>
-		</type>
-		<type fullname="ModalHiddenObjectsGameScreen">
-			<method name="ShareScoreWithFB"/>
-		</type>
-		<type fullname="Authentication">
-			<method name="logout"/>
+		<type fullname="LanguajeSettings">
+			<method name="SetLanguage"/>
+			<method name="SetLanguage"/>
 		</type>
 		<type fullname="HiddenObjectsGameCanvasController">
 			<method name="StartHiddenObjectsGame"/>
 			<method name="LaunchHiddenObjectMinigameModal"/>
 			<method name="LaunchHiddenObjectMinigameModal"/>
 		</type>
+		<type fullname="PopUpWindow">
+			<method name="CloseModalScreen"/>
+			<method name="ShareWithFB"/>
+			<method name="CloseModalScreen"/>
+			<method name="ShareWithFB"/>
+		</type>
+		<type fullname="RemotePlayerHUD">
+			<method name="RemotePlayerHUD_ClickHandle"/>
+			<method name="RemotePlayerHUD_ClickHandle"/>
+		</type>
+		<type fullname="InitialTutorial">
+			<method name="OkButton_Click"/>
+		</type>
 		<type fullname="AudioSettings">
 			<method name="ToggleValue"/>
 		</type>
-		<type fullname="AllViewer">
-			<method name="Close"/>
+		<type fullname="Authentication">
+			<method name="logout"/>
 		</type>
 	</assembly>
 	<assembly fullname="UnityEngine">
