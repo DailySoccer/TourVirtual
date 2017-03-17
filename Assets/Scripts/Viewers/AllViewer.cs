@@ -119,8 +119,8 @@ public class AllViewer : MonoBehaviour {
 
 		WWW www = new WWW(url);
 		yield return www;
-        LoadingCanvasManager.Hide();
-        if (!string.IsNullOrEmpty(www.error)) {
+		        LoadingCanvasManager.Hide();
+		if (!string.IsNullOrEmpty(www.error)) {
             // Hack por problemas con los nombres de los directorios.
             Debug.LogError(">>>> Se ha producido un error en la descarga del contenido "+www.error+" > "+url+" <" );
             yield break;
@@ -194,6 +194,7 @@ public class AllViewer : MonoBehaviour {
 			rectTransform.offsetMin = new Vector2(offset.x - textureSize.x * 0.5f * zoom, -textureSize.y * 0.5f * zoom - offset.y);
 			rectTransform.offsetMax = new Vector2(offset.x + textureSize.x * 0.5f * zoom, textureSize.y * 0.5f * zoom - offset.y);
 		}
+        LoadingCanvasManager.Hide();
 	}
 
 
