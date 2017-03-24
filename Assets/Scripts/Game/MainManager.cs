@@ -364,12 +364,17 @@ public class MainManager : Photon.PunBehaviour {
                 PlayerPrefs.DeleteKey("PurchasePendingId");
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
                 PlayerPrefs.Save();
-                if(OnPurchaseInApp!=null) OnPurchaseInApp();
+                if(OnPurchaseInApp!=null)
+					OnPurchaseInApp();
                 OnPurchaseInApp=null;
+
             }, (errorcode) => {
+
                 LoadingCanvasManager.Hide();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });
-                // Errores no esperados por parte de la plataforma.
+                
+				// Errores no esperados por parte de la plataforma.
+
                 /*
                 if(errorcode == "412") {
                     PlayerPrefs.DeleteKey("PurchasePendingId");
