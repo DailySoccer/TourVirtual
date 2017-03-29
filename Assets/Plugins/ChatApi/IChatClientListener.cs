@@ -13,6 +13,14 @@ namespace ExitGames.Client.Photon.Chat
     public interface IChatClientListener
     {
         /// <summary>
+        /// All debug output of the library will be reported through this method. Print it or put it in a
+        /// buffer to use it on-screen.
+        /// </summary>
+        /// <param name="level">DebugLevel (severity) of the message.</param>
+        /// <param name="message">Debug text. Print to System.Console or screen.</param>
+        void DebugReturn(DebugLevel level, string message);
+
+        /// <summary>
         /// Disconnection happened.
         /// </summary>
         void OnDisconnected();
@@ -34,10 +42,10 @@ namespace ExitGames.Client.Photon.Chat
         /// Number of senders is equal to number of messages in 'messages'. Sender with number '0' corresponds to message with
         /// number '0', sender with number '1' corresponds to message with number '1' and so on
         /// </summary>
-        /// <param name="channelId">channel from where messages came</param>
+        /// <param name="channelName">channel from where messages came</param>
         /// <param name="senders">list of users who sent messages</param>
         /// <param name="messages">list of messages it self</param>
-        void OnGetMessages(string channelId, string[] senders, object[] messages);
+        void OnGetMessages(string channelName, string[] senders, object[] messages);
 
         /// <summary>
         /// Notifies client about private message
@@ -48,15 +56,21 @@ namespace ExitGames.Client.Photon.Chat
         void OnPrivateMessage(string sender, object message, string channelName);
 
         /// <summary>
-        /// Result of Subscribe operation. Returns per channelname if the channel is now subscribed.
+        /// Result of Subscribe operation. Returns subscription result for every requested channel name.
         /// </summary>
+        /// <remarks>
+        /// If multiple channels sent in Subscribe operation, OnSubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter. 
+        /// Calls order and order of channels in "channels" parameter may differ from order of channels in "channels" parameter of Subscribe operation.
+        /// </remarks>
         /// <param name="channels">Array of channel names.</param>
         /// <param name="results">Per channel result if subscribed.</param>
         void OnSubscribed(string[] channels, bool[] results);
 
         /// <summary>
-        /// Result of Unsubscribe operation. Returns per channelname if the channel is now unsubscribed.
+        /// Result of Unsubscribe operation. Returns for channel name if the channel is now unsubscribed.
         /// </summary>
+        /// If multiple channels sent in Unsubscribe operation, OnUnsubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter. 
+        /// Calls order and order of channels in "channels" parameter may differ from order of channels in "channels" parameter of Unsubscribe operation.
         /// <param name="channels">Array of channel names that are no longer subscribed.</param>
         void OnUnsubscribed(string[] channels);
 

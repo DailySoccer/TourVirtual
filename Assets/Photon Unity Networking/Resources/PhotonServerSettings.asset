@@ -11,12 +11,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
+  AppID: c36a50c7-a2e4-41cf-85ab-48c77b84cf5e
+  VoiceAppID: 
+  ChatAppID: 
   HostType: 1
+  PreferredRegion: 0
+  EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
-  AppID: c36a50c7-a2e4-41cf-85ab-48c77b84cf5e
-  PreferredRegion: 0
-  EnabledRegions: -1
-  RpcList: []
+  VoiceServerPort: 5055
+  JoinLobby: 1
+  EnableLobbyStatistics: 0
+  PunLogging: 0
+  NetworkLogging: 1
+  RunInBackground: 1
+  RpcList:
+  - Chat
+  - ColorRpc
+  - DestroyRpc
+  - DoJump
+  - Flash
+  - InstantiateRpc
+  - Marco
+  - OnAwakeRPC
+  - PickupItemInit
+  - Polo
+  - PunPickup
+  - PunPickupSimple
+  - PunRespawn
+  - RequestForPickupItems
+  - RequestForPickupTimes
+  - SpawnOnNetwork
+  - TaggedPlayer
   DisableAutoOpenWizard: 1

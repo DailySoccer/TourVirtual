@@ -4,16 +4,21 @@
 // <copyright company="Exit Games GmbH">Photon Chat Api - Copyright (C) 2014 Exit Games GmbH</copyright>
 // ----------------------------------------------------------------------------------------------------------------------
 
-#if UNITY_3_5 || UNITY_4 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5 || UNITY_5_0 || UNITY_5_1|| UNITY_5_2
+#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_6_0
 #define UNITY
 #endif
 
 namespace ExitGames.Client.Photon.Chat
 {
     using System;
-    using System.Diagnostics;
     using System.Collections.Generic;
     using ExitGames.Client.Photon;
+
+    #if UNITY || NETFX_CORE
+    using Hashtable = ExitGames.Client.Photon.Hashtable;
+    using SupportClass = ExitGames.Client.Photon.SupportClass;
+    #endif
+
 
     /// <summary>Central class of the Photon Chat API to connect, handle channels and messages.</summary>
     /// <remarks>
@@ -31,26 +36,43 @@ namespace ExitGames.Client.Photon.Chat
     /// </remarks>
     public class ChatClient : IPhotonPeerListener
     {
+        const int FriendRequestListMax = 1024;
+
+        /// <summary>The address of last connected Name Server.</summary>
+        public string NameServerAddress { get; private set; }
+
         /// <summary>The address of the actual chat server assigned from NameServer. Public for read only.</summary>
         public string FrontendAddress { get; private set; }
+
         /// <summary>Region used to connect to. Currently all chat is done in EU. It can make sense to use only one region for the whole game.</summary>
         private string chatRegion = "EU";
 
         /// <summary>Settable only before you connect! Defaults to "EU".</summary>
         public string ChatRegion
         {
-            get { return chatRegion; }
-            set { chatRegion = value; }
+            get { return this.chatRegion; }
+            set { this.chatRegion = value; }
         }
-
-        /// <summary>Settable only before you connect!</summary>
-        public AuthenticationValues CustomAuthenticationValues { get; set; }
 
         /// <summary>Current state of the ChatClient. Also use CanChat.</summary>
         public ChatState State { get; private set; }
+
         public ChatDisconnectCause DisconnectedCause { get; private set; }
-        public bool CanChat { get { return this.State == ChatState.ConnectedToFrontEnd && this.HasPeer; } }
-        private bool HasPeer { get { return this.chatPeer != null; }  }
+
+        public bool CanChat
+        {
+            get { return this.State == ChatState.ConnectedToFrontEnd && this.HasPeer; }
+        }
+
+        public bool CanChatInChannel(string channelName)
+        {
+            return this.CanChat && this.PublicChannels.ContainsKey(channelName) && !this.PublicChannelsUnsubscribing.Contains(channelName);
+        }
+
+        private bool HasPeer
+        {
+            get { return this.chatPeer != null; }
+        }
 
         /// <summary>The version of your client. A new version also creates a new "virtual app" to separate players from older client versions.</summary>
         public string AppVersion { get; private set; }
@@ -58,79 +80,115 @@ namespace ExitGames.Client.Photon.Chat
         /// <summary>The AppID as assigned from the Photon Cloud. If you host yourself, this is the "regular" Photon Server Application Name (most likely: "LoadBalancing").</summary>
         public string AppId { get; private set; }
 
-        /// <summary>The unique ID of a user/person. It's not a nickname and we assume users with the same userID are the same person.</summary>
-        public string UserId { get; private set; }
+
+        /// <summary>Settable only before you connect!</summary>
+        public AuthenticationValues AuthValues { get; set; }
+
+        /// <summary>The unique ID of a user/person, stored in AuthValues.UserId. Set it before you connect.</summary>
+        /// <remarks>
+        /// This value wraps AuthValues.UserId.
+        /// It's not a nickname and we assume users with the same userID are the same person.</remarks>
+        public string UserId
+        {
+            get
+            {
+                return (this.AuthValues != null) ? this.AuthValues.UserId : null;
+            }
+            private set
+            {
+                if (this.AuthValues == null)
+                {
+                    this.AuthValues = new AuthenticationValues();
+                }
+                this.AuthValues.UserId = value;
+            }
+        }
+
+        /// <summary>If greater than 0, new channels will limit the number of messages they cache locally.</summary>
+        /// <remarks>
+        /// This can be useful to limit the amount of memory used by chats.
+        /// You can set a MessageLimit per channel but this value gets applied to new ones.
+        ///
+        /// Note:
+        /// Changing this value, does not affect ChatChannels that are already in use!
+        /// </remarks>
+        public int MessageLimit;
 
         public readonly Dictionary<string, ChatChannel> PublicChannels;
         public readonly Dictionary<string, ChatChannel> PrivateChannels;
 
+        // channels being in unsubscribing process
+        // items will be removed on successful unsubscription or subscription (the latter required after attempt to unsubscribe from not existing channel)
+        private readonly HashSet<string> PublicChannelsUnsubscribing;
 
         private readonly IChatClientListener listener = null;
-        private ChatPeer chatPeer = null;
+        public ChatPeer chatPeer = null;
 
         private bool didAuthenticate;
         private int msDeltaForServiceCalls = 50;
         private int msTimestampOfLastServiceCall;
 
-        private const string ChatApppName = "chat";
+        private const string ChatAppName = "chat";
 
-        public ChatClient(IChatClientListener listener)
+        public ChatClient(IChatClientListener listener, ConnectionProtocol protocol = ConnectionProtocol.Udp)
         {
             this.listener = listener;
             this.State = ChatState.Uninitialized;
 
+            this.chatPeer = new ChatPeer(this, protocol);
+
             this.PublicChannels = new Dictionary<string, ChatChannel>();
             this.PrivateChannels = new Dictionary<string, ChatChannel>();
+
+            this.PublicChannelsUnsubscribing = new HashSet<string>();
         }
 
-        public bool Connect(string appId, string appVersion, string userId, AuthenticationValues authValues)
+        /// <summary>
+        /// Connects this client to the Photon Chat Cloud service, which will also authenticate the user (and set a UserId).
+        /// </summary>
+        /// <param name="appId">Get your Photon Chat AppId from the <a href="https://www.photonengine.com/en/Chat/Dashboard">Dashboard</a>.</param>
+        /// <param name="appVersion">Any version string you make up. Used to separate users and variants of your clients, which might be incompatible.</param>
+        /// <param name="authValues">Values for authentication. You can leave this null, if you set a UserId before. If you set authValues, they will override any UserId set before.</param>
+        /// <returns></returns>
+        public bool Connect(string appId, string appVersion, AuthenticationValues authValues)
         {
-
-#if UNITY_WEBGL
-            var protocol = ConnectionProtocol.WebSocketSecure;
-#else
-            var protocol = ConnectionProtocol.Udp;
-#endif
-            return this.Connect(protocol, appId, appVersion, userId, authValues);
-
-        }
-
-        public bool Connect(ConnectionProtocol protocol, string appId, string appVersion, string userId, AuthenticationValues authValues)
-		{
-#if UNITY_WEBGL
-	        if (protocol != ConnectionProtocol.WebSocket && protocol != ConnectionProtocol.WebSocketSecure) {
-				UnityEngine.Debug.Log("WebGL only supports WebSocket protocol. Overriding ChatClient.Connect() 'protocol' parameter");
-				protocol = ConnectionProtocol.WebSocketSecure;
-			}
-#endif
-            if (!this.HasPeer)
-            {
-                this.chatPeer = new ChatPeer(this, protocol);
-            }
-            else
-            {
-                this.Disconnect();
-                if (this.chatPeer.UsedProtocol != protocol)
-                {
-                    this.chatPeer = new ChatPeer(this, protocol);
-                }
-            }
-
             this.chatPeer.TimePingInterval = 3000;
             this.DisconnectedCause = ChatDisconnectCause.None;
 
-            this.CustomAuthenticationValues = authValues;
-            this.UserId = userId;
+            if (authValues != null)
+            {
+                this.AuthValues = authValues;
+                if (this.AuthValues.UserId == null || this.AuthValues.UserId == "")
+                {
+                    if (this.DebugOut >= DebugLevel.ERROR)
+                    {
+                        this.listener.DebugReturn(DebugLevel.ERROR, "Connect failed: no UserId specified in authentication values");
+                    }
+                    return false;
+                }
+            }
+            else
+            {
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "Connect failed: no authentication values specified");
+                }
+                return false;
+            }
             this.AppId = appId;
             this.AppVersion = appVersion;
             this.didAuthenticate = false;
             this.msDeltaForServiceCalls = 100;
+            this.chatPeer.QuickResendAttempts = 2;
+            this.chatPeer.SentCountAllowance = 7;
 
 
             // clean all channels
             this.PublicChannels.Clear();
             this.PrivateChannels.Clear();
+            this.PublicChannelsUnsubscribing.Clear();
 
+            this.NameServerAddress = this.chatPeer.NameServerAddress;
             bool isConnecting = this.chatPeer.Connect();
             if (isConnecting)
             {
@@ -148,10 +206,10 @@ namespace ExitGames.Client.Photon.Chat
         /// </remarks>
         public void Service()
         {
-            if (this.HasPeer && (Environment.TickCount - msTimestampOfLastServiceCall > msDeltaForServiceCalls || msTimestampOfLastServiceCall == 0))
+            if (this.HasPeer && (Environment.TickCount - this.msTimestampOfLastServiceCall > this.msDeltaForServiceCalls || this.msTimestampOfLastServiceCall == 0))
             {
-                msTimestampOfLastServiceCall = Environment.TickCount;
-                this.chatPeer.Service();  //TODO: make sure to call service regularly. in best case it could be integrated into PhotonHandler.FallbackSendAckThread()!
+                this.msTimestampOfLastServiceCall = Environment.TickCount;
+                this.chatPeer.Service(); //TODO: make sure to call service regularly. in best case it could be integrated into PhotonHandler.FallbackSendAckThread()!
             }
         }
 
@@ -193,13 +251,19 @@ namespace ExitGames.Client.Photon.Chat
         {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "Subscribe called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (channels == null || channels.Length == 0)
             {
-                this.LogWarning("Subscribe can't be called for empty or null cannels-list.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "Subscribe can't be called for empty or null channels-list.");
+                }
                 return false;
             }
 
@@ -221,17 +285,27 @@ namespace ExitGames.Client.Photon.Chat
         {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "Unsubscribe called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (channels == null || channels.Length == 0)
             {
-                this.LogWarning("Unsubscribe can't be called for empty or null cannels-list.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "Unsubscribe can't be called for empty or null channels-list.");
+                }
                 return false;
             }
 
-            return SendChannelOperation(channels, ChatOperationCode.Unsubscribe, 0);
+            foreach (string ch in channels)
+            {
+                this.PublicChannelsUnsubscribing.Add(ch);
+            }
+            return this.SendChannelOperation(channels, ChatOperationCode.Unsubscribe, 0);
         }
 
         /// <summary>Sends a message to a public channel which this client subscribed to.</summary>
@@ -244,34 +318,41 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>False if the client is not yet ready to send messages.</returns>
         public bool PublishMessage(string channelName, object message)
         {
-            if (!CanChat)
+            return this.publishMessage(channelName, message, true);
+        }
+
+        internal bool PublishMessageUnreliable(string channelName, object message)
+        {
+            return this.publishMessage(channelName, message, false);
+        }
+
+        private bool publishMessage(string channelName, object message, bool reliable)
+        {
+            if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "PublishMessage called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (string.IsNullOrEmpty(channelName) || message == null)
             {
-                LogWarning("PublishMessage parameters must be non-null and not empty.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "PublishMessage parameters must be non-null and not empty.");
+                }
                 return false;
             }
 
             Dictionary<byte, object> parameters = new Dictionary<byte, object>
                 {
-                    { ChatParameterCode.Channel, channelName },
-                    { ChatParameterCode.Message, message }
+                    { (byte)ChatParameterCode.Channel, channelName },
+                    { (byte)ChatParameterCode.Message, message }
                 };
 
-			bool sent = chatPeer.OpCustom(ChatOperationCode.Publish, parameters, true);
-
-#if UNITY_EDITOR
-			if(sent)
-				UnityEngine.Debug.Log(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
-			else
-				UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]", "No PublishMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.Channel]));
-#endif
-
-			return sent;
+            return this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, reliable);
         }
 
         /// <summary>
@@ -282,7 +363,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>True if this clients can send the message to the server.</returns>
         public bool SendPrivateMessage(string target, object message)
         {
-            return SendPrivateMessage(target, message, false);
+            return this.SendPrivateMessage(target, message, false);
         }
 
         /// <summary>
@@ -294,15 +375,31 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>True if this clients can send the message to the server.</returns>
         public bool SendPrivateMessage(string target, object message, bool encrypt)
         {
+            return this.sendPrivateMessage(target, message, encrypt, true);
+        }
+
+        internal bool SendPrivateMessageUnreliable(string target, object message, bool encrypt)
+        {
+            return this.sendPrivateMessage(target, message, encrypt, false);
+        }
+
+        private bool sendPrivateMessage(string target, object message, bool encrypt, bool reliable)
+        {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "SendPrivateMessage called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (string.IsNullOrEmpty(target) || message == null)
             {
-                this.LogWarning("SendPrivateMessage parameters must be non-null and not empty.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "SendPrivateMessage parameters must be non-null and not empty.");
+                }
                 return false;
             }
 
@@ -312,11 +409,8 @@ namespace ExitGames.Client.Photon.Chat
                     { ChatParameterCode.Message, message }
                 };
 
-            bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.SendPrivate, parameters, true, 0, encrypt);
-#if UNITY_EDITOR
-			UnityEngine.Debug.LogError(string.Format("[ChatClient]: {0} [{1}] a [{2}]",sent ? "SendPrivateMessage" : "No SendPrivateMessage", parameters[ChatParameterCode.Message], parameters[ChatParameterCode.UserId]));
-#endif
-			return sent;
+            bool sent = this.chatPeer.OpCustom((byte)ChatOperationCode.SendPrivate, parameters, reliable, 0, encrypt);
+            return sent;
         }
 
         /// <summary>Sets the user's status (pre-defined or custom) and an optional message.</summary>
@@ -338,7 +432,10 @@ namespace ExitGames.Client.Photon.Chat
         {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "SetOnlineStatus called while not connected to front end server.");
+                }
                 return false;
             }
 
@@ -372,8 +469,9 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>True if the operation gets called on the server.</returns>
         public bool SetOnlineStatus(int status)
         {
-            return SetOnlineStatus(status, null, true);
+            return this.SetOnlineStatus(status, null, true);
         }
+
         /// <summary>Sets the user's status without changing your status-message.</summary>
         /// <remarks>
         /// The predefined status values can be found in class ChatUserStatus.
@@ -390,7 +488,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>True if the operation gets called on the server.</returns>
         public bool SetOnlineStatus(int status, object message)
         {
-            return SetOnlineStatus(status, message, false);
+            return this.SetOnlineStatus(status, message, false);
         }
 
         /// <summary>
@@ -421,13 +519,27 @@ namespace ExitGames.Client.Photon.Chat
         {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "AddFriends called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (friends == null || friends.Length == 0)
             {
-                this.LogWarning("AddFriends can't be called for empty or null list.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "AddFriends can't be called for empty or null list.");
+                }
+                return false;
+            }
+            if (friends.Length > FriendRequestListMax)
+            {
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "AddFriends max list size exceeded: " + friends.Length + " > " + FriendRequestListMax);
+                }
                 return false;
             }
 
@@ -484,13 +596,27 @@ namespace ExitGames.Client.Photon.Chat
         {
             if (!this.CanChat)
             {
-                // TODO: log error
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "RemoveFriends called while not connected to front end server.");
+                }
                 return false;
             }
 
             if (friends == null || friends.Length == 0)
             {
-                this.LogWarning("RemoveFriends can't be called for empty or null list.");
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "RemoveFriends can't be called for empty or null list.");
+                }
+                return false;
+            }
+            if (friends.Length > FriendRequestListMax)
+            {
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "RemoveFriends max list size exceeded: " + friends.Length + " > " + FriendRequestListMax);
+                }
                 return false;
             }
 
@@ -506,27 +632,23 @@ namespace ExitGames.Client.Photon.Chat
         /// </summary>
         /// <param name="userName">Remote user's name or UserId.</param>
         /// <returns>The (locally used) channel name for a private channel.</returns>
-        public string GetChannelIdByUser(string userName)
+        public string GetPrivateChannelNameByUser(string userName)
         {
-/*// UNDONE FRS 160622 De momento no es necesario generar estos ids ya que los nombres se presuponen únicos
             return string.Format("{0}:{1}", this.UserId, userName);
-/*/
-			return userName;
-/**/
-		}
+        }
 
-		/// <summary>
-		/// Simplified access to either private or public channels by name.
-		/// </summary>
-		/// <param name="channelName">Name of the channel to get. For private channels, the channel-name is composed of both user's names.</param>
-		/// <param name="isPrivate">Define if you expect a private or public channel.</param>
-		/// <param name="channel">Out parameter gives you the found channel, if any.</param>
-		/// <returns>True if the channel was found.</returns>
-		public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)
+        /// <summary>
+        /// Simplified access to either private or public channels by name.
+        /// </summary>
+        /// <param name="channelName">Name of the channel to get. For private channels, the channel-name is composed of both user's names.</param>
+        /// <param name="isPrivate">Define if you expect a private or public channel.</param>
+        /// <param name="channel">Out parameter gives you the found channel, if any.</param>
+        /// <returns>True if the channel was found.</returns>
+        public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)
         {
             if (!isPrivate)
             {
-               return this.PublicChannels.TryGetValue(channelName, out channel);
+                return this.PublicChannels.TryGetValue(channelName, out channel);
             }
             else
             {
@@ -534,11 +656,39 @@ namespace ExitGames.Client.Photon.Chat
             }
         }
 
+        /// <summary>
+        /// Simplified access to all channels by name. Checks public channels first, then private ones.
+        /// </summary>
+        /// <param name="channelName">Name of the channel to get.</param>
+        /// <param name="channel">Out parameter gives you the found channel, if any.</param>
+        /// <returns>True if the channel was found.</returns>
+        public bool TryGetChannel(string channelName, out ChatChannel channel)
+        {
+            bool found = false;
+            found = this.PublicChannels.TryGetValue(channelName, out channel);
+            if (found) return true;
+
+            found = this.PrivateChannels.TryGetValue(channelName, out channel);
+            return found;
+        }
+
         public void SendAcksOnly()
         {
             if (this.chatPeer != null) this.chatPeer.SendAcksOnly();
         }
 
+        /// <summary>
+        /// Sets the level (and amount) of debug output provided by the library.
+        /// </summary>
+        /// <remarks>
+        /// This affects the callbacks to IChatClientListener.DebugReturn.
+        /// Default Level: Error.
+        /// </remarks>
+        public DebugLevel DebugOut
+        {
+            set { this.chatPeer.DebugOut = value; }
+            get { return this.chatPeer.DebugOut; }
+        }
 
         #region Private methods area
 
@@ -546,22 +696,7 @@ namespace ExitGames.Client.Photon.Chat
 
         void IPhotonPeerListener.DebugReturn(DebugLevel level, string message)
         {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-            if (level == DebugLevel.ERROR)
-            {
-                UnityEngine.Debug.LogError(message);
-            }
-            else if (level == DebugLevel.WARNING)
-            {
-                UnityEngine.Debug.LogWarning(message);
-            }
-            else
-            {
-                UnityEngine.Debug.Log(message);
-            }
-#else
-            Debug.WriteLine(message);
-#endif
+            this.listener.DebugReturn(level, message);
         }
 
         void IPhotonPeerListener.OnEvent(EventData eventData)
@@ -600,9 +735,16 @@ namespace ExitGames.Client.Photon.Chat
                 case (byte)ChatOperationCode.Publish:
                 case (byte)ChatOperationCode.SendPrivate:
                 default:
-                    if (operationResponse.ReturnCode != 0)
+                    if ((operationResponse.ReturnCode != 0) && (this.DebugOut >= DebugLevel.ERROR))
                     {
-                        ((IPhotonPeerListener)this).DebugReturn(DebugLevel.ERROR, string.Format("Chat Operation {0} failed (Code: {1}). Debug Message: {2}", operationResponse.OperationCode, operationResponse.ReturnCode, operationResponse.DebugMessage));
+                        if (operationResponse.ReturnCode == -2)
+                        {
+                            this.listener.DebugReturn(DebugLevel.ERROR, string.Format("Chat Operation {0} unknown on server. Check your AppId and make sure it's for a Chat application.", operationResponse.OperationCode));
+                        }
+                        else
+                        {
+                            this.listener.DebugReturn(DebugLevel.ERROR, string.Format("Chat Operation {0} failed (Code: {1}). Debug Message: {2}", operationResponse.OperationCode, operationResponse.ReturnCode, operationResponse.DebugMessage));
+                        }
                     }
                     break;
             }
@@ -613,21 +755,24 @@ namespace ExitGames.Client.Photon.Chat
             switch (statusCode)
             {
                 case StatusCode.Connect:
-	                if (!this.chatPeer.IsProtocolSecure) {
-						UnityEngine.Debug.Log("Establishing Encryption");
-            	        this.chatPeer.EstablishEncryption();
-        	        }
-					else {
-						UnityEngine.Debug.Log("Skipping Encryption");
+                    if (!this.chatPeer.IsProtocolSecure)
+                    {
+                        this.chatPeer.EstablishEncryption();
+                    }
+                    else
+                    {
                         if (!this.didAuthenticate)
-	                    {
-                    	    this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.UserId, this.CustomAuthenticationValues);
-                	        if (!this.didAuthenticate)
-            	            {
-        	                    ((IPhotonPeerListener) this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, CustomAuthenticationValues and if you're connected. State: " + this.State);
-    	                    }
-	                    }
-					}
+                        {
+                            this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
+                            if (!this.didAuthenticate)
+                            {
+                                if (this.DebugOut >= DebugLevel.ERROR)
+                                {
+                                    ((IPhotonPeerListener)this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, AuthValues and if you're connected. State: " + this.State);
+                                }
+                            }
+                        }
+                    }
 
                     if (this.State == ChatState.ConnectingToNameServer)
                     {
@@ -643,10 +788,13 @@ namespace ExitGames.Client.Photon.Chat
                     // once encryption is availble, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
                     if (!this.didAuthenticate)
                     {
-                        this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.UserId, this.CustomAuthenticationValues);
+                        this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
                         if (!this.didAuthenticate)
                         {
-                            ((IPhotonPeerListener) this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, CustomAuthenticationValues and if you're connected. State: " + this.State);
+                            if (this.DebugOut >= DebugLevel.ERROR)
+                            {
+                                ((IPhotonPeerListener)this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, AuthValues and if you're connected. State: " + this.State);
+                            }
                         }
                     }
                     break;
@@ -669,13 +817,13 @@ namespace ExitGames.Client.Photon.Chat
             }
         }
 
-#if SDK_V4
+        #if SDK_V4
         void IPhotonPeerListener.OnMessage(object msg)
         {
             // in v4 interface IPhotonPeerListener
             return;
         }
-#endif
+        #endif
 
         #endregion
 
@@ -695,52 +843,57 @@ namespace ExitGames.Client.Photon.Chat
         {
             //Console.WriteLine(SupportClass.DictionaryToString(eventData.Parameters));
 
-            var message = (object)eventData.Parameters[(byte)ChatParameterCode.Message];
-            var sender = (string)eventData.Parameters[(byte)ChatParameterCode.Sender];
+            object message = (object)eventData.Parameters[(byte)ChatParameterCode.Message];
+            string sender = (string)eventData.Parameters[(byte)ChatParameterCode.Sender];
 
-            string channelId;
-            if (this.UserId != null && UserId == sender)
+            string channelName;
+            if (this.UserId != null && this.UserId.Equals(sender))
             {
-                var target = (string)eventData.Parameters[(byte)ChatParameterCode.UserId];
-                channelId = GetChannelIdByUser(target);
+                string target = (string)eventData.Parameters[(byte)ChatParameterCode.UserId];
+                channelName = this.GetPrivateChannelNameByUser(target);
             }
             else
             {
-                channelId = GetChannelIdByUser(sender);
+                channelName = this.GetPrivateChannelNameByUser(sender);
             }
 
             ChatChannel channel;
-            if (!this.PrivateChannels.TryGetValue(channelId, out channel))
+            if (!this.PrivateChannels.TryGetValue(channelName, out channel))
             {
-	            channel = new ChatChannel(channelId) {IsPrivate = true};
-	            PrivateChannels.Add(channel.Name, channel);
+                channel = new ChatChannel(channelName);
+                channel.IsPrivate = true;
+                channel.MessageLimit = this.MessageLimit;
+                this.PrivateChannels.Add(channel.Name, channel);
             }
 
             channel.Add(sender, message);
-            listener.OnPrivateMessage(sender, message, channelId);
+            this.listener.OnPrivateMessage(sender, message, channelName);
         }
 
         private void HandleChatMessagesEvent(EventData eventData)
         {
-            var messages = (object[])eventData.Parameters[(byte)ChatParameterCode.Messages];
-            var senders = (string[])eventData.Parameters[(byte)ChatParameterCode.Senders];
-            var channelId = (string)eventData.Parameters[(byte)ChatParameterCode.Channel];
+            object[] messages = (object[])eventData.Parameters[(byte)ChatParameterCode.Messages];
+            string[] senders = (string[])eventData.Parameters[(byte)ChatParameterCode.Senders];
+            string channelName = (string)eventData.Parameters[(byte)ChatParameterCode.Channel];
 
             ChatChannel channel;
-            if (!this.PublicChannels.TryGetValue(channelId, out channel))
+            if (!this.PublicChannels.TryGetValue(channelName, out channel))
             {
-                // TODO: log that channel wasn't found
+                if (this.DebugOut >= DebugLevel.WARNING)
+                {
+                    this.listener.DebugReturn(DebugLevel.WARNING, "Channel " + channelName + " for incoming message event not found.");
+                }
                 return;
             }
 
             channel.Add(senders, messages);
-            this.listener.OnGetMessages(channelId, senders, messages);
+            this.listener.OnGetMessages(channelName, senders, messages);
         }
 
         private void HandleSubscribeEvent(EventData eventData)
         {
-            var channelsInResponse = (string[])eventData.Parameters[ChatParameterCode.Channels];
-            var results = (bool[])eventData.Parameters[ChatParameterCode.SubscribeResults];
+            string[] channelsInResponse = (string[])eventData.Parameters[ChatParameterCode.Channels];
+            bool[] results = (bool[])eventData.Parameters[ChatParameterCode.SubscribeResults];
 
             for (int i = 0; i < channelsInResponse.Length; i++)
             {
@@ -750,6 +903,7 @@ namespace ExitGames.Client.Photon.Chat
                     if (!this.PublicChannels.ContainsKey(channelName))
                     {
                         ChatChannel channel = new ChatChannel(channelName);
+                        channel.MessageLimit = this.MessageLimit;
                         this.PublicChannels.Add(channel.Name, channel);
                     }
                 }
@@ -760,11 +914,12 @@ namespace ExitGames.Client.Photon.Chat
 
         private void HandleUnsubscribeEvent(EventData eventData)
         {
-            var channelsInRequest = (string[])eventData[ChatParameterCode.Channels];
-            for (var i = 0; i < channelsInRequest.Length; i++)
+            string[] channelsInRequest = (string[])eventData[ChatParameterCode.Channels];
+            for (int i = 0; i < channelsInRequest.Length; i++)
             {
                 string channelName = channelsInRequest[i];
                 this.PublicChannels.Remove(channelName);
+                this.PublicChannelsUnsubscribing.Remove(channelName);
             }
 
             this.listener.OnUnsubscribed(channelsInRequest);
@@ -772,7 +927,11 @@ namespace ExitGames.Client.Photon.Chat
 
         private void HandleAuthResponse(OperationResponse operationResponse)
         {
-            ((IPhotonPeerListener)this).DebugReturn(DebugLevel.INFO, operationResponse.ToStringFull() + " on: " + this.chatPeer.NameServerAddress);
+            if (this.DebugOut >= DebugLevel.INFO)
+            {
+                this.listener.DebugReturn(DebugLevel.INFO, operationResponse.ToStringFull() + " on: " + this.chatPeer.NameServerAddress);
+            }
+
             if (operationResponse.ReturnCode == 0)
             {
                 if (this.State == ChatState.ConnectedToNameServer)
@@ -782,24 +941,27 @@ namespace ExitGames.Client.Photon.Chat
 
                     if (operationResponse.Parameters.ContainsKey(ParameterCode.Secret))
                     {
-                        if (this.CustomAuthenticationValues == null)
+                        if (this.AuthValues == null)
                         {
-                            this.CustomAuthenticationValues = new AuthenticationValues();
+                            this.AuthValues = new AuthenticationValues();
                         }
-                        this.CustomAuthenticationValues.Secret = operationResponse[ParameterCode.Secret] as string;
-                        this.FrontendAddress = (string) operationResponse[ParameterCode.Address];
+                        this.AuthValues.Token = operationResponse[ParameterCode.Secret] as string;
+                        this.FrontendAddress = (string)operationResponse[ParameterCode.Address];
 
                         // we disconnect and status handler starts to connect to front end
                         this.chatPeer.Disconnect();
                     }
                     else
                     {
-                        //TODO: error reaction!
+                        if (this.DebugOut >= DebugLevel.ERROR)
+                        {
+                            this.listener.DebugReturn(DebugLevel.ERROR, "No secret in authentication response.");
+                        }
                     }
                 }
                 else if (this.State == ChatState.ConnectingToFrontEnd)
                 {
-                    this.msDeltaForServiceCalls = this.msDeltaForServiceCalls * 4;  // when we arrived on chat server: limit Service calls some more
+                    this.msDeltaForServiceCalls = this.msDeltaForServiceCalls * 4; // when we arrived on chat server: limit Service calls some more
 
                     this.State = ChatState.ConnectedToFrontEnd;
                     this.listener.OnChatStateChange(this.State);
@@ -808,7 +970,7 @@ namespace ExitGames.Client.Photon.Chat
             }
             else
             {
-                //((IPhotonPeerListener)this).DebugReturn(DebugLevel.INFO, operationResponse.ToStringFull() + " NS: " + this.NameServerAddress + " FrontEnd: " + this.frontEndAddress);
+                //this.listener.DebugReturn(DebugLevel.INFO, operationResponse.ToStringFull() + " NS: " + this.NameServerAddress + " FrontEnd: " + this.frontEndAddress);
 
                 switch (operationResponse.ReturnCode)
                 {
@@ -829,6 +991,12 @@ namespace ExitGames.Client.Photon.Chat
                         break;
                 }
 
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "Authentication request error: " + operationResponse.ReturnCode + ". Disconnecting.");
+                }
+
+
                 this.State = ChatState.Disconnecting;
                 this.chatPeer.Disconnect();
             }
@@ -836,8 +1004,8 @@ namespace ExitGames.Client.Photon.Chat
 
         private void HandleStatusUpdate(EventData eventData)
         {
-            var user = (string)eventData.Parameters[ChatParameterCode.Sender];
-            var status = (int)eventData.Parameters[ChatParameterCode.Status];
+            string user = (string)eventData.Parameters[ChatParameterCode.Sender];
+            int status = (int)eventData.Parameters[ChatParameterCode.Status];
 
             object message = null;
             bool gotMessage = eventData.Parameters.ContainsKey(ChatParameterCode.Message);
@@ -852,40 +1020,41 @@ namespace ExitGames.Client.Photon.Chat
         private void ConnectToFrontEnd()
         {
             this.State = ChatState.ConnectingToFrontEnd;
-            ((IPhotonPeerListener)this).DebugReturn(DebugLevel.INFO, "Connecting to frontend " + this.FrontendAddress);
-            this.chatPeer.Connect(this.FrontendAddress, ChatApppName);
+
+            if (this.DebugOut >= DebugLevel.INFO)
+            {
+                this.listener.DebugReturn(DebugLevel.INFO, "Connecting to frontend " + this.FrontendAddress);
+            }
+
+            this.chatPeer.Connect(this.FrontendAddress, ChatAppName);
         }
 
         private bool AuthenticateOnFrontEnd()
         {
-            if (CustomAuthenticationValues != null)
+            if (this.AuthValues != null)
             {
-                var d = new Dictionary<byte, object> {{(byte)ChatParameterCode.Secret, CustomAuthenticationValues.Secret}};
-                return this.chatPeer.OpCustom((byte)ChatOperationCode.Authenticate, d, true);
+                if (this.AuthValues.Token == null || this.AuthValues.Token == "")
+                {
+                    if (this.DebugOut >= DebugLevel.ERROR)
+                    {
+                        this.listener.DebugReturn(DebugLevel.ERROR, "Can't authenticate on front end server. Secret is not set");
+                    }
+                    return false;
+                }
+                else
+                {
+                    Dictionary<byte, object> opParameters = new Dictionary<byte, object> { { (byte)ChatParameterCode.Secret, this.AuthValues.Token } };
+                    return this.chatPeer.OpCustom((byte)ChatOperationCode.Authenticate, opParameters, true);
+                }
             }
             else
             {
-                Debug.WriteLine("Can't authenticate on front end server. CustomAuthValues is null");
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, "Can't authenticate on front end server. Authentication Values are not set");
+                }
+                return false;
             }
-            return false;
-        }
-
-        private void LogWarning(string message)
-        {
-#if UNITY
-            UnityEngine.Debug.LogWarning(message);
-#else
-            Debug.WriteLine(message, "Warning");
-#endif
-        }
-
-        private void Log(string message)
-        {
-#if UNITY
-            UnityEngine.Debug.Log(message);
-#else
-            Debug.WriteLine(message);
-#endif
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using ExitGames.Client.Photon.Chat;
 using SmartLocalization;
 
@@ -123,11 +124,17 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 		
 	}
-	
+
+	// TODO
+	public void DebugReturn(DebugLevel level, string message)
+	{
+		throw new System.NotImplementedException();
+	}
+
 	public void OnDisconnected() {
 		//Debug.Log (">>> Chat OnDisconnected");
         if (!PhotonHandler.AppQuits)
-            ChatClient.Connect(ChatAppId, "1.0", UserName, null);
+            ChatClient.Connect(ChatAppId, "1.0", null);
 	}
 	
 	public void OnChatStateChange(ChatState state) {
@@ -243,7 +250,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 
 		ChatClient = new ChatClient(this);
-		ChatClient.Connect(ChatAppId, "1.0", UserName, null);
+		ChatClient.Connect(ChatAppId, "1.0", null);
 
 		while (!ChatClient.CanChat)
 		{
