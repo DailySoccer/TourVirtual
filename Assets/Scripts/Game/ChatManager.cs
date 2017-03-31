@@ -140,7 +140,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	public void OnDisconnected() {
 		//Debug.Log (">>> Chat OnDisconnected");
         if (!PhotonHandler.AppQuits)
-            ChatClient.Connect(ChatAppId, "1.0", null);
+			ChatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
 	}
 	
 	public void OnChatStateChange(ChatState state) {
