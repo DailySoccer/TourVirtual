@@ -126,8 +126,14 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	}
 
 	// TODO
-	public void DebugReturn(DebugLevel level, string message)
-	{
+	public void DebugReturn(DebugLevel level, string message) {
+#if UNITY_EDITOR
+		switch(level) {
+		case DebugLevel.ERROR: Debug.LogError(message); break;
+		case DebugLevel.WARNING: Debug.LogWarning(message); break;
+		default: Debug.Log(message); break;
+		}
+#endif
 		throw new System.NotImplementedException();
 	}
 
@@ -250,7 +256,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 
 		ChatClient = new ChatClient(this);
-		ChatClient.Connect(ChatAppId, "1.0", null);
+		ChatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
 
 		while (!ChatClient.CanChat)
 		{
