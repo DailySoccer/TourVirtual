@@ -7,16 +7,21 @@ public class AudioButton : MonoBehaviour {
 	public SoundDefinitions SoundDefinition = SoundDefinitions.BUTTON_TICK;
 	Button myButton;
 
+	void Awake() {
+		
+	}
 	void Start()
 	{
 		//mAudioGameController = GameObject.FindGameObjectWithTag("MainManager").GetComponent<AudioInGameController>();
 		myButton = GetComponent<Button> ();
-		myButton.onClick.AddListener (PlaySound);
+		if (myButton != null)
+			myButton.onClick.AddListener (PlaySound);
 	}
 
 
 	void OnDestroy() {
-		GetComponent<Button> ().onClick.RemoveListener(PlaySound);
+		if (myButton!= null)
+			myButton.onClick.RemoveListener(PlaySound);
 	}
 
 	void PlaySound()
