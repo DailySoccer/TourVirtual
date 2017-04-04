@@ -156,6 +156,7 @@ GameObject:
   - 114: {fileID: 11499622}
   - 114: {fileID: 11454408}
   - 114: {fileID: 11427568}
+  - 114: {fileID: 11448908}
   m_Layer: 5
   m_Name: Profile Picture
   m_TagString: Untagged
@@ -587,7 +588,6 @@ GameObject:
   m_Component:
   - 224: {fileID: 22450898}
   - 114: {fileID: 11492466}
-  - 114: {fileID: 11442514}
   - 114: {fileID: 11418324}
   m_Layer: 5
   m_Name: Button Back
@@ -1615,6 +1615,7 @@ GameObject:
   - 222: {fileID: 22277406}
   - 114: {fileID: 11498798}
   - 114: {fileID: 11411898}
+  - 114: {fileID: 11446414}
   m_Layer: 5
   m_Name: New Message Button
   m_TagString: Untagged
@@ -2661,6 +2662,7 @@ GameObject:
   - 114: {fileID: 11462594}
   - 114: {fileID: 11478300}
   - 114: {fileID: 11477984}
+  - 114: {fileID: 11414712}
   m_Layer: 5
   m_Name: Send Button
   m_TagString: Untagged
@@ -3111,6 +3113,7 @@ GameObject:
   - 222: {fileID: 22260682}
   - 114: {fileID: 11442286}
   - 114: {fileID: 11455934}
+  - 114: {fileID: 11473822}
   m_Layer: 5
   m_Name: Button Settings
   m_TagString: Untagged
@@ -3723,6 +3726,7 @@ GameObject:
   - 222: {fileID: 22202170}
   - 114: {fileID: 11403458}
   - 114: {fileID: 11473252}
+  - 114: {fileID: 11498726}
   m_Layer: 5
   m_Name: EditProfile_Button
   m_TagString: Untagged
@@ -5680,6 +5684,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizedKey: TVB.Chat.WirteMessagePlaceholder
+--- !u!114 &11414712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 3
 --- !u!114 &11415924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7917,18 +7933,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundDefinition: 5
---- !u!114 &11442514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 113980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundDefinition: 10
 --- !u!114 &11442828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8453,6 +8457,18 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
+--- !u!114 &11446414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 3
 --- !u!114 &11447596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8635,6 +8651,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11448908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 4
 --- !u!114 &11448914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10473,7 +10501,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 21300000, guid: fa74ce2b88ebc43b2bb7211447814848, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -10977,6 +11005,18 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &11473822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 4
 --- !u!114 &11473832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12840,6 +12880,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizedKey: PCK.scene.convivencia_juegos_valdebebas
+--- !u!114 &11498726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3726eaba7f42cdb378a03c402ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundDefinition: 4
 --- !u!114 &11498798
 MonoBehaviour:
   m_ObjectHideFlags: 1
