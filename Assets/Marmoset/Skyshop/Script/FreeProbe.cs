@@ -39,9 +39,11 @@ namespace mset {
 				
 				//attempt to make an HDR render texture for RGBM capture
 				RT = RenderTexture.GetTemporary(_targetCube.width, _targetCube.width, 24, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
+				RT.Release();
 				RT.isCubemap = false;
 				RT.useMipMap = false;
 				RT.generateMips = false;
+				RT.Create();
 				if(!RT.IsCreated() && !RT.Create()) {
 					Debug.LogWarning("Failed to create HDR RenderTexture, capturing in LDR mode.");
 					RenderTexture.ReleaseTemporary(RT);

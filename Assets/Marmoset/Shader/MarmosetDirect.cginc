@@ -18,15 +18,6 @@ inline float3 wrapLighting(float DP, float3 scatter) {
 // NOTE: some intricacy in shader compiler on some GLES2.0 platforms (iOS) needs 'viewDir' & 'h'
 // to be mediump instead of lowp, otherwise specular highlight becomes too bright.
 inline half4 marmosetLighting (MarmosetOutput s, half3 viewDir, half3 lightDir, half3 lightColor) {
-//	half3 h = normalize (light.dir + viewDir);
-//	fixed diff = max (0, dot (s.Normal, light.dir));
-//	float nh = max (0, dot (s.Normal, h));
-//	float spec = pow (nh, s.Specular*128.0) * s.Gloss;
-//	fixed4 c;
-//	c.rgb = s.Albedo * light.color * diff + light.color * _SpecColor.rgb * spec;
-//	c.a = s.Alpha;
-//	return c;
-	
 	half4 frag = half4(0.0,0.0,0.0,s.Alpha);		
 	#if defined(MARMO_DIFFUSE_DIRECT) || defined(MARMO_SPECULAR_DIRECT)
 		half3 L = lightDir;
@@ -104,8 +95,8 @@ inline half4 LightingMarmosetDirect( MarmosetOutput s, half3 viewDir, UnityGI gi
 	return c;
 }
 
-inline void LightingMarmosetDirect_GI (MarmosetOutput s, UnityGIInput data, inout UnityGI gi) {
-	gi = UnityGlobalIllumination (data, 1.0, 0.0, s.Normal, false);
+inline void LightingMarmosetDirect_GI (MarmosetOutput s, UnityGIInput giInput, inout UnityGI gi) {
+	gi = UnityGlobalIllumination(giInput, 1.0, s.Normal);
 }
 
 //directional lightmap lighting
@@ -150,18 +141,21 @@ inline half4 LightingMarmosetDirect_DirLightmap (MarmosetOutput s, fixed4 color,
 //deferred shading
 inline half4 LightingMarmosetDirect_Deferred (MarmosetOutput s, half3 viewDir, UnityGI gi, out half4 outDiffuseOcclusion, out half4 outSpecSmoothness, out half4 outNormal) {
 	outDiffuseOcclusion = float4( s.Albedo, 1.0 );
-	#ifdef MARMO_SPECULAR_DIRECT
-		outSpecSmoothness = half4(s.SpecularRGB*0.125, s.Specular*4.0); //x0.125 to match Forward intensity, x4.0 to map to Forward specular exponent (Unity:128, Marmoset:512)
+	#if defined(UNITY_PASS_DEFERRED) && UNITY_ENABLE_REFLECTION_BUFFERS
+		outSpecSmoothness = half4(0.0, 0.0, 0.0, s.Specular*4.0); //HACK: we cannot turn off G-buffer reflections but we can minimize their effect at least, set specular to zero after this.
+	#elif defined(MARMO_SPECULAR_DIRECT)
+		outSpecSmoothness = half4(s.SpecularRGB * 0.125, s.Specular*4.0); //x0.125 to match Forward intensity, x4.0 to map to Forward specular exponent (Unity:128, Marmoset:512)
 	#else
 		outSpecSmoothness = half4(0.0, 0.0, 0.0, 1.0);
 	#endif
+	
+	
 	outNormal = half4(s.Normal * 0.5 + 0.5, 1.0);
 	half4 emission = half4(s.Emission, 1.0);
 	
 	#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
 		emission.rgb += s.Albedo * gi.indirect.diffuse;
 	#endif
-
 	return emission;
 }
 

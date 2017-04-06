@@ -3,9 +3,7 @@
 // http://marmoset.co
 
 //WARNING: causes material property issues in OSX and anything pre 4.5
-#if !UNITY_STANDALONE_OSX
 #define USE_PROPERTY_BLOCKS
-#endif
 
 using UnityEngine;
 using System.Collections;
@@ -233,9 +231,12 @@ namespace mset {
 		public bool ShowSkybox {
 			get { return _ShowSkybox; }
 			set {
-				if(value && SkyboxMaterial) {
-					if(RenderSettings.skybox != SkyboxMaterial) RenderSettings.skybox = SkyboxMaterial;
-				} else if(RenderSettings.skybox != null) {
+				if(value) {
+					if(SkyboxMaterial && RenderSettings.skybox != SkyboxMaterial) {
+						RenderSettings.skybox = SkyboxMaterial;
+					}
+				} 
+				else if(RenderSettings.skybox != null) {
 					//only clear skyboxes we've set
 					if(RenderSettings.skybox == _SkyboxMaterial || RenderSettings.skybox.name == "Internal IBL Skybox") { //name check is for legacy scenes
 						RenderSettings.skybox = null;
@@ -381,6 +382,13 @@ namespace mset {
 		public void EditorUpdate(bool forceApply) {
 			mset.Sky.EnableGlobalProjection(true);
 
+#if UNITY_EDITOR
+			//update all skies here
+			mset.Sky[] skies = FindObjectsOfType<mset.Sky>();
+			foreach(mset.Sky sky in skies) {
+				sky.EditorStart();
+			}
+#endif
 			//blending will not work in the editor viewport, this only complicates things.
 			mset.Sky.EnableBlendingSupport(false);
 			mset.Sky.EnableTerrainBlending(false);
@@ -398,7 +406,7 @@ namespace mset {
 
 #if UNITY_EDITOR
 			//update all skies here
-			mset.Sky[] skies = FindObjectsOfType<mset.Sky>();
+			//mset.Sky[] skies = FindObjectsOfType<mset.Sky>();
 			foreach(mset.Sky sky in skies) {
 				sky.EditorUpdate();
 			}

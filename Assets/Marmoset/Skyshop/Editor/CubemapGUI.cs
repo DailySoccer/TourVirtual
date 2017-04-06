@@ -219,16 +219,30 @@ namespace mset {
 
 			// create untitled cubes to the same place lightmaps end up in
 			if(this.inspector || path.Length == 0) {
-				if(EditorApplication.currentScene == null || EditorApplication.currentScene.Length == 0) {
-					bool saved = EditorUtility.DisplayDialog("Scene needs saving", "You need to save the scene before creating new probe cubemaps.", "Save Scene", "Cancel");
-					if(saved) {
-						saved = EditorApplication.SaveScene();
+				#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+					UnityEngine.SceneManagement.Scene currentScene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+					if(string.IsNullOrEmpty(currentScene.path)) {
+						bool saved = EditorUtility.DisplayDialog("Scene needs saving", "You need to save the scene before creating new probe cubemaps.", "Save Scene", "Cancel");
+						if(saved) {
+							saved = UnityEditor.SceneManagement.EditorSceneManager.SaveScene(currentScene);
+						}
+						if(!saved) return;
 					}
-					if(!saved) return;
-				}
+					string scenePath = currentScene.path;
+				#else
+					if(EditorApplication.currentScene == null || EditorApplication.currentScene.Length == 0) {
+						bool saved = EditorUtility.DisplayDialog("Scene needs saving", "You need to save the scene before creating new probe cubemaps.", "Save Scene", "Cancel");
+						if(saved) {
+							saved = EditorApplication.SaveScene();
+						}
+						if(!saved) return;
+					}
+					string scenePath = EditorApplication.currentScene
+				#endif
+
 				if(path.Length == 0) {
-					string sceneDir = System.IO.Path.GetDirectoryName(EditorApplication.currentScene);
-					string sceneName = System.IO.Path.GetFileNameWithoutExtension(EditorApplication.currentScene);
+					string sceneDir = System.IO.Path.GetDirectoryName(scenePath);
+					string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
 
 					path = sceneDir + "/" + sceneName;
 					if( !System.IO.Directory.Exists(path) ) {

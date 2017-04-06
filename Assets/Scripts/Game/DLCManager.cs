@@ -87,6 +87,7 @@ public class DLCManager : MonoBehaviour {
         string[] subs = version.Split('.');    
     return int.Parse(subs[0])*10000 + int.Parse( subs[1])*100 + int.Parse(subs[2]);
     }
+
     public System.Collections.IEnumerator LoadVersion()
     {
         WWW www;
@@ -101,7 +102,10 @@ public class DLCManager : MonoBehaviour {
                 #if UNITY_EDITOR
                 int current = GetVersionInInt("1.0.20");
                 #else
-                int current = GetVersionInInt(Application.version);
+				// BUG en Unity (Fixed en Unity 5.4.0)
+				// [IOS] APPLICATION.VERSION RETURNS BUILD NUMBER INSTEAD OF VERSION NUMBER
+				// https://issuetracker.unity3d.com/issues/ios-application-dot-version-returns-build-number-instead-of-version-number
+				int current = GetVersionInInt(Application.version);
                 #endif
                 if( current < minVersion ) {
                     error = true;

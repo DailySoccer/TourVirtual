@@ -3,9 +3,7 @@
 // http://marmoset.co
 
 //WARNING: causes material property issues in OSX and anything pre 4.5
-#if !UNITY_STANDALONE_OSX
 #define USE_PROPERTY_BLOCKS
-#endif
 
 using UnityEngine;
 using System.Collections;
@@ -203,14 +201,21 @@ namespace mset {
 		public void ApplyFast(Renderer target, int blendIndex) {
 			// Binds IBL data, exposure, and a skybox texture globally or to a specific game object
 			#if USE_PROPERTY_BLOCKS
-				if(propBlock == null) propBlock = new MaterialPropertyBlock();
-				if(blendIndex == 0) {
-					propBlock.Clear();
-				} else {
-					target.GetPropertyBlock(propBlock);						
-				}
-				ApplyToBlock(ref propBlock, this.blendIDs[blendIndex]);
-				target.SetPropertyBlock(propBlock);
+				#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+					if(propBlock == null) propBlock = new MaterialPropertyBlock();
+					target.GetPropertyBlock(propBlock);		
+					ApplyToBlock(ref propBlock, this.blendIDs[blendIndex]);
+					target.SetPropertyBlock(propBlock);
+				#else
+					if(propBlock == null) propBlock = new MaterialPropertyBlock();
+					if(blendIndex == 0) {
+						propBlock.Clear();
+					} else {
+						target.GetPropertyBlock(propBlock);						
+					}
+					ApplyToBlock(ref propBlock, this.blendIDs[blendIndex]);
+					target.SetPropertyBlock(propBlock);
+				#endif
 			#else
 				//SharedMaterials are now used everywhere except through SkyAnchor
 				foreach(Material mat in target.sharedMaterials) {
@@ -228,30 +233,56 @@ namespace mset {
 		}
 
 		private void ApplyToBlock(ref MaterialPropertyBlock block, ShaderIDs bids) {
-			#if USE_PROPERTY_BLOCKS
-			block.AddVector(bids.exposureIBL,	exposures);
-			block.AddVector(bids.exposureLM,	exposuresLM);
+		#if USE_PROPERTY_BLOCKS
+			#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
 
-			block.AddMatrix(bids.skyMatrix,		skyMatrix);
-			block.AddMatrix(bids.invSkyMatrix,	invMatrix);
+				block.SetVector(bids.exposureIBL,	exposures);
+				block.SetVector(bids.exposureLM,	exposuresLM);
+				block.SetMatrix(bids.skyMatrix,		skyMatrix);
+				block.SetMatrix(bids.invSkyMatrix,	invMatrix);
 
-			block.AddVector(bids.skyMin, skyMin);
-			block.AddVector(bids.skyMax, skyMax);			
+				block.SetVector(bids.skyMin, skyMin);
+				block.SetVector(bids.skyMax, skyMax);			
 
-			if(specularCube) block.AddTexture(bids.specCubeIBL, specularCube);
-			else 			 block.AddTexture(bids.specCubeIBL, blackCube);
+				if(specularCube) block.SetTexture(bids.specCubeIBL, specularCube);
+				else 			 block.SetTexture(bids.specCubeIBL, blackCube);
 
-			block.AddVector(bids.SH[0],	SH.cBuffer[0]);
-			block.AddVector(bids.SH[1],	SH.cBuffer[1]);
-			block.AddVector(bids.SH[2],	SH.cBuffer[2]);
-			block.AddVector(bids.SH[3],	SH.cBuffer[3]);
-			block.AddVector(bids.SH[4],	SH.cBuffer[4]);
-			block.AddVector(bids.SH[5],	SH.cBuffer[5]);
-			block.AddVector(bids.SH[6],	SH.cBuffer[6]);
-			block.AddVector(bids.SH[7],	SH.cBuffer[7]);
-			block.AddVector(bids.SH[8], SH.cBuffer[8]);
+				block.SetVector(bids.SH[0],	SH.cBuffer[0]);
+				block.SetVector(bids.SH[1],	SH.cBuffer[1]);
+				block.SetVector(bids.SH[2],	SH.cBuffer[2]);
+				block.SetVector(bids.SH[3],	SH.cBuffer[3]);
+				block.SetVector(bids.SH[4],	SH.cBuffer[4]);
+				block.SetVector(bids.SH[5],	SH.cBuffer[5]);
+				block.SetVector(bids.SH[6],	SH.cBuffer[6]);
+				block.SetVector(bids.SH[7],	SH.cBuffer[7]);
+				block.SetVector(bids.SH[8], SH.cBuffer[8]);
+
+			#else 
+
+				block.AddVector(bids.exposureIBL,	exposures);
+				block.AddVector(bids.exposureLM,	exposuresLM);
+
+				block.AddMatrix(bids.skyMatrix,		skyMatrix);
+				block.AddMatrix(bids.invSkyMatrix,	invMatrix);
+
+				block.AddVector(bids.skyMin, skyMin);
+				block.AddVector(bids.skyMax, skyMax);			
+
+				if(specularCube) block.AddTexture(bids.specCubeIBL, specularCube);
+				else 			 block.AddTexture(bids.specCubeIBL, blackCube);
+
+				block.AddVector(bids.SH[0],	SH.cBuffer[0]);
+				block.AddVector(bids.SH[1],	SH.cBuffer[1]);
+				block.AddVector(bids.SH[2],	SH.cBuffer[2]);
+				block.AddVector(bids.SH[3],	SH.cBuffer[3]);
+				block.AddVector(bids.SH[4],	SH.cBuffer[4]);
+				block.AddVector(bids.SH[5],	SH.cBuffer[5]);
+				block.AddVector(bids.SH[6],	SH.cBuffer[6]);
+				block.AddVector(bids.SH[7],	SH.cBuffer[7]);
+				block.AddVector(bids.SH[8], SH.cBuffer[8]);
 
 			#endif
+		#endif
 		}
 
 		private void ApplyToMaterial(Material mat, ShaderIDs bids) {
@@ -462,20 +493,28 @@ namespace mset {
 
 		//renderer
 		public static void SetBlendWeight(Renderer target, float weight) {
-			#if USE_PROPERTY_BLOCKS
-			if( propBlock == null ) propBlock = new MaterialPropertyBlock();
-			else propBlock.Clear();
-			//NOTE: this expects the property block to be cleared prior to being called or the weight property will accumulate every frame!
-			//MaterialPropertyBlock block = new MaterialPropertyBlock();
-			target.GetPropertyBlock(propBlock);
-			propBlock.AddFloat("_BlendWeightIBL", weight);
-			target.SetPropertyBlock(propBlock);
+		#if USE_PROPERTY_BLOCKS
+			#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+				if( propBlock == null ) propBlock = new MaterialPropertyBlock();
+				target.GetPropertyBlock(propBlock);
+				propBlock.SetFloat("_BlendWeightIBL", weight);
+				target.SetPropertyBlock(propBlock);
 			#else
+				if( propBlock == null ) propBlock = new MaterialPropertyBlock();
+				else propBlock.Clear();
+
+				//NOTE: this expects the property block to be cleared prior to being called or the weight property will accumulate every frame!
+				//MaterialPropertyBlock block = new MaterialPropertyBlock();
+				target.GetPropertyBlock(propBlock);
+				propBlock.AddFloat("_BlendWeightIBL", weight);
+				target.SetPropertyBlock(propBlock);
+			#endif
+		#else
 			Material[] mats = getTargetMaterials(target);
 			foreach(Material mat in mats) {
 				mat.SetFloat("_BlendWeightIBL", weight);
 			}
-			#endif
+		#endif
 		}
 
 		//material
@@ -622,6 +661,12 @@ namespace mset {
 		}
 
 #if UNITY_EDITOR
+		public void EditorStart() {
+			if(!this.blendIDs[0].valid || !this.blendIDs[1].valid) {
+				this.UpdatePropertyIDs();
+			}
+		}
+
 		public void EditorUpdate() {
 			UpdateSkyTransform();
 			UpdateExposures();

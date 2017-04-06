@@ -114,5 +114,8 @@ struct MarmosetSkinOutput {
 		half3 Translucency;
 		half  Fuzz;
 	#endif
+	#ifdef MARMO_SPECULAR_ANISO
+		half3 anisoTangent;
+	#endif
 };
 #endif

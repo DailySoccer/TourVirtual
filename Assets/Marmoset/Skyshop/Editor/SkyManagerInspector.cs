@@ -84,15 +84,23 @@ namespace mset {
 
 			string staticTip = "If enabled, only GameObjects marked as \"Static\" will be rendered when capturing cubemaps.";
 			skmgr.ProbeOnlyStatic = GUILayout.Toggle(skmgr.ProbeOnlyStatic, new GUIContent("Probe Only Static Objects", staticTip));
-			
-			string dx11Tip = "Uses HDR render-textures to capture sky probes faster and with better quality.\n\nRequires project to be in Direct3D 11 mode while capturing.";
-			if(PlayerSettings.useDirect3D11) {
-				skmgr.ProbeWithCubeRT = GUILayout.Toggle(skmgr.ProbeWithCubeRT, new GUIContent("Probe Using Render-to-Cubemap",dx11Tip));
-			} else {
-				EditorGUI.BeginDisabledGroup(true);
-				GUILayout.Toggle(false, new GUIContent("Probe Using Render-to-Cubemap (Requires Direct3D11)",dx11Tip));
-				EditorGUI.EndDisabledGroup();
-			}
+
+			#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+				string dx11Tip = "Uses HDR render-textures to capture sky probes faster and with better quality.\n\nRequires project to be in Direct3D 11 mode while capturing.";
+				if(PlayerSettings.useDirect3D11) {
+					skmgr.ProbeWithCubeRT = GUILayout.Toggle(skmgr.ProbeWithCubeRT, new GUIContent("Probe Using Render-to-Cubemap",dx11Tip));
+				} else {
+					EditorGUI.BeginDisabledGroup(true);
+					GUILayout.Toggle(false, new GUIContent("Probe Using Render-to-Cubemap (Requires Direct3D11)",dx11Tip));
+					EditorGUI.EndDisabledGroup();
+				}
+			#else
+				//All platforms and both free and pro versions of Unity support render to cubemap.
+				skmgr.ProbeWithCubeRT = true;
+
+				//string RTTip = "Uses HDR render-textures to capture sky probes faster and with better quality.";
+				//skmgr.ProbeWithCubeRT = GUILayout.Toggle(skmgr.ProbeWithCubeRT, new GUIContent("Probe Using Render-to-Cubemap",RTTip));
+			#endif
 
 			string camTip = "Sky probing is performed using the settings and clipping planes of this camera. If field is empty, Main Camera is used.";
 			skmgr.ProbeCamera = EditorGUILayout.ObjectField( new GUIContent("Probe with Camera", camTip), skmgr.ProbeCamera, typeof(Camera), true ) as Camera;
@@ -103,7 +111,6 @@ namespace mset {
 				bool probeNonProbes = false;
 				bool probeIBL = false;
 				Probeshop.ProbeSkies( null, GameObject.FindObjectsOfType<mset.Sky>(), probeNonProbes, probeIBL, null);
-
 			}
 			if(GUILayout.Button("Probe Skies (Direct+IBL)", GUILayout.Width(170))) {
 				bool probeNonProbes = false;

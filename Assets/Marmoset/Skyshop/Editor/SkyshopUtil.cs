@@ -190,6 +190,7 @@ public class SkyshopUtil {
 	
 	//converts one material to or from using marmoset mobile shaders
 	private static bool toggleMobile(ref Material mat, bool toMobile) {
+		if(!mat) return false;
 		string name = mat.shader.name;
 		string marmoPrefix = "Marmoset/";
 		string mobilePrefix = "Marmoset/Mobile/";

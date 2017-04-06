@@ -38,7 +38,7 @@ Shader "Marmoset/Mobile/Vertex Occlusion/Bumped Specular IBL" {
 		//approxview
 		//NOTE: lightmapping + vertex color puts this shader over the SM3 interpolant count
 		//mobile primary
-		#pragma only_renderers d3d9 opengl gles gles3 metal
+		#pragma only_renderers d3d9 opengl glcore gles gles3 metal
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	
 			#define MARMO_BOX_PROJECTION
@@ -96,7 +96,7 @@ Shader "Marmoset/Mobile/Vertex Occlusion/Bumped Specular IBL" {
 		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert exclude_path:prepass noforwardadd 
 		//approxview
 		//mobile secondary
-		#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x				
+		#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x				
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	
 			#define MARMO_BOX_PROJECTION

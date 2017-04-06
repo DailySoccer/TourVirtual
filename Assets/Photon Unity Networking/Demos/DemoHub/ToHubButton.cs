@@ -44,7 +44,7 @@ public class ToHubButton : MonoBehaviour
     {
         bool sceneZeroLoaded = false;
 
-        #if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+		#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2 && !UNITY_5_3
         sceneZeroLoaded = SceneManager.GetActiveScene().buildIndex == 0;
         #else
         sceneZeroLoaded = Application.loadedLevel == 0;

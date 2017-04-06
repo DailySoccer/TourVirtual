@@ -154,13 +154,14 @@ half4 convolveFrag (v2f i) : COLOR {
 	result.rgb = spec * _SpecularScale;
 	
 	#if MARMO_RGBM_OUTPUT_ON
+		result.rgb = lerp(sRGBToLinear3(result.rgb),result.rgb, IS_LINEAR);
 		result = HDRtoRGBM(result);		
 		//output gets converted to sRGB by gamma correction, premptively undo it
 		result.rgb = lerp(result.rgb, sRGBToLinear3(result.rgb), IS_LINEAR);
 		return result;
 	#else
 		result.a = 1.0;
-	#endif				
+	#endif	
 	return result;
 }
 

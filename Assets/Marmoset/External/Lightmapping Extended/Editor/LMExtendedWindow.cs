@@ -50,10 +50,15 @@ public class LMExtendedWindow : EditorWindow
 	
 	public string ConfigFilePath {
 		get {
-			if (string.IsNullOrEmpty (EditorApplication.currentScene))
-				return "";
-			string root = Path.GetDirectoryName (EditorApplication.currentScene);
-			string dir = Path.GetFileNameWithoutExtension (EditorApplication.currentScene);
+			#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+				string currentPath = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().path;
+			#else
+				string currentPath = EditorApplication.currentScene;
+			#endif
+			if (string.IsNullOrEmpty(currentPath))	return "";
+			
+			string root = Path.GetDirectoryName (currentPath);
+			string dir = Path.GetFileNameWithoutExtension (currentPath);
 			string path = Path.Combine (root, dir);
 			path = Path.Combine (path, "BeastSettings.xml");
 			return path;

@@ -44,8 +44,7 @@ inline half4 LightingMarmosetSkinDirect( MarmosetSkinOutput s, half3 lightDir, h
 	#ifdef MARMO_SPECULAR_DIRECT
 		half3 H = viewDir+L;
 		#ifdef MARMO_SPECULAR_ANISO
-			float theta = _AnisoDir * 3.14159 / 180.0;
-			float3 T = float3(cos(theta),sin(theta),0.0);
+			float3 T = s.anisoTangent;
 			H = H - T*dot(H,T)*_Aniso;
 		#endif
 		H = normalize(H);
@@ -220,6 +219,13 @@ void MarmosetSkinSurf(Input IN, inout MarmosetSkinOutput OUT) {
 	#endif
 
 	//SPECULAR
+	#if defined(MARMO_SPECULAR_DIRECT) && defined(MARMO_SPECULAR_ANISO)
+		float theta = _AnisoDir*(3.1415962/180.0);
+		OUT.anisoTangent = float3(cos(theta), sin(theta), 0.0);
+		#ifdef MARMO_NORMALMAP
+			OUT.anisoTangent = WorldNormalVector(IN, OUT.anisoTangent);
+		#endif
+	#endif
 	#if defined(MARMO_SPECULAR_DIRECT) || defined(MARMO_SPECULAR_IBL)
 		#ifdef MARMO_DIFFUSE_SPECULAR_COMBINED
 			half4 spec = diffspec;

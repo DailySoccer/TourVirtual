@@ -187,16 +187,21 @@ namespace mset {
 			bool tempRT = false;
 			if(cubeRT == null) {
 				tempRT = true;
+
 				//everything's captured to an HDR buffer right now
 				cubeRT = RenderTexture.GetTemporary(targetCube.width, targetCube.width, 24, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
+				cubeRT.Release();
 				cubeRT.isCubemap = true;
 				cubeRT.useMipMap = true;
 				cubeRT.generateMips = true;
+				cubeRT.Create();
 				if(!cubeRT.IsCreated() && !cubeRT.Create()) {
 					cubeRT = RenderTexture.GetTemporary(targetCube.width, targetCube.width, 24, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+					cubeRT.Release();
 					cubeRT.isCubemap = true;
 					cubeRT.useMipMap = true;
 					cubeRT.generateMips = true;
+					cubeRT.Create();
 				}
 			}
 
@@ -245,7 +250,11 @@ namespace mset {
 
 			GameObject.DestroyImmediate(go);
 
+		#if UNITY_5
+			if(tempRT) GameObject.DestroyImmediate(cubeRT);
+		#else
 			if(tempRT) RenderTexture.ReleaseTemporary(cubeRT);
+		#endif
 			return true;
 		}
 
@@ -302,7 +311,6 @@ namespace mset {
 		}
 
 		private void convolve_internal(Texture dstTex, Texture srcCube, bool dstRGBM, bool srcRGBM, bool linear, Camera cam, Material skyMat, Matrix4x4 matrix) {
-
 			bool prevHDR = cam.hdr;
 			CameraClearFlags prevFlags = cam.clearFlags;
 			int prevMask = cam.cullingMask;
@@ -325,6 +333,7 @@ namespace mset {
 			UnityEngine.RenderSettings.skybox = skyMat;			
 
 			Cubemap dstCube = dstTex as Cubemap;
+
 			RenderTexture dstRT = dstTex as RenderTexture;
 
 			if( dstCube ) {

@@ -269,14 +269,20 @@ namespace mset {
 				serialTex.ApplyModifiedProperties();
 			} else {
 				Debug.LogError("m_TextureFormat SerializedProperty not found!");
+				printSerializedProperties(serialTex);
 			}
 		}
-				
 		public static bool isMipmapped(SerializedObject serialTex) {
 			if(serialTex == null) return false;
-			SerializedProperty prop = serialTex.FindProperty("m_MipMap");
+		
+			//Unity 5.2+ check
+			SerializedProperty prop = serialTex.FindProperty("m_MipCount");
+			if( prop != null ) return prop.intValue > 1;
+
+			//Unity 5.1- check
+			prop = serialTex.FindProperty("m_MipMap");
 			if( prop != null ) { return prop.boolValue; }
-			Debug.LogError("m_MipMap SerializedProperty not found!");
+			Debug.LogError("Neither m_MipCount nor m_MipMap SerializedProperty not found!");
 			return false;
 		}
 		public static void setMipmapped(SerializedObject serialTex, bool mipmap) {

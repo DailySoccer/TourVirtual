@@ -38,7 +38,9 @@ struct v2f {
 	half4 lighting : TEXCOORD3;
 	#ifdef MARMO_SPECULAR_IBL
 		half3 skyRefl : TEXCOORD4;
-		half3 skyRefl1 : TEXCOORD5;
+		#ifdef MARMO_SKY_BLEND
+			half3 skyRefl1 : TEXCOORD5;
+		#endif
 	#endif
 	#if defined(MARMO_VERTEX_COLOR) || defined(MARMO_VERTEX_OCCLUSION)
 		half4 color : COLOR;
