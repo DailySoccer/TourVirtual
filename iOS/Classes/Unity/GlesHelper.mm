@@ -187,6 +187,7 @@ extern "C" void CreateUnityRenderBuffersGLES(UnityDisplaySurfaceGLES* surface)
 		UnityRegisterFBO(surface->unityColorBuffer, surface->unityDepthBuffer, fbo);
 	}
 
+	surface->systemColorBuffer = surface->systemDepthBuffer = 0;
 	if(surface->msaaFB || surface->targetFB)
 	{
 		unsigned rbid = surface->systemColorRB;
@@ -195,11 +196,10 @@ extern "C" void CreateUnityRenderBuffersGLES(UnityDisplaySurfaceGLES* surface)
 		surface->systemDepthBuffer = UnityCreateDummySurface(surface->systemDepthBuffer, false, &system_desc);
 		UnityRegisterFBO(surface->systemColorBuffer, surface->systemDepthBuffer, surface->systemFB);
 	}
-	else
-	{
-		surface->systemColorBuffer = 0;
-		surface->systemDepthBuffer = 0;
-	}
+
+	surface->resolvedColorBuffer = 0;
+	if(surface->msaaFB && surface->targetFB)
+		surface->resolvedColorBuffer = UnityCreateExternalSurfaceGLES(surface->resolvedColorBuffer, true, surface->targetColorRT, 0, surface->colorFormat, &target_desc);
 }
 
 
@@ -258,13 +258,16 @@ extern "C" void DestroyUnityRenderBuffersGLES(UnityDisplaySurfaceGLES* surface)
 {
 	EAGLContextSetCurrentAutoRestore autorestore(surface->context);
 
-	if(surface->unityColorBuffer)	UnityDestroyExternalSurface(surface->unityColorBuffer);
-	if(surface->systemColorBuffer)	UnityDestroyExternalSurface(surface->systemColorBuffer);
+	if(surface->unityColorBuffer)		UnityDestroyExternalSurface(surface->unityColorBuffer);
+	if(surface->systemColorBuffer)		UnityDestroyExternalSurface(surface->systemColorBuffer);
 	surface->unityColorBuffer = surface->systemColorBuffer = 0;
 
-	if(surface->unityDepthBuffer)	UnityDestroyExternalSurface(surface->unityDepthBuffer);
-	if(surface->systemDepthBuffer)	UnityDestroyExternalSurface(surface->systemDepthBuffer);
+	if(surface->unityDepthBuffer)		UnityDestroyExternalSurface(surface->unityDepthBuffer);
+	if(surface->systemDepthBuffer)		UnityDestroyExternalSurface(surface->systemDepthBuffer);
 	surface->unityDepthBuffer = surface->systemDepthBuffer = 0;
+
+	if(surface->resolvedColorBuffer)	UnityDestroyExternalSurface(surface->resolvedColorBuffer);
+	surface->resolvedColorBuffer = 0;
 }
 
 extern "C" void PreparePresentGLES(UnityDisplaySurfaceGLES* surface)
@@ -312,7 +315,9 @@ extern "C" void PreparePresentGLES(UnityDisplaySurfaceGLES* surface)
 		EAGLContextSetCurrentAutoRestore autorestore(UnityGetMainScreenContextGLES());
 
 		assert(surface->systemColorBuffer != 0 && surface->systemDepthBuffer != 0);
-		UnityBlitToBackbuffer(surface->unityColorBuffer, surface->systemColorBuffer, surface->systemDepthBuffer);
+
+		UnityRenderBuffer src = surface->resolvedColorBuffer ? surface->resolvedColorBuffer : surface->unityColorBuffer;
+		UnityBlitToBackbuffer(src, surface->systemColorBuffer, surface->systemDepthBuffer);
 	}
 
 	if(_supportsDiscard)

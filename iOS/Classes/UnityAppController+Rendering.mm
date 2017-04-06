@@ -15,7 +15,7 @@
 // As a workaround this switch disables display link during rendering a frame.
 // If you are running a GPU bound scene and experience frame drop you may want to disable this switch.
 #define ENABLE_DISPLAY_LINK_PAUSING 1
-#define ENABLE_DISPATCH 1
+#define ENABLE_RUNLOOP_ACCEPT_INPUT 1
 
 // _glesContextCreated was renamed to _renderingInited
 extern bool	_renderingInited;
@@ -26,35 +26,27 @@ extern bool	_didResignActive;
 static int _renderingAPI = 0;
 static int SelectRenderingAPIImpl();
 
+static bool _enableRunLoopAcceptInput = false;
+
 
 @implementation UnityAppController (Rendering)
 
 - (void)createDisplayLink
 {
-	int animationFrameInterval = (int)(60.0f / (float)UnityGetTargetFPS());
-	assert(animationFrameInterval >= 1);
-
 	_displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(repaintDisplayLink)];
-	[_displayLink setFrameInterval:animationFrameInterval];
+	[self callbackFramerateChange:UnityGetTargetFPS()];
 	[_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 - (void)repaintDisplayLink
 {
-#if ENABLE_DISPLAY_LINK_PAUSING || ENABLE_DISPATCH
+#if ENABLE_DISPLAY_LINK_PAUSING
 	_displayLink.paused = YES;
 #endif
-
-#if ENABLE_DISPATCH
-	dispatch_async(dispatch_get_main_queue(), ^{
-#endif
-		if(!_didResignActive)
-			[self repaint];
-#if ENABLE_DISPLAY_LINK_PAUSING || ENABLE_DISPATCH
-		_displayLink.paused = NO;
-#endif
-#if ENABLE_DISPATCH
-	});
+	if(!_didResignActive)
+		[self repaint];
+#if ENABLE_DISPLAY_LINK_PAUSING
+	_displayLink.paused = NO;
 #endif
 }
 
@@ -98,6 +90,7 @@ static int SelectRenderingAPIImpl();
 	int animationFrameInterval = (60.0f / targetFPS);
 	if (animationFrameInterval < 1)
 		animationFrameInterval = 1;
+	_enableRunLoopAcceptInput = (animationFrameInterval == 1 && UnityDeviceCPUCount() > 1 && !_ios100orNewer);
 
 	[_displayLink setFrameInterval:animationFrameInterval];
 }
@@ -130,19 +123,9 @@ extern "C" void UnityFramerateChangeCallback(int targetFPS)
 	[GetAppController() callbackFramerateChange:targetFPS];
 }
 
-extern "C" void UnityInitMainScreenRenderingCallback(int* screenWidth, int* screenHeight)
+extern "C" void UnityInitMainScreenRenderingCallback()
 {
-	extern void QueryTargetResolution(int* targetW, int* targetH);
-
-	int resW=0, resH=0;
-	QueryTargetResolution(&resW, &resH);
-	UnityRequestRenderingResolution(resW, resH);
-
-	DisplayConnection* display = GetAppController().mainDisplay;
-	[display initRendering];
-
-	*screenWidth	= resW;
-	*screenHeight	= resH;
+	[GetAppController().mainDisplay initRendering];
 }
 
 
@@ -250,5 +233,20 @@ extern "C" void UnityRepaint()
 
 		[[DisplayManager Instance] endFrameRendering];
 		UnityEndFrame();
+
+		// On multicore devices running at 60 FPS some touch event delivery isn't properly interleaved with graphical frames.
+		// Running additional run loop here improves event handling in those cases.
+		// Passing here an NSDate from the past invokes run loop only once.
+#if ENABLE_RUNLOOP_ACCEPT_INPUT
+		static NSDate* _past = [NSDate date];
+		// We get "NSInternalInconsistencyException: unexpected start state" exception if there are events queued and app is
+		// going to background at the same time. This happens when we render additional frame after receiving
+		// applicationWillResignActive. So check if we are supposed to ignore input.
+		bool ignoreInput = [[UIApplication sharedApplication] isIgnoringInteractionEvents];
+		if (!ignoreInput && _enableRunLoopAcceptInput)
+		{
+			[[NSRunLoop currentRunLoop] acceptInputForMode:NSRunLoopCommonModes beforeDate:_past];
+		}
+#endif
 	}
 }

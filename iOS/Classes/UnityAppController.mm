@@ -40,11 +40,22 @@ bool	_ios70orNewer			= false;
 bool	_ios80orNewer			= false;
 bool	_ios81orNewer			= false;
 bool	_ios82orNewer			= false;
+bool	_ios90orNewer			= false;
+bool	_ios91orNewer			= false;
+bool	_ios100orNewer			= false;
 
 // was unity rendering already inited: we should not touch rendering while this is false
 bool	_renderingInited		= false;
 // was unity inited: we should not touch unity api while this is false
 bool	_unityAppReady			= false;
+// see if there's a need to do internal player pause/resume handling
+//
+// Typically the trampoline code should manage this internally, but
+// there are use cases, videoplayer, plugin code, etc where the player
+// is paused before the internal handling comes relevant. Avoid
+// overriding externally managed player pause/resume handling by
+// caching the state
+bool	_wasPausedExternal		= false;
 // should we skip present on next draw: used in corner cases (like rotation) to fill both draw-buffers with some content
 bool	_skipPresent			= false;
 // was app "resigned active": some operations do not make sense while app is in background
@@ -65,8 +76,11 @@ bool	_supportsMSAA			= false;
 @synthesize rootViewController		= _rootController;
 @synthesize mainDisplay				= _mainDisplay;
 @synthesize renderDelegate			= _renderDelegate;
+@synthesize quitHandler				= _quitHandler;
 
+#if !UNITY_TVOS
 @synthesize interfaceOrientation	= _curOrientation;
+#endif
 
 - (id)init
 {
@@ -115,6 +129,16 @@ bool	_supportsMSAA			= false;
 	UnitySetPlayerFocus(1);
 }
 
+extern "C" void UnityRequestQuit()
+{
+	_didResignActive = true;
+	if (GetAppController().quitHandler)
+		GetAppController().quitHandler();
+	else
+		exit(0);
+}
+
+#if !UNITY_TVOS
 - (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {
 	// UIInterfaceOrientationMaskAll
@@ -127,12 +151,15 @@ bool	_supportsMSAA			= false;
 	return   (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationPortraitUpsideDown)
 		   | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationLandscapeLeft);
 }
+#endif
 
+#if !UNITY_TVOS
 - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification*)notification
 {
 	AppController_SendNotificationWithArg(kUnityDidReceiveLocalNotification, notification);
 	UnitySendLocalNotification(notification);
 }
+#endif
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
@@ -145,6 +172,18 @@ bool	_supportsMSAA			= false;
 	AppController_SendNotificationWithArg(kUnityDidRegisterForRemoteNotificationsWithDeviceToken, deviceToken);
 	UnitySendDeviceToken(deviceToken);
 }
+
+#if !UNITY_TVOS
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
+{
+	AppController_SendNotificationWithArg(kUnityDidReceiveRemoteNotification, userInfo);
+	UnitySendRemoteNotification(userInfo);
+	if (handler)
+	{
+		handler(UIBackgroundFetchResultNoData);
+	}
+}
+#endif
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
@@ -180,6 +219,7 @@ bool	_supportsMSAA			= false;
 	::printf("-> applicationDidFinishLaunching()\n");
 
 	// send notfications
+#if !UNITY_TVOS
 	if(UILocalNotification* notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey])
 		UnitySendLocalNotification(notification);
 
@@ -188,6 +228,7 @@ bool	_supportsMSAA			= false;
 
 	if ([UIDevice currentDevice].generatesDeviceOrientationNotifications == NO)
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+#endif
 
 	UnityInitApplicationNoGraphics([[[NSBundle mainBundle] bundlePath] UTF8String]);
 
@@ -231,19 +272,14 @@ bool	_supportsMSAA			= false;
 {
 	::printf("-> applicationDidBecomeActive()\n");
 
-	if(_snapshotView)
-	{
-		[_snapshotView removeFromSuperview];
-		_snapshotView = nil;
-		[_window bringSubviewToFront:_rootView];
-	}
+	[self removeSnapshotView];
 
 	if(_unityAppReady)
 	{
-		if(UnityIsPaused())
+		if(UnityIsPaused() && _wasPausedExternal == false)
 		{
-			UnityPause(0);
 			UnityWillResume();
+			UnityPause(0);
 		}
 		UnitySetPlayerFocus(1);
 	}
@@ -256,32 +292,58 @@ bool	_supportsMSAA			= false;
 	_didResignActive = false;
 }
 
+- (void)removeSnapshotView
+{
+	// do this on the main queue async so that if we try to create one 
+	// and remove in the same frame, this always happens after in the same queue
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if(_snapshotView)
+		{
+			[_snapshotView removeFromSuperview];
+			_snapshotView = nil;
+		}
+	});
+}
+
 - (void)applicationWillResignActive:(UIApplication*)application
 {
 	::printf("-> applicationWillResignActive()\n");
 
 	if(_unityAppReady)
 	{
-		UnityOnApplicationWillResignActive();
 		UnitySetPlayerFocus(0);
 
-		// do pause unity only if we dont need special background processing
-		// otherwise batched player loop can be called to run user scripts
-		int bgBehavior = UnityGetAppBackgroundBehavior();
-		if(bgBehavior == appbgSuspend || bgBehavior == appbgExit)
+		_wasPausedExternal = UnityIsPaused();
+		if (_wasPausedExternal == false)
 		{
-			// Force player to do one more frame, so scripts get a chance to render custom screen for minimized app in task manager.
-			// NB: UnityWillPause will schedule OnApplicationPause message, which will be sent normally inside repaint (unity player loop)
-			// NB: We will actually pause after the loop (when calling UnityPause).
-			UnityWillPause();
-			[self repaint];
-			UnityPause(1);
-
-			_snapshotView = [self createSnapshotView];
-			if(_snapshotView)
+			// do pause unity only if we dont need special background processing
+			// otherwise batched player loop can be called to run user scripts
+			int bgBehavior = UnityGetAppBackgroundBehavior();
+			if(bgBehavior == appbgSuspend || bgBehavior == appbgExit)
 			{
-				[_window addSubview:_snapshotView];
-				[_window bringSubviewToFront:_snapshotView];
+				// Force player to do one more frame, so scripts get a chance to render custom screen for minimized app in task manager.
+				// NB: UnityWillPause will schedule OnApplicationPause message, which will be sent normally inside repaint (unity player loop)
+				// NB: We will actually pause after the loop (when calling UnityPause).
+				UnityWillPause();
+				[self repaint];
+				UnityPause(1);
+
+				// this is done on the next frame so that
+				// in the case where unity is paused while going 
+				// into the background and an input is deactivated
+				// we don't mess with the view hierarchy while taking
+				// a view snapshot (case 760747).
+				dispatch_async(dispatch_get_main_queue(), ^{
+					// if we are active again, we don't need to do this anymore
+					if (!_didResignActive) 
+					{
+						return;
+					}
+
+					_snapshotView = [self createSnapshotView];
+					if(_snapshotView)
+						[_rootView addSubview:_snapshotView];
+				});
 			}
 		}
 	}
@@ -352,11 +414,12 @@ void UnityInitTrampoline()
 	_ios80orNewer = [version compare: @"8.0" options: NSNumericSearch] != NSOrderedAscending;
 	_ios81orNewer = [version compare: @"8.1" options: NSNumericSearch] != NSOrderedAscending;
 	_ios82orNewer = [version compare: @"8.2" options: NSNumericSearch] != NSOrderedAscending;
+	_ios90orNewer = [version compare: @"9.0" options: NSNumericSearch] != NSOrderedAscending;
+	_ios91orNewer = [version compare: @"9.1" options: NSNumericSearch] != NSOrderedAscending;
+	_ios100orNewer = [version compare: @"10.0" options: NSNumericSearch] != NSOrderedAscending;
 
 	// Try writing to console and if it fails switch to NSLog logging
 	::fprintf(stdout, "\n");
 	if(::ftell(stdout) < 0)
 		UnitySetLogEntryHandler(LogToNSLogHandler);
-
-	UnityInitJoysticks();
 }
