@@ -431,10 +431,18 @@ public class MainManager : Photon.PunBehaviour {
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-            if(UserAPI.Instance.errorLogin){
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
-                    Continue2();
-                });
+            if(UserAPI.Instance.errorLogin) {
+                if (DeepLinkingManager.IsEditAvatar) {
+                        // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                            Application.Quit();
+                        });
+                    }
+                else {
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
+                        Continue2();
+                    });
+                }
                 return;
             }
         }
