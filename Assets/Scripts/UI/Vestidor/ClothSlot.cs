@@ -53,42 +53,23 @@ public class ClothSlot : MonoBehaviour {
 		switch (virtualGood.IdSubType) {
 			case "HTORSO":
 			case "MTORSO":
-				
-				if (tmpAvatar.Torso  == virtualGood.GUID)
-					return true;
-				return false;
-
-				break;
+                return (tmpAvatar.Torso  == virtualGood.GUID);
+                
 			case "HLEG":
 			case "MLEG":
-				if (tmpAvatar.Legs  == virtualGood.GUID)
-					return true;
-				return false;
-				break;
+                return (tmpAvatar.Legs  == virtualGood.GUID);
 			case "HSHOE":
 			case "MSHOE":
-				if (tmpAvatar.Feet == virtualGood.GUID)
-					return true;
-				return false;
-				break;
+                return (tmpAvatar.Feet == virtualGood.GUID);
 			case "HCOMPLIMENT":
 			case "MCOMPLIMENT":
-				if (tmpAvatar.Compliment  == virtualGood.GUID)
-					return true;
-				return false;
-				break;
+                return (tmpAvatar.Compliment  == virtualGood.GUID);
 			case "HHAT":
 			case "MHAT":
-				if (tmpAvatar.Hat  == virtualGood.GUID)
-					return true;
-				return false;
-				break;
+                return (tmpAvatar.Hat  == virtualGood.GUID);
 			case "HPACK":
 			case "MPACK":
-				if (tmpAvatar.Pack  == virtualGood.GUID)
-					return true;
-				return false;
-				break;
+                return (tmpAvatar.Pack  == virtualGood.GUID);
 		}
 		return false;
 	}

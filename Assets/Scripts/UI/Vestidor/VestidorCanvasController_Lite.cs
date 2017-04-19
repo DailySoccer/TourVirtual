@@ -79,6 +79,17 @@ public class VestidorCanvasController_Lite : MonoBehaviour
         ShowVestidor();
     }
 
+    void Start() {
+        // Cuando se carga el escenario y se entra automáticamente en el Vestuario
+        // p.ej. "Editar Avatar" (en la app del Real Madrid) cuando el usuario está en el Estadio (en la app del TourVirtual)
+        // se ejecuta Awake y OnEnable ANTES de que ClothesListController.Awake
+        // Por lo que ClothesListController._currentAvatar == NULL y no se puede ver ninguna selección de ClothSlot
+        // (ClothesListController.UpdateSelectedSlots NO selecciona nada)
+        if(ClothesListController.Instance != null) {
+            ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+        }
+    }
+
     // Update is called once per frame
     private void Update()
 	{
@@ -89,9 +100,33 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     }
 
     public void ChangeVestidorState(VestidorState newState) {
+        if (newState == VestidorState.VESTIDOR && DeepLinkingManager.IsEditAvatar) {
+            // HACK: HACK: HACK: Tenemos que asegurar que el ShowClothesShop lo gestionará como si fuera "nuevo"
+            currentVestidorState = VestidorState.NONE;   
+        }
+
         if (newState != currentVestidorState)
         {
+            // HACK: HACK: HACK: 
+            // Dentro del estado VESTIDOR se da la opción de "vestir al avatar" con una prenda solicitada en la app del Real Madrid
+            // Si eso sucede queremos actualizar el modelo "LoadModel" pero tenemos que evitar que lo quiera hacer 2 veces !!
+            // (lo que puede hacerse también en InvokeAvatarIfNeeded)
+            // Lo ideal creo que sería tener un flag que indique si queremos o no cargar el modelo
+            // Lo actualizamos según lo que indique InvokeAvatarIfNeeded (que debería devolver un bool y no hacer nada)
+            // Y si estamos "vistiendo" al avatar
+            if (newState == VestidorState.VESTIDOR &&
+                DeepLinkingManager.IsEditAvatar &&         
+                DeepLinkingManager.Parameters != null &&
+                DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
+                Invoke("LoadModel", 0.25f);
+            }
+            else
 			if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
+                // Hay que mantener correctamente actualizado el tmpAvatar
+                // dado que en InvokeAvatarIfNeeded se ha preguntar si ha cambiado o no
+                if (tmpAvatar.ToString() != UserAPI.AvatarDesciptor.ToString()) {
+                    tmpAvatar = UserAPI.AvatarDesciptor.Copy();
+                }
 				InvokeAvatarIfNeeded();
 			}
 
@@ -113,6 +148,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     if (DeepLinkingManager.IsEditAvatar &&
                         DeepLinkingManager.Parameters != null &&
                         DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
+                        // TODO: Si solicitamos "LoadModel" peta !!!
+                        // DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string, true, false);
                         DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
                         // MainManager.DeepLinkinParameters["idUser"];
                     }
@@ -123,12 +160,20 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     SecondPlaneVestidor.SetActive(true);
 					//VestidorScreen.GetComponentInChildren<ClothesListController>().ShowTShirtsList();	
 					//BuyInfoButtom.SetActive(true);
-                    gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
 
+                    gameObject.GetComponentInChildren<AsociateWithMainCamera>().SetCameraToAssociate(cameraVestidor.GetComponent<Camera>());
                     ShowScreen(VestidorScreen);
 					
 					//??
-					ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+                    if (ClothesListController.Instance != null) {
+                        // Se necesita actualizar el contenido del vestidor con los elementos del avatar actual
+                        // en caso contrario no se mostrarían correctamente los elementos "comprados"
+                        ClothesListController.Instance.RefreshList();
+    					ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+                    }
+                    else {
+                        Debug.LogError("ClothesListController.Instance == NULL");
+                    }
 
                     break;
 
@@ -159,6 +204,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 			else {
 				if (tmpAvatar.ToString() != mOldAvatarDesciptor.ToString()) {
 					Invoke("LoadModel", 0.25f);
+                    mOldAvatarDesciptor = tmpAvatar.Copy();
 				}
 			}
 		}
@@ -392,6 +438,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     void LoadModel()
     {
+        Debug.Log("LoadModel: " + PlayerManager.Instance.SelectedModel);
         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) =>
         {
         MyTools.SetLayerRecursively(instance, LayerMask.NameToLayer("Model3D"));

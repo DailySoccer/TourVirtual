@@ -54,6 +54,7 @@ public class ClothesListController : MonoBehaviour {
 	void Awake() {
 		Instance = this;
 	}
+
 	void Start() {
         // asignamos las listas;
         try
@@ -162,6 +163,10 @@ public class ClothesListController : MonoBehaviour {
 			cs.UpdateSelection (_currentAvatar);
 		}
 	}
+
+    public void RefreshList() {
+        SetupVestidor (currentProductList);
+    }
 
 	public void ShowTShirtsList() {
 		HideAllLists();

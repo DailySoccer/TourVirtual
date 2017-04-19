@@ -25,6 +25,10 @@ public class AvatarAPI {
         Head = headesc["Head"] as string;   
     }
 
+    public void Clear() {
+        Gender = Hair = Hat = Head = Torso = Legs = Feet = Compliment = Pack = "";
+    }
+
     public AvatarAPI Copy()
     {
         return new AvatarAPI()
@@ -111,6 +115,9 @@ public class AvatarAPI {
     }
 
     public void Parse(Dictionary<string, object> avatar) {
+        // Es necesario limpiar los campos para que no se "mezclen" los elementos
+        Clear();
+
         // Propiedades fisicas. Sexo, Pelo, Cabeza.
         if (avatar.ContainsKey("PhysicalProperties"))
             SetProperties(avatar["PhysicalProperties"] as List<object>);

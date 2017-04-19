@@ -100,7 +100,13 @@ public class UserAPI {
         
         if( DeepLinkingManager.Parameters != null &&
             DeepLinkingManager.Parameters.ContainsKey("idUser") && 
-            DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID ){
+            DeepLinkingManager.Parameters["idUser"] as string != UserAPI.Instance.UserID ) {
+
+            // HACK: HACK: HACK:
+            // No me parece adecuado que una función que teóricamente hace un simple "check"
+            // se dedique a hacer algo más "a escondidas"
+            // Además de que UserAPI no es un MonoBehaviour y no podemos trabajar con Coroutines
+            /*
             LoadingCanvasManager.Hide();
             UserAPI.Instance.UserID=null;
 
@@ -108,12 +114,25 @@ public class UserAPI {
                 Authentication.AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
 //                Authentication.AzureServices.SignIn();
             });
+            */
             return true;
         }
         return false;
     }
+
+    public void ShowModalBadUser() {
+        LoadingCanvasManager.Hide();
+        UserAPI.Instance.UserID=null;
+
+        ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), (val)=> {
+            Authentication.AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
+            //                Authentication.AzureServices.SignIn();
+        });
+    }
+
     bool requesting=true;
-    public IEnumerator Request() {
+    public IEnumerator Request(callback onOk = null, callback onError=null) {
+
         requesting=true;
         LoadingCanvasManager.Show();
 
@@ -130,8 +149,16 @@ public class UserAPI {
 			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
         });
 
+        // Debug.Log("UserApi: Request: Nick: " + UserAPI.Instance.Nick);
+
 // Mira si los usuarios son distintos.
         if (string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
+            // Debug.Log("UserAPI: Request: IsOtherUser !!");
+            // ShowModalBadUser();
+
+            if (onError != null)
+                onError();
+            
             yield break;
         }
 
@@ -238,6 +265,9 @@ public class UserAPI {
 */
         LoadingCanvasManager.Hide();
         requesting=false;
+
+        if (onOk != null)
+            onOk();
     }
 
      public IEnumerator UpdateByLanguage() {
