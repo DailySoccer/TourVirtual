@@ -17,6 +17,7 @@ public class DeepLinkingManager : Photon.PunBehaviour {
         // Habría que comprobar si esta "reentrada" evitar algún mal
         // Fue implementada al inicio de la búsqueda de posibles problemas al Editar Avatar
         if (checkingDeepLinking) {
+            // Debug.LogError("DeepLinkingManager: OnApplicationFocus: REENTRY !!!");
             return;
         }
 
@@ -48,7 +49,17 @@ public class DeepLinkingManager : Photon.PunBehaviour {
             }
 
             // Miro, primero que este logado...
-            if(!string.IsNullOrEmpty(UserAPI.Instance.UserID) && UserAPI.Instance.CheckIsOtherUser() ){
+            // HACK: HACK: HACK:
+            // Puede que no dispongamos de un UserID porque el usuario esté jugando "Offline"
+            // por lo que si se está intentando "Editar el Avatar" desde el app oficial, tendremos que gestionarlo
+            // como un cambio de usuario
+            if((!string.IsNullOrEmpty(UserAPI.Instance.UserID) || !UserAPI.Instance.Online) && UserAPI.Instance.CheckIsOtherUser() ){
+                /*
+                if (string.IsNullOrEmpty(UserAPI.Instance.UserID) && !UserAPI.Instance.Online) {
+                    Debug.Log("UserID == NULL AND OFFLINE !!!");
+                }
+                */
+
                 checkingDeepLinking = true;
 
                 // Mostrar la ventana de carga
@@ -62,7 +73,10 @@ public class DeepLinkingManager : Photon.PunBehaviour {
                     Authentication.AzureServices.SignOut (
                         (ret)=>{ 
                             // Application.Quit(); 
-                            Authentication.AzureServices.SignIn( (result) => {
+                            Authentication.AzureServices.SignIn( (success) => {
+                                UserAPI.Instance.errorLogin = !success;
+                                UserAPI.Instance.Online = success;
+
                                 StartCoroutine(ChangeAvatar(url));
                             });
                         }
@@ -86,13 +100,22 @@ public class DeepLinkingManager : Photon.PunBehaviour {
             Debug.LogError(">>>> OnDeepLinking");
             // Tengo que ver para que viene el deeplinking.
             if (RoomManager.Instance != null && UserAPI.Instance.Online && !UserAPI.Instance.errorLogin ) {
-                if (RoomManager.Instance.Room.Id != "VESTIDORLITE") {
+                /*
+                if (RoomManager.Instance.Room == null) {
+                    Debug.LogError("RoomManager.Instance.Room == null");
+                }
+                */
+
+                if ((RoomManager.Instance.Room == null) || (RoomManager.Instance.Room.Id != "VESTIDORLITE")) {
                     RoomManager.Instance.GotoRoom("VESTIDORLITE");
                 }
                 else {
                     VestidorCanvasController_Lite vestidor = FindObjectOfType<VestidorCanvasController_Lite>();
                     vestidor.ShowClothesShop();
                 }
+            }
+            else {
+                Debug.LogError("CheckDeepLinking ERROR !!!");
             }
         }
 
