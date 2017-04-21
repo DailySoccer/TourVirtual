@@ -145,13 +145,19 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     break;
 
                 case VestidorState.VESTIDOR:
-                    if (DeepLinkingManager.IsEditAvatar &&
-                        DeepLinkingManager.Parameters != null &&
-                        DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
-                        // TODO: Si solicitamos "LoadModel" peta !!!
-                        // DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string, true, false);
-                        DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
-                        // MainManager.DeepLinkinParameters["idUser"];
+                    if (DeepLinkingManager.IsEditAvatar) {
+                        // FIX: Necesitamos resetear los botones (tanto de aceptar, como de información)
+                        // dado que cuando cambiamos de avatar podemos estar mostrando valores "antiguos"
+                        BuyInfoButtom.SetActive (false);
+                        BotonAceptar.interactable = true;
+
+                        if (DeepLinkingManager.Parameters != null &&
+                            DeepLinkingManager.Parameters.ContainsKey("idVirtualGood")) {
+                            // TODO: Si solicitamos "LoadModel" peta !!!
+                            // DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string, true, false);
+                            DressVirtualGood(DeepLinkingManager.Parameters["idVirtualGood"] as string);
+                            // MainManager.DeepLinkinParameters["idUser"];
+                        }
                     }
                     EnableTopMenu(true);
                     cameraAvatarSelector.SetActive(false);
