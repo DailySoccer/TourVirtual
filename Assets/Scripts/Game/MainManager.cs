@@ -18,7 +18,7 @@ public class MainManager : Photon.PunBehaviour {
 
 	public delegate void ChangeEvent();
 	public event ChangeEvent OnLanguageChange;
-	public event ChangeEvent OnInternetConnection;	
+	public event ChangeEvent OnInternetConnection;
 
 	public delegate void MessagesUnreadedEvent(int counter);
 	public event MessagesUnreadedEvent OnMessagesUnreadedEvent;
@@ -192,15 +192,19 @@ public class MainManager : Photon.PunBehaviour {
             ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
                 if(mode)
                     Authentication.Instance.OpenMarket();
-                else
+                else{
                     UserAPI.Instance.Online=false;
                     HandleOnUserLogin();
+                }
             });
-            //
         }
+
         // Fix para el scroll threshold Galaxy 6.
         UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold = (int)(0.5f * Screen.dpi / 2.54f);
-        if (UserAPI.Instance != null ) StartCoroutine(CheckForInternetConnection());
+        if (UserAPI.Instance != null ){
+            StartCoroutine(CheckForInternetConnection());
+        }
+        //		else StartCoroutine(Connect ());
 #if !TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
         LoadingCanvasManager.Show("TVB.Message.LoadingData");
@@ -269,7 +273,7 @@ public class MainManager : Photon.PunBehaviour {
         CheckPurchasePending();
     }
 
-  // FER: 02/01/17
+	// FER: 02/01/17
 	// Montamos un callback despues de la compra de un inapp.
     public delegate void PurchaseCallback();
     public PurchaseCallback OnPurchaseInApp;
@@ -294,12 +298,17 @@ public class MainManager : Photon.PunBehaviour {
                 PlayerPrefs.DeleteKey("PurchasePendingId");
                 PlayerPrefs.DeleteKey("PurchasePendingReceipt");
                 PlayerPrefs.Save();
-                if(OnPurchaseInApp!=null) OnPurchaseInApp();
+                if(OnPurchaseInApp!=null)
+					OnPurchaseInApp();
                 OnPurchaseInApp=null;
+
             }, (errorcode) => {
+
                 LoadingCanvasManager.Hide();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });
-                // Errores no esperados por parte de la plataforma.
+                
+				// Errores no esperados por parte de la plataforma.
+
                 /*
                 if(errorcode == "412") {
                     PlayerPrefs.DeleteKey("PurchasePendingId");
@@ -356,10 +365,18 @@ public class MainManager : Photon.PunBehaviour {
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
             PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
-            if(UserAPI.Instance.errorLogin){
-                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
-                    Continue2();
-                });
+            if(UserAPI.Instance.errorLogin) {
+                if (DeepLinkingManager.IsEditAvatar) {
+                        // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                            Application.Quit();
+                        });
+                    }
+                else {
+                    ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Validation"),(mode)=>{
+                        Continue2();
+                    });
+                }
                 return;
             }
         }
