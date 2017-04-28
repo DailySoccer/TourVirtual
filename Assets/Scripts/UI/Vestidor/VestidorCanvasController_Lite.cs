@@ -171,6 +171,8 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     ShowScreen(VestidorScreen);
 					
 					//??
+					StartCoroutine(WaitClothesController());
+					/*
                     if (ClothesListController.Instance != null) {
                         // Se necesita actualizar el contenido del vestidor con los elementos del avatar actual
                         // en caso contrario no se mostrarían correctamente los elementos "comprados"
@@ -180,6 +182,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     else {
                         Debug.LogError("ClothesListController.Instance == NULL");
                     }
+                    */
 
                     break;
 
@@ -201,6 +204,26 @@ public class VestidorCanvasController_Lite : MonoBehaviour
             currentVestidorState = newState;
         }
     }
+
+	IEnumerator WaitClothesController() {
+		float timer = 3.0f;
+		while (ClothesListController.Instance == null && (timer > 0)) {
+			yield return new WaitForEndOfFrame();
+			timer -= Time.deltaTime;
+		}
+
+		if (ClothesListController.Instance != null) {
+			// Debug.Log(string.Format("WaitClothesController: ClothesListController.SetCurrentAvatar: Timer: {0}", timer));
+
+			// Se necesita actualizar el contenido del vestidor con los elementos del avatar actual
+			// en caso contrario no se mostrarían correctamente los elementos "comprados"
+			ClothesListController.Instance.RefreshList();
+			ClothesListController.Instance.SetCurrentAvatar (tmpAvatar);
+		}
+		else {
+			Debug.LogError("ClothesListController.Instance == NULL");
+		}
+	}
 
 	void InvokeAvatarIfNeeded() {
 		if (MainManager.VestidorMode != VestidorState.SELECT_AVATAR) {
