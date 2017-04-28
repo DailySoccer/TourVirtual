@@ -71,6 +71,19 @@ public class MainManager : Photon.PunBehaviour {
 
 	public TourVirtualBuildMode BuildMode;
 
+	public void OnEnable() {
+#if UNITY_IOS
+		// Debug.LogWarning("------ ------ Registered log callback----- ---------");
+		// Application.logMessageReceived += IOSAzureInterfaz.LogToiOS;
+#endif
+	}
+
+	public void OnDisable() {
+#if UNITY_IOS
+		// Application.logMessageReceived -= IOSAzureInterfaz.LogToiOS;
+#endif
+	}
+
 	public bool Ready {
 		get {
 			return OfflineMode || (InternetConnection && PhotonNetwork.connectedAndReady);
@@ -361,6 +374,8 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
+		Debug.LogError("HandleOnUserLogin");
+
         if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();

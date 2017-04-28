@@ -260,5 +260,15 @@ public class IOSAzureInterfaz : AzureInterfaz {
         _InAppPurchase(IDProduct, Receipt, op.Hash);
         return StartCoroutine(op.Wait());
     }
+
+
+	[DllImport ("__Internal")]
+	private static extern void _logToiOS(string debugMessage);
+
+	public static void LogToiOS(string logString, string stackTrace, LogType type) {
+		if (Application.platform == RuntimePlatform.IPhonePlayer) {
+			_logToiOS(logString + "\n" + stackTrace + "\n===============\n" );
+		}
+	}
 }
 #endif
