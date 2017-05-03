@@ -133,32 +133,42 @@ public class UserAPI {
     bool requesting=true;
     public IEnumerator Request(callback onOk = null, callback onError=null) {
 
+        bool requestError = false;
+
         requesting=true;
         LoadingCanvasManager.Show();
 
         LoadingContentText.SetText("API.User");
 
 // Aclarar con Microsoft que llamada es esta.
-        yield return Authentication.AzureServices.PostFanApps((ok)=>{Debug.LogError("PostFanApps OK: "+ok); },(err)=>{ Debug.LogError("PostFanApps ERROR: "+err); });
-// Evento añadido el dia 9/9/16 por peticion de microsoft.        
-        UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
-        yield return Authentication.AzureServices.GetFanMe((res) => {
-            Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
-			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"en-us");
-            UserID = hs["IdUser"] as string;
-			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
-        });
+        yield return Authentication.AzureServices.PostFanApps(
+            (ok)=>{Debug.LogError("PostFanApps OK: "+ok); },
+            (err)=>{ Debug.LogError("PostFanApps ERROR: "+err); requestError = true; });
+
+        if (!requestError) {
+            // Evento añadido el dia 9/9/16 por peticion de microsoft.        
+            UserAPI.Instance.SendAction("LOGIN_VIRTUAL_TOUR");
+            yield return Authentication.AzureServices.GetFanMe((res) => {
+                Dictionary<string, object> hs = MiniJSON.Json.Deserialize(res) as Dictionary<string, object>;
+    			MainManager.Instance.ChangeLanguage(hs.ContainsKey("Language")?hs["Language"] as string:"en-us");
+                UserID = hs["IdUser"] as string;
+    			Nick = hs.ContainsKey("Alias")?hs["Alias"] as string:"";
+            });
+        }
 
         // Debug.Log("UserApi: Request: Nick: " + UserAPI.Instance.Nick);
 
 // Mira si los usuarios son distintos.
-        if (string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
+        if (requestError || string.IsNullOrEmpty(UserAPI.Instance.UserID) || CheckIsOtherUser()) { // USUARIO DISTINTO
             // Debug.Log("UserAPI: Request: IsOtherUser !!");
             // ShowModalBadUser();
 
             if (onError != null)
                 onError();
-            
+
+            LoadingCanvasManager.Hide();
+            requesting=false;
+
             yield break;
         }
 

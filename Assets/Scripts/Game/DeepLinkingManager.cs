@@ -77,7 +77,22 @@ public class DeepLinkingManager : Photon.PunBehaviour {
                                 UserAPI.Instance.errorLogin = !success;
                                 UserAPI.Instance.Online = success;
 
-                                StartCoroutine(ChangeAvatar(url));
+                                if (success) {
+                                    StartCoroutine(ChangeAvatar(url));
+                                }
+                                else {
+                                    if (DeepLinkingManager.IsEditAvatar) {
+                                        // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                                            Application.Quit();
+                                        });
+                                    }
+                                    else {
+                                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"),(mode)=>{
+                                            Application.Quit();
+                                        });
+                                    }
+                                }
                             });
                         }
                         , (ret)=>{ Application.Quit(); });
