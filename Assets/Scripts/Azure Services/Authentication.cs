@@ -65,8 +65,26 @@ public class Authentication : MonoBehaviour {
             Authentication.AzureServices.SignOut (
                 (ret)=>{ 
                     // Application.Quit(); 
-                    Authentication.AzureServices.SignIn( (result) => {
-                        StartCoroutine(UserAPI.Instance.Request());
+                    Authentication.AzureServices.SignIn( (success) => {
+                        UserAPI.Instance.errorLogin = !success;
+                        UserAPI.Instance.Online = success;
+
+                        if (success) {
+                            StartCoroutine(UserAPI.Instance.Request());
+                        }
+                        else {
+                            if (DeepLinkingManager.IsEditAvatar) {
+                                // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                                    Application.Quit();
+                                });
+                            }
+                            else {
+                                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"),(mode)=>{
+                                    Application.Quit();
+                                });
+                            }
+                        }
                     });
                 }
                 , (ret)=>{ Application.Quit(); });

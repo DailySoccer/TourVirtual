@@ -77,7 +77,22 @@ public class DeepLinkingManager : Photon.PunBehaviour {
                                 UserAPI.Instance.errorLogin = !success;
                                 UserAPI.Instance.Online = success;
 
-                                StartCoroutine(ChangeAvatar(url));
+                                if (success) {
+                                    StartCoroutine(ChangeAvatar(url));
+                                }
+                                else {
+                                    if (DeepLinkingManager.IsEditAvatar) {
+                                        // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                                            Application.Quit();
+                                        });
+                                    }
+                                    else {
+                                        ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"),(mode)=>{
+                                            Application.Quit();
+                                        });
+                                    }
+                                }
                             });
                         }
                         , (ret)=>{ Application.Quit(); });
@@ -98,25 +113,23 @@ public class DeepLinkingManager : Photon.PunBehaviour {
             DeepLinkingManager.IsEditAvatar = true;
             DeepLinkingManager.URL = url;
             Debug.LogError(">>>> OnDeepLinking");
-            // Tengo que ver para que viene el deeplinking.
-            if (RoomManager.Instance != null && UserAPI.Instance.Online && !UserAPI.Instance.errorLogin ) {
-                /*
-                if (RoomManager.Instance.Room == null) {
-                    Debug.LogError("RoomManager.Instance.Room == null");
-                }
-                */
 
-                if ((RoomManager.Instance.Room == null) || (RoomManager.Instance.Room.Id != "VESTIDORLITE")) {
-                    RoomManager.Instance.GotoRoom("VESTIDORLITE");
-                }
-                else {
-                    VestidorCanvasController_Lite vestidor = FindObjectOfType<VestidorCanvasController_Lite>();
-                    vestidor.ShowClothesShop();
-                }
-            }
-            else {
-                Debug.LogError("CheckDeepLinking ERROR !!!");
-            }
+			// HACK: HACK: HACK:
+			// Evitamos que cuando arranque la aplicación (Room == null) 
+			// colisione el ciclo "normal" (MainManager / RoomManager.Instance.Connect())
+			// con el del deeplinking
+			if (RoomManager.Instance != null && RoomManager.Instance.Room != null) {
+	            // Tengo que ver para que viene el deeplinking.
+	            if (RoomManager.Instance != null && UserAPI.Instance.Online && !UserAPI.Instance.errorLogin ) {
+	                if ((RoomManager.Instance.Room == null) || (RoomManager.Instance.Room.Id != "VESTIDORLITE")) {
+	                    RoomManager.Instance.GotoRoom("VESTIDORLITE");
+	                }
+	                else {
+	                    VestidorCanvasController_Lite vestidor = FindObjectOfType<VestidorCanvasController_Lite>();
+	                    vestidor.ShowClothesShop();
+	                }
+	            }
+			}
         }
 
         yield return null;
