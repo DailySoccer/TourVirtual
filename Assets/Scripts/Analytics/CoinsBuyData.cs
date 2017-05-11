@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+
 public class CoinsBuyData {
 
 	public event Action<string, IDictionary<string, object>> onBuyEvent;
@@ -34,7 +35,7 @@ public class CoinsBuyData {
 	public void LeaveWithoutBuy() {
 		float leaveTime = Time.time;
 	    IDictionary<string, object> visitData = new Dictionary<string, object>();
-		visitData.Add("totalTime", enterTime - leaveTime);
+		visitData.Add("totalTime", leaveTime - enterTime);
 		onBuyEvent("LeaveWithoutBuy", visitData);
 	}
 

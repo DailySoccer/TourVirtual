@@ -83,7 +83,7 @@ public class RoomVisitData {
 
 	    IDictionary<string, object> visitData = new Dictionary<string, object>();
 		visitData.Add("roomId", lastRoomId);
-		visitData.Add("totalTime", enterTime - leaveTime);
+		visitData.Add("totalTime", leaveTime - enterTime);
 		visitData.Add("usersInRoom", PlayerManager.Instance.CountPlayersInRoom);
 		visitData.Add("viewersOpened", viewersOpened);
 		visitData.Add("viewersOpenedList", String.Join(" | ", viewersOpenedList.Keys.ToArray()));

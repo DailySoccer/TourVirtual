@@ -28,13 +28,16 @@ public class AnalyticsManager : MonoBehaviour {
 	}
 
 	private void _GenerateEvent(string eventName, IDictionary<string, object> eventData) {
+
+		_PrintEvent(eventName, eventData);
+
 		// Unity Analytics event
 		if(eventData.Count > 10) {
 			Debug.LogWarningFormat("Unity analytics event, too many arguments: {0}", eventData.Count);
 		}
 		Analytics.CustomEvent(eventName, eventData);
 
-		
+
 		// DeltaDNA event
 		/*
 		// Esto es un copia y pega de la documentacion de deltaDNA, es meramente ilustrativo
@@ -49,5 +52,12 @@ public class AnalyticsManager : MonoBehaviour {
 		*/
 	}
 
+	private void _PrintEvent(string eventName, IDictionary<string, object> eventData) {
+		Debug.LogFormat("Analytics Event: {0}", eventName);
+		Debug.Log("Analytics EventData: ");
+		foreach(string k in eventData.Keys) {
+			Debug.LogFormat("  Key: {0}, Value: {1}", k, eventData[k]);
+		}
+	}
 
 }

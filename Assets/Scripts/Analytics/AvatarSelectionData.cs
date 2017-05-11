@@ -34,7 +34,7 @@ public class AvatarSelectionData {
 	    IDictionary<string, object> selectModelData = new Dictionary<string, object>();
 		selectModelData.Add("modelsViewed", modelsViewed.Count);
 		selectModelData.Add("selectedModelId", lastShownModel);
-		selectModelData.Add("totalTime", enterTime - leaveTime);
+		selectModelData.Add("totalTime", leaveTime - enterTime);
 		selectModelData.Add("gender", UserAPI.AvatarDesciptor.Gender);
 
 		OnAvatarEvent("SelectAvatar", selectModelData);
