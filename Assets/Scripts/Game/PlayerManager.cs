@@ -14,12 +14,12 @@ PhotonHandler:Update()
 */
 public class PlayerManager : Photon.PunBehaviour {
 
-	static public PlayerManager Instance {
+    static public PlayerManager Instance {
         get; private set;
-	}
+    }
 
-	public string SelectedModel = string.Empty;
-	public string DataModel = string.Empty;
+    public string SelectedModel = string.Empty;
+    public string DataModel = string.Empty;
 
     public GameObject prefabMale;
     public GameObject prefabFemale;
@@ -37,49 +37,54 @@ public class PlayerManager : Photon.PunBehaviour {
     public Dictionary<string, object> Compliments;
     public Dictionary<string, object> Selector;
 
-        public GameObject PlayerRemoteHUDCanvas;
-	GameObject PlayerHUD;
+    public GameObject PlayerRemoteHUDCanvas;
+    GameObject PlayerHUD;
 
-        List<GameObject> Players = new List<GameObject>();
+    List<GameObject> Players = new List<GameObject>();
 
+    public int CountPlayersInRoom { 
+        get {
+            return Players.Count;
+        }
+    }
 
     void Awake()
     {
         Instance = this;
     }
 
-	public override void OnLeftRoom() {
+    public override void OnLeftRoom() {
                 foreach( var player in Players){
                         Destroy(player);
                 }
                 Players.Clear();
         }
 
-	public override void OnJoinedRoom() {
-		SpawnPlayer();
-	}
+    public override void OnJoinedRoom() {
+        SpawnPlayer();
+    }
 
-	void SpawnPlayer() {
-		int viewIdOld = _viewId;
-		// Manually allocate PhotonViewID
-		_viewId = PhotonNetwork.AllocateViewID();
-		if (viewIdOld != -1 && _viewId != viewIdOld) {
-		        PhotonNetwork.UnAllocateViewID(viewIdOld);
-		}
+    void SpawnPlayer() {
+        int viewIdOld = _viewId;
+        // Manually allocate PhotonViewID
+        _viewId = PhotonNetwork.AllocateViewID();
+        if (viewIdOld != -1 && _viewId != viewIdOld) {
+                PhotonNetwork.UnAllocateViewID(viewIdOld);
+        }
 
-		Transform playerTransform;
-		if (Player.Instance != null) {
-			playerTransform = Player.Instance.Avatar.transform;
-		}
-		else {
-			playerTransform = transform;
-		}
+        Transform playerTransform;
+        if (Player.Instance != null) {
+            playerTransform = Player.Instance.Avatar.transform;
+        }
+        else {
+            playerTransform = transform;
+        }
                 if( !UserAPI.Instance.Online ) DataModel = UserAPI.Instance.Nick + "#0#0#0#0#0/0#0/0#";
-		photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
-	}
+        photonView.RPC("SpawnOnNetwork", PhotonTargets.AllBuffered, playerTransform.position, playerTransform.rotation, _viewId, PhotonNetwork.player, SelectedModel, DataModel);
+    }
 
-	[PunRPC]
-	void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
+    [PunRPC]
+    void SpawnOnNetwork(Vector3 pos, Quaternion rot, int id, PhotonPlayer np, string selectedModel, string DataModel) {
                 if (np.isLocal && Player.Instance != null) {
                         StartCoroutine(PlayerManager.Instance.CreateAvatar(PlayerManager.Instance.SelectedModel, (instance) => {
                         instance.layer = LayerMask.NameToLayer("Player");
@@ -112,7 +117,7 @@ public class PlayerManager : Photon.PunBehaviour {
                         //instance.GetComponent<ContentSelectorCaster>().enabled = false;
                 }));
                 }
-		// Set the PhotonView
+        // Set the PhotonView
     }
 
     public System.Collections.IEnumerator CacheClothes() {
@@ -123,7 +128,7 @@ public class PlayerManager : Photon.PunBehaviour {
             if (json.ContainsKey("Bodies")) Bodies = json["Bodies"] as Dictionary<string, object>;
             if (json.ContainsKey("Legs")) Legs = json["Legs"] as Dictionary<string, object>;
             if (json.ContainsKey("Feet")) Feet = json["Feet"] as Dictionary<string, object>;
-			if (json.ContainsKey("Packs")) Packs   = json["Packs"] as Dictionary<string, object>;
+            if (json.ContainsKey("Packs")) Packs   = json["Packs"] as Dictionary<string, object>;
             if (json.ContainsKey("Compliments")) Compliments = json["Compliments"] as Dictionary<string, object>;
             if (json.ContainsKey("Selector")) Selector = json["Selector"] as Dictionary<string, object>;
         }));
@@ -413,11 +418,11 @@ public class PlayerManager : Photon.PunBehaviour {
     }
 
     void DebugInfo() {
-		Debug.Log ("countOfPlayers: " + PhotonNetwork.countOfPlayers);
-		Debug.Log ("countOfPlayersInRooms: " + PhotonNetwork.countOfPlayersInRooms);
-		Debug.Log ("countOfPlayersOnMaster: " + PhotonNetwork.countOfPlayersOnMaster);
-		Debug.Log ("countOfRooms: " + PhotonNetwork.countOfRooms);
-	}
+        Debug.Log ("countOfPlayers: " + PhotonNetwork.countOfPlayers);
+        Debug.Log ("countOfPlayersInRooms: " + PhotonNetwork.countOfPlayersInRooms);
+        Debug.Log ("countOfPlayersOnMaster: " + PhotonNetwork.countOfPlayersOnMaster);
+        Debug.Log ("countOfRooms: " + PhotonNetwork.countOfRooms);
+    }
 
-	int _viewId = -1;
+    int _viewId = -1;
 }

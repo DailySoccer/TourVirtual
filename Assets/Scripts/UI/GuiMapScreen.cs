@@ -40,7 +40,8 @@ public class GuiMapScreen : UIScreen {
 				return;
 			}
 		}
-
+		
+		AnalyticsManager.Rooms.SetFromMenu();
 		RoomManager.Instance.GotoRoomAtDoor(roomGoto);
 	}
 	public override void UpdateTitle() {

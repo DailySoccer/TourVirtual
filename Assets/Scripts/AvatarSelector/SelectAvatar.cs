@@ -109,6 +109,7 @@ public class SelectAvatar : MonoBehaviour {
     void Start() {
         if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
         {
+            AnalyticsManager.AvatarSelection.Enter();
             maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
 
             OnSelectGender("Man");

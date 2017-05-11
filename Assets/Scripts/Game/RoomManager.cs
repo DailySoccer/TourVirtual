@@ -287,6 +287,7 @@ public class RoomManager : Photon.PunBehaviour {
     System.Collections.IEnumerator LoadRoom(RoomDefinition roomDefinition) {
         _loadingRoom = true;
 
+		AnalyticsManager.Rooms.Leave();
 		RoomDefinition roomOld = Room;
 		Room = roomDefinition;
 
@@ -332,6 +333,7 @@ public class RoomManager : Photon.PunBehaviour {
         }
 
 		while(!_bJoinedRoom ){ yield return null; }
+		AnalyticsManager.Rooms.Enter(Room.Id);
 
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
@@ -388,22 +390,29 @@ public class RoomManager : Photon.PunBehaviour {
 
 	private void UpdatePointOfInterest() {
 		Transform pointOfInterest = null;
+		string pointOfInterestId = "";
 		if (ContentManager.Instance.ContentNear != null) {
+			pointOfInterestId = ContentManager.Instance.ContentNear.ContentKey;
 			pointOfInterest = ContentManager.Instance.ContentNear.PointOfInterest;
 		}
 		else if (ContentCubeMap.ContentSelected != null) {
+			//pointOfInterestId = ContentCubeMap.ContentSelected.
 			pointOfInterest = ContentCubeMap.ContentSelected.PointOfInterest;
 		}
 		else if (ContentModels.ContentSelected != null) {
+			//pointOfInterestId = ContentModels.ContentSelected.ContentKey;
 			pointOfInterest = ContentModels.ContentSelected.PointOfInterest;
 		}
 		else if (ContentVideo.ContentSelected != null) {
+			//pointOfInterestId = ContentVideo.ContentSelected.ContentKey;
 			pointOfInterest = ContentVideo.ContentSelected.PointOfInterest;
 		}
 		else if (ContentInfo.ContentSelected != null) {
+			//pointOfInterestId = ContentInfo.ContentSelected.ContentKey;
 			pointOfInterest = ContentInfo.ContentSelected.PointOfInterest;
 		}
-
+		
+		if(pointOfInterest != null)	AnalyticsManager.Rooms.StepOnViewer(pointOfInterestId);
 		PointOfInterest = pointOfInterest;
 	}
     public static Transform entrada;
