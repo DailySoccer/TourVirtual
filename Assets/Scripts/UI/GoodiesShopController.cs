@@ -21,7 +21,7 @@ public class GoodiesShopController : MonoBehaviour {
     public UnityEngine.UI.Text item7;
 
 	//Botón de comprar todos los contenidos: deshabilitado hasta nueva orden
-  	//public GameObject purchase7;
+  	public GameObject purchase7;
 
 	void Awake () {
 		Instance = this;
