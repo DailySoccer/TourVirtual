@@ -14,7 +14,6 @@ public class RoomVisitData {
 	private int viewersOpened;
 	private bool fromMenu = false;
 	private string lastRoomId = "";
-	private bool lastRoomByMenu = false;
 	private string lastOpenViewerId = "";
 	private IDictionary<string, string> viewersOpenedList;
 	private IDictionary<string, string> viewersStepedList;
@@ -29,7 +28,6 @@ public class RoomVisitData {
 		enterData.Add("leavingRoomId", lastRoomId);
 		if (OnRoomEvent != null) OnRoomEvent(fromMenu? "EnterFromMenu" : "EnterFromPortal", enterData);
 
-		lastRoomByMenu = fromMenu;
 		fromMenu = false;
 		lastRoomId = id;
 		// reset necessary data
@@ -88,10 +86,9 @@ public class RoomVisitData {
 		visitData.Add("viewersOpened", viewersOpened);
 		visitData.Add("viewersOpenedList", String.Join(" | ", viewersOpenedList.Keys.ToArray()));
 		visitData.Add("viewersSteped", viewersStepedList.Count);
-		visitData.Add("fromMenu", lastRoomByMenu);
+		visitData.Add("fromMenu", fromMenu);
 		// visitData.Add("fromMenu", ); // TODO: set from menu
 
 		if (OnRoomEvent != null) OnRoomEvent("Leave", visitData);
-		lastRoomByMenu = false;
 	}
 }
