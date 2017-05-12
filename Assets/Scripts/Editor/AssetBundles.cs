@@ -42,7 +42,22 @@ public class CreateAssetBundles {
         {
             string basePath = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
             System.IO.Directory.CreateDirectory(basePath + "/" + ANDROID_FOLDER);
+
             BuildPipeline.BuildAssetBundles(ANDROID_FOLDER, BundleOptions, BuildTarget.Android);
+
+            /*
+            // Create the array of bundle build details.
+            AssetBundleBuild[] buildMap = new AssetBundleBuild[] {
+                new AssetBundleBuild() {
+                    assetBundleName = "vestidor",
+                    assetNames = new String[] { 
+                        "Assets/Scenes/VestidorLite.unity" 
+                    }
+                }
+            };
+            BuildPipeline.BuildAssetBundles(ANDROID_FOLDER, buildMap, BundleOptions, BuildTarget.Android);
+            */
+
 
             Debug.Log(">>>> " + ANDROID_FOLDER + "/Android.manifest");
             Debug.Log( ">>>> " + AssetDatabase.AssetPathToGUID(ANDROID_FOLDER + "/Android.manifest") );
