@@ -37,7 +37,7 @@ public class ContentInfo : MonoBehaviour {
     }
     /*
     void OnTriggerEnter(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (other.tag != Player.TagUmaAvatar)
 			return;
 		
 		// Debug.Log ("Enter: Cubemap: " + gameObject.name);
@@ -46,7 +46,7 @@ public class ContentInfo : MonoBehaviour {
 	}
 	
 	void OnTriggerExit(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (other.tag != Player.TagUmaAvatar)
 			return;
 		
 		// Debug.Log ("Exit: Cubemap: " + gameObject.name);

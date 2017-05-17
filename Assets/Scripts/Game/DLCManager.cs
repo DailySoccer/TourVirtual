@@ -84,10 +84,10 @@ public class DLCManager : MonoBehaviour {
 	}
 
     int GetVersionInInt(string version){
+        Debug.Log("Version "+version);
         string[] subs = version.Split('.');    
     return int.Parse(subs[0])*10000 + int.Parse( subs[1])*100 + int.Parse(subs[2]);
     }
-
     public System.Collections.IEnumerator LoadVersion()
     {
         WWW www;
@@ -96,17 +96,15 @@ public class DLCManager : MonoBehaviour {
             www = new WWW(BaseUrl + "assetbundles.json");
             yield return www;
             if (string.IsNullOrEmpty(www.error)) {
+                Debug.LogError(">>>>> "+www.text);
                 Dictionary<string, object> jsonMap = MiniJSON.Json.Deserialize(www.text) as Dictionary<string, object>;
                 int minVersion = 10011;
                 if( jsonMap.ContainsKey("minVersion") ) minVersion = GetVersionInInt( jsonMap["minVersion"] as string );
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 int current = GetVersionInInt("1.0.20");
-                #else
-				// BUG en Unity (Fixed en Unity 5.4.0)
-				// [IOS] APPLICATION.VERSION RETURNS BUILD NUMBER INSTEAD OF VERSION NUMBER
-				// https://issuetracker.unity3d.com/issues/ios-application-dot-version-returns-build-number-instead-of-version-number
-				int current = GetVersionInInt(Application.version);
-                #endif
+#else                
+                int current = GetVersionInInt(Application.version);
+#endif                
                 if( current < minVersion ) {
                     error = true;
                     ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.InvalidVersion"), (mode) => {

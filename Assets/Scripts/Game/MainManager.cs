@@ -19,21 +19,45 @@ public class MainManager : Photon.PunBehaviour {
 	public delegate void ChangeEvent();
 	public event ChangeEvent OnLanguageChange;
 	public event ChangeEvent OnInternetConnection;
+	public event ChangeEvent OnVRModeSwitch;
 
 	public delegate void MessagesUnreadedEvent(int counter);
 	public event MessagesUnreadedEvent OnMessagesUnreadedEvent;
 	public string PlayerName;
     public GoodiesShopController GoodiesShopConntroller;
-
     public bool InternetConnection = false;
+
+	[SerializeField] private bool _isVrModeEnabled;
+	public bool IsVrModeEnabled
+	{
+		get { return _isVrModeEnabled; }
+		private set
+		{
+			_cardboard.VRModeEnabled = value;
+			_cardboard.GetComponentInChildren<CardboardHead>().trackRotation = value;
+
+			Player.Instance.CameraType = value ? 
+				  CameraAnchor.Type.VirtualReality 
+				: CameraAnchor.Type.Default;
+
+			_isVrModeEnabled = value;
+			if(OnVRModeSwitch != null)
+			{
+				OnVRModeSwitch();
+			}
+		}
+	}
 
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
+	[SerializeField] private Cardboard _cardboard;
+
+	[SerializeField]
 	private string _currentLanguage;
 	public string CurrentLanguage {
 		get {return _currentLanguage;} 
 		set{
-			if ( _currentLanguage!=value ) {
+			if (!_currentLanguage.Equals(value)) {
 				_currentLanguage = value;
 
 				if (OnLanguageChange != null) {
@@ -42,7 +66,20 @@ public class MainManager : Photon.PunBehaviour {
 			}
 		}
 	}
-
+	/*
+	[SerializeField]
+	private bool _musicEnabled;
+	public bool MusicEnabled {
+		get {return _musicEnabled;}
+		set {
+			_musicEnabled = value;
+			//TODO: guardar valor en archivo de configuracion
+			PlayerPrefs.SetString("MusicEnabled", value);
+			PlayerPrefs.Save();
+		}
+	}
+	 */
+	[SerializeField]
 	private bool _soundEnabled;
 	public bool SoundEnabled {
 		get {
@@ -154,14 +191,25 @@ public class MainManager : Photon.PunBehaviour {
 		// Load name from PlayerPrefs
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
+	    if (_cardboard == null)
+		    _cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<Cardboard>();
+
+		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
+    }
+
+	private void OnDestroy() {
+		_cardboard = null;
 	}
 
-    void Start() {
-   		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
+    public void Start()
+	{
+		Debug.Log("MainManager::Start");
 
 		CurrentLanguage = PlayerPrefs.GetString ("language", Application.systemLanguage==SystemLanguage.Spanish?"es":"en" );
 		if (CurrentLanguage != string.Empty)
 			SetNewLangManager(_currentLanguage);
+            
+		SoundEnabled = MyTools.GetPlayerPrefsBool("sound");
 #if PRE && TEST_SHOP
 #if (UNITY_ANDROID || UNITY_IOS)
 //        LoadingCanvasManager.Show("TVB.Message.LoadingData");
@@ -169,7 +217,7 @@ public class MainManager : Photon.PunBehaviour {
 //        LoadingCanvasManager.Hide();
 #endif
 #endif
-        if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
+		if (Application.internetReachability == NetworkReachability.NotReachable && UserAPI.Instance.Online) {
             ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.NoNet"), (mode) => {
                 Application.Quit();
             });
@@ -185,7 +233,9 @@ public class MainManager : Photon.PunBehaviour {
         StartCoroutine( Continue() );
     }
 
-    IEnumerator Continue() {
+	
+    IEnumerator Continue()
+	{
         yield return new WaitForEndOfFrame();
 
         if (DLCManager.Instance != null) {
@@ -199,9 +249,12 @@ public class MainManager : Photon.PunBehaviour {
 #if UNITY_IOS && !UNITY_EDITOR
         yield return (Authentication.AzureServices as IOSAzureInterfaz).AzureCheckLogin();
 #endif          
-        if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on")){
+        if(Authentication.AzureServices.CheckApp("rmapp://single_sign_on"))
+		{
           Authentication.Instance.Init();
-        }else{
+        }
+		else
+		{
             ModalTextOnly.ShowTextGuestMode(LanguageManager.Instance.GetTextValue("TVB.Error.NoOfficialAppGuest"), (mode) => {
                 if(mode)
                     Authentication.Instance.OpenMarket();
@@ -227,6 +280,19 @@ public class MainManager : Photon.PunBehaviour {
 #endif
     }
 
+#if UNITY_EDITOR
+	private void Update() {
+		IsVrModeEnabled = _isVrModeEnabled;
+	}
+#else
+	private bool _InitVROff = false;
+	void Update() {
+		if(!_InitVROff){
+			_InitVROff = true;
+			IsVrModeEnabled = false;
+		}
+	}
+#endif
     void InitializeStore() {
 		_tourEventHandler = new TourEventHandler();
 
@@ -271,7 +337,7 @@ public class MainManager : Photon.PunBehaviour {
         string signature = "";
         extras.TryGetValue("signature", out signature);
         extras.TryGetValue("originalJson", out originalJson);
-        
+
         originalJson = originalJson.Replace("\"", "\\\"");
         receipt = "{ \"RESPONSE_CODE\":0, \"INAPP_PURCHASE_DATA\": \"" + originalJson + "\",\"INAPP_DATA_SIGNATURE\": \"" + signature + "\"}";
 
@@ -282,6 +348,7 @@ public class MainManager : Photon.PunBehaviour {
         PlayerPrefs.SetString("PurchasePendingId", pvi.ItemId);
         PlayerPrefs.SetString("PurchasePendingReceipt", receipt);
         PlayerPrefs.Save();
+
         StoreInventory.TakeItem(pvi.ItemId, 1);
         CheckPurchasePending();
     }
@@ -374,8 +441,6 @@ public class MainManager : Photon.PunBehaviour {
         LoadingCanvasManager.Hide();
     }
     void HandleOnUserLogin () {
-		Debug.LogError("HandleOnUserLogin");
-
         if(!UserAPI.Instance.Online){
             UserAPI.Instance.Nick = "Guest" + Random.Range(1, 99999);
             UserAPI.AvatarDesciptor.Random();
@@ -443,5 +508,24 @@ public class MainManager : Photon.PunBehaviour {
 		}
 	}
 
+    public Texture m_VRIcon;
+    void OnGUI(){
+        float cx = Screen.width*0.5f;
+        if( IsVrModeEnabled /*&& !RoomManager.Instance._loadingRoom*/ && GUI.Button( new Rect(cx-32,8,64,64), m_VRIcon, GUIStyle.none)){
+            IsVrModeEnabled = false;    
+        }
+    }
+
+    public void SetVrMode(){
+        IsVrModeEnabled = true;
+/*        
+        OfflineMode = true;
+        if (PhotonNetwork.connected){
+            PhotonNetwork.Disconnect();
+    		PhotonNetwork.offlineMode = true;
+        }
+        ChatManager.Instance.MyDisconnect();
+*/
+    }
 	TourEventHandler _tourEventHandler;
 }

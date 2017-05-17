@@ -294,7 +294,7 @@ public class PopUpWindow : UIScreen {
 		CloseButton.SetActive (true);
 	}
 
-		/// <summary>
+	/// <summary>
 	/// Rellena la lista de packs obtenidos
 	/// </summary>
 	public void SetupPurchasedGridContent() {

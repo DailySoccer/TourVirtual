@@ -4,16 +4,31 @@ using System.Collections;
 public class Portal : MonoBehaviour {
 
 	public string PortalID;
-
+	private bool isAvailable = true;
 
 	void Start () {
+		if (PortalID == "PUERTA3" || PortalID == "PUERTA5") {
+			MainManager.Instance.OnVRModeSwitch -= OnVRSwitch;
+			MainManager.Instance.OnVRModeSwitch += OnVRSwitch;
+			OnVRSwitch();
+		}
 	}
 	
 	void Update () {
 	}
 
+	private void OnVRSwitch()
+	{	
+		if (PortalID == "PUERTA3" || PortalID == "PUERTA5") {
+			isAvailable = !MainManager.Instance.IsVrModeEnabled;
+		}
+	}
+
 	void OnTriggerEnter(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (!isAvailable)
+			return;
+
+		if (other.tag != Player.TagUmaAvatar)
 			return;
         // Debug.Log ("Enter: Portal: " + PortalID);
 
@@ -28,7 +43,7 @@ public class Portal : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider other) {
-		if (other.tag != Player.TAG_UMA_AVATAR)
+		if (other.tag != Player.TagUmaAvatar)
 			return;
 
 		// Debug.Log ("Exit: Portal: " + PortalID );

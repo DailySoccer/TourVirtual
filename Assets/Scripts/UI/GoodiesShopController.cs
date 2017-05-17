@@ -98,7 +98,7 @@ public class GoodiesShopController : MonoBehaviour {
         }
     }
 
-     IEnumerator Buy(string id)
+    IEnumerator Buy(string id)
     {
         if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
             // Compra pendiente.
