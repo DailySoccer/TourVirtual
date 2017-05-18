@@ -398,7 +398,8 @@ public class GvrViewer : MonoBehaviour {
 //   Since GVR is the only valid VR SDK on Android or iOS, this prevents it from
 //   interfering with VR SDKs on other platforms.
 #if !UNITY_HAS_GOOGLEVR || (UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
-      AddStereoControllerToCameras();
+	  // Ximo: 18/05/2017: Si activamos ésto añadirá componentes al GameObject "UI Screens Camera" (que producen Bugs al salir del VR)
+      // AddStereoControllerToCameras();
 #endif  // !UNITY_HAS_GOOGLEVR || UNITY_EDITOR
   }
 

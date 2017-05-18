@@ -43,7 +43,6 @@ public class CanvasRootController : MonoBehaviour {
 
 
     private void HideCanvasLayers() {
-		UIScreensCamera.gameObject.SetActive(false);
 		foreach(GameObject go in canvasLayers) {
             if(go!=null)
                 go.SetActive(false);
