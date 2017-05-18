@@ -15,7 +15,7 @@ public class SyncCameraTransform : MonoBehaviour
 		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
 		
 		if(_cardboard == null)
-			_cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<Cardboard>();
+			_cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<GvrViewer>();
 
 		_camera = _cardboard.GetComponentInChildren<Camera>();
 
@@ -139,7 +139,7 @@ public class SyncCameraTransform : MonoBehaviour
 
 	
 
-	[SerializeField] private Cardboard _cardboard;
+	[SerializeField] private GvrViewer _cardboard;
 	[SerializeField] private Camera _camera;
 	[SerializeField] private CameraAnchor.Type _defaultAnchorType = CameraAnchor.Type.ThirdPerson;
 	

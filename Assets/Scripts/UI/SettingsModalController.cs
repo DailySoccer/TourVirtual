@@ -4,7 +4,7 @@ using System.Collections;
 public class SettingsModalController : MonoBehaviour {
 
 	public LanguajeSettings Languajes;
-	public AudioSettings Audio;
+	public AudioGameSettings Audio;
 
 	// Use this for initialization
 	void OnEnable () {

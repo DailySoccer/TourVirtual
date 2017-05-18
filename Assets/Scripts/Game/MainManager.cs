@@ -34,7 +34,7 @@ public class MainManager : Photon.PunBehaviour {
 		private set
 		{
 			_cardboard.VRModeEnabled = value;
-			_cardboard.GetComponentInChildren<CardboardHead>().trackRotation = value;
+			_cardboard.GetComponentInChildren<GvrHead>().trackRotation = value;
 
 			Player.Instance.CameraType = value ? 
 				  CameraAnchor.Type.VirtualReality 
@@ -50,7 +50,7 @@ public class MainManager : Photon.PunBehaviour {
 
     public static VestidorCanvasController_Lite.VestidorState VestidorMode = VestidorCanvasController_Lite.VestidorState.VESTIDOR;
 
-	[SerializeField] private Cardboard _cardboard;
+	[SerializeField] private GvrViewer _cardboard;
 
 	[SerializeField]
 	private string _currentLanguage;
@@ -192,7 +192,7 @@ public class MainManager : Photon.PunBehaviour {
 		PhotonNetwork.playerName = string.IsNullOrEmpty(PlayerName) ? PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999)) : PlayerName;
 
 	    if (_cardboard == null)
-		    _cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<Cardboard>();
+			_cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<GvrViewer>();
 
 		Assert.IsNotNull(_cardboard, "MainManager::Awake>> Cardboard not found!!");
     }

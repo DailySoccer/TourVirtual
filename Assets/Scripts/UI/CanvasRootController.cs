@@ -43,12 +43,14 @@ public class CanvasRootController : MonoBehaviour {
 
 
     private void HideCanvasLayers() {
+		UIScreensCamera.gameObject.SetActive(false);
 		foreach(GameObject go in canvasLayers) {
             if(go!=null)
                 go.SetActive(false);
 		}
 		if(SecondPlaneCanvas!=null) SecondPlaneCanvas.SetActive(false);
 	}
+
 	public IEnumerator FadeOut (int waitSeconds) {
 		LoadingCanvas.SetActive(true);
 		UIScreensCamera.cullingMask = LayerMask.GetMask("UI");
