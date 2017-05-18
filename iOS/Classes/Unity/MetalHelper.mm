@@ -35,8 +35,14 @@ extern "C" void CreateSystemRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
 
 	surface->layer.presentsWithTransaction = NO;
 	surface->layer.drawsAsynchronously = YES;
-	CGFloat backgroundColor[] = {0,0,0,1};
-	surface->layer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), backgroundColor);
+
+	CGFloat backgroundColorValues[] = {0,0,0,1};
+	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+	CGColorRef backgroundColorRef = CGColorCreate(colorSpaceRef, backgroundColorValues);
+	surface->layer.backgroundColor = backgroundColorRef; // retained automatically
+	CGColorRelease(backgroundColorRef);
+	CGColorSpaceRelease(colorSpaceRef);
+
 	surface->layer.device = surface->device;
 	surface->layer.pixelFormat = colorFormat;
 	//surface->layer.framebufferOnly = YES;

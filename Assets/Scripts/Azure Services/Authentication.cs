@@ -46,7 +46,50 @@ public class Authentication : MonoBehaviour {
         }
         else
             UserAPI.Instance.errorLogin = false;
-        StartCoroutine(UserAPI.Instance.Request());
+
+        // HACK: HACK: HACK:
+        // Necesitamos detectar si sucede algún fallo en el Request y gestionarlo en un MonoBehaviour
+        // para poder lanzar "Request"
+        // Quizás usando Promises/Future quedaría más "elegante"
+        StartCoroutine(UserAPI.Instance.Request(null, OnRequestError));
+    }
+
+    void OnRequestError() {
+        // HACK: HACK: HACK
+        // Al arrancar la app y ver que ha sucedido un error en el "Request" (por cambio de avatar)
+        // informamos al usuario y realizaremos los pasos para "rearrancar" (logout => login => request)
+        LoadingCanvasManager.Hide();
+        UserAPI.Instance.UserID=null;
+
+        ModalTextOnly.ShowText( LanguageManager.Instance.GetTextValue("TVB.Error.BadUserID"), (val)=> {
+            Authentication.AzureServices.SignOut (
+                (ret)=>{ 
+                    // Application.Quit(); 
+                    Authentication.AzureServices.SignIn( (success) => {
+                        UserAPI.Instance.errorLogin = !success;
+                        UserAPI.Instance.Online = success;
+
+                        if (success) {
+                            StartCoroutine(UserAPI.Instance.Request());
+                        }
+                        else {
+                            if (DeepLinkingManager.IsEditAvatar) {
+                                // Informamos al usuario de que no podemos Editar el Avatar sin tener una cuenta validada por la app del RM
+                                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.DeeplinkingValidation"),(mode)=>{
+                                    Application.Quit();
+                                });
+                            }
+                            else {
+                                ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Login"),(mode)=>{
+                                    Application.Quit();
+                                });
+                            }
+                        }
+                    });
+                }
+                , (ret)=>{ Application.Quit(); });
+            });
+
     }
 
     public void logout() {

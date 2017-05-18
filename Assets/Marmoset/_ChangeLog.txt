@@ -1,17 +1,42 @@
+Skyshop 1.12.4 change log
+====================
+Unity 5.3 Fixes:
+- Material Property Block usage enabled in OSX
+- Material Property Blocks no longer cleared and rebuilt every frame
+- Fixed <noinit> shader property errors in editor update loop
+- Fixed miscellaneous deprecated function calls
+- Added glcore renderer support to all standard shaders
+- Added glcore renderer support to all cubemap probe shaders (fixes pink cubemap capture in OSX)
+
+Skyshop 1.12.3 change log
+====================
+Fixes:
+- Unity 5.2 probe capture no longer crashes.
+- SpeedTree shaders for Unity 5.1+ work again.
+- Hair shader anisotropy works again.
+- Deferred & Deferred (Legacy) trees no longer cut holes into things.
+- Removed Direct3D 11 checks, its features are now guaranteed by Unity 5.
+- Removed non Render-to-Cubemap option, render targets are guaranteed in Unity 5.
+- Terrain shaders now use the base color map in add passes also (affects terrains with more than 4 layers).
+- Fixed a foggy probe capture issue on PC/Desktops.
+- Skyshop Edit Selected button no longer causes null skybox errors.
+
+Known Issues:
+- Unity 5.2 Deferred render mode adds Unity reflections to all materials, Marmoset-shaded or not.
+- Skyshop's runtime changes to the skybox (sky swapping, blending, etc) don't affect standard materials unless a Unity sky probe exists in the scene.
+
 Skyshop 1.12.2 change log
 ====================
 Fixes:
-- Fixed red SpeedTree billboards (Unity 5)
-- Fixed broken skyboxMat and projectionMat materials (Unity 5)
+- Fixed errors about broken skybox materials in Unity 5
+- Fixed red debug Speedtree billboards
 
 Skyshop 1.12.1 change log
 ====================
 Fixes:
-- Added missing Deferred rendering functions (Unity 5).
-- Added missing GI and lightmapping functions (Unity 5).
+- Added missing Deferred rendering functions.
+- Added missing GI and lightmapping functions.
 - Included both Unity 4 and Unity 5 Shader Forge extensions.
-- Removed ShaderForgeExtension_106.zip file (email support@marmoset.co if needed)
-- Added Version.txt file
 
 Skyshop 1.12 change log
 ====================

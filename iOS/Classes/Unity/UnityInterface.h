@@ -38,7 +38,6 @@ void	UnityPause(int pause);
 int		UnityIsPaused();					// 0 if player is running, 1 if paused
 void	UnityWillPause();					// send the message that app will pause
 void	UnityWillResume();					// send the message that app will resume
-void	UnityOnApplicationWillResignActive();
 void	UnityInputProcess();
 void	UnityDeliverUIEvents();				// unity processing impacting UI will be called in there
 
@@ -146,7 +145,6 @@ int		UnityDisableDepthAndStencilBuffers();
 int		UnityUseAnimatedAutorotation();
 int		UnityGetDesiredMSAASampleCount(int defaultSampleCount);
 int		UnityGetSRGBRequested();
-int		UnityGetTargetResolution();
 int		UnityGetShowActivityIndicatorOnLoading();
 int		UnityGetAccelerometerFrequency();
 int		UnityGetTargetFPS();
@@ -154,18 +152,20 @@ int		UnityGetAppBackgroundBehavior();
 
 
 // push notifications
-
+#if !UNITY_TVOS
 void	UnitySendLocalNotification(UILocalNotification* notification);
+#endif
 void	UnitySendRemoteNotification(NSDictionary* notification);
 void	UnitySendDeviceToken(NSData* deviceToken);
 void	UnitySendRemoteNotificationError(NSError* error);
-
 
 // native events
 
 void	UnityADBannerViewWasClicked();
 void	UnityADBannerViewWasLoaded();
+void	UnityADBannerViewFailedToLoad();
 void	UnityADInterstitialADWasLoaded();
+void	UnityADInterstitialADWasViewed();
 void	UnityUpdateDisplayList();
 
 
@@ -192,10 +192,9 @@ void	UnitySetKeyState (int key, int /*bool*/ state);
 // WWW connection handling
 
 void	UnityReportWWWStatusError(void* udata, int status, const char* error);
-void	UnityReportWWWFailedWithError(void* udata, const char* error);
 
 void	UnityReportWWWReceivedResponse(void* udata, int status, unsigned expectedDataLength, const char* respHeader);
-void	UnityReportWWWReceivedData(void* udata, unsigned totalRead, unsigned expectedTotal);
+void	UnityReportWWWReceivedData(void* udata, const void* buffer, unsigned totalRead, unsigned expectedTotal);
 void	UnityReportWWWFinishedLoadingData(void* udata);
 void	UnityReportWWWSentData(void* udata, unsigned totalWritten, unsigned expectedTotal);
 
@@ -224,6 +223,8 @@ void	UnitySendTouchesBegin(NSSet* touches, UIEvent* event);
 void	UnitySendTouchesEnded(NSSet* touches, UIEvent* event);
 void	UnitySendTouchesCancelled(NSSet* touches, UIEvent* event);
 void	UnitySendTouchesMoved(NSSet* touches, UIEvent* event);
+
+void	UnityCancelTouches();
 
 #ifdef __cplusplus
 } // extern "C"
@@ -276,7 +277,7 @@ void			UnityGetJoystickAxisName(int idx, int axis, char* buffer, int maxLen);
 void			UnityGetNiceKeyname(int key, char* buffer, int maxLen);
 
 // UnityAppController+Rendering.mm
-void			UnityInitMainScreenRenderingCallback(int* screenWidth, int* screenHeight);
+void			UnityInitMainScreenRenderingCallback();
 void			UnityGfxInitedCallback();
 void			UnityPresentContextCallback(struct UnityFrameStats const* frameStats);
 void			UnityFramerateChangeCallback(int targetFPS);
@@ -303,6 +304,7 @@ void			UnityKeyboard_GetRect(float* x, float* y, float* w, float* h);
 void			UnityKeyboard_SetText(const char* text);
 NSString*		UnityKeyboard_GetText();
 int				UnityKeyboard_IsActive();
+void			UnityKeyboard_PrepareToShow();
 int				UnityKeyboard_IsDone();
 int				UnityKeyboard_WasCanceled();
 void			UnityKeyboard_SetInputHidden(int hidden);
@@ -358,9 +360,16 @@ void*			UnityStartWWWConnectionGet(void* udata, const void* headerDict, const ch
 void*			UnityStartWWWConnectionPost(void* udata, const void* headerDict, const char* url, const void* data, unsigned length);
 void			UnityDestroyWWWConnection(void* connection);
 void			UnityShouldCancelWWW(const void* connection);
-const void*		UnityGetWWWData(const void* connection);
-int				UnityGetWWWDataLength(const void* connection);
-const char*		UnityGetWWWURL(const void* connection);
+
+//Apple TV Remote
+int			UnityGetAppleTVRemoteAllowExitToMenu();
+void		UnitySetAppleTVRemoteAllowExitToMenu(int val);
+int			UnityGetAppleTVRemoteAllowRotation();
+void		UnitySetAppleTVRemoteAllowRotation(int val);
+int			UnityGetAppleTVRemoteReportAbsoluteDpadValues();
+void		UnitySetAppleTVRemoteReportAbsoluteDpadValues(int val);
+int			UnityGetAppleTVRemoteTouchesEnabled();
+void		UnitySetAppleTVRemoteTouchesEnabled(int val);
 
 #ifdef __cplusplus
 } // extern "C"

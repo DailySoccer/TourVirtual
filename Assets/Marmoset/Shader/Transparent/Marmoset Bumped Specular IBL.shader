@@ -57,7 +57,7 @@ Shader "Marmoset/Transparent/Bumped Specular IBL" {
 		#define MARMO_NORMALMAP
 		#define MARMO_MIP_GLOSS
 		//#define MARMO_GLOW
-		#define MARMO_ALPHA
+		#define MARMO_ALPHA 
 		//#define MARMO_PREMULT_ALPHA
 				
 		#include "../MarmosetInput.cginc"

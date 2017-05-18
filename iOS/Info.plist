@@ -27,7 +27,7 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.41</string>
+    <string>1.3.0</string>
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
@@ -50,11 +50,9 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>1.0.41</string>
+    <string>1.3.0</string>
     <key>FacebookAppID</key>
     <string>1093864100699692</string>
-    <key>ITSAppUsesNonExemptEncryption</key>
-    <false />
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>rmapp</string>
@@ -71,111 +69,17 @@
       <true />
       <key>NSExceptionDomains</key>
       <dict>
-        <key>akamaihd.net</key>
-        <dict>
-          <key>NSExceptionRequiresForwardSecrecy</key>
-          <false />
-          <key>NSIncludesSubdomains</key>
-          <true />
-        </dict>
-        <key>facebook.com</key>
-        <dict>
-          <key>NSExceptionRequiresForwardSecrecy</key>
-          <false />
-          <key>NSIncludesSubdomains</key>
-          <true />
-        </dict>
-        <key>fbcdn.net</key>
-        <dict>
-          <key>NSExceptionRequiresForwardSecrecy</key>
-          <false />
-          <key>NSIncludesSubdomains</key>
-          <true />
-        </dict>
         <key>NSExceptionRequiresForwardSecrecy</key>
         <false />
         <key>NSIncludesSubdomains</key>
         <true />
       </dict>
     </dict>
-    <key>NSCameraUsageDescription</key>
-    <string>Application would like to store a photo.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string></string>
     <key>UIApplicationExitsOnSuspend</key>
     <false />
-    <key>UILaunchImages</key>
+    <key>UIBackgroundModes</key>
     <array>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>7.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-700</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Landscape</string>
-        <key>UILaunchImageSize</key>
-        <string>{320, 480}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>7.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-700-568h</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Landscape</string>
-        <key>UILaunchImageSize</key>
-        <string>{320, 568}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>8.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-800-667h</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Landscape</string>
-        <key>UILaunchImageSize</key>
-        <string>{375, 667}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>8.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-800-Portrait-736h</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Portrait</string>
-        <key>UILaunchImageSize</key>
-        <string>{414, 736}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>8.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-800-Landscape-736h</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Landscape</string>
-        <key>UILaunchImageSize</key>
-        <string>{414, 736}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>7.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-700-Portrait</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Portrait</string>
-        <key>UILaunchImageSize</key>
-        <string>{768, 1024}</string>
-      </dict>
-      <dict>
-        <key>UILaunchImageMinimumOSVersion</key>
-        <string>7.0</string>
-        <key>UILaunchImageName</key>
-        <string>LaunchImage-700-Landscape</string>
-        <key>UILaunchImageOrientation</key>
-        <string>Landscape</string>
-        <key>UILaunchImageSize</key>
-        <string>{768, 1024}</string>
-      </dict>
+      <string>remote-notification</string>
     </array>
     <key>UILaunchStoryboardName~ipad</key>
     <string>LaunchScreen-iPad</string>

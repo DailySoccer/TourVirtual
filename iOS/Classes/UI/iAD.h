@@ -1,6 +1,8 @@
 #pragma once
 
+#if !UNITY_TVOS
 #import <iAd/iAd.h>
+#endif
 #include "PluginBase/UnityViewControllerListener.h"
 
 extern "C" typedef void (*ADErrorDelegate)(void*, int, const char*, const char*);
@@ -59,7 +61,7 @@ typedef enum
 }
 ADBannerType;
 
-
+#if !UNITY_TVOS
 @interface UnityADBanner : NSObject <ADBannerViewDelegate, UnityViewControllerListener>
 {
 	ADBannerView*	_view;
@@ -82,7 +84,7 @@ ADBannerType;
 
 @interface UnityInterstitialAd : NSObject <ADInterstitialAdDelegate, UnityViewControllerListener>
 {
-	ADInterstitialAd*	_view;
+	ADInterstitialAd*	_interstitial;
 	UIViewController*	_presentController;
 
 	BOOL				_autoReload;
@@ -91,6 +93,7 @@ ADBannerType;
 - (void)show;
 - (void)reloadAD;
 
-@property (readonly, copy, nonatomic) ADInterstitialAd* view;
+@property (readonly, copy, nonatomic) ADInterstitialAd* interstitial;
 
 @end
+#endif

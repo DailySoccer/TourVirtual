@@ -14,7 +14,10 @@ public class SyncCameraTransform : MonoBehaviour
 		CameraAnchor.PitchDegreesMin = _pitchDegreesMin;
 		CameraAnchor.PitchDegreesMax = _pitchDegreesMax;
 		
-		_camera = Camera.main;
+		if(_cardboard == null)
+			_cardboard = GameObject.FindGameObjectWithTag("Cardboard").GetComponent<GvrViewer>();
+
+		_camera = _cardboard.GetComponentInChildren<Camera>();
 
 		RoomManager.Instance.OnSceneReady += OnSceneReady;
 		enabled = false;
@@ -26,6 +29,7 @@ public class SyncCameraTransform : MonoBehaviour
 	private void OnDestroy()
 	{
 		_camera = null;
+		_cardboard = null;
 		_anchorsByType = null;
 	}
 
@@ -36,16 +40,16 @@ public class SyncCameraTransform : MonoBehaviour
 	/// </summary>
 	private void LateUpdate ()
 	{
-		Assert.IsNotNull(_camera);
+		Assert.IsNotNull(_cardboard);
 		Assert.IsNotNull(_anchorsByType);
 
 		CameraAnchor anchor;
 		if (!_anchorsByType.TryGetValue(Player.Instance.CameraType, out anchor))
 			anchor = _anchorsByType[_defaultAnchorType];
 
-		if (!Mathf.Approximately(Player.Instance.cameraPitch, 0f))
-			anchor.PitchDegrees += Player.Instance.cameraPitch * Time.deltaTime;
-		else if(!Mathf.Approximately(Player.Instance.cameraRotation, 0f))
+		if (!Mathf.Approximately(Player.Instance.CameraPitchSpeed, 0f))
+			anchor.PitchDegrees += Player.Instance.CameraPitchSpeed * Time.deltaTime;
+		else if(!Mathf.Approximately(Player.Instance.CameraRotationSpeed, 0f))
 			anchor.PitchDegrees -= anchor.PitchDegrees * _pitchRecoveryForce * Time.deltaTime;
 
 		SyncWith(anchor);
@@ -57,19 +61,18 @@ public class SyncCameraTransform : MonoBehaviour
 	/// 
 	/// </summary>
 	/// <param name="anchor"></param>
-	/// <param name="smoothTransition"></param>
 	private void SyncWith(CameraAnchor anchor)
 	{
-		_camera.transform.rotation = anchor.transform.rotation;
+		_cardboard.transform.rotation = anchor.transform.rotation;
 		
 /*
-		Vector3 nearPos   = anchor.Transform.position + _camera.nearClipPlane*anchor.Transform.forward;
+		Vector3 nearPos   = anchor.Transform.position + _cardboard.nearClipPlane*anchor.Transform.forward;
 
 		RaycastHit wallInfo;
 		if (Physics.Linecast(nearPos, anchor.Target, out wallInfo, LayerMask.GetMask(_wallLayerName)))
 		{
-			_camera.transform.position = wallInfo.point
-				- _wallSafeDistance*_camera.nearClipPlane*anchor.Transform.forward;
+			_cardboard.transform.position = wallInfo.point
+				- _wallSafeDistance*_cardboard.nearClipPlane*anchor.Transform.forward;
 		}
 		Debug.DrawLine(nearPos, anchor.Target, Color.magenta);
 /*/
@@ -100,10 +103,10 @@ public class SyncCameraTransform : MonoBehaviour
 /**/
 
 		if(_smoothSecs > 0f)
-			_camera.transform.position = Vector3.SmoothDamp(
-				_camera.transform.position, targetPosition, ref _smoothVelo, _smoothSecs);
+			_cardboard.transform.position = Vector3.SmoothDamp(
+				_cardboard.transform.position, targetPosition, ref _smoothVelo, _smoothSecs);
 		else
-			_camera.transform.position = targetPosition;
+			_cardboard.transform.position = targetPosition;
 	}
 
 
@@ -136,9 +139,10 @@ public class SyncCameraTransform : MonoBehaviour
 
 	
 
+	[SerializeField] private GvrViewer _cardboard;
 	[SerializeField] private Camera _camera;
 	[SerializeField] private CameraAnchor.Type _defaultAnchorType = CameraAnchor.Type.ThirdPerson;
-
+	
 	private float _pitch;
 	[SerializeField, Range(-90f, 0f)]
 	private float _pitchDegreesMin = -20f;

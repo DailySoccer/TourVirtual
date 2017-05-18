@@ -57,7 +57,8 @@ public class SelectAvatar : MonoBehaviour {
             instance.layer = LayerMask.NameToLayer("Player");
             Player thePlayer = Player.Instance;
             if (thePlayer != null)
-				thePlayer.Avatar = instance;
+				thePlayer.SetAvatar(instance);
+
             RoomManager roomManager = RoomManager.Instance;
             if (roomManager != null) {
                 // Si venimos por Deep

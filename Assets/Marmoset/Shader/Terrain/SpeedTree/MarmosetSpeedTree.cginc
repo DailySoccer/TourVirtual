@@ -57,7 +57,7 @@ uniform sampler2D _MainTex;
 #endif
 
 #ifdef LOD_FADE_CROSSFADE
-	uniform sampler2D _DitherMaskLOD2D;
+//	uniform sampler2D _DitherMaskLOD2D;
 #endif
 
 uniform fixed4 _Color;

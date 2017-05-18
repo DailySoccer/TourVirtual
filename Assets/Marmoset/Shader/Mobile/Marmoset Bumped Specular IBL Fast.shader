@@ -34,7 +34,7 @@ Shader "Marmoset/Mobile/Bumped Specular IBL Fast" {
 		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert exclude_path:prepass noforwardadd 
 		//approxview
 		//mobile primary
-		#pragma only_renderers d3d9 opengl gles gles3 metal
+		#pragma only_renderers d3d9 opengl glcore gles gles3 metal
 		
 		#pragma multi_compile MARMO_SKY_BLEND_OFF MARMO_SKY_BLEND_ON
 		
@@ -84,7 +84,7 @@ Shader "Marmoset/Mobile/Bumped Specular IBL Fast" {
 		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert exclude_path:prepass noforwardadd 
 		//approxview
 		//mobile secondary
-		#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x				
+		#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x				
 		
 		#pragma multi_compile MARMO_SKY_BLEND_OFF MARMO_SKY_BLEND_ON
 		

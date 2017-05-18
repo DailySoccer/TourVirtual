@@ -34,9 +34,10 @@ class Probeshop : EditorWindow {
 
 	public System.Action DoneCallback = null;
 
-	private float progress = 0f;
+	//No more progress bar
+	//private float progress = 0f;
 	private void SetProgress(float amt) {
-		progress = Mathf.Clamp01(amt);
+		//progress = Mathf.Clamp01(amt);
 		this.Repaint();
 	}
 
@@ -56,7 +57,9 @@ class Probeshop : EditorWindow {
 	private void OnGUI() {
 		//bool probing = UnityEditor.EditorPrefs.GetBool("mset.ProbeOverride");
 		if(probing) {
-			EditorUtility.DisplayProgressBar("Probe Progress", Mathf.Floor(0.5f + 100f*progress) + "% Complete", progress);
+			//Progress bar breaks Unity 5.2.3+, Goodnight sweet prince.
+			//EditorUtility.DisplayProgressBar("Probe Progress", Mathf.Floor(0.5f + 100f*progress) + "% Complete", progress);
+
 			GUILayout.Space(160);
 			GUILayout.BeginHorizontal();
 			EditorGUILayout.Space();
@@ -110,7 +113,7 @@ class Probeshop : EditorWindow {
 					proProbe.maxExponent = skmgr.ProbeExponent;
 					proProbe.exposures = skmgr.ProbeExposures;
 					bool linear = UnityEditor.PlayerSettings.colorSpace == ColorSpace.Linear;
-					
+
 					bool k = proProbe.capture(targetCube, at.position, at.rotation, targetSky.HDRSpec, linear, true);
 					if(!k) {
 						Debug.LogWarning("Failed to capture with RenderTextures, falling back to ReadPixels.");
@@ -196,24 +199,31 @@ class Probeshop : EditorWindow {
 		if(mgr && mgr.ProbeWithCubeRT) {
 			//test for render texture and HDR support
 			RenderTexture testRT = RenderTexture.GetTemporary(256,256,24,RenderTextureFormat.ARGBHalf);
+			testRT.Release();
 			testRT.isCubemap = true;
 			testRT.useMipMap = true;
 			testRT.generateMips = true;
+			testRT.Create();
 			if( !testRT.IsCreated() && !testRT.Create() ){
 				testRT = RenderTexture.GetTemporary(256,256,24,RenderTextureFormat.ARGB32);
+				testRT.Release();
 				testRT.isCubemap = true;
 				testRT.useMipMap = true;
 				testRT.generateMips = true;
+				testRT.Create();
 			}
 			useCubeRT = testRT.IsCreated() || testRT.Create();
 			if(!useCubeRT) {
 				Debug.LogWarning("RenderTextures don't seem to be supported, using ReadPixels capture instead.");
 			}
-			#if UNITY_EDITOR_WIN
-			if(!UnityEditor.PlayerSettings.useDirect3D11) {
-				Debug.LogWarning("RenderTexture cubemaps require Direct3D 11 in Windows, using ReadPixels capture instead.");
-				useCubeRT = false;
-			}
+
+			#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+				#if UNITY_EDITOR_WIN
+				if(!UnityEditor.PlayerSettings.useDirect3D11) {
+					Debug.LogWarning("RenderTexture cubemaps require Direct3D 11 in Windows, using ReadPixels capture instead.");
+					useCubeRT = false;
+				}
+				#endif
 			#endif
 			RenderTexture.ReleaseTemporary(testRT);
 		}

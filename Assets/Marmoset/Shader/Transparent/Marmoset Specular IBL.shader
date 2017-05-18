@@ -34,7 +34,7 @@ Shader "Marmoset/Transparent/Specular IBL" {
 		
 		#pragma target 3.0
 		#pragma exclude_renderers gles gles3 metal d3d11_9x flash
-		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert  alpha:fade
+		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert alpha:fade
 				
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	

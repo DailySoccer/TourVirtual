@@ -284,8 +284,12 @@ public class Skyshop : EditorWindow {
 							if( editSky ) {
 								outSKY.HDR = editSky.HDRSky;
 								outSIM.HDR = editSky.HDRSpec;
-								outSKY.setReference( AssetDatabase.GetAssetPath(editSky.SkyboxCube), false, true );
-								outSIM.setReference( AssetDatabase.GetAssetPath(editSky.SpecularCube), true, true );
+
+								if(editSky.SkyboxCube) outSKY.setReference( AssetDatabase.GetAssetPath(editSky.SkyboxCube), false, true );
+								else outSKY.clear();
+								
+								if(editSky.SpecularCube) outSIM.setReference( AssetDatabase.GetAssetPath(editSky.SpecularCube), true, true );
+								else outSIM.clear();
 							}
 						}
 						EditorGUI.EndDisabledGroup();

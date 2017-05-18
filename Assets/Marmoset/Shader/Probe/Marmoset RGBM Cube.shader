@@ -86,7 +86,6 @@ Shader "Hidden/Marmoset/RGBM Cube" {
 				#else
 					col.a = 1.0;
 				#endif
-				
 				return col;
 			}
 			ENDCG 

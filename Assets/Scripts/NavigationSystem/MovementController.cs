@@ -1,99 +1,181 @@
 ﻿using UnityEngine;
 
-public class MovementController : MonoBehaviour {
-	
-	public float ROTATE_SPEED = 180f;
-	public float PITCH_SPEED = 90;
-    public float JOYSTICK_THRESHOLD = 0.3f;
-    public float FACING_SPEED = 0.12f;
-    public float movementSpeed = 5f;
-	private bool isMoving = false;
-    private Transform _playerTransform;
-			
-	[SerializeField]
-	private JoystickController movementJoystick;
-	[SerializeField]
-	private JoystickController rotationJoystick;
-	
-	public Vector2 movement {
-		get { return movementJoystick.joystickValue; }
-	}
 
-	public Vector2 rotation {
-		get { return rotationJoystick.joystickValue; }
-	}
-
+[RequireComponent(typeof(Player))]
+public class MovementController : MonoBehaviour
+{
 	/**
-	 * Joysitck rotation weighted with user's finger speed.
+	 * Joysitck Rotation weighted with user's finger speed.
 	 */
-	public Vector2 rotationWeighted {
-		get { return (2f * rotation + rotationJoystick.deltaTouchValue * rotationJoystick.speed) / 3f; }
-	}
-	
-	private Transform PlayerTransform {
-		get {
-			if (_playerTransform == null || !ReferenceEquals(_playerTransform, null)) {
-				GameObject thePlayerObj = Player.Instance.Avatar;
-				if (thePlayerObj != null) {
-					_playerTransform = thePlayerObj.transform;
-				}
-			}
-			return _playerTransform;
-		}
-		set {
-			_playerTransform = value;
-		}
-	}
+	//public Vector2 RotationWeighted {
+	//	get { return (2f * Rotation + _rotationJoystick.DeltaTouchValue * _rotationJoystick.speed) / 3f; }
+	//}
+
 	
 
+	private void Awake()
+	{
+		if(_player == null)
+			_player = GetComponent<Player>();
+
+		if (_camera == null)
+			_camera = Camera.main;
+
+		//Assert.IsNotNull(_player	, "MovementController::Awake>> Player Null!!");
+		//Assert.IsNotNull(_animator	, "MovementController::Awake>> Animator Null!!");
+		//Assert.IsNotNull(_movementTouch, "MovementController::Awake>> Movement joystick Null!!");
+		//Assert.IsNotNull(_rotationTouch, "MovementController::Awake>> Rotation joystick Null!!");
+
+		_player.AvatarChange += OnAvatarChange;
+		enabled = false;
+	}
+
+	private void OnDestroy()
+	{
+		_player.AvatarChange -= OnAvatarChange;
+
+		_camera = null;
+		_player = null;
+		_animator = null;
+		_movementTouch = null;
+		_rotationTouch = null;
+		_avatar = null;
+	}
+	
 	// Use this for initialization
-	void Start () {
-		GameObject thePlayerObj = Player.Instance.Avatar;
-		if (thePlayerObj != null) {
-			PlayerTransform = thePlayerObj.transform;
-		}
-    }
-
+	private void Start ()
+	{
+	}
+	
     // Update is called once per frame
-    void Update () {
-        if (PlayerTransform == null )
-        {
-            return;
-        }
-        if (PlayerTransform == null) {//|| PlayerTransform.GetComponent<Locomotion>() == null) {
-			return;
-		}
-        Vector2 rotCamera = Vector2.zero;
-        float facing = FACING_SPEED;
-        if (_animator == null) _animator = PlayerTransform.GetComponent<Animator>();
-        if ((Mathf.Abs(movement.x) >= JOYSTICK_THRESHOLD || Mathf.Abs(movement.y) >= JOYSTICK_THRESHOLD) && Camera.main != null){
-            facing = 0.46f;
-            rotCamera.x = movement.x * ROTATE_SPEED;
-            _animator.SetFloat("Speed", Mathf.Abs(movement.y));
-            if (movement.y > 0) _animator.SetFloat("Forward", 1);
+    private void Update ()
+    {
+	    if (_avatar == null)
+		    return;
+
+	    _player.CameraRotationSpeed = 0f;
+		_player.CameraPitchSpeed = 0f;
+
+		float currentfacingSpeed = _facingSpeed;
+		if (!MainManager.Instance.IsVrModeEnabled) _movement = _movementTouch.Value;
+		else _movement = Vector2.zero;
+
+	    _movement.x += Input.GetAxis(_movementHorizontalAxis);
+		_movement.y += Input.GetAxis(_movementVerticalAxis);
+	    _movement.x = Mathf.Clamp(_movement.x, -1f, 1f);
+		_movement.y = Mathf.Clamp(_movement.y, -1f, 1f);
+
+		_rotation = _rotationTouch.Value;
+		_rotation.x += Input.GetAxis(_rotationHorizontalAxis);
+		_rotation.y += Input.GetAxis(_rotationVerticalAxis);
+		_rotation.x = Mathf.Clamp(_rotation.x, -1f, 1f);
+		_rotation.y = Mathf.Clamp(_rotation.y, -1f, 1f);
+
+		if (!MainManager.Instance.IsVrModeEnabled && Camera.main != null && 
+			(Mathf.Abs(_movement.x) >= _joystickThreshold 
+		  || Mathf.Abs(_movement.y) >= _joystickThreshold) ) {
+            currentfacingSpeed = 0.46f;
+            _animator.SetFloat("Speed", Mathf.Abs(_movement.y));
+
+            if (_movement.y > 0) _animator.SetFloat("Forward", 1);
             else _animator.SetFloat("Forward", -1);
         }
-        else{
-            if(_animator!=null) _animator.SetFloat("Speed", 0);
+        else
+		{
+			_animator.SetFloat("Speed", 0);
         }
+		
+		if (!MainManager.Instance.IsVrModeEnabled)
+		{
+			_player.CameraRotationSpeed = (_movement.x + _rotation.x) * _yawSpeedMax;
+			_player.CameraPitchSpeed    = _rotation.y * _pitchSpeedMax;
 
-        rotCamera.x += rotation.x * ROTATE_SPEED;
-        rotCamera.y = rotation.y * PITCH_SPEED;
-        Player.Instance.cameraRotation = rotCamera.x;
-        Player.Instance.cameraPitch = rotCamera.y;
-
-        if(Camera.main!=null)
-            PlayerTransform.rotation = 
-                Quaternion.Slerp(PlayerTransform.rotation, Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0), facing);
+			_avatar.rotation =
+			    Quaternion.Slerp(_avatar.rotation,
+				    Quaternion.Euler(0f, _camera.transform.rotation.eulerAngles.y, 0f), currentfacingSpeed);
+	    }
     }
 
+	/// <summary>
+	/// 
+	/// </summary>
+	private void FixedUpdate() {
+		if (!MainManager.Instance.IsVrModeEnabled)
+			return;
 
-    protected Animator _animator;
-    private void CommonMovementMethod(Vector2 movement)
+		Vector3 forwardHead = _camera.transform.forward;
+		forwardHead.y = 0f;
+		forwardHead.Normalize();
+
+		Vector3 rightHead = _camera.transform.right;
+		rightHead.y = 0f;
+		rightHead.Normalize();
+
+		Vector3 nextPos = _avatar.position + Time.fixedDeltaTime * _movementSpeed * (_movement.x * rightHead + _movement.y * forwardHead);
+
+		_avatar.GetComponent<Rigidbody>().MovePosition(nextPos);
+	}
+
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="avatar"></param>
+	private void OnAvatarChange(GameObject avatar)
+	{
+		if (avatar != null)
+		{
+			_avatar = avatar.transform;
+			_animator = _avatar.GetComponent<Animator>();
+			enabled = true;
+		}
+		else
+		{
+			enabled = false;
+			_avatar = null;
+			_animator = null;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="movement"></param>
+	private void CommonMovementMethod(Vector2 movement)
     {
+		// Threshold por bajos valores.
+	}
 
-        // Threshold por bajos valores.
-       
 
-    }
+	private Animator _animator;
+	private Transform _avatar;
+
+	[SerializeField]
+	private Player _player;
+	[SerializeField]
+	private Camera _camera;
+	[SerializeField]
+	private JoystickController _movementTouch;
+	[SerializeField]
+	private JoystickController _rotationTouch;
+
+	[SerializeField]
+	private float _yawSpeedMax = 180f;
+	[SerializeField]
+	private float _pitchSpeedMax = 90;
+	[SerializeField]
+	private float _joystickThreshold = 0.3f;
+	[SerializeField]
+	private float _facingSpeed = 0.12f;
+	[SerializeField]
+	private float _movementSpeed = 5f;
+	private bool _isMoving = false;
+	private Vector2 _movement;
+	private Vector2 _rotation;
+
+	[SerializeField] private string _movementHorizontalAxis;
+	[SerializeField] private string _movementVerticalAxis;
+	[SerializeField] private string _rotationHorizontalAxis;
+	[SerializeField] private string _rotationVerticalAxis;
 }

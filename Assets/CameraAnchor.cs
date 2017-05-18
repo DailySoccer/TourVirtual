@@ -4,9 +4,10 @@ public class CameraAnchor : MonoBehaviour
 {
 	public enum Type
 	{
-		None		= 0,
+		Default		= 0,
 		FirstPerson = 1,
 		ThirdPerson = 2,
+		VirtualReality = 3,
 	}
 
 	public static float PitchDegreesMin;

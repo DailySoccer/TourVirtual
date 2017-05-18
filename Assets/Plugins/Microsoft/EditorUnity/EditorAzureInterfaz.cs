@@ -103,6 +103,7 @@ public class EditorAzureInterfaz : AzureInterfaz
     string urlCode = "";
     void OnGUI()
     {
+		/*
         if (string.IsNullOrEmpty(AccessToken)) {
             if (GUI.Button(new Rect(320, Screen.height - 150, 150, 25), "Token ")) {
                 StartCoroutine(GetAccessToken(urlCode));
@@ -113,6 +114,7 @@ public class EditorAzureInterfaz : AzureInterfaz
             GUI.Label(new Rect(320, Screen.height - 125, 300, 25), "URL Response: http://localhost/?code=XXX");
             urlCode = GUI.TextField(new Rect(320, Screen.height - 100, 300, 25), urlCode);
         }
+        */
     }
 
     public string AsciiToString(byte[] bytes)

@@ -124,124 +124,47 @@ SubShader {
 		Name "ShadowCaster"
 		Tags { "LightMode" = "ShadowCaster" }
 		
-		Fog {Mode Off}
 		ZWrite On ZTest LEqual
-		Offset 1, 1
 
 	CGPROGRAM
 		#pragma vertex vert_surf
 		#pragma fragment frag_surf
-		#pragma exclude_renderers noshadows
-		#pragma fragmentoption ARB_precision_hint_fastest
 		#pragma multi_compile_shadowcaster
-		
-		#include "UnityBuiltin3xTreeLibrary.cginc"
 		#include "HLSLSupport.cginc"
 		#include "UnityCG.cginc"
 		#include "Lighting.cginc"
-		#include "TerrainEngine.cginc"
 
 		#define INTERNAL_DATA
 		#define WorldReflectionVector(data,normal) data.worldRefl
 
-		uniform sampler2D _ShadowTex;
+		#include "UnityBuiltin3xTreeLibrary.cginc"
+
+		sampler2D _MainTex;
 
 		struct v2f_surf {
 			V2F_SHADOW_CASTER;
 			float2 hip_pack0 : TEXCOORD1;
 		};
 		
-		uniform float4 _ShadowTex_ST;
+		float4 _MainTex_ST;
 		
 		v2f_surf vert_surf (appdata_full v) {
 			v2f_surf o;
 			TreeVertLeaf (v);
-			o.hip_pack0.xy = TRANSFORM_TEX(v.texcoord, _ShadowTex);
-			TRANSFER_SHADOW_CASTER(o)
+			o.hip_pack0.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
+			TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
 			return o;
 		}
 		
 		fixed _Cutoff;
 		
-		half4 frag_surf (v2f_surf IN) : COLOR {
-			fixed alpha = tex2D(_ShadowTex, IN.hip_pack0.xy).r;
+		half4 frag_surf (v2f_surf IN) : SV_Target {
+			fixed alpha = tex2D(_MainTex, IN.hip_pack0.xy).a;
 			clip (alpha - _Cutoff);
 			SHADOW_CASTER_FRAGMENT(IN)
 		}
-
 	ENDCG
-
 	}
-
-	// Pass to render object as a shadow collector
-	Pass {
-		Name "ShadowCollector"
-		Tags { "LightMode" = "ShadowCollector" }
-		
-		Fog {Mode Off}
-		ZWrite On ZTest LEqual
-
-	CGPROGRAM
-		#pragma vertex vert
-		#pragma fragment frag
-		#pragma exclude_renderers noshadows
-		#pragma fragmentoption ARB_precision_hint_fastest
-		#pragma multi_compile_shadowcollector		
-
-		#define SHADOW_COLLECTOR_PASS
-		#include "UnityBuiltin3xTreeLibrary.cginc"
-		#include "UnityCG.cginc"
-		#include "TerrainEngine.cginc"
-
-		struct v2f {
-			V2F_SHADOW_COLLECTOR;
-			float2  uv : TEXCOORD5;
-		};
-
-		uniform float4 _MainTex_ST;
-
-		v2f vert (appdata_full v)
-		{
-			v2f o;
-			TreeVertLeaf(v);
-			TRANSFER_SHADOW_COLLECTOR(o)
-			o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
-			return o;
-		}
-
-		uniform sampler2D _MainTex;
-		uniform fixed _Cutoff;
-
-		half4 frag (v2f i) : COLOR
-		{
-			fixed4 texcol = tex2D( _MainTex, i.uv );
-			clip( texcol.a - _Cutoff );
-			
-			SHADOW_COLLECTOR_FRAGMENT(i)
-		}
-	ENDCG
-
-	}
-	
 }
-
-SubShader {
-	Tags { "RenderType"="TreeLeaf" }
-	Pass {		
-		Material {
-			Diffuse (1,1,1,1)
-			Ambient (1,1,1,1)
-		} 
-		Lighting On
-		AlphaTest Greater [_Cutoff]
-		ColorMask RGB
-		SetTexture [_MainTex] { Combine texture * primary DOUBLE, texture }
-		SetTexture [_MainTex] {
-			ConstantColor [_Color]
-			Combine previous * constant, previous
-		} 
-	}
-} 
-
 Dependency "BillboardShader" = "Hidden/Marmoset/Nature/Tree Creator Leaves Rendertex"
 }

@@ -24,7 +24,7 @@ Shader "Hidden/Marmoset/RGBM Convolve" {
 			#pragma fragmentoption ARB_precision_hint_nicest
 			#pragma glsl
 			#pragma target 3.0
-			#pragma only_renderers d3d11 opengl
+			#pragma only_renderers d3d11 opengl glcore
 					
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	
@@ -64,7 +64,7 @@ Shader "Hidden/Marmoset/RGBM Convolve" {
 			#pragma fragmentoption ARB_precision_hint_nicest
 			#pragma glsl
 			#pragma target 3.0
-			#pragma only_renderers d3d9 d3d11 opengl
+			#pragma only_renderers d3d9 d3d11 opengl glcore
 					
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	
@@ -103,7 +103,7 @@ Shader "Hidden/Marmoset/RGBM Convolve" {
 			#pragma fragmentoption ARB_precision_hint_nicest
 			#pragma glsl
 			#pragma target 3.0
-			#pragma only_renderers d3d9 d3d11 opengl
+			#pragma only_renderers d3d9 d3d11 opengl glcore
 					
 		#pragma multi_compile MARMO_BOX_PROJECTION_OFF MARMO_BOX_PROJECTION_ON
 		#if MARMO_BOX_PROJECTION_ON	

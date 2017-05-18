@@ -813,3 +813,9 @@ void _InAppPurchase(char* IDProduct, char* Receipt, char* _hash){
         }
     }];
 }
+
+////////////////////////////////////////////////////
+// Debug.Log para iOS
+void _logToiOS(const char* debugMessage) {
+    NSLog(@"Received _logToiOS %@", [NSString stringWithUTF8String:debugMessage]);
+}

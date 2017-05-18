@@ -74,6 +74,10 @@ START_STRUCT(UnityDisplaySurfaceGLES, UnityDisplaySurfaceBase)
 	unsigned	msaaFB;
 	unsigned	msaaColorRB;
 
+	// when we enable AA for non-native resolution we need interim RT to resolve AA to (and then we will blit it to screen)
+	UnityRenderBuffer	resolvedColorBuffer;
+
+
 	// will be "shared", only one depth buffer is needed
 	unsigned	depthRB;
 

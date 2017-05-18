@@ -49,7 +49,7 @@ SubShader {
 	#pragma surface MarmosetTerrainSurf Lambert vertex:MarmosetTerrainVert exclude_path:prepass noforwardadd 
 		//approxview nodirlightmap
 	//addshadow
-	#pragma only_renderers d3d9 d3d11 opengl gles gles3 metal
+	#pragma only_renderers d3d9 d3d11 opengl glcore gles gles3 metal
 	#pragma multi_compile MARMO_TERRAIN_BLEND_OFF MARMO_TERRAIN_BLEND_ON
 	#if MARMO_TERRAIN_BLEND_ON			
 		#define MARMO_SKY_BLEND

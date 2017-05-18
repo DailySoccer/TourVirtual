@@ -65,7 +65,7 @@ SubShader {
 	#pragma surface MarmosetTerrainSurf BlinnPhong vertex:MarmosetTerrainVert exclude_path:prepass noforwardadd 
 		//approxview nodirlightmap
 	// fullforwardshadows	
-	#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x
+	#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x
 	//gamma-correct sampling permutations
 			
 	#pragma multi_compile MARMO_TERRAIN_BLEND_OFF MARMO_TERRAIN_BLEND_ON
@@ -106,7 +106,7 @@ SubShader {
 	//NOTE: BlinnPhong instead of MarmosetDirect is fine here, MarmosetDirect is only needed for RGB specular
 	#pragma surface MarmosetTerrainSurf BlinnPhong vertex:MarmosetTerrainVert exclude_path:prepass noforwardadd 
 		//approxview nodirlightmap
-	#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x
+	#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x
 	//gamma-correct sampling permutations
 			
 	#pragma multi_compile MARMO_TERRAIN_BLEND_OFF MARMO_TERRAIN_BLEND_ON
@@ -147,7 +147,7 @@ SubShader {
 	//NOTE: BlinnPhong instead of MarmosetDirect is fine here, MarmosetDirect is only needed for RGB specular
 	#pragma surface MarmosetTerrainSurf BlinnPhong vertex:MarmosetTerrainVert exclude_path:prepass noforwardadd 
 		//approxview nodirlightmap
-	#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x
+	#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x
 	//gamma-correct sampling permutations
 			
 	#pragma multi_compile MARMO_TERRAIN_BLEND_OFF MARMO_TERRAIN_BLEND_ON

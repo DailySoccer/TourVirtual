@@ -17,6 +17,11 @@ public class CanvasRootController : MonoBehaviour {
 
 	private string _currentScreen;
 	private RoomManager _roomManager;
+	private int _oldLayerMask = -2;
+	public int OldLayerMask {
+		get { return _oldLayerMask; }
+		set	{ _oldLayerMask = value; }
+	}
 
 	// Use this for initialization
 	void Awake() {
@@ -38,6 +43,7 @@ public class CanvasRootController : MonoBehaviour {
 
 
     private void HideCanvasLayers() {
+		UIScreensCamera.gameObject.SetActive(false);
 		foreach(GameObject go in canvasLayers) {
             if(go!=null)
                 go.SetActive(false);
@@ -47,6 +53,13 @@ public class CanvasRootController : MonoBehaviour {
 
 	public IEnumerator FadeOut (int waitSeconds) {
 		LoadingCanvas.SetActive(true);
+		UIScreensCamera.cullingMask = LayerMask.GetMask("UI");
+		Camera[] childCameras = UIScreensCamera.GetComponentsInChildren<Camera>();
+		foreach (Camera cam in childCameras)
+		{
+			cam.cullingMask = UIScreensCamera.cullingMask;
+		}
+		Debug.LogWarning("culling mask to UI");
 
 		Animator animator = LoadingCanvas.GetComponentInChildren<Animator>();
 		animator.speed = (waitSeconds > 0) ? 1.0f / (float)waitSeconds : 0;
@@ -69,11 +82,18 @@ public class CanvasRootController : MonoBehaviour {
 
 		UIScreen screen = LoadingCanvas.GetComponentInChildren<UIScreen>();
 		screen.IsOpen = false;
-
+		
 		while (!screen.InCloseState) {
 			yield return null;
 		}
 
+		UIScreensCamera.cullingMask = OldLayerMask;
+		Camera[] childCameras = UIScreensCamera.GetComponentsInChildren<Camera>();
+		foreach (Camera cam in childCameras)
+		{
+			cam.cullingMask = UIScreensCamera.cullingMask;
+		}
+		Debug.LogWarning("culling mask to old value");
 		LoadingCanvas.SetActive(false);
 	}
 
@@ -92,17 +112,21 @@ public class CanvasRootController : MonoBehaviour {
 
 	void OnLevelReady() {
 		//GameObject canvas;
-		switch(_roomManager.Room.Gui) {            
-			case RoomDefinition.GUI_GAME: // Game Scene
-                //canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
-				GameObject goCanvasGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas");
-				goCanvasGame.SetActive(true);
-                break;
+		//VR edit ('if' statement)
+		if (!MainManager.Instance.IsVrModeEnabled) {
+			switch (_roomManager.Room.Gui) {
+				case RoomDefinition.GUI_GAME: // Game Scene
+														//canvas = (GameObject)(from element in canvasLayers where element.name.ToLower() == "agame canvas" select element);
+					GameObject goCanvasGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "game canvas");
+					goCanvasGame.SetActive(true);
+					break;
 
-            case RoomDefinition.GUI_MINIGAMES: // Game Scene
-				GameObject goCanvasMiniGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas");
-				goCanvasMiniGame.SetActive(true);
-                break;
-        }
+				case RoomDefinition.GUI_MINIGAMES: // Game Scene
+					GameObject goCanvasMiniGame = canvasLayers.FirstOrDefault(c => c.name.ToLower() == "minigames canvas");
+					goCanvasMiniGame.SetActive(true);
+					break;
+			}
+		}
+		//VR edit END
 	}
 }

@@ -105,59 +105,5 @@ SubShader {
 	}
 }
 
-/*
-SubShader {
-	Pass {		
-		CGPROGRAM
-		#pragma vertex vert
-		#pragma exclude_renderers shaderonly
-		
-		#include "UnityCG.cginc"
-		
-		#include "../../MarmosetCore.cginc"
-		#include "TreeCore.cginc"
-		
-		struct v2f {
-			float4 pos : SV_POSITION;
-			fixed4 color : COLOR;
-			float2 uv : TEXCOORD0;
-		};
-
-		CBUFFER_START(UnityTerrainImposter)
-			float3 _TerrainTreeLightDirections[4];
-			float4 _TerrainTreeLightColors[4];
-		CBUFFER_END
-
-		v2f vert (appdata_full v) {
-			v2f o;
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
-			o.uv = v.texcoord.xy;
-
-			//HACK: double ambient for lack of IBL
-			float3 light = 2.0 * UNITY_LIGHTMODEL_AMBIENT.rgb * _ExposureIBL.x * _UniformOcclusion.x;
-			
-			for (int j = 0; j < 3; j++)
-			{
-				half3 lightColor = _TerrainTreeLightColors[j].rgb;
-				float3 lightDir = _TerrainTreeLightDirections[j];
-			
-				half nl = dot (v.normal, lightDir);
-				light += lightColor * nl;
-			}
-			
-			// lighting * AO
-			o.color.rgb = light * v.color.a * _ExposureIBL.w;
-			o.color.a = 1.0;
-			return o;
-		}
-		ENDCG
-		
-		SetTexture [_MainTex] {
-			Combine texture * primary DOUBLE, primary
-		} 
-	}
-}
-*/
-
 FallBack Off
 }

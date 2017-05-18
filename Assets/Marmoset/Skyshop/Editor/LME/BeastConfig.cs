@@ -55,10 +55,15 @@ namespace mset
 		
 		public static string configFilePath {
 			get {
-				if(string.IsNullOrEmpty(EditorApplication.currentScene))
+				#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+					string currentPath = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().path;
+				#else
+					string currentPath = EditorApplication.currentScene;
+				#endif
+				if(string.IsNullOrEmpty(currentPath))
 					return "";
-				string root = Path.GetDirectoryName(EditorApplication.currentScene);
-				string dir = Path.GetFileNameWithoutExtension(EditorApplication.currentScene);
+				string root = Path.GetDirectoryName(currentPath);
+				string dir = Path.GetFileNameWithoutExtension(currentPath);
 				string path = Path.Combine(root, dir);
 				path = Path.Combine(path, "BeastSettings.xml");
 				return path;

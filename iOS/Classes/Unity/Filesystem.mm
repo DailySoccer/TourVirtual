@@ -52,12 +52,18 @@ extern "C" const char* const* UnityFontFallbacks()
 		"Hiragino Kaku Gothic ProN", // Japanese characters
 		"Heiti TC",				// Traditional Chinese characters (on 9.0 OS substitutes this with "PingFang TC")
 		"Heiti SC",				// Simplified Chinese characters (on 9.0 OS substitutes this with "PingFang SC")
-		"PingFang SC",
 		"AppleSDGothic Neo",	// Korean characters
+		"Apple SD Gothic Neo",	// Korean characters on tvOS
 		".Sukhumvit Set UI",	// Thai characters on 8.2
 		"AppleGothic",
-		"Noto Sans Yi",			// Yi characters on 9.0
+		"Noto Sans Yi",			// Yi characters on 9.0 (Yi is not available on tvOS)
 		"Helvetica",
+		"Helvetica Neue",
+		"Arial Hebrew",			// Hebrew since 9.0
+		"Kohinoor Devanagari",	// Hindi since 9.0
+		"Kohinoor Bangla",		// Bengali since 9.0
+		"Kohinoor Telugu",		// Telugu since 9.0
+		"Lao Sangam MN",		// Lao
 		".LastResort",
 		NULL
 	};

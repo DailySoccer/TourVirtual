@@ -28,7 +28,7 @@ Shader "Marmoset/Mobile/Diffuse IBL" {
 		
 		#pragma surface MarmosetSurf MarmosetDirect vertex:MarmosetVert exclude_path:prepass noforwardadd 
 		//approxview
-		#pragma only_renderers d3d9 opengl gles gles3 metal d3d11 d3d11_9x
+		#pragma only_renderers d3d9 opengl glcore gles gles3 metal d3d11 d3d11_9x
 		
 		#pragma multi_compile MARMO_SKY_BLEND_OFF MARMO_SKY_BLEND_ON
 		

@@ -35,6 +35,7 @@ void BarkVert (inout appdata_full v, out Input o) {
 
 void BarkSurf (Input IN, inout SurfaceOutput o) {
 	fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
+	
 	o.Albedo = c.rgb * _Color.rgb * IN.diffuseIBL.a;
 	o.Alpha = c.a;
 	
