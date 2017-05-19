@@ -627,7 +627,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
     // FER: 02/01/17
 	// Compra de todos los contenidos.
     public void BuyInApp() {
-        MainManager.Instance.OnPurchaseInApp = ()=>{;
+        MainManager.Instance.OnPurchaseInApp = ()=>{
             BuyInAppBtn.interactable = false;
         };
 		GoodiesShopController.Instance.Product_ClickHandle("_rmvt_pack_all");
