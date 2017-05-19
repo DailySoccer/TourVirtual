@@ -357,7 +357,7 @@ public class MainManager : Photon.PunBehaviour {
                 }else{
                     if(ItemId.Contains("all")){
                         // Aqui se desbloquea la compra de todos los contenidos.
-                        Debug.Log("SendAction: VIRTUALTOUR_ACC_DESBLO_ALL_PACK");
+                        // Debug.Log("SendAction: VIRTUALTOUR_ACC_DESBLO_ALL_PACK");
                         UserAPI.Instance.SendAction("VIRTUALTOUR_ACC_DESBLO_ALL_PACK",null,(err)=>{});
                         VirtualGoodsAPI.HasPurchase7=true;
                     }
