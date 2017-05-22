@@ -556,6 +556,12 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 		BackToRoom ();
     }
 
+	public void SetVRMode()
+	{
+		BackToRoom();
+		MainManager.Instance.SetVrMode();
+	}
+
     public void BackToRoom()
     {
         if (DeepLinkingManager.IsEditAvatar) {
