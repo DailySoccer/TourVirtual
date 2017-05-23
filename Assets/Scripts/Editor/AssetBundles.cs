@@ -37,19 +37,35 @@ public class CreateAssetBundles {
     [MenuItem("Assets/AssetBundles/Build Android")]
     static void BuildAllAssetBundles_Android()
     {
-        // FIX: crash en Unity, cuando BuildAssetBundles sin cargar el escenario anteriormente
-        if (OpenScenesBefore())
-        {
-            string basePath = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-            System.IO.Directory.CreateDirectory(basePath + "/" + ANDROID_FOLDER);
-            BuildPipeline.BuildAssetBundles(ANDROID_FOLDER, BundleOptions, BuildTarget.Android);
+		// FIX: crash en Unity, cuando BuildAssetBundles sin cargar el escenario anteriormente
+		if (OpenScenesBefore())
+		{
+			string basePath = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
+			System.IO.Directory.CreateDirectory(basePath + "/" + ANDROID_FOLDER);
 
-            Debug.Log(">>>> " + ANDROID_FOLDER + "/Android.manifest");
-            Debug.Log( ">>>> " + AssetDatabase.AssetPathToGUID(ANDROID_FOLDER + "/Android.manifest") );
-            //CreateVersionJSON(basePath + "/" + ANDROID_FOLDER, Application.dataPath + "/Resources/Android/" + ASSET_BUNDLES_JSON);
-            CreateVersionJSON(basePath + "/" + ANDROID_FOLDER, "Assets/WebPlayerTemplates/AssetBundles/Android/" + ASSET_BUNDLES_JSON);
-        }
+			BuildPipeline.BuildAssetBundles(ANDROID_FOLDER, BundleOptions, BuildTarget.Android);
+
+			/*
+            // Create the array of bundle build details.
+			AssetBundleBuild[] buildMap = new AssetBundleBuild[] {
+				new AssetBundleBuild() {
+					assetBundleName = "vestidor",
+					assetNames = new String[] { 
+						"Assets/Scenes/VestidorLite.unity" 
+					}
+				}
+			};
+			BuildPipeline.BuildAssetBundles(ANDROID_FOLDER, buildMap, BundleOptions, BuildTarget.Android);
+			*/
+
+
+			Debug.Log(">>>> " + ANDROID_FOLDER + "/Android.manifest");
+			Debug.Log( ">>>> " + AssetDatabase.AssetPathToGUID(ANDROID_FOLDER + "/Android.manifest") );
+			//CreateVersionJSON(basePath + "/" + ANDROID_FOLDER, Application.dataPath + "/Resources/Android/" + ASSET_BUNDLES_JSON);
+			CreateVersionJSON(basePath + "/" + ANDROID_FOLDER, "Assets/WebPlayerTemplates/AssetBundles/Android/" + ASSET_BUNDLES_JSON);
+		}
     }
+
     [MenuItem("Assets/AssetBundles/Build Windows")]
     static void BuildAllAssetBundles_Windows()
     {
@@ -72,6 +88,20 @@ public class CreateAssetBundles {
 			string basePath = Application.dataPath.Remove (Application.dataPath.IndexOf("/Assets"));
 			System.IO.Directory.CreateDirectory(basePath + "/" + IOS_FOLDER);
 			BuildPipeline.BuildAssetBundles (IOS_FOLDER, BundleOptions, BuildTarget.iOS);
+
+			/*
+			// Create the array of bundle build details.
+			AssetBundleBuild[] buildMap = new AssetBundleBuild[] {
+				new AssetBundleBuild() {
+					assetBundleName = "vestidor",
+					assetNames = new String[] { 
+						"Assets/Scenes/VestidorLite.unity" 
+					}
+				}
+			};
+			BuildPipeline.BuildAssetBundles(IOS_FOLDER, buildMap, BundleOptions, BuildTarget.iOS);
+			*/
+
 //			CreateVersionJSON(basePath + "/" + IOS_FOLDER, Application.dataPath + "/Resources/iOS/" + ASSET_BUNDLES_JSON);
             CreateVersionJSON(basePath + "/" + IOS_FOLDER, "Assets/WebPlayerTemplates/AssetBundles/iOS/" + ASSET_BUNDLES_JSON);
 
