@@ -20,15 +20,13 @@ public class GoodiesShopController : MonoBehaviour {
     public UnityEngine.UI.Text item6;
     public UnityEngine.UI.Text item7;
 
-	//Botón de comprar todos los contenidos: deshabilitado hasta nueva orden
-  	//public GameObject purchase7;
+	//Botón de comprar todos los contenidos
+  	public GameObject purchase7;
 
 	void Awake () {
 		Instance = this;
 		thisModal.IsOpen = false;
 		thisModal = GetComponent<GUIPopUpScreen> ();
-		// 5-4-2017: hasta hoy se forzaba esta desactivación, pero ahora ya directamente comento el botón entero un poco mas arriba
-        //purchase7.SetActive(false);
 	}
 
 	// Use this for initialization
@@ -43,6 +41,9 @@ public class GoodiesShopController : MonoBehaviour {
 	public static void Show(callback _callback=null) {
 		Instance.okCallback = _callback;
 		Instance.thisModal.IsOpen = true;
+
+        // FIX: Ximo 19/05/2017
+        Instance.purchase7.SetActive(!VirtualGoodsAPI.HasPurchase7);
 	}
 
 	public void ShowGoodiesShop() {
@@ -75,8 +76,7 @@ public class GoodiesShopController : MonoBehaviour {
             else if (item.ProductId.Contains("100"))    item1.text = item.MarketPriceAndCurrency;
             else Debug.LogError(">>>> Producto raro " + item.ProductId);
         }
-		// 5-4-2017: bug porque no estaba activo el gameobject, comentado y directamente comento el botón entero un poco mas arriba
-		// purchase7.SetActive(!VirtualGoodsAPI.HasPurchase7);
+		purchase7.SetActive(!VirtualGoodsAPI.HasPurchase7);
     }
 
     public void Product_ClickHandle(string iapId) {
@@ -107,6 +107,12 @@ public class GoodiesShopController : MonoBehaviour {
             yield return null;
             StoreInventory.BuyItem(id);
         }
-
     }
+
+    // XIMO: 18/05/17
+    // Compra de todos los contenidos.   
+    public void BuyInApp() {
+        Product_ClickHandle("_rmvt_pack_all");
+    }
+
 }
