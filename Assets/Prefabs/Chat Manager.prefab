@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 428504}
   - 114: {fileID: 11424984}
   - 114: {fileID: 11458192}
+  - 114: {fileID: 11461036}
   m_Layer: 0
   m_Name: Chat Manager
   m_TagString: ChatManager
@@ -53,6 +54,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b921ade84bb4a8c8f99c5ec3c5f54c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11461036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f62bc4d101943e2be312bcf5301d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JsonMessages: {fileID: 4900000, guid: 9f496c2a7cde046f498a6eda9d0438d9, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

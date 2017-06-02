@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.Chat;
 using SmartLocalization;
+using System.Linq;
 
 public class ChatMessage
 {
@@ -63,6 +64,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	}
 
 	private HashSet<string> _roomIds;
+    private PredefinedMessages _predefinedMessages;
 
 
 	//==============================================================================================
@@ -76,7 +78,14 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	{
 		foreach(KeyValuePair<string, object> pair in RoomManager.Instance.RoomDefinitions)
 			_roomIds.Add(pair.Key);
-	}
+
+        _predefinedMessages = GetComponent<PredefinedMessages>();
+        /*
+        _predefinedMessages.GetMessages("en");
+        _predefinedMessages.GetMessageFromKey("en", "hi");
+        _predefinedMessages.GetTranslatedMessage("en", string.Format("<message>goodbye</message>"));
+        */
+    }
 
 
 	/// <summary>To avoid that the Editor becomes unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -146,6 +155,16 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
         OnDisconnected();
     }
 
+    private string TranslateMessage(string message) {
+        // Debug.Log("check TranslateMessage: " + message);
+        string[] textos = message.Split('#');
+        if (_predefinedMessages.isPredefinidedMessage(textos.Last())) {
+            Debug.Log("isPredefinedMessage: " + textos.Last());
+            return string.Format("{0}#{1}", textos.First(), _predefinedMessages.GetTranslatedMessage(textos.Last()));
+        }
+        return message;
+    }
+
     public void OnGetMessages(string channelId, string[] senders, object[] messages)
 	{
 		Debug.Log (string.Format ("OnGetMessages [{0}]", channelId));
@@ -156,7 +175,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 	    }
 
 	    for(int i = 0; i < senders.Length; ++i ) 
-			channelHistory.Add(new ChatMessage(senders[i], messages[i] as string, false));
+            channelHistory.Add(new ChatMessage(senders[i], TranslateMessage(messages[i] as string), false));
 		
 		if (OnMessagesChange != null /*&& channelId.Equals(SelectedChannelId)*/) 
 			OnMessagesChange(channelId);
@@ -170,11 +189,11 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 			ChatChannel ch = ChatClient.PrivateChannels[ channelName ];
 			foreach ( object msg in ch.Messages ) {
 				// Debug.Log (string.Format("PrivateMessage: {0} -> {1}: {2}", sender, UserName, msg));
-				History[channelName].Add(new ChatMessage(sender, msg as string, false));
+                History[channelName].Add(new ChatMessage(sender, TranslateMessage(msg as string), false));
 			}
 		}
 		else {
-			History[channelName].Add(new ChatMessage(sender, message as string, false));
+            History[channelName].Add(new ChatMessage(sender, TranslateMessage(message as string), false));
 		}
 
 		if (OnMessagesChange != null /*&& channelId.Equals(SelectedChannelId)*/) {
