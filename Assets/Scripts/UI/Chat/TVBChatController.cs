@@ -39,6 +39,10 @@ public class TVBChatController : MonoBehaviour
 	/// </summary>
 	public GameObject messagesListParent;
 
+    /// <summary>
+    /// Controlador de los mensajes predefinidos
+    /// </summary>
+    public GameObject predefenidedMessagesParent;
 
 	[SerializeField][ReadOnly]
 
@@ -607,5 +611,23 @@ public class TVBChatController : MonoBehaviour
 		PopulateChannelsList();
 	}
 
+    public void OpenPredefinedMessages() {
+        predefenidedMessagesParent.SetActive(true);
+    }
 
+    public void ClosePredefinedMessages() {
+        predefenidedMessagesParent.SetActive(false);
+    }
+
+    public void SendChatPredefinedMessage(string key) {
+        string messageToSend = string.Format("{0}#<message>{1}</message>", DateTime.UtcNow, key);
+
+        #if UNITY_EDITOR
+        Debug.LogError("[SendChatPredefinedMessage] in <" + this.name + ">: Trying to send message: \"" + messageToSend );
+        #endif
+
+        ChatManager.Instance.SendMessage(messageToSend);
+
+        ClosePredefinedMessages();
+    }
 }

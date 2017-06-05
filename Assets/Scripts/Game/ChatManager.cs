@@ -155,6 +155,10 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
         OnDisconnected();
     }
 
+    public Dictionary<string, string> GetPredefinedMessages() {
+        return _predefinedMessages.GetMessages();
+    }
+
     private string TranslateMessage(string message) {
         // Debug.Log("check TranslateMessage: " + message);
         string[] textos = message.Split('#');
