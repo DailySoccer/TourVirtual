@@ -15,6 +15,9 @@ public class AvatarAPI {
     public string Compliment;
     public string Pack;
 
+    public bool isMan { get { return (Gender == "Man"); } }
+    public bool isWoman { get { return (Gender == "Woman"); } }
+
     public void Random(){
         int idx = UnityEngine.Random.Range(0, 2);
         Gender = idx==1?"Man":"Woman";

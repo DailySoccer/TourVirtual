@@ -364,7 +364,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowVestidor()
     {
-        AnalyticsManager.Dresser.Enter();
+        AnalyticsManager.Instance.EnterDresser();
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
         /*if (PlayerInstance == null && MainManager.VestidorMode != VestidorState.SELECT_AVATAR)
@@ -375,7 +375,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 
     public void ShowClothesShop() {
         
-        AnalyticsManager.Dresser.OpenBuy();
+        AnalyticsManager.Instance.OpenBuyInDresser();
         if( Authentication.Instance.CheckOffline()) return;
 		if (isCurrentPopUpOpen)
 			TogglePopUpScreen();
@@ -534,8 +534,7 @@ public class VestidorCanvasController_Lite : MonoBehaviour
 										BackToRoom();
 									}
 
-                                    AnalyticsManager.Dresser.CloseAccept();
-                                    AnalyticsManager.AvatarSelection.SelectModel();
+                                    AnalyticsManager.Instance.SelectAvatarModel(UserAPI.AvatarDesciptor);
 								});
 							},(error)=>{
 								Debug.LogError("ERROR CreateProfileAvatar "+error);
@@ -560,14 +559,15 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                     HideAllScreens();
 					BackToRoom();
 
-                    AnalyticsManager.AvatarSelection.SelectModel();
+                    AnalyticsManager.Instance.ChangeAvatarModel(UserAPI.AvatarDesciptor);
                 });
             }
         }
     }
 
     public void CancelThisAvatar() {
-        AnalyticsManager.Dresser.CloseCancel();
+        AnalyticsManager.Instance.CancelAvatarModel();
+
         UserAPI.AvatarDesciptor.Paste(mOldAvatarDesciptor);
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
         HideAllScreens();
@@ -603,12 +603,14 @@ public class VestidorCanvasController_Lite : MonoBehaviour
                 BuyInfoButtom.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("TVB.Button.Info");
                 DressVirtualGood(currentPrenda.virtualGood, true, currentPrenda.virtualGood.count == 0);
                 TogglePopUpScreen();
-                AnalyticsManager.Dresser.BuySuccess(currentPrenda);
+
+                AnalyticsManager.Instance.BuyInDresser(currentPrenda.virtualGood, true);
             }, () => {
                 TogglePopUpScreen();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"));
                 LoadingCanvasManager.Hide();
-                AnalyticsManager.Dresser.BuyCancel(currentPrenda);
+
+                AnalyticsManager.Instance.BuyInDresser(currentPrenda.virtualGood, false);
             });
     }
 

@@ -287,7 +287,9 @@ public class RoomManager : Photon.PunBehaviour {
     System.Collections.IEnumerator LoadRoom(RoomDefinition roomDefinition) {
         _loadingRoom = true;
 
-		AnalyticsManager.Rooms.Leave();
+        if (Room != null) {
+            AnalyticsManager.Instance.LeaveRoom(Room.Id);
+        }
 		RoomDefinition roomOld = Room;
 		Room = roomDefinition;
 
@@ -333,7 +335,8 @@ public class RoomManager : Photon.PunBehaviour {
         }
 
 		while(!_bJoinedRoom ){ yield return null; }
-		AnalyticsManager.Rooms.Enter(Room.Id);
+
+        AnalyticsManager.Instance.EnterRoom(Room.Id);
 
         yield return StartCoroutine( EnterPlayer(Room, roomOld, player) );
         MyTools.FixLights("Model3D"); // Quita mascara a las luces
@@ -412,7 +415,7 @@ public class RoomManager : Photon.PunBehaviour {
 			pointOfInterest = ContentInfo.ContentSelected.PointOfInterest;
 		}
 		
-		if(pointOfInterest != null)	AnalyticsManager.Rooms.StepOnViewer(pointOfInterestId);
+		if(pointOfInterest != null)	AnalyticsManager.Instance.StepOnViewer(pointOfInterestId);
 		PointOfInterest = pointOfInterest;
 	}
     public static Transform entrada;

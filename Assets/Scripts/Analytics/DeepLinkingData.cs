@@ -9,12 +9,16 @@ public class DeepLinkingData {
 	public event Action<string, IDictionary<string, object>> OnDeepLinkEvent;
 
 	public void Enter() {
-		IDictionary<string, object> data = new Dictionary<string, object>();
-		OnDeepLinkEvent("Enter", data);
+        if (OnDeepLinkEvent != null) {
+            OnDeepLinkEvent("Enter", new Dictionary<string, object>() {
+            });
+        }
 	}
 	
 	public void AvatarChange() {
-		IDictionary<string, object> data = new Dictionary<string, object>();
-		OnDeepLinkEvent("AvatarChange", data);
+        if (OnDeepLinkEvent != null) {
+            OnDeepLinkEvent("AvatarChange", new Dictionary<string, object>() {
+            });
+        }
 	}
 }

@@ -40,11 +40,11 @@ public class DresserData {
 		
 	}
 
-	public void BuySuccess(ClothSlot cloth) {
+    public void BuySuccess(VirtualGoodsAPI.VirtualGood virtualGood) {
 		
 	}
 
-	public void BuyCancel(ClothSlot cloth) {
+    public void BuyCancel(VirtualGoodsAPI.VirtualGood virtualGood) {
 		
 	}
 

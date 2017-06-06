@@ -1,43 +1,43 @@
 ﻿using UnityEngine;
 using UnityEngine.Analytics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 public class AvatarSelectionData {
 
 	public event Action<string, IDictionary<string, object>> OnAvatarEvent;
 
 	private float enterTime;
-	IDictionary<int, int> modelsViewed;
-	private int lastShownModel = 0;
+	HashSet<string> modelsViewed;
 
 	public void Enter() {
-	    IDictionary<string, object> enterData = new Dictionary<string, object>();
-		OnAvatarEvent("Enter", enterData);
+        if (OnAvatarEvent != null) {
+            OnAvatarEvent("Enter", new Dictionary<string, object>() {
+            });
+        }
 
 		// reset necessary data
 		enterTime = Time.time;
-		modelsViewed = new Dictionary<int, int>();
-		lastShownModel = 0;
+        modelsViewed = new HashSet<string>();
 	}
 
-	public void ShowModel(int model) {
-		if(!modelsViewed.ContainsKey(model)) modelsViewed.Add(model, model);
-		lastShownModel = model;
+    public void ShowModel(AvatarAPI descriptor) {
+        modelsViewed.Add(descriptor.Head);
 	}
 
-	public void SelectModel() {
-		float leaveTime = Time.time;
+    public void SelectModel(AvatarAPI descriptor) {
+        if (OnAvatarEvent != null) {
+            float leaveTime = Time.time;
 
-	    IDictionary<string, object> selectModelData = new Dictionary<string, object>();
-		selectModelData.Add("modelsViewed", modelsViewed.Count);
-		selectModelData.Add("selectedModelId", lastShownModel);
-		selectModelData.Add("totalTime", leaveTime - enterTime);
-		selectModelData.Add("gender", UserAPI.AvatarDesciptor.Gender);
-
-		OnAvatarEvent("SelectAvatar", selectModelData);
+            OnAvatarEvent("SelectAvatar", new Dictionary<string, object>() {
+                { "modelsViewed", modelsViewed.Count },
+                { "selectedModelId", descriptor.Head },
+                { "gender", descriptor.Gender },
+                { "totalTime", leaveTime - enterTime }
+            });
+        }
 	}
 
 }

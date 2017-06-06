@@ -34,14 +34,19 @@ public class CoinsBuyData {
 
 	public void LeaveWithoutBuy() {
 		float leaveTime = Time.time;
-	    IDictionary<string, object> visitData = new Dictionary<string, object>();
-		visitData.Add("totalTime", leaveTime - enterTime);
-		onBuyEvent("LeaveWithoutBuy", visitData);
+
+        if (onBuyEvent != null) {
+            onBuyEvent("LeaveWithoutBuy", new Dictionary<string, object>() {
+                { "totalTime", leaveTime - enterTime }
+            });
+        }
 	}
 
 	public void BuyItem(string id) {
-	    IDictionary<string, object> visitData = new Dictionary<string, object>();
-		onBuyEvent("LeaveWithoutBuy", visitData);
+        if (onBuyEvent != null) {
+            onBuyEvent("LeaveWithoutBuy", new Dictionary<string, object>() {
+            });
+        }
 	}
 
 }

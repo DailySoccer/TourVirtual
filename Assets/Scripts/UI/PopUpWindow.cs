@@ -196,7 +196,7 @@ public class PopUpWindow : UIScreen {
 				// Coger el id del pack asociado a la vitrina
 				string packId = ContentManager.Instance.ContentNear.ContentKey;
 			
-				AnalyticsManager.Rooms.OpenViewer(packId);
+				AnalyticsManager.Instance.OpenViewer(packId);
 				ContentAPI.Content content = UserAPI.Contents.GetContentByID (packId);
 			
 				if (content == null) {

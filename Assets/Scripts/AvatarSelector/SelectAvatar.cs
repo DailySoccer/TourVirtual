@@ -104,12 +104,14 @@ public class SelectAvatar : MonoBehaviour {
         UserAPI.AvatarDesciptor.Feet = "";
         UserAPI.AvatarDesciptor.Compliment = "";
         PlayerManager.Instance.SelectedModel = UserAPI.AvatarDesciptor.ToString();
+
+        AnalyticsManager.Instance.ShownAvatarModel(UserAPI.AvatarDesciptor);
     }
 
     void Start() {
         if (MainManager.VestidorMode == VestidorCanvasController_Lite.VestidorState.SELECT_AVATAR)
         {
-            AnalyticsManager.AvatarSelection.Enter();
+            AnalyticsManager.Instance.OpenAvatarSelection();
             maxModel = (PlayerManager.Instance.Heads["Man"] as List<object>).Count;
 
             OnSelectGender("Man");
