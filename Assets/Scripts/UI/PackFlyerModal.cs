@@ -50,6 +50,10 @@ public class PackFlyerModal : MonoBehaviour {
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(TheContent.VirtualGoodID, false, () => {
             LoadingCanvasManager.Hide();
             ModalContents.Instance.ShowModalScreen(9);
+
+            AnalyticsManager.Instance.ViewerBuySuccess( TheContent.ContenName, float.Parse(Price.text) );
+        }, () => {
+            AnalyticsManager.Instance.ViewerBuyCancel( TheContent.ContenName, float.Parse(Price.text) );
         });
 
     }
@@ -59,7 +63,12 @@ public class PackFlyerModal : MonoBehaviour {
 	public void BuyInApp() {
 		MainManager.Instance.OnPurchaseInApp = ()=>{
             ModalContents.Instance.ShowModalScreen(9);
+
+            AnalyticsManager.Instance.ViewerBuyAllContent();
         };
+
 		GoodiesShopController.Instance.Product_ClickHandle("_rmvt_pack_all");
+
+        AnalyticsManager.Instance.ViewerRequestBuyAllContent();
     }
 }

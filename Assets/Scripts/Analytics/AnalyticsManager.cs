@@ -14,6 +14,7 @@ public class AnalyticsManager : MonoBehaviour {
     public event Action<string, IDictionary<string, object>> OnViewerEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
+    private static ViewerData Viewer = new ViewerData();
     private static AvatarSelectionData AvatarSelection = new AvatarSelectionData();
     private static DeepLinkingData DeepLinking = new DeepLinkingData();
     private static DresserData Dresser = new DresserData();
@@ -108,6 +109,7 @@ public class AnalyticsManager : MonoBehaviour {
 
     public void EnterRoom(string roomId) {
         Rooms.Enter(roomId);
+        Viewer.Reset();
 
         OnRoomEvent(Rooms.FromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
             { "enteringRoomId", roomId },
@@ -119,9 +121,9 @@ public class AnalyticsManager : MonoBehaviour {
         OnRoomEvent("Leave", new Dictionary<string, object>() {
             { "roomId", Rooms.LastRoomId },
             { "usersInRoom", PlayerManager.Instance.CountPlayersInRoom },
-            { "viewersOpened", Rooms.ViewersOpened },
-            { "viewersOpenedList", Rooms.ViewersOpenedListToString() },
-            { "viewersSteped", Rooms.ViewersStepedList.Count },
+            { "viewersOpened", Viewer.ViewersOpened },
+            { "viewersOpenedList", Viewer.ViewersOpenedListToString() },
+            { "viewersSteped", Viewer.ViewersStepedList.Count },
             { "fromMenu", Rooms.FromMenu },
             { "totalTime", Rooms.TotalTime }
         });
@@ -130,15 +132,51 @@ public class AnalyticsManager : MonoBehaviour {
     // VITRINAS
 
     public void StepOnViewer(string viewerId) {
-        Rooms.StepOnViewer(viewerId);
+        Viewer.StepOnViewer(viewerId);
     }
 
     public void OpenViewer(string viewerId) {
-        Rooms.OpenViewer(viewerId);
+        Viewer.OpenViewer(viewerId);
 
         OnViewerEvent("Open", new Dictionary<string, object>() {
             { "viewerId", viewerId },
-            { "roomId", Rooms.LastRoomId }
+            { "roomId", Rooms.CurrentRoomId }
+        });
+    }
+
+    public void ViewerBuySuccess(string contentName, float coinsNeeded) {
+        OnViewerEvent("BuySuccess", new Dictionary<string, object>() {
+            { "viewerId", Viewer.LastOpenViewerId },
+            { "roomId", Rooms.CurrentRoomId },
+            { "contentName", contentName },
+            { "coinsNeeded", coinsNeeded },
+            { "totalTime", Viewer.TotalTime }
+        });
+    }
+
+    public void ViewerBuyCancel(string contentName, float coinsNeeded) {
+        OnViewerEvent("BuyCancel", new Dictionary<string, object>() {
+            { "viewerId", Viewer.LastOpenViewerId },
+            { "roomId", Rooms.CurrentRoomId },
+            { "contentName", contentName },
+            { "coinsNeeded", coinsNeeded },
+            { "totalTime", Viewer.TotalTime }
+        });
+    }
+
+    public void ViewerRequestBuyAllContent() {
+        OnViewerEvent("RequestBuyAllContent", new Dictionary<string, object>() {
+            { "viewerId", Viewer.LastOpenViewerId },
+            { "roomId", Rooms.CurrentRoomId },
+            { "totalTime", Viewer.TotalTime }
+        });
+    }
+
+    public void ViewerBuyAllContent() {
+        OnViewerEvent("BuyAllContent", new Dictionary<string, object>() {
+            { "viewerId", Viewer.LastOpenViewerId },
+            { "roomId", Rooms.CurrentRoomId },
+            { "totalTime", Viewer.TotalTime }
         });
     }
 
