@@ -41,7 +41,7 @@ public class GuiMapScreen : UIScreen {
 			}
 		}
 		
-        AnalyticsManager.Instance.GotoUsingMap();
+        AnalyticsManager.Instance.SelectRoomUsingMap();
 		RoomManager.Instance.GotoRoomAtDoor(roomGoto);
 	}
 	public override void UpdateTitle() {

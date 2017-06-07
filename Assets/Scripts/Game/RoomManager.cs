@@ -415,7 +415,9 @@ public class RoomManager : Photon.PunBehaviour {
 			pointOfInterest = ContentInfo.ContentSelected.PointOfInterest;
 		}
 		
-		if(pointOfInterest != null)	AnalyticsManager.Instance.StepOnViewer(pointOfInterestId);
+        if (!string.IsNullOrEmpty(pointOfInterestId)) {
+            AnalyticsManager.Instance.StepOnViewer(pointOfInterestId);
+        }
 		PointOfInterest = pointOfInterest;
 	}
     public static Transform entrada;

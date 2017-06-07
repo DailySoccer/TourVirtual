@@ -7,37 +7,28 @@ using System.Linq;
 
 public class AvatarSelectionData {
 
-	public event Action<string, IDictionary<string, object>> OnAvatarEvent;
+    private HashSet<string> _modelsViewed;
+    private float _enterTime;
 
-	private float enterTime;
-	HashSet<string> modelsViewed;
+    public int CountModelsViewed {
+        get {
+            return _modelsViewed.Count;
+        }
+    }
+
+    public float TotalTime {
+        get {
+            return Time.time - _enterTime;
+        }
+    }
 
 	public void Enter() {
-        if (OnAvatarEvent != null) {
-            OnAvatarEvent("Enter", new Dictionary<string, object>() {
-            });
-        }
-
 		// reset necessary data
-		enterTime = Time.time;
-        modelsViewed = new HashSet<string>();
+		_enterTime = Time.time;
+        _modelsViewed = new HashSet<string>();
 	}
 
     public void ShowModel(AvatarAPI descriptor) {
-        modelsViewed.Add(descriptor.Head);
+        _modelsViewed.Add(descriptor.Head);
 	}
-
-    public void SelectModel(AvatarAPI descriptor) {
-        if (OnAvatarEvent != null) {
-            float leaveTime = Time.time;
-
-            OnAvatarEvent("SelectAvatar", new Dictionary<string, object>() {
-                { "modelsViewed", modelsViewed.Count },
-                { "selectedModelId", descriptor.Head },
-                { "gender", descriptor.Gender },
-                { "totalTime", leaveTime - enterTime }
-            });
-        }
-	}
-
 }

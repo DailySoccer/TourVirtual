@@ -5,8 +5,13 @@ using UnityEngine.Analytics;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class AnalyticsManager : MonoBehaviour {
+
+    public event Action<string, IDictionary<string, object>> OnAvatarEvent;
+    public event Action<string, IDictionary<string, object>> OnRoomEvent;
+    public event Action<string, IDictionary<string, object>> OnViewerEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static AvatarSelectionData AvatarSelection = new AvatarSelectionData();
@@ -20,10 +25,10 @@ public class AnalyticsManager : MonoBehaviour {
 		if (Instance == null) {
 			Instance = this;
 			
-			Rooms.OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("Rooms_" + eventSubName, roomData);
-			Rooms.OnViewerEvent += (eventSubName, roomData) => _GenerateEvent("Viewer_" + eventSubName, roomData);
-			AvatarSelection.OnAvatarEvent += (eventSubName, roomData) => _GenerateEvent("Avatar_" + eventSubName, roomData);
-			DeepLinking.OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
+            OnAvatarEvent += (eventSubName, roomData) => _GenerateEvent("Avatar_" + eventSubName, roomData);
+			OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("Rooms_" + eventSubName, roomData);
+			OnViewerEvent += (eventSubName, roomData) => _GenerateEvent("Viewer_" + eventSubName, roomData);
+			//DeepLinking.OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
 			//Dresser. += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
 			//CoinsBuy.OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("CoinsBuy_" + eventSubName, roomData);
 		}
@@ -69,6 +74,9 @@ public class AnalyticsManager : MonoBehaviour {
     // AVATAR SELECTION
 
     public void OpenAvatarSelection() {
+        OnAvatarEvent("Enter", new Dictionary<string, object>() {
+        });
+
         AvatarSelection.Enter();
     }
 
@@ -77,7 +85,12 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void SelectAvatarModel(AvatarAPI descriptor) {
-        AvatarSelection.SelectModel(descriptor);
+        OnAvatarEvent("SelectAvatar", new Dictionary<string, object>() {
+            { "modelsViewed", AvatarSelection.CountModelsViewed },
+            { "selectedModelId", descriptor.Head },
+            { "gender", descriptor.Gender },
+            { "totalTime", AvatarSelection.TotalTime }
+        });
 
         #if ENABLE_ANALYTICS
 
@@ -89,13 +102,32 @@ public class AnalyticsManager : MonoBehaviour {
 
     // ROOM
 
+    public void SelectRoomUsingMap() {
+        Rooms.SetFromMenu();
+    }
+
     public void EnterRoom(string roomId) {
         Rooms.Enter(roomId);
+
+        OnRoomEvent(Rooms.FromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
+            { "enteringRoomId", roomId },
+            { "leavingRoomId", Rooms.LastRoomId }
+        });
     }
 
     public void LeaveRoom(string roomId) {
-        Rooms.Leave();
+        OnRoomEvent("Leave", new Dictionary<string, object>() {
+            { "roomId", Rooms.LastRoomId },
+            { "usersInRoom", PlayerManager.Instance.CountPlayersInRoom },
+            { "viewersOpened", Rooms.ViewersOpened },
+            { "viewersOpenedList", Rooms.ViewersOpenedListToString() },
+            { "viewersSteped", Rooms.ViewersStepedList.Count },
+            { "fromMenu", Rooms.FromMenu },
+            { "totalTime", Rooms.TotalTime }
+        });
     }
+
+    // VITRINAS
 
     public void StepOnViewer(string viewerId) {
         Rooms.StepOnViewer(viewerId);
@@ -103,10 +135,11 @@ public class AnalyticsManager : MonoBehaviour {
 
     public void OpenViewer(string viewerId) {
         Rooms.OpenViewer(viewerId);
-    }
 
-    public void GotoUsingMap() {
-        Rooms.SetFromMenu();
+        OnViewerEvent("Open", new Dictionary<string, object>() {
+            { "viewerId", viewerId },
+            { "roomId", Rooms.LastRoomId }
+        });
     }
 
     // VESTIDOR

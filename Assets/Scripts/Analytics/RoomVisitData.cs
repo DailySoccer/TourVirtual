@@ -7,91 +7,68 @@ using System;
 
 public class RoomVisitData {
 
-	public event Action<string, IDictionary<string, object>> OnRoomEvent;
-	public event Action<string, IDictionary<string, object>> OnViewerEvent;
+	public int ViewersOpened;
+	public bool FromMenu = false;
+    public string CurrentRoomId = "";
+    public string LastRoomId = "";
+    public string LastOpenViewerId = "";
+	public HashSet<string> ViewersOpenedList;
+    public HashSet<string> ViewersStepedList;
 
-	private float enterTime;
-	private int viewersOpened;
-	private bool fromMenu = false;
-	private string lastRoomId = "";
-	private string lastOpenViewerId = "";
-	private HashSet<string> viewersOpenedList;
-    private HashSet<string> viewersStepedList;
+    private float _enterTime;
+    public float TotalTime {
+        get {
+            return Time.time - _enterTime;
+        }
+    }
+
+    public string ViewersOpenedListToString() {
+        return String.Join(" | ", ViewersOpenedList.ToArray());
+    }
 
 	public void SetFromMenu() {
-		fromMenu = true;
+		FromMenu = true;
 	}
 
-	public void Enter(String id) {
-        if (OnRoomEvent != null) {
-            OnRoomEvent(fromMenu? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
-                { "enteringRoomId", id },
-                { "leavingRoomId", lastRoomId }
-            });
-        }
-
-		lastRoomId = id;
+	public void Enter(string id) {
+        LastRoomId = CurrentRoomId;
+        CurrentRoomId = id;
 
 		// reset necessary data
-		enterTime = Time.time;
-        viewersOpenedList = new HashSet<string>();
-        viewersStepedList = new HashSet<string>();
-		viewersOpened = 0;
-        fromMenu = false;
+		_enterTime = Time.time;
+        ViewersOpenedList = new HashSet<string>();
+        ViewersStepedList = new HashSet<string>();
+		ViewersOpened = 0;
+        FromMenu = false;
 	}
 
 	public void OpenViewer(string viewerId) {
-		viewersOpened++;
-		lastOpenViewerId = viewerId;
-		viewersOpenedList.Add(viewerId);
-		if (OnViewerEvent != null) {
-            OnViewerEvent("Open", new Dictionary<string, object>() {
-                { "viewerId", viewerId },
-                { "roomId", lastRoomId }
-            });
-		}
+		ViewersOpened++;
+		LastOpenViewerId = viewerId;
+		ViewersOpenedList.Add(viewerId);
 	}
 
 	public void StepOnViewer(string viewerId) {
-		viewersStepedList.Add(viewerId);
+		ViewersStepedList.Add(viewerId);
 	}
 
 	public void ViewerBuySuccess(float coinsNeeded) {
-		if (OnViewerEvent != null) {
-            OnViewerEvent("BuySuccess", new Dictionary<string, object>() {
-                { "viewerId", lastOpenViewerId },
-                { "roomId", lastRoomId },
-                { "coinsNeeded", coinsNeeded }
-            });
-		}
+        /*
+        OnViewerEvent("BuySuccess", new Dictionary<string, object>() {
+            { "viewerId", lastOpenViewerId },
+            { "roomId", currentRoomId },
+            { "coinsNeeded", coinsNeeded }
+        });
+        */      
 	}
 
 	public void ViewerBuyCancel(float coinsNeeded) {
-		if (OnViewerEvent != null) {
-            OnViewerEvent("BuyCancel", new Dictionary<string, object>() {
-                { "viewerId", lastOpenViewerId },
-                { "roomId", lastRoomId },
-                { "coinsNeeded", coinsNeeded }
-            });
-		}
-	}
-
-	public void Leave() {
-		if (String.IsNullOrEmpty(lastRoomId)) return;
-
-        if (OnRoomEvent != null) {
-            float leaveTime = Time.time;
-
-            OnRoomEvent("Leave", new Dictionary<string, object>() {
-                { "roomId", lastRoomId },
-                { "totalTime", leaveTime - enterTime },
-                { "usersInRoom", PlayerManager.Instance.CountPlayersInRoom },
-                { "viewersOpened", viewersOpened },
-                { "viewersOpenedList", String.Join(" | ", viewersOpenedList.ToArray()) },
-                { "viewersSteped", viewersStepedList.Count },
-                { "fromMenu", fromMenu }
-            });
-        }
-            
+        /*
+        OnViewerEvent("BuyCancel", new Dictionary<string, object>() {
+            { "viewerId", lastOpenViewerId },
+            { "roomId", currentRoomId },
+            { "coinsNeeded", coinsNeeded }
+        });
+        */      
 	}
 }
