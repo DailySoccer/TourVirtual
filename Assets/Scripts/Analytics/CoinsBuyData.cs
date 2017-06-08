@@ -9,44 +9,16 @@ public class CoinsBuyData {
 
 	public event Action<string, IDictionary<string, object>> onBuyEvent;
 
-	private float enterTime;
+    private float _enterTime;
 
-	public void Enter(String roomId) {
-	    /*IDictionary<string, object> enterData = new Dictionary<string, object>();
-		enterData.Add("roomId", roomId);
-		//enterData.Add("currentCoins", );
-		onBuyEvent(fromMenu? "EnterFromMenu" : "EnterFromPortal", enterData);
-		
-		enterTime = Time.time;
-		*/
-		/*IDictionary<string, object> enterData = new Dictionary<string, object>();
-		enterData.Add("enteringRoomId", id);
-		enterData.Add("leavingRoomId", lastRoomId);
-		onRoomEvent(fromMenu? "EnterFromMenu" : "EnterFromPortal", enterData);
+    public float TotalTimeInSeconds {
+        get {
+            return Time.time - _enterTime;
+        }
+    }
 
-		lastRoomId = id;
+	public void Enter() {
 		// reset necessary data
-		enterTime = Time.time;
-		viewersOpenedList = new Dictionary<string, string>();
-		viewersOpened = 0;
-		viewersSteped = 0;*/
+		_enterTime = Time.time;
 	}
-
-	public void LeaveWithoutBuy() {
-		float leaveTime = Time.time;
-
-        if (onBuyEvent != null) {
-            onBuyEvent("LeaveWithoutBuy", new Dictionary<string, object>() {
-                { "totalTime", leaveTime - enterTime }
-            });
-        }
-	}
-
-	public void BuyItem(string id) {
-        if (onBuyEvent != null) {
-            onBuyEvent("LeaveWithoutBuy", new Dictionary<string, object>() {
-            });
-        }
-	}
-
 }

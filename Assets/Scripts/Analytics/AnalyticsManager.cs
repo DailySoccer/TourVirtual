@@ -13,6 +13,8 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnRoomEvent;
     private event Action<string, IDictionary<string, object>> OnViewerEvent;
     private event Action<string, IDictionary<string, object>> OnDresserEvent;
+    private event Action<string, IDictionary<string, object>> OnBuyCoinsEvent;
+    private event Action<string, IDictionary<string, object>> OnPurchaseEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -31,9 +33,10 @@ public class AnalyticsManager : MonoBehaviour {
 			OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("Rooms_" + eventSubName, roomData);
 			OnViewerEvent += (eventSubName, roomData) => _GenerateEvent("Viewer_" + eventSubName, roomData);
             OnDresserEvent += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
+            OnBuyCoinsEvent += (eventSubName, roomData) => _GenerateEvent("Coins_" + eventSubName, roomData);
+            OnPurchaseEvent += (eventSubName, roomData) => _GenerateEvent("Purchase_" + eventSubName, roomData);
 
 			//DeepLinking.OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
-			//CoinsBuy.OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("CoinsBuy_" + eventSubName, roomData);
 		}
 	}
 
@@ -121,7 +124,7 @@ public class AnalyticsManager : MonoBehaviour {
 
     public void LeaveRoom(string roomId) {
         OnRoomEvent("Leave", new Dictionary<string, object>() {
-            { "roomId", Rooms.LastRoomId },
+            { "roomId", Rooms.CurrentRoomId },
             { "usersInRoom", PlayerManager.Instance.CountPlayersInRoom },
             { "viewersOpened", Viewer.ViewersOpened },
             { "viewersOpenedList", Viewer.ViewersOpenedListToString() },
@@ -244,6 +247,56 @@ public class AnalyticsManager : MonoBehaviour {
             { "productType", ClothesListController.Instance.GetTVGType(Dresser.VirtualGoodToBuy.IdSubType) },
             { "coinsNeeded", Dresser.VirtualGoodToBuy.Price },
             { "totalTime", Dresser.TotalBuyTimeInSeconds }
+        });
+    }
+
+    // MONEDAS
+
+    public void OpenBuyCoins() {
+        CoinsBuy.Enter();
+
+        OnBuyCoinsEvent("Open", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "currentCoins", UserAPI.Instance.Points },
+        });
+    }
+
+    public void CancelBuyCoins() {
+        float leaveTime = Time.time;
+
+        OnBuyCoinsEvent("BuyCancel", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "currentCoins", UserAPI.Instance.Points },
+            { "totalTime", leaveTime - CoinsBuy.TotalTimeInSeconds }
+        });
+    }
+
+    public void BuyCoins(string productId) {
+        float leaveTime = Time.time;
+
+        OnBuyCoinsEvent("BuySuccess", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "productId", productId },
+            { "currentCoins", UserAPI.Instance.Points },
+            { "totalTime", leaveTime - CoinsBuy.TotalTimeInSeconds }
+        });
+    }
+
+    // PURCHASE
+
+    public void PurchaseSuccess(string itemId) {
+        OnPurchaseEvent("Success", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "ItemId", itemId },
+            { "currentCoins", UserAPI.Instance.Points }
+        });
+    }
+
+    public void PurchaseError(string itemId) {
+        OnPurchaseEvent("Error", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "ItemId", itemId },
+            { "currentCoins", UserAPI.Instance.Points }
         });
     }
 }

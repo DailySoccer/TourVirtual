@@ -44,6 +44,8 @@ public class GoodiesShopController : MonoBehaviour {
 
         // FIX: Ximo 19/05/2017
         Instance.purchase7.SetActive(!VirtualGoodsAPI.HasPurchase7);
+
+        AnalyticsManager.Instance.OpenBuyCoins();
 	}
 
 	public void ShowGoodiesShop() {
@@ -58,6 +60,8 @@ public class GoodiesShopController : MonoBehaviour {
     public static void CloseModal() {
 		if (Instance.okCallback != null) Instance.okCallback();
 		Instance.thisModal.IsOpen = false;
+
+        AnalyticsManager.Instance.CancelBuyCoins();
 	}
 
 	public void CloseGoodiesShop() {
@@ -98,14 +102,14 @@ public class GoodiesShopController : MonoBehaviour {
         }
     }
 
-    IEnumerator Buy(string id)
-    {
+    IEnumerator Buy(string id) {
         if( PlayerPrefs.HasKey("PurchasePendingId") && PlayerPrefs.HasKey("PurchasePendingReceipt")){
             // Compra pendiente.
         }else{
             LoadingCanvasManager.Show("TVB.Message.Buying");
             yield return null;
             StoreInventory.BuyItem(id);
+            AnalyticsManager.Instance.BuyCoins(id);
         }
     }
 

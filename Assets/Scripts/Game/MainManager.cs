@@ -370,10 +370,14 @@ public class MainManager : Photon.PunBehaviour {
 					OnPurchaseInApp();
                 OnPurchaseInApp=null;
 
+                AnalyticsManager.Instance.PurchaseSuccess(ItemId);
+
             }, (errorcode) => {
 
                 LoadingCanvasManager.Hide();
                 ModalTextOnly.ShowText(LanguageManager.Instance.GetTextValue("TVB.Error.Buying"),(mode)=> { Application.Quit(); });
+
+                AnalyticsManager.Instance.PurchaseError(ItemId);
                 
 				// Errores no esperados por parte de la plataforma.
 
