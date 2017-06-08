@@ -16,7 +16,7 @@ public class AvatarSelectionData {
         }
     }
 
-    public float TotalTime {
+    public float TotalTimeInSeconds {
         get {
             return Time.time - _enterTime;
         }

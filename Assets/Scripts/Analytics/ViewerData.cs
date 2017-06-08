@@ -12,7 +12,7 @@ public class ViewerData {
     public HashSet<string> ViewersStepedList;
 
     private float _enterTime;
-    public float TotalTime {
+    public float TotalTimeInSeconds {
         get {
             return Time.time - _enterTime;
         }

@@ -9,9 +9,10 @@ using System.Linq;
 
 public class AnalyticsManager : MonoBehaviour {
 
-    public event Action<string, IDictionary<string, object>> OnAvatarEvent;
-    public event Action<string, IDictionary<string, object>> OnRoomEvent;
-    public event Action<string, IDictionary<string, object>> OnViewerEvent;
+    private event Action<string, IDictionary<string, object>> OnAvatarEvent;
+    private event Action<string, IDictionary<string, object>> OnRoomEvent;
+    private event Action<string, IDictionary<string, object>> OnViewerEvent;
+    private event Action<string, IDictionary<string, object>> OnDresserEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -29,8 +30,9 @@ public class AnalyticsManager : MonoBehaviour {
             OnAvatarEvent += (eventSubName, roomData) => _GenerateEvent("Avatar_" + eventSubName, roomData);
 			OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("Rooms_" + eventSubName, roomData);
 			OnViewerEvent += (eventSubName, roomData) => _GenerateEvent("Viewer_" + eventSubName, roomData);
+            OnDresserEvent += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
+
 			//DeepLinking.OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
-			//Dresser. += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
 			//CoinsBuy.OnRoomEvent += (eventSubName, roomData) => _GenerateEvent("CoinsBuy_" + eventSubName, roomData);
 		}
 	}
@@ -90,7 +92,7 @@ public class AnalyticsManager : MonoBehaviour {
             { "modelsViewed", AvatarSelection.CountModelsViewed },
             { "selectedModelId", descriptor.Head },
             { "gender", descriptor.Gender },
-            { "totalTime", AvatarSelection.TotalTime }
+            { "totalTime", AvatarSelection.TotalTimeInSeconds }
         });
 
         #if ENABLE_ANALYTICS
@@ -125,7 +127,7 @@ public class AnalyticsManager : MonoBehaviour {
             { "viewersOpenedList", Viewer.ViewersOpenedListToString() },
             { "viewersSteped", Viewer.ViewersStepedList.Count },
             { "fromMenu", Rooms.FromMenu },
-            { "totalTime", Rooms.TotalTime }
+            { "totalTime", Rooms.TotalTimeInSeconds }
         });
     }
 
@@ -150,7 +152,7 @@ public class AnalyticsManager : MonoBehaviour {
             { "roomId", Rooms.CurrentRoomId },
             { "contentName", contentName },
             { "coinsNeeded", coinsNeeded },
-            { "totalTime", Viewer.TotalTime }
+            { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
 
@@ -160,7 +162,7 @@ public class AnalyticsManager : MonoBehaviour {
             { "roomId", Rooms.CurrentRoomId },
             { "contentName", contentName },
             { "coinsNeeded", coinsNeeded },
-            { "totalTime", Viewer.TotalTime }
+            { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
 
@@ -168,7 +170,7 @@ public class AnalyticsManager : MonoBehaviour {
         OnViewerEvent("RequestBuyAllContent", new Dictionary<string, object>() {
             { "viewerId", Viewer.LastOpenViewerId },
             { "roomId", Rooms.CurrentRoomId },
-            { "totalTime", Viewer.TotalTime }
+            { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
 
@@ -176,7 +178,7 @@ public class AnalyticsManager : MonoBehaviour {
         OnViewerEvent("BuyAllContent", new Dictionary<string, object>() {
             { "viewerId", Viewer.LastOpenViewerId },
             { "roomId", Rooms.CurrentRoomId },
-            { "totalTime", Viewer.TotalTime }
+            { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
 
@@ -184,26 +186,64 @@ public class AnalyticsManager : MonoBehaviour {
 
     public void EnterDresser() {
         Dresser.Enter();
+
+        OnDresserEvent("Enter", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId }
+        });
+    }
+
+    public void SelectCloth(VirtualGoodsAPI.VirtualGood dress) {
+        Dresser.SelectCloth(dress);
     }
 
     public void ChangeAvatarModel(AvatarAPI descriptor) {
         Dresser.CloseAccept();
+        CloseAvatarModel("CloseAccept");
     }
 
     public void CancelAvatarModel() {
         Dresser.CloseCancel();
+        CloseAvatarModel("CloseCancel");
     }
 
-    public void OpenBuyInDresser() {
-        Dresser.OpenBuy();
+    private void CloseAvatarModel(string eventName) {
+        IDictionary<string, object> data = new Dictionary<string, object>() {
+            { "deeplinking", DeepLinkingManager.IsEditAvatar },
+            { "totalTime", Dresser.TotalTimeInSeconds }
+        };
+        foreach (string productTypeName in Enum.GetNames(typeof(ProductType))) {
+            ProductType productType = (ProductType) Enum.Parse(typeof(ProductType), productTypeName);
+            int count = Dresser.CountViewedClothes(productType);
+            if (count > 0) {
+                data.Add(string.Format("{0}.mostViewed", productTypeName), Dresser.MostViewedCloth(productType));
+                data.Add(string.Format("{0}.countViewed", productTypeName), count);
+            }
+        }
+        OnDresserEvent(eventName, data);
     }
 
-    public void BuyInDresser(VirtualGoodsAPI.VirtualGood virtualGood, bool success) {
+    public void OpenBuyInDresser(VirtualGoodsAPI.VirtualGood virtualGood) {
+        Dresser.OpenBuy(virtualGood);
+
+        OnDresserEvent("Open", new Dictionary<string, object>() {
+        });
+    }
+
+    public void BuyInDresser(bool success) {
         if (success) {
-            Dresser.BuySuccess(virtualGood);
+            Dresser.BuySuccess();
         }
         else {
-            Dresser.BuyCancel(virtualGood);
+            Dresser.BuyCancel();
         }
+    }
+
+    public void CloseBuyInDresser() {
+        OnDresserEvent( Dresser.BuyResult ? "BuySuccess" : "BuyCancel", new Dictionary<string, object>() {
+            { "virtualGoodId", Dresser.VirtualGoodToBuy.GUID },
+            { "productType", ClothesListController.Instance.GetTVGType(Dresser.VirtualGoodToBuy.IdSubType) },
+            { "coinsNeeded", Dresser.VirtualGoodToBuy.Price },
+            { "totalTime", Dresser.TotalBuyTimeInSeconds }
+        });
     }
 }

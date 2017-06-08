@@ -12,7 +12,7 @@ public class RoomVisitData {
     public string LastRoomId = "";
 
     private float _enterTime;
-    public float TotalTime {
+    public float TotalTimeInSeconds {
         get {
             return Time.time - _enterTime;
         }

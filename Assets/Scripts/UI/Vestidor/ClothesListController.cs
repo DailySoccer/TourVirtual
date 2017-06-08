@@ -136,7 +136,7 @@ public class ClothesListController : MonoBehaviour {
 		UpdateSelectedSlots ();
 	}
 	
-	ProductType GetTVGType(string vgSubType) {
+	public ProductType GetTVGType(string vgSubType) {
 		if (vgSubType == "MTORSO" || vgSubType == "HTORSO") {
 			return ProductType.TShirt;
 		} else if (vgSubType == "MSHOE" || vgSubType == "HSHOE") {
