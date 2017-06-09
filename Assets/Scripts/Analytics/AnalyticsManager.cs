@@ -16,6 +16,7 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnBuyCoinsEvent;
     private event Action<string, IDictionary<string, object>> OnPurchaseEvent;
     private event Action<string, IDictionary<string, object>> OnDeepLinkEvent;
+    private event Action<string, IDictionary<string, object>> OnChatsEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -23,6 +24,7 @@ public class AnalyticsManager : MonoBehaviour {
     private static DresserData Dresser = new DresserData();
     private static CoinsBuyData CoinsBuy = new CoinsBuyData();
     private static DeepLinkingData DeepLinking = new DeepLinkingData();
+    private static ChatsData Chats = new ChatsData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -37,6 +39,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnBuyCoinsEvent += (eventSubName, roomData) => _GenerateEvent("Coins_" + eventSubName, roomData);
             OnPurchaseEvent += (eventSubName, roomData) => _GenerateEvent("Purchase_" + eventSubName, roomData);
             OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
+            OnChatsEvent += (eventSubName, roomData) => _GenerateEvent("Chat_" + eventSubName, roomData);
 		}
 	}
 
@@ -127,6 +130,7 @@ public class AnalyticsManager : MonoBehaviour {
     public void EnterRoom(string roomId) {
         Rooms.Enter(roomId);
         Viewer.Reset();
+        Chats.Reset();
 
         OnRoomEvent(Rooms.FromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
             { "enteringRoomId", roomId },
@@ -144,6 +148,8 @@ public class AnalyticsManager : MonoBehaviour {
             { "fromMenu", Rooms.FromMenu },
             { "totalTime", Rooms.TotalTimeInSeconds }
         });
+
+        ChatsInfo();
     }
 
     // VITRINAS
@@ -310,5 +316,23 @@ public class AnalyticsManager : MonoBehaviour {
             { "ItemId", itemId },
             { "currentCoins", UserAPI.Instance.Points }
         });
+    }
+
+    // CHAT
+
+    public void ChatsInfo() {
+        if (ChatManager.Instance != null && !string.IsNullOrEmpty(ChatManager.Instance.RoomId)) {
+            OnChatsEvent("Info", new Dictionary<string, object>() {
+                { "roomId", Rooms.CurrentRoomId },
+                { "usersInRoom", PlayerManager.Instance.CountPlayersInRoom },
+                { "totalPrivateMessages", Chats.TotalPrivateMessages },
+                { "usersPrivateMessages", Chats.TotalUsers },
+                // { "messagesInRoom", ChatManager.Instance.CountMessagesFromChannel(ChatManager.Instance.RoomId) }
+            });
+        }
+    }
+
+    public void ChatsPrivateMessage(string userId) {
+        Chats.PrivateMessage(userId);
     }
 }

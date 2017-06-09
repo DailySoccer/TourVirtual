@@ -62,6 +62,12 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		return History.TryGetValue(channelId, out msgs) ? msgs : new List<ChatMessage>();
 	}
 
+    public int CountMessagesFromChannel(string channelId) {
+        List<ChatMessage> msgs;
+        History.TryGetValue(channelId, out msgs);
+        return (msgs != null) ? msgs.Count : 0;
+    }
+
 	private HashSet<string> _roomIds;
 
 
@@ -108,6 +114,8 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		}
 		else {
             ChatClient.SendPrivateMessage(channelName, text);
+
+            AnalyticsManager.Instance.ChatsPrivateMessage(channelName);
 		}
 	}
 
@@ -154,6 +162,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		    channelHistory = new List<ChatMessage>();
 			History.Add(channelId, channelHistory);
 	    }
+        Debug.Log(string.Format("History: {0}: {1}", channelId, History[channelId].Count));
 
 	    for(int i = 0; i < senders.Length; ++i ) 
 			channelHistory.Add(new ChatMessage(senders[i], messages[i] as string, false));
