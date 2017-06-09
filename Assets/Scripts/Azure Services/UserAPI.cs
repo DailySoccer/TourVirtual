@@ -108,6 +108,8 @@ public class UserAPI {
                 Authentication.AzureServices.SignOut ((ret)=>{ Application.Quit(); }, (ret)=>{ Application.Quit(); });
 //                Authentication.AzureServices.SignIn();
             });
+
+            AnalyticsManager.Instance.DeepLinkingOtherUser();
             return true;
         }
         return false;

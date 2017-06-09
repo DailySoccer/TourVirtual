@@ -15,13 +15,14 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnDresserEvent;
     private event Action<string, IDictionary<string, object>> OnBuyCoinsEvent;
     private event Action<string, IDictionary<string, object>> OnPurchaseEvent;
+    private event Action<string, IDictionary<string, object>> OnDeepLinkEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
     private static AvatarSelectionData AvatarSelection = new AvatarSelectionData();
-    private static DeepLinkingData DeepLinking = new DeepLinkingData();
     private static DresserData Dresser = new DresserData();
     private static CoinsBuyData CoinsBuy = new CoinsBuyData();
+    private static DeepLinkingData DeepLinking = new DeepLinkingData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -35,8 +36,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnDresserEvent += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
             OnBuyCoinsEvent += (eventSubName, roomData) => _GenerateEvent("Coins_" + eventSubName, roomData);
             OnPurchaseEvent += (eventSubName, roomData) => _GenerateEvent("Purchase_" + eventSubName, roomData);
-
-			//DeepLinking.OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
+            OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
 		}
 	}
 
@@ -104,6 +104,18 @@ public class AnalyticsManager : MonoBehaviour {
         Analytics.SetUserGender( descriptor.isMan ? Gender.Male : Gender.Female );
 
         #endif
+    }
+
+    // DEEP LINKING
+
+    public void DeepLinkingEnter() {
+        OnDeepLinkEvent("Enter", new Dictionary<string, object>() {
+        });
+    }
+
+    public void DeepLinkingOtherUser() {
+        OnDeepLinkEvent("OtherUser", new Dictionary<string, object>() {
+        });
     }
 
     // ROOM

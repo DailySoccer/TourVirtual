@@ -12,6 +12,8 @@ public class DeepLinkingManager : Photon.PunBehaviour {
         if (focusStatus ) {
             var url = Authentication.AzureServices.CheckDeepLinking();
             if(!string.IsNullOrEmpty(url)){
+                AnalyticsManager.Instance.DeepLinkingEnter();
+
                 Debug.LogError(">>>>> SetDeepLinking ---> "+url);
                 DeepLinkingManager.IsEditAvatar = false;
                 if (string.IsNullOrEmpty(url)) return;
