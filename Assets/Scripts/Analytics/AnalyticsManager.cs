@@ -18,6 +18,8 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnDeepLinkEvent;
     private event Action<string, IDictionary<string, object>> OnChatsEvent;
     private event Action<string, IDictionary<string, object>> OnHiddenObjectsEvent;
+    private event Action<string, IDictionary<string, object>> OnBasketEvent;
+    private event Action<string, IDictionary<string, object>> OnFootballEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -27,6 +29,8 @@ public class AnalyticsManager : MonoBehaviour {
     private static DeepLinkingData DeepLinking = new DeepLinkingData();
     private static ChatsData Chats = new ChatsData();
     private static HiddenObjectsData HiddenObjects = new HiddenObjectsData();
+    private static BasketGameData Basket = new BasketGameData();
+    private static FootballGameData Football = new FootballGameData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -43,6 +47,8 @@ public class AnalyticsManager : MonoBehaviour {
             OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
             OnChatsEvent += (eventSubName, roomData) => _GenerateEvent("Chat_" + eventSubName, roomData);
             OnHiddenObjectsEvent += (eventSubName, roomData) => _GenerateEvent("HiddenObjects_" + eventSubName, roomData);
+            OnBasketEvent += (eventSubName, roomData) => _GenerateEvent("Basket_" + eventSubName, roomData);
+            OnFootballEvent += (eventSubName, roomData) => _GenerateEvent("Football_" + eventSubName, roomData);
 		}
 	}
 
@@ -362,6 +368,48 @@ public class AnalyticsManager : MonoBehaviour {
             { "differentRooms", HiddenObjects.TotalDifferentRooms },
             { "findedObjects", HiddenObjects.TotalFindedObjects },
             { "totalTime", leaveTime - HiddenObjects.TotalTimeInSeconds }
+        });
+    }
+
+    // MINIJUEGO BASKET
+
+    public void BasketStart() {
+        Basket.Start();
+
+        OnBasketEvent("Start", new Dictionary<string, object>() {
+        });
+    }
+
+    public void BasketResult(int score, int round, int record) {
+        float leaveTime = Time.time;
+        Basket.Stop();
+
+        OnBasketEvent("Result", new Dictionary<string, object>() {
+            { "score", score },
+            { "round", round },
+            { "record", record },
+            { "totalTime", leaveTime - Basket.TotalTimeInSeconds }
+        });
+    }
+
+    // MINIJUEGO FOOTBALL
+
+    public void FootballStart() {
+        Football.Start();
+
+        OnFootballEvent("Start", new Dictionary<string, object>() {
+        });
+    }
+
+    public void FootballResult(int score, int round, int record) {
+        float leaveTime = Time.time;
+        Football.Stop();
+
+        OnFootballEvent("Result", new Dictionary<string, object>() {
+            { "score", score },
+            { "round", round },
+            { "record", record },
+            { "totalTime", leaveTime - Football.TotalTimeInSeconds }
         });
     }
 }

@@ -163,6 +163,8 @@ namespace Basket
             if (gameState == GameState.WaitStart) {
 				gameState = GameState.Playing;
 				AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_BASKET_START);
+
+                AnalyticsManager.Instance.BasketStart();
 			}
         }
 
@@ -363,6 +365,8 @@ namespace Basket
             //minigameScreen.OnHide();
 
 			minigameCanvasController.ShowEndScreen ();
+
+            AnalyticsManager.Instance.BasketResult(score, round, record);
         }
 
         void UpdateBoard()
