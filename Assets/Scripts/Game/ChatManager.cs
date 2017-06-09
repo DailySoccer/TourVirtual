@@ -162,7 +162,7 @@ public class ChatManager : Photon.PunBehaviour, IChatClientListener
 		    channelHistory = new List<ChatMessage>();
 			History.Add(channelId, channelHistory);
 	    }
-        Debug.Log(string.Format("History: {0}: {1}", channelId, History[channelId].Count));
+        // Debug.Log(string.Format("History: {0}: {1}", channelId, History[channelId].Count));
 
 	    for(int i = 0; i < senders.Length; ++i ) 
 			channelHistory.Add(new ChatMessage(senders[i], messages[i] as string, false));

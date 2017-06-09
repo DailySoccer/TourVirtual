@@ -17,6 +17,7 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnPurchaseEvent;
     private event Action<string, IDictionary<string, object>> OnDeepLinkEvent;
     private event Action<string, IDictionary<string, object>> OnChatsEvent;
+    private event Action<string, IDictionary<string, object>> OnHiddenObjectsEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -25,6 +26,7 @@ public class AnalyticsManager : MonoBehaviour {
     private static CoinsBuyData CoinsBuy = new CoinsBuyData();
     private static DeepLinkingData DeepLinking = new DeepLinkingData();
     private static ChatsData Chats = new ChatsData();
+    private static HiddenObjectsData HiddenObjects = new HiddenObjectsData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -40,6 +42,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnPurchaseEvent += (eventSubName, roomData) => _GenerateEvent("Purchase_" + eventSubName, roomData);
             OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
             OnChatsEvent += (eventSubName, roomData) => _GenerateEvent("Chat_" + eventSubName, roomData);
+            OnHiddenObjectsEvent += (eventSubName, roomData) => _GenerateEvent("HiddenObjects_" + eventSubName, roomData);
 		}
 	}
 
@@ -131,6 +134,7 @@ public class AnalyticsManager : MonoBehaviour {
         Rooms.Enter(roomId);
         Viewer.Reset();
         Chats.Reset();
+        HiddenObjects.EnterRoom(roomId);
 
         OnRoomEvent(Rooms.FromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
             { "enteringRoomId", roomId },
@@ -334,5 +338,30 @@ public class AnalyticsManager : MonoBehaviour {
 
     public void ChatsPrivateMessage(string userId) {
         Chats.PrivateMessage(userId);
+    }
+
+    // MINIJUEGO OBJETOS ESCONDIDOS
+
+    public void HiddenObjectsStart() {
+        HiddenObjects.Start();
+
+        OnHiddenObjectsEvent("Start", new Dictionary<string, object>() {
+        });
+    }
+
+    public void HiddenObjectPickup() {
+        HiddenObjects.TotalFindedObjects++;
+    }
+
+    public void HiddenObjectsStop() {
+        float leaveTime = Time.time;
+        HiddenObjects.Stop();
+
+        OnHiddenObjectsEvent("Stop", new Dictionary<string, object>() {
+            { "visitedRooms", HiddenObjects.TotalVisitedRooms },
+            { "differentRooms", HiddenObjects.TotalDifferentRooms },
+            { "findedObjects", HiddenObjects.TotalFindedObjects },
+            { "totalTime", leaveTime - HiddenObjects.TotalTimeInSeconds }
+        });
     }
 }

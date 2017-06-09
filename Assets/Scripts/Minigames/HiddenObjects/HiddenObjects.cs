@@ -117,10 +117,14 @@ namespace HiddenObjects {
             numFoundObjects = 0;
             OnSceneReady();
 
+            AnalyticsManager.Instance.HiddenObjectsStart();
+
         }
 
         public void Stop() {
             enabled = false;
+
+            AnalyticsManager.Instance.HiddenObjectsStop();
         }
 
         public void OnSceneReady() {
@@ -199,6 +203,8 @@ namespace HiddenObjects {
                 yield return null;
             }
             Destroy(t.gameObject);
+
+            AnalyticsManager.Instance.HiddenObjectPickup();
         }
     }
 }
