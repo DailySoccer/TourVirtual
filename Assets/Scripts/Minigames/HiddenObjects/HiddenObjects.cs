@@ -107,7 +107,7 @@ namespace HiddenObjects {
                 int idx = Random.Range(0, usefullRooms.Count);
                 finalList.Add( usefullRooms[idx] );
 
-                Debug.LogError(">>>> "+usefullRooms[idx].roomid+ " "+usefullRooms[idx].position);
+                // Debug.LogError(">>>> "+usefullRooms[idx].roomid+ " "+usefullRooms[idx].position);
                 usefullRooms.RemoveAt(idx);
             }
             ListOfHiddenObjects = finalList;
