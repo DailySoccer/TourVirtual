@@ -358,7 +358,7 @@ public class RoomManager : Photon.PunBehaviour {
 		switch (roomDefinition.Id) {
 		case "ESTADIO":
 			if (PlayerPrefs.GetInt ("tutorial_done") == 0 && !MainManager.Instance.IsVrModeEnabled)
-				InitialTutorial.Instance.SartTutorial();
+				InitialTutorial.Instance.StartTutorial();
 
 			if (!HiddenObjects.HiddenObjects.Instance.enabled)
 				AudioInGameController.Instance.PlayDefinition (SoundDefinitions.MAIN_THEME, true);

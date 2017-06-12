@@ -20,6 +20,7 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnHiddenObjectsEvent;
     private event Action<string, IDictionary<string, object>> OnBasketEvent;
     private event Action<string, IDictionary<string, object>> OnFootballEvent;
+    private event Action<string, IDictionary<string, object>> OnHelpEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -31,6 +32,7 @@ public class AnalyticsManager : MonoBehaviour {
     private static HiddenObjectsData HiddenObjects = new HiddenObjectsData();
     private static BasketGameData Basket = new BasketGameData();
     private static FootballGameData Football = new FootballGameData();
+    private static HelpData Help = new HelpData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -49,6 +51,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnHiddenObjectsEvent += (eventSubName, roomData) => _GenerateEvent("HiddenObjects_" + eventSubName, roomData);
             OnBasketEvent += (eventSubName, roomData) => _GenerateEvent("Basket_" + eventSubName, roomData);
             OnFootballEvent += (eventSubName, roomData) => _GenerateEvent("Football_" + eventSubName, roomData);
+            OnHelpEvent += (eventSubName, roomData) => _GenerateEvent("Help_" + eventSubName, roomData);
 		}
 	}
 
@@ -412,4 +415,20 @@ public class AnalyticsManager : MonoBehaviour {
             { "totalTime", leaveTime - Football.TotalTimeInSeconds }
         });
     }
+
+    // HELP
+
+    public void OpenHelp() {
+        Help.Enter();
+    }
+
+    public void CloseHelp() {
+        float leaveTime = Time.time;
+
+        OnHelpEvent("Close", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "totalTime", leaveTime - Help.TotalTimeInSeconds }
+        });
+    }
+
 }

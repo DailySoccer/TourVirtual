@@ -368,7 +368,7 @@ public class CanvasManager : MonoBehaviour {
 
 	public void Launch_Initial_Tutorial()
 	{
-		InitialTutorial.Instance.SartTutorial();
+		InitialTutorial.Instance.StartTutorial();
 	}
 
 

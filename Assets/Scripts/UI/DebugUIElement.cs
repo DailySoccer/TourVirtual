@@ -23,6 +23,6 @@ public class DebugUIElement : MonoBehaviour {
 	public void Launch_Initial_Tutorial() {
 		PlayerPrefs.SetInt ("tutorial_done", 0);
 		PlayerPrefs.Save();
-		InitialTutorial.Instance.SartTutorial ();
+		InitialTutorial.Instance.StartTutorial ();
 	}
 }

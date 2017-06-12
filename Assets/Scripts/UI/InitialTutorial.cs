@@ -46,10 +46,12 @@ public class InitialTutorial : MonoBehaviour {
 		}
 	}
 
-	public void SartTutorial()
+	public void StartTutorial()
 	{
 		ResetTutorial ();
 		StartCoroutine (LaunchTutorial ());
+
+        AnalyticsManager.Instance.OpenHelp();
 	}
 
 	IEnumerator LaunchTutorial()
@@ -135,6 +137,8 @@ public class InitialTutorial : MonoBehaviour {
 		var e = TutorialFinish;
 		if (e != null)
 			e();
+
+        AnalyticsManager.Instance.CloseHelp();
 	}
 
 	
