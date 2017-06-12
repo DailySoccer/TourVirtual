@@ -101,6 +101,14 @@ public class MinigameCanvasController : MonoBehaviour {
 	}
 	public void ShowInitialScreen() {
 		StartCoroutine (ShowModalScreen (MinigameModalLayout.InitialScreen));
+
+        if (MinigameType == UserAPI.MiniGame.FreeShoots) {
+            AnalyticsManager.Instance.BasketStart(GameObject.Find("Shooter").GetComponent<Basket.Shooter>().record);
+
+        }
+        else if (MinigameType == UserAPI.MiniGame.FreeKicks) {
+            AnalyticsManager.Instance.FootballStart(GameObject.Find("Shooter").GetComponent<Football.Shooter>().record);
+        }
 	}
 
 	public void ShowEndScreen() {

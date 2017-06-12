@@ -161,8 +161,6 @@ namespace Football
             if (gameState == GameState.WaitStart) {
 				gameState = GameState.Playing;
 				AudioInGameController.Instance.PlayDefinition(SoundDefinitions.MINIGAME_FOOTBALL_START);
-
-                AnalyticsManager.Instance.FootballStart();
 			}
         }
 

@@ -143,12 +143,14 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void EnterRoom(string roomId) {
+        bool fromMenu = Rooms.FromMenu;
+
         Rooms.Enter(roomId);
         Viewer.Reset();
         Chats.Reset();
         HiddenObjects.EnterRoom(roomId);
 
-        OnRoomEvent(Rooms.FromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
+        OnRoomEvent(fromMenu ? "EnterFromMenu" : "EnterFromPortal", new Dictionary<string, object>() {
             { "enteringRoomId", roomId },
             { "leavingRoomId", Rooms.LastRoomId }
         });
@@ -374,10 +376,11 @@ public class AnalyticsManager : MonoBehaviour {
 
     // MINIJUEGO BASKET
 
-    public void BasketStart() {
+    public void BasketStart(int record) {
         Basket.Start();
 
         OnBasketEvent("Start", new Dictionary<string, object>() {
+            { "record", record }
         });
     }
 
@@ -394,10 +397,11 @@ public class AnalyticsManager : MonoBehaviour {
 
     // MINIJUEGO FOOTBALL
 
-    public void FootballStart() {
+    public void FootballStart(int record) {
         Football.Start();
 
         OnFootballEvent("Start", new Dictionary<string, object>() {
+            { "record", record }
         });
     }
 
