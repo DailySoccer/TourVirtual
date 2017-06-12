@@ -258,6 +258,8 @@ public class CanvasManager : MonoBehaviour {
 		CurrentPlayerDataModelSelected  = dataModel;
 		//.. y la mostramos
 		ModalContents.Instance.ShowModalScreen ((int)ModalLayout.THIRDS_PROFILE_CONTENT);
+
+        AnalyticsManager.Instance.OpenOtherUserProfile(dataModel);
 	}
 
 

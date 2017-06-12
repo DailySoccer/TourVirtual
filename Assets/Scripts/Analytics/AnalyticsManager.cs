@@ -21,6 +21,7 @@ public class AnalyticsManager : MonoBehaviour {
     private event Action<string, IDictionary<string, object>> OnBasketEvent;
     private event Action<string, IDictionary<string, object>> OnFootballEvent;
     private event Action<string, IDictionary<string, object>> OnHelpEvent;
+    private event Action<string, IDictionary<string, object>> OnOtherUserProfileEvent;
 
 	private static RoomVisitData Rooms = new RoomVisitData();
     private static ViewerData Viewer = new ViewerData();
@@ -33,6 +34,7 @@ public class AnalyticsManager : MonoBehaviour {
     private static BasketGameData Basket = new BasketGameData();
     private static FootballGameData Football = new FootballGameData();
     private static HelpData Help = new HelpData();
+    private static OtherUserProfileData OtherUserProfile = new OtherUserProfileData();
 
 	public static AnalyticsManager Instance {get; private set;}
 
@@ -52,6 +54,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnBasketEvent += (eventSubName, roomData) => _GenerateEvent("Basket_" + eventSubName, roomData);
             OnFootballEvent += (eventSubName, roomData) => _GenerateEvent("Football_" + eventSubName, roomData);
             OnHelpEvent += (eventSubName, roomData) => _GenerateEvent("Help_" + eventSubName, roomData);
+            OnOtherUserProfileEvent += (eventSubName, roomData) => _GenerateEvent("OtherUserProfile_" + eventSubName, roomData);
 		}
 	}
 
@@ -293,23 +296,19 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void CancelBuyCoins() {
-        float leaveTime = Time.time;
-
         OnBuyCoinsEvent("BuyCancel", new Dictionary<string, object>() {
             { "roomId", Rooms.CurrentRoomId },
             { "currentCoins", UserAPI.Instance.Points },
-            { "totalTime", leaveTime - CoinsBuy.TotalTimeInSeconds }
+            { "totalTime", CoinsBuy.TotalTimeInSeconds }
         });
     }
 
     public void BuyCoins(string productId) {
-        float leaveTime = Time.time;
-
         OnBuyCoinsEvent("BuySuccess", new Dictionary<string, object>() {
             { "roomId", Rooms.CurrentRoomId },
             { "productId", productId },
             { "currentCoins", UserAPI.Instance.Points },
-            { "totalTime", leaveTime - CoinsBuy.TotalTimeInSeconds }
+            { "totalTime", CoinsBuy.TotalTimeInSeconds }
         });
     }
 
@@ -363,14 +362,13 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void HiddenObjectsStop() {
-        float leaveTime = Time.time;
         HiddenObjects.Stop();
 
         OnHiddenObjectsEvent("Stop", new Dictionary<string, object>() {
             { "visitedRooms", HiddenObjects.TotalVisitedRooms },
             { "differentRooms", HiddenObjects.TotalDifferentRooms },
             { "findedObjects", HiddenObjects.TotalFindedObjects },
-            { "totalTime", leaveTime - HiddenObjects.TotalTimeInSeconds }
+            { "totalTime", HiddenObjects.TotalTimeInSeconds }
         });
     }
 
@@ -384,14 +382,13 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void BasketResult(int score, int round, int record) {
-        float leaveTime = Time.time;
         Basket.Stop();
 
         OnBasketEvent("Result", new Dictionary<string, object>() {
             { "score", score },
             { "round", round },
             { "record", record },
-            { "totalTime", leaveTime - Basket.TotalTimeInSeconds }
+            { "totalTime", Basket.TotalTimeInSeconds }
         });
     }
 
@@ -405,14 +402,13 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void FootballResult(int score, int round, int record) {
-        float leaveTime = Time.time;
         Football.Stop();
 
         OnFootballEvent("Result", new Dictionary<string, object>() {
             { "score", score },
             { "round", round },
             { "record", record },
-            { "totalTime", leaveTime - Football.TotalTimeInSeconds }
+            { "totalTime", Football.TotalTimeInSeconds }
         });
     }
 
@@ -423,12 +419,31 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void CloseHelp() {
-        float leaveTime = Time.time;
-
         OnHelpEvent("Close", new Dictionary<string, object>() {
             { "roomId", Rooms.CurrentRoomId },
-            { "totalTime", leaveTime - Help.TotalTimeInSeconds }
+            { "totalTime", Help.TotalTimeInSeconds }
         });
     }
 
+    // OTHER USER PROFILE
+
+    public void OpenOtherUserProfile(string[] dataModel) {
+        OtherUserProfile.Enter(dataModel);
+
+        OnOtherUserProfileEvent("Open", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "gender", UserAPI.AvatarDesciptor.Gender },
+            { "otherGender", OtherUserProfile.Gender }
+        });
+    }
+
+
+    public void CloseOtherUserProfile() {
+        OnOtherUserProfileEvent("Close", new Dictionary<string, object>() {
+            { "roomId", Rooms.CurrentRoomId },
+            { "gender", UserAPI.AvatarDesciptor.Gender },
+            { "otherGender", OtherUserProfile.Gender },
+            { "totalTime", OtherUserProfile.TotalTimeInSeconds }
+        });
+    }
 }

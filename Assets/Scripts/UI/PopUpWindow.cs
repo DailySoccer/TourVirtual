@@ -75,6 +75,8 @@ public class PopUpWindow : UIScreen {
 	ClothSlot CurrentVestidorPrenda;
 	AchievementsAPI.Achievement currentAchivementSelected;
 
+    private ModalLayout _popUpLayout;
+
 	// Use this for initialization
 	void Start () {
 		//StandardTitleText.gameObject.SetActive(true);
@@ -119,6 +121,8 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void SetState(ModalLayout newPopUpLayout) {
+        _popUpLayout = newPopUpLayout;
+
 		ResetWindow ();
 
 		switch (newPopUpLayout) {
@@ -533,6 +537,10 @@ public class PopUpWindow : UIScreen {
 	}
 
 	public void CloseModalScreen() {
+        if (_popUpLayout == ModalLayout.THIRDS_PROFILE_CONTENT) {
+            AnalyticsManager.Instance.CloseOtherUserProfile();
+        }
+
 		ModalContents.Instance.HideModalScreen ();
 		currentAchivementSelected = null;
 		currentSelectedPack = null;
