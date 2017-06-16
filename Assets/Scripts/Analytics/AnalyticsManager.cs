@@ -1,4 +1,4 @@
-﻿// #define ENABLE_ANALYTICS
+﻿#define ENABLE_ANALYTICS
 
 using UnityEngine;
 using UnityEngine.Analytics;
