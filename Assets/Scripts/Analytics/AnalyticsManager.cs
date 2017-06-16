@@ -48,7 +48,7 @@ public class AnalyticsManager : MonoBehaviour {
             OnDresserEvent += (eventSubName, roomData) => _GenerateEvent("Dresser_" + eventSubName, roomData);
             OnBuyCoinsEvent += (eventSubName, roomData) => _GenerateEvent("Coins_" + eventSubName, roomData);
             OnPurchaseEvent += (eventSubName, roomData) => _GenerateEvent("Purchase_" + eventSubName, roomData);
-            OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deep_" + eventSubName, roomData);
+            OnDeepLinkEvent += (eventSubName, roomData) => _GenerateEvent("Deeplinking_" + eventSubName, roomData);
             OnChatsEvent += (eventSubName, roomData) => _GenerateEvent("Chat_" + eventSubName, roomData);
             OnHiddenObjectsEvent += (eventSubName, roomData) => _GenerateEvent("HiddenObjects_" + eventSubName, roomData);
             OnBasketEvent += (eventSubName, roomData) => _GenerateEvent("Basket_" + eventSubName, roomData);
@@ -185,12 +185,24 @@ public class AnalyticsManager : MonoBehaviour {
         });
     }
 
+    public void ViewerRequestBuy(string contentName, float coinsNeeded) {
+        OnViewerEvent("RequestBuy", new Dictionary<string, object>() {
+            { "viewerId", Viewer.LastOpenViewerId },
+            { "roomId", Rooms.CurrentRoomId },
+            { "contentName", contentName },
+            { "coinsNeeded", coinsNeeded },
+            { "currentCoins", UserAPI.Instance.Points },
+            { "totalTime", Viewer.TotalTimeInSeconds }
+        });
+    }
+
     public void ViewerBuySuccess(string contentName, float coinsNeeded) {
         OnViewerEvent("BuySuccess", new Dictionary<string, object>() {
             { "viewerId", Viewer.LastOpenViewerId },
             { "roomId", Rooms.CurrentRoomId },
             { "contentName", contentName },
             { "coinsNeeded", coinsNeeded },
+            { "currentCoins", UserAPI.Instance.Points },
             { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
@@ -201,6 +213,7 @@ public class AnalyticsManager : MonoBehaviour {
             { "roomId", Rooms.CurrentRoomId },
             { "contentName", contentName },
             { "coinsNeeded", coinsNeeded },
+            { "currentCoins", UserAPI.Instance.Points },
             { "totalTime", Viewer.TotalTimeInSeconds }
         });
     }
@@ -264,7 +277,10 @@ public class AnalyticsManager : MonoBehaviour {
     public void OpenBuyInDresser(VirtualGoodsAPI.VirtualGood virtualGood) {
         Dresser.OpenBuy(virtualGood);
 
-        OnDresserEvent("Open", new Dictionary<string, object>() {
+        OnDresserEvent("OpenBuy", new Dictionary<string, object>() {
+            { "virtualGoodId", virtualGood.GUID },
+            { "productType", ClothesListController.Instance.GetTVGType(virtualGood.IdSubType) },
+            { "coinsNeeded", virtualGood.Price }
         });
     }
 
@@ -306,7 +322,7 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     public void BuyCoins(string productId) {
-        OnBuyCoinsEvent("BuySuccess", new Dictionary<string, object>() {
+        OnBuyCoinsEvent("RequestBuy", new Dictionary<string, object>() {
             { "roomId", Rooms.CurrentRoomId },
             { "productId", productId },
             { "currentCoins", UserAPI.Instance.Points },

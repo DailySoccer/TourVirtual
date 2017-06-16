@@ -540,6 +540,9 @@ public class PopUpWindow : UIScreen {
         if (_popUpLayout == ModalLayout.THIRDS_PROFILE_CONTENT) {
             AnalyticsManager.Instance.CloseOtherUserProfile();
         }
+        else if (_popUpLayout == ModalLayout.PACK_FLYER) {
+            ThePackFlyerModal.Close();
+        }
 
 		ModalContents.Instance.HideModalScreen ();
 		currentAchivementSelected = null;

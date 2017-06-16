@@ -46,6 +46,8 @@ public class PackFlyerModal : MonoBehaviour {
 	}
 
     public void Buy() {
+        AnalyticsManager.Instance.ViewerRequestBuy( TheContent.ContenName, float.Parse(Price.text) );
+
         LoadingCanvasManager.Show("TVB.Message.Buying");
         UserAPI.VirtualGoodsDesciptor.BuyByGUID(TheContent.VirtualGoodID, false, () => {
             LoadingCanvasManager.Hide();
@@ -70,5 +72,9 @@ public class PackFlyerModal : MonoBehaviour {
 		GoodiesShopController.Instance.Product_ClickHandle("_rmvt_pack_all");
 
         AnalyticsManager.Instance.ViewerRequestBuyAllContent();
+    }
+
+    public void Close() {
+        AnalyticsManager.Instance.ViewerBuyCancel( TheContent.ContenName, float.Parse(Price.text) );
     }
 }
