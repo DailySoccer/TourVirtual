@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: zapatillas_01
-  m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 39823889cd2ea454d860e7a9653681b3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -78,6 +78,20 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _NM_TEX
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _COLOR_TEX
+        second:
+          m_Texture: {fileID: 2800000, guid: f0ed2299a620dd745b722c8e2c124a75, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -127,6 +141,22 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _USENM
+        second: 0
+      data:
+        first:
+          name: _FrnlEXP
+        second: 2
+      data:
+        first:
+          name: _MULTBASECOLOR
+        second: 0
+      data:
+        first:
+          name: _TEXFRCOLFRCOL
+        second: 0
     m_Colors:
       data:
         first:
@@ -136,3 +166,11 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _BaseCOLOR
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FresnelCOLOR
+        second: {r: .184, g: .184, b: .184, a: 1}
