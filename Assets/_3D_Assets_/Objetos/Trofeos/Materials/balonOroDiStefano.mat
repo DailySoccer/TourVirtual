@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: balonOroDiStefano
-  m_Shader: {fileID: 4800000, guid: 443b56ce87253b747bde18cfac9ea1f6, type: 3}
-  m_ShaderKeywords: _NORMALMAP
+  m_Shader: {fileID: 4800000, guid: 95c66ef8239d9fe4981723a9ca64f564, type: 3}
+  m_ShaderKeywords: _NORMALMAP _USENM_ON _USESPEC_ON
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -80,13 +80,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _SpecTex
-        second:
-          m_Texture: {fileID: 2800000, guid: a07d31eaa8ce5e4478fa5fd8c2607cf5, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _SpecGlossMap
         second:
           m_Texture: {fileID: 0}
@@ -94,9 +87,44 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _SpecTex
+        second:
+          m_Texture: {fileID: 2800000, guid: a07d31eaa8ce5e4478fa5fd8c2607cf5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _OccTex
         second:
           m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _CUBEMAP_TEX
+        second:
+          m_Texture: {fileID: 8900000, guid: 997865fcb419c8e4b82a81382fa91dd9, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _NM_TEX
+        second:
+          m_Texture: {fileID: 2800000, guid: 3b1a2de906527f548a39057e81068cb4, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SPEC_TEX
+        second:
+          m_Texture: {fileID: 2800000, guid: a07d31eaa8ce5e4478fa5fd8c2607cf5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _COLOR_TEX
+        second:
+          m_Texture: {fileID: 2800000, guid: 6ba5216e97d93a1429d2c402833ff380, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -164,6 +192,22 @@ Material:
         first:
           name: _OccStrength
         second: 1
+      data:
+        first:
+          name: _USENM
+        second: 1
+      data:
+        first:
+          name: _FresEXP
+        second: 0
+      data:
+        first:
+          name: _USESPEC
+        second: 1
+      data:
+        first:
+          name: _USECOLORTEX
+        second: 0
     m_Colors:
       data:
         first:
@@ -177,3 +221,7 @@ Material:
         first:
           name: _SpecColor
         second: {r: .676470578, g: .661308229, b: .611807942, a: 1}
+      data:
+        first:
+          name: _COLOR
+        second: {r: .375, g: .279310286, b: 0, a: 0}

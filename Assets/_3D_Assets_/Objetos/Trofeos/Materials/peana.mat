@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: peana
-  m_Shader: {fileID: 4800000, guid: 05623b9c7970ab748848f2dacd0bfe31, type: 3}
+  m_Shader: {fileID: 4800000, guid: 95c66ef8239d9fe4981723a9ca64f564, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -85,6 +85,41 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_61
+        second:
+          m_Texture: {fileID: 8900000, guid: cb29d242b4ed10b48880dc70fd7358f8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _CUBEMAP_TEX
+        second:
+          m_Texture: {fileID: 8900000, guid: cb29d242b4ed10b48880dc70fd7358f8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _NM_TEX
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SPEC_TEX
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _COLOR_TEX
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -146,6 +181,26 @@ Material:
         first:
           name: _Fresnel
         second: .949999988
+      data:
+        first:
+          name: _USENM
+        second: 0
+      data:
+        first:
+          name: _FresEXP
+        second: 0
+      data:
+        first:
+          name: _USESPEC
+        second: 1
+      data:
+        first:
+          name: _USECOLOR
+        second: 0
+      data:
+        first:
+          name: _USECOLORTEX
+        second: 0
     m_Colors:
       data:
         first:
@@ -159,3 +214,7 @@ Material:
         first:
           name: _SpecColor
         second: {r: .322610289, g: .346662194, b: .375, a: 1}
+      data:
+        first:
+          name: _COLOR
+        second: {r: 0, g: 0, b: 0, a: 0}
